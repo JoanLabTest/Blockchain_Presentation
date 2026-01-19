@@ -1,0 +1,146 @@
+/* ===================================
+   NAVIGATION AVEC DROPDOWNS
+   =================================== */
+
+/* Dropdown Container */
+.nav-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Toggle */
+.nav-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.nav-dropdown-toggle i {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+/* Dropdown Menu */
+.nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    margin-top: 10px;
+}
+
+/* Dropdown Menu Links */
+.nav-dropdown-menu a {
+    display: block;
+    padding: 12px 20px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.nav-dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.nav-dropdown-menu a:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    padding-left: 25px;
+}
+
+/* Show Dropdown on Hover */
+.nav-dropdown:hover .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-dropdown:hover .nav-dropdown-toggle i {
+    transform: rotate(180deg);
+}
+
+/* Status Badge Styling */
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+}
+
+/* Responsive Navigation */
+@media (max-width: 1024px) {
+    .nav-links-pro {
+        gap: 15px;
+    }
+
+    .nav-dropdown-menu {
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .nav-links-pro a,
+    .nav-dropdown-toggle {
+        font-size: 0.75rem;
+    }
+
+    .nav-dropdown-menu {
+        min-width: 150px;
+    }
+
+    .nav-dropdown-menu a {
+        padding: 10px 15px;
+        font-size: 0.8rem;
+    }
+
+    /* Hide some nav items on mobile */
+    .nav-links-pro>a:not(:first-child):not(:nth-child(2)):not(:nth-child(3)) {
+        display: none;
+    }
+
+    .nav-dropdown:nth-child(n+5) {
+        display: none;
+    }
+}
