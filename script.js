@@ -287,3 +287,30 @@ const debouncedScroll = debounce(() => {
 }, 10);
 
 window.addEventListener('scroll', debouncedScroll);
+
+// ===================================
+// FAQ TOGGLE FUNCTION
+// ===================================
+function toggleFaq(button) {
+    button.classList.toggle("active");
+    var answer = button.nextElementSibling;
+    var icon = button.querySelector(".faq-icon");
+
+    if (answer.classList.contains("active")) {
+        answer.classList.remove("active");
+        icon.textContent = "+";
+    } else {
+        // Close all other FAQs
+        document.querySelectorAll('.faq-answer.active').forEach(item => {
+            item.classList.remove('active');
+        });
+        document.querySelectorAll('.faq-question.active').forEach(item => {
+            item.classList.remove('active');
+            item.querySelector('.faq-icon').textContent = "+";
+        });
+
+        // Open clicked FAQ
+        answer.classList.add("active");
+        icon.textContent = "−";
+    }
+}
