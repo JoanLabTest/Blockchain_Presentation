@@ -19,6 +19,12 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
         rel="stylesheet">
 
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- AOS (Animate On Scroll) Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styles-fusion.css">
@@ -28,11 +34,14 @@
     <link rel="stylesheet" href="styles-ecosysteme.css">
     <link rel="stylesheet" href="styles-compliance.css">
     <link rel="stylesheet" href="styles-fondamentaux.css">
+    <link rel="stylesheet" href="styles-animations.css">
 </head>
 
 <body>
     <!-- Progress Bar -->
-    <div class="progress-bar" id="progressBar"></div>
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
 
     <!-- Professional Sticky Navigation -->
     <nav class="navbar-pro">
@@ -2200,6 +2209,32 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
                 contentDiv.scrollTop = contentDiv.scrollHeight;
             }
         }
+    </script>
+
+    <!-- AOS (Animate On Scroll) Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 100,
+            delay: 0
+        });
+
+        // Progress Bar Update
+        window.addEventListener('scroll', function () {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBarFill").style.width = scrolled + "%";
+        });
+
+        // Refresh AOS on dynamic content
+        window.addEventListener('load', function () {
+            AOS.refresh();
+        });
     </script>
 </body>
 
