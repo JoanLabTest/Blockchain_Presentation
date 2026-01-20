@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCM Digital - Portail Stratégique</title>
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- ANIMATIONS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- 1. CONFIGURATION DESIGN --- */
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #1e293b;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --accent-purple: #a855f7;
+            --border: #334155;
+            --gradient: linear-gradient(135deg, #3b82f6, #10b981);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- 2. PROGRESS BAR --- */
+        .progress-container {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1001;
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: var(--gradient);
+            width: 0%;
+            box-shadow: 0 0 10px var(--accent-blue);
+        }
+
+        /* --- 3. NAVIGATION --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(2, 6, 23, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: 1px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-left: 25px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-links a.cta-contact {
+            background: var(--accent-blue);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .nav-links a.cta-contact:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* --- 4. LAYOUT --- */
+        .deck-container {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 80px;
+            padding-bottom: 0;
+        }
+
+        .slide {
+            width: 100%;
+            max-width: 1280px;
+            min-height: 720px;
+            background-color: var(--bg-card);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+        }
+
+        /* Effet Glow Slide */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient);
+            opacity: 0.8;
+        }
+
+        /* --- 5. CONTENU --- */
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            color: #fff;
+            margin: 0;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 38px;
+            color: #f1f5f9;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin: 40px 60px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .content {
+            padding: 0 60px 40px 60px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .box,
+        .tile {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .box:hover,
+        .tile:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
+            background: rgba(30, 41, 59, 1);
+        }
+
+        .icon-big {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .bg-blue {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+        }
+
+        .bg-green {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+        }
+
+        /* --- 6. FOOTER CONTACT (NOUVEAU) --- */
+        .footer-contact {
+            width: 100%;
+            background: linear-gradient(180deg, var(--bg-card), #000);
+            padding: 80px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 50px;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--bg-dark);
+            border: 3px solid var(--accent-blue);
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--accent-blue);
+        }
+
+        .linkedin-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #0a66c2;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 30px;
+        }
+
+        .linkedin-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(10, 102, 194, 0.4);
+        }
+
+        /* --- 7. TRADER INTERFACE --- */
+        .trader-screen {
+            background: #0b1121;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .trader-header {
+            background: #334155;
+            padding: 10px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #64748b;
+        }
+
+        .trader-body {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-mock {
+            height: 150px;
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.1), transparent);
+            border-bottom: 2px solid #10b981;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links a {
+                margin-left: 15px;
+                font-size: 11px;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 28px;
+                margin: 20px 30px;
+            }
+
+            .content {
+                padding: 0 30px 30px 30px;
+            }
+
+            .trader-body {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BARRE PROGRESSION -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- NAVIGATION CORRIGÉE -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-solid fa-cube" style="color: var(--accent-blue);"></i>
+            DCM <span style="color:var(--accent-blue)">DIGITAL</span>
+        </div>
+        <div class="nav-links">
+            <a href="#intro">Accueil</a>
+            <a href="#fondamentaux">Bases</a>
+            <a href="#benchmarks">Cas Réels</a>
+            <a href="#covered-bond">Focus Produit</a>
+            <a href="#trader">Bureau Trader</a>
+            <a href="#resources">Ressources</a>
+            <a href="#contact" class="cta-contact">Contact</a>
+        </div>
+    </nav>
+
+    <div class="deck-container">
+
+        <!-- 1. INTRO -->
+        <div class="slide" id="intro" data-aos="fade-up">
+            <div class="content" style="text-align: center; align-items: center;">
+                <p
+                    style="color: var(--accent-green); font-family: 'JetBrains Mono'; margin-bottom: 20px; font-size: 14px; letter-spacing: 2px;">
+                    STRATEGIC BRIEFING 2026</p>
+                <h1>Digital Debt<br><span
+                        style="background: -webkit-linear-gradient(45deg, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Capital
+                        Markets</span></h1>
+                <p style="font-size: 24px; color: var(--text-muted); margin-top: 30px; max-width: 800px;">
+                    Infrastructure de Marché, Tokenisation & Enjeux Bancaires.
+                </p>
+
+                <div style="margin-top: 80px; display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+                    <div class="box"
+                        style="width: 250px; text-align: center; border-bottom: 4px solid var(--accent-blue);">
+                        <i class="fa-solid fa-layer-group icon-big" style="color: var(--accent-blue);"></i>
+                        <strong>Origination</strong>
+                    </div>
+                    <div class="box"
+                        style="width: 250px; text-align: center; border-bottom: 4px solid var(--accent-green);">
+                        <i class="fa-solid fa-bolt icon-big" style="color: var(--accent-green);"></i>
+                        <strong>Règlement T+0</strong>
+                    </div>
+                    <div class="box"
+                        style="width: 250px; text-align: center; border-bottom: 4px solid var(--accent-gold);">
+                        <i class="fa-solid fa-chart-line icon-big" style="color: var(--accent-gold);"></i>
+                        <strong>Secondaire</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. MODULE 0 (BASES) -->
+        <div class="slide" id="fondamentaux" data-aos="fade-up">
+            <h2>Module 0 : Démystification Bancaire</h2>
+            <div class="content">
+                <div class="grid-2">
+                    <div class="box">
+                        <span class="badge bg-blue">INFRASTRUCTURE</span>
+                        <h3>Le Grand Livre (Ledger)</h3>
+                        <div style="display: flex; gap: 20px; align-items: center; margin: 20px 0;">
+                            <i class="fa-solid fa-database" style="font-size: 40px; color: var(--accent-blue);"></i>
+                            <p style="font-size: 16px; margin: 0;">Analogie : <strong>Un Fichier Excel Partagé</strong>
+                            </p>
+                        </div>
+                        <p style="font-size: 15px; color: var(--text-muted);">
+                            Au lieu de réconcilier deux fichiers internes (T+2), toutes les banques lisent le même
+                            registre en temps réel (T+0).
+                        </p>
+                    </div>
+                    <div class="box">
+                        <span class="badge bg-green">ACCÈS</span>
+                        <h3>Le Wallet</h3>
+                        <div style="display: flex; gap: 20px; align-items: center; margin: 20px 0;">
+                            <i class="fa-solid fa-key" style="font-size: 40px; color: var(--accent-green);"></i>
+                            <p style="font-size: 16px; margin: 0;">Analogie : <strong>IBAN + Signature</strong></p>
+                        </div>
+                        <p style="font-size: 15px; color: var(--text-muted);">
+                            L'Adresse Publique est votre IBAN pour recevoir. La Clé Privée est votre signature
+                            électronique pour valider.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. FOCUS PRODUIT (COVERED BOND) -->
+        <div class="slide" id="covered-bond" data-aos="fade-up">
+            <h2>Focus Produit : Le Covered Bond Digital</h2>
+            <div class="content">
+                <div class="grid-2">
+                    <div class="tile" style="border-left: 4px solid var(--accent-gold);">
+                        <h3 style="color: var(--accent-gold);">Le Principe "Double Recours"</h3>
+                        <p>Un Covered Bond est la dette la plus sûre (AAA) car l'investisseur a deux garanties :</p>
+                        <ul style="font-size: 16px; color: var(--text-muted); margin-top: 15px; list-style: none;">
+                            <li style="margin-bottom: 10px;"><i class="fa-solid fa-check"
+                                    style="color:var(--accent-gold)"></i> <strong>1. L'Émetteur :</strong> La
+                                solvabilité de la banque.</li>
+                            <li><i class="fa-solid fa-check" style="color:var(--accent-gold)"></i> <strong>2. Le Cover
+                                    Pool :</strong> Un panier d'actifs isolés.</li>
+                        </ul>
+                        <div
+                            style="margin-top: 20px; background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 8px; font-size: 14px; color: var(--accent-gold);">
+                            <strong>Innovation :</strong> Le lien juridique entre le Token et le Panier est inscrit dans
+                            le Smart Contract.
+                        </div>
+                    </div>
+                    <div class="box" style="text-align: center;">
+                        <i class="fa-solid fa-shield-halved"
+                            style="font-size: 100px; color: var(--accent-green); margin-bottom: 30px;"></i>
+                        <h3>Sécurité Maximale</h3>
+                        <p style="color: var(--text-muted);">La Blockchain ajoute une couche d'immuabilité au cadre
+                            juridique déjà robuste du Pfandbrief / OFH.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. BENCHMARKS (FOCUS NATIXIS) -->
+        <div class="slide" id="benchmarks" data-aos="fade-up">
+            <h2>Benchmarks Industriels : Le Secteur Bancaire</h2>
+            <div class="content">
+                <div class="grid-2">
+
+                    <!-- NATIXIS CARD -->
+                    <div class="tile" style="border-left: 5px solid var(--accent-purple);">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <h3 style="color: var(--accent-purple); margin-bottom: 10px;">Natixis Pfandbriefbank</h3>
+                            <i class="fa-solid fa-building-columns"
+                                style="font-size: 24px; color: var(--accent-purple);"></i>
+                        </div>
+                        <span class="badge"
+                            style="background: rgba(168, 85, 247, 0.2); color: var(--accent-purple); border: 1px solid var(--accent-purple);">AOÛT
+                            2024</span>
+
+                        <ul style="margin-top: 20px; font-size: 16px; color: var(--text-muted); list-style: none;">
+                            <li
+                                style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <strong>Montant :</strong> 100 M€
+                            </li>
+                            <li
+                                style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <strong>Format :</strong> Nominatif (Registered Bond)
+                            </li>
+                            <li
+                                style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <strong>Tech :</strong> SWIAT (Blockchain Privée Bancaire)
+                            </li>
+                            <li>
+                                <strong>Investisseur :</strong> DekaBank (Unique)
+                            </li>
+                        </ul>
+                        <div style="margin-top: 20px; font-size: 14px; font-style: italic; color: #e2e8f0;">
+                            "Un modèle 'Club Deal' sécurisé pour digitaliser le stock de titres nominatifs."
+                        </div>
+                    </div>
+
+                    <!-- SIEMENS CARD -->
+                    <div class="tile" style="border-left: 5px solid var(--accent-green);">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <h3 style="color: var(--accent-green); margin-bottom: 10px;">Siemens</h3>
+                            <i class="fa-solid fa-industry" style="font-size: 24px; color: var(--accent-green);"></i>
+                        </div>
+                        <span class="badge bg-green">SEPT 2024</span>
+
+                        <ul style="margin-top: 20px; font-size: 16px; color: var(--text-muted); list-style: none;">
+                            <li
+                                style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <strong>Montant :</strong> 300 M€ (Benchmark)
+                            </li>
+                            <li
+                                style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <strong>Innovation :</strong> Règlement via Trigger Bundesbank
+                            </li>
+                            <li>
+                                <strong>Vitesse :</strong> T+Minutes (vs T+2)
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. BUREAU DU TRADER -->
+        <div class="slide" id="trader" data-aos="fade-up">
+            <h2>Le Bureau du Trader 2026</h2>
+            <div class="content">
+                <div class="trader-screen">
+                    <div class="trader-header">
+                        <div class="dot" style="background:#ef4444"></div>
+                        <div class="dot" style="background:#f59e0b"></div>
+                        <div class="dot" style="background:#10b981"></div>
+                        <span
+                            style="font-size: 12px; color: #94a3b8; margin-left: 10px; font-family: monospace;">platform.360x.com/trading/SIE-2025</span>
+                    </div>
+                    <div class="trader-body">
+                        <!-- GAUCHE -->
+                        <div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <strong style="font-size: 24px;">SIEMENS AG (DIG)</strong>
+                                <strong style="font-size: 24px; color: var(--accent-green);">99.85 %</strong>
+                            </div>
+                            <div class="chart-mock"></div>
+                            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                                <div class="box" style="padding: 10px; flex: 1; text-align:center;">Yield:
+                                    <strong>3.15%</strong></div>
+                                <div class="box" style="padding: 10px; flex: 1; text-align:center;">Settlement: <strong
+                                        style="color:var(--accent-green)">T+0</strong></div>
+                            </div>
+                        </div>
+                        <!-- DROITE -->
+                        <div style="border-left: 1px solid #334155; padding-left: 20px;">
+                            <h4 style="color: var(--accent-blue); margin-bottom: 15px;">ORDER ENTRY</h4>
+                            <div style="margin-bottom: 15px;">
+                                <label style="font-size: 12px; color: #94a3b8;">Side</label><br>
+                                <span style="color: var(--accent-green); font-weight: bold; font-size: 18px;">BUY</span>
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <label style="font-size: 12px; color: #94a3b8;">Quantity</label><br>
+                                <span style="font-family: monospace; font-size: 18px;">5,000,000 €</span>
+                            </div>
+                            <button
+                                style="width: 100%; padding: 12px; background: var(--accent-green); border: none; font-weight: bold; border-radius: 6px; cursor: pointer; color:#020617;">
+                                EXECUTE ATOMIC SWAP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 30px; font-size: 16px; color: #94a3b8;">
+                    <i class="fa-solid fa-eye"></i> L'interface cache la complexité Blockchain. Un clic déclenche le
+                    Smart Contract.
+                </p>
+            </div>
+        </div>
+
+        <!-- 6. RESSOURCES & LIENS (CORRIGÉ) -->
+        <div class="slide" id="resources" data-aos="fade-up">
+            <h2>Bibliothèque & Sources Officielles</h2>
+            <div class="content">
+                <div class="grid-2">
+
+                    <a href="https://www.ecb.europa.eu/paym/intro/news/html/ecb.mipnews230428.en.html" target="_blank"
+                        class="box" style="text-decoration: none; display: flex; align-items: center; gap: 20px;">
+                        <i class="fa-solid fa-file-pdf" style="font-size: 40px; color: var(--text-muted);"></i>
+                        <div>
+                            <strong style="color: white; display: block; font-size: 18px;">Rapport BCE - Wholesale
+                                DLT</strong>
+                            <span style="color: var(--accent-blue); font-size: 14px;">Lire le rapport officiel ➔</span>
+                        </div>
+                    </a>
+
+                    <a href="https://www.bafin.de/EN/Aufsicht/Fintech/eWpG/eWpG_node_en.html" target="_blank"
+                        class="box" style="text-decoration: none; display: flex; align-items: center; gap: 20px;">
+                        <i class="fa-solid fa-scale-balanced" style="font-size: 40px; color: var(--text-muted);"></i>
+                        <div>
+                            <strong style="color: white; display: block; font-size: 18px;">Loi eWpG (Allemagne)</strong>
+                            <span style="color: var(--accent-blue); font-size: 14px;">Cadre légal des Crypto Securities
+                                ➔</span>
+                        </div>
+                    </a>
+
+                    <a href="https://press.siemens.com/global/en/pressrelease/siemens-issues-first-digital-bond-blockchain"
+                        target="_blank" class="box"
+                        style="text-decoration: none; display: flex; align-items: center; gap: 20px;">
+                        <i class="fa-solid fa-industry" style="font-size: 40px; color: var(--text-muted);"></i>
+                        <div>
+                            <strong style="color: white; display: block; font-size: 18px;">Siemens Case Study</strong>
+                            <span style="color: var(--accent-blue); font-size: 14px;">Communiqué de presse officiel
+                                ➔</span>
+                        </div>
+                    </a>
+
+                    <a href="https://www.sg-forge.com/" target="_blank" class="box"
+                        style="text-decoration: none; display: flex; align-items: center; gap: 20px;">
+                        <i class="fa-solid fa-book" style="font-size: 40px; color: var(--text-muted);"></i>
+                        <div>
+                            <strong style="color: white; display: block; font-size: 18px;">SG-FORGE (Castor)</strong>
+                            <span style="color: var(--accent-blue); font-size: 14px;">Vision Open Source ➔</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER CONTACT DYNAMIQUE -->
+    <div id="contact" class="footer-contact">
+        <div class="content" style="align-items: center;">
+            <div class="profile-pic">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
+            <h2 style="border: none; margin: 0;">Joan Lyczak</h2>
+            <p style="font-size: 18px; color: var(--text-muted);">Expert Digital Assets & Blockchain</p>
+
+            <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank" class="linkedin-btn">
+                <i class="fa-brands fa-linkedin"></i> SE CONNECTER SUR LINKEDIN
+            </a>
+
+            <p style="margin-top: 40px; font-size: 12px; color: #64748b;">
+                © 2026 Presentation DCM Digital. Tous droits réservés.
+            </p>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // Progress Bar
+        window.onscroll = function () {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+    </script>
+
+</body>
+
+</html>
