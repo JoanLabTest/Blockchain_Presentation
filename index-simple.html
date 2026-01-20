@@ -581,9 +581,13 @@
 
             <div class="nav-links">
                 <a href="#intro">Accueil</a>
+                <a href="#history">Historique</a>
+                <a href="#fondamentaux">Fondamentaux</a>
                 <a href="#benchmarks">Benchmarks</a>
-                <a href="#roadmap">Plan Action</a>
-                <a href="#trader">Trading Desk</a>
+                <a href="#regulation">Régulation</a>
+                <a href="#comparatif">Comparatif</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#trader">Trader</a>
                 <a href="#contact">Contact</a>
             </div>
         </div>
@@ -841,148 +845,214 @@
         </div>
 
 
-    <!-- ========================================= -->
-    <!-- MODULE : COMPARATIF FLUX (PAPIER VS DIGITAL) -->
-    <!-- ========================================= -->
+        <!-- ========================================= -->
+        <!-- MODULE : COMPARATIF FLUX (PAPIER VS DIGITAL) -->
+        <!-- ========================================= -->
 
-    <div class="slide" id="comparatif" data-aos="fade-up">
-        <h2>Le Choc des Infrastructures</h2>
-        <div class="content">
-            <p style="color: #cbd5e1; margin-bottom: 30px;">Comparaison des cycles de vie</p>
+        <div class="slide" id="comparatif" data-aos="fade-up">
+            <h2>Le Choc des Infrastructures</h2>
+            <div class="content">
+                <p style="color: #cbd5e1; margin-bottom: 30px;">Comparaison des cycles de vie</p>
 
-            <!-- NAVIGATION INTERNE ONGLETS -->
-            <div class="tabs">
-                <button class="tab-btn active" onclick="openTab(event, 'primaire')">Marché Primaire (Émission)</button>
-                <button class="tab-btn" onclick="openTab(event, 'secondaire')">Marché Secondaire (Trading)</button>
-                <button class="tab-btn" onclick="openTab(event, 'settlement')">Flux de Règlement</button>
-            </div>
+                <!-- NAVIGATION INTERNE ONGLETS -->
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openTab(event, 'primaire')">Marché Primaire
+                        (Émission)</button>
+                    <button class="tab-btn" onclick="openTab(event, 'secondaire')">Marché Secondaire (Trading)</button>
+                    <button class="tab-btn" onclick="openTab(event, 'settlement')">Flux de Règlement</button>
+                </div>
 
-            <!-- ONGLET 1 : PRIMAIRE (CREDIT FONCIER VS NATIXIS) -->
-            <div id="primaire" class="tab-content" style="display: block;">
-                <div class="grid-2">
-                    <!-- CLASSIQUE -->
-                    <div class="box" style="border-top: 4px solid #64748b;">
-                        <h3 style="color: #64748b;"><i class="fa-solid fa-file-contract"></i> Modèle Classique</h3>
-                        <div class="badge" style="background: #475569;">Crédit Foncier de France</div>
-                        
-                        <div class="flow-step">
-                            <span class="step-time">J-5</span> <strong>Syndication</strong>
-                            <p style="margin: 0; color: var(--text-muted);">Bookbuilding traditionnel.</p>
-                        </div>
-                        <div class="flow-line"></div>
-                        <div class="flow-step">
-                            <span class="step-time">J-0</span> <strong>Global Note (Papier)</strong>
-                            <p style="margin: 0; color: var(--text-muted);">Signature manuelle d'un certificat physique unique stocké au coffre (CSD).</p>
-                        </div>
-                        <div class="flow-line"></div>
-                        <div class="flow-step">
-                            <span class="step-time">J+5</span> <strong>Règlement</strong>
-                            <p style="margin: 0; color: var(--text-muted);">Cascade de virements via Custodians.</p>
-                        </div>
-                    </div>
+                <!-- ONGLET 1 : PRIMAIRE (CREDIT FONCIER VS NATIXIS) -->
+                <div id="primaire" class="tab-content" style="display: block;">
+                    <div class="grid-2">
+                        <!-- CLASSIQUE -->
+                        <div class="box" style="border-top: 4px solid #64748b;">
+                            <h3 style="color: #64748b;"><i class="fa-solid fa-file-contract"></i> Modèle Classique</h3>
+                            <div class="badge" style="background: #475569;">Crédit Foncier de France</div>
 
-                    <!-- DIGITAL -->
-                    <div class="box" style="border-top: 4px solid #10b981; background: rgba(16, 185, 129, 0.05);">
-                        <h3 style="color: #10b981;"><i class="fa-solid fa-bolt"></i> Modèle Digital</h3>
-                        <div class="badge" style="background: #10b981; color: #000;">Natixis Pfandbriefbank</div>
-                        
-                        <div class="flow-step">
-                            <span class="step-time digital">H-2</span> <strong>Pricing</strong>
-                            <p style="margin: 0; color: var(--text-muted);">Négociation identique.</p>
+                            <div class="flow-step">
+                                <span class="step-time">J-5</span> <strong>Syndication</strong>
+                                <p style="margin: 0; color: var(--text-muted);">Bookbuilding traditionnel.</p>
+                            </div>
+                            <div class="flow-line"></div>
+                            <div class="flow-step">
+                                <span class="step-time">J-0</span> <strong>Global Note (Papier)</strong>
+                                <p style="margin: 0; color: var(--text-muted);">Signature manuelle d'un certificat
+                                    physique unique stocké au coffre (CSD).</p>
+                            </div>
+                            <div class="flow-line"></div>
+                            <div class="flow-step">
+                                <span class="step-time">J+5</span> <strong>Règlement</strong>
+                                <p style="margin: 0; color: var(--text-muted);">Cascade de virements via Custodians.</p>
+                            </div>
                         </div>
-                        <div class="flow-line digital"></div>
-                        <div class="flow-step">
-                            <span class="step-time digital">H-0</span> <strong>Smart Contract</strong>
-                            <p style="margin: 0; color: var(--text-muted);">Déploiement du code. Le "Token" remplace le papier.</p>
-                        </div>
-                        <div class="flow-line digital"></div>
-                        <div class="flow-step">
-                            <span class="step-time digital">H+10m</span> <strong>Distribution T+0</strong>
-                            <p style="margin: 0; color: var(--text-muted);">Livraison P2P instantanée contre cash.</p>
+
+                        <!-- DIGITAL -->
+                        <div class="box" style="border-top: 4px solid #10b981; background: rgba(16, 185, 129, 0.05);">
+                            <h3 style="color: #10b981;"><i class="fa-solid fa-bolt"></i> Modèle Digital</h3>
+                            <div class="badge" style="background: #10b981; color: #000;">Natixis Pfandbriefbank</div>
+
+                            <div class="flow-step">
+                                <span class="step-time digital">H-2</span> <strong>Pricing</strong>
+                                <p style="margin: 0; color: var(--text-muted);">Négociation identique.</p>
+                            </div>
+                            <div class="flow-line digital"></div>
+                            <div class="flow-step">
+                                <span class="step-time digital">H-0</span> <strong>Smart Contract</strong>
+                                <p style="margin: 0; color: var(--text-muted);">Déploiement du code. Le "Token" remplace
+                                    le papier.</p>
+                            </div>
+                            <div class="flow-line digital"></div>
+                            <div class="flow-step">
+                                <span class="step-time digital">H+10m</span> <strong>Distribution T+0</strong>
+                                <p style="margin: 0; color: var(--text-muted);">Livraison P2P instantanée contre cash.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- ONGLET 2 : SECONDAIRE -->
-            <div id="secondaire" class="tab-content">
-                <div class="grid-2">
-                    <div class="box">
-                        <h3 style="color: #64748b;">La "Chaîne" (SWIFT)</h3>
-                        <p>Vendeur ➔ Custodian A (MT540) ➔ CSD ➔ Custodian B (MT541) ➔ Acheteur</p>
-                        <div style="margin-top: 20px; padding: 15px; background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; color: #ef4444;">
-                            <strong>Risque :</strong> Si un message est perdu, le trade échoue ("Fail"). Délai T+2.
+                <!-- ONGLET 2 : SECONDAIRE -->
+                <div id="secondaire" class="tab-content">
+                    <div class="grid-2">
+                        <div class="box">
+                            <h3 style="color: #64748b;">La "Chaîne" (SWIFT)</h3>
+                            <p>Vendeur ➔ Custodian A (MT540) ➔ CSD ➔ Custodian B (MT541) ➔ Acheteur</p>
+                            <div
+                                style="margin-top: 20px; padding: 15px; background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; color: #ef4444;">
+                                <strong>Risque :</strong> Si un message est perdu, le trade échoue ("Fail"). Délai T+2.
+                            </div>
                         </div>
-                    </div>
-                    <div class="box" style="background: rgba(16, 185, 129, 0.05);">
-                        <h3 style="color: #10b981;">L'Atomic Swap</h3>
-                        <p>Vendeur ↔ Smart Contract ↔ Acheteur</p>
-                        <div style="margin-top: 20px; padding: 15px; background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; color: #10b981;">
-                            <strong>Révolution :</strong> Échange simultané. Impossible de livrer sans être payé. T+0.
+                        <div class="box" style="background: rgba(16, 185, 129, 0.05);">
+                            <h3 style="color: #10b981;">L'Atomic Swap</h3>
+                            <p>Vendeur ↔ Smart Contract ↔ Acheteur</p>
+                            <div
+                                style="margin-top: 20px; padding: 15px; background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; color: #10b981;">
+                                <strong>Révolution :</strong> Échange simultané. Impossible de livrer sans être payé.
+                                T+0.
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- ONGLET 3 : SETTLEMENT -->
-            <div id="settlement" class="tab-content">
-                 <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                    <thead>
-                        <tr style="background: #1e293b;">
-                            <th style="text-align: left; padding: 15px; color: #94a3b8;">Critère</th>
-                            <th style="text-align: left; padding: 15px; color: #fff;">Conventionnel</th>
-                            <th style="text-align: left; padding: 15px; color: #10b981;">Digital Bond</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #334155;">
-                            <td style="padding: 15px; font-weight: bold;">Support Juridique</td>
-                            <td style="padding: 15px;">Global Note (Papier)</td>
-                            <td style="padding: 15px; color: #10b981;">Code (Smart Contract)</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #334155;">
-                            <td style="padding: 15px; font-weight: bold;">Réconciliation</td>
-                            <td style="padding: 15px;">Manuelle (3 niveaux)</td>
-                            <td style="padding: 15px; color: #10b981;">Aucune (Registre Unique)</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #334155;">
-                            <td style="padding: 15px; font-weight: bold;">Délai Règlement</td>
-                            <td style="padding: 15px;">T+2 à T+5</td>
-                            <td style="padding: 15px; color: #10b981;">T+0 (Instantané)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 15px; font-weight: bold;">Risque</td>
-                            <td style="padding: 15px;">Contrepartie</td>
-                            <td style="padding: 15px; color: #10b981;">Technologique</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <!-- ONGLET 3 : SETTLEMENT -->
+                <div id="settlement" class="tab-content">
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                        <thead>
+                            <tr style="background: #1e293b;">
+                                <th style="text-align: left; padding: 15px; color: #94a3b8;">Critère</th>
+                                <th style="text-align: left; padding: 15px; color: #fff;">Conventionnel</th>
+                                <th style="text-align: left; padding: 15px; color: #10b981;">Digital Bond</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #334155;">
+                                <td style="padding: 15px; font-weight: bold;">Support Juridique</td>
+                                <td style="padding: 15px;">Global Note (Papier)</td>
+                                <td style="padding: 15px; color: #10b981;">Code (Smart Contract)</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #334155;">
+                                <td style="padding: 15px; font-weight: bold;">Réconciliation</td>
+                                <td style="padding: 15px;">Manuelle (3 niveaux)</td>
+                                <td style="padding: 15px; color: #10b981;">Aucune (Registre Unique)</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #334155;">
+                                <td style="padding: 15px; font-weight: bold;">Délai Règlement</td>
+                                <td style="padding: 15px;">T+2 à T+5</td>
+                                <td style="padding: 15px; color: #10b981;">T+0 (Instantané)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 15px; font-weight: bold;">Risque</td>
+                                <td style="padding: 15px;">Contrepartie</td>
+                                <td style="padding: 15px; color: #10b981;">Technologique</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
+            </div>
         </div>
-    </div>
 
-    <style>
-        /* CSS ONGLETS */
-        .tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 1px solid #334155; }
-        .tab-btn {
-            background: transparent; border: none; color: #94a3b8; padding: 10px 20px;
-            cursor: pointer; font-family: 'Urbanist'; font-weight: bold; font-size: 16px;
-            transition: all 0.3s; border-bottom: 3px solid transparent;
-        }
-        .tab-btn:hover { color: #fff; }
-        .tab-btn.active { color: #3b82f6; border-bottom-color: #3b82f6; }
-        
-        .tab-content { display: none; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+        <style>
+            /* CSS ONGLETS */
+            .tabs {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 30px;
+                border-bottom: 1px solid #334155;
+            }
 
-        /* CSS FLUX */
-        .flow-step { display: flex; align-items: center; gap: 15px; margin: 10px 0; }
-        .step-time { background: #475569; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-family: 'JetBrains Mono'; }
-        .step-time.digital { background: #10b981; color: #000; }
-        .flow-line { height: 20px; border-left: 2px dashed #475569; margin-left: 20px; }
-        .flow-line.digital { border-color: #10b981; }
-    </style>
+            .tab-btn {
+                background: transparent;
+                border: none;
+                color: #94a3b8;
+                padding: 10px 20px;
+                cursor: pointer;
+                font-family: 'Urbanist';
+                font-weight: bold;
+                font-size: 16px;
+                transition: all 0.3s;
+                border-bottom: 3px solid transparent;
+            }
+
+            .tab-btn:hover {
+                color: #fff;
+            }
+
+            .tab-btn.active {
+                color: #3b82f6;
+                border-bottom-color: #3b82f6;
+            }
+
+            .tab-content {
+                display: none;
+                animation: fadeIn 0.5s;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* CSS FLUX */
+            .flow-step {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                margin: 10px 0;
+            }
+
+            .step-time {
+                background: #475569;
+                color: #fff;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-family: 'JetBrains Mono';
+            }
+
+            .step-time.digital {
+                background: #10b981;
+                color: #000;
+            }
+
+            .flow-line {
+                height: 20px;
+                border-left: 2px dashed #475569;
+                margin-left: 20px;
+            }
+
+            .flow-line.digital {
+                border-color: #10b981;
+            }
+        </style>
 
         <!-- 7. BUREAU DU TRADER -->
         <div class="slide" id="trader" data-aos="fade-up">
