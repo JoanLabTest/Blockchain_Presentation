@@ -18,7 +18,7 @@ window.addEventListener('scroll', updateProgressBar);
 // ===================================
 const observerOptions = {
     threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
+    rootMargin: '0px 0px -50px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
@@ -29,311 +29,162 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe all fade-in elements
-document.addEventListener('DOMContentLoaded', () => {
-    const fadeElements = document.querySelectorAll('.fade-in');
-    fadeElements.forEach(el => observer.observe(el));
-});
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
 // ===================================
-// NAVIGATION SCROLL EFFECT
-// ===================================
-let lastScroll = 0;
-const nav = document.querySelector('nav');
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll > 100) {
-        nav.classList.add('scrolled');
-    } else {
-        nav.classList.remove('scrolled');
-    }
-
-    lastScroll = currentScroll;
-});
-
-// ===================================
-// SMOOTH SCROLL FOR NAVIGATION
+// SMOOTH SCROLL
 // ===================================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
-
         if (target) {
-            const offsetTop = target.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
     });
 });
 
 // ===================================
-// COUNTER ANIMATION
-// ===================================
-function animateCounter(element, target, duration = 2000) {
-    let start = 0;
-    const increment = target / (duration / 16);
-
-    const timer = setInterval(() => {
-        start += increment;
-        if (start >= target) {
-            element.textContent = target;
-            clearInterval(timer);
-        } else {
-            element.textContent = Math.floor(start);
-        }
-    }, 16);
-}
-
-// ===================================
-// PARALLAX EFFECT
-// ===================================
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.hero-image');
-
-    parallaxElements.forEach(element => {
-        const speed = 0.5;
-        element.style.transform = `translateY(${scrolled * speed}px)`;
-    });
-});
-
-// ===================================
-// CARD TILT EFFECT (OPTIONAL)
-// ===================================
-const cards = document.querySelectorAll('.card');
-
-cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-    });
-});
-
-// ===================================
-// DYNAMIC GRADIENT BACKGROUND
-// ===================================
-function createGradientAnimation() {
-    const hero = document.querySelector('.hero');
-    let hue = 250;
-
-    setInterval(() => {
-        hue = (hue + 1) % 360;
-        const gradient = `radial-gradient(circle at 20% 50%, hsla(${hue}, 70%, 50%, 0.1) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 80%, hsla(${(hue + 60) % 360}, 70%, 50%, 0.1) 0%, transparent 50%)`;
-        hero.style.background = `${gradient}, var(--bg-dark)`;
-    }, 50);
-}
-
-// Initialize gradient animation
-createGradientAnimation();
-
-// ===================================
-// TYPING EFFECT FOR HERO SUBTITLE
-// ===================================
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.textContent = '';
-
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-
-    type();
-}
-
-// Initialize typing effect when page loads
-window.addEventListener('load', () => {
-    const subtitle = document.querySelector('.hero-subtitle');
-    if (subtitle) {
-        const originalText = subtitle.textContent;
-        typeWriter(subtitle, originalText, 50);
-    }
-});
-
-// ===================================
-// LOADING ANIMATION
-// ===================================
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-
-    // Trigger initial animations
-    setTimeout(() => {
-        const firstSection = document.querySelector('.fade-in');
-        if (firstSection) {
-            firstSection.classList.add('visible');
-        }
-    }, 300);
-});
-
-// ===================================
-// INTERACTIVE BLOCKCHAIN VISUALIZATION
-// ===================================
-function createBlockchainVisualization() {
-    const canvas = document.getElementById('blockchain-canvas');
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-
-    const blocks = [];
-    const blockCount = 5;
-    const blockWidth = 80;
-    const blockHeight = 60;
-    const spacing = 40;
-
-    // Create blocks
-    for (let i = 0; i < blockCount; i++) {
-        blocks.push({
-            x: 50 + i * (blockWidth + spacing),
-            y: canvas.height / 2 - blockHeight / 2,
-            width: blockWidth,
-            height: blockHeight,
-            color: `hsl(${250 + i * 20}, 70%, 60%)`
-        });
-    }
-
-    // Animation loop
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw blocks
-        blocks.forEach((block, index) => {
-            // Draw block
-            ctx.fillStyle = block.color;
-            ctx.fillRect(block.x, block.y, block.width, block.height);
-
-            // Draw connection to next block
-            if (index < blocks.length - 1) {
-                ctx.strokeStyle = '#00d4ff';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(block.x + block.width, block.y + block.height / 2);
-                ctx.lineTo(blocks[index + 1].x, blocks[index + 1].y + block.height / 2);
-                ctx.stroke();
-            }
-
-            // Draw block number
-            ctx.fillStyle = '#ffffff';
-            ctx.font = '16px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillText(`#${index + 1}`, block.x + block.width / 2, block.y + block.height / 2 + 5);
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-}
-
-// Initialize blockchain visualization if canvas exists
-document.addEventListener('DOMContentLoaded', () => {
-    createBlockchainVisualization();
-});
-
-// ===================================
-// MOBILE MENU TOGGLE (if needed)
-// ===================================
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
-
-if (menuToggle) {
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });
-}
-
-// ===================================
-// PERFORMANCE OPTIMIZATION
-// ===================================
-// Debounce function for scroll events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Apply debounce to scroll-heavy operations
-const debouncedScroll = debounce(() => {
-    // Any heavy scroll operations here
-}, 10);
-
-window.addEventListener('scroll', debouncedScroll);
-
-// ===================================
-// FAQ TOGGLE FUNCTION
-// ===================================
-function toggleFaq(button) {
-    button.classList.toggle("active");
-    var answer = button.nextElementSibling;
-    var icon = button.querySelector(".faq-icon");
-
-    if (answer.classList.contains("active")) {
-        answer.classList.remove("active");
-        icon.textContent = "+";
-    } else {
-        // Close all other FAQs
-        document.querySelectorAll('.faq-answer.active').forEach(item => {
-            item.classList.remove('active');
-        });
-        document.querySelectorAll('.faq-question.active').forEach(item => {
-            item.classList.remove('active');
-            item.querySelector('.faq-icon').textContent = "+";
-        });
-
-        // Open clicked FAQ
-        answer.classList.add("active");
-        icon.textContent = "−";
-    }
-}
-
-// ===================================
 // SCROLL TO TOP BUTTON
 // ===================================
-
-const scrollToTopBtn = document.getElementById('scrollToTop');
-
-// Show/hide button based on scroll position
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-        scrollToTopBtn.classList.add('visible');
-    } else {
-        scrollToTopBtn.classList.remove('visible');
-    }
-});
-
-// Scroll to top when clicked
-scrollToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+const scrollTopBtn = document.querySelector('.scroll-to-top');
+if (scrollTopBtn) {
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 500) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
     });
-});
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// ===================================
+// TRADING DESK SIMULATOR
+// ===================================
+
+// 1. Mise à jour automatique du total
+function updateTotal() {
+    const qty = parseFloat(document.getElementById('order-qty')?.value);
+    const price = parseFloat(document.getElementById('order-price')?.value);
+    if (!isNaN(qty) && !isNaN(price)) {
+        const total = qty * (price / 100);
+        const totalElement = document.getElementById('order-total');
+        if (totalElement) {
+            totalElement.innerText = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total);
+        }
+    }
+}
+
+// 2. Simulation de variation de prix (Live Effect)
+setInterval(() => {
+    const priceElement = document.getElementById('live-price');
+    if (priceElement) {
+        const basePrice = 99.85;
+        const variation = (Math.random() * 0.04) - 0.02;
+        const newPrice = (basePrice + variation).toFixed(2);
+
+        priceElement.innerText = newPrice;
+        priceElement.style.color = variation > 0 ? '#10b981' : '#ef4444';
+        setTimeout(() => priceElement.style.color = '#fff', 500);
+    }
+}, 3000);
+
+// 3. Séquence d'exécution (Le "Wow Effect")
+function executeTrade() {
+    const modal = document.getElementById('execution-modal');
+    const steps = [
+        document.getElementById('step-1'),
+        document.getElementById('step-2'),
+        document.getElementById('step-3')
+    ];
+    const successMsg = document.getElementById('success-message');
+    const stepsContainer = document.querySelector('.steps-container');
+
+    if (!modal || !steps[0] || !successMsg || !stepsContainer) return;
+
+    modal.style.display = 'flex';
+    successMsg.style.display = 'none';
+    stepsContainer.style.display = 'block';
+    steps.forEach(s => { s.className = 'step-item'; });
+
+    setTimeout(() => { steps[0].classList.add('active'); }, 500);
+    setTimeout(() => { steps[0].classList.add('done'); steps[1].classList.add('active'); }, 1500);
+    setTimeout(() => { steps[1].classList.add('done'); steps[2].classList.add('active'); }, 3000);
+    setTimeout(() => {
+        steps[2].classList.add('done');
+        setTimeout(() => {
+            stepsContainer.style.display = 'none';
+            successMsg.style.display = 'block';
+            const cashBalance = document.getElementById('cash-balance');
+            if (cashBalance) {
+                cashBalance.innerText = "9,001,500";
+            }
+        }, 800);
+    }, 4500);
+}
+
+function closeModal() {
+    const modal = document.getElementById('execution-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// ===================================
+// CALCULATEUR DE ROI
+// ===================================
+function calculateROI() {
+    // Récupération des valeurs
+    const volume = parseFloat(document.getElementById('volumeInput')?.value || 0);
+    const duration = parseInt(document.getElementById('durationInput')?.value || 5);
+
+    // Mise à jour affichage durée
+    const durationValueEl = document.getElementById('durationValue');
+    if (durationValueEl) {
+        durationValueEl.innerText = duration + " ans";
+    }
+
+    // Hypothèses (en bps)
+    const custodyCost = 2.0; // bps
+    const agentCost = 1.5;   // bps
+
+    // Économies (40% sur custody, 80% sur agent)
+    const savingsCustody = volume * (custodyCost * 0.0001) * 0.40;
+    const savingsAgent = volume * (agentCost * 0.0001) * 0.80;
+
+    const totalSavingsYear = savingsCustody + savingsAgent;
+    const totalSavingsLife = totalSavingsYear * duration;
+    const marginGain = (savingsCustody + savingsAgent) / volume * 10000;
+
+    // Formatage et Affichage
+    const formatter = new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'EUR',
+        maximumFractionDigits: 0
+    });
+
+    const savingsYearEl = document.getElementById('savingsYear');
+    const savingsTotalEl = document.getElementById('savingsTotal');
+    const marginGainEl = document.getElementById('marginGain');
+
+    if (savingsYearEl) savingsYearEl.innerText = formatter.format(totalSavingsYear);
+    if (savingsTotalEl) savingsTotalEl.innerText = formatter.format(totalSavingsLife);
+    if (marginGainEl) marginGainEl.innerText = "+" + marginGain.toFixed(2) + " bps";
+}
+
+// Calcul initial au chargement
+setTimeout(() => {
+    if (document.getElementById('volumeInput')) {
+        calculateROI();
+    }
+}, 500);
