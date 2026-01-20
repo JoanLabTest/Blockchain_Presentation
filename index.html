@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="styles-fondamentaux.css">
     <link rel="stylesheet" href="styles-animations.css">
     <link rel="stylesheet" href="styles-roi.css">
+    <link rel="stylesheet" href="styles-trader.css">
 </head>
 
 <body>
@@ -1007,128 +1008,126 @@
     </section>
 
     <!-- Section 7.8: Bureau du Trader 2026 -->
-    <section id="trader" class="fade-in">
+    <!-- Section 7.8: Bureau du Trader Interactif -->
+    <section id="trader" class="fade-in" data-aos="fade-up">
         <div class="section-title">
             <span class="section-number">07.8</span>
             <h2>Le Bureau du Trader 2026</h2>
-            <p style="color: #10b981;">L'Interface qui Cache la Complexité Blockchain</p>
+            <p style="color: #3b82f6;">Simulation : Exécutez un Atomic Swap en temps réel</p>
         </div>
 
-        <div class="trader-interface">
-            <!-- TERMINAL MOCKUP -->
-            <div class="trader-screen">
-                <div class="trader-header">
-                    <div class="window-controls">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    <div class="trader-url">
-                        <span>🔒</span> platform.360x.com/trading/SIE-2025
-                    </div>
+        <div class="trader-console">
+
+            <!-- HEADER CONSOLE -->
+            <div class="console-header">
+                <div class="connection-status">
+                    <span class="status-dot"></span> CONNECTED TO SWIAT MAINNET
                 </div>
-
-                <div class="trader-body">
-                    <!-- GAUCHE : CHART & INFO -->
-                    <div class="trader-main">
-                        <div class="bond-header">
-                            <div>
-                                <h3 class="bond-name">SIEMENS AG (DIGITAL)</h3>
-                                <span class="bond-isin">DE000SIE2025</span>
-                            </div>
-                            <div class="bond-price">
-                                <span class="price-value">99.85</span>
-                                <span class="price-change positive">+0.12%</span>
-                            </div>
-                        </div>
-
-                        <!-- CHART MOCKUP -->
-                        <div class="chart-container">
-                            <div class="chart-line"></div>
-                            <div class="chart-grid"></div>
-                        </div>
-
-                        <!-- METRICS -->
-                        <div class="bond-metrics">
-                            <div class="metric-box">
-                                <span class="metric-label">Yield</span>
-                                <span class="metric-value">3.15%</span>
-                            </div>
-                            <div class="metric-box">
-                                <span class="metric-label">Coupon</span>
-                                <span class="metric-value">3.00%</span>
-                            </div>
-                            <div class="metric-box highlight">
-                                <span class="metric-label">Settlement</span>
-                                <span class="metric-value">T+0</span>
-                            </div>
-                            <div class="metric-box">
-                                <span class="metric-label">Maturity</span>
-                                <span class="metric-value">2025-12</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- DROITE : ORDER ENTRY -->
-                    <div class="trader-sidebar">
-                        <h4 class="sidebar-title">ORDER ENTRY</h4>
-
-                        <div class="order-form">
-                            <div class="form-group">
-                                <label>Side</label>
-                                <div class="side-selector">
-                                    <button class="side-btn active buy">BUY</button>
-                                    <button class="side-btn sell">SELL</button>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Quantity (€)</label>
-                                <input type="text" class="form-input" value="5,000,000" readonly>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Price (%)</label>
-                                <input type="text" class="form-input" value="99.85" readonly>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Total</label>
-                                <div class="total-display">4,992,500 €</div>
-                            </div>
-
-                            <button class="execute-btn">
-                                <span class="btn-icon">⚡</span>
-                                EXECUTE ATOMIC SWAP
-                            </button>
-
-                            <div class="settlement-info">
-                                <span class="info-icon">ℹ️</span>
-                                Settlement via Trigger Bundesbank
-                            </div>
-                        </div>
-                    </div>
+                <div class="wallet-info">
+                    <i class="fa-solid fa-wallet"></i> Wallet: 0x71...B49 <span style="color:#64748b">|</span> Cash:
+                    <span id="cash-balance">10,000,000</span> €
                 </div>
             </div>
 
-            <!-- EXPLICATION -->
-            <div class="trader-explanation">
-                <div class="explanation-box">
-                    <h4>🎯 Ce que Voit le Trader</h4>
-                    <p>Une interface familière type Bloomberg Terminal. Un simple clic sur "Execute".</p>
+            <div class="console-grid">
+
+                <!-- GAUCHE : MARKET DATA -->
+                <div class="market-panel">
+                    <div class="instrument-header">
+                        <div>
+                            <h2 style="margin:0; font-size:28px; border:none; padding:0;">SIEMENS AG <span
+                                    class="badge-aaa">AAA</span></h2>
+                            <span class="isin">ISIN: DE000SIE2026DIG</span>
+                        </div>
+                        <div class="live-price">
+                            <span id="live-price" class="big-price">99.85</span> %
+                            <span class="price-change">▲ 0.05%</span>
+                        </div>
+                    </div>
+
+                    <!-- CARNET D'ORDRES (SIMULÉ) -->
+                    <div class="order-book">
+                        <div class="book-row header"><span>BID SIZE</span><span>BID</span><span>ASK</span><span>ASK
+                                SIZE</span></div>
+                        <div class="book-row"><span>5.0M</span><span class="bid">99.84</span><span
+                                class="ask">99.85</span><span>2.0M</span></div>
+                        <div class="book-row"><span>2.0M</span><span class="bid">99.83</span><span
+                                class="ask">99.86</span><span>1.5M</span></div>
+                        <div class="book-row"><span>1.5M</span><span class="bid">99.81</span><span
+                                class="ask">99.88</span><span>5.0M</span></div>
+                    </div>
+
+                    <div class="instrument-details">
+                        <div class="detail-box"><span>YIELD</span><strong>3.15%</strong></div>
+                        <div class="detail-box"><span>COUPON</span><strong>3.00%</strong></div>
+                        <div class="detail-box"><span>SETTLEMENT</span><strong style="color:#10b981">T+0</strong></div>
+                    </div>
                 </div>
-                <div class="explanation-box">
-                    <h4>⚙️ Ce qui se Passe en Coulisse</h4>
-                    <p>Le Smart Contract vérifie les fonds, transfère le token, déclenche le paiement via Trigger, et
-                        enregistre la transaction sur la blockchain. Tout en quelques secondes.</p>
+
+                <!-- DROITE : ORDER ENTRY -->
+                <div class="order-panel">
+                    <h3 style="color:#fff; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:20px;">
+                        NEW ORDER</h3>
+
+                    <div class="input-group">
+                        <label>SIDE</label>
+                        <div class="switch-field">
+                            <input type="radio" id="radio-buy" name="side" value="buy" checked />
+                            <label for="radio-buy">BUY</label>
+                            <input type="radio" id="radio-sell" name="side" value="sell" />
+                            <label for="radio-sell">SELL</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>NOMINAL (€)</label>
+                        <input type="number" id="order-qty" value="1000000" step="100000" oninput="updateTotal()">
+                    </div>
+
+                    <div class="input-group">
+                        <label>LIMIT PRICE (%)</label>
+                        <input type="number" id="order-price" value="99.85" step="0.01" oninput="updateTotal()">
+                    </div>
+
+                    <div class="total-display">
+                        <span>EST. TOTAL:</span>
+                        <span id="order-total">998,500.00 €</span>
+                    </div>
+
+                    <button class="execute-btn" onclick="executeTrade()">
+                        <i class="fa-solid fa-bolt"></i> EXECUTE (ATOMIC)
+                    </button>
                 </div>
-                <div class="explanation-box">
-                    <h4>💡 L'Innovation</h4>
-                    <p>La complexité blockchain est totalement abstraite. Le trader travaille comme d'habitude, mais
-                        bénéficie de T+0.</p>
+
+            </div>
+        </div>
+
+        <!-- MODAL DE SUCCESS (Invisible par défaut) -->
+        <div id="execution-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h3><i class="fa-solid fa-gears"></i> EXÉCUTION EN COURS...</h3>
+                <div class="steps-container">
+                    <div class="step-item" id="step-1">
+                        <i class="fa-regular fa-circle"></i> 1. Verrouillage Smart Contract
+                    </div>
+                    <div class="step-item" id="step-2">
+                        <i class="fa-regular fa-circle"></i> 2. Trigger Bundesbank (Cash)
+                    </div>
+                    <div class="step-item" id="step-3">
+                        <i class="fa-regular fa-circle"></i> 3. Livraison des Titres
+                    </div>
+                </div>
+                <div id="success-message" class="success-message" style="display:none;">
+                    <i class="fa-solid fa-check-circle"
+                        style="font-size:50px; color:#10b981; margin-bottom:10px;"></i><br>
+                    TRADE CONFIRMÉ<br>
+                    <span style="font-size:14px; color:#94a3b8">Settlement ID: 0x8a7...f92</span><br>
+                    <button onclick="closeModal()"
+                        style="margin-top:15px; padding:8px 20px; background:#334155; border:none; color:white; border-radius:4px; cursor:pointer;">Fermer</button>
                 </div>
             </div>
         </div>
+
     </section>
 
     <!-- Section 7.5: Focus Covered Bond Digital -->
