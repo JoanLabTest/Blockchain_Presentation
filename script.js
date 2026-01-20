@@ -188,3 +188,51 @@ setTimeout(() => {
         calculateROI();
     }
 }, 500);
+
+// ===================================
+// SCROLL TO TOP / BOTTOM BUTTONS
+// ===================================
+const scrollToTopBtn = document.getElementById('scrollToTop');
+const scrollToBottomBtn = document.getElementById('scrollToBottom');
+
+// Afficher/masquer les boutons selon la position de scroll
+window.addEventListener('scroll', function() {
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    
+    // Bouton "Remonter" : visible après 300px de scroll
+    if (scrollPosition > 300) {
+        scrollToTopBtn.classList.add('visible');
+    } else {
+        scrollToTopBtn.classList.remove('visible');
+    }
+    
+    // Bouton "Descendre" : visible seulement en haut de page
+    // Masqué si on est à plus de 300px du haut OU proche du bas
+    if (scrollPosition < 300 && (documentHeight - scrollPosition - windowHeight) > 500) {
+        scrollToBottomBtn.classList.add('visible');
+    } else {
+        scrollToBottomBtn.classList.remove('visible');
+    }
+});
+
+// Clic sur "Remonter"
+if (scrollToTopBtn) {
+    scrollToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// Clic sur "Descendre"
+if (scrollToBottomBtn) {
+    scrollToBottomBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth'
+        });
+    });
+}
