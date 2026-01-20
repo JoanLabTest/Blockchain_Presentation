@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certification DCM Digital - Le Test</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- CONFIGURATION DESIGN (Même charte que le site principal) --- */
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #1e293b;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --accent-red: #ef4444;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar {
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 20px;
+            color: white;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-blue);
+        }
+
+        /* --- QUIZ CONTAINER --- */
+        .quiz-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .quiz-card {
+            width: 100%;
+            max-width: 900px;
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER QUIZ */
+        .quiz-header {
+            padding: 30px 40px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-track {
+            width: 200px;
+            height: 8px;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        /* CONTENT */
+        .quiz-content {
+            padding: 40px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            color: white;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .option-btn {
+            background: var(--bg-dark);
+            border: 2px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+            color: var(--text-main);
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .option-btn.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* FEEDBACK STATES */
+        .option-btn.correct {
+            border-color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .option-btn.wrong {
+            border-color: var(--accent-red);
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+        }
+
+        .feedback-box {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--accent-blue);
+            display: none;
+            animation: slideIn 0.3s;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        /* NEXT BUTTON */
+        .next-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            align-self: flex-end;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background: #2563eb;
+        }
+
+        /* RESULT SCREEN */
+        .result-screen {
+            text-align: center;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 40px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 30px;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-solid fa-graduation-cap" style="color: var(--accent-gold);"></i> CERTIFICATION <span
+                style="color:var(--accent-gold)">DCM</span>
+        </div>
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Retour au Cours</a>
+    </nav>
+
+    <div class="quiz-wrapper">
+        <div class="quiz-card">
+
+            <!-- HEADER (Score & Progress) -->
+            <div class="quiz-header" id="quizHeader">
+                <div style="font-family: 'JetBrains Mono'; color: var(--accent-gold);">Question <span
+                        id="qCurrent">1</span>/20</div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION SCREEN -->
+            <div class="quiz-content" id="questionScreen">
+                <h2 id="questionText">Chargement...</h2>
+
+                <div class="options-grid" id="optionsContainer">
+                    <!-- Les boutons seront générés ici par JS -->
+                </div>
+
+                <div class="feedback-box" id="feedback">
+                    <strong id="feedbackTitle">Explication :</strong>
+                    <p id="feedbackText" style="margin-top: 5px; color: var(--text-muted); font-size: 15px;"></p>
+                </div>
+
+                <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Question Suivante <i
+                        class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <!-- RESULT SCREEN -->
+            <div class="result-screen" id="resultScreen">
+                <div class="score-circle" id="finalScore">0%</div>
+                <h1 id="finalRank">Titre</h1>
+                <p id="finalMessage"
+                    style="font-size: 18px; color: var(--text-muted); max-width: 600px; margin-bottom: 40px;"></p>
+
+                <div style="display: flex; gap: 20px;">
+                    <button onclick="location.reload()"
+                        style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Recommencer</button>
+                    <a href="index.html"
+                        style="padding: 15px 30px; background: var(--accent-blue); color: white; border-radius: 50px; text-decoration: none; font-weight: bold;">Retourner
+                        au Bureau</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- BANQUE DE QUESTIONS (20 Questions Expertes) ---
+        const questions = [
+            // PARTIE 1 : FONDAMENTAUX (1-5)
+            {
+                q: "Quelle est la définition fondamentale d'une Blockchain dans un contexte bancaire ?",
+                options: ["Une crypto-monnaie spéculative", "Un registre distribué partagé et immuable", "Un serveur centralisé sécurisé", "Un logiciel de trading"],
+                a: 1,
+                info: "C'est un 'Distributed Ledger Technology' (DLT). Contrairement à un serveur central, le registre est copié sur tous les nœuds du réseau."
+            },
+            {
+                q: "Dans l'analogie bancaire, à quoi correspond l'Adresse Publique d'un Wallet ?",
+                options: ["Au code PIN", "Au mot de passe", "À l'IBAN (RIB)", "À la signature"],
+                a: 2,
+                info: "L'adresse publique sert à recevoir des fonds, comme un IBAN. La clé privée sert à signer, comme une signature."
+            },
+            {
+                q: "Qu'est-ce qu'un Smart Contract ?",
+                options: ["Un contrat papier numérisé", "Un programme informatique qui s'exécute automatiquement", "Un accord verbal entre traders", "Une intelligence artificielle"],
+                a: 1,
+                info: "C'est du code ('If This Then That') stocké sur la blockchain qui exécute automatiquement les clauses (ex: paiement coupon) sans tiers."
+            },
+            {
+                q: "Quelle est la différence majeure entre un Token et une Crypto-monnaie classique (ex: Bitcoin) ?",
+                options: ["Il n'y en a aucune", "Le Token est toujours plus cher", "Le Token est une enveloppe qui peut contenir un actif réel (Titre)", "Le Token ne fonctionne pas sur Blockchain"],
+                a: 2,
+                info: "Le Bitcoin est une monnaie native. Le Token (Security Token) est un conteneur qui représente un actif (Dette, Action, Cash)."
+            },
+            {
+                q: "Que signifie l'immuabilité de la Blockchain ?",
+                options: ["On ne peut pas écrire dessus", "On peut tout effacer", "Une fois validée, une transaction ne peut plus être modifiée", "Les transactions sont invisibles"],
+                a: 2,
+                info: "C'est la garantie de sécurité absolue : personne ne peut falsifier l'historique rétroactivement."
+            },
+
+            // PARTIE 2 : PRODUITS & MARCHÉ (6-10)
+            {
+                q: "Quel est l'avantage principal d'un Digital Bond sur le marché primaire ?",
+                options: ["Il est plus volatil", "Règlement en T+0 (Instantané)", "Il n'a pas besoin d'être remboursé", "Il offre un taux d'intérêt double"],
+                a: 1,
+                info: "La suppression de la chaîne d'intermédiaires permet de passer de T+5 (Papier) à T+0 (Digital)."
+            },
+            {
+                q: "Qu'est-ce qu'un Covered Bond Digital ?",
+                options: ["Une obligation sans garantie", "Un titre garanti par des cryptos", "Un titre garanti par un panier d'actifs réels (Immo) inscrit dans le code", "Une assurance vie"],
+                a: 2,
+                info: "Comme un Pfandbrief classique, il bénéficie du double recours, mais le lien avec le collatéral est géré par le Smart Contract."
+            },
+            {
+                q: "Quelle banque a émis un Covered Bond de 100M€ sur SWIAT en août 2024 ?",
+                options: ["BNP Paribas", "Natixis Pfandbriefbank", "Société Générale", "Deutsche Bank"],
+                a: 1,
+                info: "C'était une première pour une filiale de banque française utilisant le droit allemand et l'infrastructure SWIAT."
+            },
+            {
+                q: "Quelle est la particularité de l'émission de Siemens (300M€) ?",
+                options: ["Payée en Bitcoin", "Réglée via le Trigger de la Bundesbank", "Émise sur papier", "Réservée aux particuliers"],
+                a: 1,
+                info: "Siemens a utilisé la solution Trigger pour régler directement en monnaie banque centrale, sans passer par un Stablecoin."
+            },
+            {
+                q: "Pourquoi SG-FORGE a-t-elle utilisé le réseau Canton pour son émission US ?",
+                options: ["Pour payer moins cher", "Pour la rapidité", "Pour la confidentialité (Privacy) exigée aux USA", "Par hasard"],
+                a: 2,
+                info: "Les investisseurs américains exigent que leurs transactions restent secrètes, ce que permettent les blockchains privées comme Canton."
+            },
+
+            // PARTIE 3 : TECHNIQUE & INFRA (11-15)
+            {
+                q: "Qu'est-ce que l'Atomic Swap ?",
+                options: ["Une explosion nucléaire", "L'échange simultané Titre contre Cash", "Un échange de mails", "Une annulation de trade"],
+                a: 1,
+                info: "C'est le mécanisme de DvP (Delivery vs Payment) parfait : si le cash ne part pas, le titre ne part pas. Risque de contrepartie nul."
+            },
+            {
+                q: "Laquelle de ces solutions permet de payer en Monnaie Banque Centrale ?",
+                options: ["Stablecoin USDT", "Bitcoin", "Solution Trigger", "Ethereum"],
+                a: 2,
+                info: "Le Trigger est une passerelle qui connecte la Blockchain au système Target2 de la Banque Centrale."
+            },
+            {
+                q: "Qu'est-ce que le 'Minting' ?",
+                options: ["Le minage de Bitcoin", "La création technique des tokens (Émission)", "La destruction des tokens", "Le trading"],
+                a: 1,
+                info: "Le Minting est l'acte de créer les jetons sur la blockchain, équivalent à l'impression du certificat global papier."
+            },
+            {
+                q: "Que se passe-t-il lors du remboursement (Maturité) ?",
+                options: ["On garde les tokens en souvenir", "Les tokens sont 'Burned' (Détruits)", "On les revend", "Rien"],
+                a: 1,
+                info: "Une fois remboursés, les tokens doivent être détruits informatiquement pour annuler la dette dans le registre."
+            },
+            {
+                q: "Quelle plateforme est un 'Réseau Privé Bancaire' ?",
+                options: ["Ethereum", "Polygon", "SWIAT", "Bitcoin"],
+                a: 2,
+                info: "SWIAT est une blockchain de consortium (privée) créée par DekaBank, contrairement à Ethereum qui est publique."
+            },
+
+            // PARTIE 4 : RÉGULATION & AVENIR (16-20)
+            {
+                q: "Quelle loi allemande a permis l'essor des Crypto Securities ?",
+                options: ["MiCA", "eWpG", "RGPD", "Bâle III"],
+                a: 1,
+                info: "La loi eWpG (2021) a supprimé l'obligation du certificat papier global en Allemagne."
+            },
+            {
+                q: "Quel est le principal risque résiduel sur les Digital Bonds aujourd'hui ?",
+                options: ["Le risque de crédit", "Le risque de règlement", "Le risque de liquidité (Marché Secondaire)", "Le risque de change"],
+                a: 2,
+                info: "Le règlement est sûr (T+0), le crédit est inchangé (AAA), mais il est encore difficile de revendre les titres (Liquidité)."
+            },
+            {
+                q: "Quel acteur a commencé à faire du Market Making (Achat) en 2025 ?",
+                options: ["La BCE", "KfW", "La FED", "La Banque Mondiale"],
+                a: 1,
+                info: "La KfW a commencé à acheter des titres digitaux pour dynamiser le marché secondaire."
+            },
+            {
+                q: "Quel est l'objectif du projet 'Pontes' de la BCE ?",
+                options: ["Interdire la crypto", "Créer un Bitcoin européen", "Standardiser la solution Trigger pour l'Europe", "Fermer Target2"],
+                a: 2,
+                info: "Pontes vise à pérenniser les passerelles entre les blockchains et la monnaie banque centrale."
+            },
+            {
+                q: "En synthèse, quel est le ROI principal pour une banque ?",
+                options: ["Spéculer sur le cours", "Réduire les coûts de Back-Office et optimiser le collatéral", "Faire du marketing", "Aucun"],
+                a: 1,
+                info: "L'automatisation et le T+0 permettent des économies massives sur la réconciliation et la gestion de trésorerie."
+            }
+        ];
+
+        // --- LOGIQUE DU JEU ---
+        let currentQ = 0;
+        let score = 0;
+        let userAnswers = [];
+
+        const ui = {
+            question: document.getElementById('questionText'),
+            options: document.getElementById('optionsContainer'),
+            feedbackBox: document.getElementById('feedback'),
+            feedbackText: document.getElementById('feedbackText'),
+            nextBtn: document.getElementById('nextBtn'),
+            header: document.getElementById('quizHeader'),
+            content: document.getElementById('questionScreen'),
+            result: document.getElementById('resultScreen'),
+            qCurrent: document.getElementById('qCurrent'),
+            bar: document.getElementById('progressBar')
+        };
+
+        function loadQuestion() {
+            const q = questions[currentQ];
+
+            // Update UI
+            ui.qCurrent.innerText = currentQ + 1;
+            ui.bar.style.width = ((currentQ) / questions.length * 100) + "%";
+
+            // Reset states
+            ui.question.innerText = q.q;
+            ui.options.innerHTML = "";
+            ui.feedbackBox.classList.remove('show');
+            ui.nextBtn.style.display = "none";
+
+            // Create Buttons
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => selectAnswer(index, btn);
+                ui.options.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(index, btn) {
+            const q = questions[currentQ];
+            const isCorrect = (index === q.a);
+
+            // Disable all buttons
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => b.classList.add('disabled'));
+
+            // Highlight
+            if (isCorrect) {
+                btn.classList.add('correct');
+                score++;
+            } else {
+                btn.classList.add('wrong');
+                // Show correct one
+                allBtns[q.a].classList.add('correct');
+            }
+
+            // Show Feedback
+            ui.feedbackText.innerText = q.info;
+            ui.feedbackBox.classList.add('show');
+
+            // Show Next Button
+            ui.nextBtn.style.display = "block";
+
+            // Check if last question
+            if (currentQ === questions.length - 1) {
+                ui.nextBtn.innerHTML = 'Voir les Résultats <i class="fa-solid fa-trophy"></i>';
+                ui.nextBtn.onclick = showResults;
+            }
+        }
+
+        function nextQuestion() {
+            currentQ++;
+            loadQuestion();
+        }
+
+        function showResults() {
+            ui.header.style.display = "none";
+            ui.content.style.display = "none";
+            ui.result.style.display = "flex";
+
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('finalScore').innerText = percentage + "%";
+
+            let rank = "";
+            let msg = "";
+            let color = "";
+
+            if (percentage < 50) {
+                rank = "Stagiaire Débutant";
+                msg = "C'est un début ! N'hésitez pas à relire les modules 'Fondamentaux' et 'Tech 101' pour bien saisir les bases.";
+                color = "#ef4444";
+            } else if (percentage < 80) {
+                rank = "Analyste Junior";
+                msg = "Pas mal ! Vous avez les bases, mais il manque encore quelques détails techniques sur les flux de règlement.";
+                color = "#f59e0b";
+            } else {
+                rank = "Head of Digital Desk 🏆";
+                msg = "Excellent ! Vous maîtrisez parfaitement le sujet. Vous êtes prêt pour piloter une émission digitale.";
+                color = "#10b981";
+            }
+
+            document.getElementById('finalRank').innerText = rank;
+            document.getElementById('finalRank').style.color = color;
+            document.getElementById('finalMessage').innerText = msg;
+            document.getElementById('finalScore').style.borderColor = color;
+            document.getElementById('finalScore').style.background = color + "20"; // 20% opacity
+        }
+
+        // Start
+        loadQuestion();
+
+    </script>
+
+</body>
+
+</html>
