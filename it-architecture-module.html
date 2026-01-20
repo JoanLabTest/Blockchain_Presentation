@@ -1,0 +1,193 @@
+<!-- ========================================= -->
+<!-- MODULE : ARCHITECTURE IT & INTÉGRATION -->
+<!-- ========================================= -->
+
+<div class="slide" id="it-arch">
+    <div class="top-bar" style="background: linear-gradient(90deg, #64748b, #fff);"></div>
+    <div class="content">
+        <header style="background: transparent; border: none; padding: 0; margin-bottom: 30px;">
+            <h1>Architecture IT & Intégration</h1>
+            <span class="subtitle" style="color: #cbd5e1;">Comment connecter la Blockchain à notre "Legacy" ?</span>
+        </header>
+
+        <div class="arch-diagram">
+
+            <!-- COUCHE LEGACY (GAUCHE) -->
+            <div class="layer legacy-layer">
+                <div class="layer-title"><i class="fa-solid fa-server"></i> LEGACY (Banque)</div>
+                <div class="system-box">
+                    <strong>Front-Office</strong>
+                    <span>(Bloomberg / Murex)</span>
+                </div>
+                <div class="connector-vertical"></div>
+                <div class="system-box">
+                    <strong>Back-Office</strong>
+                    <span>(Calypso / Summit)</span>
+                </div>
+                <div class="connector-vertical"></div>
+                <div class="system-box">
+                    <strong>Comptabilité</strong>
+                    <span>(SAP)</span>
+                </div>
+            </div>
+
+            <!-- COUCHE MIDDLEWARE (CENTRE) -->
+            <div class="layer middle-layer">
+                <div class="arrow-right"><i class="fa-solid fa-arrow-right-arrow-left"></i> API REST</div>
+                <div class="middleware-box">
+                    <i class="fa-solid fa-gears" style="font-size: 40px; color: #fff; margin-bottom: 10px;"></i>
+                    <strong>ORCHESTRATEUR</strong>
+                    <p>Traduction des messages (SWIFT ↔ ISO 20022)</p>
+                    <p>Gestion des clés privées (HSM)</p>
+                </div>
+                <div class="arrow-right"><i class="fa-solid fa-arrow-right-arrow-left"></i> RPC / NODE</div>
+            </div>
+
+            <!-- COUCHE BLOCKCHAIN (DROITE) -->
+            <div class="layer blockchain-layer">
+                <div class="layer-title" style="color: #10b981;"><i class="fa-solid fa-network-wired"></i> DLT (Marché)
+                </div>
+                <div class="chain-box">
+                    <strong>SMART CONTRACT</strong>
+                    <span>(Règles Métier)</span>
+                </div>
+                <div class="connector-vertical" style="border-color: #10b981;"></div>
+                <div class="chain-box">
+                    <strong>TOKEN REGISTRY</strong>
+                    <span>(Titres & Cash)</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div
+            style="margin-top: 40px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; text-align: center;">
+            <strong style="color: #fff;">💡 Le Message Clé pour l'IT :</strong>
+            <span style="color: #94a3b8; display: block; margin-top: 5px;">
+                "Nous n'avons pas besoin de remplacer nos systèmes actuels. Nous ajoutons simplement une couche d'API
+                pour dialoguer avec la Blockchain."
+            </span>
+        </div>
+
+    </div>
+    <div class="footer">ARCHITECTURE SYSTÈME</div>
+</div>
+
+<style>
+    .arch-diagram {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .layer {
+        padding: 20px;
+        border-radius: 16px;
+        width: 300px;
+        text-align: center;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .legacy-layer {
+        background: rgba(100, 116, 139, 0.1);
+        border: 1px dashed #64748b;
+    }
+
+    .blockchain-layer {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid #10b981;
+    }
+
+    .middle-layer {
+        width: 250px;
+        background: transparent;
+    }
+
+    .layer-title {
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .system-box {
+        background: #1e293b;
+        border: 1px solid #64748b;
+        padding: 15px;
+        border-radius: 8px;
+        color: #cbd5e1;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .system-box strong {
+        display: block;
+        color: #fff;
+    }
+
+    .system-box span {
+        font-size: 12px;
+    }
+
+    .chain-box {
+        background: #064e3b;
+        border: 1px solid #10b981;
+        padding: 20px;
+        border-radius: 8px;
+        color: #fff;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+    }
+
+    .middleware-box {
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        padding: 20px;
+        border-radius: 12px;
+        color: white;
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    }
+
+    .middleware-box p {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: 0.9;
+    }
+
+    .connector-vertical {
+        width: 2px;
+        height: 30px;
+        background: #64748b;
+        margin: 5px auto;
+    }
+
+    .arrow-right {
+        text-align: center;
+        color: #94a3b8;
+        font-size: 12px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+
+    @media (max-width: 768px) {
+        .arch-diagram {
+            flex-direction: column;
+        }
+
+        .layer {
+            width: 100%;
+            height: auto;
+        }
+
+        .middle-layer {
+            width: 100%;
+        }
+
+        .arrow-right {
+            transform: rotate(90deg);
+            margin: 20px 0;
+        }
+    }
+</style>
