@@ -101,6 +101,33 @@
             color: var(--accent-blue);
         }
 
+        /* LANGUAGE SWITCHER */
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+            border-left: 1px solid var(--border);
+            padding-left: 20px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            opacity: 0.5;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            opacity: 1;
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
         /* BOUTON SWITCH MODE */
         .mode-switch {
             background: linear-gradient(90deg, #10b981, #059669);
@@ -580,20 +607,26 @@
             </div>
 
             <div class="nav-links">
-                <a href="#intro">Accueil</a>
-                <a href="#history">Historique</a>
-                <a href="#fondamentaux">Fondamentaux</a>
-                <a href="#benchmarks">Benchmarks</a>
-                <a href="#regulation">Régulation</a>
-                <a href="#comparatif">Comparatif</a>
-                <a href="#roadmap">Roadmap</a>
-                <a href="#trader">Trader</a>
-                <a href="#glossaire">Glossaire</a>
-                <a href="#contact">Contact</a>
+                <a href="#intro" data-i18n="nav_home">Accueil</a>
+                <a href="#history" data-i18n="nav_history">Historique</a>
+                <a href="#fondamentaux" data-i18n="nav_fundamentals">Fondamentaux</a>
+                <a href="#benchmarks" data-i18n="nav_benchmarks">Benchmarks</a>
+                <a href="#regulation" data-i18n="nav_regulation">Régulation</a>
+                <a href="#comparatif" data-i18n="nav_comparison">Comparatif</a>
+                <a href="#roadmap" data-i18n="nav_roadmap">Roadmap</a>
+                <a href="#trader" data-i18n="nav_trader">Trader</a>
+                <a href="#glossaire" data-i18n="nav_glossary">Glossaire</a>
+                <a href="#contact" data-i18n="nav_contact">Contact</a>
+            </div>
+
+            <!-- LANGUAGE SWITCHER -->
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="setLanguage('fr')" title="Français">🇫🇷</button>
+                <button class="lang-btn" onclick="setLanguage('en')" title="English">🇬🇧</button>
             </div>
         </div>
         <a href="simple.html" class="mode-switch">
-            <i class="fa-solid fa-graduation-cap"></i> VERSION DÉCOUVERTE
+            <i class="fa-solid fa-graduation-cap"></i> <span data-i18n="nav_discovery">VERSION DÉCOUVERTE</span>
         </a>
     </nav>
 
@@ -1373,6 +1406,71 @@
         function closeModal() {
             document.getElementById("success-message").style.display = "none";
         }
+
+        // ===== BILINGUAL TRANSLATION SYSTEM =====
+        const translations = {
+            fr: {
+                // Navigation
+                nav_home: "Accueil",
+                nav_history: "Historique",
+                nav_fundamentals: "Fondamentaux",
+                nav_benchmarks: "Benchmarks",
+                nav_regulation: "Régulation",
+                nav_comparison: "Comparatif",
+                nav_roadmap: "Roadmap",
+                nav_trader: "Trader",
+                nav_glossary: "Glossaire",
+                nav_contact: "Contact",
+                nav_discovery: "VERSION DÉCOUVERTE"
+            },
+            en: {
+                // Navigation
+                nav_home: "Home",
+                nav_history: "History",
+                nav_fundamentals: "Fundamentals",
+                nav_benchmarks: "Benchmarks",
+                nav_regulation: "Regulation",
+                nav_comparison: "Comparison",
+                nav_roadmap: "Roadmap",
+                nav_trader: "Trader",
+                nav_glossary: "Glossary",
+                nav_contact: "Contact",
+                nav_discovery: "DISCOVERY VERSION"
+            }
+        };
+
+        // Set language function
+        function setLanguage(lang) {
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Save preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Load saved language on page load
+        window.addEventListener('DOMContentLoaded', function () {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'fr';
+            if (savedLang === 'en') {
+                // Trigger English if saved
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    if (btn.textContent.includes('🇬🇧')) {
+                        btn.click();
+                    }
+                });
+            }
+        });
     </script>
 
 </body>
