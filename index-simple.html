@@ -1617,8 +1617,21 @@
 
         // Load saved language on page load
         window.addEventListener('DOMContentLoaded', function () {
-            const savedLang = localStorage.getItem('preferredLanguage') || 'fr';
-            if (savedLang === 'en') {
+            const savedLang = localStorage.getItem('preferredLanguage');
+
+            // If no saved preference, default to French
+            if (!savedLang) {
+                // Set French as default
+                localStorage.setItem('preferredLanguage', 'fr');
+                // Ensure French button is active
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    if (btn.textContent.includes('🇫🇷')) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            } else if (savedLang === 'en') {
                 // Trigger English if saved
                 document.querySelectorAll('.lang-btn').forEach(btn => {
                     if (btn.textContent.includes('🇬🇧')) {
