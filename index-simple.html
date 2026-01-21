@@ -1316,6 +1316,25 @@
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
         }
+
+        // Function for glossary search
+        function filterGlossary() {
+            var input, filter, grid, cards, title, i, txtValue;
+            input = document.getElementById("searchGlossary");
+            filter = input.value.toUpperCase();
+            grid = document.getElementById("glossaryGrid");
+            cards = grid.getElementsByClassName("term-card");
+
+            for (i = 0; i < cards.length; i++) {
+                title = cards[i].getElementsByClassName("term-title")[0];
+                txtValue = title.textContent || title.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
     </script>
 
 </body>
