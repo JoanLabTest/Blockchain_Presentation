@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCM Digital - Strategic Portal</title>
+    <title>DCM Digital - Strategic Pitch</title>
 
     <!-- FONTS -->
     <link
@@ -14,11 +14,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- ANIMATIONS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Logo Dropdown CSS -->
-    <link rel="stylesheet" href="styles-logo-dropdown.css">
 
     <style>
-        /* --- 1. CONFIGURATION DESIGN --- */
+        /* --- DESIGN CONFIGURATION (SAME AS FR) --- */
         :root {
             --bg-dark: #020617;
             --bg-card: #1e293b;
@@ -46,25 +44,7 @@
             overflow-x: hidden;
         }
 
-        /* --- 2. PROGRESS BAR --- */
-        .progress-container {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: transparent;
-            z-index: 1001;
-        }
-
-        .progress-bar {
-            height: 3px;
-            background: var(--gradient);
-            width: 0%;
-            box-shadow: 0 0 10px var(--accent-blue);
-        }
-
-        /* --- 3. NAVIGATION --- */
+        /* NAVIGATION */
         .navbar {
             position: fixed;
             top: 0;
@@ -85,6 +65,16 @@
             display: flex;
             align-items: center;
             gap: 30px;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: 1px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .nav-links a {
@@ -113,22 +103,28 @@
         .lang-btn {
             background: transparent;
             border: 1px solid var(--border);
-            cursor: pointer;
-            font-size: 18px;
+            color: var(--text-muted);
             padding: 5px 10px;
             border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            text-decoration: none;
             transition: all 0.2s;
-            opacity: 0.5;
         }
 
-        .lang-btn:hover,
-        .lang-btn.active {
-            opacity: 1;
+        .lang-btn:hover {
             border-color: var(--accent-blue);
-            background: rgba(59, 130, 246, 0.1);
+            color: white;
         }
 
-        /* BOUTON SWITCH MODE */
+        .lang-btn.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        /* MODE SWITCH BUTTON */
         .mode-switch {
             background: linear-gradient(90deg, #10b981, #059669);
             color: #020617;
@@ -150,14 +146,14 @@
             color: white;
         }
 
-        /* --- LAYOUT & SLIDES --- */
+        /* LAYOUT & SLIDES */
         .deck-container {
             margin-top: 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 80px;
-            padding-bottom: 0;
+            padding-bottom: 50px;
         }
 
         .slide {
@@ -186,7 +182,7 @@
             opacity: 0.8;
         }
 
-        /* --- CONTENU --- */
+        /* CONTENT */
         .content {
             padding: 0 60px 40px 60px;
             flex-grow: 1;
@@ -244,7 +240,6 @@
         .tile:hover {
             transform: translateY(-5px);
             border-color: var(--accent-blue);
-            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
             background: rgba(30, 41, 59, 1);
         }
 
@@ -264,6 +259,7 @@
             margin-bottom: 15px;
         }
 
+        /* COLORS */
         .bg-blue {
             background: rgba(59, 130, 246, 0.2);
             color: var(--accent-blue);
@@ -276,51 +272,49 @@
             border: 1px solid var(--accent-green);
         }
 
-        /* --- FOOTER CONTACT --- */
-        .footer-contact {
-            width: 100%;
-            background: linear-gradient(180deg, var(--bg-card), #000);
-            padding: 60px 20px;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            margin-top: 50px;
+        .bg-gold {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
         }
 
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: var(--bg-dark);
-            border: 3px solid var(--accent-blue);
-            margin: 0 auto 20px auto;
+        /* TRADER INTERFACE */
+        .trader-screen {
+            background: #0b1121;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .trader-header {
+            background: #334155;
+            padding: 10px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: var(--accent-blue);
+            gap: 8px;
         }
 
-        .linkedin-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #0a66c2;
-            color: white;
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 30px;
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #64748b;
         }
 
-        .linkedin-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(10, 102, 194, 0.4);
+        .trader-body {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
         }
 
-        /* --- STYLES SPECIFIQUES REMPLACEMENT IMAGE --- */
+        .chart-mock {
+            height: 150px;
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.1), transparent);
+            border-bottom: 2px solid #10b981;
+            margin-top: 10px;
+        }
+
+        /* VISUAL REPLACEMENTS */
         .hero-visual {
             height: 300px;
             display: flex;
@@ -374,386 +368,151 @@
                 opacity: 0;
             }
         }
-
-        /* --- TIMELINE HISTORY --- */
-        .history-timeline {
-            position: relative;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-top: 60px;
-            padding: 0 20px;
-        }
-
-        .history-line {
-            position: absolute;
-            top: 20px;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--border);
-            z-index: 0;
-        }
-
-        .history-point {
-            position: relative;
-            z-index: 1;
-            width: 22%;
-            text-align: center;
-        }
-
-        .history-point::before {
-            content: attr(data-year);
-            display: block;
-            width: 60px;
-            height: 60px;
-            background: var(--bg-card);
-            border: 4px solid var(--border);
-            border-radius: 50%;
-            margin: 0 auto 20px auto;
-            line-height: 52px;
-            font-weight: bold;
-            color: #fff;
-            font-family: 'JetBrains Mono';
-            transition: all 0.3s;
-        }
-
-        .history-point:hover::before {
-            border-color: var(--accent-blue);
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-        }
-
-        .history-content {
-            background: var(--bg-dark);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-size: 14px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* --- ROADMAP --- */
-        .roadmap-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .phase-card {
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            flex: 1;
-            height: 280px;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s;
-        }
-
-        .phase-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--text-muted);
-        }
-
-        .phase-badge {
-            background: var(--bg-card);
-            color: #fff;
-            font-family: 'JetBrains Mono';
-            font-size: 11px;
-            padding: 4px 8px;
-            border-radius: 4px;
-            display: block;
-            width: fit-content;
-            margin-bottom: 5px;
-        }
-
-        .phase-steps {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .phase-steps li {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            line-height: 1.4;
-        }
-
-        .arrow-separator {
-            font-size: 20px;
-            color: var(--border);
-        }
-
-        .banking-focus {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .focus-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .focus-item strong {
-            display: block;
-            color: var(--accent-blue);
-            font-size: 15px;
-            margin-bottom: 5px;
-        }
-
-        .focus-item p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin: 0;
-            line-height: 1.4;
-        }
-
-        /* --- TRADER --- */
-        .trader-screen {
-            background: #0b1121;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .trader-header {
-            background: #334155;
-            padding: 10px;
-            display: flex;
-            gap: 8px;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #64748b;
-        }
-
-        .trader-body {
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-
-        .chart-mock {
-            height: 150px;
-            background: linear-gradient(180deg, rgba(16, 185, 129, 0.1), transparent);
-            border-bottom: 2px solid #10b981;
-            margin-top: 10px;
-        }
     </style>
 </head>
 
 <body>
 
-    <!-- PROGRESS BAR -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-
     <!-- NAVIGATION -->
     <nav class="navbar">
         <div class="nav-left">
-            <!-- Logo Dropdown avec 3 versions -->
-            <div class="nav-logo-dropdown">
-                <div class="nav-logo">
-                    <i class="fas fa-chart-line"></i>
-                    DCM <span style="color:#3b82f6">DIGITAL</span>
-                    <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 8px;"></i>
-                </div>
-                <div class="nav-logo-menu">
-                    <a href="index.html" class="logo-menu-item">
-                        <i class="fas fa-briefcase"></i>
-                        <div>
-                            <strong>Blockchain Pro</strong>
-                            <span>Version Expert - 23 sections</span>
-                        </div>
-                    </a>
-                    <a href="simple.html" class="logo-menu-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <div>
-                            <strong>Blockchain Academy</strong>
-                            <span>Version Découverte - 5 slides</span>
-                        </div>
-                    </a>
-                    <a href="index-simple.html" class="logo-menu-item active">
-                        <i class="fas fa-chart-line"></i>
-                        <div>
-                            <strong>DCM Digital</strong>
-                            <span>Version Pitch - 6 sections</span>
-                        </div>
-                    </a>
-                    <a href="quiz.html" class="logo-menu-item">
-                        <i class="fas fa-award" style="color:#f59e0b;"></i>
-                        <div>
-                            <strong>Quiz Certification</strong>
-                            <span>Testez vos connaissances - 20 questions</span>
-                        </div>
-                    </a>
-                </div>
+            <div class="nav-logo">
+                <i class="fa-solid fa-cube" style="color: var(--accent-blue);"></i>
+                DCM <span style="color:var(--accent-blue)">DIGITAL</span>
             </div>
-
             <div class="nav-links">
-                <a href="#intro" data-i18n="nav_home">Home</a>
-                <a href="#history" data-i18n="nav_history">History</a>
-                <a href="#fondamentaux" data-i18n="nav_fundamentals">Fundamentals</a>
-                <a href="#benchmarks" data-i18n="nav_benchmarks">Benchmarks</a>
-                <a href="#regulation" data-i18n="nav_regulation">Regulation</a>
-                <a href="#comparatif" data-i18n="nav_comparison">Comparison</a>
-                <a href="#roadmap" data-i18n="nav_roadmap">Roadmap</a>
-                <a href="#trader" data-i18n="nav_trader">Trader</a>
-                <a href="#glossaire" data-i18n="nav_glossary">Glossary</a>
-                <a href="#contact" data-i18n="nav_contact">Contact</a>
+                <a href="#intro">Home</a>
+                <a href="#tech">Tech</a>
+                <a href="#benchmarks">Benchmarks</a>
+                <a href="#trader">Trading Desk</a>
             </div>
 
             <!-- LANGUAGE SWITCHER -->
             <div class="lang-switch">
-                <button class="lang-btn active" onclick="setLanguage('fr')" title="Français">🇫🇷</button>
-                <button class="lang-btn" onclick="setLanguage('en')" title="English">🇬🇧</button>
+                <a href="index-simple.html" class="lang-btn">FR</a>
+                <a href="index-simple_en.html" class="lang-btn active">EN</a>
             </div>
         </div>
-        <a href="simple.html" class="mode-switch">
-            <i class="fa-solid fa-graduation-cap"></i> <span data-i18n="nav_discovery">DISCOVERY VERSION</span>
+
+        <a href="simple_en.html" class="mode-switch">
+            <i class="fa-solid fa-graduation-cap"></i> ACADEMY MODE
         </a>
     </nav>
 
     <div class="deck-container">
 
-        <!-- 1. INTRO (HERO GRAPHIQUE CSS) -->
+        <!-- 1. INTRO (ENGLISH) -->
         <div class="slide" id="intro" data-aos="fade-in">
-            <div class="content">
-                <div style="text-align: center;">
-                    <p data-i18n="hero_subtitle"
-                        style="color: var(--accent-green); font-family: 'JetBrains Mono'; margin-bottom: 20px; letter-spacing: 4px; font-size: 14px;">
-                        STRATEGIC BRIEFING 2026</p>
-                    <h1 style="font-size: 72px; line-height: 1.1; margin-bottom: 30px;">
-                        Digital Debt<br>
-                        <span style="color: #fff; text-shadow: 0 0 40px rgba(59, 130, 246, 0.5);">Capital Markets</span>
-                    </h1>
+            <div class="content" style="text-align: center; align-items: center;">
+                <p
+                    style="color: var(--accent-green); font-family: 'JetBrains Mono'; margin-bottom: 20px; letter-spacing: 4px; font-size: 14px;">
+                    STRATEGIC BRIEFING 2026</p>
+                <h1 style="font-size: 72px; line-height: 1.1; margin-bottom: 30px;">
+                    Digital Debt<br>
+                    <span style="color: #fff; text-shadow: 0 0 40px rgba(59, 130, 246, 0.5);">Capital Markets</span>
+                </h1>
 
-                    <!-- VISUEL HERO SANS IMAGE -->
-                    <div class="hero-visual">
-                        <div class="hero-grid-bg"></div>
-                        <div style="text-align: center; z-index: 2;">
-                            <div style="display: flex; gap: 40px; align-items: center; justify-content: center;">
-                                <div class="hero-node" style="border-color: var(--accent-blue);">
-                                    <i class="fa-solid fa-building-columns" style="font-size: 30px; color: #fff;"></i>
-                                </div>
-                                <div style="position: relative; width: 100px; height: 2px; background: var(--border);">
-                                    <div
-                                        style="position: absolute; top: -4px; left: 0; width: 10px; height: 10px; background: var(--accent-green); border-radius: 50%; animation: flow 2s infinite linear;">
-                                    </div>
-                                </div>
-                                <div class="hero-node" style="border-color: var(--accent-green);">
-                                    <i class="fa-solid fa-globe" style="font-size: 30px; color: #fff;"></i>
+                <p style="font-size: 22px; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+                    The executive guide to tomorrow's market infrastructure: Blockchain, Tokenization & T+0 Settlement.
+                </p>
+
+                <!-- HERO VISUAL (NO IMAGE) -->
+                <div class="hero-visual">
+                    <div class="hero-grid-bg"></div>
+                    <div style="text-align: center; z-index: 2;">
+                        <div style="display: flex; gap: 40px; align-items: center; justify-content: center;">
+                            <div class="hero-node" style="border-color: var(--accent-blue);">
+                                <i class="fa-solid fa-building-columns" style="font-size: 30px; color: #fff;"></i>
+                            </div>
+                            <div style="position: relative; width: 100px; height: 2px; background: var(--border);">
+                                <div
+                                    style="position: absolute; top: -4px; left: 0; width: 10px; height: 10px; background: var(--accent-green); border-radius: 50%; animation: flow 2s infinite linear;">
                                 </div>
                             </div>
-                            <p data-i18n="hero_infra"
-                                style="margin-top: 20px; font-family: 'JetBrains Mono', monospace; color: #3b82f6; font-size: 12px;">
-                                SECURE DISTRIBUTED INFRASTRUCTURE</p>
+                            <div class="hero-node" style="border-color: var(--accent-green);">
+                                <i class="fa-solid fa-globe" style="font-size: 30px; color: #fff;"></i>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px;">
-                        <a href="#fondamentaux" data-i18n="btn_start"
-                            style="background: var(--accent-blue); color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); transition: transform 0.2s;">GET STARTED</a>
-                        <a href="#trader" data-i18n="btn_demo"
-                            style="background: transparent; border: 2px solid var(--border); color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold;">VOIR
-                            LA DÉMO</a>
+                <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px;">
+                    <div class="box"
+                        style="width: 250px; text-align: center; border-bottom: 4px solid var(--accent-blue);">
+                        <i class="fa-solid fa-layer-group icon-big" style="color: var(--accent-blue);"></i>
+                        <strong>Origination</strong>
+                    </div>
+                    <div class="box"
+                        style="width: 250px; text-align: center; border-bottom: 4px solid var(--accent-green);">
+                        <i class="fa-solid fa-bolt icon-big" style="color: var(--accent-green);"></i>
+                        <strong>T+0 Settlement</strong>
+                    </div>
+                    <div class="box"
+                        style="width: 250px; text-align: center; border-bottom: 4px solid var(--accent-gold);">
+                        <i class="fa-solid fa-chart-line icon-big" style="color: var(--accent-gold);"></i>
+                        <strong>Secondary</strong>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 2. TIMELINE HISTORIQUE -->
-        <div class="slide" id="history" data-aos="fade-up">
-            <h2 data-i18n="history_title">The Path to Industrialization</h2>
+        <!-- 2. TECH 101 (ENGLISH) -->
+        <div class="slide" id="tech" data-aos="fade-up">
+            <h2>Tech 101: Anatomy of a Token</h2>
             <div class="content">
-                <div class="history-timeline">
-                    <div class="history-line"></div>
-                    <!-- 2019 -->
-                    <div class="history-point" data-year="2019">
-                        <div class="history-content">
-                            <strong style="color: var(--accent-blue);">La 1ère Mondiale</strong>
-                            <p style="color: var(--text-muted); margin: 0;">SG émet 100M€ d'OFH sur Ethereum Public.</p>
-                        </div>
+                <div style="display: flex; gap: 50px; align-items: center; justify-content: center;">
+                    <div style="text-align: center;">
+                        <i class="fa-solid fa-box-open icon-big"
+                            style="font-size: 100px; color: var(--accent-gold);"></i>
+                        <h3>The Container</h3>
+                        <p style="color: var(--text-muted);">Secure digital envelope (ERC-20)</p>
                     </div>
-                    <!-- 2021 -->
-                    <div class="history-point" data-year="2021">
-                        <div class="history-content">
-                            <strong style="color: var(--accent-green);">eWpG Law</strong>
-                            <p style="color: var(--text-muted); margin: 0;">L'Allemagne légalise le titre purement
-                                digital.</p>
-                        </div>
+                    <i class="fa-solid fa-plus" style="font-size: 40px; color: #64748b;"></i>
+                    <div style="text-align: center;">
+                        <i class="fa-solid fa-file-contract icon-big"
+                            style="font-size: 100px; color: var(--accent-green);"></i>
+                        <h3>The Asset</h3>
+                        <p style="color: var(--text-muted);">Debt (Bond) or Cash</p>
                     </div>
-                    <!-- 2024 -->
-                    <div class="history-point" data-year="2024">
-                        <div class="history-content">
-                            <strong style="color: var(--accent-gold);">Corporate Adoption</strong>
-                            <p style="color: var(--text-muted); margin: 0;">Siemens émet 300M€ avec Trigger.</p>
-                        </div>
-                    </div>
-                    <!-- 2026 -->
-                    <div class="history-point" data-year="2026">
-                        <div class="history-content">
-                            <strong style="color: var(--accent-purple);">Liquidité</strong>
-                            <p style="color: var(--text-muted); margin: 0;">ECB Standardization & Market Making.</p>
-                        </div>
-                    </div>
+                </div>
+
+                <div class="box" style="margin-top: 50px; text-align: center; border-color: var(--accent-purple);">
+                    <h3 style="color: var(--accent-purple); margin-bottom: 10px;">The Engine: Smart Contract</h3>
+                    <p>The code that manages the container. <br><em>"If Date = Jan 15th, Then Pay Coupon."</em></p>
                 </div>
             </div>
         </div>
 
-        <!-- 3. MODULE 0 (BASES) -->
-        <div class="slide" id="fondamentaux" data-aos="fade-up">
-            <h2 data-i18n="fund_title">Module 0: Banking Demystification</h2>
+        <!-- 3. CASH MODELS (ENGLISH) -->
+        <div class="slide" id="cash" data-aos="fade-up">
+            <h2>How to Settle? The 3 Cash Models</h2>
             <div class="content">
-                <div class="grid-2">
-                    <div class="box">
-                        <span class="badge bg-blue">INFRASTRUCTURE</span>
-                        <h3 data-i18n="fund_ledger_title">The Ledger</h3>
-                        <div style="display: flex; gap: 20px; align-items: center; margin: 20px 0;">
-                            <i class="fa-solid fa-database" style="font-size: 40px; color: var(--accent-blue);"></i>
-                            <p style="font-size: 16px; margin: 0;">Analogie : <strong>Un Fichier Excel Partagé</strong>
-                            </p>
-                        </div>
-                        <p style="font-size: 15px; color: var(--text-muted);">
-                            Au lieu de réconcilier deux fichiers internes (T+2), toutes les banques lisent le même
-                            registre en temps réel (T+0).
-                        </p>
+                <div class="grid-3">
+                    <div class="box" style="text-align: center;">
+                        <span class="badge bg-blue">Stablecoin</span>
+                        <i class="fa-solid fa-coins icon-big" style="color: var(--accent-blue);"></i>
+                        <p>Euro wrapped in a Token (EURCV).</p>
+                        <p style="font-size: 12px; color: var(--accent-gold);">⚠️ Counterparty Risk</p>
                     </div>
-                    <div class="box">
-                        <span class="badge bg-green">ACCESS</span>
-                        <h3 data-i18n="fund_wallet_title">The Wallet</h3>
-                        <div style="display: flex; gap: 20px; align-items: center; margin: 20px 0;">
-                            <i class="fa-solid fa-key" style="font-size: 40px; color: var(--accent-green);"></i>
-                            <p style="font-size: 16px; margin: 0;">Analogie : <strong>IBAN + Signature</strong></p>
-                        </div>
-                        <p style="font-size: 15px; color: var(--text-muted);">
-                            L'Adresse Publique est votre IBAN pour recevoir. La Clé Privée est votre signature
-                            électronique pour valider.
-                        </p>
+                    <div class="box" style="text-align: center; border-color: var(--accent-green);">
+                        <span class="badge bg-green">Trigger (ECB)</span>
+                        <i class="fa-solid fa-bolt icon-big" style="color: var(--accent-green);"></i>
+                        <p>Blockchain triggers real Target2 wire.</p>
+                        <p style="font-size: 12px; color: var(--accent-green); font-weight: bold;">✅ Zero Risk</p>
+                    </div>
+                    <div class="box" style="text-align: center;">
+                        <span class="badge bg-gold">Interbank</span>
+                        <i class="fa-solid fa-handshake icon-big" style="color: var(--accent-gold);"></i>
+                        <p>Closed-loop settlement between partners.</p>
+                        <p style="font-size: 12px; color: var(--text-muted);">🔒 High Privacy</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 4. BENCHMARKS -->
+        <!-- 4. BENCHMARKS (ENGLISH) -->
         <div class="slide" id="benchmarks" data-aos="fade-up">
-            <h2 data-i18n="bench_title">Industrial Benchmarks</h2>
+            <h2>Industrial Benchmarks</h2>
             <div class="content">
                 <div class="grid-2">
                     <!-- NATIXIS -->
@@ -763,9 +522,9 @@
                             style="background: rgba(168, 85, 247, 0.2); color: var(--accent-purple); border: 1px solid var(--accent-purple);">PRIVATE
                             PLACEMENT</span>
                         <ul style="margin-top: 20px; font-size: 16px; color: var(--text-muted); list-style: none;">
-                            <li style="margin-bottom: 10px;"><strong>Amount :</strong> 100 M€</li>
-                            <li style="margin-bottom: 10px;"><strong>Platform :</strong> SWIAT (Privée)</li>
-                            <li><strong>Strategy :</strong> Sécurité juridique (Nominatif)</li>
+                            <li style="margin-bottom: 10px;"><strong>Amount:</strong> €100m</li>
+                            <li style="margin-bottom: 10px;"><strong>Platform:</strong> SWIAT (Private)</li>
+                            <li><strong>Strategy:</strong> Legal certainty (Registered)</li>
                         </ul>
                     </div>
                     <!-- SIEMENS -->
@@ -773,324 +532,18 @@
                         <h3 style="color: var(--accent-green); margin-bottom: 10px;">Siemens</h3>
                         <span class="badge bg-green">CORPORATE</span>
                         <ul style="margin-top: 20px; font-size: 16px; color: var(--text-muted); list-style: none;">
-                            <li style="margin-bottom: 10px;"><strong>Amount :</strong> 300 M€ (Benchmark)</li>
-                            <li style="margin-bottom: 10px;"><strong>Innovation :</strong> Bundesbank Trigger</li>
-                            <li><strong>Vitesse :</strong> T+Minutes (vs T+2)</li>
+                            <li style="margin-bottom: 10px;"><strong>Amount:</strong> €300m (Benchmark)</li>
+                            <li style="margin-bottom: 10px;"><strong>Innovation:</strong> Bundesbank Trigger</li>
+                            <li><strong>Speed:</strong> T+Minutes (vs T+2)</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 5. REGULATION MAP -->
-        <div class="slide" id="regulation" data-aos="fade-up">
-            <h2 data-i18n="reg_title">Global Regulatory Landscape</h2>
-            <div class="content">
-                <div class="grid-2">
-                    <div class="box" style="border-top: 4px solid var(--accent-green);">
-                        <h3 style="color: var(--accent-green);">Germany (Leader)</h3>
-                        <p><strong>eWpG Law :</strong> Cadre complet pour titres au porteur digitaux. C'est le standard
-                            de marché actuel.</p>
-                    </div>
-                    <div class="box" style="border-top: 4px solid var(--accent-blue);">
-                        <h3 style="color: var(--accent-blue);">France (Pioneer)</h3>
-                        <p><strong>Régime Pilote UE :</strong> Cadre flexible pour les infrastructures DLT. Forte
-                            innovation (SG-Forge, Banque de France).</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 6. ROADMAP -->
-        <div class="slide" id="roadmap" data-aos="fade-up">
-            <h2 data-i18n="road_title">Action Plan: Pilot Launch</h2>
-            <div class="content">
-                <p style="color: #cbd5e1; margin-bottom: 30px;" data-i18n="road_subtitle">Roadmap for inaugural issuance (6 months)
-                </p>
-
-                <div class="roadmap-container">
-                    <!-- PHASE 1 -->
-                    <div class="phase-card">
-                        <div class="phase-header">
-                            <span class="phase-badge">Mois 1-2</span>
-                            <strong style="color: var(--accent-blue);">CADRAGE & INFRA</strong>
-                        </div>
-                        <ul class="phase-steps">
-                            <li><i class="fa-solid fa-server"></i> <strong>Choix Platform :</strong> SWIAT, Canton, ou
-                                Corda?</li>
-                            <li><i class="fa-solid fa-key"></i> <strong>Custody :</strong> Setup Wallet (Taurus,
-                                Fireblocks).</li>
-                            <li><i class="fa-solid fa-scale-balanced"></i> <strong>Juridique :</strong> eWpG ou
-                                Nominatif ?</li>
-                        </ul>
-                    </div>
-                    <div class="arrow-separator"><i class="fa-solid fa-chevron-right"></i></div>
-                    <!-- PHASE 2 -->
-                    <div class="phase-card">
-                        <div class="phase-header">
-                            <span class="phase-badge">Mois 3-4</span>
-                            <strong style="color: var(--accent-green);">STRUCTURATION</strong>
-                        </div>
-                        <ul class="phase-steps">
-                            <li><i class="fa-solid fa-code"></i> <strong>Smart Contract :</strong> Codage du coupon.
-                            </li>
-                            <li><i class="fa-solid fa-money-bill-transfer"></i> <strong>ALM :</strong> Connexion
-                                Trigger/Target2.</li>
-                            <li><i class="fa-solid fa-file-contract"></i> <strong>Prospectus :</strong> Clauses DLT.
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="arrow-separator"><i class="fa-solid fa-chevron-right"></i></div>
-                    <!-- PHASE 3 -->
-                    <div class="phase-card">
-                        <div class="phase-header">
-                            <span class="phase-badge">Mois 5-6</span>
-                            <strong style="color: var(--accent-gold);">EXÉCUTION</strong>
-                        </div>
-                        <ul class="phase-steps">
-                            <li><i class="fa-solid fa-handshake"></i> <strong>Club Deal :</strong> Pre-sounding.</li>
-                            <li><i class="fa-solid fa-rocket"></i> <strong>D-Day :</strong> Minting & Settlement T+0.
-                            </li>
-                            <li><i class="fa-solid fa-list-check"></i> <strong>Post-Trade :</strong> Reporting.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- FOCUS BANCAIRE -->
-                <div class="banking-focus" style="margin-top: 40px;">
-                    <h3><i class="fa-solid fa-building-columns"></i> SPÉCIFICITÉS BANCAIRES</h3>
-                    <div class="focus-grid">
-                        <div class="focus-item">
-                            <strong>Confidentialité</strong>
-                            <p>Privilégier les réseaux permissionnés (Canton, Corda) pour protéger le carnet d'ordres.
-                            </p>
-                        </div>
-                        <div class="focus-item">
-                            <strong>Règlement (Cash)</strong>
-                            <p>Impératif d'utiliser la Monnaie Banque Centrale (Trigger) pour le risque zéro.</p>
-                        </div>
-                        <div class="focus-item">
-                            <strong>Interopérabilité</strong>
-                            <p>Anticiper la connexion future avec Euroclear (D-FMI) pour la liquidité.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- MODULE : COMPARATIF FLUX (PAPIER VS DIGITAL) -->
-        <!-- ========================================= -->
-
-        <div class="slide" id="comparatif" data-aos="fade-up">
-            <h2 data-i18n="comp_title">The Infrastructure Clash</h2>
-            <div class="content">
-                <p style="color: #cbd5e1; margin-bottom: 30px;" data-i18n="comp_subtitle">Lifecycle comparison</p>
-
-                <!-- NAVIGATION INTERNE ONGLETS -->
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="openTab(event, 'primaire')">Marché Primaire
-                        (Émission)</button>
-                    <button class="tab-btn" onclick="openTab(event, 'secondaire')">Secondary Market (Trading)</button>
-                    <button class="tab-btn" onclick="openTab(event, 'settlement')">Settlement Flow</button>
-                </div>
-
-                <!-- ONGLET 1 : PRIMAIRE (CREDIT FONCIER VS NATIXIS) -->
-                <div id="primaire" class="tab-content" style="display: block;">
-                    <div class="grid-2">
-                        <!-- CLASSIQUE -->
-                        <div class="box" style="border-top: 4px solid #64748b;">
-                            <h3 style="color: #64748b;"><i class="fa-solid fa-file-contract"></i> Modèle Classique</h3>
-                            <div class="badge" style="background: #475569;">Crédit Foncier de France</div>
-
-                            <div class="flow-step">
-                                <span class="step-time">J-5</span> <strong>Syndication</strong>
-                                <p style="margin: 0; color: var(--text-muted);">Bookbuilding traditionnel.</p>
-                            </div>
-                            <div class="flow-line"></div>
-                            <div class="flow-step">
-                                <span class="step-time">J-0</span> <strong>Global Note (Papier)</strong>
-                                <p style="margin: 0; color: var(--text-muted);">Signature manuelle d'un certificat
-                                    physique unique stocké au coffre (CSD).</p>
-                            </div>
-                            <div class="flow-line"></div>
-                            <div class="flow-step">
-                                <span class="step-time">J+5</span> <strong>Règlement</strong>
-                                <p style="margin: 0; color: var(--text-muted);">Cascade de virements via Custodians.</p>
-                            </div>
-                        </div>
-
-                        <!-- DIGITAL -->
-                        <div class="box" style="border-top: 4px solid #10b981; background: rgba(16, 185, 129, 0.05);">
-                            <h3 style="color: #10b981;"><i class="fa-solid fa-bolt"></i> Modèle Digital</h3>
-                            <div class="badge" style="background: #10b981; color: #000;">Natixis Pfandbriefbank</div>
-
-                            <div class="flow-step">
-                                <span class="step-time digital">H-2</span> <strong>Pricing</strong>
-                                <p style="margin: 0; color: var(--text-muted);">Négociation identique.</p>
-                            </div>
-                            <div class="flow-line digital"></div>
-                            <div class="flow-step">
-                                <span class="step-time digital">H-0</span> <strong>Smart Contract</strong>
-                                <p style="margin: 0; color: var(--text-muted);">Déploiement du code. Le "Token" remplace
-                                    le papier.</p>
-                            </div>
-                            <div class="flow-line digital"></div>
-                            <div class="flow-step">
-                                <span class="step-time digital">H+10m</span> <strong>Distribution T+0</strong>
-                                <p style="margin: 0; color: var(--text-muted);">Livraison P2P instantanée contre cash.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ONGLET 2 : SECONDAIRE -->
-                <div id="secondaire" class="tab-content">
-                    <div class="grid-2">
-                        <div class="box">
-                            <h3 style="color: #64748b;">La "Chaîne" (SWIFT)</h3>
-                            <p>Vendeur ➔ Custodian A (MT540) ➔ CSD ➔ Custodian B (MT541) ➔ Acheteur</p>
-                            <div
-                                style="margin-top: 20px; padding: 15px; background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; color: #ef4444;">
-                                <strong>Risque :</strong> Si un message est perdu, le trade échoue ("Fail"). Délai T+2.
-                            </div>
-                        </div>
-                        <div class="box" style="background: rgba(16, 185, 129, 0.05);">
-                            <h3 style="color: #10b981;">L'Atomic Swap</h3>
-                            <p>Vendeur ↔ Smart Contract ↔ Acheteur</p>
-                            <div
-                                style="margin-top: 20px; padding: 15px; background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; color: #10b981;">
-                                <strong>Révolution :</strong> Échange simultané. Impossible de livrer sans être payé.
-                                T+0.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ONGLET 3 : SETTLEMENT -->
-                <div id="settlement" class="tab-content">
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                        <thead>
-                            <tr style="background: #1e293b;">
-                                <th style="text-align: left; padding: 15px; color: #94a3b8;">Critère</th>
-                                <th style="text-align: left; padding: 15px; color: #fff;">Conventionnel</th>
-                                <th style="text-align: left; padding: 15px; color: #10b981;">Digital Bond</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-bottom: 1px solid #334155;">
-                                <td style="padding: 15px; font-weight: bold;">Support Juridique</td>
-                                <td style="padding: 15px;">Global Note (Papier)</td>
-                                <td style="padding: 15px; color: #10b981;">Code (Smart Contract)</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #334155;">
-                                <td style="padding: 15px; font-weight: bold;">Réconciliation</td>
-                                <td style="padding: 15px;">Manuelle (3 niveaux)</td>
-                                <td style="padding: 15px; color: #10b981;">Aucune (Registre Unique)</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #334155;">
-                                <td style="padding: 15px; font-weight: bold;">Délai Règlement</td>
-                                <td style="padding: 15px;">T+2 à T+5</td>
-                                <td style="padding: 15px; color: #10b981;">T+0 (Instantané)</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 15px; font-weight: bold;">Risque</td>
-                                <td style="padding: 15px;">Contrepartie</td>
-                                <td style="padding: 15px; color: #10b981;">Technologique</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-        </div>
-
-        <style>
-            /* CSS ONGLETS */
-            .tabs {
-                display: flex;
-                gap: 10px;
-                margin-bottom: 30px;
-                border-bottom: 1px solid #334155;
-            }
-
-            .tab-btn {
-                background: transparent;
-                border: none;
-                color: #94a3b8;
-                padding: 10px 20px;
-                cursor: pointer;
-                font-family: 'Urbanist';
-                font-weight: bold;
-                font-size: 16px;
-                transition: all 0.3s;
-                border-bottom: 3px solid transparent;
-            }
-
-            .tab-btn:hover {
-                color: #fff;
-            }
-
-            .tab-btn.active {
-                color: #3b82f6;
-                border-bottom-color: #3b82f6;
-            }
-
-            .tab-content {
-                display: none;
-                animation: fadeIn 0.5s;
-            }
-
-            @keyframes fadeIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(10px);
-                }
-
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            /* CSS FLUX */
-            .flow-step {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                margin: 10px 0;
-            }
-
-            .step-time {
-                background: #475569;
-                color: #fff;
-                padding: 2px 8px;
-                border-radius: 4px;
-                font-size: 12px;
-                font-family: 'JetBrains Mono';
-            }
-
-            .step-time.digital {
-                background: #10b981;
-                color: #000;
-            }
-
-            .flow-line {
-                height: 20px;
-                border-left: 2px dashed #475569;
-                margin-left: 20px;
-            }
-
-            .flow-line.digital {
-                border-color: #10b981;
-            }
-        </style>
-
-        <!-- 7. BUREAU DU TRADER -->
+        <!-- 5. TRADER DESK (ENGLISH) -->
         <div class="slide" id="trader" data-aos="fade-up">
-            <h2 data-i18n="trader_title">Trader Desk 2026</h2>
+            <h2>The 2026 Trader Desk</h2>
             <div class="content">
                 <div class="trader-screen">
                     <div class="trader-header">
@@ -1101,7 +554,7 @@
                             style="font-size: 12px; color: #94a3b8; margin-left: 10px; font-family: monospace;">platform.360x.com/trading/SIE-2025</span>
                     </div>
                     <div class="trader-body">
-                        <!-- GAUCHE -->
+                        <!-- LEFT -->
                         <div>
                             <div style="display:flex; justify-content:space-between;">
                                 <strong style="font-size: 24px;">SIEMENS AG (DIG)</strong>
@@ -1110,13 +563,12 @@
                             <div class="chart-mock"></div>
                             <div style="margin-top: 20px; display: flex; gap: 10px;">
                                 <div class="box" style="padding: 10px; flex: 1; text-align:center;">Yield:
-                                    <strong>3.15%</strong>
-                                </div>
+                                    <strong>3.15%</strong></div>
                                 <div class="box" style="padding: 10px; flex: 1; text-align:center;">Settlement: <strong
                                         style="color:var(--accent-green)">T+0</strong></div>
                             </div>
                         </div>
-                        <!-- DROITE -->
+                        <!-- RIGHT -->
                         <div style="border-left: 1px solid #334155; padding-left: 20px;">
                             <h4 style="color: var(--accent-blue); margin-bottom: 15px;">ORDER ENTRY</h4>
                             <div style="margin-bottom: 10px;">
@@ -1127,576 +579,43 @@
                                 <label style="font-size: 12px; color: #94a3b8;">Quantity</label><br>
                                 <span style="font-family: monospace; font-size: 18px;">5,000,000 €</span>
                             </div>
-                            <button onclick="showTradeTicket()"
+                            <button
                                 style="width: 100%; padding: 12px; background: var(--accent-green); border: none; font-weight: bold; border-radius: 6px; cursor: pointer; color:#020617;">
                                 EXECUTE ATOMIC SWAP
                             </button>
-
-                            <!-- TRADE TICKET MODAL -->
-                            <div id="success-message" class="success-message"
-                                style="display:none; text-align: left; background: #fff; color: #000; padding: 20px; border-radius: 4px; font-family: 'Courier New', monospace; border-top: 5px solid #10b981; box-shadow: 0 10px 40px rgba(0,0,0,0.5); margin-top: 20px;">
-                                <div
-                                    style="border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px; font-weight: bold; display:flex; justify-content:space-between;">
-                                    <span>TRADE CONFIRMATION</span>
-                                    <span>SWIAT-NET</span>
-                                </div>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
-                                    <div><strong>SIDE:</strong> BUY</div>
-                                    <div><strong>STATUS:</strong> SETTLED (T+0)</div>
-                                    <div><strong>ISIN:</strong> DE000SIE2026</div>
-                                    <div><strong>QTY:</strong> 5,000,000</div>
-                                    <div><strong>PRICE:</strong> 99.85 %</div>
-                                    <div><strong>NET AMT:</strong> 4,992,500.00 EUR</div>
-                                </div>
-                                <div style="margin-top: 15px; font-size: 11px;">
-                                    <strong>SETTLEMENT CHAIN:</strong><br>
-                                    10:00:01 > LOCK TOKEN (0x7A...F9)<br>
-                                    10:00:02 > TRIGGER CASH (BUBA)<br>
-                                    10:00:02 > DELIVERY CONFIRMED
-                                </div>
-                                <div style="margin-top: 15px; text-align: center;">
-                                    <button onclick="closeModal()"
-                                        style="background: #000; color: #fff; border: none; padding: 8px 20px; cursor: pointer; font-weight: bold;">CLOSE
-                                        TICKET</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <p style="text-align: center; margin-top: 30px; font-size: 16px; color: #94a3b8;">
-                    <i class="fa-solid fa-eye"></i> L'interface cache la complexité Blockchain. Un clic déclenche le
-                    Smart Contract.
+                    One click triggers the Smart Contract.
                 </p>
             </div>
         </div>
 
-    </div>
-
-    <!-- ========================================= -->
-    <!-- MODULE : GLOSSAIRE AVEC RECHERCHE -->
-    <!-- ========================================= -->
-
-    <div class="slide" id="glossaire" data-aos="fade-up">
-        <h2 data-i18n="gloss_title">Glossary Technique</h2>
-        <div class="content">
-            <p style="color: #cbd5e1; margin-bottom: 30px;" data-i18n="gloss_subtitle">Digital market language</p>
-
-            <!-- BARRE DE RECHERCHE -->
-            <div style="margin-bottom: 40px; position: relative;">
-                <i class="fa-solid fa-search" style="position: absolute; left: 20px; top: 15px; color: #94a3b8;"></i>
-                <input type="text" id="searchGlossary" onkeyup="filterGlossary()"
-                    data-i18n-placeholder="gloss_search" placeholder="Search a term (e.g., Atomic Swap, Trigger...)"
-                    style="width: 100%; padding: 15px 15px 15px 50px; background: #0b1121; border: 1px solid #334155; border-radius: 50px; color: #fff; font-size: 16px; outline: none;">
-            </div>
-
-            <div class="glossary-grid" id="glossaryGrid">
-
-                <div class="term-card">
-                    <div class="term-title">Atomic Swap</div>
-                    <div class="term-def" data-i18n="gloss_atomic_def">Mécanisme d\'échange simultané Titre contre Cash (DvP). Élimine le risque de contrepartie.</div>
+        <!-- 6. OUTLOOK 2026 (ENGLISH) -->
+        <div class="slide" id="outlook" data-aos="fade-up">
+            <h2>Outlook 2026: Strategic Pivot</h2>
+            <div class="content">
+                <div class="grid-2">
+                    <div class="box" style="border-color: var(--accent-blue);">
+                        <h3 style="color: var(--accent-blue); margin-bottom: 10px;">1. ECB & "Pontes"</h3>
+                        <p>ECB standardizes the "Trigger" solution.</p>
+                        <p class="highlight" style="color: var(--accent-blue);">Impact: Trigger becomes the EU norm.</p>
+                    </div>
+                    <div class="box" style="border-color: var(--accent-green);">
+                        <h3 style="color: var(--accent-green); margin-bottom: 10px;">2. KfW Market Maker</h3>
+                        <p>KfW starts buying digital securities on secondary market.</p>
+                        <p class="highlight">Impact: Digital Bond becomes a liquid asset (HQLA).</p>
+                    </div>
                 </div>
-
-                <div class="term-card">
-                    <div class="term-title">Trigger Solution</div>
-                    <div class="term-def">Passerelle de la Bundesbank connectant la Blockchain au système Target2 pour
-                        le règlement en monnaie centrale.</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">Smart Contract</div>
-                    <div class="term-def">Programme informatique qui automatise le cycle de vie du titre (Coupons,
-                        Remboursement).</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">eWpG</div>
-                    <div class="term-def">Loi allemande (2021) supprimant le certificat global papier au profit d'un
-                        registre crypto.</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">Wholesale MNBC</div>
-                    <div class="term-def">Monnaie Numérique de Banque Centrale (Euro Numérique) pour les règlements
-                        interbancaires.</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">Gas Fee</div>
-                    <div class="term-def">Frais de transaction payés au réseau blockchain pour exécuter un Smart
-                        Contract.</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">Private Key</div>
-                    <div class="term-def">Signature cryptographique secrète permettant de valider une transaction depuis
-                        un Wallet.</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">HQLA</div>
-                    <div class="term-def">High Quality Liquid Assets. Actifs éligibles aux ratios de liquidité (LCR),
-                        statut visé par les Digital Bonds.</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">DLT</div>
-                    <div class="term-def">Distributed Ledger Technology. Technologie de registre distribué, terme
-                        générique incluant la Blockchain.</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">Minting</div>
-                    <div class="term-def">Action de créer (émettre) un nouveau token sur la blockchain via un Smart
-                        Contract.</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">Wallet</div>
-                    <div class="term-def">Portefeuille numérique contenant les clés cryptographiques pour gérer les
-                        actifs digitaux.</div>
-                </div>
-
-                <div class="term-card">
-                    <div class="term-title">T+0</div>
-                    <div class="term-def">Règlement instantané le jour même de la transaction (vs T+2 pour le modèle
-                        classique).</div>
-                </div>
-
             </div>
         </div>
+
     </div>
-
-    <style>
-        .glossary-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .term-card {
-            background: #0f172a;
-            border: 1px solid #334155;
-            padding: 25px;
-            border-radius: 12px;
-            transition: all 0.2s;
-        }
-
-        .term-card:hover {
-            border-color: #3b82f6;
-            transform: translateY(-3px);
-        }
-
-        .term-title {
-            color: #3b82f6;
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 10px;
-            font-family: 'JetBrains Mono';
-        }
-
-        .term-def {
-            color: #cbd5e1;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        @media (max-width: 768px) {
-            .glossary-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-
-    <!-- FOOTER CONTACT DYNAMIQUE -->
-    <div id="contact" class="footer-contact">
-        <div class="content" style="align-items: center;">
-            <div class="profile-pic">
-                <i class="fa-solid fa-user-tie"></i>
-            </div>
-            <h2 style="border: none; margin: 0;">Joan Lyczak</h2>
-            <p style="font-size: 18px; color: var(--text-muted);">Expert Digital Assets & Blockchain</p>
-
-            <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank" class="linkedin-btn">
-                <i class="fa-brands fa-linkedin"></i> <span data-i18n="contact_btn">CONNECT ON LINKEDIN</span>
-            </a>
-
-            <p style="margin-top: 40px; font-size: 12px; color: #64748b;">
-                © 2026 Presentation DCM Digital. Tous droits réservés.
-            </p>
-        </div>
-    </div>
-
-    <!-- DISCLAIMER LÉGAL CORPORATE -->
-    <div class="legal-footer">
-        <p>
-            <strong>INTERNAL WARNING:</strong> Ce document est une présentation stratégique à usage exclusivement
-            pédagogique et interne.
-            Les produits financiers (Digital Bonds) et les scénarios de marché présentés sont des simulations.
-            Ne constitue pas une offre de service ou un conseil en investissement.
-            <br>
-            <span style="opacity: 0.6; font-size: 10px;">Classification : CONFIDENTIAL / INTERNAL USE ONLY • © 2026 DCM
-                Digital</span>
-        </p>
-    </div>
-
-    <style>
-        .legal-footer {
-            background-color: #020617;
-            color: #64748b;
-            padding: 20px;
-            text-align: center;
-            font-size: 11px;
-            border-top: 1px solid #1e293b;
-            margin-top: 50px;
-        }
-    </style>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
-
-        // Progress Bar
-        window.onscroll = function () {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            document.getElementById("progressBar").style.width = scrolled + "%";
-        };
-
-        // Function for tabs
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        // Function for glossary search
-        function filterGlossary() {
-            var input, filter, grid, cards, title, i, txtValue;
-            input = document.getElementById("searchGlossary");
-            filter = input.value.toUpperCase();
-            grid = document.getElementById("glossaryGrid");
-            cards = grid.getElementsByClassName("term-card");
-
-            for (i = 0; i < cards.length; i++) {
-                title = cards[i].getElementsByClassName("term-title")[0];
-                txtValue = title.textContent || title.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
-        }
-
-        // Functions for trade ticket
-        function showTradeTicket() {
-            document.getElementById("success-message").style.display = "block";
-        }
-
-        function closeModal() {
-            document.getElementById("success-message").style.display = "none";
-        }
-
-        // ===== BILINGUAL TRANSLATION SYSTEM =====
-        const translations = {
-            fr: {
-                // Navigation
-                nav_home: "Home",
-                nav_history: "History",
-                nav_fundamentals: "Fundamentals",
-                nav_benchmarks: "Benchmarks",
-                nav_regulation: "Regulation",
-                nav_comparison: "Comparison",
-                nav_roadmap: "Roadmap",
-                nav_trader: "Trader",
-                nav_glossary: "Glossary",
-                nav_contact: "Contact",
-                nav_discovery: "DISCOVERY VERSION",
-
-                // Hero Section
-                hero_subtitle: "STRATEGIC BRIEFING 2026",
-                hero_infra: "SECURE DISTRIBUTED INFRASTRUCTURE",
-                btn_start: "GET STARTED",
-                btn_demo: "VIEW DEMO",
-
-                // History Section
-                history_title: "Le Chemin vers l'Industrialisation",
-                history_2019_title: "World First",
-                history_2019_desc: "SG issues €100m Covered Bond on Public Ethereum.",
-                history_2021_title: "eWpG Law",
-                history_2021_desc: "Germany legalizes purely digital securities.",
-                history_2024_title: "Corporate Adoption",
-                history_2024_desc: "Siemens issues €300m with Trigger settlement.",
-                history_2026_title: "Liquidity Era",
-                history_2026_desc: "ECB Standardization & Market Making.",
-
-                // Fundamentals Section
-                fund_title: "Module 0: Banking Demystification",
-                fund_ledger_badge: "INFRASTRUCTURE",
-                fund_ledger_title: "The Ledger",
-                fund_ledger_analogy: "Analogy: A Shared Excel File",
-                fund_ledger_desc: "Instead of reconciling two internal files (T+2), all banks read the same registry in real-time (T+0).",
-                fund_wallet_badge: "ACCESS",
-                fund_wallet_title: "The Wallet",
-                fund_wallet_analogy: "Analogy: IBAN + Signature",
-                fund_wallet_desc: "Public Address is your IBAN to receive. Private Key is your digital signature to validate.",
-
-                // Benchmarks Section
-                bench_title: "Industrial Benchmarks",
-                bench_natixis_type: "PRIVATE PLACEMENT",
-                bench_natixis_amount: "Amount",
-                bench_natixis_platform: "Platform",
-                bench_natixis_strategy: "Strategy",
-                bench_natixis_strategy_val: "Legal certainty (Registered Bond)",
-                bench_siemens_type: "CORPORATE",
-                bench_siemens_amount: "Amount",
-                bench_siemens_innovation: "Innovation",
-                bench_siemens_innovation_val: "Bundesbank Trigger",
-                bench_siemens_speed: "Speed",
-                bench_siemens_speed_val: "T+Minutes (vs T+2)",
-
-                // Regulation Section
-                reg_title: "Panorama Réglementaire Mondial",
-                reg_germany_title: "Germany (Leader)",
-                reg_germany_desc: "eWpG Law : Cadre complet pour les obligations au porteur numériques. Standard actuel du marché.",
-                reg_france_title: "France (Pioneer)",
-                reg_france_desc: "EU Pilot Regime: Flexible framework for DLT infrastructures. Strong innovation focus (SG-Forge, BdF).",
-
-                // Comparison Section
-                comp_title: "The Infrastructure Clash",
-                comp_subtitle: "Lifecycle comparison",
-                comp_tab1: "Primary Market (Issuance)",
-                comp_tab2: "Secondary Market (Trading)",
-                comp_tab3: "Settlement Flow",
-
-                // Roadmap Section
-                road_title: "Plan d'Action : Lancement Pilote",
-                road_subtitle: "Feuille de route pour émission inaugurale (6 mois)",
-
-                // Trader Section
-                trader_title: "Trader Desk 2026",
-                trader_side: "Side",
-                trader_qty: "Quantity",
-                trader_order: "ORDER ENTRY",
-                trader_btn: "EXECUTE ATOMIC SWAP",
-                trader_note: "Interface abstracts Blockchain complexity. One click triggers the Smart Contract.",
-
-                // Glossary Section
-                gloss_title: "Glossary Technique",
-                gloss_subtitle: "Digital market language",
-                gloss_search: "Search a term (e.g., Atomic Swap, Trigger...)",
-
-                // Contact Section
-                contact_title: "Expert Digital Assets & Blockchain",
-                contact_btn: "CONNECT ON LINKEDIN",
-                contact_copyright: "© 2026 Présentation DCM Digital. Tous droits réservés.",
-
-                // Roadmap Phases
-                road_phase1: "Legal Framework",
-                road_phase1_desc: "Law selection (eWpG Germany)",
-                road_phase2: "Sélection Platform",
-                road_phase2_desc: "SWIAT vs Polygon vs Canton",
-                road_phase3: "Structuring",
-                road_phase3_desc: "Amount, Maturité, Coupon",
-                road_phase4: "Tech Setup",
-                road_phase4_desc: "Wallet, Smart Contract, KYC",
-                road_phase5: "Placement",
-                road_phase5_desc: "Investor Roadshow",
-                road_phase6: "T+0 Issuance",
-                road_phase6_desc: "Minting + Instant Settlement",
-                
-                // Glossary Definitions
-                gloss_atomic_def: "Simultaneous Title vs Cash exchange mechanism (DvP). Eliminates counterparty risk.",
-                gloss_trigger_def: "Gateway connecting Blockchain to Central Bank payment system (Target2).",
-                gloss_minting_def: "Technical creation of tokens on blockchain (equivalent to global certificate printing).",
-                gloss_burning_def: "Token destruction upon redemption to cancel debt in the ledger.",
-                gloss_dvp_def: "Simultaneous settlement principle: title changes hands only if cash changes hands.",
-                gloss_ewpg_def: "German law (2021) removing global paper certificate requirement for bonds.",
-                gloss_swiat_def: "Private consortium blockchain created by DekaBank for financial securities.",
-                gloss_stablecoin_def: "Cryptocurrency pegged to a currency (e.g., 1 USDC = 1 USD). Alternative to Trigger.",
-                gloss_smart_def: "Self-executing computer program automatically managing clauses (coupon payment, redemption).",
-                gloss_token_def: "Digital wrapper containing a real financial asset (Bond, Stock).",
-                gloss_wallet_def: "Digital wallet containing Public Address (IBAN) and Private Key (Signature).",
-                gloss_dlt_def: "Distributed ledger shared among multiple participants. Blockchain is a type of DLT."
-            },
-            en: {
-                // Navigation
-                nav_home: "Home",
-                nav_history: "History",
-                nav_fundamentals: "Fundamentals",
-                nav_benchmarks: "Benchmarks",
-                nav_regulation: "Regulation",
-                nav_comparison: "Comparison",
-                nav_roadmap: "Roadmap",
-                nav_trader: "Trader",
-                nav_glossary: "Glossary",
-                nav_contact: "Contact",
-                nav_discovery: "DISCOVERY VERSION",
-
-                // Hero Section
-                hero_subtitle: "STRATEGIC BRIEFING 2026",
-                hero_infra: "SECURE DISTRIBUTED INFRASTRUCTURE",
-                btn_start: "GET STARTED",
-                btn_demo: "VIEW DEMO",
-
-                // History Section
-                history_title: "The Path to Industrialization",
-                history_2019_title: "World First",
-                history_2019_desc: "SG issues €100m Covered Bond on Public Ethereum.",
-                history_2021_title: "eWpG Law",
-                history_2021_desc: "Germany legalizes purely digital securities.",
-                history_2024_title: "Corporate Adoption",
-                history_2024_desc: "Siemens issues €300m with Trigger settlement.",
-                history_2026_title: "Liquidity Era",
-                history_2026_desc: "ECB Standardization & Market Making.",
-
-                // Fundamentals Section
-                fund_title: "Module 0: Banking Demystification",
-                fund_ledger_badge: "INFRASTRUCTURE",
-                fund_ledger_title: "The Ledger",
-                fund_ledger_analogy: "Analogy: A Shared Excel File",
-                fund_ledger_desc: "Instead of reconciling two internal files (T+2), all banks read the same registry in real-time (T+0).",
-                fund_wallet_badge: "ACCESS",
-                fund_wallet_title: "The Wallet",
-                fund_wallet_analogy: "Analogy: IBAN + Signature",
-                fund_wallet_desc: "Public Address is your IBAN to receive. Private Key is your digital signature to validate.",
-
-                // Benchmarks Section
-                bench_title: "Industrial Benchmarks",
-                bench_natixis_type: "PRIVATE PLACEMENT",
-                bench_natixis_amount: "Amount",
-                bench_natixis_platform: "Platform",
-                bench_natixis_strategy: "Strategy",
-                bench_natixis_strategy_val: "Legal certainty (Registered Bond)",
-                bench_siemens_type: "CORPORATE",
-                bench_siemens_amount: "Amount",
-                bench_siemens_innovation: "Innovation",
-                bench_siemens_innovation_val: "Bundesbank Trigger",
-                bench_siemens_speed: "Speed",
-                bench_siemens_speed_val: "T+Minutes (vs T+2)",
-
-                // Regulation Section
-                reg_title: "Global Regulatory Landscape",
-                reg_germany_title: "Germany (Leader)",
-                reg_germany_desc: "eWpG Law: Comprehensive framework for digital bearer bonds. Current market standard.",
-                reg_france_title: "France (Pioneer)",
-                reg_france_desc: "EU Pilot Regime: Flexible framework for DLT infrastructures. Strong innovation focus (SG-Forge, BdF).",
-
-                // Comparison Section
-                comp_title: "The Infrastructure Clash",
-                comp_subtitle: "Lifecycle comparison",
-                comp_tab1: "Primary Market (Issuance)",
-                comp_tab2: "Secondary Market (Trading)",
-                comp_tab3: "Settlement Flow",
-
-                // Roadmap Section
-                road_title: "Action Plan: Pilot Launch",
-                road_subtitle: "Roadmap for inaugural issuance (6 months)",
-
-                // Trader Section
-                trader_title: "Trader Desk 2026",
-                trader_side: "Side",
-                trader_qty: "Quantity",
-                trader_order: "ORDER ENTRY",
-                trader_btn: "EXECUTE ATOMIC SWAP",
-                trader_note: "Interface abstracts Blockchain complexity. One click triggers the Smart Contract.",
-
-                // Glossary Section
-                gloss_title: "Technical Glossary",
-                gloss_subtitle: "Digital market language",
-                gloss_search: "Search a term (e.g., Atomic Swap, Trigger...)",
-
-                // Contact Section
-                contact_title: "Expert Digital Assets & Blockchain",
-                contact_btn: "CONNECT ON LINKEDIN",
-                contact_copyright: "© 2026 DCM Digital Presentation. All rights reserved.",
-
-                // Roadmap Phases
-                road_phase1: "Legal Framework",
-                road_phase1_desc: "Law selection (eWpG Germany)",
-                road_phase2: "Platform Selection",
-                road_phase2_desc: "SWIAT vs Polygon vs Canton",
-                road_phase3: "Structuring",
-                road_phase3_desc: "Amount, Maturity, Coupon",
-                road_phase4: "Tech Setup",
-                road_phase4_desc: "Wallet, Smart Contract, KYC",
-                road_phase5: "Placement",
-                road_phase5_desc: "Investor Roadshow",
-                road_phase6: "T+0 Issuance",
-                road_phase6_desc: "Minting + Instant Settlement",
-                
-                // Glossary Definitions
-                gloss_atomic_def: "Simultaneous Title vs Cash exchange mechanism (DvP). Eliminates counterparty risk.",
-                gloss_trigger_def: "Gateway connecting Blockchain to Central Bank payment system (Target2).",
-                gloss_minting_def: "Technical creation of tokens on blockchain (equivalent to global certificate printing).",
-                gloss_burning_def: "Token destruction upon redemption to cancel debt in the ledger.",
-                gloss_dvp_def: "Simultaneous settlement principle: title changes hands only if cash changes hands.",
-                gloss_ewpg_def: "German law (2021) removing global paper certificate requirement for bonds.",
-                gloss_swiat_def: "Private consortium blockchain created by DekaBank for financial securities.",
-                gloss_stablecoin_def: "Cryptocurrency pegged to a currency (e.g., 1 USDC = 1 USD). Alternative to Trigger.",
-                gloss_smart_def: "Self-executing computer program automatically managing clauses (coupon payment, redemption).",
-                gloss_token_def: "Digital wrapper containing a real financial asset (Bond, Stock).",
-                gloss_wallet_def: "Digital wallet containing Public Address (IBAN) and Private Key (Signature).",
-                gloss_dlt_def: "Distributed ledger shared among multiple participants. Blockchain is a type of DLT."
-            }
-        };
-
-        // Set language function
-        function setLanguage(lang) {
-            // Update all elements with data-i18n attribute
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-            });
-
-            // Update active button
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Save preference
-            localStorage.setItem('preferredLanguage', lang);
-        }
-
-        // Load saved language on page load
-        window.addEventListener('DOMContentLoaded', function () {
-            const savedLang = localStorage.getItem('preferredLanguage');
-
-            // If no saved preference, default to French
-            if (!savedLang) {
-                // Set French as default
-                localStorage.setItem('preferredLanguage', 'fr');
-                // Ensure French button is active
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    if (btn.textContent.includes('🇫🇷')) {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
-                    }
-                });
-            } else if (savedLang === 'en') {
-                // Trigger English if saved
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    if (btn.textContent.includes('🇬🇧')) {
-                        btn.click();
-                    }
-                });
-            }
-        });
     </script>
 
 </body>
