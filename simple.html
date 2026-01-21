@@ -82,6 +82,33 @@
             transform: translateY(-2px);
         }
 
+        /* LANGUAGE SWITCHER */
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+            border-left: 1px solid var(--border);
+            padding-left: 20px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            opacity: 0.5;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            opacity: 1;
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
         /* CONTENEUR */
         .deck-container {
             margin-top: 100px;
@@ -348,9 +375,17 @@
             </div>
         </div>
 
-        <a href="index.html" class="mode-switch">
-            <i class="fa-solid fa-rocket"></i> PASSER EN MODE EXPERT
-        </a>
+        <!-- LANGUAGE SWITCHER -->
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="setLanguage('fr')" title="Français">🇫🇷</button>
+                <button class="lang-btn" onclick="setLanguage('en')" title="English">🇬🇧</button>
+            </div>
+
+            <a href="index.html" class="mode-switch" data-i18n="nav_expert">
+                <i class="fa-solid fa-rocket"></i> PASSER EN MODE EXPERT
+            </a>
+        </div>
     </nav>
 
     <div class="deck-container">
@@ -583,15 +618,176 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>AOS.init({ duration: 800, once: true });</script>
+
+    <!-- BILINGUAL TRANSLATION SYSTEM -->
+    <script>
+        const translations = {
+            fr: {
+                // Navigation
+                nav_expert: "PASSER EN MODE EXPERT",
+
+                // Slide 1 - Hero
+                hero_badge: "MODULE DÉBUTANT",
+                hero_title: "La Blockchain expliquée aux Banquiers",
+                hero_desc: "Oubliez le jargon technique. Utilisons des analogies bancaires simples pour comprendre comment cette technologie remplace nos vieux fichiers Excel.",
+                hero_ledger: "Le Registre",
+                hero_wallet: "Le Wallet",
+                hero_token: "Le Token",
+
+                // Slide 2 - Blockchain
+                slide2_title: "C'est quoi la Blockchain ?",
+                slide2_intro: "C'est une technologie de stockage d'information. Pour la comprendre, comparons-la à ce que nous connaissons.",
+                slide2_yesterday: "HIER : Le Fichier Excel",
+                slide2_yesterday_desc: "Chaque banque tient son propre registre fermé. Pour faire un virement, les back-offices doivent s'envoyer des messages et réconcilier leurs fichiers (T+2).",
+                slide2_yesterday_badge: "Risque d'erreur & Lenteur",
+                slide2_tomorrow: "DEMAIN : Le Google Sheet",
+                slide2_tomorrow_desc: "La Blockchain est un registre partagé mondialement. Tout le monde voit la même ligne au même moment. Quand je vous envoie de l'argent, le registre se met à jour pour tous (T+0).",
+                slide2_tomorrow_badge: "Instantané & \"Source Unique\"",
+
+                // Slide 3 - Wallet
+                slide3_title: "C'est quoi un \"Wallet\" (Portefeuille) ?",
+                slide3_intro: "Un Wallet n'est pas un compte bancaire. C'est votre trousseau de clés numériques.",
+                slide3_public_title: "L'Adresse Publique (IBAN)",
+                slide3_public_desc: "C'est votre numéro de compte. Vous pouvez le donner à tout le monde pour recevoir des fonds. Il est visible sur la blockchain.",
+                slide3_private_title: "La Clé Privée (Signature)",
+                slide3_private_desc: "C'est votre signature électronique secrète. Elle seule permet de débloquer les fonds et de valider un virement.",
+                slide3_rule: "Règle d'Or :",
+                slide3_rule_desc: "Si vous perdez votre clé privée, vous perdez l'accès à vos fonds. Il n'y a pas de \"Mot de passe oublié\".",
+
+                // Slide 4 - Confusion
+                slide4_title: "La Confusion à Éviter",
+                slide4_question: "\"Est-ce qu'on va spéculer sur le Bitcoin ?\"",
+                slide4_no: "NON.",
+                slide4_crypto_title: "Crypto-Monnaies",
+                slide4_crypto_desc: "Actifs volatils, spéculatifs, non régulés.",
+                slide4_crypto_badge: "HORS PÉRIMÈTRE",
+                slide4_digital_title: "Digital Assets",
+                slide4_digital_desc: "Titres financiers (Obligations) représentés sur Blockchain.",
+                slide4_digital_badge: "NOTRE MÉTIER",
+
+                // Slide 5 - Conclusion
+                slide5_title: "Vous avez les bases !",
+                slide5_desc: "Maintenant que le vocabulaire est clair, découvrez comment les banques utilisent ces outils pour émettre des milliards d'euros d'obligations.",
+                slide5_cta: "PASSER AU NIVEAU EXPERT",
+
+                // Footer
+                footer_title: "Expert Digital Assets & Blockchain",
+                footer_btn: "SE CONNECTER SUR LINKEDIN",
+                footer_copyright: "Tous droits réservés",
+
+                // Legal
+                legal_warning: "AVERTISSEMENT INTERNE :",
+                legal_text: "Ce document est une présentation stratégique à usage exclusivement pédagogique et interne. Les produits financiers (Digital Bonds) et les scénarios de marché présentés sont des simulations. Ne constitue pas une offre de service ou un conseil en investissement.",
+                legal_classification: "Classification : CONFIDENTIAL / INTERNAL USE ONLY • © 2026 Blockchain Academy"
+            },
+            en: {
+                // Navigation
+                nav_expert: "SWITCH TO EXPERT MODE",
+
+                // Slide 1 - Hero
+                hero_badge: "BEGINNER MODULE",
+                hero_title: "Blockchain Explained to Bankers",
+                hero_desc: "Forget the technical jargon. Let's use simple banking analogies to understand how this technology replaces our old Excel files.",
+                hero_ledger: "The Ledger",
+                hero_wallet: "The Wallet",
+                hero_token: "The Token",
+
+                // Slide 2 - Blockchain
+                slide2_title: "What is Blockchain?",
+                slide2_intro: "It's an information storage technology. To understand it, let's compare it to what we know.",
+                slide2_yesterday: "YESTERDAY: The Excel File",
+                slide2_yesterday_desc: "Each bank keeps its own closed ledger. To make a transfer, back-offices must send messages and reconcile their files (T+2).",
+                slide2_yesterday_badge: "Error-Prone & Slow",
+                slide2_tomorrow: "TOMORROW: The Google Sheet",
+                slide2_tomorrow_desc: "Blockchain is a globally shared ledger. Everyone sees the same line at the same time. When I send you money, the ledger updates for everyone (T+0).",
+                slide2_tomorrow_badge: "Instant & \"Single Source\"",
+
+                // Slide 3 - Wallet
+                slide3_title: "What is a \"Wallet\"?",
+                slide3_intro: "A Wallet is not a bank account. It's your digital keychain.",
+                slide3_public_title: "Public Address (IBAN)",
+                slide3_public_desc: "This is your account number. You can give it to anyone to receive funds. It is visible on the blockchain.",
+                slide3_private_title: "Private Key (Signature)",
+                slide3_private_desc: "This is your secret digital signature. Only it can unlock funds and validate a transfer.",
+                slide3_rule: "Golden Rule:",
+                slide3_rule_desc: "If you lose your private key, you lose access to your funds. There is no \"Forgot Password\".",
+
+                // Slide 4 - Confusion
+                slide4_title: "The Confusion to Avoid",
+                slide4_question: "\"Are we going to speculate on Bitcoin?\"",
+                slide4_no: "NO.",
+                slide4_crypto_title: "Cryptocurrencies",
+                slide4_crypto_desc: "Volatile, speculative, unregulated assets.",
+                slide4_crypto_badge: "OUT OF SCOPE",
+                slide4_digital_title: "Digital Assets",
+                slide4_digital_desc: "Financial securities (Bonds) represented on Blockchain.",
+                slide4_digital_badge: "OUR BUSINESS",
+
+                // Slide 5 - Conclusion
+                slide5_title: "You have the basics!",
+                slide5_desc: "Now that the vocabulary is clear, discover how banks use these tools to issue billions of euros in bonds.",
+                slide5_cta: "GO TO EXPERT LEVEL",
+
+                // Footer
+                footer_title: "Expert Digital Assets & Blockchain",
+                footer_btn: "CONNECT ON LINKEDIN",
+                footer_copyright: "All rights reserved",
+
+                // Legal
+                legal_warning: "INTERNAL WARNING:",
+                legal_text: "This document is a strategic presentation for exclusively educational and internal use. The financial products (Digital Bonds) and market scenarios presented are simulations. Does not constitute a service offer or investment advice.",
+                legal_classification: "Classification: CONFIDENTIAL / INTERNAL USE ONLY • © 2026 Blockchain Academy"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (!savedLang) {
+                localStorage.setItem('preferredLanguage', 'fr');
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    if (btn.textContent.includes('🇫🇷')) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            } else if (savedLang === 'en') {
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    if (btn.textContent.includes('🇬🇧')) {
+                        btn.click();
+                    }
+                });
+            }
+        });
+    </script>
+
     <!-- DISCLAIMER LÉGAL CORPORATE -->
     <div class="legal-footer">
         <p>
-            <strong>AVERTISSEMENT INTERNE :</strong> Ce document est une présentation stratégique à usage exclusivement
-            pédagogique et interne.
-            Les produits financiers (Digital Bonds) et les scénarios de marché présentés sont des simulations.
-            Ne constitue pas une offre de service ou un conseil en investissement.
+            <strong data-i18n="legal_warning">AVERTISSEMENT INTERNE :</strong> <span data-i18n="legal_text">Ce document
+                est une présentation stratégique à usage exclusivement
+                pédagogique et interne.
+                Les produits financiers (Digital Bonds) et les scénarios de marché présentés sont des simulations.
+                Ne constitue pas une offre de service ou un conseil en investissement.</span>
             <br>
-            <span style="opacity: 0.6; font-size: 10px;">Classification : CONFIDENTIAL / INTERNAL USE ONLY • © 2026
+            <span style="opacity: 0.6; font-size: 10px;" data-i18n="legal_classification">Classification : CONFIDENTIAL
+                / INTERNAL USE ONLY • © 2026
                 Blockchain Academy</span>
         </p>
     </div>
