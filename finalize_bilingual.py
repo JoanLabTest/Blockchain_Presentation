@@ -79,13 +79,13 @@ def main():
     # 1. Ajouter les clés FR
     print("🔧 Ajout des clés de traduction FR...")
     fr_pattern = r'(contact_copyright: "© 2026 Présentation DCM Digital\. Tous droits réservés\.")\s*\n(\s*)\}'
-    fr_replacement = r'\1' + fr_additions + r'\n\2}'
+    fr_replacement = r'\1,\n' + fr_additions + r'\n\2}'
     content = re.sub(fr_pattern, fr_replacement, content, count=1)
     
     # 2. Ajouter les clés EN
     print("🔧 Ajout des clés de traduction EN...")
     en_pattern = r'(contact_copyright: "© 2026 DCM Digital Presentation\. All rights reserved\.")\s*\n(\s*)\}'
-    en_replacement = r'\1' + en_additions + r'\n\2}'
+    en_replacement = r'\1,\n' + en_additions + r'\n\2}'
     content = re.sub(en_pattern, en_replacement, content, count=1)
     
     # 3. Ajouter data-i18n sur les éléments de la roadmap
