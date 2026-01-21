@@ -196,18 +196,18 @@ const scrollToTopBtn = document.getElementById('scrollToTop');
 const scrollToBottomBtn = document.getElementById('scrollToBottom');
 
 // Afficher/masquer les boutons selon la position de scroll
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
-    
+
     // Bouton "Remonter" : visible après 300px de scroll
     if (scrollPosition > 300) {
         scrollToTopBtn.classList.add('visible');
     } else {
         scrollToTopBtn.classList.remove('visible');
     }
-    
+
     // Bouton "Descendre" : visible seulement en haut de page
     // Masqué si on est à plus de 300px du haut OU proche du bas
     if (scrollPosition < 300 && (documentHeight - scrollPosition - windowHeight) > 500) {
@@ -219,7 +219,7 @@ window.addEventListener('scroll', function() {
 
 // Clic sur "Remonter"
 if (scrollToTopBtn) {
-    scrollToTopBtn.addEventListener('click', function() {
+    scrollToTopBtn.addEventListener('click', function () {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
@@ -229,10 +229,45 @@ if (scrollToTopBtn) {
 
 // Clic sur "Descendre"
 if (scrollToBottomBtn) {
-    scrollToBottomBtn.addEventListener('click', function() {
+    scrollToBottomBtn.addEventListener('click', function () {
         window.scrollTo({
             top: document.documentElement.scrollHeight,
             behavior: 'smooth'
         });
     });
 }
+
+// ===================================
+// FAQ ACCORDION
+// ===================================
+function toggleFaq(button) {
+    const faqItem = button.parentElement;
+    const answer = faqItem.querySelector('.faq-answer');
+    const icon = button.querySelector('.faq-icon');
+
+    // Toggle active class
+    const isActive = faqItem.classList.contains('active');
+
+    // Close all other FAQ items
+    document.querySelectorAll('.faq-item').forEach(item => {
+        if (item !== faqItem) {
+            item.classList.remove('active');
+            const otherAnswer = item.querySelector('.faq-answer');
+            const otherIcon = item.querySelector('.faq-icon');
+            if (otherAnswer) otherAnswer.style.maxHeight = null;
+            if (otherIcon) otherIcon.textContent = '+';
+        }
+    });
+
+    // Toggle current item
+    if (isActive) {
+        faqItem.classList.remove('active');
+        answer.style.maxHeight = null;
+        icon.textContent = '+';
+    } else {
+        faqItem.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        icon.textContent = '−';
+    }
+}
+
