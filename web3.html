@@ -572,9 +572,14 @@
 </head>
 
 <body>
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
 
-    <!-- NAVIGATION -->
+    <!-- Professional Sticky Navigation (IDENTICAL TO BLOCKCHAIN PRO) -->
     <nav class="navbar-pro">
+        <!-- Logo Dropdown -->
         <div class="nav-logo-dropdown">
             <div class="nav-logo">
                 <i class="fas fa-cube"></i>
@@ -620,6 +625,7 @@
             </div>
         </div>
 
+        <!-- Navigation Links -->
         <div class="nav-links-pro">
             <a href="#introduction">Introduction</a>
             <a href="#web3-pillars">Comprendre</a>
@@ -632,10 +638,27 @@
             <a href="#vision">Vision</a>
         </div>
 
-        <button class="mobile-menu-toggle" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
+        <!-- Language Switcher -->
+        <div class="nav-language" style="display: flex; align-items: center; margin-right: 20px; gap: 10px;">
+            <a href="web3.html" class="lang-btn active" style="opacity: 1; filter: grayscale(0); transition: all 0.2s;">
+                <span style="font-size: 24px;">🇫🇷</span>
+            </a>
+            <a href="web3_en.html" class="lang-btn" style="opacity: 0.5; filter: grayscale(1); transition: all 0.2s;">
+                <span style="font-size: 24px;">🇬🇧</span>
+            </a>
+        </div>
+
+        <!-- Status Badge -->
+        <div class="nav-status">
+            <span class="status-badge">
+                <span class="status-dot"></span>
+                LIVE
+            </span>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
         </button>
     </nav>
 
@@ -1244,6 +1267,14 @@
     <script>AOS.init({ duration: 800, once: true });</script>
 
     <script>
+        // === PROGRESS BAR ===
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBarFill').style.width = scrolled + '%';
+        });
+
         // === STICKY NAVBAR ON SCROLL ===
         const navbar = document.querySelector('.navbar-pro');
         window.addEventListener('scroll', () => {
@@ -1254,15 +1285,16 @@
             }
         });
 
-        // === MOBILE MENU TOGGLE ===
+        // === MOBILE MENU TOGGLE (BLOCKCHAIN PRO STYLE) ===
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links-pro');
+            navLinks.classList.toggle('active');
+        }
+
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
         const navLinks = document.querySelector('.nav-links-pro');
 
         if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', function () {
-                navLinks.classList.toggle('active');
-            });
-
             // Close menu when clicking a link
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
