@@ -14,6 +14,7 @@
     align-items: center;
     gap: 5px;
     cursor: pointer;
+    padding: 8px 0;
 }
 
 .nav-dropdown-toggle i {
@@ -24,11 +25,12 @@
 /* Dropdown Menu */
 .nav-dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 15px);
     left: 0;
-    min-width: 200px;
+    min-width: 220px;
     background: rgba(15, 23, 42, 0.98);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid #334155;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -36,8 +38,20 @@
     visibility: hidden;
     transform: translateY(-10px);
     transition: all 0.3s ease;
-    z-index: 1000;
-    margin-top: 10px;
+    z-index: 2000;
+    pointer-events: none;
+}
+
+/* Show Dropdown on Hover */
+.nav-dropdown:hover .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.nav-dropdown:hover .nav-dropdown-toggle i {
+    transform: rotate(180deg);
 }
 
 /* Dropdown Menu Links */
