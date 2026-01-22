@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Analyse comparative des flux opérationnels : Modèle Conventionnel vs Digital">
+    <title>Flux & Opérations - Comparatif Conventionnel vs Digital</title>
+
+    <!-- FONTS & ICONS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- EXTERNAL STYLESHEETS -->
+    <link rel="stylesheet" href="styles-navigation.css">
+    <link rel="stylesheet" href="styles-logo-dropdown.css">
+
+    <style>
+        /* === CONFIGURATION === */
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --accent-gray: #64748b;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-dark);
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+            padding-top: 70px;
+        }
+
+        /* === PROGRESS BAR === */
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 9999;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* === NAVIGATION === */
+        .navbar-pro {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 70px !important;
+            background: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(15px) !important;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2) !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 0 50px !important;
+            z-index: 1000 !important;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .nav-logo {
+            font-weight: 800 !important;
+            font-size: 22px !important;
+            letter-spacing: 1.5px !important;
+            color: white !important;
+            font-family: 'Outfit', 'Inter', sans-serif !important;
+        }
+
+        .nav-links-pro {
+            display: flex !important;
+            gap: 35px !important;
+            align-items: center !important;
+        }
+
+        .nav-status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #10b981;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+
+        /* === CONTAINER === */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 40px;
+        }
+
+        /* === SLIDE SYSTEM === */
+        .slide {
+            width: 100%;
+            max-width: 1280px;
+            min-height: 720px;
+            margin: 0 auto 80px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .top-bar {
+            height: 8px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--accent-gray), var(--accent-green));
+        }
+
+        .slide-header {
+            padding: 40px 60px;
+            border-bottom: 2px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        .slide-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 10px 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .slide-header .subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .slide-content {
+            padding: 40px 60px;
+        }
+
+        .slide-footer {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono';
+        }
+
+        .slide-num {
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono';
+        }
+
+        /* === SPLIT VIEW === */
+        .split-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            height: 100%;
+        }
+
+        .panel {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .panel-badge {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* === COLORS === */
+        .legacy-border {
+            border-top: 4px solid var(--accent-gray);
+        }
+
+        .legacy-badge {
+            background: #475569;
+            color: #cbd5e1;
+        }
+
+        .legacy-text {
+            color: var(--text-muted);
+        }
+
+        .digital-border {
+            border-top: 4px solid var(--accent-green);
+        }
+
+        .digital-badge {
+            background: var(--accent-green);
+            color: #000;
+        }
+
+        .digital-text {
+            color: var(--accent-green);
+        }
+
+        /* === FLOW STEPS === */
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .step-icon {
+            width: 40px;
+            text-align: center;
+            font-size: 20px;
+            color: var(--accent-gray);
+        }
+
+        .digital .step-icon {
+            color: var(--accent-green);
+        }
+
+        .step-content strong {
+            display: block;
+            font-size: 16px;
+            color: white;
+        }
+
+        .step-content span {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .arrow-down {
+            text-align: center;
+            color: #475569;
+            margin: 5px 0 15px 0;
+            font-size: 14px;
+        }
+
+        /* === TABLE === */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #0f172a;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--accent-blue);
+            color: white;
+            font-size: 18px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            font-size: 16px;
+            color: #cbd5e1;
+        }
+
+        .td-good {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .td-bad {
+            color: var(--accent-red);
+        }
+
+        /* === HERO SLIDE === */
+        .hero-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 720px;
+            text-align: center;
+            padding: 80px 60px;
+        }
+
+        .hero-badge {
+            color: var(--accent-blue);
+            font-size: 20px;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            font-family: 'JetBrains Mono';
+        }
+
+        .hero-title {
+            font-size: 60px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 32px;
+            margin-bottom: 60px;
+        }
+
+        .comparison-boxes {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .comparison-box {
+            width: 300px;
+            padding: 30px;
+            border-radius: 12px;
+            background: #0f172a;
+        }
+
+        .comparison-box i {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .comparison-box h3 {
+            color: white;
+            margin: 0 0 10px 0;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 1024px) {
+            .split-view {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-boxes {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-header {
+                padding: 30px 30px;
+            }
+
+            .slide-content {
+                padding: 30px 30px;
+            }
+
+            .hero-title {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar-pro">
+        <div class="nav-logo-dropdown">
+            <div class="nav-logo">
+                <i class="fas fa-exchange-alt"></i>
+                FLUX & <span style="color:#10b981">OPÉRATIONS</span>
+                <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 8px;"></i>
+            </div>
+            <div class="nav-logo-menu">
+                <a href="index.html" class="logo-menu-item">
+                    <i class="fas fa-briefcase"></i>
+                    <div>
+                        <strong>Blockchain Pro</strong>
+                        <span>Version Expert - 23 sections</span>
+                    </div>
+                </a>
+                <a href="simple.html" class="logo-menu-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>
+                        <strong>Blockchain Academy</strong>
+                        <span>Version Découverte - 5 slides</span>
+                    </div>
+                </a>
+                <a href="index-simple.html" class="logo-menu-item">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <strong>DCM Digital</strong>
+                        <span>Version Pitch - 6 sections</span>
+                    </div>
+                </a>
+                <a href="web3.html" class="logo-menu-item">
+                    <i class="fas fa-cube"></i>
+                    <div>
+                        <strong>Web3 Banking</strong>
+                        <span>Infrastructure Programmable - 9 modules</span>
+                    </div>
+                </a>
+                <a href="flux-comparison.html" class="logo-menu-item active">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div>
+                        <strong>Flux & Opérations</strong>
+                        <span>Analyse Comparative - 8 slides</span>
+                    </div>
+                </a>
+                <a href="quiz.html" class="logo-menu-item">
+                    <i class="fas fa-award" style="color:#f59e0b;"></i>
+                    <div>
+                        <strong>Quiz Certification</strong>
+                        <span>Testez vos connaissances - 20 questions</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="nav-links-pro">
+            <a href="#slide1">Introduction</a>
+            <a href="#slide2">Primaire</a>
+            <a href="#slide3">Secondaire</a>
+            <a href="#slide4">Settlement</a>
+            <a href="#slide5">Synthèse</a>
+            <a href="#slide6">Coupons</a>
+            <a href="#slide7">Remboursement</a>
+            <a href="#slide8">ROI</a>
+        </div>
+
+        <div class="nav-language" style="display: flex; align-items: center; margin-right: 20px; gap: 10px;">
+            <a href="flux-comparison.html" class="lang-btn active" style="opacity: 1; filter: grayscale(0);">
+                <span style="font-size: 24px;">🇫🇷</span>
+            </a>
+            <a href="flux-comparison_en.html" class="lang-btn" style="opacity: 0.5; filter: grayscale(1);">
+                <span style="font-size: 24px;">🇬🇧</span>
+            </a>
+        </div>
+
+        <div class="nav-status">
+            <span class="status-badge">
+                <span class="status-dot"></span>
+                LIVE
+            </span>
+        </div>
+
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="container">
+
+        <!-- SLIDE 1 : TITRE -->
+        <div class="slide" id="slide1" data-aos="fade-up">
+            <div class="hero-slide">
+                <p class="hero-badge">INFRASTRUCTURE & OPÉRATIONS</p>
+                <h1 class="hero-title">Comparatif des Flux & Cycles de Vie</h1>
+                <h2 class="hero-subtitle">Analyse d'Impact : Conventionnel vs Digital</h2>
+
+                <div class="comparison-boxes">
+                    <div class="comparison-box" style="border: 1px solid var(--accent-gray);">
+                        <i class="fa-solid fa-file-contract" style="color: var(--accent-gray);"></i>
+                        <h3>Modèle Papier</h3>
+                        <p style="color: var(--accent-gray); margin: 0;">Crédit Foncier</p>
+                    </div>
+                    <div style="font-size: 40px; color: var(--accent-blue);">VS</div>
+                    <div class="comparison-box" style="border: 1px solid var(--accent-green);">
+                        <i class="fa-solid fa-bolt" style="color: var(--accent-green);"></i>
+                        <h3>Modèle Digital</h3>
+                        <p style="color: var(--accent-green); margin: 0;">Natixis Pfandbriefbank</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">DOCUMENT DE RÉFÉRENCE</div>
+            <div class="slide-num">01/08</div>
+        </div>
+
+        <!-- SLIDE 2 : MARCHÉ PRIMAIRE -->
+        <div class="slide" id="slide2" data-aos="fade-up">
+            <div class="top-bar"></div>
+            <div class="slide-header">
+                <h1>Marché Primaire : L'Émission</h1>
+                <span class="subtitle">Cycle de création du titre</span>
+            </div>
+            <div class="slide-content">
+                <div class="split-view">
+
+                    <!-- GAUCHE : CLASSIQUE -->
+                    <div class="panel legacy-border">
+                        <div class="panel-header">
+                            <span class="panel-title">Conventionnel (T+5)</span>
+                            <span class="panel-badge legacy-badge">Crédit Foncier</span>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-comments"></i></div>
+                            <div class="step-content"><strong>J-5 : Syndication</strong><span>Bookbuilding classique sur
+                                    Bloomberg.</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-file-signature"></i></div>
+                            <div class="step-content"><strong>J-0 : Global Note</strong><span>Signature manuelle d'un
+                                    certificat papier unique.</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-truck"></i></div>
+                            <div class="step-content"><strong>J+2 : Dépôt CSD</strong><span>Transport physique au coffre
+                                    (Euroclear).</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-building-columns"></i></div>
+                            <div class="step-content"><strong>J+5 : Règlement</strong><span>Crédit des comptes en
+                                    cascade.</span></div>
+                        </div>
+                    </div>
+
+                    <!-- DROITE : DIGITAL -->
+                    <div class="panel digital-border digital">
+                        <div class="panel-header">
+                            <span class="panel-title">Digital (T+0)</span>
+                            <span class="panel-badge digital-badge">Natixis</span>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-comments"></i></div>
+                            <div class="step-content"><strong>H-2 : Pricing</strong><span>Négociation identique.</span>
+                            </div>
+                        </div>
+                        <div class="arrow-down" style="color: var(--accent-green);">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-code"></i></div>
+                            <div class="step-content"><strong class="digital-text">H-0 : Smart
+                                    Contract</strong><span>Déploiement du code (Minting instantané).</span></div>
+                        </div>
+                        <div class="arrow-down" style="color: var(--accent-green);">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-bolt"></i></div>
+                            <div class="step-content"><strong class="digital-text">H+10m :
+                                    Distribution</strong><span>Livraison P2P directe aux investisseurs.</span></div>
+                        </div>
+
+                        <div
+                            style="margin-top: auto; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; color: var(--accent-green); text-align: center; font-weight: bold;">
+                            ✅ Suppression totale du papier & du délai de règlement.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="slide-num">02/08</div>
+        </div>
+
+        <!-- SLIDE 3 : MARCHÉ SECONDAIRE -->
+        <div class="slide" id="slide3" data-aos="fade-up">
+            <div class="top-bar"></div>
+            <div class="slide-header">
+                <h1>Marché Secondaire : Le Trading</h1>
+                <span class="subtitle">Cycle d'échange du titre</span>
+            </div>
+            <div class="slide-content">
+                <div class="split-view">
+
+                    <!-- GAUCHE : CLASSIQUE -->
+                    <div class="panel legacy-border">
+                        <div class="panel-header">
+                            <span class="panel-title">La "Messagerie" (T+2)</span>
+                            <span class="panel-badge legacy-badge">SWIFT</span>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-handshake"></i></div>
+                            <div class="step-content"><strong>J+0 : Le Trade</strong><span>Accord téléphonique
+                                    (OTC).</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="step-content"><strong>J+1 : Instructions</strong><span>Envoi messages MT540/541
+                                    aux Custodians.</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-rotate"></i></div>
+                            <div class="step-content"><strong>J+2 : Matching</strong><span>Réconciliation CSD. Risque de
+                                    "Fail".</span></div>
+                        </div>
+                    </div>
+
+                    <!-- DROITE : DIGITAL -->
+                    <div class="panel digital-border digital">
+                        <div class="panel-header">
+                            <span class="panel-title">L'Atomic Swap (T+0)</span>
+                            <span class="panel-badge digital-badge">Blockchain</span>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-handshake"></i></div>
+                            <div class="step-content"><strong>Minute 0 : Le Trade</strong><span>Accord sur le
+                                    prix.</span></div>
+                        </div>
+                        <div class="arrow-down" style="color: var(--accent-green);">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-signature"></i></div>
+                            <div class="step-content"><strong class="digital-text">Minute 1 :
+                                    Instruction</strong><span>Signature cryptographique sur la chaîne.</span></div>
+                        </div>
+                        <div class="arrow-down" style="color: var(--accent-green);">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-link"></i></div>
+                            <div class="step-content"><strong class="digital-text">Minute 2 : Atomic
+                                    Swap</strong><span>Échange simultané. Impossible de défaillir.</span></div>
+                        </div>
+
+                        <div
+                            style="margin-top: auto; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; color: var(--accent-green); text-align: center; font-weight: bold;">
+                            ✅ Risque de Contrepartie = ZÉRO.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="slide-num">03/08</div>
+        </div>
+
+        <!-- SLIDE 4 : FLUX DE RÈGLEMENT -->
+        <div class="slide" id="slide4" data-aos="fade-up">
+            <div class="top-bar"></div>
+            <div class="slide-header">
+                <h1>Zoom sur les Flux de Règlement</h1>
+                <span class="subtitle">Analyse des intermédiaires</span>
+            </div>
+            <div class="slide-content">
+                <div class="split-view">
+
+                    <!-- GAUCHE : CASCADE -->
+                    <div class="panel legacy-border" style="align-items: center; justify-content: center;">
+                        <span class="panel-title legacy-text" style="margin-bottom: 20px;">Modèle Cascade</span>
+
+                        <div style="background: #334155; padding: 10px 40px; border-radius: 8px;">ÉMETTEUR</div>
+                        <div style="font-size: 20px; color: var(--accent-gray);">⬇️</div>
+                        <div
+                            style="background: #334155; padding: 10px 40px; border-radius: 8px; border: 1px solid var(--accent-red);">
+                            CSD (Euroclear)</div>
+                        <div style="font-size: 20px; color: var(--accent-gray);">⬇️</div>
+                        <div
+                            style="background: #334155; padding: 10px 40px; border-radius: 8px; border: 1px solid var(--accent-orange);">
+                            CUSTODIAN</div>
+                        <div style="font-size: 20px; color: var(--accent-gray);">⬇️</div>
+                        <div style="background: #334155; padding: 10px 40px; border-radius: 8px;">INVESTISSEUR</div>
+
+                        <div style="margin-top: 30px; color: var(--accent-red); font-size: 14px;">
+                            ⚠️ 3 Niveaux de Réconciliation
+                        </div>
+                    </div>
+
+                    <!-- DROITE : ATOMIQUE -->
+                    <div class="panel digital-border"
+                        style="align-items: center; justify-content: center; background: rgba(16, 185, 129, 0.05);">
+                        <span class="panel-title digital-text" style="margin-bottom: 20px;">Modèle Atomique</span>
+
+                        <div
+                            style="border: 2px dashed var(--accent-green); padding: 30px; border-radius: 20px; width: 100%; text-align: center;">
+                            <strong
+                                style="color: var(--accent-green); display: block; margin-bottom: 20px;">INFRASTRUCTURE
+                                PARTAGÉE</strong>
+                            <div style="display: flex; justify-content: space-around; align-items: center;">
+                                <div style="background: var(--bg-card); padding: 10px 20px; border-radius: 8px;">
+                                    ÉMETTEUR</div>
+                                <i class="fa-solid fa-arrow-right-arrow-left"
+                                    style="color: var(--accent-green); font-size: 24px;"></i>
+                                <div style="background: var(--bg-card); padding: 10px 20px; border-radius: 8px;">
+                                    INVESTISSEUR</div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 20px; background: rgba(245, 158, 11, 0.1); border: 1px dashed var(--accent-orange); padding: 10px 20px; border-radius: 8px; color: var(--accent-orange);">
+                            <i class="fa-solid fa-bolt"></i> Trigger Cash (BCE)
+                        </div>
+
+                        <div style="margin-top: 30px; color: var(--accent-green); font-size: 14px; font-weight: bold;">
+                            ✅ Zéro Réconciliation
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="slide-num">04/08</div>
+        </div>
+
+        <!-- SLIDE 5 : SYNTHÈSE GLOBALE -->
+        <div class="slide" id="slide5" data-aos="fade-up">
+            <div class="top-bar"></div>
+            <div class="slide-header">
+                <h1>Bilan Comparatif des Infrastructures</h1>
+                <span class="subtitle">La Transformation du Business Model</span>
+            </div>
+            <div class="slide-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="20%">Critère</th>
+                            <th width="40%" style="color: var(--text-muted);">Monde Classique</th>
+                            <th width="40%" style="color: var(--accent-green);">Monde Digital</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Support Juridique</strong></td>
+                            <td>Papier (Global Note)</td>
+                            <td class="td-good"><i class="fa-solid fa-code"></i> Code (Smart Contract)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Architecture</strong></td>
+                            <td>Centralisée (CSD)</td>
+                            <td class="td-good"><i class="fa-solid fa-network-wired"></i> Distribuée (Partagée)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Communication</strong></td>
+                            <td>Messagerie (SWIFT)</td>
+                            <td class="td-good"><i class="fa-solid fa-database"></i> Registre Unique</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Délai Règlement</strong></td>
+                            <td class="td-bad">T+2 à T+5</td>
+                            <td class="td-good"><i class="fa-solid fa-bolt"></i> T+0 (Instantané)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Risque Majeur</strong></td>
+                            <td class="td-bad">Contrepartie & Fails</td>
+                            <td class="td-good"><i class="fa-solid fa-shield-halved"></i> Technologique</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div
+                    style="margin-top: 50px; padding: 20px; background-color: #334155; border-radius: 12px; text-align: center; border-left: 5px solid var(--accent-blue);">
+                    <h3 style="color: white; margin: 0 0 10px 0; font-size: 24px;">Conclusion pour le Desk</h3>
+                    <p style="font-size: 18px; margin: 0; color: #cbd5e1;">
+                        Le passage au digital transforme une charge de Back-Office (gestion d'erreurs) en une gestion de
+                        liquidité temps réel.
+                    </p>
+                </div>
+            </div>
+            <div class="slide-num">05/08</div>
+        </div>
+
+        <!-- SLIDE 6 : PAIEMENT DES COUPONS -->
+        <div class="slide" id="slide6" data-aos="fade-up">
+            <div class="top-bar"></div>
+            <div class="slide-header">
+                <h1>Paiement des Coupons</h1>
+                <span class="subtitle">Distribution des intérêts périodiques</span>
+            </div>
+            <div class="slide-content">
+                <div class="split-view">
+
+                    <!-- GAUCHE : CLASSIQUE -->
+                    <div class="panel legacy-border">
+                        <div class="panel-header">
+                            <span class="panel-title">Processus Manuel</span>
+                            <span class="panel-badge legacy-badge">J+3 à J+5</span>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-calculator"></i></div>
+                            <div class="step-content"><strong>J-10 : Calcul</strong><span>Calcul manuel des montants par
+                                    détenteur.</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                            <div class="step-content"><strong>J-5 : Validation</strong><span>Vérification comptable et
+                                    juridique.</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="step-content"><strong>J-0 : Instructions SWIFT</strong><span>Envoi des ordres de
+                                    paiement MT202.</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                            <div class="step-content"><strong>J+3 : Crédit</strong><span>Paiement via CSD puis
+                                    Custodians.</span></div>
+                        </div>
+
+                        <div
+                            style="margin-top: auto; padding: 15px; background: rgba(239, 68, 68, 0.1); border-radius: 8px; color: var(--accent-red); text-align: center; font-size: 14px;">
+                            ⚠️ Risque d'erreur de calcul et de retard
+                        </div>
+                    </div>
+
+                    <!-- DROITE : DIGITAL -->
+                    <div class="panel digital-border digital">
+                        <div class="panel-header">
+                            <span class="panel-title">Auto-Exécution</span>
+                            <span class="panel-badge digital-badge">Instantané</span>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-code"></i></div>
+                            <div class="step-content"><strong class="digital-text">Smart Contract</strong><span>Calcul
+                                    automatique pré-codé dans le contrat.</span></div>
+                        </div>
+                        <div class="arrow-down" style="color: var(--accent-green);">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-clock"></i></div>
+                            <div class="step-content"><strong class="digital-text">Trigger
+                                    Temporel</strong><span>Exécution automatique à la date du coupon.</span></div>
+                        </div>
+                        <div class="arrow-down" style="color: var(--accent-green);">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-bolt"></i></div>
+                            <div class="step-content"><strong class="digital-text">Distribution
+                                    P2P</strong><span>Paiement direct aux wallets des détenteurs.</span></div>
+                        </div>
+
+                        <div
+                            style="margin-top: auto; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; color: var(--accent-green); text-align: center; font-weight: bold;">
+                            ✅ Zéro intervention humaine. Zéro erreur.
+                        </div>
+
+                        <div
+                            style="margin-top: 20px; padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border-left: 3px solid var(--accent-blue);">
+                            <strong style="color: var(--accent-blue); display: block; margin-bottom: 5px;">Exemple
+                                Réel</strong>
+                            <span style="font-size: 13px; color: var(--text-muted);">Siemens 2024 : 300M€ avec paiement
+                                coupon automatisé via smart contract Ethereum.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="slide-num">06/08</div>
+        </div>
+
+        <!-- SLIDE 7 : REMBOURSEMENT À MATURITÉ -->
+        <div class="slide" id="slide7" data-aos="fade-up">
+            <div class="top-bar"></div>
+            <div class="slide-header">
+                <h1>Remboursement à Maturité</h1>
+                <span class="subtitle">Extinction du titre et paiement final</span>
+            </div>
+            <div class="slide-content">
+                <div class="split-view">
+
+                    <!-- GAUCHE : CLASSIQUE -->
+                    <div class="panel legacy-border">
+                        <div class="panel-header">
+                            <span class="panel-title">Processus Physique</span>
+                            <span class="panel-badge legacy-badge">Papier</span>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
+                            <div class="step-content"><strong>Maturité</strong><span>Date de remboursement
+                                    atteinte.</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                            <div class="step-content"><strong>Paiement Final</strong><span>Virement du principal via
+                                    SWIFT (T+3).</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-file-circle-xmark"></i></div>
+                            <div class="step-content"><strong>Annulation Papier</strong><span>Destruction physique du
+                                    Global Note.</span></div>
+                        </div>
+                        <div class="arrow-down">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-rotate"></i></div>
+                            <div class="step-content"><strong>Réconciliation</strong><span>Vérification manuelle de la
+                                    destruction.</span></div>
+                        </div>
+
+                        <div
+                            style="margin-top: auto; padding: 15px; background: rgba(239, 68, 68, 0.1); border-radius: 8px; color: var(--accent-red); text-align: center; font-size: 14px;">
+                            ⚠️ Risque de perte ou de fraude du certificat
+                        </div>
+                    </div>
+
+                    <!-- DROITE : DIGITAL -->
+                    <div class="panel digital-border digital">
+                        <div class="panel-header">
+                            <span class="panel-title">Burn Automatique</span>
+                            <span class="panel-badge digital-badge">On-Chain</span>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="step-content"><strong class="digital-text">Trigger Maturité</strong><span>Smart
+                                    contract détecte la date finale.</span></div>
+                        </div>
+                        <div class="arrow-down" style="color: var(--accent-green);">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-bolt"></i></div>
+                            <div class="step-content"><strong class="digital-text">Paiement
+                                    Atomique</strong><span>Distribution instantanée du principal.</span></div>
+                        </div>
+                        <div class="arrow-down" style="color: var(--accent-green);">⬇️</div>
+                        <div class="flow-step">
+                            <div class="step-icon"><i class="fa-solid fa-fire"></i></div>
+                            <div class="step-content"><strong class="digital-text">Burn du
+                                    Token</strong><span>Destruction cryptographique irréversible.</span></div>
+                        </div>
+
+                        <div
+                            style="margin-top: auto; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; color: var(--accent-green); text-align: center; font-weight: bold;">
+                            ✅ Traçabilité permanente. Impossible de "perdre" le titre.
+                        </div>
+
+                        <div
+                            style="margin-top: 20px; padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border-left: 3px solid var(--accent-blue);">
+                            <strong style="color: var(--accent-blue); display: block; margin-bottom: 5px;">Avantage
+                                Audit</strong>
+                            <span style="font-size: 13px; color: var(--text-muted);">L'historique complet (émission →
+                                coupons → burn) reste consultable à vie sur la blockchain.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="slide-num">07/08</div>
+        </div>
+
+        <!-- SLIDE 8 : IMPACT SUR LES COÛTS (ROI) -->
+        <div class="slide" id="slide8" data-aos="fade-up">
+            <div class="top-bar"></div>
+            <div class="slide-header">
+                <h1>Impact sur les Coûts Opérationnels</h1>
+                <span class="subtitle">Business Case & ROI</span>
+            </div>
+            <div class="slide-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="30%">Poste de Coût</th>
+                            <th width="25%">Conventionnel</th>
+                            <th width="25%">Digital</th>
+                            <th width="20%">Économie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Émission (500M€)</strong></td>
+                            <td class="td-bad">~50,000€</td>
+                            <td class="td-good">~5,000€</td>
+                            <td class="td-good">-90%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Règlement/Livraison</strong></td>
+                            <td class="td-bad">~15,000€</td>
+                            <td class="td-good">~500€</td>
+                            <td class="td-good">-97%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Paiement Coupon (annuel)</strong></td>
+                            <td class="td-bad">~8,000€</td>
+                            <td class="td-good">~100€</td>
+                            <td class="td-good">-99%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Réconciliation (mensuelle)</strong></td>
+                            <td class="td-bad">~12,000€/an</td>
+                            <td class="td-good">0€</td>
+                            <td class="td-good">-100%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Audit & Compliance</strong></td>
+                            <td class="td-bad">~20,000€/an</td>
+                            <td class="td-good">~2,000€/an</td>
+                            <td class="td-good">-90%</td>
+                        </tr>
+                        <tr style="background: rgba(59, 130, 246, 0.1); font-weight: bold;">
+                            <td><strong>TOTAL (Obligation 5 ans)</strong></td>
+                            <td class="td-bad">~215,000€</td>
+                            <td class="td-good">~18,100€</td>
+                            <td class="td-good" style="font-size: 20px;">-92%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div
+                        style="padding: 20px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; border-left: 5px solid var(--accent-green);">
+                        <h3 style="color: var(--accent-green); margin: 0 0 10px 0; font-size: 20px;">
+                            <i class="fa-solid fa-chart-line"></i> Gains Quantifiables
+                        </h3>
+                        <ul
+                            style="margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 14px; line-height: 1.8;">
+                            <li>Réduction de 80% des coûts opérationnels</li>
+                            <li>Suppression des frais de réconciliation</li>
+                            <li>Élimination des risques de "fails" (coût caché)</li>
+                            <li>Accélération du time-to-market</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="padding: 20px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; border-left: 5px solid var(--accent-orange);">
+                        <h3 style="color: var(--accent-orange); margin: 0 0 10px 0; font-size: 20px;">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Coûts Initiaux
+                        </h3>
+                        <ul
+                            style="margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 14px; line-height: 1.8;">
+                            <li>Infrastructure blockchain : ~100k€</li>
+                            <li>Formation équipes : ~50k€</li>
+                            <li>Conseil juridique : ~80k€</li>
+                            <li><strong style="color: var(--accent-orange);">ROI : 12-18 mois</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 30px; padding: 20px; background-color: #334155; border-radius: 12px; text-align: center; border-left: 5px solid var(--accent-blue);">
+                    <h3 style="color: white; margin: 0 0 10px 0; font-size: 24px;">Conclusion Stratégique</h3>
+                    <p style="font-size: 18px; margin: 0; color: #cbd5e1;">
+                        Au-delà des économies, le digital transforme le métier : passage d'une logique de "gestion
+                        d'erreurs" à une logique de "gestion de liquidité temps réel".
+                    </p>
+                </div>
+            </div>
+            <div class="slide-num">08/08</div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER CONTACT LINKEDIN -->
+    <footer id="contact"
+        style="width: 100%; background: linear-gradient(180deg, #1e293b, #000); padding: 80px 20px; text-align: center; border-top: 1px solid #334155; margin-top: 50px;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div
+                style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #10b981); border: 3px solid #10b981; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; font-size: 40px; color: white;">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
+            <h2 style="border: none; margin: 0; color: white; font-size: 36px;">Joan Lyczak</h2>
+            <p style="font-size: 18px; color: #94a3b8; margin-top: 10px;">Expert Digital Assets & Blockchain</p>
+
+            <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank"
+                style="display: inline-flex; align-items: center; gap: 10px; background: #0a66c2; color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 18px; transition: transform 0.2s; margin-top: 30px;">
+                <i class="fa-brands fa-linkedin"></i> SE CONNECTER SUR LINKEDIN
+            </a>
+
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px; flex-wrap: wrap;">
+                <a href="index.html"
+                    style="display: inline-flex; align-items: center; gap: 10px; background: transparent; border: 2px solid #3b82f6; color: #3b82f6; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px;">
+                    <i class="fas fa-briefcase"></i> Blockchain Pro
+                </a>
+                <a href="simple.html"
+                    style="display: inline-flex; align-items: center; gap: 10px; background: transparent; border: 2px solid #a855f7; color: #a855f7; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px;">
+                    <i class="fas fa-graduation-cap"></i> Academy
+                </a>
+                <a href="web3.html"
+                    style="display: inline-flex; align-items: center; gap: 10px; background: transparent; border: 2px solid #10b981; color: #10b981; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px;">
+                    <i class="fas fa-cube"></i> Web3 Banking
+                </a>
+            </div>
+
+            <p style="margin-top: 40px; font-size: 12px; color: #64748b;">
+                © 2026 Presentation Blockchain. Tous droits réservés.
+            </p>
+        </div>
+    </footer>
+
+    <!-- DISCLAIMER LÉGAL -->
+    <div class="legal-footer"
+        style="background-color: #020617; color: #64748b; padding: 20px; text-align: center; font-size: 11px; border-top: 1px solid #1e293b;">
+        <p>
+            <strong>AVERTISSEMENT INTERNE :</strong> Ce document est une présentation stratégique à usage exclusivement
+            pédagogique et interne. Les produits financiers (Digital Bonds) et les scénarios de marché présentés sont
+            des simulations. Ne constitue pas une offre de service ou un conseil en investissement.
+            <br>
+            <span style="opacity: 0.6; font-size: 10px;">Classification : CONFIDENTIAL / INTERNAL USE ONLY • © 2026
+                Blockchain Academy</span>
+        </p>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBarFill').style.width = scrolled + '%';
+        });
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links-pro');
+            navLinks.classList.toggle('active');
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
