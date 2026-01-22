@@ -695,71 +695,321 @@
             <div class="slide-num">03/08</div>
         </div>
 
-        <!-- SLIDE 4 : FLUX DE RÈGLEMENT -->
+        <!-- ========================================= -->
+        <!-- SLIDE 4 : FLUX ANIMÉS (SWIFT VS ATOMIC) -->
+        <!-- ========================================= -->
         <div class="slide" id="slide4" data-aos="fade-up">
             <div class="top-bar"></div>
             <div class="slide-header">
                 <h1>Zoom sur les Flux de Règlement</h1>
-                <span class="subtitle">Analyse des intermédiaires</span>
+                <span class="subtitle">Visualisation de la vitesse d'exécution</span>
             </div>
+
             <div class="slide-content">
-                <div class="split-view">
+                <div class="animation-container">
 
-                    <!-- GAUCHE : CASCADE -->
-                    <div class="panel legacy-border" style="align-items: center; justify-content: center;">
-                        <span class="panel-title legacy-text" style="margin-bottom: 20px;">Modèle Cascade</span>
+                    <!-- GAUCHE : LE LABYRINTHE (LENT) -->
+                    <div class="flow-track legacy-track">
+                        <div class="track-header">
+                            <span class="badge-slow">T+2 JOURS</span>
+                            <h3 style="color:#64748b">Modèle Cascade</h3>
+                        </div>
 
-                        <div style="background: #334155; padding: 10px 40px; border-radius: 8px;">ÉMETTEUR</div>
-                        <div style="font-size: 20px; color: var(--accent-gray);">⬇️</div>
-                        <div
-                            style="background: #334155; padding: 10px 40px; border-radius: 8px; border: 1px solid var(--accent-red);">
-                            CSD (Euroclear)</div>
-                        <div style="font-size: 20px; color: var(--accent-gray);">⬇️</div>
-                        <div
-                            style="background: #334155; padding: 10px 40px; border-radius: 8px; border: 1px solid var(--accent-orange);">
-                            CUSTODIAN</div>
-                        <div style="font-size: 20px; color: var(--accent-gray);">⬇️</div>
-                        <div style="background: #334155; padding: 10px 40px; border-radius: 8px;">INVESTISSEUR</div>
+                        <div class="node-stack">
+                            <div class="node" id="l-issuer">ÉMETTEUR</div>
+                            <div class="path-line">
+                                <div class="particle slow-p"></div>
+                            </div>
+                            <div class="node" id="l-csd" style="border-color:#ef4444">CSD (Euroclear)</div>
+                            <div class="path-line">
+                                <div class="particle slow-p delay-1"></div>
+                            </div>
+                            <div class="node" id="l-custo" style="border-color:#f59e0b">CUSTODIAN</div>
+                            <div class="path-line">
+                                <div class="particle slow-p delay-2"></div>
+                            </div>
+                            <div class="node" id="l-investor">INVESTISSEUR</div>
+                        </div>
 
-                        <div style="margin-top: 30px; color: var(--accent-red); font-size: 14px;">
-                            ⚠️ 3 Niveaux de Réconciliation
+                        <div class="status-box error">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Risque de Fail
                         </div>
                     </div>
 
-                    <!-- DROITE : ATOMIQUE -->
-                    <div class="panel digital-border"
-                        style="align-items: center; justify-content: center; background: rgba(16, 185, 129, 0.05);">
-                        <span class="panel-title digital-text" style="margin-bottom: 20px;">Modèle Atomique</span>
+                    <!-- DROITE : L'AUTOROUTE (RAPIDE) -->
+                    <div class="flow-track digital-track">
+                        <div class="track-header">
+                            <span class="badge-fast">T+0 INSTANT</span>
+                            <h3 style="color:#10b981">Modèle Atomique</h3>
+                        </div>
 
-                        <div
-                            style="border: 2px dashed var(--accent-green); padding: 30px; border-radius: 20px; width: 100%; text-align: center;">
-                            <strong
-                                style="color: var(--accent-green); display: block; margin-bottom: 20px;">INFRASTRUCTURE
-                                PARTAGÉE</strong>
-                            <div style="display: flex; justify-content: space-around; align-items: center;">
-                                <div style="background: var(--bg-card); padding: 10px 20px; border-radius: 8px;">
-                                    ÉMETTEUR</div>
-                                <i class="fa-solid fa-arrow-right-arrow-left"
-                                    style="color: var(--accent-green); font-size: 24px;"></i>
-                                <div style="background: var(--bg-card); padding: 10px 20px; border-radius: 8px;">
-                                    INVESTISSEUR</div>
+                        <div class="atomic-zone">
+                            <div class="shared-ledger">
+                                <span class="ledger-label">INFRASTRUCTURE PARTAGÉE (DLT)</span>
+                                <div
+                                    style="display:flex; justify-content:space-between; width:100%; padding:0 20px; align-items:center;">
+                                    <div class="node mini">ÉMETTEUR</div>
+
+                                    <!-- L'Échange Atomique -->
+                                    <div class="atomic-core">
+                                        <i class="fa-solid fa-rotate"></i>
+                                        <div class="particle-fast"></div>
+                                    </div>
+
+                                    <div class="node mini">INVESTISSEUR</div>
+                                </div>
+                            </div>
+
+                            <div class="trigger-link">
+                                <div class="particle-trigger"></div>
+                                <i class="fa-solid fa-bolt"></i> Trigger Cash (BCE)
                             </div>
                         </div>
 
-                        <div
-                            style="margin-top: 20px; background: rgba(245, 158, 11, 0.1); border: 1px dashed var(--accent-orange); padding: 10px 20px; border-radius: 8px; color: var(--accent-orange);">
-                            <i class="fa-solid fa-bolt"></i> Trigger Cash (BCE)
-                        </div>
-
-                        <div style="margin-top: 30px; color: var(--accent-green); font-size: 14px; font-weight: bold;">
-                            ✅ Zéro Réconciliation
+                        <div class="status-box success">
+                            <i class="fa-solid fa-check-circle"></i> Règlement Confirmé
                         </div>
                     </div>
 
                 </div>
             </div>
+            <div class="slide-footer">ANALYSE TECHNIQUE</div>
             <div class="slide-num">04/08</div>
         </div>
+
+        <style>
+            /* LAYOUT */
+            .animation-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                height: 100%;
+            }
+
+            .flow-track {
+                background: #0b1121;
+                border-radius: 16px;
+                padding: 20px;
+                position: relative;
+                border: 1px solid #334155;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .track-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .badge-slow {
+                background: #475569;
+                color: #cbd5e1;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            .badge-fast {
+                background: #10b981;
+                color: #000;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: bold;
+                box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+            }
+
+            /* NOEUDS & LIGNES */
+            .node {
+                background: #1e293b;
+                border: 1px solid #64748b;
+                padding: 10px;
+                text-align: center;
+                border-radius: 8px;
+                font-weight: bold;
+                font-size: 14px;
+                position: relative;
+                z-index: 2;
+                width: 200px;
+                margin: 0 auto;
+            }
+
+            .node.mini {
+                width: 100px;
+                font-size: 12px;
+            }
+
+            .path-line {
+                height: 40px;
+                width: 2px;
+                background: #334155;
+                margin: 0 auto;
+                position: relative;
+            }
+
+            /* ANIMATIONS GAUCHE (LENT) */
+            .particle {
+                width: 8px;
+                height: 8px;
+                background: #f59e0b;
+                border-radius: 50%;
+                position: absolute;
+                left: -3px;
+                top: 0;
+                opacity: 0;
+            }
+
+            .slow-p {
+                animation: moveDown 2s infinite linear;
+            }
+
+            .delay-1 {
+                animation-delay: 0.6s;
+            }
+
+            .delay-2 {
+                animation-delay: 1.2s;
+            }
+
+            @keyframes moveDown {
+                0% {
+                    top: 0;
+                    opacity: 1;
+                }
+
+                100% {
+                    top: 100%;
+                    opacity: 0;
+                }
+            }
+
+            /* ANIMATIONS DROITE (RAPIDE) */
+            .atomic-zone {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .shared-ledger {
+                width: 100%;
+                border: 2px dashed #10b981;
+                background: rgba(16, 185, 129, 0.05);
+                border-radius: 12px;
+                padding: 20px 0;
+                position: relative;
+            }
+
+            .ledger-label {
+                position: absolute;
+                top: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #0b1121;
+                padding: 0 10px;
+                font-size: 10px;
+                color: #10b981;
+                font-weight: bold;
+            }
+
+            .atomic-core {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: #064e3b;
+                display: grid;
+                place-items: center;
+                color: #10b981;
+                font-size: 24px;
+                position: relative;
+            }
+
+            .particle-fast {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border: 2px solid #10b981;
+                border-radius: 50%;
+                animation: pulseRing 1.5s infinite;
+            }
+
+            @keyframes pulseRing {
+                0% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+
+                100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+
+            .trigger-link {
+                margin-top: 30px;
+                border: 1px dashed #f59e0b;
+                padding: 10px 20px;
+                border-radius: 8px;
+                color: #f59e0b;
+                font-size: 12px;
+                font-weight: bold;
+                position: relative;
+            }
+
+            .particle-trigger {
+                width: 6px;
+                height: 6px;
+                background: #f59e0b;
+                border-radius: 50%;
+                position: absolute;
+                top: -15px;
+                left: 50%;
+                animation: triggerFlash 0.5s infinite alternate;
+            }
+
+            @keyframes triggerFlash {
+                0% {
+                    opacity: 0.2;
+                }
+
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            /* STATUS */
+            .status-box {
+                margin-top: auto;
+                padding: 10px;
+                border-radius: 6px;
+                text-align: center;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            .error {
+                background: rgba(239, 68, 68, 0.1);
+                color: #ef4444;
+                border: 1px solid #ef4444;
+            }
+
+            .success {
+                background: rgba(16, 185, 129, 0.1);
+                color: #10b981;
+                border: 1px solid #10b981;
+            }
+
+            .node-stack {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        </style>
 
         <!-- SLIDE 5 : SYNTHÈSE GLOBALE -->
         <div class="slide" id="slide5" data-aos="fade-up">
