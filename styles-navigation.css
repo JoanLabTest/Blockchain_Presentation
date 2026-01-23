@@ -25,7 +25,8 @@
 /* Dropdown Menu */
 .nav-dropdown-menu {
     position: absolute;
-    top: calc(100% + 15px);
+    top: calc(100% + 5px);
+    /* Réduit de 15px à 5px pour faciliter le hover */
     left: 0;
     min-width: 220px;
     background: rgba(15, 23, 42, 0.98);
@@ -37,9 +38,22 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    /* Réduit de 0.3s à 0.2s pour réactivité */
     z-index: 2000;
     pointer-events: none;
+}
+
+/* Pont invisible pour faciliter le hover */
+.nav-dropdown::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 10px;
+    /* Zone invisible pour maintenir le hover */
+    z-index: 1999;
 }
 
 /* Show Dropdown on Hover */
@@ -57,11 +71,13 @@
 /* Dropdown Menu Links */
 .nav-dropdown-menu a {
     display: block;
-    padding: 12px 20px;
+    padding: 14px 20px;
+    /* Augmenté de 12px à 14px pour zone cliquable plus grande */
     color: #94a3b8;
     text-decoration: none;
     font-size: 0.9rem;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    /* Réduit pour réactivité */
     border-bottom: 1px solid rgba(51, 65, 85, 0.5);
 }
 
@@ -70,20 +86,17 @@
 }
 
 .nav-dropdown-menu a:hover {
-    background: rgba(59, 130, 246, 0.1);
+    background: rgba(59, 130, 246, 0.15);
+    /* Augmenté de 0.1 à 0.15 pour meilleur feedback visuel */
     color: #3b82f6;
     padding-left: 25px;
 }
 
-/* Show Dropdown on Hover */
-.nav-dropdown:hover .nav-dropdown-menu {
+/* Maintenir le dropdown ouvert quand on survole le menu */
+.nav-dropdown-menu:hover {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
-}
-
-.nav-dropdown:hover .nav-dropdown-toggle i {
-    transform: rotate(180deg);
+    pointer-events: auto;
 }
 
 /* Status Badge Styling */
