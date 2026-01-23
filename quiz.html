@@ -4,14 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certification DCM Digital - Le Test</title>
+
+    <!-- METADATA & FAVICON -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2091/2091665.png" type="image/png">
+    <meta name="theme-color" content="#020617">
+    <meta property="og:title" content="Certification DCM Digital - Quiz 30 Questions">
+    <meta property="og:description"
+        content="Quiz de certification professionnel couvrant tous les modules blockchain banking.">
+
+    <title>Certification DCM Digital - Quiz 30 Questions</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* --- CONFIGURATION DESIGN (Même charte que le site principal) --- */
+        /* --- CONFIGURATION DESIGN --- */
         :root {
             --bg-dark: #020617;
             --bg-card: #1e293b;
@@ -21,6 +29,7 @@
             --accent-green: #10b981;
             --accent-gold: #f59e0b;
             --accent-red: #ef4444;
+            --accent-purple: #a855f7;
             --border: #334155;
         }
 
@@ -104,7 +113,7 @@
         }
 
         .progress-track {
-            width: 200px;
+            width: 250px;
             height: 8px;
             background: var(--bg-dark);
             border-radius: 4px;
@@ -116,6 +125,15 @@
             background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
             width: 0%;
             transition: width 0.5s;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
         }
 
         /* CONTENT */
@@ -236,6 +254,22 @@
             background: rgba(16, 185, 129, 0.1);
         }
 
+        .category-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .category-result-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
         @keyframes slideIn {
             from {
                 opacity: 0;
@@ -245,6 +279,16 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-results {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -266,7 +310,7 @@
             <!-- HEADER (Score & Progress) -->
             <div class="quiz-header" id="quizHeader">
                 <div style="font-family: 'JetBrains Mono'; color: var(--accent-gold);">Question <span
-                        id="qCurrent">1</span>/20</div>
+                        id="qCurrent">1</span>/30</div>
                 <div class="progress-track">
                     <div class="progress-fill" id="progressBar"></div>
                 </div>
@@ -274,6 +318,7 @@
 
             <!-- QUESTION SCREEN -->
             <div class="quiz-content" id="questionScreen">
+                <div id="categoryBadge" class="category-badge"></div>
                 <h2 id="questionText">Chargement...</h2>
 
                 <div class="options-grid" id="optionsContainer">
@@ -294,9 +339,11 @@
                 <div class="score-circle" id="finalScore">0%</div>
                 <h1 id="finalRank">Titre</h1>
                 <p id="finalMessage"
-                    style="font-size: 18px; color: var(--text-muted); max-width: 600px; margin-bottom: 40px;"></p>
+                    style="font-size: 18px; color: var(--text-muted); max-width: 600px; margin-bottom: 30px;"></p>
 
-                <div style="display: flex; gap: 20px;">
+                <div class="category-results" id="categoryResults"></div>
+
+                <div style="display: flex; gap: 20px; margin-top: 20px;">
                     <button onclick="location.reload()"
                         style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Recommencer</button>
                     <a href="index.html"
@@ -309,38 +356,43 @@
     </div>
 
     <script>
-        // --- BANQUE DE QUESTIONS (20 Questions Expertes) ---
+        // --- BANQUE DE QUESTIONS (30 Questions Expertes) ---
         const questions = [
             // PARTIE 1 : FONDAMENTAUX (1-5)
             {
                 q: "Quelle est la définition fondamentale d'une Blockchain dans un contexte bancaire ?",
                 options: ["Une crypto-monnaie spéculative", "Un registre distribué partagé et immuable", "Un serveur centralisé sécurisé", "Un logiciel de trading"],
                 a: 1,
-                info: "C'est un 'Distributed Ledger Technology' (DLT). Contrairement à un serveur central, le registre est copié sur tous les nœuds du réseau."
+                info: "C'est un 'Distributed Ledger Technology' (DLT). Contrairement à un serveur central, le registre est copié sur tous les nœuds du réseau.",
+                category: "Fondamentaux"
             },
             {
                 q: "Dans l'analogie bancaire, à quoi correspond l'Adresse Publique d'un Wallet ?",
                 options: ["Au code PIN", "Au mot de passe", "À l'IBAN (RIB)", "À la signature"],
                 a: 2,
-                info: "L'adresse publique sert à recevoir des fonds, comme un IBAN. La clé privée sert à signer, comme une signature."
+                info: "L'adresse publique sert à recevoir des fonds, comme un IBAN. La clé privée sert à signer, comme une signature.",
+                category: "Fondamentaux"
             },
             {
                 q: "Qu'est-ce qu'un Smart Contract ?",
                 options: ["Un contrat papier numérisé", "Un programme informatique qui s'exécute automatiquement", "Un accord verbal entre traders", "Une intelligence artificielle"],
                 a: 1,
-                info: "C'est du code ('If This Then That') stocké sur la blockchain qui exécute automatiquement les clauses (ex: paiement coupon) sans tiers."
+                info: "C'est du code ('If This Then That') stocké sur la blockchain qui exécute automatiquement les clauses (ex: paiement coupon) sans tiers.",
+                category: "Fondamentaux"
             },
             {
                 q: "Quelle est la différence majeure entre un Token et une Crypto-monnaie classique (ex: Bitcoin) ?",
                 options: ["Il n'y en a aucune", "Le Token est toujours plus cher", "Le Token est une enveloppe qui peut contenir un actif réel (Titre)", "Le Token ne fonctionne pas sur Blockchain"],
                 a: 2,
-                info: "Le Bitcoin est une monnaie native. Le Token (Security Token) est un conteneur qui représente un actif (Dette, Action, Cash)."
+                info: "Le Bitcoin est une monnaie native. Le Token (Security Token) est un conteneur qui représente un actif (Dette, Action, Cash).",
+                category: "Fondamentaux"
             },
             {
                 q: "Que signifie l'immuabilité de la Blockchain ?",
                 options: ["On ne peut pas écrire dessus", "On peut tout effacer", "Une fois validée, une transaction ne peut plus être modifiée", "Les transactions sont invisibles"],
                 a: 2,
-                info: "C'est la garantie de sécurité absolue : personne ne peut falsifier l'historique rétroactivement."
+                info: "C'est la garantie de sécurité absolue : personne ne peut falsifier l'historique rétroactivement.",
+                category: "Fondamentaux"
             },
 
             // PARTIE 2 : PRODUITS & MARCHÉ (6-10)
@@ -348,31 +400,36 @@
                 q: "Quel est l'avantage principal d'un Digital Bond sur le marché primaire ?",
                 options: ["Il est plus volatil", "Règlement en T+0 (Instantané)", "Il n'a pas besoin d'être remboursé", "Il offre un taux d'intérêt double"],
                 a: 1,
-                info: "La suppression de la chaîne d'intermédiaires permet de passer de T+5 (Papier) à T+0 (Digital)."
+                info: "La suppression de la chaîne d'intermédiaires permet de passer de T+5 (Papier) à T+0 (Digital).",
+                category: "Produits & Marché"
             },
             {
                 q: "Qu'est-ce qu'un Covered Bond Digital ?",
                 options: ["Une obligation sans garantie", "Un titre garanti par des cryptos", "Un titre garanti par un panier d'actifs réels (Immo) inscrit dans le code", "Une assurance vie"],
                 a: 2,
-                info: "Comme un Pfandbrief classique, il bénéficie du double recours, mais le lien avec le collatéral est géré par le Smart Contract."
+                info: "Comme un Pfandbrief classique, il bénéficie du double recours, mais le lien avec le collatéral est géré par le Smart Contract.",
+                category: "Produits & Marché"
             },
             {
                 q: "Quelle banque a émis un Covered Bond de 100M€ sur SWIAT en août 2024 ?",
                 options: ["BNP Paribas", "Natixis Pfandbriefbank", "Société Générale", "Deutsche Bank"],
                 a: 1,
-                info: "C'était une première pour une filiale de banque française utilisant le droit allemand et l'infrastructure SWIAT."
+                info: "C'était une première pour une filiale de banque française utilisant le droit allemand et l'infrastructure SWIAT.",
+                category: "Produits & Marché"
             },
             {
                 q: "Quelle est la particularité de l'émission de Siemens (300M€) ?",
                 options: ["Payée en Bitcoin", "Réglée via le Trigger de la Bundesbank", "Émise sur papier", "Réservée aux particuliers"],
                 a: 1,
-                info: "Siemens a utilisé la solution Trigger pour régler directement en monnaie banque centrale, sans passer par un Stablecoin."
+                info: "Siemens a utilisé la solution Trigger pour régler directement en monnaie banque centrale, sans passer par un Stablecoin.",
+                category: "Produits & Marché"
             },
             {
                 q: "Pourquoi SG-FORGE a-t-elle utilisé le réseau Canton pour son émission US ?",
                 options: ["Pour payer moins cher", "Pour la rapidité", "Pour la confidentialité (Privacy) exigée aux USA", "Par hasard"],
                 a: 2,
-                info: "Les investisseurs américains exigent que leurs transactions restent secrètes, ce que permettent les blockchains privées comme Canton."
+                info: "Les investisseurs américains exigent que leurs transactions restent secrètes, ce que permettent les blockchains privées comme Canton.",
+                category: "Produits & Marché"
             },
 
             // PARTIE 3 : TECHNIQUE & INFRA (11-15)
@@ -380,70 +437,156 @@
                 q: "Qu'est-ce que l'Atomic Swap ?",
                 options: ["Une explosion nucléaire", "L'échange simultané Titre contre Cash", "Un échange de mails", "Une annulation de trade"],
                 a: 1,
-                info: "C'est le mécanisme de DvP (Delivery vs Payment) parfait : si le cash ne part pas, le titre ne part pas. Risque de contrepartie nul."
+                info: "C'est le mécanisme de DvP (Delivery vs Payment) parfait : si le cash ne part pas, le titre ne part pas. Risque de contrepartie nul.",
+                category: "Technique & Infra"
             },
             {
                 q: "Laquelle de ces solutions permet de payer en Monnaie Banque Centrale ?",
                 options: ["Stablecoin USDT", "Bitcoin", "Solution Trigger", "Ethereum"],
                 a: 2,
-                info: "Le Trigger est une passerelle qui connecte la Blockchain au système Target2 de la Banque Centrale."
+                info: "Le Trigger est une passerelle qui connecte la Blockchain au système Target2 de la Banque Centrale.",
+                category: "Technique & Infra"
             },
             {
                 q: "Qu'est-ce que le 'Minting' ?",
                 options: ["Le minage de Bitcoin", "La création technique des tokens (Émission)", "La destruction des tokens", "Le trading"],
                 a: 1,
-                info: "Le Minting est l'acte de créer les jetons sur la blockchain, équivalent à l'impression du certificat global papier."
+                info: "Le Minting est l'acte de créer les jetons sur la blockchain, équivalent à l'impression du certificat global papier.",
+                category: "Technique & Infra"
             },
             {
                 q: "Que se passe-t-il lors du remboursement (Maturité) ?",
                 options: ["On garde les tokens en souvenir", "Les tokens sont 'Burned' (Détruits)", "On les revend", "Rien"],
                 a: 1,
-                info: "Une fois remboursés, les tokens doivent être détruits informatiquement pour annuler la dette dans le registre."
+                info: "Une fois remboursés, les tokens doivent être détruits informatiquement pour annuler la dette dans le registre.",
+                category: "Technique & Infra"
             },
             {
                 q: "Quelle plateforme est un 'Réseau Privé Bancaire' ?",
                 options: ["Ethereum", "Polygon", "SWIAT", "Bitcoin"],
                 a: 2,
-                info: "SWIAT est une blockchain de consortium (privée) créée par DekaBank, contrairement à Ethereum qui est publique."
+                info: "SWIAT est une blockchain de consortium (privée) créée par DekaBank, contrairement à Ethereum qui est publique.",
+                category: "Technique & Infra"
             },
 
-            // PARTIE 4 : RÉGULATION & AVENIR (16-20)
+            // PARTIE 4 : WEB3 BANKING (16-20)
+            {
+                q: "Qu'est-ce que la DeFi (Finance Décentralisée) ?",
+                options: ["Une banque traditionnelle", "Des services financiers sans intermédiaire bancaire", "Un type de crypto-monnaie", "Un réseau social"],
+                a: 1,
+                info: "La DeFi permet de prêter, emprunter, échanger des actifs directement via des smart contracts, sans banque centrale.",
+                category: "Web3 Banking"
+            },
+            {
+                q: "Quelle est la fonction principale d'un Stablecoin ?",
+                options: ["Spéculer sur le marché", "Maintenir une valeur stable (ex: 1 USD = 1 USDC)", "Miner du Bitcoin", "Créer des NFT"],
+                a: 1,
+                info: "Les stablecoins sont adossés à des devises fiduciaires (USD, EUR) pour éviter la volatilité des cryptos classiques.",
+                category: "Web3 Banking"
+            },
+            {
+                q: "Qu'est-ce qu'un NFT (Non-Fungible Token) ?",
+                options: ["Une crypto-monnaie", "Un token unique et non-interchangeable", "Un smart contract", "Une blockchain"],
+                a: 1,
+                info: "Contrairement aux tokens fongibles (1 BTC = 1 BTC), chaque NFT est unique (ex: certificat de propriété, œuvre d'art).",
+                category: "Web3 Banking"
+            },
+            {
+                q: "Quel est l'avantage du Web3 pour l'identité numérique (KYC) ?",
+                options: ["Anonymat total", "Identité auto-souveraine contrôlée par l'utilisateur", "Pas besoin de vérification", "Identité gérée par Google"],
+                a: 1,
+                info: "Le Web3 permet aux utilisateurs de contrôler leurs données d'identité via des wallets, sans dépendre d'un tiers centralisé.",
+                category: "Web3 Banking"
+            },
+            {
+                q: "Quelle infrastructure permet l'interopérabilité entre blockchains ?",
+                options: ["Bitcoin", "Bridges (Ponts)", "Excel", "SWIFT"],
+                a: 1,
+                info: "Les bridges permettent de transférer des actifs entre différentes blockchains (ex: Ethereum ↔ Polygon).",
+                category: "Web3 Banking"
+            },
+
+            // PARTIE 5 : FLUX & OPÉRATIONS (21-25)
+            {
+                q: "Quel est le délai de règlement conventionnel pour une émission obligataire papier ?",
+                options: ["T+0", "T+2", "T+5", "T+10"],
+                a: 2,
+                info: "Le processus conventionnel (Global Note → CSD → Règlement) prend environ 5 jours ouvrés.",
+                category: "Flux & Opérations"
+            },
+            {
+                q: "Quel est le principal risque éliminé par le règlement T+0 ?",
+                options: ["Risque de crédit", "Risque de Fail (défaut de livraison)", "Risque de change", "Risque de liquidité"],
+                a: 1,
+                info: "Le règlement instantané élimine le risque que la contrepartie ne livre pas le titre ou le cash (Settlement Fail).",
+                category: "Flux & Opérations"
+            },
+            {
+                q: "Dans le modèle conventionnel, combien d'intermédiaires interviennent entre l'émetteur et l'investisseur ?",
+                options: ["0", "1", "3 (CSD, Custodian, Agent)", "10"],
+                a: 2,
+                info: "Le modèle cascade implique : Émetteur → CSD (Euroclear) → Custodian → Investisseur, avec réconciliation à chaque étape.",
+                category: "Flux & Opérations"
+            },
+            {
+                q: "Quelle est l'économie de coûts opérationnels estimée sur 5 ans avec la digitalisation ?",
+                options: ["-20%", "-50%", "-92%", "-10%"],
+                a: 2,
+                info: "La suppression des réconciliations manuelles et du papier permet des économies massives : -90% sur l'émission, -97% sur le règlement.",
+                category: "Flux & Opérations"
+            },
+            {
+                q: "Quel message SWIFT est utilisé pour les instructions de règlement conventionnel ?",
+                options: ["MT103", "MT540/541", "MT202", "MT999"],
+                a: 1,
+                info: "Les messages MT540 (Receive) et MT541 (Deliver) sont les standards SWIFT pour les instructions de titres.",
+                category: "Flux & Opérations"
+            },
+
+            // PARTIE 6 : SMART ASSET SERVICING (26-28)
+            {
+                q: "Comment sont payés les coupons dans un Digital Bond ?",
+                options: ["Virement SWIFT manuel", "Smart Contract auto-exécuté", "Chèque papier", "Bitcoin"],
+                a: 1,
+                info: "Le smart contract calcule automatiquement les montants et distribue les coupons aux détenteurs à la date programmée.",
+                category: "Smart Asset Servicing"
+            },
+            {
+                q: "Quel est le délai de paiement des coupons en mode digital vs conventionnel ?",
+                options: ["T+0 vs J+3 à J+5", "Identique", "Plus lent en digital", "T+10 vs T+0"],
+                a: 0,
+                info: "Le smart contract paie instantanément (T+0) vs le processus manuel conventionnel qui prend 3 à 5 jours.",
+                category: "Smart Asset Servicing"
+            },
+            {
+                q: "Que devient le token à la maturité de l'obligation ?",
+                options: ["Il reste actif", "Il est 'burned' (détruit automatiquement)", "Il se transforme en NFT", "Il est vendu"],
+                a: 1,
+                info: "Le smart contract détruit automatiquement les tokens après remboursement, garantissant la traçabilité permanente.",
+                category: "Smart Asset Servicing"
+            },
+
+            // PARTIE 7 : RÉGULATION & AVENIR (29-30)
             {
                 q: "Quelle loi allemande a permis l'essor des Crypto Securities ?",
                 options: ["MiCA", "eWpG", "RGPD", "Bâle III"],
                 a: 1,
-                info: "La loi eWpG (2021) a supprimé l'obligation du certificat papier global en Allemagne."
-            },
-            {
-                q: "Quel est le principal risque résiduel sur les Digital Bonds aujourd'hui ?",
-                options: ["Le risque de crédit", "Le risque de règlement", "Le risque de liquidité (Marché Secondaire)", "Le risque de change"],
-                a: 2,
-                info: "Le règlement est sûr (T+0), le crédit est inchangé (AAA), mais il est encore difficile de revendre les titres (Liquidité)."
-            },
-            {
-                q: "Quel acteur a commencé à faire du Market Making (Achat) en 2025 ?",
-                options: ["La BCE", "KfW", "La FED", "La Banque Mondiale"],
-                a: 1,
-                info: "La KfW a commencé à acheter des titres digitaux pour dynamiser le marché secondaire."
+                info: "La loi eWpG (2021) a supprimé l'obligation du certificat papier global en Allemagne.",
+                category: "Régulation"
             },
             {
                 q: "Quel est l'objectif du projet 'Pontes' de la BCE ?",
                 options: ["Interdire la crypto", "Créer un Bitcoin européen", "Standardiser la solution Trigger pour l'Europe", "Fermer Target2"],
                 a: 2,
-                info: "Pontes vise à pérenniser les passerelles entre les blockchains et la monnaie banque centrale."
-            },
-            {
-                q: "En synthèse, quel est le ROI principal pour une banque ?",
-                options: ["Spéculer sur le cours", "Réduire les coûts de Back-Office et optimiser le collatéral", "Faire du marketing", "Aucun"],
-                a: 1,
-                info: "L'automatisation et le T+0 permettent des économies massives sur la réconciliation et la gestion de trésorerie."
+                info: "Pontes vise à pérenniser les passerelles entre les blockchains et la monnaie banque centrale.",
+                category: "Régulation"
             }
         ];
 
         // --- LOGIQUE DU JEU ---
         let currentQ = 0;
         let score = 0;
-        let userAnswers = [];
+        let categoryScores = {};
 
         const ui = {
             question: document.getElementById('questionText'),
@@ -455,8 +598,18 @@
             content: document.getElementById('questionScreen'),
             result: document.getElementById('resultScreen'),
             qCurrent: document.getElementById('qCurrent'),
-            bar: document.getElementById('progressBar')
+            bar: document.getElementById('progressBar'),
+            categoryBadge: document.getElementById('categoryBadge'),
+            categoryResults: document.getElementById('categoryResults')
         };
+
+        // Initialize category scores
+        questions.forEach(q => {
+            if (!categoryScores[q.category]) {
+                categoryScores[q.category] = { correct: 0, total: 0 };
+            }
+            categoryScores[q.category].total++;
+        });
 
         function loadQuestion() {
             const q = questions[currentQ];
@@ -464,6 +617,20 @@
             // Update UI
             ui.qCurrent.innerText = currentQ + 1;
             ui.bar.style.width = ((currentQ) / questions.length * 100) + "%";
+
+            // Category badge
+            const categoryColors = {
+                "Fondamentaux": "background: rgba(59, 130, 246, 0.2); color: #3b82f6;",
+                "Produits & Marché": "background: rgba(16, 185, 129, 0.2); color: #10b981;",
+                "Technique & Infra": "background: rgba(168, 85, 247, 0.2); color: #a855f7;",
+                "Web3 Banking": "background: rgba(245, 158, 11, 0.2); color: #f59e0b;",
+                "Flux & Opérations": "background: rgba(236, 72, 153, 0.2); color: #ec4899;",
+                "Smart Asset Servicing": "background: rgba(20, 184, 166, 0.2); color: #14b8a6;",
+                "Régulation": "background: rgba(239, 68, 68, 0.2); color: #ef4444;"
+            };
+
+            ui.categoryBadge.innerText = q.category;
+            ui.categoryBadge.style = categoryColors[q.category] || "";
 
             // Reset states
             ui.question.innerText = q.q;
@@ -493,6 +660,7 @@
             if (isCorrect) {
                 btn.classList.add('correct');
                 score++;
+                categoryScores[q.category].correct++;
             } else {
                 btn.classList.add('wrong');
                 // Show correct one
@@ -532,12 +700,16 @@
 
             if (percentage < 50) {
                 rank = "Stagiaire Débutant";
-                msg = "C'est un début ! N'hésitez pas à relire les modules 'Fondamentaux' et 'Tech 101' pour bien saisir les bases.";
+                msg = "C'est un début ! N'hésitez pas à relire les modules pour bien saisir les bases.";
                 color = "#ef4444";
-            } else if (percentage < 80) {
+            } else if (percentage < 70) {
                 rank = "Analyste Junior";
-                msg = "Pas mal ! Vous avez les bases, mais il manque encore quelques détails techniques sur les flux de règlement.";
+                msg = "Pas mal ! Vous avez les bases, mais il manque encore quelques détails techniques.";
                 color = "#f59e0b";
+            } else if (percentage < 85) {
+                rank = "Senior Analyst";
+                msg = "Très bien ! Vous maîtrisez la majorité des concepts. Encore un petit effort !";
+                color = "#10b981";
             } else {
                 rank = "Head of Digital Desk 🏆";
                 msg = "Excellent ! Vous maîtrisez parfaitement le sujet. Vous êtes prêt pour piloter une émission digitale.";
@@ -548,7 +720,22 @@
             document.getElementById('finalRank').style.color = color;
             document.getElementById('finalMessage').innerText = msg;
             document.getElementById('finalScore').style.borderColor = color;
-            document.getElementById('finalScore').style.background = color + "20"; // 20% opacity
+            document.getElementById('finalScore').style.background = color + "20";
+
+            // Show category breakdown
+            ui.categoryResults.innerHTML = "";
+            Object.keys(categoryScores).forEach(cat => {
+                const catScore = categoryScores[cat];
+                const catPercentage = Math.round((catScore.correct / catScore.total) * 100);
+                const card = document.createElement('div');
+                card.className = 'category-result-card';
+                card.innerHTML = `
+                    <div style="font-weight: bold; margin-bottom: 10px; color: white;">${cat}</div>
+                    <div style="font-size: 24px; color: ${catPercentage >= 70 ? '#10b981' : '#f59e0b'};">${catScore.correct}/${catScore.total}</div>
+                    <div style="font-size: 14px; color: var(--text-muted);">${catPercentage}%</div>
+                `;
+                ui.categoryResults.appendChild(card);
+            });
         }
 
         // Start
