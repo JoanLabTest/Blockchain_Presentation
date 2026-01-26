@@ -25,9 +25,59 @@
     <!-- EXTERNAL STYLESHEETS -->
     <link rel="stylesheet" href="styles-navigation.css">
     <link rel="stylesheet" href="styles-logo-dropdown.css">
+    <link rel="stylesheet" href="styles-3d-hub.css"> <!-- Shared 3D styles -->
 
     <style>
         /* === CONFIGURATION === */
+        :root {
+            /* ... existing variables ... */
+            --bg-dark: #020617;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            /* ... */
+        }
+
+        #hubCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* HERO UPGRADE */
+        .hero-slide {
+            background: transparent;
+            /* Let canvas show */
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 72px;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            text-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .comparison-vs-badge {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: grid;
+            place-items: center;
+            margin: 0 20px;
+        }
+
         :root {
             --bg-dark: #020617;
             --bg-card: #1e293b;
@@ -443,10 +493,13 @@
                 DCM <span style="color:#10b981">OPS</span>
             </div>
         </div>
-        <a href="index.html" class="mode-switch">
-            <i class="fa-solid fa-arrow-left"></i> RETOUR AU PORTAIL
+        <a href="index.html" class="mode-switch" style="border-color: #3b82f6; color: #3b82f6;">
+            <i class="fa-solid fa-home"></i> HUB
         </a>
     </nav>
+
+    <!-- CANVAS BG -->
+    <canvas id="hubCanvas"></canvas>
 
     <style>
         /* NAVIGATION BAR */
@@ -597,20 +650,30 @@
         <div class="slide" id="slide1" data-aos="fade-up">
             <div class="hero-slide">
                 <p class="hero-badge">INFRASTRUCTURE & OPÉRATIONS</p>
-                <h1 class="hero-title">Comparatif des Flux & Cycles de Vie</h1>
-                <h2 class="hero-subtitle">Analyse d'Impact : Conventionnel vs Digital</h2>
+                <h1 class="hero-title">Flux Operati<span style="color:#10b981">ons</span></h1>
+                <h2 class="hero-subtitle">Le Choc de Simplification : T+2 vs T+0</h2>
 
-                <div class="comparison-boxes">
-                    <div class="comparison-box" style="border: 1px solid var(--accent-gray);">
-                        <i class="fa-solid fa-file-contract" style="color: var(--accent-gray);"></i>
+                <div class="comparison-boxes" style="margin-top: 40px;">
+                    <div class="comparison-box glass-card"
+                        style="border-top: 4px solid #64748b; transform: rotate(-2deg);">
+                        <i class="fa-solid fa-file-contract" style="color: #64748b;"></i>
                         <h3>Modèle Papier</h3>
-                        <p style="color: var(--accent-gray); margin: 0;">Crédit Foncier</p>
+                        <p style="color: #94a3b8; font-size: 14px;">Processus Séquentiel</p>
+                        <div
+                            style="background: rgba(100,116,139,0.2); color: #fff; padding: 5px; border-radius: 4px; margin-top: 10px; font-size: 12px;">
+                            CRÉDIT FONCIER</div>
                     </div>
-                    <div style="font-size: 40px; color: var(--accent-blue);">VS</div>
-                    <div class="comparison-box" style="border: 1px solid var(--accent-green);">
-                        <i class="fa-solid fa-bolt" style="color: var(--accent-green);"></i>
+
+                    <div class="comparison-vs-badge">VS</div>
+
+                    <div class="comparison-box glass-card"
+                        style="border-top: 4px solid #10b981; transform: rotate(2deg); box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);">
+                        <i class="fa-solid fa-bolt" style="color: #10b981;"></i>
                         <h3>Modèle Digital</h3>
-                        <p style="color: var(--accent-green); margin: 0;">Natixis Pfandbriefbank</p>
+                        <p style="color: #10b981; font-size: 14px;">Atomic Settlement</p>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.2); color: #fff; padding: 5px; border-radius: 4px; margin-top: 10px; font-size: 12px;">
+                            NATIXIS PFANDBRIEF</div>
                     </div>
                 </div>
             </div>
@@ -1500,7 +1563,9 @@
 
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ duration: 800, once: true });</script>
+    <script src="hub-particles.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });</script>
 
     <script>
         // Progress Bar
