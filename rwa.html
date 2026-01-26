@@ -13,18 +13,24 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* --- DESIGN SYSTEM (COHÉRENT) --- */
+        /* --- DESIGN SYSTEM (PREMIUM & DYNAMIC) --- */
         :root {
             --bg-dark: #020617;
-            --bg-card: #1e293b;
-            --text-main: #e2e8f0;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            /* Glassmorphism base */
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
-            --accent-gold: #f59e0b;
-            --accent-blue: #3b82f6;
-            --accent-purple: #a855f7;
-            --accent-green: #10b981;
-            --border: #334155;
-            --gradient: linear-gradient(135deg, #f59e0b, #ef4444);
+            --accent-gold: #fbbf24;
+            --accent-blue: #60a5fa;
+            --accent-purple: #c084fc;
+            --accent-green: #34d399;
+            --border: rgba(148, 163, 184, 0.1);
+            --glow-gold: 0 0 20px rgba(251, 191, 36, 0.3);
+            --glow-blue: 0 0 20px rgba(96, 165, 250, 0.3);
+            --gradient-mesh: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.15) 0px, transparent 50%);
         }
 
         * {
@@ -36,26 +42,30 @@
 
         body {
             background-color: var(--bg-dark);
+            background-image: var(--gradient-mesh);
+            background-attachment: fixed;
+            background-size: cover;
             font-family: 'Urbanist', sans-serif;
             color: var(--text-main);
             overflow-x: hidden;
         }
 
-        /* NAVIGATION */
+        /* --- NAVIGATION --- */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 70px;
-            background: rgba(2, 6, 23, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 40px;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
 
         .nav-logo {
@@ -65,28 +75,34 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            letter-spacing: 0.5px;
         }
 
         .mode-switch {
+            background: rgba(251, 191, 36, 0.1);
             border: 1px solid var(--accent-gold);
             color: var(--accent-gold);
             text-decoration: none;
             padding: 8px 20px;
             border-radius: 50px;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .mode-switch:hover {
             background: var(--accent-gold);
             color: #000;
+            box-shadow: var(--glow-gold);
+            transform: translateY(-2px);
         }
 
-        /* CONTAINER */
+        /* --- CONTAINER & SLIDES --- */
         .deck-container {
             margin-top: 100px;
             display: flex;
@@ -100,16 +116,23 @@
             width: 100%;
             max-width: 1280px;
             min-height: 600px;
-            background-color: var(--bg-card);
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: var(--bg-card);
+            backdrop-filter: blur(40px);
+            border-radius: 30px;
+            box-shadow: 0 25px 90px -12px rgba(0, 0, 0, 0.4);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 80px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Subtle hover effect on slides */
+        .slide:hover {
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .slide::before {
@@ -118,27 +141,33 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 6px;
-            background: var(--gradient);
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-purple), var(--accent-blue));
+            opacity: 0.8;
         }
 
         h1 {
-            font-size: 56px;
+            font-size: 64px;
             font-weight: 800;
             color: #fff;
             line-height: 1.1;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         h2 {
-            font-size: 36px;
-            border-bottom: 1px solid var(--border);
+            font-size: 42px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 20px;
             margin-bottom: 40px;
             color: white;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        /* --- VISUELS RWA --- */
+        /* --- ANIMATED GRID CARDS --- */
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -146,85 +175,203 @@
         }
 
         .rwa-card {
-            background: #0b1121;
+            background: rgba(11, 17, 33, 0.6);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: 20px;
+            padding: 40px 30px;
             text-align: center;
-            transition: transform 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rwa-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .rwa-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-gold);
+            transform: translateY(-10px);
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .rwa-card:hover::after {
+            opacity: 1;
         }
 
         .rwa-icon {
-            font-size: 40px;
-            margin-bottom: 20px;
-            color: var(--accent-gold);
+            font-size: 48px;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 6px rgba(251, 191, 36, 0.2));
+            transition: transform 0.3s;
         }
 
-        /* --- VISUELS DEFI --- */
+        .rwa-card:hover .rwa-icon {
+            transform: scale(1.1);
+        }
+
+        /* --- ANIMATED DEFI DIAGRAM --- */
         .defi-diagram {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-top: 40px;
-            background: #0b1121;
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px dashed var(--border);
+            background: rgba(11, 17, 33, 0.8);
+            padding: 50px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Background Grid for Diagram */
+        .defi-diagram::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            transform: rotate(45deg);
+            z-index: 0;
         }
 
         .defi-node {
-            width: 120px;
+            width: 140px;
             text-align: center;
-            padding: 20px;
-            background: var(--bg-card);
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            padding: 25px 20px;
+            background: rgba(30, 41, 59, 0.9);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 2;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .defi-node:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .defi-pool {
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            border: 4px solid var(--accent-blue);
+            border: 2px solid rgba(59, 130, 246, 0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(59, 130, 246, 0.1);
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
             position: relative;
+            z-index: 2;
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.15);
         }
 
+        /* Animated Pool Water */
         .pool-water {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50%;
-            background: rgba(59, 130, 246, 0.3);
-            border-bottom-left-radius: 100px;
-            border-bottom-right-radius: 100px;
-            z-index: 0;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0.5;
         }
 
+        .pool-water::after {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: 40%;
+            left: -50%;
+            background-color: rgba(59, 130, 246, 0.4);
+            border-radius: 40%;
+            animation: wave 6s linear infinite;
+        }
+
+        @keyframes wave {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Animated Flow Arrows */
         .arrow-flow {
             height: 2px;
-            background: var(--text-muted);
+            background: rgba(148, 163, 184, 0.3);
             flex-grow: 1;
             position: relative;
+            z-index: 1;
+            margin: 0 20px;
         }
 
-        .arrow-flow::after {
-            content: '►';
+        .arrow-flow::before {
+            content: '';
             position: absolute;
-            right: -5px;
-            top: -8px;
-            color: var(--text-muted);
+            top: -1px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+            background: var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue);
+            border-radius: 2px;
+            animation: flow 2s infinite linear;
+        }
+
+        @keyframes flow {
+            0% {
+                left: 0;
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* --- CALCULATOR UI --- */
+        .roi-calculator {
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(11, 17, 33, 0.9)) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        input[type="number"] {
+            transition: all 0.3s;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent-blue) !important;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
         /* RESPONSIVE */
@@ -234,15 +381,16 @@
             }
 
             .slide {
-                padding: 40px 30px;
+                padding: 40px 25px;
+                min-height: auto;
             }
 
             h1 {
-                font-size: 36px;
+                font-size: 42px;
             }
 
             h2 {
-                font-size: 28px;
+                font-size: 32px;
             }
 
             .grid-3 {
@@ -251,7 +399,35 @@
 
             .defi-diagram {
                 flex-direction: column;
-                gap: 20px;
+                gap: 40px;
+            }
+
+            .arrow-flow {
+                width: 2px;
+                height: 50px;
+                margin: 10px 0;
+            }
+
+            .arrow-flow::before {
+                width: 4px;
+                height: 20px;
+                animation: flow-vert 2s infinite linear;
+            }
+
+            @keyframes flow-vert {
+                0% {
+                    top: 0;
+                    opacity: 0;
+                }
+
+                50% {
+                    opacity: 1;
+                }
+
+                100% {
+                    top: 100%;
+                    opacity: 0;
+                }
             }
         }
     </style>
@@ -261,12 +437,17 @@
 
     <nav class="navbar">
         <div class="nav-logo">
-            <i class="fa-solid fa-layer-group" style="color: var(--accent-gold);"></i> RWA & <span
+            <i class="fa-solid fa-layer-group"
+                style="color: var(--accent-gold); filter: drop-shadow(0 0 5px rgba(251,191,36,0.5))"></i> RWA & <span
                 style="color:var(--accent-gold)">DEFI</span>
         </div>
-        <div style="display:flex; gap:20px;">
-            <a href="#rwa" style="color:#94a3b8; text-decoration:none; font-weight:bold;">REAL WORLD ASSETS</a>
-            <a href="#defi" style="color:#94a3b8; text-decoration:none; font-weight:bold;">INSTITUTIONAL DEFI</a>
+        <div style="display:flex; gap:30px;" class="desktop-only">
+            <a href="#rwa"
+                style="color:#94a3b8; text-decoration:none; font-weight:700; font-size:13px; letter-spacing:1px; transition:color 0.3s hover:text-white">REAL
+                WORLD ASSETS</a>
+            <a href="#defi"
+                style="color:#94a3b8; text-decoration:none; font-weight:700; font-size:13px; letter-spacing:1px; transition:color 0.3s hover:text-white">INSTITUTIONAL
+                DEFI</a>
         </div>
         <a href="index.html" class="mode-switch">
             <i class="fa-solid fa-arrow-left"></i> RETOUR PORTAIL
@@ -276,29 +457,49 @@
     <div class="deck-container">
 
         <!-- HERO -->
-        <div class="slide" data-aos="fade-up">
-            <div style="text-align: center;">
-                <p
-                    style="color: var(--accent-gold); font-family: 'JetBrains Mono'; margin-bottom: 20px; letter-spacing: 2px;">
-                    LA PROCHAINE VAGUE</p>
+        <div class="slide" data-aos="zoom-out-up" data-aos-duration="1000">
+            <div style="text-align: center; position: relative; z-index: 10;">
+                <div
+                    style="display: inline-block; padding: 8px 16px; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.2); border-radius: 50px; margin-bottom: 25px; backdrop-filter: blur(5px);">
+                    <span
+                        style="color: var(--accent-gold); font-family: 'JetBrains Mono'; font-weight: 700; font-size: 13px; letter-spacing: 2px;">
+                        <i class="fa-solid fa-bolt"></i> LA PROCHAINE VAGUE FINANCIÈRE
+                    </span>
+                </div>
+
                 <h1>Real World Assets (RWA)<br>& Institutional DeFi</h1>
+
                 <p
-                    style="max-width: 800px; margin: 0 auto; color: var(--text-muted); font-size: 20px; margin-top: 30px;">
+                    style="max-width: 800px; margin: 0 auto; color: var(--text-muted); font-size: 22px; line-height: 1.6; margin-top: 30px; font-weight: 300;">
                     Au-delà des obligations : comment tokeniser l'économie réelle et utiliser la finance décentralisée
                     pour optimiser la liquidité bancaire.
                 </p>
 
                 <div
-                    style="margin-top: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                    style="margin-top: 70px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin-left: auto; margin-right: auto;">
                     <div
-                        style="background: rgba(245, 158, 11, 0.1); padding: 20px; border-radius: 12px; border: 1px solid var(--accent-gold);">
-                        <strong style="color: var(--accent-gold); font-size: 30px;">$ 16 Trillions</strong>
-                        <p style="font-size: 14px; margin: 5px 0 0 0;">Marché RWA estimé en 2030 (BCG)</p>
+                        style="background: rgba(245, 158, 11, 0.05); padding: 30px 20px; border-radius: 20px; border: 1px solid rgba(245, 158, 11, 0.2); position: relative; overflow: hidden; transition: transform 0.3s;">
+                        <div
+                            style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: var(--accent-gold); filter: blur(60px); opacity: 0.2;">
+                        </div>
+                        <strong
+                            style="color: var(--accent-gold); font-size: 42px; display: block; margin-bottom: 5px;">$ 16
+                            T</strong>
+                        <p
+                            style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; font-weight: 700; margin: 0;">
+                            Marché RWA estimé en 2030 (BCG)</p>
                     </div>
                     <div
-                        style="background: rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 12px; border: 1px solid var(--accent-blue);">
-                        <strong style="color: var(--accent-blue); font-size: 30px;">24 / 7</strong>
-                        <p style="font-size: 14px; margin: 5px 0 0 0;">Trading & Collatéralisation</p>
+                        style="background: rgba(59, 130, 246, 0.05); padding: 30px 20px; border-radius: 20px; border: 1px solid rgba(59, 130, 246, 0.2); position: relative; overflow: hidden; transition: transform 0.3s;">
+                        <div
+                            style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: var(--accent-blue); filter: blur(60px); opacity: 0.2;">
+                        </div>
+                        <strong
+                            style="color: var(--accent-blue); font-size: 42px; display: block; margin-bottom: 5px;">24 /
+                            7</strong>
+                        <p
+                            style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; font-weight: 700; margin: 0;">
+                            Trading & Collatéralisation</p>
                     </div>
                 </div>
             </div>
@@ -306,34 +507,51 @@
 
         <!-- 1. RWA EXPLAINED -->
         <div class="slide" id="rwa" data-aos="fade-up">
-            <h2>1. RWA : Tokeniser l'Économie Réelle</h2>
-            <p style="margin-bottom: 40px;">Les "Digital Bonds" ne sont que le début. Les banques tokenisent désormais
-                des actifs illiquides pour les rendre échangeables.</p>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 50px;">
+                <div>
+                    <h2>1. RWA : Tokeniser l'Économie Réelle</h2>
+                    <p style="max-width: 600px; font-size: 18px; color: var(--text-muted);">Les "Digital Bonds" ne sont
+                        que le début. Les banques tokenisent désormais
+                        des actifs illiquides pour les rendre échangeables.</p>
+                </div>
+                <i class="fa-solid fa-layer-group" style="font-size: 100px; color: rgba(255,255,255,0.03);"></i>
+            </div>
 
             <div class="grid-3">
                 <div class="rwa-card">
                     <i class="fa-solid fa-sack-dollar rwa-icon"></i>
-                    <h3>Fonds Monétaires</h3>
-                    <p style="font-size: 14px; color: var(--text-muted);">Tokenisation de parts de fonds (Money Market
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">Fonds Monétaires</h3>
+                    <p style="font-size: 15px; color: var(--text-muted); line-height: 1.6;">Tokenisation de parts de
+                        fonds (Money Market
                         Funds) pour servir de collatéral liquide instantané.</p>
-                    <div style="margin-top: 15px; font-size: 12px; color: var(--accent-gold);">Ex: BlackRock BUIDL,
-                        Franklin Templeton</div>
+                    <div
+                        style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; color: var(--accent-gold); font-weight: 600;">
+                        <i class="fa-solid fa-arrow-trend-up"></i> Ex: BlackRock BUIDL
+                    </div>
                 </div>
 
                 <div class="rwa-card">
                     <i class="fa-solid fa-building rwa-icon"></i>
-                    <h3>Immobilier</h3>
-                    <p style="font-size: 14px; color: var(--text-muted);">Fractionnement de la propriété immobilière
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">Immobilier</h3>
+                    <p style="font-size: 15px; color: var(--text-muted); line-height: 1.6;">Fractionnement de la
+                        propriété immobilière
                         commerciale. Un immeuble = 1000 tokens échangeables.</p>
-                    <div style="margin-top: 15px; font-size: 12px; color: var(--accent-gold);">Ex: RealT</div>
+                    <div
+                        style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; color: var(--accent-gold); font-weight: 600;">
+                        <i class="fa-solid fa-city"></i> Ex: RealT / KKR
+                    </div>
                 </div>
 
                 <div class="rwa-card">
                     <i class="fa-solid fa-cubes-stacked rwa-icon"></i>
-                    <h3>Private Equity</h3>
-                    <p style="font-size: 14px; color: var(--text-muted);">Accès au non-coté via des tokens, permettant
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">Private Equity</h3>
+                    <p style="font-size: 15px; color: var(--text-muted); line-height: 1.6;">Accès au non-coté via des
+                        tokens, permettant
                         un marché secondaire pour les parts de LP.</p>
-                    <div style="margin-top: 15px; font-size: 12px; color: var(--accent-gold);">Ex: Hamilton Lane</div>
+                    <div
+                        style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; color: var(--accent-gold); font-weight: 600;">
+                        <i class="fa-solid fa-handshake"></i> Ex: Hamilton Lane
+                    </div>
                 </div>
             </div>
         </div>
@@ -341,198 +559,209 @@
         <!-- 2. DEFI INSTITUTIONNELLE -->
         <div class="slide" id="defi" data-aos="fade-up">
             <h2>2. Institutional DeFi : Le "Repo" 2.0</h2>
-            <div style="display: flex; gap: 40px; align-items: flex-start;">
+            <div style="display: flex; gap: 60px; align-items: center; flex-direction: row-reverse;">
+
+                <!-- TEXTE -->
                 <div style="flex: 1;">
-                    <p>La "DeFi Sauvage" est risquée. La <strong>DeFi Institutionnelle</strong> utilise les mêmes codes
+                    <p style="font-size: 18px; line-height: 1.7;">La "DeFi Sauvage" est risquée. La <strong
+                            style="color: var(--accent-blue);">DeFi Institutionnelle</strong> utilise les mêmes codes
                         (Smart Contracts) mais dans un environnement sécurisé.</p>
-                    <ul style="margin-top: 30px; line-height: 2; color: var(--text-muted);">
-                        <li>✅ <strong>Permissioned Pools :</strong> Seuls les acteurs KYC/AML (banques) peuvent entrer.
+                    <ul style="margin-top: 30px; line-height: 2.2; color: var(--text-muted); list-style: none;">
+                        <li style="margin-bottom: 15px;"><i class="fa-solid fa-shield-halved"
+                                style="color: var(--accent-green); margin-right: 10px;"></i> <strong
+                                style="color: white;">Permissioned Pools :</strong> Seuls les acteurs KYC/AML (banques)
+                            peuvent entrer.
                         </li>
-                        <li>✅ <strong>Automated Market Maker (AMM) :</strong> Liquidité garantie par algorithme, pas par
-                            un carnet d'ordres.</li>
-                        <li>✅ <strong>Flash Loans :</strong> Emprunt de liquidité instantané sans collatéral (si
-                            remboursé dans le même bloc).</li>
+                        <li style="margin-bottom: 15px;"><i class="fa-solid fa-gears"
+                                style="color: var(--accent-blue); margin-right: 10px;"></i> <strong
+                                style="color: white;">Automated Market Maker :</strong> Liquidité garantie par
+                            algorithme 24/7.</li>
+                        <li><i class="fa-solid fa-bolt" style="color: var(--accent-gold); margin-right: 10px;"></i>
+                            <strong style="color: white;">Flash Loans :</strong> Emprunt de liquidité instantané (dans
+                            le bloc).</li>
                     </ul>
                 </div>
 
-                <div
-                    style="flex: 1; background: #0b1121; padding: 30px; border-radius: 16px; border: 1px solid var(--border);">
-                    <h3 style="color: #fff; font-size: 18px; margin-bottom: 20px;">Schéma : Le Prêt Automatique (DeFi)
-                    </h3>
-                    <div class="defi-diagram" style="margin: 0; padding: 20px; flex-direction: column; gap: 20px;">
+                <!-- SCHÉMA ANIMÉ -->
+                <div style="flex: 1.2;">
+                    <div class="defi-diagram">
+                        <div class="defi-node">
+                            <i class="fa-solid fa-building-columns"
+                                style="font-size: 32px; color: var(--accent-blue); margin-bottom: 10px;"></i><br>
+                            <strong style="color:white;">Banque A</strong>
+                            <span
+                                style="display:block; font-size:11px; color: var(--text-muted); margin-top: 5px;">Liquidity
+                                Provider</span>
+                        </div>
 
-                        <div style="display: flex; width: 100%; align-items: center; justify-content: space-between;">
-                            <div class="defi-node">
-                                <i class="fa-solid fa-building-columns"
-                                    style="font-size: 24px; color: var(--accent-blue);"></i><br>
-                                <strong>Banque A</strong>
-                                <span style="display:block; font-size:10px; color: var(--text-muted);">Apporteur de
-                                    Liquidité</span>
+                        <div class="arrow-flow"></div>
+
+                        <div class="defi-pool">
+                            <div class="pool-water"></div>
+                            <i class="fa-solid fa-water"
+                                style="position:relative; z-index:1; font-size: 40px; color: #fff; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));"></i>
+                            <strong style="position:relative; z-index:1; color: #fff; margin-top: 5px;">POOL</strong>
+                            <span
+                                style="position:relative; z-index:1; font-size: 10px; color: rgba(255,255,255,0.8);">USDC
+                                / EURCV</span>
+                        </div>
+
+                        <div class="arrow-flow"></div>
+
+                        <div class="defi-node">
+                            <i class="fa-solid fa-user-tie"
+                                style="font-size: 32px; color: var(--accent-gold); margin-bottom: 10px;"></i><br>
+                            <strong style="color:white;">Hedge Fund</strong>
+                            <span
+                                style="display:block; font-size:11px; color: var(--text-muted); margin-top: 5px;">Borrower</span>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 20px;">
+                        <span
+                            style="display: inline-block; font-size: 13px; color: var(--accent-green); background: rgba(16, 185, 129, 0.1); padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <i class="fa-solid fa-code"></i> Smart Contract : Exécution Automatique
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- MODULE : CASH MANAGEMENT 3.0 (SIMULATEUR) -->
+    <!-- ========================================= -->
+
+    <div class="slide" id="cash-management" data-aos="fade-up">
+        <div class="top-bar"
+            style="background: linear-gradient(90deg, #10b981, #3b82f6); height: 4px; width: 100%; position: absolute; top: 0; left: 0;">
+        </div>
+        <div class="content" style="width: 100%;">
+            <header style="background: transparent; border: none; padding: 0; margin-bottom: 30px; text-align: center;">
+                <h2>3. Cash Management 3.0</h2>
+                <span class="subtitle" style="color: #10b981; font-size: 18px; font-weight: 600;">Optimisation de la
+                    trésorerie via les RWA</span>
+            </header>
+
+            <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px;">
+
+                <!-- GAUCHE : LE CONTEXTE -->
+                <div class="box">
+                    <h3 style="color: #fff; margin-bottom: 20px; font-size: 24px;">Le "Pain Point" Actuel</h3>
+                    <p style="font-size:16px; color:var(--text-muted); line-height: 1.6;">
+                        Le vendredi à 17h00, les marchés monétaires ferment. La trésorerie excédentaire dort sur des
+                        comptes non rémunérés ou à taux faible tout le week-end.
+                    </p>
+
+                    <h3 style="color: var(--accent-green); margin-top: 30px; margin-bottom: 20px; font-size: 24px;">
+                        La Solution "Tokenized T-Bills"</h3>
+                    <p style="font-size:16px; color:var(--text-muted); line-height: 1.6;">
+                        Des fonds monétaires (ex: BlackRock BUIDL) tokenisés sur la blockchain.
+                    </p>
+                    <ul style="margin-top: 15px; list-style: none;">
+                        <li style="margin-bottom: 10px; color: var(--text-main);">✅ <strong>Règlement 24/7
+                                :</strong> Souscription/Rachat le week-end.</li>
+                        <li style="color: var(--text-main);">✅ <strong>Collatéral :</strong> Utilisable
+                            immédiatement comme garantie pour un appel de marge.</li>
+                    </ul>
+                </div>
+
+                <!-- DROITE : SIMULATEUR DE RENDEMENT -->
+                <div class="roi-calculator"
+                    style="background: #0f172a; border: 1px solid #334155; padding: 30px; border-radius: 16px;">
+                    <h3 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;">Simulateur de
+                        Placement (Weekend)</h3>
+
+                    <div class="input-group" style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; color: var(--text-muted);">Trésorerie à
+                            placer (€)</label>
+                        <input type="number" id="cashAmount" value="50000000" oninput="calcYield()"
+                            style="width: 100%; padding: 12px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 16px;">
+                    </div>
+
+                    <!-- COMPARAISON VISUELLE -->
+                    <div style="margin-top: 30px;">
+
+                        <!-- CLASSIQUE -->
+                        <div style="margin-bottom: 20px;">
+                            <div
+                                style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:5px;">
+                                <span style="color: var(--text-muted);">Compte Banque Centrale (0%)</span>
+                                <span style="color: #64748b;">0 €</span>
                             </div>
-                            <div class="arrow-flow"></div>
-                            <div class="defi-pool">
-                                <div class="pool-water"></div>
-                                <i class="fa-solid fa-water"
-                                    style="position:relative; z-index:1; font-size: 30px; color: #fff;"></i>
-                                <strong style="position:relative; z-index:1; color: #fff;">LIQUIDITY POOL</strong>
-                                <span style="position:relative; z-index:1; font-size: 10px; color: #fff;">USDC /
-                                    EURCV</span>
-                            </div>
-                            <div class="arrow-flow"></div>
-                            <div class="defi-node">
-                                <i class="fa-solid fa-user-tie"
-                                    style="font-size: 24px; color: var(--accent-gold);"></i><br>
-                                <strong>Hedge Fund</strong>
-                                <span style="display:block; font-size:10px; color: var(--text-muted);">Emprunteur</span>
+                            <div style="height: 10px; background: #334155; border-radius: 5px; width: 100%;">
+                                <div style="width: 0%; height: 100%; background: #64748b; border-radius: 5px;">
+                                </div>
                             </div>
                         </div>
 
-                        <div
-                            style="text-align: center; font-size: 12px; color: var(--accent-green); background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 8px; width: 100%;">
-                            <i class="fa-solid fa-robot"></i> <strong>Smart Contract :</strong> Gère le taux d'intérêt
-                            et le collatéral automatiquement.
+                        <!-- DEFI / RWA -->
+                        <div>
+                            <div
+                                style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:5px;">
+                                <span style="color: #fff;">Tokenized Money Market Fund (4.5%)</span>
+                                <span id="rwaYield" style="color: #10b981; font-weight: bold;">0 €</span>
+                            </div>
+                            <div style="height: 10px; background: #334155; border-radius: 5px; width: 100%;">
+                                <div id="barRwa"
+                                    style="width: 0%; height: 100%; background: var(--accent-green); border-radius: 5px; transition: width 0.5s;">
+                                </div>
+                            </div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px; font-style: italic;">
+                                *Gain net sur 2 jours (Samedi-Dimanche) grâce à la liquidité 24/7.
+                            </p>
                         </div>
 
                     </div>
                 </div>
+
             </div>
         </div>
+        <div class="footer"
+            style="text-align: center; margin-top: 20px; font-size: 12px; color: var(--border); letter-spacing: 2px;">
+            TREASURY MANAGEMENT</div>
+    </div>
 
-        <!-- ========================================= -->
-        <!-- MODULE : CASH MANAGEMENT 3.0 (SIMULATEUR) -->
-        <!-- ========================================= -->
+    <script>
+        function calcYield() {
+            const amount = parseFloat(document.getElementById('cashAmount').value);
+            if (!amount) return;
 
-        <div class="slide" id="cash-management" data-aos="fade-up">
-            <div class="top-bar"
-                style="background: linear-gradient(90deg, #10b981, #3b82f6); height: 4px; width: 100%; position: absolute; top: 0; left: 0;">
-            </div>
-            <div class="content" style="width: 100%;">
-                <header
-                    style="background: transparent; border: none; padding: 0; margin-bottom: 30px; text-align: center;">
-                    <h2>3. Cash Management 3.0</h2>
-                    <span class="subtitle" style="color: #10b981; font-size: 18px; font-weight: 600;">Optimisation de la
-                        trésorerie via les RWA</span>
-                </header>
+            // Taux annuel 4.5% ramené à 2 jours (Weekend)
+            const rate = 0.045;
+            const days = 2;
+            const gain = amount * rate * (days / 365);
 
-                <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px;">
+            const formatter = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' });
 
-                    <!-- GAUCHE : LE CONTEXTE -->
-                    <div class="box">
-                        <h3 style="color: #fff; margin-bottom: 20px; font-size: 24px;">Le "Pain Point" Actuel</h3>
-                        <p style="font-size:16px; color:var(--text-muted); line-height: 1.6;">
-                            Le vendredi à 17h00, les marchés monétaires ferment. La trésorerie excédentaire dort sur des
-                            comptes non rémunérés ou à taux faible tout le week-end.
-                        </p>
+            document.getElementById('rwaYield').innerText = formatter.format(gain);
 
-                        <h3 style="color: var(--accent-green); margin-top: 30px; margin-bottom: 20px; font-size: 24px;">
-                            La Solution "Tokenized T-Bills"</h3>
-                        <p style="font-size:16px; color:var(--text-muted); line-height: 1.6;">
-                            Des fonds monétaires (ex: BlackRock BUIDL) tokenisés sur la blockchain.
-                        </p>
-                        <ul style="margin-top: 15px; list-style: none;">
-                            <li style="margin-bottom: 10px; color: var(--text-main);">✅ <strong>Règlement 24/7
-                                    :</strong> Souscription/Rachat le week-end.</li>
-                            <li style="color: var(--text-main);">✅ <strong>Collatéral :</strong> Utilisable
-                                immédiatement comme garantie pour un appel de marge.</li>
-                        </ul>
-                    </div>
+            // Animation simple de la barre (max basé sur un gain arbitraire pour l'effet visuel)
+            // On considère que 100M€ = 100% pour l'échelle visuelle relative
+            let percentage = Math.min((amount / 100000000) * 100, 100);
+            percentage = Math.max(percentage, 20); // Minimum 20% pour visibilité
+            document.getElementById('barRwa').style.width = percentage + "%";
+        }
+        // Init after DOM load
+        setTimeout(calcYield, 500);
+    </script>
 
-                    <!-- DROITE : SIMULATEUR DE RENDEMENT -->
-                    <div class="roi-calculator"
-                        style="background: #0f172a; border: 1px solid #334155; padding: 30px; border-radius: 16px;">
-                        <h3 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;">Simulateur de
-                            Placement (Weekend)</h3>
-
-                        <div class="input-group" style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 10px; color: var(--text-muted);">Trésorerie à
-                                placer (€)</label>
-                            <input type="number" id="cashAmount" value="50000000" oninput="calcYield()"
-                                style="width: 100%; padding: 12px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 16px;">
-                        </div>
-
-                        <!-- COMPARAISON VISUELLE -->
-                        <div style="margin-top: 30px;">
-
-                            <!-- CLASSIQUE -->
-                            <div style="margin-bottom: 20px;">
-                                <div
-                                    style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:5px;">
-                                    <span style="color: var(--text-muted);">Compte Banque Centrale (0%)</span>
-                                    <span style="color: #64748b;">0 €</span>
-                                </div>
-                                <div style="height: 10px; background: #334155; border-radius: 5px; width: 100%;">
-                                    <div style="width: 0%; height: 100%; background: #64748b; border-radius: 5px;">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- DEFI / RWA -->
-                            <div>
-                                <div
-                                    style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:5px;">
-                                    <span style="color: #fff;">Tokenized Money Market Fund (4.5%)</span>
-                                    <span id="rwaYield" style="color: #10b981; font-weight: bold;">0 €</span>
-                                </div>
-                                <div style="height: 10px; background: #334155; border-radius: 5px; width: 100%;">
-                                    <div id="barRwa"
-                                        style="width: 0%; height: 100%; background: var(--accent-green); border-radius: 5px; transition: width 0.5s;">
-                                    </div>
-                                </div>
-                                <p
-                                    style="font-size: 12px; color: var(--text-muted); margin-top: 10px; font-style: italic;">
-                                    *Gain net sur 2 jours (Samedi-Dimanche) grâce à la liquidité 24/7.
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="footer"
-                style="text-align: center; margin-top: 20px; font-size: 12px; color: var(--border); letter-spacing: 2px;">
-                TREASURY MANAGEMENT</div>
+    <!-- 3. CONCLUSION -->
+    <div class="slide" data-aos="fade-up">
+        <div style="text-align: center; padding: 60px;">
+            <h2>La Convergence</h2>
+            <p style="max-width: 700px; margin: 0 auto 40px auto;">
+                Les RWA apportent la <strong>valeur</strong> (Actifs).<br>
+                La DeFi apporte la <strong>mécanique</strong> (Flux).<br>
+                Le tout forme la nouvelle infrastructure de marché.
+            </p>
+            <a href="index.html"
+                style="background: var(--accent-blue); color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold;">
+                RETOUR AU PORTAIL
+            </a>
         </div>
-
-        <script>
-            function calcYield() {
-                const amount = parseFloat(document.getElementById('cashAmount').value);
-                if (!amount) return;
-
-                // Taux annuel 4.5% ramené à 2 jours (Weekend)
-                const rate = 0.045;
-                const days = 2;
-                const gain = amount * rate * (days / 365);
-
-                const formatter = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' });
-
-                document.getElementById('rwaYield').innerText = formatter.format(gain);
-
-                // Animation simple de la barre (max basé sur un gain arbitraire pour l'effet visuel)
-                // On considère que 100M€ = 100% pour l'échelle visuelle relative
-                let percentage = Math.min((amount / 100000000) * 100, 100);
-                percentage = Math.max(percentage, 20); // Minimum 20% pour visibilité
-                document.getElementById('barRwa').style.width = percentage + "%";
-            }
-            // Init after DOM load
-            setTimeout(calcYield, 500);
-        </script>
-
-        <!-- 3. CONCLUSION -->
-        <div class="slide" data-aos="fade-up">
-            <div style="text-align: center; padding: 60px;">
-                <h2>La Convergence</h2>
-                <p style="max-width: 700px; margin: 0 auto 40px auto;">
-                    Les RWA apportent la <strong>valeur</strong> (Actifs).<br>
-                    La DeFi apporte la <strong>mécanique</strong> (Flux).<br>
-                    Le tout forme la nouvelle infrastructure de marché.
-                </p>
-                <a href="index.html"
-                    style="background: var(--accent-blue); color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold;">
-                    RETOUR AU PORTAIL
-                </a>
-            </div>
-        </div>
+    </div>
 
     </div>
 
