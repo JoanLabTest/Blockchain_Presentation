@@ -39,17 +39,28 @@
     <link rel="stylesheet" href="styles-logo-dropdown.css">
     <link rel="stylesheet" href="styles-visual-hierarchy.css">
     <link rel="stylesheet" href="styles-visual-hierarchy-enhanced.css">
+    <link rel="stylesheet" href="styles-3d-hub.css"> <!-- NEW 3D STYLES -->
 
     <style>
         /* HUB SPECIFIC STYLES */
         body {
             background-color: #020617;
-            background-image:
-                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08), transparent 25%);
+            /* Gradient removed here, handled by Canvas roughly but we keep a dark base */
             font-family: 'Inter', sans-serif;
             color: white;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        #hubCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Behind content */
+            opacity: 0.6;
         }
 
         .hub-container {
@@ -243,10 +254,18 @@
             <a href="quiz.html" style="color: #f59e0b;"><i class="fas fa-award"></i> Quiz</a>
         </div>
 
-        <div class="nav-language" style="margin-right: 20px;">
+        <div class="nav-language" style="margin-right: 20px; display: flex; align-items: center; gap: 15px;">
+            <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank" class="linkedin-btn"
+                title="Connect on LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <div style="height: 20px; width: 1px; background: #334155;"></div>
             <a href="#" class="lang-btn active">🇫🇷</a>
         </div>
     </nav>
+
+    <!-- CANVAS BACKGROUND -->
+    <canvas id="hubCanvas"></canvas>
 
     <!-- CONTENT -->
     <div class="hub-container">
@@ -254,6 +273,22 @@
         <!-- HERO -->
         <section class="hub-hero" data-aos="zoom-in">
             <div class="hub-tag">PLATEFORME STRATÉGIQUE 2026</div>
+
+            <!-- 3D CUBE CONTAINER -->
+            <div class="cube-scene" style="margin-bottom: 40px; margin-top: 20px;">
+                <div class="cube">
+                    <div class="cube__face cube__face--front"><i class="fas fa-cube" style="color:#3b82f6;"></i></div>
+                    <div class="cube__face cube__face--back"><i class="fas fa-network-wired" style="color:#a855f7;"></i>
+                    </div>
+                    <div class="cube__face cube__face--right"><i class="fas fa-chart-line" style="color:#10b981;"></i>
+                    </div>
+                    <div class="cube__face cube__face--left"><i class="fas fa-university" style="color:#f59e0b;"></i>
+                    </div>
+                    <div class="cube__face cube__face--top"><i class="fas fa-code" style="color:#ec4899;"></i></div>
+                    <div class="cube__face cube__face--bottom"><i class="fas fa-globe" style="color:#6366f1;"></i></div>
+                </div>
+            </div>
+
             <h1 class="hub-title">Blockchain & Digital Assets<br>for Institutional Finance</h1>
             <p class="hub-subtitle">
                 Le portail structuré pour maîtriser les actifs numériques, de l'infrastructure DLT aux nouvelles
@@ -375,8 +410,9 @@
         </div>
     </footer>
 
-    <!-- AOS Script -->
+    <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="hub-particles.js"></script> <!-- NEW PARTICLES & TILT SCRIPT -->
     <script>
         AOS.init({
             duration: 800,
