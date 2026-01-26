@@ -1,0 +1,309 @@
+/* ===================================
+   3D COMPLIANCE SHIELD & WEB3 GALLERY
+   =================================== */
+
+/* --- 09.1 COMPLIANCE SHIELD --- */
+.compliance-3d-container {
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    margin: 60px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.shield-system {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    transform-style: preserve-3d;
+    animation: shieldFloat 6s ease-in-out infinite;
+}
+
+/* Central Core */
+.shield-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #0f172a 30%, #1e293b 100%);
+    border: 2px solid #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.shield-core i {
+    font-size: 50px;
+    color: #10b981;
+    filter: drop-shadow(0 0 10px #10b981);
+}
+
+/* Rotating Rings */
+.shield-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    border: 1px dashed rgba(16, 185, 129, 0.3);
+    transform: translate(-50%, -50%);
+}
+
+.ring-1 {
+    width: 200px;
+    height: 200px;
+    animation: spinRight 10s linear infinite;
+    border-color: rgba(16, 185, 129, 0.5);
+}
+
+.ring-2 {
+    width: 280px;
+    height: 280px;
+    animation: spinLeft 15s linear infinite;
+    border: 2px solid rgba(16, 185, 129, 0.2);
+}
+
+.ring-3 {
+    width: 360px;
+    height: 360px;
+    animation: spinRight 25s linear infinite;
+    border: 1px dotted rgba(16, 185, 129, 0.4);
+}
+
+/* Orbiting Checks (Satellites) */
+.check-node {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid #10b981;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #10b981;
+    font-weight: bold;
+    font-size: 12px;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.check-node:hover {
+    transform: scale(1.2);
+    background: #10b981;
+    color: #000;
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+    z-index: 20;
+}
+
+/* Positioning Satellites */
+.node-kyc {
+    transform: translate(-50%, -50%) rotate(0deg) translate(140px) rotate(0deg);
+    animation: orbitKYC 15s linear infinite;
+}
+
+.node-aml {
+    transform: translate(-50%, -50%) rotate(120deg) translate(140px) rotate(-120deg);
+    animation: orbitAML 15s linear infinite;
+}
+
+.node-tr {
+    transform: translate(-50%, -50%) rotate(240deg) translate(140px) rotate(-240deg);
+    animation: orbitTR 15s linear infinite;
+}
+
+@keyframes spinRight {
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes spinLeft {
+    100% {
+        transform: translate(-50%, -50%) rotate(-360deg);
+    }
+}
+
+@keyframes shieldFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes orbitKYC {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg) translate(140px) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg) translate(140px) rotate(-360deg);
+    }
+}
+
+@keyframes orbitAML {
+    from {
+        transform: translate(-50%, -50%) rotate(120deg) translate(140px) rotate(-120deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(480deg) translate(140px) rotate(-480deg);
+    }
+}
+
+@keyframes orbitTR {
+    from {
+        transform: translate(-50%, -50%) rotate(240deg) translate(140px) rotate(-240deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(600deg) translate(140px) rotate(-600deg);
+    }
+}
+
+/* --- 10. WEB3 TOKEN GALLERY --- */
+.web3-gallery-container {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+    margin: 50px 0;
+    overflow: hidden;
+}
+
+.gallery-carousel {
+    position: relative;
+    width: 250px;
+    height: 350px;
+    transform-style: preserve-3d;
+    animation: gallerySpin 20s linear infinite;
+}
+
+.gallery-carousel:hover {
+    animation-play-state: paused;
+}
+
+.token-card-3d {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backface-visibility: hidden;
+    /* Or visible if double sided */
+    /* Only 3 cards, arranged in triangle */
+}
+
+/* Card Positioning (Triangle) */
+.token-card-1 {
+    transform: rotateY(0deg) translateZ(250px);
+    border-color: #3b82f6;
+}
+
+.token-card-2 {
+    transform: rotateY(120deg) translateZ(250px);
+    border-color: #a855f7;
+}
+
+.token-card-3 {
+    transform: rotateY(240deg) translateZ(250px);
+    border-color: #f59e0b;
+}
+
+.token-card-3d h4 {
+    font-size: 24px;
+    margin: 15px 0;
+}
+
+.token-card-3d i {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.token-card-3d p {
+    font-size: 14px;
+    text-align: center;
+    color: #cbd5e1;
+}
+
+/* Glow Effects */
+.token-card-1 i {
+    color: #3b82f6;
+    drop-shadow: 0 0 15px #3b82f6;
+}
+
+.token-card-2 i {
+    color: #a855f7;
+    drop-shadow: 0 0 15px #a855f7;
+}
+
+.token-card-3 i {
+    color: #f59e0b;
+    drop-shadow: 0 0 15px #f59e0b;
+}
+
+@keyframes gallerySpin {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .shield-system {
+        transform: scale(0.7);
+    }
+
+    .gallery-carousel {
+        animation: none;
+        transform: none;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        height: auto;
+    }
+
+    .token-card-3d {
+        position: relative;
+        transform: none !important;
+        margin-bottom: 20px;
+        height: 250px;
+    }
+
+    .web3-gallery-container {
+        height: auto;
+        perspective: none;
+    }
+}
