@@ -398,6 +398,126 @@
             </div>
         </div>
 
+        <!-- ========================================= -->
+        <!-- MODULE : CASH MANAGEMENT 3.0 (SIMULATEUR) -->
+        <!-- ========================================= -->
+
+        <div class="slide" id="cash-management" data-aos="fade-up">
+            <div class="top-bar"
+                style="background: linear-gradient(90deg, #10b981, #3b82f6); height: 4px; width: 100%; position: absolute; top: 0; left: 0;">
+            </div>
+            <div class="content" style="width: 100%;">
+                <header
+                    style="background: transparent; border: none; padding: 0; margin-bottom: 30px; text-align: center;">
+                    <h2>3. Cash Management 3.0</h2>
+                    <span class="subtitle" style="color: #10b981; font-size: 18px; font-weight: 600;">Optimisation de la
+                        trésorerie via les RWA</span>
+                </header>
+
+                <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px;">
+
+                    <!-- GAUCHE : LE CONTEXTE -->
+                    <div class="box">
+                        <h3 style="color: #fff; margin-bottom: 20px; font-size: 24px;">Le "Pain Point" Actuel</h3>
+                        <p style="font-size:16px; color:var(--text-muted); line-height: 1.6;">
+                            Le vendredi à 17h00, les marchés monétaires ferment. La trésorerie excédentaire dort sur des
+                            comptes non rémunérés ou à taux faible tout le week-end.
+                        </p>
+
+                        <h3 style="color: var(--accent-green); margin-top: 30px; margin-bottom: 20px; font-size: 24px;">
+                            La Solution "Tokenized T-Bills"</h3>
+                        <p style="font-size:16px; color:var(--text-muted); line-height: 1.6;">
+                            Des fonds monétaires (ex: BlackRock BUIDL) tokenisés sur la blockchain.
+                        </p>
+                        <ul style="margin-top: 15px; list-style: none;">
+                            <li style="margin-bottom: 10px; color: var(--text-main);">✅ <strong>Règlement 24/7
+                                    :</strong> Souscription/Rachat le week-end.</li>
+                            <li style="color: var(--text-main);">✅ <strong>Collatéral :</strong> Utilisable
+                                immédiatement comme garantie pour un appel de marge.</li>
+                        </ul>
+                    </div>
+
+                    <!-- DROITE : SIMULATEUR DE RENDEMENT -->
+                    <div class="roi-calculator"
+                        style="background: #0f172a; border: 1px solid #334155; padding: 30px; border-radius: 16px;">
+                        <h3 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;">Simulateur de
+                            Placement (Weekend)</h3>
+
+                        <div class="input-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 10px; color: var(--text-muted);">Trésorerie à
+                                placer (€)</label>
+                            <input type="number" id="cashAmount" value="50000000" oninput="calcYield()"
+                                style="width: 100%; padding: 12px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 16px;">
+                        </div>
+
+                        <!-- COMPARAISON VISUELLE -->
+                        <div style="margin-top: 30px;">
+
+                            <!-- CLASSIQUE -->
+                            <div style="margin-bottom: 20px;">
+                                <div
+                                    style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:5px;">
+                                    <span style="color: var(--text-muted);">Compte Banque Centrale (0%)</span>
+                                    <span style="color: #64748b;">0 €</span>
+                                </div>
+                                <div style="height: 10px; background: #334155; border-radius: 5px; width: 100%;">
+                                    <div style="width: 0%; height: 100%; background: #64748b; border-radius: 5px;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DEFI / RWA -->
+                            <div>
+                                <div
+                                    style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:5px;">
+                                    <span style="color: #fff;">Tokenized Money Market Fund (4.5%)</span>
+                                    <span id="rwaYield" style="color: #10b981; font-weight: bold;">0 €</span>
+                                </div>
+                                <div style="height: 10px; background: #334155; border-radius: 5px; width: 100%;">
+                                    <div id="barRwa"
+                                        style="width: 0%; height: 100%; background: var(--accent-green); border-radius: 5px; transition: width 0.5s;">
+                                    </div>
+                                </div>
+                                <p
+                                    style="font-size: 12px; color: var(--text-muted); margin-top: 10px; font-style: italic;">
+                                    *Gain net sur 2 jours (Samedi-Dimanche) grâce à la liquidité 24/7.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="footer"
+                style="text-align: center; margin-top: 20px; font-size: 12px; color: var(--border); letter-spacing: 2px;">
+                TREASURY MANAGEMENT</div>
+        </div>
+
+        <script>
+            function calcYield() {
+                const amount = parseFloat(document.getElementById('cashAmount').value);
+                if (!amount) return;
+
+                // Taux annuel 4.5% ramené à 2 jours (Weekend)
+                const rate = 0.045;
+                const days = 2;
+                const gain = amount * rate * (days / 365);
+
+                const formatter = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' });
+
+                document.getElementById('rwaYield').innerText = formatter.format(gain);
+
+                // Animation simple de la barre (max basé sur un gain arbitraire pour l'effet visuel)
+                // On considère que 100M€ = 100% pour l'échelle visuelle relative
+                let percentage = Math.min((amount / 100000000) * 100, 100);
+                percentage = Math.max(percentage, 20); // Minimum 20% pour visibilité
+                document.getElementById('barRwa').style.width = percentage + "%";
+            }
+            // Init after DOM load
+            setTimeout(calcYield, 500);
+        </script>
+
         <!-- 3. CONCLUSION -->
         <div class="slide" data-aos="fade-up">
             <div style="text-align: center; padding: 60px;">
