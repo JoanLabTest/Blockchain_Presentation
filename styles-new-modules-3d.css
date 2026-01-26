@@ -473,5 +473,131 @@
     border-radius: 20px;
     border: 1px solid #64748b;
     font-style: italic;
-    color: #94a3b8;
-}
+    /* ===================================
+   3D FLIP CARDS (DICTIONARY)
+   =================================== */
+
+    .dict-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .flip-card {
+        background-color: transparent;
+        width: 100%;
+        height: 180px;
+        perspective: 1000px;
+        cursor: pointer;
+    }
+
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 16px;
+    }
+
+    .flip-card:hover .flip-card-inner,
+    .flip-card.flipped .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .flip-card-front {
+        background: #1e293b;
+        color: #94a3b8;
+    }
+
+    .flip-card-back {
+        background: rgba(16, 185, 129, 0.1);
+        color: white;
+        transform: rotateY(180deg);
+        border: 1px solid #10b981;
+    }
+
+    .flip-card h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .flip-card i {
+        font-size: 30px;
+        margin-bottom: 15px;
+    }
+
+    /* ===================================
+   3D PARALLAX WALLET
+   =================================== */
+
+    .wallet-3d-container {
+        perspective: 1000px;
+        width: 100%;
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .wallet-card-3d {
+        width: 380px;
+        height: 240px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.1s;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+    }
+
+    .wallet-card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 20px;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .wallet-face-front {
+        z-index: 2;
+    }
+
+    .wallet-face-back {
+        transform: rotateY(180deg);
+        background: linear-gradient(135deg, #331f2d 0%, #0f172a 100%);
+        border-color: #ef4444;
+    }
+
+    .wallet-chip {
+        width: 50px;
+        height: 35px;
+        background: linear-gradient(135deg, #ffd700, #b8860b);
+        border-radius: 6px;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    }
