@@ -1,0 +1,99 @@
+/* ===================================
+   COVERED BOND ANIMATIONS
+   =================================== */
+
+/* FLOW STEP APPEARANCE (Sequential Fade Up) */
+/* Initially hidden */
+.emission-flow .flow-step,
+.emission-flow .flow-connector {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Specific class triggered by scroll (via JS or AOS-like logic, 
+   but since user wants "animation" like "Double Recours" which likely uses AOS, 
+   we will assume we are adding data-aos attributes. 
+   Optionally, we define our own keyframes here if we want custom "building" effect.) 
+*/
+
+@keyframes connectLine {
+    from {
+        height: 0;
+        opacity: 0;
+    }
+
+    to {
+        height: 40px;
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8) translateY(20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Custom Animation Classes (if we don't use AOS for everything) */
+.animate-pop-in {
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-grow-line {
+    animation: connectLine 0.5s ease-out forwards;
+}
+
+/* HOVER EFFECTS FOR ANATOMY STEPS */
+.flow-step {
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.flow-step:hover {
+    transform: translateX(10px) !important;
+    /* Move slightly right on hover */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.flow-step:hover .flow-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 0 15px currentColor;
+}
+
+.flow-icon {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Connector Line Pulse */
+.flow-connector {
+    position: relative;
+    overflow: hidden;
+}
+
+.flow-connector::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8), transparent);
+    animation: flowPulse 2s infinite;
+}
+
+@keyframes flowPulse {
+    0% {
+        top: -100%;
+    }
+
+    100% {
+        top: 200%;
+    }
+}
