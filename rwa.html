@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <!-- STANDARD STYLES -->
+    <link rel="stylesheet" href="styles-navigation.css">
+
     <style>
         /* --- DESIGN SYSTEM (COHÉRENT AVEC INDEX) --- */
         :root {
@@ -335,25 +338,62 @@
             font-size: 18px;
             font-family: 'JetBrains Mono';
         }
+        }
+
+        /* NAVIGATION OVERRIDES FOR RWA */
+        .navbar-pro {
+            background: rgba(2, 6, 23, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links-pro a {
+            font-family: 'Urbanist', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Mobile Menu Overrides for RWA specific links */
+        @media (max-width: 1024px) {
+            .nav-links-pro {
+                background: rgba(2, 6, 23, 0.98);
+                /* Match RWA Dark */
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <nav class="navbar">
+    <!-- Progress Bar -->
+    <div class="progress-bar-container"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: rgba(255,255,255,0.1); z-index: 9999;">
+        <div class="progress-bar-fill" id="progressBarFill"
+            style="height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-gold), var(--accent-purple)); transition: width 0.2s;">
+        </div>
+    </div>
+
+    <!-- Professional Sticky Navigation -->
+    <nav class="navbar-pro">
         <div class="nav-logo">
-            <i class="fa-solid fa-layer-group" style="color: var(--accent-gold);"></i> RWA & <span
+            <i class="fa-solid fa-layer-group" style="color: var(--accent-gold); margin-right: 10px;"></i> RWA & <span
                 style="color:var(--accent-gold)">DEFI</span>
         </div>
-        <div style="display:flex; gap:30px;">
-            <a href="#rwa" style="color:#94a3b8; text-decoration:none; font-weight:bold; font-size:14px;">ASSETS</a>
-            <a href="#repo" style="color:#94a3b8; text-decoration:none; font-weight:bold; font-size:14px;">REPO 2.0</a>
-            <a href="#legal" style="color:#94a3b8; text-decoration:none; font-weight:bold; font-size:14px;">LEGAL</a>
-            <a href="#cash" style="color:#94a3b8; text-decoration:none; font-weight:bold; font-size:14px;">YIELD</a>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="nav-links-pro">
+            <a href="#rwa">ASSETS</a>
+            <a href="#repo">REPO 2.0</a>
+            <a href="#legal">LEGAL</a>
+            <a href="#cash">YIELD</a>
+            <a href="index.html" class="mode-switch"
+                style="margin-left: 20px; border: 1px solid var(--accent-gold) !important; color: var(--accent-gold) !important; background: transparent;">
+                <i class="fa-solid fa-arrow-left"></i> RETOUR PORTAIL
+            </a>
         </div>
-        <a href="index.html" class="mode-switch">
-            <i class="fa-solid fa-arrow-left"></i> RETOUR PORTAIL
-        </a>
     </nav>
 
     <div class="deck-container">
