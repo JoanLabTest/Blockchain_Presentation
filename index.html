@@ -2966,11 +2966,44 @@
                 </div>
 
                 <!-- SATELLITES (CHECKS) -->
-                <div class="check-node node-kyc">KYC</div>
-                <div class="check-node node-aml">AML</div>
-                <div class="check-node node-tr">TR</div>
+                <div class="check-node node-kyc" onmouseover="showComplianceInfo('kyc')"
+                    onmouseout="hideComplianceInfo()">KYC</div>
+                <div class="check-node node-aml" onmouseover="showComplianceInfo('aml')"
+                    onmouseout="hideComplianceInfo()">AML</div>
+                <div class="check-node node-tr" onmouseover="showComplianceInfo('tr')"
+                    onmouseout="hideComplianceInfo()">TR</div>
+            </div>
+
+            <div id="compliance-info-panel" class="compliance-info-panel">
+                <strong id="comp-title">SYSTEM STATUS</strong>
+                <div id="comp-desc">Scanning Network...</div>
             </div>
         </div>
+
+        <script>
+            function showComplianceInfo(type) {
+                const panel = document.getElementById('compliance-info-panel');
+                const title = document.getElementById('comp-title');
+                const desc = document.getElementById('comp-desc');
+
+                panel.classList.add('visible');
+
+                if (type === 'kyc') {
+                    title.innerText = "KYC (Know Your Customer)";
+                    desc.innerText = "Identité numérique vérifiée et ancrée sur la blockchain (DID).";
+                } else if (type === 'aml') {
+                    title.innerText = "AML (Anti-Money Laundering)";
+                    desc.innerText = "Scoring automatique des wallets via Chainalysis/Elliptic.";
+                } else if (type === 'tr') {
+                    title.innerText = "TRAVEL RULE";
+                    desc.innerText = "Échange automatique d'informations VASP-to-VASP.";
+                }
+            }
+
+            function hideComplianceInfo() {
+                document.getElementById('compliance-info-panel').classList.remove('visible');
+            }
+        </script>
 
         <div style="text-align: center; color: #94a3b8; font-style: italic; margin-bottom: 40px;">
             <i class="fas fa-info-circle"></i> Le système effectue une vérification continue et automatisée (24/7) de
