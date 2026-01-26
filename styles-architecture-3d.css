@@ -18,13 +18,15 @@
     width: 600px;
     height: 400px;
     transform-style: preserve-3d;
-    transform: rotateX(55deg) rotateZ(-35deg) translateZ(-50px);
+    transform: rotateX(45deg) rotateZ(-30deg) translateZ(-50px);
     transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* On hover, flatten slightly to see details better */
-.architecture-stack:hover {
-    transform: rotateX(45deg) rotateZ(-25deg) translateZ(0);
+/* On hover/Active: Flatten to read text clearly */
+.architecture-stack:hover,
+.architecture-stack.scene-active {
+    transform: rotateX(15deg) rotateZ(0deg) translateZ(0);
+    /* Much flatter for reading */
 }
 
 /* LAYERS */
@@ -50,21 +52,43 @@
 }
 
 /* Layer Separation (Expanded State) */
+/* Layer Separation (Expanded State - More space for reading) */
 .scene-active .layer-base {
     transform: translateZ(0px);
-    opacity: 0.5;
+    opacity: 1;
 }
 
 .scene-active .layer-protocol {
-    transform: translateZ(120px);
+    transform: translateZ(150px);
 }
 
 .scene-active .layer-app {
-    transform: translateZ(240px);
+    transform: translateZ(300px);
 }
 
 .scene-active .layer-user {
-    transform: translateZ(360px);
+    transform: translateZ(450px);
+}
+
+/* Apply same transform on hover for consistency */
+.architecture-stack:hover .layer-base {
+    transform: translateZ(0px);
+    opacity: 1;
+}
+
+.architecture-stack:hover .layer-protocol {
+    transform: translateZ(150px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.architecture-stack:hover .layer-app {
+    transform: translateZ(300px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.architecture-stack:hover .layer-user {
+    transform: translateZ(450px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
 }
 
 /* Initial Compact State (if no JS) */
@@ -81,36 +105,20 @@
 }
 
 .layer-app {
-    transform: translateZ(80px);
-    background: linear-gradient(135deg, rgba(29, 78, 216, 0.85), rgba(30, 58, 138, 0.85));
+    transform: translateZ(60px);
+    background: linear-gradient(135deg, rgba(29, 78, 216, 0.98), rgba(30, 58, 138, 0.98));
+    /* Higher Opacity */
     border-color: #3b82f6;
 }
 
 .layer-user {
-    transform: translateZ(120px);
-    background: linear-gradient(135deg, rgba(20, 83, 45, 0.85), rgba(2, 44, 34, 0.85));
+    transform: translateZ(90px);
+    background: linear-gradient(135deg, rgba(20, 83, 45, 0.98), rgba(2, 44, 34, 0.98));
+    /* Higher Opacity */
     border-color: #10b981;
 }
 
-.architecture-stack:hover .layer-base {
-    transform: translateZ(0px);
-    opacity: 1;
-}
-
-.architecture-stack:hover .layer-protocol {
-    transform: translateZ(120px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-}
-
-.architecture-stack:hover .layer-app {
-    transform: translateZ(240px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-}
-
-.architecture-stack:hover .layer-user {
-    transform: translateZ(360px);
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
-}
+/* Removed redundant hover rules that were causing conflicts */
 
 /* CONTENT STYLING */
 .layer-content {
