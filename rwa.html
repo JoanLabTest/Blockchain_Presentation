@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RWA & DeFi - Nouvelles Frontières</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- DESIGN SYSTEM (COHÉRENT) --- */
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #1e293b;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-gold: #f59e0b;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
+            --border: #334155;
+            --gradient: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mode-switch {
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .mode-switch:hover {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        /* CONTAINER */
+        .deck-container {
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 80px;
+            padding-bottom: 100px;
+        }
+
+        .slide {
+            width: 100%;
+            max-width: 1280px;
+            min-height: 600px;
+            background-color: var(--bg-card);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient);
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 36px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        /* --- VISUELS RWA --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .rwa-card {
+            background: #0b1121;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .rwa-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .rwa-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+        }
+
+        /* --- VISUELS DEFI --- */
+        .defi-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 40px;
+            background: #0b1121;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px dashed var(--border);
+        }
+
+        .defi-node {
+            width: 120px;
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            z-index: 2;
+        }
+
+        .defi-pool {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-blue);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(59, 130, 246, 0.1);
+            position: relative;
+        }
+
+        .pool-water {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: rgba(59, 130, 246, 0.3);
+            border-bottom-left-radius: 100px;
+            border-bottom-right-radius: 100px;
+            z-index: 0;
+        }
+
+        .arrow-flow {
+            height: 2px;
+            background: var(--text-muted);
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .arrow-flow::after {
+            content: '►';
+            position: absolute;
+            right: -5px;
+            top: -8px;
+            color: var(--text-muted);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .slide {
+                padding: 40px 30px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .defi-diagram {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-solid fa-layer-group" style="color: var(--accent-gold);"></i> RWA & <span
+                style="color:var(--accent-gold)">DEFI</span>
+        </div>
+        <div style="display:flex; gap:20px;">
+            <a href="#rwa" style="color:#94a3b8; text-decoration:none; font-weight:bold;">REAL WORLD ASSETS</a>
+            <a href="#defi" style="color:#94a3b8; text-decoration:none; font-weight:bold;">INSTITUTIONAL DEFI</a>
+        </div>
+        <a href="index.html" class="mode-switch">
+            <i class="fa-solid fa-arrow-left"></i> RETOUR PORTAIL
+        </a>
+    </nav>
+
+    <div class="deck-container">
+
+        <!-- HERO -->
+        <div class="slide" data-aos="fade-up">
+            <div style="text-align: center;">
+                <p
+                    style="color: var(--accent-gold); font-family: 'JetBrains Mono'; margin-bottom: 20px; letter-spacing: 2px;">
+                    LA PROCHAINE VAGUE</p>
+                <h1>Real World Assets (RWA)<br>& Institutional DeFi</h1>
+                <p
+                    style="max-width: 800px; margin: 0 auto; color: var(--text-muted); font-size: 20px; margin-top: 30px;">
+                    Au-delà des obligations : comment tokeniser l'économie réelle et utiliser la finance décentralisée
+                    pour optimiser la liquidité bancaire.
+                </p>
+
+                <div
+                    style="margin-top: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                    <div
+                        style="background: rgba(245, 158, 11, 0.1); padding: 20px; border-radius: 12px; border: 1px solid var(--accent-gold);">
+                        <strong style="color: var(--accent-gold); font-size: 30px;">$ 16 Trillions</strong>
+                        <p style="font-size: 14px; margin: 5px 0 0 0;">Marché RWA estimé en 2030 (BCG)</p>
+                    </div>
+                    <div
+                        style="background: rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 12px; border: 1px solid var(--accent-blue);">
+                        <strong style="color: var(--accent-blue); font-size: 30px;">24 / 7</strong>
+                        <p style="font-size: 14px; margin: 5px 0 0 0;">Trading & Collatéralisation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. RWA EXPLAINED -->
+        <div class="slide" id="rwa" data-aos="fade-up">
+            <h2>1. RWA : Tokeniser l'Économie Réelle</h2>
+            <p style="margin-bottom: 40px;">Les "Digital Bonds" ne sont que le début. Les banques tokenisent désormais
+                des actifs illiquides pour les rendre échangeables.</p>
+
+            <div class="grid-3">
+                <div class="rwa-card">
+                    <i class="fa-solid fa-sack-dollar rwa-icon"></i>
+                    <h3>Fonds Monétaires</h3>
+                    <p style="font-size: 14px; color: var(--text-muted);">Tokenisation de parts de fonds (Money Market
+                        Funds) pour servir de collatéral liquide instantané.</p>
+                    <div style="margin-top: 15px; font-size: 12px; color: var(--accent-gold);">Ex: BlackRock BUIDL,
+                        Franklin Templeton</div>
+                </div>
+
+                <div class="rwa-card">
+                    <i class="fa-solid fa-building rwa-icon"></i>
+                    <h3>Immobilier</h3>
+                    <p style="font-size: 14px; color: var(--text-muted);">Fractionnement de la propriété immobilière
+                        commerciale. Un immeuble = 1000 tokens échangeables.</p>
+                    <div style="margin-top: 15px; font-size: 12px; color: var(--accent-gold);">Ex: RealT</div>
+                </div>
+
+                <div class="rwa-card">
+                    <i class="fa-solid fa-cubes-stacked rwa-icon"></i>
+                    <h3>Private Equity</h3>
+                    <p style="font-size: 14px; color: var(--text-muted);">Accès au non-coté via des tokens, permettant
+                        un marché secondaire pour les parts de LP.</p>
+                    <div style="margin-top: 15px; font-size: 12px; color: var(--accent-gold);">Ex: Hamilton Lane</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. DEFI INSTITUTIONNELLE -->
+        <div class="slide" id="defi" data-aos="fade-up">
+            <h2>2. Institutional DeFi : Le "Repo" 2.0</h2>
+            <div style="display: flex; gap: 40px; align-items: flex-start;">
+                <div style="flex: 1;">
+                    <p>La "DeFi Sauvage" est risquée. La <strong>DeFi Institutionnelle</strong> utilise les mêmes codes
+                        (Smart Contracts) mais dans un environnement sécurisé.</p>
+                    <ul style="margin-top: 30px; line-height: 2; color: var(--text-muted);">
+                        <li>✅ <strong>Permissioned Pools :</strong> Seuls les acteurs KYC/AML (banques) peuvent entrer.
+                        </li>
+                        <li>✅ <strong>Automated Market Maker (AMM) :</strong> Liquidité garantie par algorithme, pas par
+                            un carnet d'ordres.</li>
+                        <li>✅ <strong>Flash Loans :</strong> Emprunt de liquidité instantané sans collatéral (si
+                            remboursé dans le même bloc).</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="flex: 1; background: #0b1121; padding: 30px; border-radius: 16px; border: 1px solid var(--border);">
+                    <h3 style="color: #fff; font-size: 18px; margin-bottom: 20px;">Schéma : Le Prêt Automatique (DeFi)
+                    </h3>
+                    <div class="defi-diagram" style="margin: 0; padding: 20px; flex-direction: column; gap: 20px;">
+
+                        <div style="display: flex; width: 100%; align-items: center; justify-content: space-between;">
+                            <div class="defi-node">
+                                <i class="fa-solid fa-building-columns"
+                                    style="font-size: 24px; color: var(--accent-blue);"></i><br>
+                                <strong>Banque A</strong>
+                                <span style="display:block; font-size:10px; color: var(--text-muted);">Apporteur de
+                                    Liquidité</span>
+                            </div>
+                            <div class="arrow-flow"></div>
+                            <div class="defi-pool">
+                                <div class="pool-water"></div>
+                                <i class="fa-solid fa-water"
+                                    style="position:relative; z-index:1; font-size: 30px; color: #fff;"></i>
+                                <strong style="position:relative; z-index:1; color: #fff;">LIQUIDITY POOL</strong>
+                                <span style="position:relative; z-index:1; font-size: 10px; color: #fff;">USDC /
+                                    EURCV</span>
+                            </div>
+                            <div class="arrow-flow"></div>
+                            <div class="defi-node">
+                                <i class="fa-solid fa-user-tie"
+                                    style="font-size: 24px; color: var(--accent-gold);"></i><br>
+                                <strong>Hedge Fund</strong>
+                                <span style="display:block; font-size:10px; color: var(--text-muted);">Emprunteur</span>
+                            </div>
+                        </div>
+
+                        <div
+                            style="text-align: center; font-size: 12px; color: var(--accent-green); background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 8px; width: 100%;">
+                            <i class="fa-solid fa-robot"></i> <strong>Smart Contract :</strong> Gère le taux d'intérêt
+                            et le collatéral automatiquement.
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. CONCLUSION -->
+        <div class="slide" data-aos="fade-up">
+            <div style="text-align: center; padding: 60px;">
+                <h2>La Convergence</h2>
+                <p style="max-width: 700px; margin: 0 auto 40px auto;">
+                    Les RWA apportent la <strong>valeur</strong> (Actifs).<br>
+                    La DeFi apporte la <strong>mécanique</strong> (Flux).<br>
+                    Le tout forme la nouvelle infrastructure de marché.
+                </p>
+                <a href="index.html"
+                    style="background: var(--accent-blue); color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold;">
+                    RETOUR AU PORTAIL
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+</body>
+
+</html>
