@@ -1,0 +1,198 @@
+/* ===================================
+   3D ARCHITECTURE VISUALIZATION (EXPLODED VIEW)
+   =================================== */
+
+.architecture-3d-scene {
+    width: 100%;
+    height: 600px;
+    perspective: 1500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 50px 0;
+    overflow: visible;
+}
+
+.architecture-stack {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    transform-style: preserve-3d;
+    transform: rotateX(55deg) rotateZ(-35deg) translateZ(-50px);
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* On hover, flatten slightly to see details better */
+.architecture-stack:hover {
+    transform: rotateX(45deg) rotateZ(-25deg) translateZ(0);
+}
+
+/* LAYERS */
+.arch-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    /* Dark Slate */
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    text-align: center;
+    padding: 20px;
+}
+
+/* Layer Separation (Expanded State) */
+.scene-active .layer-base {
+    transform: translateZ(0px);
+    opacity: 0.5;
+}
+
+.scene-active .layer-protocol {
+    transform: translateZ(120px);
+}
+
+.scene-active .layer-app {
+    transform: translateZ(240px);
+}
+
+.scene-active .layer-user {
+    transform: translateZ(360px);
+}
+
+/* Initial Compact State (if no JS) */
+.layer-base {
+    transform: translateZ(0px);
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+    border-color: #64748b;
+}
+
+.layer-protocol {
+    transform: translateZ(40px);
+    background: linear-gradient(135deg, rgba(88, 28, 135, 0.85), rgba(59, 7, 100, 0.85));
+    border-color: #a855f7;
+}
+
+.layer-app {
+    transform: translateZ(80px);
+    background: linear-gradient(135deg, rgba(29, 78, 216, 0.85), rgba(30, 58, 138, 0.85));
+    border-color: #3b82f6;
+}
+
+.layer-user {
+    transform: translateZ(120px);
+    background: linear-gradient(135deg, rgba(20, 83, 45, 0.85), rgba(2, 44, 34, 0.85));
+    border-color: #10b981;
+}
+
+.architecture-stack:hover .layer-base {
+    transform: translateZ(0px);
+    opacity: 1;
+}
+
+.architecture-stack:hover .layer-protocol {
+    transform: translateZ(120px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.architecture-stack:hover .layer-app {
+    transform: translateZ(240px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.architecture-stack:hover .layer-user {
+    transform: translateZ(360px);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
+}
+
+/* CONTENT STYLING */
+.layer-content {
+    transform: rotateX(0deg);
+    /* Counter the parent rotation if needed? No, content should lie flat on plane */
+    color: white;
+}
+
+.layer-title {
+    font-size: 24px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.layer-desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.layer-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px currentColor);
+}
+
+/* CONNECTING LINES (Optional, complex in pure CSS, skipping for cleanliness) */
+
+/* INTERACTIVE TOGGLE */
+.explode-btn {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 30px;
+    background: #ea580c;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(234, 88, 12, 0.4);
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.explode-btn:hover {
+    transform: translateX(-50%) scale(1.05);
+    background: #fff;
+    color: #ea580c;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .architecture-3d-scene {
+        height: auto;
+        perspective: none;
+        display: block;
+    }
+
+    .architecture-stack {
+        width: 100%;
+        height: auto;
+        transform: none !important;
+        display: flex;
+        flex-direction: column-reverse;
+        /* Base at bottom */
+        gap: 20px;
+    }
+
+    .arch-layer {
+        position: relative;
+        transform: none !important;
+        height: auto;
+        padding: 40px 20px;
+    }
+
+    .explode-btn {
+        display: none;
+    }
+}
