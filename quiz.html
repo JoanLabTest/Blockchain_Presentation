@@ -402,7 +402,7 @@
                         <p style="font-size:14px; color: var(--text-muted);">Régulation (MiCA, eWpG), Infrastructure
                             T+0, RWA.</p>
                         <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:15px 0;">
-                        <span style="color: #a855f7; font-weight:bold; font-size:14px;">20 Questions</span>
+                        <span style="color: #a855f7; font-weight:bold; font-size:14px;">25 Questions</span>
                     </div>
                 </div>
             </div>
@@ -505,7 +505,9 @@
             { q: "Que signifie 'Mint' et 'Burn' dans le cycle de vie ?", options: ["Menthe et Brûlure", "Émission (Création) et Remboursement (Destruction) des titres", "Achat et Vente", "Profit et Perte"], a: 1, category: "Cycle de vie", info: "À l'émission, on 'Mint' les tokens. À l'échéance, après remboursement, on les 'Burn'." },
             { q: "Quel fons tokenisé de BlackRock a dépassé les 500M$ en 2024 ?", options: ["BUIDL", "IBIT", "USDC", "DeFi Fund"], a: 0, category: "RWA & DeFi", info: "Le fonds BUIDL de BlackRock permet aux institutionnels de détenir du cash tokenisé rapportant des intérêts (Money Market)." },
             { q: "Qu'est-ce que la 'Permissioned DeFi' (ex: Aave Arc) ?", options: ["DeFi illégale", "Des pools de liquidité réservées aux acteurs KYC/AML (Whitelisted)", "Un mode test", "Une crypto privée"], a: 1, category: "RWA & DeFi", info: "Cela permet aux banques d'utiliser les protocoles DeFi tout en respectant les contraintes de conformité (Compliance)." },
-            { q: "Quel est l'avantage de la 'Composabilité' des RWA ?", options: ["Aucun", "On peut utiliser un token (ex: Bond) comme collatéral dans un autre protocole automatiquement", "C'est plus compliqué", "C'est artistique"], a: 1, category: "RWA & DeFi", info: "Un actif tokenisé peut être utilisé comme une brique LEGO dans d'autres applications financières (Prêt, Dérivés) sans friction." }
+            { q: "Quel est l'avantage de la 'Composabilité' des RWA ?", options: ["Aucun", "On peut utiliser un token (ex: Bond) comme collatéral dans un autre protocole automatiquement", "C'est plus compliqué", "C'est artistique"], a: 1, category: "RWA & DeFi", info: "Un actif tokenisé peut être utilisé comme une brique LEGO dans d'autres applications financières (Prêt, Dérivés) sans friction." },
+            { q: "Quelle est la différence entre une CBDC de Gros (Wholesale) et de Détail ?", options: ["La taille", "Gros pour les banques (Règlement Interbancaire), Détail pour le public (Monnaie numérique)", "Aucune", "La couleur"], a: 1, category: "Régulation", info: "La MNBC de Gros vise à sécuriser les règlements de titres (DvP) en monnaie centrale." },
+            { q: "Qu'est-ce qu'un HQLA (High Quality Liquid Asset) tokenisé ?", options: ["Un actif liquide de haute qualité déplaçable instantanément (ex: Bon du Trésor)", "De l'eau", "Un token sans valeur", "Un crédit"], a: 0, category: "RWA & DeFi", info: "La tokenisation permet d'utiliser ces actifs comme collatéral mobile 24/7 pour optimiser la liquidité." }
         ];
 
         // --- GAME LOGIC ---
@@ -645,35 +647,67 @@
 
             finalScoreEl.innerText = percentage + "%";
 
-            if (currentLevel === 1) {
-                if (passed) {
-                    finalRankEl.innerText = "Niveau 1 Validé ! 🔓";
-                    finalRankEl.style.color = "#10b981";
-                    finalMsgEl.innerText = "Félicitations ! Vous avez débloqué le Niveau Expert.";
-                    finalScoreEl.style.borderColor = "#10b981";
+            // GRADES LOGIC
+            let rank, color, msg;
 
+            if (currentLevel === 1) {
+                // LEVEL 1 GRADES
+                if (passed) {
+                    rank = "Analyste Confirmé ✅";
+                    color = "#10b981";
+                    msg = "Bravo ! Vous avez validé les fondamentaux. Le Niveau Expert est déverrouillé.";
                     // UNLOCK LEVEL 2
                     localStorage.setItem('quiz_level_1_passed', 'true');
+
+                    // Add "Go to Expert" button
+                    const btnContainer = ui.result.querySelector('div[style*="display: flex"]');
+                    btnContainer.innerHTML = `
+                        <button onclick="startLevel(2)" style="padding: 15px 30px; background: #a855f7; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);">
+                            <i class="fas fa-crown"></i> Passer au Niveau Expert
+                        </button>
+                    `;
                 } else {
-                    finalRankEl.innerText = "Niveau 1 Non Validé";
-                    finalRankEl.style.color = "#ef4444";
-                    finalMsgEl.innerText = "Il vous faut 80% pour déverrouiller le niveau suivant.";
-                    finalScoreEl.style.borderColor = "#ef4444";
+                    rank = "Stagiaire Débutant";
+                    color = "#ef4444";
+                    msg = "Encore un effort ! Il faut 80% pour passer à la suite.";
+                    // Restore retry button if needed
+                    const btnContainer = ui.result.querySelector('div[style*="display: flex"]');
+                    btnContainer.innerHTML = `
+                        <button onclick="location.reload()" style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Réessayer</button>
+                    `;
                 }
             } else {
-                // LEVEL 2
-                if (passed) {
-                    finalRankEl.innerText = "CERTIFICATION EXPERT VALIDÉE 🏆";
-                    finalRankEl.style.color = "#a855f7"; // Purple for expert
-                    finalMsgEl.innerText = "Vous maîtrisez l'infrastructure blockchain bancaire. Impressionnant.";
-                    finalScoreEl.style.borderColor = "#a855f7";
+                // LEVEL 2 GRADES (TRADING ROOM)
+                if (percentage < 50) {
+                    rank = "Back Office Trainee";
+                    color = "#94a3b8"; // Grey
+                    msg = "Vous êtes encore loin du Front Office. Reoyez le module 'Opérations'.";
+                } else if (percentage < 70) {
+                    rank = "Middle Office Analyst";
+                    color = "#f59e0b"; // Orange
+                    msg = "Solide sur les risques, mais il manque l'agilité du Trader.";
+                } else if (percentage < 90) {
+                    rank = "Front Office Junior Trader";
+                    color = "#3b82f6"; // Blue
+                    msg = "Très bon ! Vous êtes prêt à quoter vos premiers Digital Bonds.";
                 } else {
-                    finalRankEl.innerText = "Expertise en cours d'acquisition";
-                    finalRankEl.style.color = "#f59e0b";
-                    finalMsgEl.innerText = "Ce niveau est difficile. Relectez les modules 'Flux' et 'Régulation' et réessayez.";
-                    finalScoreEl.style.borderColor = "#f59e0b";
+                    rank = "Global Head of Digital Assets 🏆";
+                    color = "#a855f7"; // Purple
+                    msg = "Performance exceptionnelle. Vous dominez le marché. Félicitations !";
                 }
+
+                // Restore default buttons for Level 2
+                const btnContainer = ui.result.querySelector('div[style*="display: flex"]');
+                btnContainer.innerHTML = `
+                    <button onclick="location.reload()" style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Retour au Centre</button>
+                    <a href="index.html" style="padding: 15px 30px; background: var(--accent-blue); color: white; border-radius: 50px; text-decoration: none; font-weight: bold;">Retour Bureau</a>
+                `;
             }
+
+            finalRankEl.innerText = rank;
+            finalRankEl.style.color = color;
+            finalMsgEl.innerText = msg;
+            finalScoreEl.style.borderColor = color;
         }
 
     </script>
