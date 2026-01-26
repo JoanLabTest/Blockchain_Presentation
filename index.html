@@ -172,6 +172,41 @@
             display: inline-block;
             margin-bottom: 15px;
         }
+
+        /* AUDIT FIX: Sticky Navbar & Progress Bar */
+        .navbar-pro {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(11, 17, 33, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero {
+            margin-top: 80px;
+            /* Compensate for fixed header */
+        }
+
+        .progress-bar-container {
+            position: fixed;
+            top: 70px;
+            /* Below navbar (approx height) */
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 999;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #a855f7);
+            width: 0%;
+            transition: width 0.1s;
+        }
     </style>
 
 </head>
@@ -325,20 +360,39 @@
         </button>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section (Audit Optimized) -->
     <section class="hero" id="hero">
         <div class="hero-content">
-            <p class="hero-subtitle">Un voyage au cœur de la révolution financière numérique</p>
-            <h1>Comprendre la Blockchain et les Cryptomonnaies</h1>
-            <p class="hero-description">
-                Guide professionnel complet pour maîtriser la blockchain, de la théorie aux applications
-                concrètes en salle de marché. Une progression pédagogique adaptée aux débutants.
+            <div
+                style="display: inline-block; padding: 8px 16px; border: 1px solid #a855f7; border-radius: 50px; color: #a855f7; font-size: 14px; margin-bottom: 20px; font-weight: bold; background: rgba(168, 85, 247, 0.1);">
+                🔥 GUIDE PROFESSIONNEL 2026
+            </div>
+
+            <h1 style="font-size: 56px; line-height: 1.1; margin-bottom: 20px;">
+                Maitrisez la <span
+                    style="background: linear-gradient(135deg, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Blockchain</span><br>
+                pour la Finance
+            </h1>
+
+            <p class="hero-description"
+                style="font-size: 20px; color: #94a3b8; max-width: 800px; margin: 0 auto 40px auto;">
+                Le guide structuré pour comprendre les actifs numériques, l'infrastructure DLT et les nouveaux modèles
+                d'affaires (RWA, Obligations Digitales).
             </p>
-            <a href="#blockchain" class="cta-button">Commencer l'exploration</a>
+
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="#blockchain" class="cta-button">
+                    <i class="fas fa-play"></i> COMMENCER LE GUIDE
+                </a>
+                <a href="simple.html" class="cta-button"
+                    style="background: rgba(255,255,255,0.05); border: 1px solid #334155;">
+                    <i class="fas fa-graduation-cap"></i> VERSION DÉCOUVERTE
+                </a>
+            </div>
 
             <div class="hero-image" style="text-align: center; margin-top: 60px;">
                 <i class="fas fa-cube"
-                    style="font-size: 120px; background: linear-gradient(135deg, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: float 3s ease-in-out infinite;"></i>
+                    style="font-size: 100px; background: linear-gradient(135deg, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: float 3s ease-in-out infinite;"></i>
             </div>
         </div>
     </section>
