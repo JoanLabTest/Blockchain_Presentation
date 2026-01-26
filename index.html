@@ -1153,15 +1153,118 @@
 
             </div>
 
-            <button class="explode-btn"
-                onclick="document.querySelector('.architecture-stack').classList.toggle('scene-active')">
-                <i class="fa-solid fa-layer-group"></i> ÉCLATER LA VUE
+            <!-- CAROUSEL CONTROLS -->
+            <div class="scene-controls"
+                style="display:flex; justify-content:center; align-items:center; gap:20px; margin-top:30px;">
+                <button class="nav-btn" onclick="rotateLayer(-1)">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <span id="layer-indicator" style="color:#fff; font-weight:bold; width:200px; text-align:center;">VUE
+                    D'ENSEMBLE</span>
+
+                <button class="nav-btn" onclick="rotateLayer(1)">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <button class="explode-btn" onclick="toggleExplode()">
+                <i class="fa-solid fa-layer-group"></i> <span id="explode-text">ÉCLATER LA VUE</span>
             </button>
         </div>
 
-        <p style="text-align: center; color: #64748b; font-style: italic; margin-top:20px;">
-            Cliquez sur "Éclater la vue" ou survolez pour explorer les couches technologiques.
-        </p>
+        <script>
+            let currentLayer = 0; // 0 = Overview, 1=Base, 2=Protocol, 3=App, 4=User
+            const layerNames = ["VUE D'ENSEMBLE", "1. INFRA PHYSIQUE", "2. PROTOCOLE", "3. SMART CONTRACTS", "4. DISTRIBUTION"];
+
+            function toggleExplode() {
+                const stack = document.querySelector('.architecture-stack');
+                stack.classList.toggle('scene-active');
+
+                const isExploded = stack.classList.contains('scene-active');
+                document.getElementById('explode-text').innerText = isExploded ? "FERMER LA VUE" : "ÉCLATER LA VUE";
+
+                // Reset carousel when toggling
+                currentLayer = 0;
+                updateLayerFocus();
+            }
+
+            function rotateLayer(direction) {
+                // Ensure we are exploded first
+                const stack = document.querySelector('.architecture-stack');
+                if (!stack.classList.contains('scene-active')) {
+                    toggleExplode();
+                }
+
+                currentLayer += direction;
+                if (currentLayer > 4) currentLayer = 1; // Cycle 1-4
+                if (currentLayer < 1) currentLayer = 4;
+
+                updateLayerFocus();
+            }
+
+            function updateLayerFocus() {
+                // Remove all focus classes
+                document.querySelectorAll('.arch-layer').forEach(el => el.classList.remove('focused', 'blurred'));
+
+                if (currentLayer === 0) {
+                    document.getElementById('layer-indicator').innerText = layerNames[0];
+                    return;
+                }
+
+                document.getElementById('layer-indicator').innerText = layerNames[currentLayer];
+
+                // Logic: Focus current, blur others
+                // Layer classes map: 1=base, 2=protocol, 3=app, 4=user
+                const layers = [
+                    document.querySelector('.layer-base'),
+                    document.querySelector('.layer-protocol'),
+                    document.querySelector('.layer-app'),
+                    document.querySelector('.layer-user')
+                ];
+
+                layers.forEach((layer, index) => {
+                    if (index + 1 === currentLayer) {
+                        layer.classList.add('focused');
+                    } else {
+                        layer.classList.add('blurred');
+                    }
+                });
+            }
+        </script>
+
+        <style>
+            .nav-btn {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .nav-btn:hover {
+                background: white;
+                color: black;
+            }
+
+            /* Focus State Styles */
+            .arch-layer.focused {
+                transform: translateZ(500px) !important;
+                /* Bring to very front */
+                opacity: 1 !important;
+                border-color: #fff;
+                box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+                z-index: 100;
+            }
+
+            .arch-layer.blurred {
+                opacity: 0.1 !important;
+                filter: blur(5px);
+            }
+        </style>
     </section>
 
     <!-- RISK FOCUS -->
