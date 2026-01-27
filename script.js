@@ -278,7 +278,7 @@ if (scrollToBottomBtn) {
 // ===================================
 function toggleMobileMenu() {
     console.log("Toggle Menu Triggered");
-    const navLinks = document.querySelector('.nav-links-pro');
+    const navLinks = document.querySelector('.nav-links-pro, .nav-links');
     if (navLinks) {
         navLinks.classList.toggle('active');
 
@@ -293,8 +293,8 @@ function toggleMobileMenu() {
 
 // Close Mobile Menu on Link Click
 document.addEventListener('DOMContentLoaded', () => {
-    const mobileLinks = document.querySelectorAll('.nav-links-pro a');
-    const navLinks = document.querySelector('.nav-links-pro');
+    const mobileLinks = document.querySelectorAll('.nav-links-pro a, .nav-links a');
+    const navLinks = document.querySelector('.nav-links-pro, .nav-links');
 
     mobileLinks.forEach(link => {
         link.addEventListener('click', () => {
