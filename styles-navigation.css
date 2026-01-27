@@ -469,6 +469,107 @@
     text-align: center;
     margin-top: 20px;
     font-size: 14px;
-    color: #94a3b8;
-    min-height: 20px;
-}
+
+    /* ===================================
+   GUIDE LAYOUT (DESKTOP SIDEBAR)
+   =================================== */
+    @media (min-width: 1280px) {
+        .guide-container {
+            /* Wrapper for the whole page content below navbar */
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .guide-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 60px;
+            padding: 40px;
+            position: relative;
+        }
+
+        .toc-sidebar {
+            display: block;
+            position: sticky;
+            top: 100px;
+            /* Below navbar */
+            height: calc(100vh - 140px);
+            overflow-y: auto;
+            padding-right: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+
+        .toc-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .toc-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .toc-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-sidebar li {
+            margin-bottom: 2px;
+        }
+
+        .toc-sidebar a {
+            display: block;
+            padding: 10px 16px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            border-left: 2px solid transparent;
+            border-radius: 0 6px 6px 0;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.8;
+        }
+
+        .toc-sidebar a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        .toc-sidebar a.active {
+            color: #3b82f6;
+            border-left-color: #3b82f6;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+            font-weight: 600;
+            opacity: 1;
+        }
+
+        .toc-category {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #64748b;
+            font-weight: 800;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-left: 16px;
+            letter-spacing: 1.5px;
+        }
+
+        /* Ensure content columns don't overflow */
+        .guide-content {
+            min-width: 0;
+        }
+    }
+
+    @media (max-width: 1279px) {
+        .toc-sidebar {
+            display: none;
+        }
+
+        .guide-layout {
+            display: block;
+        }
+    }

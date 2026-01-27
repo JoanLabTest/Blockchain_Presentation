@@ -16,9 +16,10 @@ function updateProgressBar() {
 window.addEventListener('scroll', updateProgressBar);
 
 // Active Section Highlighter
+// Active Section Highlighter (Modified for Sidebar)
 document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('section, div[id]');
-    const navLinks = document.querySelectorAll('.nav-dropdown-menu a');
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-dropdown-menu a, .toc-sidebar a'); // Include Sidebar
 
     const observerOptions = {
         root: null,
@@ -32,13 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const id = entry.target.getAttribute('id');
                 if (id) {
                     // Remove active class from all
-                    navLinks.forEach(link => link.classList.remove('active-section'));
+                    navLinks.forEach(link => {
+                        link.classList.remove('active-section'); // For header dropdowns
+                        link.classList.remove('active');         // For sidebar
+                    });
 
-                    // Add to current
-                    const activeLink = document.querySelector(`.nav-dropdown-menu a[href="#${id}"]`);
-                    if (activeLink) {
-                        activeLink.classList.add('active-section');
-                    }
+                    // Add to current in Dropdowns
+                    const activeDropdownLink = document.querySelector(`.nav-dropdown-menu a[href="#${id}"]`);
+                    if (activeDropdownLink) activeDropdownLink.classList.add('active-section');
+
+                    // Add to current in Sidebar
+                    const activeSidebarLink = document.querySelector(`.toc-sidebar a[href="#${id}"]`);
+                    if (activeSidebarLink) activeSidebarLink.classList.add('active');
                 }
             }
         });
