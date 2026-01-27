@@ -1,17 +1,53 @@
 // ===================================
-// PROGRESS BAR
+// PROGRESS BAR & ACTIVE SECTION (AUDIT FIX)
 // ===================================
 function updateProgressBar() {
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (winScroll / height) * 100;
-    const progressBar = document.getElementById('progressBar');
+
+    // Target the correct ID from guide.html
+    const progressBar = document.getElementById('progressBarFill');
     if (progressBar) {
         progressBar.style.width = scrolled + '%';
     }
 }
 
 window.addEventListener('scroll', updateProgressBar);
+
+// Active Section Highlighter
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('section, div[id]');
+    const navLinks = document.querySelectorAll('.nav-dropdown-menu a');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px', // Active triggers when section is near top
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                if (id) {
+                    // Remove active class from all
+                    navLinks.forEach(link => link.classList.remove('active-section'));
+
+                    // Add to current
+                    const activeLink = document.querySelector(`.nav-dropdown-menu a[href="#${id}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active-section');
+                    }
+                }
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        if (section.id) observer.observe(section);
+    });
+});
 
 // ===================================
 // SCROLL ANIMATIONS
@@ -238,36 +274,34 @@ if (scrollToBottomBtn) {
 }
 
 // ===================================
-// FAQ ACCORDION
+// MOBILE MENU TOGGLE (AUDIT FIX)
 // ===================================
-function toggleFaq(button) {
-    const faqItem = button.parentElement;
-    const answer = faqItem.querySelector('.faq-answer');
-    const icon = button.querySelector('.faq-icon');
+function toggleMobileMenu() {
+    console.log("Toggle Menu Triggered");
+    const navLinks = document.querySelector('.nav-links-pro');
+    if (navLinks) {
+        navLinks.classList.toggle('active');
 
-    // Toggle active class
-    const isActive = faqItem.classList.contains('active');
-
-    // Close all other FAQ items
-    document.querySelectorAll('.faq-item').forEach(item => {
-        if (item !== faqItem) {
-            item.classList.remove('active');
-            const otherAnswer = item.querySelector('.faq-answer');
-            const otherIcon = item.querySelector('.faq-icon');
-            if (otherAnswer) otherAnswer.style.maxHeight = null;
-            if (otherIcon) otherIcon.textContent = '+';
+        // Accessibility: Toggle Aria Expanded
+        const btn = document.querySelector('.mobile-menu-toggle');
+        if (btn) {
+            const isExpanded = navLinks.classList.contains('active');
+            btn.setAttribute('aria-expanded', isExpanded);
         }
-    });
-
-    // Toggle current item
-    if (isActive) {
-        faqItem.classList.remove('active');
-        answer.style.maxHeight = null;
-        icon.textContent = '+';
-    } else {
-        faqItem.classList.add('active');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-        icon.textContent = '−';
     }
 }
+
+// Close Mobile Menu on Link Click
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileLinks = document.querySelectorAll('.nav-links-pro a');
+    const navLinks = document.querySelector('.nav-links-pro');
+
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navLinks && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+            }
+        });
+    });
+});
 
