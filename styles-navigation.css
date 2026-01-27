@@ -474,12 +474,20 @@
 }
 
 /* ===================================
-   GUIDE LAYOUT (DESKTOP SIDEBAR)
-   =================================== */
-/* ===================================
    GUIDE LAYOUT (DESKTOP SIDEBAR) - PREMIUM
    =================================== */
-@media (min-width: 1280px) {
+
+/* MOBILE FIRST: Hidden by default to prevent "gap" issues */
+.toc-sidebar {
+    display: none;
+}
+
+.guide-layout {
+    display: block;
+}
+
+/* DESKTOP: Show and Style */
+@media (min-width: 1100px) {
     .guide-container {
         max-width: 1600px;
         margin: 0 auto;
@@ -488,27 +496,23 @@
     .guide-layout {
         display: grid;
         grid-template-columns: 320px 1fr;
-        /* Compteur plus large : 280 -> 320 */
         gap: 80px;
-        /* Plus d'espace : 60 -> 80 */
         padding: 60px 40px;
-        /* Plus d'aération : 40 -> 60 */
         position: relative;
     }
 
     .toc-sidebar {
         display: block;
+        /* Override hidden */
         position: sticky;
         top: 120px;
-        /* Below navbar */
         height: calc(100vh - 160px);
         overflow-y: auto;
-        padding-right: 30px;
+        padding-right: 25px;
         border-right: 1px solid rgba(255, 255, 255, 0.05);
         scrollbar-width: thin;
         scrollbar-color: rgba(59, 130, 246, 0.2) transparent;
         font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        /* Modern Font */
     }
 
     .toc-sidebar::-webkit-scrollbar {
@@ -527,7 +531,6 @@
         position: relative;
     }
 
-    /* Ligne connecteur verticale subtile */
     .toc-sidebar ul::before {
         content: '';
         position: absolute;
@@ -548,36 +551,28 @@
         align-items: center;
         padding: 8px 0 8px 24px;
         color: #64748b;
-        /* Slate-500 : plus discret par défaut */
         text-decoration: none;
         font-size: 0.95rem;
-        /* 14px -> 15px approx */
         font-weight: 500;
         border-left: 2px solid transparent;
         margin-left: -1px;
-        /* Align border with vertical line */
         transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         position: relative;
     }
 
-    /* Hover State */
     .toc-sidebar a:hover {
         color: #e2e8f0;
-        /* Lighten text */
         border-left-color: #475569;
         transform: translateX(4px);
     }
 
-    /* Active State - Premium Glow */
     .toc-sidebar a.active {
         color: #3b82f6;
         border-left-color: #3b82f6;
         background: linear-gradient(90deg, rgba(59, 130, 246, 0.08) 0%, transparent 100%);
         box-shadow: inset 1px 0 0 #3b82f6;
-        /* Sharp active line */
         font-weight: 600;
         padding-left: 28px;
-        /* Slight active slide */
     }
 
     .toc-category {
@@ -589,7 +584,6 @@
         margin-bottom: 20px;
         letter-spacing: 0.1em;
         padding-left: 24px;
-        /* Alignement */
         display: flex;
         align-items: center;
         gap: 10px;
@@ -606,18 +600,7 @@
         box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
     }
 
-    /* Ensure content columns don't overflow */
     .guide-content {
         min-width: 0;
-    }
-}
-
-@media (max-width: 1279px) {
-    .toc-sidebar {
-        display: none;
-    }
-
-    .guide-layout {
-        display: block;
     }
 }
