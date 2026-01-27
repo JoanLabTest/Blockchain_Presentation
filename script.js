@@ -305,3 +305,105 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+/* ===================================
+   WEB3 WALLET SIMULATION
+   =================================== */
+document.addEventListener('DOMContentLoaded', () => {
+    checkWalletConnection();
+});
+
+function openWalletModal() {
+    const modal = document.getElementById('walletModalOverlay');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeWalletModal() {
+    const modal = document.getElementById('walletModalOverlay');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        // Reset status
+        const status = document.getElementById('walletStatus');
+        if (status) status.innerHTML = '';
+    }
+}
+
+function simulateConnection(provider) {
+    const status = document.getElementById('walletStatus');
+    if (!status) return;
+
+    status.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Connecting to ${provider}...`;
+    status.style.color = '#3b82f6';
+
+    // Simulate network delay
+    setTimeout(() => {
+        status.innerHTML = `<i class="fas fa-check-circle"></i> Connected!`;
+        status.style.color = '#10b981';
+
+        // Generate random address like 0x71C...9A2
+        const randomAddr = '0x' + Array(40).fill(0).map(x => Math.random().toString(16)[2]).join('').substring(0, 4) + '...' + Array(4).fill(0).map(x => Math.random().toString(16)[2]).join('');
+
+        // Persist
+        localStorage.setItem('dcm_wallet_connected', 'true');
+        localStorage.setItem('dcm_wallet_address', randomAddr);
+        localStorage.setItem('dcm_wallet_provider', provider);
+
+        // Update UI
+        updateWalletUI(randomAddr);
+
+        // Close modal after short delay
+        setTimeout(() => {
+            closeWalletModal();
+        }, 1000);
+
+    }, 1500);
+}
+
+function checkWalletConnection() {
+    const isConnected = localStorage.getItem('dcm_wallet_connected');
+    const address = localStorage.getItem('dcm_wallet_address');
+
+    if (isConnected === 'true' && address) {
+        updateWalletUI(address);
+    }
+}
+
+function updateWalletUI(address) {
+    const btns = document.querySelectorAll('#connectWalletBtn');
+
+    btns.forEach(btn => {
+        btn.classList.add('connected');
+        btn.innerHTML = `<i class="fas fa-user-check"></i> ${address}`;
+        // Optional: Change onclick to disconnect or show profile
+        btn.onclick = () => {
+            if (confirm('Disconnect Wallet?')) {
+                disconnectWallet();
+            }
+        };
+    });
+}
+
+function disconnectWallet() {
+    localStorage.removeItem('dcm_wallet_connected');
+    localStorage.removeItem('dcm_wallet_address');
+    localStorage.removeItem('dcm_wallet_provider');
+
+    const btns = document.querySelectorAll('#connectWalletBtn');
+    btns.forEach(btn => {
+        btn.classList.remove('connected');
+        btn.innerHTML = `<i class="fas fa-wallet"></i> <span>Connect Wallet</span>`;
+        btn.onclick = openWalletModal;
+    });
+}
+
+// Close modal when clicking outside
+window.onclick = function (event) {
+    const modal = document.getElementById('walletModalOverlay');
+    if (event.target == modal) {
+        closeWalletModal();
+    }
+}
