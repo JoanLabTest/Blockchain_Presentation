@@ -347,6 +347,9 @@ function simulateConnection(provider) {
 
     // Simulate network delay
     setTimeout(() => {
+        // EDUCATIONAL TOOLTIP
+        alert("🎓 CONCEPT CLÉ : L'Adresse Publique\n\nEn connectant votre Wallet, vous partagez uniquement votre 'clé publique' (comme un IBAN). Votre 'clé privée' (votre mot de passe) ne quitte jamais votre appareil.");
+
         status.innerHTML = `<i class="fas fa-check-circle"></i> Connected!`;
         status.style.color = '#10b981';
 
@@ -425,11 +428,11 @@ function updateTotal() {
     const priceInput = document.getElementById('order-price');
     const totalDisplay = document.getElementById('order-total');
 
-    if(qtyInput && priceInput && totalDisplay) {
+    if (qtyInput && priceInput && totalDisplay) {
         const qty = parseFloat(qtyInput.value) || 0;
         const price = parseFloat(priceInput.value) || 0;
         const total = (qty * (price / 100));
-        
+
         // Format Display
         totalDisplay.innerText = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total);
     }
@@ -444,13 +447,13 @@ function executeTrade() {
     const stepsContainer = document.querySelector('.steps-container');
 
     // Open Modal
-    if(modal) modal.style.display = 'flex';
-    
+    if (modal) modal.style.display = 'flex';
+
     // Reset State
-    if(stepsContainer) stepsContainer.style.display = 'block';
-    if(successMsg) successMsg.style.display = 'none';
+    if (stepsContainer) stepsContainer.style.display = 'block';
+    if (successMsg) successMsg.style.display = 'none';
     [step1, step2, step3].forEach(step => {
-        if(step) {
+        if (step) {
             step.style.opacity = '0.5';
             step.querySelector('i').className = 'fa-regular fa-circle';
         }
@@ -458,16 +461,19 @@ function executeTrade() {
 
     // Animation Sequence
     setTimeout(() => {
+        // EDUCATIONAL TOOLTIP
+        alert("✍️ CONCEPT CLÉ : La Signature Cryptographique\n\nDans la Blockchain, vous ne tapez pas de mot de passe. Vous 'signez' mathématiquement la transaction avec votre clé privée. C'est infalsifiable.");
+
         // Step 1
-        if(step1) {
+        if (step1) {
             step1.style.opacity = '1';
             step1.querySelector('i').className = 'fa-solid fa-check-circle';
             step1.querySelector('i').style.color = '#10b981';
         }
-        
+
         setTimeout(() => {
             // Step 2
-            if(step2) {
+            if (step2) {
                 step2.style.opacity = '1';
                 step2.querySelector('i').className = 'fa-solid fa-check-circle';
                 step2.querySelector('i').style.color = '#10b981';
@@ -475,7 +481,7 @@ function executeTrade() {
 
             setTimeout(() => {
                 // Step 3
-                if(step3) {
+                if (step3) {
                     step3.style.opacity = '1';
                     step3.querySelector('i').className = 'fa-solid fa-check-circle';
                     step3.querySelector('i').style.color = '#10b981';
@@ -483,14 +489,14 @@ function executeTrade() {
 
                 // Show Success
                 setTimeout(() => {
-                    if(stepsContainer) stepsContainer.style.display = 'none';
-                    if(successMsg) {
+                    if (stepsContainer) stepsContainer.style.display = 'none';
+                    if (successMsg) {
                         successMsg.style.display = 'block';
                         // Generate Fake Hash
                         const randomHash = '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
                         const hashSpan = successMsg.querySelector('span');
-                        if(hashSpan) hashSpan.innerText = `Settlement ID: ${randomHash.substring(0, 10)}...${randomHash.substring(randomHash.length - 8)}`;
-                    } 
+                        if (hashSpan) hashSpan.innerText = `Settlement ID: ${randomHash.substring(0, 10)}...${randomHash.substring(randomHash.length - 8)}`;
+                    }
                 }, 800);
 
             }, 800);
@@ -500,5 +506,5 @@ function executeTrade() {
 
 function closeModal() {
     const modal = document.getElementById('execution-modal');
-    if(modal) modal.style.display = 'none';
+    if (modal) modal.style.display = 'none';
 }
