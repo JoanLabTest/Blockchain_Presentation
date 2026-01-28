@@ -1,0 +1,237 @@
+/* ===================================
+   STRATEGY 3D ENHANCEMENTS (SECTION 15)
+   =================================== */
+
+/* PERSPECTIVE CONTAINER GLOBAL */
+#strategy {
+    perspective: 1000px;
+    /* Donne de la profondeur à toute la section */
+    overflow: hidden;
+    /* Empêche les débordements 3D */
+}
+
+/* -----------------------------------
+   15.1 GOUVERNANCE (3D TILT)
+   ----------------------------------- */
+.governance-grid {
+    perspective: 1000px;
+}
+
+.gov-card {
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Trad (Gauche) - Tilt vers la droite */
+.gov-card.trad:hover {
+    transform: rotateY(10deg) scale(1.02);
+    box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* DAO (Droite) - Tilt vers la gauche */
+.gov-card.dao:hover {
+    transform: rotateY(-10deg) scale(1.02);
+    box-shadow: 10px 10px 20px rgba(245, 158, 11, 0.2);
+}
+
+/* Badge VS Flottant */
+.vs-badge {
+    animation: floatVS 3s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+@keyframes floatVS {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+        text-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* -----------------------------------
+   15.2 MUSEUM OF FAILURES (GLITCH/HOLO)
+   ----------------------------------- */
+.hacks-grid {
+    perspective: 1000px;
+}
+
+.hack-card {
+    position: relative;
+    transition: all 0.3s;
+    transform-style: preserve-3d;
+}
+
+.hack-card:hover {
+    transform: translateZ(20px) rotateX(5deg);
+    box-shadow: 0 20px 40px rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+}
+
+/* Scanline Effect */
+.hack-card::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.hack-card:hover::after {
+    opacity: 1;
+}
+
+.hack-header {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glitch Text Hoover */
+.hack-card:hover .hack-header span {
+    animation: glitch-text 0.5s infinite;
+}
+
+@keyframes glitch-text {
+    0% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-2px, 2px);
+    }
+
+    40% {
+        transform: translate(-2px, -2px);
+    }
+
+    60% {
+        transform: translate(2px, 2px);
+    }
+
+    80% {
+        transform: translate(2px, -2px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+/* -----------------------------------
+   15.3 TOKENOMICS (ISOMETRIC)
+   ----------------------------------- */
+.tokenomics-grid {
+    transform-style: preserve-3d;
+}
+
+.tok-card {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+.tok-card:hover {
+    transform: rotateX(10deg) rotateY(5deg) scale(1.05);
+    /* Effet Isométrique */
+    box-shadow: 10px 20px 30px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+}
+
+/* 3D Bars */
+.supply-viz div>div[style*="height: 8px"] {
+    position: relative;
+    transform-style: preserve-3d;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    transition: height 0.3s;
+}
+
+.tok-card:hover .supply-viz div>div[style*="height: 8px"] {
+    height: 12px !important;
+    /* Gonfle les barres au survol */
+    transform: translateZ(10px);
+}
+
+/* -----------------------------------
+   15.4 UX & PARALLAX
+   ----------------------------------- */
+.ux-grid {
+    perspective: 1500px;
+}
+
+.ux-card {
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease-out;
+}
+
+.ux-card:hover {
+    transform: rotateX(5deg) translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Floating Elements (Layered) */
+.ux-card h4,
+.ux-card .ux-icon {
+    transform: translateZ(30px);
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.comparison-row {
+    transform: translateZ(20px);
+    transition: transform 0.3s;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.ux-card:hover .comparison-row {
+    transform: translateZ(40px);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.ux-card:hover .comparison-row:nth-child(1) {
+    transform: translateZ(50px);
+}
+
+.ux-card:hover .comparison-row:nth-child(2) {
+    transform: translateZ(40px);
+}
+
+.ux-card:hover .comparison-row:nth-child(3) {
+    transform: translateZ(30px);
+}
+
+/* Checklist Items in Solution Card */
+.ux-card ul li {
+    transform: translateZ(0);
+    transition: transform 0.3s;
+}
+
+.ux-card:hover ul li {
+    transform: translateZ(30px);
+}
+
+.ux-card:hover ul li:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.ux-card:hover ul li:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.ux-card:hover ul li:nth-child(3) {
+    transition-delay: 0.15s;
+}
