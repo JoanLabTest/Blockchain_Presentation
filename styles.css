@@ -1667,3 +1667,64 @@ footer {
         padding: 20px;
     }
 }
+
+
+/* ===================================
+   DESKTOP LAYOUT REFINEMENTS
+   =================================== */
+
+/* Make the premium grid responsive (auto-fit) instead of fixed columns */
+.premium-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Container for scrolling tables on smaller screens or compressed layouts */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.table-responsive table {
+    min-width: 600px;
+    /* Ensure table keeps its shape and triggers scroll if needed */
+}
+
+/* FORCE GUIDE LAYOUT GRID (Fix for sidebar overlap) */
+@media (min-width: 1100px) {
+    .guide-container .guide-layout {
+        display: grid !important;
+        grid-template-columns: 320px 1fr !important;
+        gap: 60px !important;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .guide-container .toc-sidebar {
+        grid-column: 1;
+        width: 320px !important;
+        min-width: 320px !important;
+        display: block !important;
+    }
+
+    .guide-container .guide-content {
+        grid-column: 2;
+        min-width: 0 !important;
+        /* Forces grid to respect children width */
+        width: 100%;
+        margin-left: 0 !important;
+        /* Reset any legacy margins */
+    }
+}
+
+/* Simulator Container responsiveness */
+.simulator-container {
+    max-width: 100%;
+    margin: 40px auto;
+}

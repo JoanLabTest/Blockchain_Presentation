@@ -603,4 +603,57 @@
     .guide-content {
         min-width: 0;
     }
+
+}
+
+/* ===================================
+   CRITICAL LAYOUT FIX (DESKTOP)
+   =================================== */
+/* Enforce Grid Layout to prevent Sidebar Overlap */
+@media (min-width: 1100px) {
+    .guide-container .guide-layout {
+        display: grid !important;
+        grid-template-columns: 320px minmax(0, 1fr) !important;
+        gap: 60px !important;
+        padding-left: 40px;
+        padding-right: 40px;
+        align-items: start;
+        /* Prevent full height stretching if not needed */
+    }
+
+    .guide-container .toc-sidebar {
+        grid-column: 1;
+        width: 320px !important;
+        min-width: 320px !important;
+        position: sticky !important;
+        top: 120px !important;
+        display: block !important;
+        height: calc(100vh - 160px);
+        overscroll-behavior: contain;
+        z-index: 10;
+        /* Ensure sidebar is above if overlap happens, but grid should prevent it */
+    }
+
+    /* UNIVERSAL CONTENT FIX:
+       Target .guide-content AND any section/div that might have escaped it.
+       Force them all into Column 2.
+    */
+    .guide-container .guide-layout>.guide-content,
+    .guide-container .guide-layout>section,
+    .guide-container .guide-layout>div:not(.toc-sidebar) {
+        grid-column: 2 !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        box-sizing: border-box;
+    }
+
+    /* Ensure specific containers respect the width */
+    .simulator-container,
+    .comparison-table,
+    .benchmarks-grid,
+    .premium-grid-3,
+    .table-responsive {
+        max-width: 100% !important;
+    }
 }
