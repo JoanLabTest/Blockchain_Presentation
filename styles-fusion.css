@@ -1232,3 +1232,186 @@
 .execute-btn:active {
     transform: translateY(1px);
 }
+
+/* ===================================
+   RISK MANAGEMENT & OUTLOOK (ANIMATED)
+   =================================== */
+
+/* --- SHARED INTERACTIVE CARD --- */
+.interactive-card {
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: default;
+    position: relative;
+    z-index: 1;
+}
+
+.interactive-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.interactive-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.interactive-card:hover::after {
+    opacity: 1;
+}
+
+/* --- RISK GRID (CARTOGRAPHIE) --- */
+/* Note: Removing dependency on inline styles */
+
+.risk-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.risk-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.risk-card:hover {
+    background: rgba(30, 41, 59, 0.8);
+    transform: translateY(-5px);
+}
+
+.risk-header {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+}
+
+.risk-body {
+    padding: 20px;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Risk Levels */
+.risk-card.low { border-left: 4px solid #10b981; }
+.risk-card.low .risk-header { color: #10b981; }
+.risk-card.medium { border-left: 4px solid #f59e0b; }
+.risk-card.medium .risk-header { color: #f59e0b; }
+.risk-card.high { border-left: 4px solid #ef4444; }
+.risk-card.high .risk-header { color: #ef4444; }
+
+.risk-badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.risk-badge.low { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+.risk-badge.medium { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.risk-badge.high { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+
+/* --- OUTLOOK TIMELINE --- */
+.timeline-events {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    position: relative;
+    padding-left: 40px;
+}
+
+.timeline-events::before {
+    content: '';
+    position: absolute;
+    left: 14px; /* Center with 30px circles */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #3b82f6, #a855f7);
+    opacity: 0.3;
+}
+
+.timeline-event {
+    position: relative;
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 16px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+}
+
+/* Dot on line */
+.timeline-event::before {
+    content: '';
+    position: absolute;
+    left: -41px; /* 40px padding + 1px border */
+    top: 30px;
+    width: 30px;
+    height: 30px;
+    background: #0f172a;
+    border: 2px solid #3b82f6;
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.timeline-event:hover::before {
+    background: #3b82f6;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+}
+
+.event-date {
+    display: inline-block;
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.event-content h4 {
+    margin: 0 0 10px 0;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.event-content p {
+    color: #cbd5e1;
+    margin-bottom: 15px;
+}
+
+/* --- STAGGER ANIMATION (Native CSS) --- */
+/* Creating a stagger effect for items with --item-index style */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stagger-animation > * {
+    opacity: 0;
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Stagger Delay Loop (up to 10 items) */
+.stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-animation > *:nth-child(5) { animation-delay: 0.5s; }
