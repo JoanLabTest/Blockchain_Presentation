@@ -218,6 +218,15 @@
         <div class="progress-bar-fill" id="progressBarFill"></div>
     </div>
 
+    <!-- BREADCRUMBS (PHASE 5 UX) -->
+    <div id="breadcrumbBar" class="breadcrumb-container">
+        <div class="breadcrumb-content">
+            <a href="#hero" class="breadcrumb-item"><i class="fas fa-home"></i> Accueil</a>
+            <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+            <span id="breadcrumbCurrent" class="breadcrumb-item active">Introduction</span>
+        </div>
+    </div>
+
     <!-- Professional Sticky Navigation -->
     <nav class="navbar-pro">
         <!-- Logo Dropdown avec 3 versions -->
@@ -386,7 +395,7 @@
 
             <h1 style="font-size: 56px; line-height: 1.1; margin-bottom: 20px;">
                 Maitrisez la <span
-                    style="background: linear-gradient(135deg, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Blockchain</span><br>
+                    style="background: linear-gradient(135deg, #3b82f6, #10b981); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Blockchain</span><br>
                 pour la Finance
             </h1>
 
@@ -401,30 +410,64 @@
                 d'affaires (RWA, Obligations Digitales).
             </p>
 
-            <!-- Audit: Who is this for? -->
-            <div
-                style="margin-bottom: 40px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; background: rgba(15, 23, 42, 0.6); padding: 12px 25px; border-radius: 50px; border: 1px solid rgba(148, 163, 184, 0.2); backdrop-filter: blur(5px);">
-                <span
-                    style="color: #94a3b8; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">POUR
-                    QUI ?</span>
-                <span style="color: #e2e8f0; font-size: 14px; font-weight: 500;"><i class="fas fa-university"
-                        style="color:#60a5fa; margin-right:5px;"></i> Banquiers</span>
-                <span style="color: #475569;">|</span>
-                <span style="color: #e2e8f0; font-size: 14px; font-weight: 500;"><i class="fas fa-briefcase"
-                        style="color:#10b981; margin-right:5px;"></i> Asset Managers</span>
-                <span style="color: #475569;">|</span>
-                <span style="color: #e2e8f0; font-size: 14px; font-weight: 500;"><i class="fas fa-chart-line"
-                        style="color:#f59e0b; margin-right:5px;"></i> Investisseurs</span>
-            </div>
-            </p>
+            <!-- LEARNING PATHS (PHASE 5 UX) -->
+            <div class="paths-grid">
 
-            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                <a href="#blockchain" class="cta-button">
-                    <i class="fas fa-play"></i> COMMENCER LE GUIDE
+                <!-- PATH 1: DÉBUTANT -->
+                <a href="#fondamentaux" class="path-card beginner" style="text-decoration: none;">
+                    <div class="path-icon" style="color: #10b981;">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="path-title">
+                        Débutant
+                        <span class="path-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Start
+                            Here</span>
+                    </div>
+                    <div class="path-desc">
+                        Découvrez les bases : DLT, Tokens et Wallet sans jargon technique complexe.
+                    </div>
+                    <i class="fas fa-arrow-right path-arrow"></i>
                 </a>
-                <a href="simple.html" class="cta-button"
-                    style="background: rgba(255,255,255,0.05); border: 1px solid #334155;">
-                    <i class="fas fa-graduation-cap"></i> VERSION DÉCOUVERTE
+
+                <!-- PATH 2: INTERMÉDIAIRE -->
+                <a href="#obligation" class="path-card intermediate" style="text-decoration: none;">
+                    <div class="path-icon" style="color: #3b82f6;">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="path-title">
+                        Intermédiaire
+                        <span class="path-badge" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">Pro</span>
+                    </div>
+                    <div class="path-desc">
+                        Explorez l'émission d'obligations digitales et les cas d'usage réels.
+                    </div>
+                    <i class="fas fa-arrow-right path-arrow"></i>
+                </a>
+
+                <!-- PATH 3: EXPERT -->
+                <a href="#compliance" class="path-card expert" style="text-decoration: none;">
+                    <div class="path-icon" style="color: #a855f7;">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="path-title">
+                        Expert
+                        <span class="path-badge"
+                            style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">Institutional</span>
+                    </div>
+                    <div class="path-desc">
+                        Approfondissez la Compliance, les Risques et l'infrastructure de marché.
+                    </div>
+                    <i class="fas fa-arrow-right path-arrow"></i>
+                </a>
+
+            </div>
+
+            <!-- ANCIENS BOUTONS (SUPPRIMÉS OU DÉPLACÉS SI BESOIN) -->
+            <!-- Pour l'instant, on garde une action secondaire discrète -->
+            <div style="margin-top: 20px;">
+                <a href="#blockchain"
+                    style="color: #64748b; font-size: 0.9rem; text-decoration: none; border-bottom: 1px dotted #64748b;">
+                    Ou parcourir le guide complet de A à Z →
                 </a>
             </div>
 
@@ -5189,4 +5232,56 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
 
     // Run on init
     document.addEventListener('DOMContentLoaded', calculateROI);
+</script>
+<script>
+    /* ===================================
+       BREADCRUMB LOGIC (PHASE 5 UX)
+       =================================== */
+    document.addEventListener('DOMContentLoaded', function () {
+        const breadcrumbBar = document.getElementById('breadcrumbBar');
+        const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+        const sections = document.querySelectorAll('section[id]');
+
+        // Threshold to show breadcrumbs
+        const SHOW_THRESHOLD = 300;
+
+        window.addEventListener('scroll', function () {
+            let current = '';
+
+            // 1. Show/Hide Breadcrumb Bar
+            if (window.scrollY > SHOW_THRESHOLD) {
+                breadcrumbBar.classList.add('visible');
+            } else {
+                breadcrumbBar.classList.remove('visible');
+            }
+
+            // 2. Detect Current Section
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+
+                // Offset for fixed header
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+
+                    // Try to get a clean title from h2 or h1
+                    let title = "";
+                    const h2 = section.querySelector('h2');
+                    const h1 = section.querySelector('h1');
+
+                    if (h2) title = h2.innerText;
+                    else if (h1) title = h1.innerText;
+
+                    // Fallback to ID if no title found (capitalized)
+                    if (!title) title = current.charAt(0).toUpperCase() + current.slice(1);
+
+                    // Truncate if too long (max 40 chars)
+                    if (title.length > 40) title = title.substring(0, 40) + "...";
+
+                    // Update text
+                    if (title) breadcrumbCurrent.innerText = title;
+                }
+            });
+        });
+    });
 </script>
