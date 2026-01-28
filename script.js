@@ -407,9 +407,98 @@ function disconnectWallet() {
 }
 
 // Close modal when clicking outside
+
+// Limit Modal Close
 window.onclick = function (event) {
     const modal = document.getElementById('walletModalOverlay');
     if (event.target == modal) {
         closeWalletModal();
     }
+}
+
+// ===================================
+// TRANSACTION SIMULATOR (PHASE 4)
+// ===================================
+
+function updateTotal() {
+    const qtyInput = document.getElementById('order-qty');
+    const priceInput = document.getElementById('order-price');
+    const totalDisplay = document.getElementById('order-total');
+
+    if(qtyInput && priceInput && totalDisplay) {
+        const qty = parseFloat(qtyInput.value) || 0;
+        const price = parseFloat(priceInput.value) || 0;
+        const total = (qty * (price / 100));
+        
+        // Format Display
+        totalDisplay.innerText = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total);
+    }
+}
+
+function executeTrade() {
+    const modal = document.getElementById('execution-modal');
+    const step1 = document.getElementById('step-1');
+    const step2 = document.getElementById('step-2');
+    const step3 = document.getElementById('step-3');
+    const successMsg = document.getElementById('success-message');
+    const stepsContainer = document.querySelector('.steps-container');
+
+    // Open Modal
+    if(modal) modal.style.display = 'flex';
+    
+    // Reset State
+    if(stepsContainer) stepsContainer.style.display = 'block';
+    if(successMsg) successMsg.style.display = 'none';
+    [step1, step2, step3].forEach(step => {
+        if(step) {
+            step.style.opacity = '0.5';
+            step.querySelector('i').className = 'fa-regular fa-circle';
+        }
+    });
+
+    // Animation Sequence
+    setTimeout(() => {
+        // Step 1
+        if(step1) {
+            step1.style.opacity = '1';
+            step1.querySelector('i').className = 'fa-solid fa-check-circle';
+            step1.querySelector('i').style.color = '#10b981';
+        }
+        
+        setTimeout(() => {
+            // Step 2
+            if(step2) {
+                step2.style.opacity = '1';
+                step2.querySelector('i').className = 'fa-solid fa-check-circle';
+                step2.querySelector('i').style.color = '#10b981';
+            }
+
+            setTimeout(() => {
+                // Step 3
+                if(step3) {
+                    step3.style.opacity = '1';
+                    step3.querySelector('i').className = 'fa-solid fa-check-circle';
+                    step3.querySelector('i').style.color = '#10b981';
+                }
+
+                // Show Success
+                setTimeout(() => {
+                    if(stepsContainer) stepsContainer.style.display = 'none';
+                    if(successMsg) {
+                        successMsg.style.display = 'block';
+                        // Generate Fake Hash
+                        const randomHash = '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+                        const hashSpan = successMsg.querySelector('span');
+                        if(hashSpan) hashSpan.innerText = `Settlement ID: ${randomHash.substring(0, 10)}...${randomHash.substring(randomHash.length - 8)}`;
+                    } 
+                }, 800);
+
+            }, 800);
+        }, 800);
+    }, 500);
+}
+
+function closeModal() {
+    const modal = document.getElementById('execution-modal');
+    if(modal) modal.style.display = 'none';
 }
