@@ -2057,3 +2057,228 @@ body.show-details .detail-content {
 body.show-details .detail-badge {
     display: inline-block;
 }
+
+/* ===================================
+   NARRATIVE CARDS (PHASE 5 PRIORITY 2)
+   =================================== */
+.narrative-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
+    border-left: 4px solid #f59e0b; /* Amber for Story/Example */
+    border-radius: 12px;
+    padding: 25px;
+    margin: 40px 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.narrative-card::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    right: 20px;
+    font-size: 150px;
+    color: rgba(255, 255, 255, 0.03);
+    font-family: serif;
+    font-weight: bold;
+}
+
+.narrative-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.narrative-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(245, 158, 11, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f59e0b;
+    font-size: 1.2rem;
+}
+
+.narrative-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.narrative-content {
+    color: #cbd5e1;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.narrative-caption {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-style: italic;
+    text-align: right;
+}
+
+/* ===================================
+   INTERACTIVITY (PHASE 5 PRIORITY 3)
+   =================================== */
+
+/* 1. AUDIO CAPSULES */
+.audio-capsule {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 50px;
+    padding: 10px 20px;
+    margin: 20px 0;
+    max-width: 400px;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.audio-capsule:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+}
+
+.audio-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s;
+}
+
+.audio-btn:hover {
+    transform: scale(1.1);
+}
+
+.audio-info {
+    flex: 1;
+}
+
+.audio-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+}
+
+.audio-meta {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* 2. DRAG & DROP GAME */
+.game-container {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.game-header {
+    margin-bottom: 20px;
+}
+
+.game-title {
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.drop-zones-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.drop-zone {
+    width: 120px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 2px dashed #475569;
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.drop-zone.drag-over {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.drop-zone.correct {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.step-number {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.draggable-items {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.draggable {
+    background: #3b82f6;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: grab;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.draggable.placed {
+    background: #10b981;
+    cursor: default;
+}
+
+.game-success-msg {
+    display: none;
+    margin-top: 20px;
+    color: #10b981;
+    font-weight: bold;
+    animation: bounceIn 0.5s;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+}
