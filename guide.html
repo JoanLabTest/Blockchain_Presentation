@@ -3922,8 +3922,37 @@
                         </div>
 
                         <div class="savings-info">
-                            <h4><i class="fas fa-info-circle"></i> Hypothèses</h4>
-                            <ul>
+                            <h4><i class="fas fa-chart-bar"></i> Comparatif des Coûts</h4>
+
+                            <!-- Visual Bars -->
+                            <div style="margin-top: 15px;">
+                                <div style="margin-bottom: 10px;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">
+                                        <span>Modèle Traditionnel</span>
+                                        <span id="costTraditional">100%</span>
+                                    </div>
+                                    <div
+                                        style="width: 100%; height: 8px; background: #334155; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 100%; height: 100%; background: #ef4444;"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">
+                                        <span>Modèle Blockchain</span>
+                                        <span id="costBlockchain" style="color: #10b981;">20%</span>
+                                    </div>
+                                    <div
+                                        style="width: 100%; height: 8px; background: #334155; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 20%; height: 100%; background: #10b981; transition: width 0.5s ease;"
+                                            id="barBlockchain"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul style="margin-top: 20px;">
                                 <li>Réduction de 40% des frais de custody</li>
                                 <li>Réduction de 80% des frais d'agent payeur</li>
                                 <li>Automatisation via Smart Contract</li>
@@ -5232,3 +5261,83 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
 </body>
 
 </html>
+<script>
+    /* ===================================
+       ROI CALCULATOR LOGIC
+       =================================== */
+    function calculateROI() {
+        // 1. Get Inputs
+        const volume = parseFloat(document.getElementById('volumeInput').value) || 0;
+        const duration = parseFloat(document.getElementById('durationInput').value) || 5;
+        
+        // Update Duration Label
+        document.getElementById('durationValue').innerText = duration + " ans";
+
+        // 2. Constants (in basis points)
+        // 1 bps = 0.0001
+        const BPS_CUSTODY = 2.0 * 0.0001; 
+        const BPS_AGENT = 1.5 * 0.0001;
+        
+        // Savings Assumptions
+        const SAVE_CUSTODY_PCT = 0.40; // 40% savings
+        const SAVE_AGENT_PCT = 0.80;   // 80% savings
+
+        // 3. Calculate Annual Costs (Traditional)
+        const costCustody = volume * BPS_CUSTODY;
+        const costAgent = volume * BPS_AGENT;
+        const totalAnnualCostTraditional = costCustody + costAgent;
+
+        // 4. Calculate Savings
+        const saveCustody = costCustody * SAVE_CUSTODY_PCT;
+        const saveAgent = costAgent * SAVE_AGENT_PCT;
+        const totalAnnualSavings = saveCustody + saveAgent;
+
+        // 5. Calculate Blockchain Cost
+        const totalAnnualCostBlockchain = totalAnnualCostTraditional - totalAnnualSavings;
+
+        // 6. Update Visual Bars (Percentage)
+        const pctBlockchain = (totalAnnualCostBlockchain / totalAnnualCostTraditional) * 100;
+        document.getElementById('barBlockchain').style.width = pctBlockchain + "%";
+        document.getElementById('costBlockchain').innerText = Math.round(pctBlockchain) + "%";
+
+        // 7. Calculate Totals
+        const totalLifetimeSavings = totalAnnualSavings * duration;
+
+        // Margin Gain (bps saved)
+        // Total saved percentage = (totalAnnualSavings / volume) * 10000 (to get bps)
+        const marginGainBps = (totalAnnualSavings / volume) * 10000;
+
+        // 8. Update UI with Animation
+        animateValue(document.getElementById('savingsYear'), totalAnnualSavings, " €");
+        animateValue(document.getElementById('savingsTotal'), totalLifetimeSavings, " €");
+        animateValue(document.getElementById('marginGain'), marginGainBps, " bps", 1);
+    }
+
+    function animateValue(obj, end, suffix, decimals = 0) {
+        // Simple animation
+        const start = 0;
+        const duration = 1000;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            
+            // Format number
+            let current = progress * end;
+            let formatted = current.toLocaleString('fr-FR', { 
+                minimumFractionDigits: decimals, 
+                maximumFractionDigits: decimals 
+            });
+
+            obj.innerHTML = formatted + suffix;
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    // Run on init
+    document.addEventListener('DOMContentLoaded', calculateROI);
+</script>
