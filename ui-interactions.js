@@ -65,4 +65,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- 3. SCROLL SPY (SIDEBAR ACTIVE STATE) ---
+    const sections = document.querySelectorAll("section");
+    const navLi = document.querySelectorAll(".toc-sidebar ul li a");
+
+    // Use Intersection Observer for better performance
+    const observerOptions = {
+        root: null,
+        rootMargin: "-20% 0px -60% 0px", // Active when section is in top-middle of screen
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                // Remove active class from all links
+                navLi.forEach((link) => link.classList.remove("active"));
+
+                // Add active class to corresponding link
+                const id = entry.target.getAttribute("id");
+                const activeLink = document.querySelector(`.toc-sidebar ul li a[href="#${id}"]`);
+                if (activeLink) {
+                    activeLink.classList.add("active");
+                }
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+        observer.observe(section);
+    });
+
 });
