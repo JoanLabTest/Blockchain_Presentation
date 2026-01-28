@@ -6263,3 +6263,31 @@ if (title) breadcrumbCurrent.innerText = title;
         }
     }
 </script>
+<!-- WALLET MODAL LOGIC (NEXT GEN) -->
+<script>
+    function openWalletModal() {
+        const modal = document.getElementById('walletModalOverlay');
+        if(modal) modal.style.display = 'flex';
+    }
+
+    function closeWalletModal() {
+        const modal = document.getElementById('walletModalOverlay');
+        if(modal) modal.style.display = 'none';
+    }
+
+    function simulateConnection(walletName) {
+        const status = document.getElementById('walletStatus');
+        status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to ' + walletName + '...';
+        
+        setTimeout(() => {
+            status.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981;"></i> Connected to ' + walletName;
+            setTimeout(() => {
+                closeWalletModal();
+                alert('Wallet ' + walletName + ' connected! (Simulation Mode)');
+                document.querySelector('.connect-wallet-btn').innerHTML = '<i class="fas fa-user-check"></i> ' + walletName;
+                document.querySelector('.connect-wallet-btn').style.background = 'rgba(16, 185, 129, 0.2)';
+                document.querySelector('.connect-wallet-btn').style.border = '1px solid #10b981';
+            }, 1000);
+        }, 1500);
+    }
+</script>
