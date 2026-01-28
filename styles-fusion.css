@@ -1937,3 +1937,123 @@
     color: #475569;
     font-size: 0.7rem;
 }
+
+/* ===================================
+   PEDAGOGICAL LEVELS (PHASE 5 PRIORITY 2)
+   =================================== */
+
+/* Toggle Button Container (Sticky Bottom Right) */
+.level-toggle-container {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 1000;
+    background: rgba(15, 23, 42, 0.9);
+    padding: 10px 15px;
+    border-radius: 50px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.level-toggle-container:hover {
+    transform: scale(1.02);
+    border-color: #3b82f6;
+}
+
+.level-label {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* The Switch */
+.level-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.level-switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #334155;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #3b82f6;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* Detailed Content State */
+.detail-content {
+    display: none; /* Hidden by default (Synthétique mode) */
+    animation: fadeInDetail 0.5s ease;
+    border-left: 3px solid #3b82f6;
+    padding-left: 15px;
+    margin: 15px 0;
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 0 8px 8px 0;
+}
+
+/* When body has 'show-details' class */
+body.show-details .detail-content {
+    display: block;
+}
+
+@keyframes fadeInDetail {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Indicator for Detailed Content */
+.detail-badge {
+    display: none;
+    font-size: 0.7rem;
+    background: #3b82f6;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: fit-content;
+}
+
+body.show-details .detail-badge {
+    display: inline-block;
+}

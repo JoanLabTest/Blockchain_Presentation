@@ -4639,9 +4639,15 @@
                         <div class="term-def">Mécanisme d'échange simultané où le titre et le paiement sont transférés
                             dans la
                             même milliseconde.</div>
-                        <div class="term-micro"
-                            style="font-size: 12px; color: #3b82f6; margin-top: 8px; font-weight: 600;">💡
-                            En bref : "Pas de paiement, pas de livraison". Supprime le risque de contrepartie.</div>
+
+                        <!-- DETAIL LEVEL ONLY -->
+                        <div class="detail-content">
+                            <span class="detail-badge">Niveau Expert</span>
+                            <div class="term-micro"
+                                style="font-size: 12px; color: #3b82f6; margin-top: 5px; font-weight: 600;">💡
+                                En bref : "Pas de paiement, pas de livraison" (DvP). Supprime intégralement le risque de
+                                contrepartie (Herstatt Risk).</div>
+                        </div>
                     </div>
                     <div class="term-card">
                         <div class="term-title">🪙 Minting</div>
@@ -5233,55 +5239,88 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
     // Run on init
     document.addEventListener('DOMContentLoaded', calculateROI);
 </script>
+<script src="ui-interactions.js"></script>
+
+<!-- LEVEL TOGGLE SWITCH (PHASE 5 PRIORITY 2) -->
+<div class="level-toggle-container">
+    <span class="level-label" style="opacity: 0.7;">Synthétique</span>
+    <label class="level-switch">
+        <input type="checkbox" id="levelToggle">
+        <span class="slider"></span>
+    </label>
+    <span class="level-label" style="color: #3b82f6;">Détaillé</span>
+</div>
+
+<!-- SCRIPT FOR LEVEL TOGGLE -->
 <script>
-    /* ===================================
-       BREADCRUMB LOGIC (PHASE 5 UX)
-       =================================== */
     document.addEventListener('DOMContentLoaded', function () {
-        const breadcrumbBar = document.getElementById('breadcrumbBar');
-        const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
-        const sections = document.querySelectorAll('section[id]');
+        const toggle = document.getElementById('levelToggle');
+        const body = document.body;
 
-        // Threshold to show breadcrumbs
-        const SHOW_THRESHOLD = 300;
+        // Check saved preference
+        if (localStorage.getItem('pedagogicalLevel') === 'detailed') {
+            toggle.checked = true;
+            body.classList.add('show-details');
+        }
 
-        window.addEventListener('scroll', function () {
-            let current = '';
-
-            // 1. Show/Hide Breadcrumb Bar
-            if (window.scrollY > SHOW_THRESHOLD) {
-                breadcrumbBar.classList.add('visible');
+        // Handle toggle change
+        toggle.addEventListener('change', function () {
+            if (this.checked) {
+                body.classList.add('show-details');
+                localStorage.setItem('pedagogicalLevel', 'detailed');
             } else {
-                breadcrumbBar.classList.remove('visible');
+                body.classList.remove('show-details');
+                localStorage.setItem('pedagogicalLevel', 'synthetic');
             }
-
-            // 2. Detect Current Section
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-
-                // Offset for fixed header
-                if (pageYOffset >= (sectionTop - 150)) {
-                    current = section.getAttribute('id');
-
-                    // Try to get a clean title from h2 or h1
-                    let title = "";
-                    const h2 = section.querySelector('h2');
-                    const h1 = section.querySelector('h1');
-
-                    if (h2) title = h2.innerText;
-                    else if (h1) title = h1.innerText;
-
-                    // Fallback to ID if no title found (capitalized)
-                    if (!title) title = current.charAt(0).toUpperCase() + current.slice(1);
-
-                    // Truncate if too long (max 40 chars)
-                    if (title.length > 40) title = title.substring(0, 40) + "...";
-
-                    // Update text
-                    if (title) breadcrumbCurrent.innerText = title;
-                }
-            });
         });
     });
+</script>
+=================================== */
+document.addEventListener('DOMContentLoaded', function () {
+const breadcrumbBar = document.getElementById('breadcrumbBar');
+const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+const sections = document.querySelectorAll('section[id]');
+
+// Threshold to show breadcrumbs
+const SHOW_THRESHOLD = 300;
+
+window.addEventListener('scroll', function () {
+let current = '';
+
+// 1. Show/Hide Breadcrumb Bar
+if (window.scrollY > SHOW_THRESHOLD) {
+breadcrumbBar.classList.add('visible');
+} else {
+breadcrumbBar.classList.remove('visible');
+}
+
+// 2. Detect Current Section
+sections.forEach(section => {
+const sectionTop = section.offsetTop;
+const sectionHeight = section.clientHeight;
+
+// Offset for fixed header
+if (pageYOffset >= (sectionTop - 150)) {
+current = section.getAttribute('id');
+
+// Try to get a clean title from h2 or h1
+let title = "";
+const h2 = section.querySelector('h2');
+const h1 = section.querySelector('h1');
+
+if (h2) title = h2.innerText;
+else if (h1) title = h1.innerText;
+
+// Fallback to ID if no title found (capitalized)
+if (!title) title = current.charAt(0).toUpperCase() + current.slice(1);
+
+// Truncate if too long (max 40 chars)
+if (title.length > 40) title = title.substring(0, 40) + "...";
+
+// Update text
+if (title) breadcrumbCurrent.innerText = title;
+}
+});
+});
+});
 </script>
