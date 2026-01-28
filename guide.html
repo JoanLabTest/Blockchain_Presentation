@@ -5523,3 +5523,218 @@ if (title) breadcrumbCurrent.innerText = title;
         });
     });
 </script>
+<!-- BADGE SYSTEM & CERTIFICATE (PHASE 5 PRIORITY 5) -->
+
+<!-- 1. Floating Trigger -->
+<div class="badge-trigger" onclick="toggleBadgeModal()" title="Mes Compétences Blockchain">
+    <i class="fas fa-trophy"></i>
+    <div class="badge-notification" id="badgeNotif"></div>
+</div>
+
+<!-- 2. Modal Overlay -->
+<div class="badge-modal-overlay" id="badgeModal">
+    <div class="badge-modal">
+        <button class="modal-close" onclick="toggleBadgeModal()">&times;</button>
+        
+        <h2 style="color: white; margin-top: 0;">Passport Compétences 🏆</h2>
+        <p style="color: #94a3b8; font-size: 14px;">Complétez les défis pour obtenir votre certification officielle.</p>
+
+        <!-- Dynamic Progress Bar -->
+        <div style="width: 100%; height: 6px; background: #334155; border-radius: 3px; margin: 20px 0; overflow: hidden;">
+            <div id="badgeProgress" style="width: 0%; height: 100%; background: linear-gradient(90deg, #f59e0b, #d97706); transition: width 0.5s;"></div>
+        </div>
+        <div style="text-align: right; color: #f59e0b; font-size: 12px; font-weight: bold; margin-bottom: 20px;">
+            <span id="badgeCount">0</span>/3 Badges
+        </div>
+
+        <!-- Badges Grid -->
+        <div class="badges-grid">
+            <!-- 1. EXPLORER -->
+            <div class="badge-item" id="badge-explorer">
+                <i class="fas fa-compass badge-icon"></i>
+                <div class="badge-name">DCM Explorer</div>
+                <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Visiter 3 Modules</div>
+            </div>
+            
+            <!-- 2. LISTENER -->
+            <div class="badge-item" id="badge-listener">
+                <i class="fas fa-headphones badge-icon"></i>
+                <div class="badge-name">Active Listener</div>
+                <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Écouter 1 Capsule</div>
+            </div>
+            
+            <!-- 3. STRATEGIST -->
+            <div class="badge-item" id="badge-strategist">
+                <i class="fas fa-chess-knight badge-icon"></i>
+                <div class="badge-name">Cycle Master</div>
+                <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Gagner le Mini-Jeu</div>
+            </div>
+        </div>
+
+        <!-- Certificate Button -->
+        <button class="cert-btn" id="certBtn" onclick="generateCertificate()">
+            <i class="fas fa-lock"></i> Certification Verrouillée
+        </button>
+    </div>
+</div>
+
+<!-- 3. Print Certificate Template (Hidden) -->
+<div id="certificate-print-area" style="display: none; padding: 40px; font-family: 'Outfit', sans-serif; text-align: center; border: 10px solid #0f172a;">
+    <div style="border: 2px solid #3b82f6; padding: 40px; height: 100%;">
+        <h1 style="color: #0f172a; font-size: 48px; margin-bottom: 20px;">CERTIFICAT D'ACCOMPLISSEMENT</h1>
+        <p style="color: #64748b; font-size: 24px;">Ce document certifie que</p>
+        <h2 id="certName" style="color: #3b82f6; font-size: 42px; margin: 30px 0; border-bottom: 2px solid #e2e8f0; display: inline-block; padding: 0 40px 10px;">[Nom Prénom]</h2>
+        <p style="color: #64748b; font-size: 24px;">a validé avec succès le module de formation stratégique</p>
+        <h3 style="color: #0f172a; font-size: 32px; margin: 30px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h3>
+        
+        <div style="margin-top: 60px; display: flex; justify-content: space-around; width: 80%; margin-left: auto; margin-right: auto;">
+            <div>
+                <p style="font-weight: bold; color: #0f172a;">Date</p>
+                <p id="certDate" style="color: #64748b;">2024</p>
+            </div>
+            <div>
+                <div style="width: 80px; height: 80px; background: #0f172a; border-radius: 50%; color: white; display: grid; place-items: center; margin: 0 auto 10px;">
+                    <i class="fas fa-check" style="font-size: 32px;"></i>
+                </div>
+                <p style="font-weight: bold; color: #0f172a;">DCM Digital</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4. Logic Script -->
+<script>
+    const STORAGE_KEY_BADGES = 'dcm_badges_v1';
+    let userBadges = JSON.parse(localStorage.getItem(STORAGE_KEY_BADGES)) || {
+        explorer: false,
+        listener: false,
+        strategist: false
+    };
+
+    // INIT
+    document.addEventListener('DOMContentLoaded', () => {
+        updateBadgeUI();
+        checkExplorerBadge(); // Check navigation progress on load
+    });
+
+    // UI TOGGLE
+    function toggleBadgeModal() {
+        const modal = document.getElementById('badgeModal');
+        modal.classList.toggle('active');
+        
+        // Hide notification when opened
+        if(modal.classList.contains('active')) {
+            document.getElementById('badgeNotif').style.display = 'none';
+        }
+    }
+
+    // UPDATE UI FROM STATE
+    function updateBadgeUI() {
+        const badgeIds = ['explorer', 'listener', 'strategist'];
+        let earnedCount = 0;
+
+        badgeIds.forEach(id => {
+            const el = document.getElementById('badge-' + id);
+            if(userBadges[id]) {
+                el.classList.add('unlocked');
+                earnedCount++;
+            }
+        });
+
+        // Update Progress Bar
+        const pct = (earnedCount / 3) * 100;
+        document.getElementById('badgeProgress').style.width = pct + '%';
+        document.getElementById('badgeCount').innerText = earnedCount;
+
+        // Button State
+        const btn = document.getElementById('certBtn');
+        if(earnedCount === 3) {
+            btn.classList.add('unlocked');
+            btn.innerHTML = '<i class="fas fa-download"></i> Télécharger mon Certificat';
+            btn.onclick = generateCertificate;
+        } else {
+            btn.innerHTML = '<i class="fas fa-lock"></i> Certification Verrouillée';
+            btn.onclick = null;
+        }
+
+        // Save State
+        localStorage.setItem(STORAGE_KEY_BADGES, JSON.stringify(userBadges));
+    }
+
+    // UNLOCK FUNCTION (GLOBAL)
+    window.unlockBadge = function(badgeKey) {
+        if(!userBadges[badgeKey]) {
+            userBadges[badgeKey] = true;
+            updateBadgeUI();
+            
+            // Show Notification Dot
+            const notif = document.getElementById('badgeNotif');
+            notif.style.display = 'block';
+            
+            // Optional: Toast or Alert
+            // alert('Nouveau Badge Débloqué : ' + badgeKey.toUpperCase());
+        }
+    };
+
+    // BADGE 1 CHECKER: EXPLORER
+    function checkExplorerBadge() {
+        // Simple logic: if user scrolls deep enough (70%)
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.scrollY;
+            let docHeight = document.body.offsetHeight;
+            let winHeight = window.innerHeight;
+            let scrollPercent = scrollTop / (docHeight - winHeight);
+            
+            if(scrollPercent > 0.7) {
+                unlockBadge('explorer');
+            }
+        });
+    }
+
+    // BADGE 2 CHECKER: LISTENER (Hook into toggleAudio)
+    // We modify the existing toggleAudio to call unlockBadge('listener')
+    const originalToggleAudio = window.toggleAudio; // Hook if exists
+    // (Already handled below in overwrite)
+
+    // CERTIFICATE GENERATION
+    function generateCertificate() {
+        if(!document.getElementById('certBtn').classList.contains('unlocked')) return;
+
+        const name = prompt("Entrez votre Prénom et Nom pour le certificat :", "Invité");
+        if(name) {
+            document.getElementById('certName').innerText = name;
+            document.getElementById('certDate').innerText = new Date().toLocaleDateString('fr-FR');
+            window.print();
+        }
+    }
+</script>
+
+<!-- 5. Hooking into Existing Interactive Elements -->
+<script>
+    // Hook into Audio (Listener Badge)
+    const oldAudioFn = window.toggleAudio;
+    window.toggleAudio = function(id) {
+        if(oldAudioFn) oldAudioFn(id); // Call original
+        setTimeout(() => {
+            unlockBadge('listener'); // Unlock after "listening" (simulated 5s)
+        }, 5000);
+    };
+
+    // Hook into Game (Strategist Badge)
+    // We observe the success message style (when it becomes block)
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.target.style.display === 'block') {
+                unlockBadge('strategist');
+            }
+        });
+    });
+    
+    // Wait for element to exist
+    setTimeout(() => {
+        const gameMsg = document.getElementById('gameSuccessMsg');
+        if(gameMsg) {
+            observer.observe(gameMsg, { attributes: true, attributeFilter: ['style'] });
+        }
+    }, 2000);
+</script>
