@@ -2282,3 +2282,50 @@ body.show-details .detail-badge {
     70% { transform: scale(0.9); }
     100% { transform: scale(1); opacity: 1; }
 }
+
+/* ===================================
+   RISK & COMPLIANCE ENHANCEMENTS (PHASE 5)
+   =================================== */
+
+/* ILLUMINATED CARDS (SPOTLIGHT EFFECT) */
+.interactive-card {
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
+    will-change: transform, background;
+    overflow: hidden; /* For the spotlight glow */
+}
+
+/* The glow aura following mouse */
+.interactive-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+        rgba(255, 255, 255, 0.06),
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.interactive-card:hover::after {
+    opacity: 1;
+}
+
+.interactive-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    z-index: 10;
+}
+
+/* Specific Glow Colors based on Danger Levels */
+.risk-card:nth-child(1):hover { border-color: #ef4444; box-shadow: 0 0 30px rgba(239, 68, 68, 0.2); } /* Custody - Red */
+.risk-card:nth-child(2):hover { border-color: #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.2); } /* Private Key - Orange */
+.risk-card:nth-child(3):hover { border-color: #a855f7; box-shadow: 0 0 30px rgba(168, 85, 247, 0.2); } /* Smart Contract - Purple */
+.risk-card:nth-child(4):hover { border-color: #3b82f6; box-shadow: 0 0 30px rgba(59, 130, 246, 0.2); } /* Regulatory - Blue */
+
