@@ -9,6 +9,7 @@
     --accent-green: #10b981;
     --accent-gold: #f59e0b;
     --accent-purple: #a855f7;
+    --accent-red: #ef4444;
     --text-main: #e2e8f0;
     --text-muted: #94a3b8;
 }
@@ -27,26 +28,28 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    /* Pour le format présentation */
 }
 
 /* --- HEADER --- */
 header {
-    padding: 20px 40px;
+    padding: 15px 40px;
     border-bottom: 1px solid var(--border);
     background: rgba(15, 23, 42, 0.95);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
+    height: 70px;
     z-index: 100;
 }
 
 .logo {
     font-weight: 800;
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: 1px;
     color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .back-link {
@@ -64,200 +67,316 @@ header {
     color: var(--accent-blue);
 }
 
-/* --- MAIN TIMELINE CONTAINER --- */
-.timeline-wrapper {
-    flex-grow: 1;
+/* --- TIMELINE NAVIGATION (TOP) --- */
+.timeline-nav {
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 40px;
-    position: relative;
-    background: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
-}
-
-/* La ligne horizontale centrale */
-.timeline-axis {
-    position: absolute;
-    top: 50%;
-    left: 5%;
-    width: 90%;
-    height: 4px;
-    background: var(--border);
-    z-index: 0;
-    border-radius: 2px;
-}
-
-/* GRILLE DES ÉTAPES */
-.steps-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    width: 100%;
-    max-width: 1600px;
-    position: relative;
-    z-index: 1;
-}
-
-/* CARTE ÉTAPE */
-.step-col {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    position: relative;
+    padding: 20px 0;
+    background: rgba(2, 6, 23, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    gap: 40px;
 }
 
-/* Le Point sur la ligne */
-.step-dot {
-    width: 20px;
-    height: 20px;
-    background: var(--bg-dark);
-    border: 4px solid var(--border);
-    border-radius: 50%;
-    margin: 20px 0;
+.nav-step {
+    cursor: pointer;
+    text-align: center;
+    opacity: 0.4;
     transition: all 0.3s ease;
     position: relative;
-    z-index: 2;
 }
 
-/* Contenu Haut (Timing & Titre) */
-.step-top {
-    text-align: center;
-    margin-bottom: 20px;
-    height: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+.nav-step.active {
+    opacity: 1;
+    transform: scale(1.1);
 }
 
-.time-badge {
+.nav-step.active::after {
+    content: '';
+    position: absolute;
+    bottom: -21px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: var(--active-color);
+    border-radius: 3px 3px 0 0;
+}
+
+.nav-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
     background: var(--border);
-    color: white;
-    font-family: 'JetBrains Mono';
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 8px;
+    margin: 0 auto 5px;
+    border: 2px solid var(--bg-dark);
 }
 
-.step-title {
-    font-size: 18px;
-    font-weight: 800;
-    color: #fff;
+.nav-step.active .nav-circle {
+    background: var(--active-color);
+    box-shadow: 0 0 10px var(--active-color);
+}
+
+.nav-label {
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    color: white;
 }
 
-/* Carte de Détail (Bas) */
-.step-card {
+/* --- SLIDER CONTAINER --- */
+.main-stage {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    /* Mask for slides */
+}
+
+.slides-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slide {
+    min-width: 100%;
+    height: 100%;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* --- SLIDE CONTENT LAYOUT --- */
+.slide-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr 300px;
+    gap: 40px;
+    max-width: 1400px;
+    width: 100%;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    width: 100%;
-    min-height: 280px;
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
 }
 
-/* HOVER EFFECTS */
-.step-col:hover .step-dot {
-    transform: scale(1.5);
-    border-color: var(--active-color);
-    box-shadow: 0 0 15px var(--active-color);
-}
-
-.step-col:hover .step-card {
-    transform: translateY(-10px);
-    border-color: var(--active-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.step-col:hover .time-badge {
+/* DECORATION */
+.slide-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
     background: var(--active-color);
-    color: #000;
-    font-weight: bold;
 }
 
-/* CONTENU DE LA CARTE */
-.section-title {
-    font-size: 12px;
+/* COL 1: CONTEXTE (Business) */
+.col-context h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 10px;
+    line-height: 1.1;
+}
+
+.col-context .subtitle {
+    display: block;
+    font-family: 'JetBrains Mono';
+    font-size: 14px;
+    color: var(--active-color);
+    margin-bottom: 30px;
+}
+
+.context-text {
+    font-size: 16px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.kpi-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.kpi-val {
+    font-size: 20px;
     font-weight: bold;
+    color: white;
+    display: block;
+}
+
+.kpi-label {
+    font-size: 12px;
     color: var(--text-muted);
     text-transform: uppercase;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 5px;
-    margin-bottom: 5px;
+}
+
+/* COL 2: VISUAL CENTER (Diagrams/Focus) */
+.col-visual {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(2, 6, 23, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* COL 3: TECHNICAL (Detailed Specs) */
+.col-tech {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px dashed var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tech-header {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: bold;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.biz-content {
-    color: #fff;
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-.tech-content {
-    color: var(--text-muted);
-    font-size: 13px;
+.code-block {
     font-family: 'JetBrains Mono';
-    background: rgba(0, 0, 0, 0.3);
-    padding: 8px;
-    border-radius: 6px;
-    border-left: 2px solid;
-}
-
-/* COULEURS PAR ÉTAPE */
-.step-1 {
-    --active-color: #3b82f6;
-}
-
-/* Onboarding - Bleu */
-.step-2 {
-    --active-color: #a855f7;
-}
-
-/* Structuration - Violet */
-.step-3 {
-    --active-color: #f59e0b;
-}
-
-/* Pricing - Or */
-.step-4 {
-    --active-color: #ef4444;
-}
-
-/* Minting - Rouge (Action) */
-.step-5 {
-    --active-color: #10b981;
-}
-
-/* DvP - Vert (Succès) */
-
-/* FOOTER REFERENCE */
-.footer-ref {
-    text-align: center;
-    padding: 20px;
-    border-top: 1px solid var(--border);
     font-size: 12px;
-    color: var(--text-muted);
-    background: rgba(15, 23, 42, 0.95);
+    color: #a5b4fc;
+    background: #1e1e2e;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-blue);
+    margin-bottom: 15px;
+    line-height: 1.5;
 }
 
-/* ICONS */
-.icon-circle {
+.tech-list li {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.tech-list i {
+    color: var(--active-color);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* --- CONTROLS --- */
+.slider-controls {
+    position: absolute;
+    bottom: 30px;
+    right: 60px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-control {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: white;
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
     display: grid;
     place-items: center;
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: var(--active-color);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--active-color);
+}
+
+.btn-control:hover {
+    background: var(--active-color);
+    border-color: var(--active-color);
+}
+
+/* --- DIAGRAM SPECIFIC STYLES --- */
+.arch-mini {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    transform: scale(0.9);
+}
+
+.arch-box {
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    width: 100px;
+}
+
+.box-legacy {
+    border: 1px dashed #64748b;
+    color: #94a3b8;
+}
+
+.box-orch {
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid #3b82f6;
+}
+
+.box-dlt {
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid #10b981;
+}
+
+/* Intro/Outro Slides can be simpler */
+.slide-center-text {
+    text-align: center;
+    max-width: 800px;
+}
+
+.big-title {
+    font-size: 50px;
+    font-weight: 800;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* VARIABLES FOR STEPS */
+.theme-blue {
+    --active-color: #3b82f6;
+}
+
+.theme-purple {
+    --active-color: #a855f7;
+}
+
+.theme-gold {
+    --active-color: #f59e0b;
+}
+
+.theme-red {
+    --active-color: #ef4444;
+}
+
+.theme-green {
+    --active-color: #10b981;
 }

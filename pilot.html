@@ -5,162 +5,275 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anatomie d'une Émission Tokenisée</title>
-
-    <!-- FONTS & ICONS -->
     <link rel="stylesheet" href="styles-pilot.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2152/2152539.png">
 </head>
 
 <body>
 
+    <!-- HEADER -->
     <header>
         <div class="logo">
             <i class="fa-solid fa-layer-group" style="color:var(--accent-blue)"></i> PROCESSUS D'ÉMISSION
         </div>
-        <div style="text-align: center;">
-            <h1 style="font-size: 20px; margin: 0; color: white;">Anatomie Chronologique d'un Digital Bond</h1>
-            <span style="font-size: 12px; color: var(--text-muted);">Cycle de vie complet : De l'Onboarding au Règlement
-                (T+0)</span>
+        <div style="font-size: 12px; color: var(--text-muted);">
+            <span id="currentStepDisplay">01</span> / 05 • PILOTAGE BANCAIRE
         </div>
-        <a href="index.html" class="back-link">
-            <i class="fa-solid fa-arrow-left"></i> RETOUR PORTAIL
-        </a>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> QUITTER LE MODECK</a>
     </header>
 
-    <div class="timeline-wrapper">
-        <div class="timeline-axis"></div>
+    <!-- TOP NAV Timeline -->
+    <div class="timeline-nav">
+        <div class="nav-step theme-blue active" onclick="goToSlide(0)">
+            <div class="nav-circle"></div>
+            <div class="nav-label">1. Onboarding</div>
+        </div>
+        <div class="nav-step theme-purple" onclick="goToSlide(1)">
+            <div class="nav-circle"></div>
+            <div class="nav-label">2. Structuration</div>
+        </div>
+        <div class="nav-step theme-gold" onclick="goToSlide(2)">
+            <div class="nav-circle"></div>
+            <div class="nav-label">3. Pricing</div>
+        </div>
+        <div class="nav-step theme-red" onclick="goToSlide(3)">
+            <div class="nav-circle"></div>
+            <div class="nav-label">4. Minting</div>
+        </div>
+        <div class="nav-step theme-green" onclick="goToSlide(4)">
+            <div class="nav-circle"></div>
+            <div class="nav-label">5. Règlement</div>
+        </div>
+    </div>
 
-        <div class="steps-container">
+    <!-- SLIDER AREA -->
+    <div class="main-stage">
+        <div class="slides-track" id="track">
 
-            <!-- ÉTAPE 1 : ONBOARDING -->
-            <div class="step-col step-1">
-                <div class="step-top">
-                    <span class="time-badge">J-30</span>
-                    <span class="step-title">1. Onboarding</span>
-                </div>
-                <div class="step-dot"></div>
-                <div class="step-card">
-                    <div class="icon-circle"><i class="fa-solid fa-passport"></i></div>
-
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-briefcase"></i> ACTION MÉTIER</div>
-                        <p class="biz-content">Identification de l'investisseur (KYC) et ouverture de la relation.</p>
+            <!-- SLIDE 1 : ONBOARDING -->
+            <div class="slide theme-blue active">
+                <div class="slide-grid">
+                    <!-- Col 1: Context -->
+                    <div class="col-context">
+                        <h2>Onboarding Investisseur</h2>
+                        <span class="subtitle">J-30 • CLIENT & COMPLIANCE</span>
+                        <p class="context-text">
+                            L'étape critique pour la banque : s'assurer que l'investisseur est éligible avant même qu'il
+                            ne touche à la technologie.
+                            Nous transposons le KYC bancaire traditionnel dans l'univers digital.
+                        </p>
+                        <div class="kpi-box">
+                            <span class="kpi-val">Whitelisting</span>
+                            <span class="kpi-label">Mécanisme de Contrôle</span>
+                        </div>
                     </div>
+                    <!-- Col 2: Visual -->
+                    <div class="col-visual">
+                        <i class="fa-solid fa-passport"
+                            style="font-size: 80px; color: var(--active-color); margin-bottom: 20px;"></i>
+                        <div style="text-align: center; color: white; font-weight: bold;">Identité Numérique</div>
+                        <div style="font-size: 12px; color: #94a3b8; margin-top: 10px;">Le Wallet est taggué "Verified"
+                        </div>
+                    </div>
+                    <!-- Col 3: Tech -->
+                    <div class="col-tech">
+                        <div class="tech-header"><i class="fa-solid fa-terminal"></i> EXÉCUTION TECHNIQUE</div>
+                        <div class="code-block">
+                            func addToAllowList(address) {<br>
+                            &nbsp;&nbsp;require(isKYC_OK);<br>
+                            &nbsp;&nbsp;_allowed[address] = true;<br>
+                            }
+                        </div>
+                        <ul class="tech-list" style="list-style: none;">
+                            <li><i class="fa-solid fa-check"></i> Création du Wallet (Custody)</li>
+                            <li><i class="fa-solid fa-check"></i> Signature Électronique</li>
+                            <li><i class="fa-solid fa-check"></i> Mapping ID Bancaire / Wallet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-code"></i> TRADUCTION TECH</div>
-                        <div class="tech-content" style="border-color: #3b82f6;">
-                            > Create Wallet<br>
-                            > Whitelisting Address<br>
-                            > Status: AUTHORIZED
+            <!-- SLIDE 2 : STRUCTURATION -->
+            <div class="slide theme-purple">
+                <div class="slide-grid">
+                    <div class="col-context">
+                        <h2>Structuration Produit</h2>
+                        <span class="subtitle">J-10 • LEGAL & DCM</span>
+                        <p class="context-text">
+                            Le "Titre Financier" est défini juridiquement (Prospectus).
+                            Nous traduisons ensuite ces clauses juridiques en code informatique (Smart Contract) pour
+                            automatiser la vie du titre.
+                        </p>
+                        <div class="kpi-box">
+                            <span class="kpi-val">eWpG / MiCA</span>
+                            <span class="kpi-label">Cadre Réglementaire</span>
+                        </div>
+                    </div>
+                    <div class="col-visual">
+                        <div class="arch-mini">
+                            <div class="arch-box box-legacy">
+                                PROSPECTUS<br>(PDF)
+                            </div>
+                            <i class="fa-solid fa-arrow-right" style="color:#64748b"></i>
+                            <div class="arch-box box-orch">
+                                PARAMÈTRES<br>(JSON)
+                            </div>
+                            <i class="fa-solid fa-arrow-right" style="color:#64748b"></i>
+                            <div class="arch-box box-dlt">
+                                SMART CONTRACT<br>(Solidity)
+                            </div>
+                        </div>
+                        <div style="margin-top:20px; font-size:12px; color:#cbd5e1; font-style:italic;">"Le Droit
+                            devient du Code"</div>
+                    </div>
+                    <div class="col-tech">
+                        <div class="tech-header"><i class="fa-solid fa-file-code"></i> SMART CONTRACT FACTORY</div>
+                        <div class="code-block">
+                            string public name = "Green Bond 2026";<br>
+                            uint256 public couponRate = 350; // 3.5%
+                        </div>
+                        <ul class="tech-list" style="list-style: none;">
+                            <li><i class="fa-solid fa-check"></i> Calcul Coupon Automatique</li>
+                            <li><i class="fa-solid fa-check"></i> Restrictions de Transfert</li>
+                            <li><i class="fa-solid fa-check"></i> Déploiement Sandbox</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3 : PRICING (ARCH IT FOCUS) -->
+            <div class="slide theme-gold">
+                <div class="slide-grid">
+                    <div class="col-context">
+                        <h2>Pricing & Ops</h2>
+                        <span class="subtitle">J-0 (H-2) • SYNDICATION</span>
+                        <p class="context-text">
+                            Le livre d'ordres est construit dans les outils de marché habituels (Bloomberg).
+                            Une fois le prix fixé, c'est l'**Orchestrateur** qui fait le pont entre nos systèmes Legacy
+                            et la Blockchain.
+                        </p>
+                        <div class="kpi-box">
+                            <span class="kpi-val">Legacy ↔ DLT</span>
+                            <span class="kpi-label">Intégration IT</span>
+                        </div>
+                    </div>
+                    <div class="col-visual">
+                        <!-- RE-USE THE ARCHITECTURE DIAGRAM HERE -->
+                        <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
+                            <div
+                                style="border:1px dashed #64748b; padding:10px; width:200px; text-align:center; border-radius:8px; color:#94a3b8;">
+                                <i class="fa-solid fa-server"></i> LEGACY (Bloomberg)
+                            </div>
+                            <i class="fa-solid fa-arrow-down" style="color:#f59e0b"></i>
+                            <div
+                                style="background:rgba(245, 158, 11, 0.2); border:1px solid #f59e0b; padding:15px; width:220px; text-align:center; border-radius:8px; color:white;">
+                                <i class="fa-solid fa-gears"></i> ORCHESTRATEUR IT
+                                <div style="font-size:10px; margin-top:5px;">Traduit FIX/SWIFT en Transaction</div>
+                            </div>
+                            <i class="fa-solid fa-arrow-down" style="color:#f59e0b"></i>
+                            <div
+                                style="border:1px solid #10b981; padding:10px; width:200px; text-align:center; border-radius:8px; color:#10b981;">
+                                <i class="fa-solid fa-network-wired"></i> BLOCKCHAIN
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-tech">
+                        <div class="tech-header"><i class="fa-solid fa-server"></i> INFRASTRUCTURE</div>
+                        <ul class="tech-list" style="list-style: none;">
+                            <li><i class="fa-solid fa-check"></i> Pas de perturbation FO</li>
+                            <li><i class="fa-solid fa-check"></i> Gestion Clés HSM (Securité)</li>
+                            <li><i class="fa-solid fa-check"></i> Audit Trail complet</li>
+                        </ul>
+                        <div class="code-block" style="margin-top:10px; border-color: #f59e0b; color: #fcd34d;">
+                            API POST /allocate<br>
+                            { "isin": "FR0054...", "amount": "50M" }
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ÉTAPE 2 : STRUCTURATION -->
-            <div class="step-col step-2">
-                <div class="step-top">
-                    <span class="time-badge">J-5</span>
-                    <span class="step-title">2. Structuration</span>
-                </div>
-                <div class="step-dot"></div>
-                <div class="step-card">
-                    <div class="icon-circle"><i class="fa-solid fa-file-contract"></i></div>
-
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-briefcase"></i> ACTION MÉTIER</div>
-                        <p class="biz-content">Définition du Term Sheet (Montant, Taux, Maturité) et Documentation.</p>
-                    </div>
-
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-code"></i> TRADUCTION TECH</div>
-                        <div class="tech-content" style="border-color: #a855f7;">
-                            > Config Smart Contract<br>
-                            > Set Parameters (Coupon, Date)<br>
-                            > Deploy (Status: Inactive)
+            <!-- SLIDE 4 : MINTING -->
+            <div class="slide theme-red">
+                <div class="slide-grid">
+                    <div class="col-context">
+                        <h2>Émission (Minting)</h2>
+                        <span class="subtitle">J-0 (H-0) • CLOSING</span>
+                        <p class="context-text">
+                            Le "Titre" est créé ex-nihilo sur la blockchain. C'est l'acte de naissance juridique
+                            numérique.
+                            Les titres sont distribués sur les wallets des investisseurs mais restent **bloqués**
+                            (Locked) en attente du paiement.
+                        </p>
+                        <div class="kpi-box">
+                            <span class="kpi-val">Atomicité</span>
+                            <span class="kpi-label">Concept Clé</span>
                         </div>
+                    </div>
+                    <div class="col-visual">
+                        <i class="fa-solid fa-fingerprint"
+                            style="font-size: 80px; color: var(--active-color); margin-bottom: 20px;"></i>
+                        <div style="text-align: center; color: white;">Token Created</div>
+                        <div style="font-size: 14px; color: #ef4444; font-weight:bold; margin-top: 10px;">[ STATUS :
+                            LOCKED ]</div>
+                    </div>
+                    <div class="col-tech">
+                        <div class="tech-header"><i class="fa-solid fa-box"></i> TOKEN LIFECYCLE</div>
+                        <div class="code-block" style="border-color: #ef4444; color: #fca5a5;">
+                            event Transfer(Zero, Inv_A, 1000);<br>
+                            // Tokens are frozen until payment
+                        </div>
+                        <ul class="tech-list" style="list-style: none;">
+                            <li><i class="fa-solid fa-check"></i> Registre Distribué à jour</li>
+                            <li><i class="fa-solid fa-check"></i> Réconciliation immédiate</li>
+                            <li><i class="fa-solid fa-check"></i> Transparence Émetteur</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- ÉTAPE 3 : PRICING -->
-            <div class="step-col step-3">
-                <div class="step-top">
-                    <span class="time-badge">J-0 / H-2</span>
-                    <span class="step-title">3. Pricing</span>
-                </div>
-                <div class="step-dot"></div>
-                <div class="step-card">
-                    <div class="icon-circle"><i class="fa-solid fa-comments-dollar"></i></div>
-
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-briefcase"></i> ACTION MÉTIER</div>
-                        <p class="biz-content">Bookbuilding classique (Bloomberg/Tel). Fixation du prix final.</p>
-                    </div>
-
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-code"></i> TRADUCTION TECH</div>
-                        <div class="tech-content" style="border-color: #f59e0b;">
-                            > Off-Chain Consensus<br>
-                            > API Bridge<br>
-                            > Update Allocation Data
+            <!-- SLIDE 5 : RÈGLEMENT -->
+            <div class="slide theme-green">
+                <div class="slide-grid">
+                    <div class="col-context">
+                        <h2>Règlement-Livraison (DvP)</h2>
+                        <span class="subtitle">T+0 (Immédiat) • SETTLEMENT</span>
+                        <p class="context-text">
+                            La révolution opérationnelle. Dès que le Cash (Token Cash ou Trigger Bancaire) est confirmé,
+                            le Smart Contract libère instantanément les titres.
+                            Plus de risque de contrepartie.
+                        </p>
+                        <div class="kpi-box">
+                            <span class="kpi-val">T+0</span>
+                            <span class="kpi-label">Cycle de Règlement</span>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- ÉTAPE 4 : MINTING -->
-            <div class="step-col step-4">
-                <div class="step-top">
-                    <span class="time-badge">J-0 / H-0</span>
-                    <span class="step-title">4. Minting</span>
-                </div>
-                <div class="step-dot"></div>
-                <div class="step-card">
-                    <div class="icon-circle"><i class="fa-solid fa-fingerprint"></i></div>
-
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-briefcase"></i> ACTION MÉTIER</div>
-                        <p class="biz-content">Création juridique des titres et pré-allocation aux investisseurs.</p>
-                    </div>
-
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-code"></i> TRADUCTION TECH</div>
-                        <div class="tech-content" style="border-color: #ef4444;">
-                            > Mint(100,000 Tokens)<br>
-                            > Transfer to Investors<br>
-                            > Status: LOCKED (Escrow)
+                    <div class="col-visual">
+                        <div style="display:flex; gap:20px; align-items:center;">
+                            <div style="text-align:center;">
+                                <i class="fa-solid fa-file-invoice" style="font-size:40px; color:#ef4444;"></i>
+                                <div style="font-size:12px; margin-top:5px; color:#94a3b8;">TITRES</div>
+                            </div>
+                            <i class="fa-solid fa-rotate" style="font-size:30px; color:#10b981;"></i>
+                            <div style="text-align:center;">
+                                <i class="fa-solid fa-coins" style="font-size:40px; color:#f59e0b;"></i>
+                                <div style="font-size:12px; margin-top:5px; color:#94a3b8;">CASH</div>
+                            </div>
                         </div>
+                        <div style="margin-top:20px; color:#10b981; font-weight:bold;">ÉCHANGE INSTANTANÉ</div>
                     </div>
-                </div>
-            </div>
-
-            <!-- ÉTAPE 5 : RÈGLEMENT -->
-            <div class="step-col step-5">
-                <div class="step-top">
-                    <span class="time-badge">H+10 min</span>
-                    <span class="step-title">5. DvP Atomique</span>
-                </div>
-                <div class="step-dot"></div>
-                <div class="step-card" style="border: 2px solid #10b981; background: rgba(16, 185, 129, 0.05);">
-                    <div class="icon-circle"><i class="fa-solid fa-rocket"></i></div>
-
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-briefcase"></i> ACTION MÉTIER</div>
-                        <p class="biz-content">Réception du Cash (Target2) et libération simultanée des titres.</p>
-                    </div>
-
-                    <div>
-                        <div class="section-title"><i class="fa-solid fa-code"></i> TRADUCTION TECH</div>
-                        <div class="tech-content" style="border-color: #10b981; color: #10b981;">
-                            > Trigger Confirmation (Cash)<br>
-                            > UNLOCK TOKENS<br>
-                            > Finality Reached
+                    <div class="col-tech">
+                        <div class="tech-header"><i class="fa-solid fa-check-double"></i> FINALITÉ</div>
+                        <div class="code-block" style="border-color: #10b981; color: #86efac;">
+                            function executeDvP() {<br>
+                            &nbsp;&nbsp;transfer(Token, Inv);<br>
+                            &nbsp;&nbsp;transfer(Cash, Issuer);<br>
+                            }
                         </div>
+                        <ul class="tech-list" style="list-style: none;">
+                            <li><i class="fa-solid fa-check"></i> Cash Management Optimisé</li>
+                            <li><i class="fa-solid fa-check"></i> Risque défaut = 0%</li>
+                            <li><i class="fa-solid fa-check"></i> Clôture du Deal</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -168,11 +281,69 @@
         </div>
     </div>
 
-    <div class="footer-ref">
-        <i class="fa-solid fa-link"></i> <strong>RÉFÉRENCES CROISÉES :</strong>
-        Voir le détail dans <a href="index.html#roadmap" style="color: #3b82f6;">Plan d'Action Pilote</a> et <a
-            href="index.html#it-arch" style="color: #3b82f6;">Architecture IT</a>.
+    <div class="slider-controls">
+        <button class="btn-control" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="btn-control" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 5;
+        const track = document.getElementById('track');
+        const slides = document.querySelectorAll('.slide');
+        const navSteps = document.querySelectorAll('.nav-step');
+        const stepDisplay = document.getElementById('currentStepDisplay');
+
+        function update() {
+            // Update Track Position
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            // Update Slides Active State (for animations)
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) slide.classList.add('active');
+                else slide.classList.remove('active');
+            });
+
+            // Update Nav
+            navSteps.forEach((step, index) => {
+                if (index === currentSlide) step.classList.add('active');
+                else step.classList.remove('active');
+            });
+
+            // Update Header Counter
+            stepDisplay.innerText = "0" + (currentSlide + 1);
+        }
+
+        function goToSlide(index) {
+            if (index >= 0 && index < totalSlides) {
+                currentSlide = index;
+                update();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                update();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                update();
+            }
+        }
+
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Init
+        update();
+    </script>
 
 </body>
 
