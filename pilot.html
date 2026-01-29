@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilote Bancaire - Émission Tokenisée</title>
+    <link rel="stylesheet" href="styles-pilot.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2152/2152539.png">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="deck-header">
+        <div class="deck-logo">DCM DIGITAL <span style="color: #3b82f6;">// PILOTE</span></div>
+        <div class="deck-controls">
+            <button class="control-btn" onclick="prevSlide()" title="Précédent (Flèche Gauche)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <span id="slideCounter" style="display: flex; align-items: center; font-variant-numeric: tabular-nums;">0 /
+                7</span>
+            <button class="control-btn" onclick="nextSlide()" title="Suivant (Flèche Droite)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="control-btn primary" onclick="window.location.href='index.html'">
+                <i class="fas fa-times"></i> Quitter
+            </button>
+        </div>
+    </header>
+
+    <!-- TIMELINE (Steps 1-7) -->
+    <div class="timeline-container">
+        <div class="timeline">
+            <!-- Dynamically filled by JS or static? Static for control -->
+            <div class="timeline-step" id="step-1">1</div>
+            <div class="timeline-line" id="line-1"></div>
+            <div class="timeline-step" id="step-2">2</div>
+            <div class="timeline-line" id="line-2"></div>
+            <div class="timeline-step" id="step-3">3</div>
+            <div class="timeline-line" id="line-3"></div>
+            <div class="timeline-step" id="step-4">4</div>
+            <div class="timeline-line" id="line-4"></div>
+            <div class="timeline-step" id="step-5">5</div>
+            <div class="timeline-line" id="line-5"></div>
+            <div class="timeline-step" id="step-6">6</div>
+            <div class="timeline-line" id="line-6"></div>
+            <div class="timeline-step" id="step-7">7</div>
+        </div>
+    </div>
+
+    <!-- SLIDES CONTAINER -->
+    <div class="slides-wrapper">
+
+        <!-- SLIDE 0 : INTRO -->
+        <div class="slide active" id="slide-0">
+            <div class="slide-number">00</div>
+            <div class="slide-content" style="text-align: center;">
+                <div style="font-size: 60px; margin-bottom: 20px;">🎯</div>
+                <h1 class="slide-main-title" style="font-size: 48px; margin-bottom: 20px;">Lancer un Pilote d'Émission
+                    Tokenisée</h1>
+                <h2 style="font-weight: 400; color: #94a3b8; font-size: 24px; margin-bottom: 40px;">Cadre Contrôlé &
+                    Architecture Bancaire</h2>
+
+                <div class="message-key" style="text-align: left;">
+                    "L’objectif n’est pas de couvrir tout l’écosystème blockchain, mais d’expliquer concrètement
+                    <strong>comment une banque peut émettre un instrument financier tokenisé</strong>, dans un cadre
+                    contrôlé, chronologique et compatible avec les contraintes IT, juridiques et opérationnelles
+                    existantes."
+                </div>
+
+                <button class="control-btn primary" onclick="nextSlide()" style="font-size: 18px; padding: 15px 30px;">
+                    Démarrer la Présentation <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- SLIDE 1 : STRUCTURATION -->
+        <div class="slide" id="slide-1">
+            <div class="slide-number">01</div>
+            <div class="slide-content">
+                <div class="slide-title-block">
+                    <div class="slide-step-title">Étape 1</div>
+                    <h2 class="slide-main-title">Structuration du produit (Offre & Cadre juridique)</h2>
+                </div>
+
+                <div class="message-key">
+                    "On ne commence jamais par la blockchain, on commence par le produit."
+                </div>
+
+                <div class="script-box">
+                    « La première étape consiste à structurer l’instrument financier : obligation, EMTN, titre de
+                    créance, produit structuré.<br><br>
+                    On définit ses caractéristiques classiques : nominal, maturité, coupon, devise, documentation
+                    juridique.<br>
+                    <strong>À ce stade, la tokenisation ne change rien au cadre juridique existant.</strong> »
+                </div>
+
+                <div class="technical-points">
+                    <div class="tech-point">
+                        <h4>Point Clé FO</h4>
+                        <p>Le token REPRÉSENTE un instrument existant.</p>
+                    </div>
+                    <div class="tech-point">
+                        <h4>Juridique</h4>
+                        <p>Pas de rupture avec le droit financier (ISIN central).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2 : DÉCISION -->
+        <div class="slide" id="slide-2">
+            <div class="slide-number">02</div>
+            <div class="slide-content">
+                <div class="slide-title-block">
+                    <div class="slide-step-title">Étape 2</div>
+                    <h2 class="slide-main-title">Décision de tokenisation & choix du périmètre</h2>
+                </div>
+
+                <div class="message-key">
+                    "La tokenisation est un choix opérationnel, pas idéologique."
+                </div>
+
+                <div class="script-box">
+                    « Une fois le produit structuré, la banque décide de tokeniser tout ou partie du cycle de
+                    vie.<br><br>
+                    Dans un pilote bancaire, on limite volontairement le périmètre : par exemple l’émission et le
+                    règlement-livraison, sur un nombre restreint d’investisseurs. »
+                </div>
+
+                <div class="technical-points">
+                    <div class="tech-point">
+                        <h4>Plan Action Pilote</h4>
+                        <p>Petit montant, Contreparties identifiées.</p>
+                    </div>
+                    <div class="tech-point">
+                        <h4>Risque</h4>
+                        <p>Environnement contrôlé (Sandbox).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 : INFRASTRUCTURE -->
+        <div class="slide" id="slide-3">
+            <div class="slide-number">03</div>
+            <div class="slide-content">
+                <div class="slide-title-block">
+                    <div class="slide-step-title">Étape 3</div>
+                    <h2 class="slide-main-title">Choix de l’infrastructure DLT (Architecture IT)</h2>
+                </div>
+
+                <div class="message-key">
+                    "Toutes les blockchains ne sont pas adaptées à un usage bancaire."
+                </div>
+
+                <div class="script-box">
+                    « La banque sélectionne une infrastructure DLT compatible avec ses exigences :<br>
+                    réseau permissionné ou public avec contrôles, finalité des transactions, intégration IT,
+                    conformité.<br><br>
+                    Ce choix est avant tout technologique et opérationnel. »
+                </div>
+
+                <div class="technical-points">
+                    <div class="tech-point">
+                        <h4>Blockchain Pro</h4>
+                        <p>DLT layer ≠ Core banking (Séparation des rôles).</p>
+                    </div>
+                    <div class="tech-point">
+                        <h4>IT Security</h4>
+                        <p>Gouvernance du réseau & Gestion des clés.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4 : CRÉATION TOKEN -->
+        <div class="slide" id="slide-4">
+            <div class="slide-number">04</div>
+            <div class="slide-content">
+                <div class="slide-title-block">
+                    <div class="slide-step-title">Étape 4</div>
+                    <h2 class="slide-main-title">Création du token & règles embarquées</h2>
+                </div>
+
+                <div class="message-key">
+                    "Le token devient le jumeau numérique du titre financier."
+                </div>
+
+                <div class="script-box">
+                    « Le titre est ensuite représenté sous forme de token via un smart contract.<br>
+                    Ce smart contract embarque les règles essentielles : quantité émise, droits économiques,
+                    restrictions de transfert.<br><br>
+                    <strong>On ne parle pas ici de DeFi ouverte, mais de règles strictes définies par
+                        l’émetteur.</strong> »
+                </div>
+
+                <div class="technical-points">
+                    <div class="tech-point">
+                        <h4>Compliance</h4>
+                        <p>Pas de code incontrôlé. Règles validées en amont.</p>
+                    </div>
+                    <div class="tech-point">
+                        <h4>Audit</h4>
+                        <p>Smart Contract audité et vérifiable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5 : DISTRIBUTION -->
+        <div class="slide" id="slide-5">
+            <div class="slide-number">05</div>
+            <div class="slide-content">
+                <div class="slide-title-block">
+                    <div class="slide-step-title">Étape 5</div>
+                    <h2 class="slide-main-title">Distribution aux investisseurs (Onboarding)</h2>
+                </div>
+
+                <div class="message-key">
+                    "La blockchain ne remplace pas le KYC / AML."
+                </div>
+
+                <div class="script-box">
+                    « Les investisseurs autorisés sont onboardés via les processus existants : KYC, AML,
+                    suitability.<br><br>
+                    Une fois validés, ils peuvent recevoir les tokens dans des wallets institutionnels ou custodiés. »
+                </div>
+
+                <div class="technical-points">
+                    <div class="tech-point">
+                        <h4>Accès</h4>
+                        <p>Whitelisting obligatoire des adresses.</p>
+                    </div>
+                    <div class="tech-point">
+                        <h4>Custody</h4>
+                        <p>Possibilité de custody bancaire pour les clients.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6 : RÈGLEMENT -->
+        <div class="slide" id="slide-6">
+            <div class="slide-number">06</div>
+            <div class="slide-content">
+                <div class="slide-title-block">
+                    <div class="slide-step-title">Étape 6</div>
+                    <h2 class="slide-main-title">Règlement-livraison tokenisé (DvP)</h2>
+                </div>
+
+                <div class="message-key">
+                    "C’est ici que la valeur opérationnelle est maximale."
+                </div>
+
+                <div class="script-box">
+                    « Le règlement-livraison s’effectue de manière atomique :<br>
+                    le token est livré <strong>en échange</strong> du cash tokenisé ou d’une représentation numérique de
+                    la monnaie.<br><br>
+                    Cela permet un passage potentiel de T+2 à quasi T+0, avec réduction du risque de contrepartie. »
+                </div>
+
+                <div class="technical-points">
+                    <div class="tech-point">
+                        <h4>Front-Office</h4>
+                        <p>Réduction drastique du Settlement Risk.</p>
+                    </div>
+                    <div class="tech-point">
+                        <h4>Trésorerie</h4>
+                        <p>Gain de liquidité et d'efficacité.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7 : POST-TRADE -->
+        <div class="slide" id="slide-7">
+            <div class="slide-number">07</div>
+            <div class="slide-content">
+                <div class="slide-title-block">
+                    <div class="slide-step-title">Étape 7</div>
+                    <h2 class="slide-main-title">Post-trade & cycle de vie</h2>
+                </div>
+
+                <div class="message-key">
+                    "La tokenisation ne s’arrête pas à l’émission."
+                </div>
+
+                <div class="script-box">
+                    « Après l’émission, la blockchain facilite le suivi du cycle de vie : paiements de coupons,
+                    maturité, reporting.<br><br>
+                    Les systèmes internes de la banque restent le point de référence, la blockchain agit comme une
+                    couche d’exécution et de synchronisation. »
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8 : CONCLUSION -->
+        <div class="slide" id="slide-8">
+            <div class="slide-number">08</div>
+            <div class="slide-content" style="text-align: center;">
+                <h2 class="slide-main-title" style="font-size: 42px; margin-bottom: 30px;">Synthèse & Perspectives</h2>
+
+                <div class="message-key"
+                    style="text-align: left; font-size: 24px; padding: 40px; border-left-width: 8px;">
+                    "Ce pilote permet à la banque de tester la tokenisation <strong>sans remettre en cause son modèle
+                        existant</strong>, en intégrant la blockchain comme une brique technologique complémentaire, et
+                    non comme un remplacement du système actuel."
+                </div>
+
+                <div style="margin-top: 50px; display: flex; gap: 20px; justify-content: center;">
+                    <button class="control-btn primary" onclick="window.location.href='index.html'">
+                        <i class="fas fa-home"></i> Retour au Site
+                    </button>
+                    <button class="control-btn" onclick="window.location.href='guide.html'">
+                        <i class="fas fa-book"></i> Voir le Guide Complet
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="deck-footer">
+        DCM Digital Pilot Presentation • Internal Use Only • 2026
+    </div>
+
+    <!-- LOGIC -->
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 8; // 0 to 8
+
+        function showSlide(index) {
+            // Bounds check
+            if (index < 0) index = 0;
+            if (index > totalSlides) index = totalSlides;
+
+            currentSlide = index;
+
+            // Update Slides
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev');
+                if (i === currentSlide) {
+                    slide.classList.add('active');
+                } else if (i < currentSlide) {
+                    slide.classList.add('prev');
+                }
+            });
+
+            // Update Counter
+            document.getElementById('slideCounter').innerText = currentSlide + " / " + totalSlides;
+
+            // Update Timeline (Only relevant for steps 1-7)
+            updateTimeline(currentSlide);
+        }
+
+        function updateTimeline(index) {
+            // Reset all
+            document.querySelectorAll('.timeline-step').forEach(el => el.classList.remove('active', 'completed'));
+            document.querySelectorAll('.timeline-line').forEach(el => el.classList.remove('active'));
+
+            // If we are in steps 1-7 (intro is 0, conclusion is 8)
+            if (index >= 1 && index <= 7) {
+                // Mark current as active
+                const currentStep = document.getElementById('step-' + index);
+                if (currentStep) currentStep.classList.add('active');
+
+                // Mark previous as completed
+                for (let i = 1; i < index; i++) {
+                    const step = document.getElementById('step-' + i);
+                    const line = document.getElementById('line-' + i);
+                    if (step) step.classList.add('completed');
+                    if (line) line.classList.add('active');
+                }
+            } else if (index === 8) {
+                // All completed
+                for (let i = 1; i <= 7; i++) {
+                    const step = document.getElementById('step-' + i);
+                    const line = document.getElementById('line-' + i);
+                    if (step) step.classList.add('completed');
+                    if (line) line.classList.add('active');
+                }
+            }
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Init
+        showSlide(0);
+
+    </script>
+</body>
+
+</html>
