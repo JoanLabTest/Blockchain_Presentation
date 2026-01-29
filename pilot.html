@@ -99,14 +99,35 @@
                     "Le token est l'enveloppe technique d'un instrument financier existant (ISIN)."
                 </div>
 
-                <div class="script-box">
-                    <strong>But Métier (DCM) :</strong> Définir le produit (EMTN, Obligation) et choisir le régime
-                    juridique applicable <em>(eWpG en Allemagne, Nominatif en France, ou DLT Pilot Regime
-                        EU)</em>.<br><br>
-                    <strong>Livrables Clés :</strong><br>
-                    • Documentation (Prospectus) intégrant les clauses DLT.<br>
-                    • Validation Regulatory (AMF/BaFin).<br>
-                    • <strong>Attribution ISIN</strong> pour assurer l'interopérabilité systèmes.
+                <!-- ROADMAP MINI VISUAL -->
+                <div style="display: flex; gap: 10px; margin-top: 20px; margin-bottom: 20px;">
+                    <!-- Phase 1 -->
+                    <div
+                        style="flex: 1; background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; padding: 15px; border-radius: 8px;">
+                        <div style="color: #3b82f6; font-size: 12px; font-weight: bold;">Mois 1-2</div>
+                        <div style="font-size: 14px; color: white; margin-top: 5px;">CADRAGE</div>
+                        <div style="font-size: 11px; color: #94a3b8;">Juridique & Infra</div>
+                    </div>
+                    <!-- Icon -->
+                    <div style="display: flex; align-items: center; color: #64748b;"><i
+                            class="fas fa-chevron-right"></i></div>
+                    <!-- Phase 2 -->
+                    <div
+                        style="flex: 1; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 15px; border-radius: 8px;">
+                        <div style="color: #10b981; font-size: 12px; font-weight: bold;">Mois 3-4</div>
+                        <div style="font-size: 14px; color: white; margin-top: 5px;">STRUCTURATION</div>
+                        <div style="font-size: 11px; color: #94a3b8;">Smart Contract</div>
+                    </div>
+                    <!-- Icon -->
+                    <div style="display: flex; align-items: center; color: #64748b;"><i
+                            class="fas fa-chevron-right"></i></div>
+                    <!-- Phase 3 -->
+                    <div
+                        style="flex: 1; background: rgba(245, 158, 11, 0.1); border: 1px solid #f59e0b; padding: 15px; border-radius: 8px;">
+                        <div style="color: #f59e0b; font-size: 12px; font-weight: bold;">Mois 5-6</div>
+                        <div style="font-size: 14px; color: white; margin-top: 5px;">EXÉCUTION</div>
+                        <div style="font-size: 11px; color: #94a3b8;">Club Deal</div>
+                    </div>
                 </div>
 
                 <div class="technical-points">
@@ -168,12 +189,51 @@
                     "Legacy (Bloomberg/Calypso) <-> Orchestrateur API <-> DLT"
                 </div>
 
-                <div class="script-box">
-                    <strong>Architecture Cible :</strong> Nos systèmes "Legacy" ne touchent pas directement la
-                    Blockchain. Ils parlent à un <strong>Orchestrateur (Middleware)</strong>.<br><br>
-                    1. <strong>Legacy Layer :</strong> Front (Bloomberg) & Back (Calypso).<br>
-                    2. <strong>Orchestration :</strong> Traduction SWIFT/FIX vers Transactions Blockchain.<br>
-                    3. <strong>Gestion des Clés (HSM) :</strong> Sécurisation des signatures (Taurus, Fireblocks).
+                <!-- ARCHITECTURE IT DIAGRAM -->
+                <div class="arch-diagram-mini"
+                    style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+                    <!-- LEGACY -->
+                    <div
+                        style="background: rgba(100, 116, 139, 0.1); border: 1px dashed #64748b; padding: 15px; border-radius: 8px; width: 140px; text-align: center;">
+                        <div style="color: #64748b; font-size: 12px; margin-bottom: 10px;"><i
+                                class="fa-solid fa-server"></i> LEGACY</div>
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 5px; margin-bottom: 5px; font-size: 11px;">
+                            Bloomberg</div>
+                        <div style="background: rgba(255,255,255,0.05); padding: 5px; font-size: 11px;">Calypso</div>
+                    </div>
+
+                    <!-- MIDDLEWARE -->
+                    <div
+                        style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 40px;">
+                        <i class="fa-solid fa-arrow-right" style="color: #64748b;"></i>
+                    </div>
+
+                    <div
+                        style="border: 2px solid #3b82f6; padding: 15px; border-radius: 8px; width: 160px; text-align: center; background: rgba(59, 130, 246, 0.1);">
+                        <div style="color: #3b82f6; font-size: 12px; margin-bottom: 10px;"><i
+                                class="fa-solid fa-gears"></i> ORCHESTRATEUR</div>
+                        <div style="font-size: 10px; color: #cbd5e1;">API Gateway</div>
+                        <div
+                            style="font-size: 10px; color: #cbd5e1; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px;">
+                            HSM (Keys)</div>
+                    </div>
+
+                    <!-- DLT -->
+                    <div
+                        style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 40px;">
+                        <i class="fa-solid fa-arrow-right" style="color: #10b981;"></i>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 15px; border-radius: 8px; width: 140px; text-align: center;">
+                        <div style="color: #10b981; font-size: 12px; margin-bottom: 10px;"><i
+                                class="fa-solid fa-network-wired"></i> DLT</div>
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 5px; margin-bottom: 5px; font-size: 11px;">
+                            Smart Contract</div>
+                        <div style="background: rgba(255,255,255,0.05); padding: 5px; font-size: 11px;">Registry</div>
+                    </div>
                 </div>
 
                 <div class="technical-points">
