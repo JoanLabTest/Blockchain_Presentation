@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Régime Pilote DLT - Cadre Légal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- DESIGN SYSTEM DARK --- */
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #1e293b;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-cyan: #06b6d4;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar {
+            width: 100%;
+            height: 70px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background: rgba(2, 6, 23, 0.95);
+            position: fixed;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 20px;
+            color: white;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: bold;
+            border: 1px solid var(--accent-cyan);
+            padding: 8px 20px;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+
+        .container {
+            margin-top: 100px;
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* CARDS */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 24px;
+            color: var(--accent-cyan);
+            margin: 0 auto 20px auto;
+        }
+
+        /* TSS DIAGRAM */
+        .tss-section {
+            background: #0b1121;
+            border: 1px dashed var(--accent-cyan);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tss-title {
+            color: var(--accent-cyan);
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        .diagram-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .node {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+            width: 200px;
+        }
+
+        .node strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .fusion-circle {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.4);
+            z-index: 2;
+        }
+
+        /* LIMITS TABLE */
+        .limits-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 60px;
+        }
+
+        .limits-table th {
+            text-align: left;
+            padding: 20px;
+            color: var(--accent-cyan);
+            border-bottom: 2px solid var(--border);
+            font-size: 18px;
+        }
+
+        .limits-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .limits-table strong {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo"><i class="fa-solid fa-gavel"></i> RÈGLEMENTATION <span
+                style="color:var(--accent-cyan)">UE</span></div>
+        <a href="index.html" class="back-btn">RETOUR PORTAIL</a>
+    </nav>
+
+    <div class="container">
+
+        <div class="hero">
+            <div
+                style="display:inline-block; padding:5px 15px; border:1px solid var(--accent-cyan); border-radius:50px; font-size:12px; font-weight:bold; color:var(--accent-cyan); margin-bottom:20px;">
+                SANDBOX EUROPÉENNE</div>
+            <h1>Le Régime Pilote DLT<br><span class="gradient-text">L'Innovation Légale</span></h1>
+            <p>Un cadre temporaire permettant aux infrastructures de marché de déroger aux règles traditionnelles (CSDR,
+                MiFID) pour exploiter le potentiel de la Blockchain.</p>
+        </div>
+
+        <!-- 3 PILLIERS -->
+        <div class="grid-3">
+            <div class="card">
+                <div class="icon-box"><i class="fa-solid fa-unlock"></i></div>
+                <h3>Exemptions CSD</h3>
+                <p style="font-size:14px; color:var(--text-muted);">Plus d'obligation de passer par un Dépositaire
+                    Central classique. La Blockchain devient le registre légal.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box"><i class="fa-solid fa-users"></i></div>
+                <h3>Accès Direct</h3>
+                <p style="font-size:14px; color:var(--text-muted);">Autorise les particuliers et entreprises à se
+                    connecter directement à la bourse, sans intermédiaire bancaire.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box"><i class="fa-solid fa-clock"></i></div>
+                <h3>Sandbox 6 Ans</h3>
+                <p style="font-size:14px; color:var(--text-muted);">Un environnement de test sécurisé (2023-2029) avant
+                    la refonte définitive de la réglementation.</p>
+            </div>
+        </div>
+
+        <!-- TSS DIAGRAM -->
+        <div class="tss-section">
+            <span class="tss-title">LA RÉVOLUTION "DLT TSS"</span>
+            <div class="diagram-flex">
+                <div class="node">
+                    <strong>Trading</strong>
+                    <span style="font-size:12px; color:var(--text-muted);">MTF (Bourse)</span>
+                </div>
+                <div style="font-size:30px; color:var(--text-muted);">+</div>
+                <div class="node">
+                    <strong>Settlement</strong>
+                    <span style="font-size:12px; color:var(--text-muted);">CSD (Dépositaire)</span>
+                </div>
+                <div style="font-size:30px; color:var(--accent-cyan);">=</div>
+                <div class="fusion-circle">
+                    <i class="fa-solid fa-infinity" style="font-size:30px; margin-bottom:5px;"></i>
+                    DLT TSS
+                </div>
+            </div>
+            <p style="margin-top:30px; color:var(--text-muted);">
+                Pour la première fois, une seule entité peut gérer à la fois l'exécution (Trading) et le règlement
+                (Settlement).
+            </p>
+        </div>
+
+        <!-- LIMITES -->
+        <table class="limits-table">
+            <thead>
+                <tr>
+                    <th>Type d'Actif</th>
+                    <th>Seuil Max (Capitalisation)</th>
+                    <th>Impact</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Actions</strong></td>
+                    <td>500 Millions €</td>
+                    <td>Adapté aux Small/Mid Caps (PME-ETI).</td>
+                </tr>
+                <tr>
+                    <td><strong>Obligations</strong></td>
+                    <td>1 Milliard €</td>
+                    <td>Suffisant pour la plupart des émissions corporate.</td>
+                </tr>
+                <tr>
+                    <td><strong>Fonds (UCITS)</strong></td>
+                    <td>500 Millions €</td>
+                    <td>Ouverture vers la distribution de fonds tokenisés.</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>
