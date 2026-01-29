@@ -27,6 +27,7 @@
             --accent-green: #10b981;
             --accent-blue: #3b82f6;
             --accent-gray: #64748b;
+            --accent-orange: #f59e0b;
             --text-main: #f8fafc;
         }
 
@@ -50,14 +51,28 @@
             opacity: 0.6;
         }
 
-        /* NAVIGATION SHIM */
+        /* NAVIGATION SHIM - Adjusted for 80px Header */
         .navbar-shim {
-            height: 70px;
+            height: 80px;
+        }
+
+        /* HEADER REFINEMENT */
+        .navbar-pro {
+            background: rgba(11, 17, 33, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            height: 80px;
+            /* Slight increase for better breathing room */
+        }
+
+        .nav-logo {
+            font-size: 22px;
         }
 
         /* --- HERO SECTION --- */
         .hero-section {
-            min-height: 80vh;
+            min-height: 85vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -83,6 +98,10 @@
             font-size: 18px;
             margin-bottom: 60px;
             z-index: 2;
+            padding: 10px 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 50px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         /* 3D COMPARISON CARDS (HERO) */
@@ -338,6 +357,26 @@
             }
         }
 
+        /* --- FOOTER (FROM LEGACY) --- */
+        .footer-contact {
+            padding: 80px 40px;
+            background: #0b1121;
+            border-top: 1px solid #334155;
+            position: relative;
+            z-index: 10;
+        }
+
+        .legal-footer {
+            background-color: #020617;
+            color: #64748b;
+            padding: 20px;
+            text-align: center;
+            font-size: 11px;
+            border-top: 1px solid #1e293b;
+            position: relative;
+            z-index: 10;
+        }
+
         /* RESPONSIVE */
         @media (max-width: 1024px) {
             .split-3d {
@@ -356,7 +395,7 @@
     <!-- 3D BACKGROUND -->
     <canvas id="flowCanvas"></canvas>
 
-    <!-- NAVIGATION HARMONIZED -->
+    <!-- NAVIGATION HARMONIZED (Refined) -->
     <nav class="navbar-pro">
         <div class="nav-logo-dropdown">
             <div class="nav-logo">
@@ -666,17 +705,18 @@
         </div>
     </div>
 
-    <!-- SLIDE 8 : ROI -->
+    <!-- SLIDE 8 : ROI & CONCLUSION -->
     <div class="module-container" id="slide8" data-aos="fade-up">
         <div class="module-header">
-            <h2 class="module-title">ROI & Business Case</h2>
-            <span class="module-sub">Impact Financier</span>
+            <h2 class="module-title">ROI & Coûts</h2>
+            <span class="module-sub">L'équation économique</span>
         </div>
 
         <div class="split-3d">
+            <!-- GAINS -->
             <div class="panel-3d" style="border: 1px solid #10b981;">
                 <div class="panel-head"><span class="panel-title" style="color:#10b981">Gains Quantifiables</span></div>
-                <ul style="list-style:none; padding:0; color:#cbd5e1; font-size:18px;">
+                <ul style="list-style:none; padding:0; color:#cbd5e1; font-size:16px;">
                     <li style="margin-bottom:15px;"><i class="fas fa-arrow-down" style="color:#10b981;"></i>
                         <strong>-80%</strong> Coûts Opérationnels</li>
                     <li style="margin-bottom:15px;"><i class="fas fa-arrow-down" style="color:#10b981;"></i>
@@ -684,16 +724,85 @@
                     <li style="margin-bottom:15px;"><i class="fas fa-arrow-up" style="color:#10b981;"></i>
                         <strong>x10</strong> Vitesse d'exécution</li>
                 </ul>
-                <div class="atomic-box">
-                    <strong style="color:#10b981">ROI : 12-18 MOIS</strong>
-                </div>
             </div>
 
-            <div class="panel-3d" style="display:flex; align-items:center; justify-content:center;">
-                <p style="font-size:24px; text-align:center; color:#fff;">"Passage d'une gestion d'erreurs à une gestion
-                    de liquidité temps réel."</p>
+            <!-- COUTS -->
+            <div class="panel-3d" style="border: 1px solid #f59e0b;">
+                <div class="panel-head"><span class="panel-title" style="color:#f59e0b">Coûts Initiaux</span></div>
+                <ul style="list-style:none; padding:0; color:#cbd5e1; font-size:16px;">
+                    <li style="margin-bottom:15px;"><i class="fas fa-coins" style="color:#f59e0b;"></i> Infrastructure &
+                        Setup (~100k€)</li>
+                    <li style="margin-bottom:15px;"><i class="fas fa-users" style="color:#f59e0b;"></i> Formation
+                        Équipes</li>
+                    <li style="margin-bottom:15px;"><i class="fas fa-balance-scale" style="color:#f59e0b;"></i> Conseil
+                        Juridique</li>
+                </ul>
+                <div style="text-align:center; font-weight:700; color:#f59e0b; margin-top:20px;">ROI ESTIMÉ : 12-18 MOIS
+                </div>
             </div>
         </div>
+
+        <!-- CONCLUSION BLOCK -->
+        <div class="panel-3d" style="margin-top:40px; border-left:4px solid #3b82f6; text-align:center;">
+            <h3 style="color:white; margin-bottom:10px;">Conclusion Stratégique</h3>
+            <p style="font-size:20px; color:#cbd5e1;">"Passage d'une gestion d'erreurs à une gestion de liquidité temps
+                réel."</p>
+        </div>
+    </div>
+
+    <!-- SUPER FOOTER -->
+    <div id="contact" class="footer-contact">
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; text-align: left;">
+            <div>
+                <div style="font-weight: 800; font-size: 20px; color: white; margin-bottom: 20px;">
+                    DCM <span style="color:#3b82f6">DIGITAL</span>
+                </div>
+                <p style="font-size: 14px; color: #94a3b8; line-height: 1.6;">
+                    Plateforme stratégique interne dédiée à l'acculturation et l'opérationnalisation des actifs
+                    numériques.
+                </p>
+            </div>
+            <div>
+                <strong style="color: white; display: block; margin-bottom: 20px;">EXPLORER</strong>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; color: #cbd5e1;">
+                    <li style="margin-bottom: 10px;"><a href="index.html"
+                            style="color: inherit; text-decoration: none;">🏠 Accueil Expert</a></li>
+                    <li style="margin-bottom: 10px;"><a href="simple.html"
+                            style="color: inherit; text-decoration: none;">🎓 Academy</a></li>
+                    <li style="margin-bottom: 10px;"><a href="web3.html"
+                            style="color: inherit; text-decoration: none;">🌐 Web3 Banking</a></li>
+                </ul>
+            </div>
+            <div>
+                <strong style="color: white; display: block; margin-bottom: 20px;">CONTACT</strong>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div
+                        style="width: 40px; height: 40px; background: #1e293b; border-radius: 50%; display: grid; place-items: center; border: 1px solid #3b82f6;">
+                        <i class="fa-solid fa-user-tie" style="color: #3b82f6;"></i>
+                    </div>
+                    <div>
+                        <span style="display: block; color: white; font-weight: bold;">Joan Lyczak</span>
+                        <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank"
+                            style="color: #94a3b8; font-size: 12px; text-decoration: none;">LinkedIn Profile ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            style="margin-top: 60px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 12px; color: #64748b;">
+            <p>INTERNAL USE ONLY • © 2026 Digital Debt Capital Markets</p>
+        </div>
+    </div>
+
+    <!-- LEGAL FOOTER -->
+    <div class="legal-footer">
+        <p>
+            <strong>AVERTISSEMENT INTERNE :</strong> Ce document est une présentation stratégique à usage exclusivement
+            pédagogique.
+            <br>
+            <span style="opacity: 0.6; font-size: 10px;">Classification : CONFIDENTIAL / INTERNAL USE ONLY</span>
+        </p>
     </div>
 
 
