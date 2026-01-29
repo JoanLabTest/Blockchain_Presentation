@@ -658,6 +658,129 @@
         update();
     </script>
 
+    <!-- EXPORT BUTTON -->
+    <div style="text-align:center; margin-bottom:40px; position:relative; z-index:100;">
+        <button onclick="exportLifecyclePPT()"
+            style="padding:12px 24px; font-size:14px; cursor:pointer; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); color:white; border-radius:30px; font-family:'Outfit','sans-serif'; font-weight:600; transition:all 0.3s; display:inline-flex; align-items:center; gap:10px;">
+            <i class="fa-solid fa-file-powerpoint" style="color:#f59e0b"></i> Exporter la présentation (PPTX)
+        </button>
+    </div>
+
+    <!-- PPTX Gen Library -->
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.10.0/dist/pptxgen.bundle.js"></script>
+
+    <script>
+        function exportLifecyclePPT() {
+            let pptx = new PptxGenJS();
+            pptx.author = "DCM Digital";
+            pptx.company = "Blockchain Presentation";
+            pptx.title = "Digital Bond Lifecycle – Tokenized Issuance";
+            pptx.layout = "LAYOUT_16x9";
+
+            // Define Brand Colors
+            const COLOR_BG = "020617";
+            const COLOR_TEXT = "F8FAFC";
+            const COLOR_ACCENT = "3B82F6";
+
+            // ---- MASTER SLIDE (Theme) ----
+            pptx.defineSlideMaster({
+                title: "MASTER_SLIDE",
+                background: { color: COLOR_BG },
+                objects: [
+                    { rect: { x: 0, y: 0, w: "100%", h: 0.15, fill: COLOR_ACCENT } }, // Top Line
+                    { text: { text: "DIGITAL BOND LIFECYCLE (PILOT)", options: { x: 0.5, y: 0.2, w: 5, fontSize: 10, color: "94A3B8", bold: true } } },
+                    { text: { text: "CONFIDENTIAL", options: { x: 11.5, y: 0.2, w: 1.5, fontSize: 8, color: "EF4444", bold: true } } }
+                ]
+            });
+
+            // ---- SLIDE 0 : Titre ----
+            let slideTitle = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+            slideTitle.addText("Digital Bond Lifecycle", {
+                x: 1,
+                y: 2.5,
+                fontSize: 36,
+                bold: true,
+                color: COLOR_TEXT
+            });
+            slideTitle.addText(
+                "Chronologie d’une émission tokenisée en environnement bancaire",
+                { x: 1, y: 3.5, fontSize: 18, color: "94A3B8" }
+            );
+
+            // ---- Template fonction ----
+            function addStep(title, content, stepNum) {
+                let slide = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+
+                // Step Number
+                slide.addText(stepNum, {
+                    x: 0.5, y: 1.2, fontSize: 60, color: "1E293B", bold: true, opacity: 0.3
+                });
+
+                // Title
+                slide.addText(title, {
+                    x: 1.5,
+                    y: 1.5,
+                    fontSize: 24,
+                    bold: true,
+                    color: COLOR_ACCENT
+                });
+
+                // Divider
+                slide.addShape(pptx.ShapeType.line, { x: 1.5, y: 2.1, w: 8, h: 0, line: { color: "334155", width: 1 } });
+
+                // Content
+                slide.addText(content, {
+                    x: 1.5,
+                    y: 2.5,
+                    fontSize: 16,
+                    color: COLOR_TEXT,
+                    lineSpacing: 28,
+                    w: 8.5
+                });
+            }
+
+            // ---- SLIDES LIFECYCLE ----
+            addStep(
+                "1. Investor Onboarding",
+                "• KYC / AML : Vérification d'identité off-chain.\n• Whitelisting : Inscription des adresses Ethereum autorisées (Identity Registry).\n• Wallet Setup : Création des coffres-forts numériques (Fireblocks).",
+                "01"
+            );
+
+            addStep(
+                "2. Structuration (Legal)",
+                "• Term Sheet : Définition des caractéristiques (Taux, Maturité).\n• Smart Contract : Traduction des clauses juridiques en code Solidity.\n• Audit : Vérification de la conformité du code.",
+                "02"
+            );
+
+            addStep(
+                "3. Pricing & Allocation",
+                "• Bookbuilding : Utilisation des outils classiques (Bloomberg).\n• Ordres : Construction du livre d'ordres off-chain.\n• Bridge : Transmission automatique des allocations vers le noeud blockchain.",
+                "03"
+            );
+
+            addStep(
+                "4. Token Issuance (Minting)",
+                "• Émission : Génération des tokens (ERC-3643).\n• Statut : Les titres sont créés mais 'Freezed' (bloqués) en attente du paiement.\n• Registre : Mise à jour du Distributed Ledger.",
+                "04"
+            );
+
+            addStep(
+                "5. Settlement (DvP)",
+                "• Atomic Swap : Échange simultané Cash vs Titres.\n• Risque : Élimination totale du risque de contrepartie.\n• Finalité : Irrévocabilité immédiate (T+0).",
+                "05"
+            );
+
+            addStep(
+                "6. Post-Trade & Lifecycle",
+                "• Coupons : Calcul et paiement automatisé par Smart Contract.\n• Reporting : Transparence temps réel pour le Régulateur.\n• Marché Secondaire : Liquidité améliorée via P2P.",
+                "06"
+            );
+
+            // ---- Export ----
+            pptx.writeFile({ fileName: "Digital_Bond_Lifecycle_Pilot__JoanLab.pptx" });
+        }
+    </script>
+
 </body>
 
 </html>
