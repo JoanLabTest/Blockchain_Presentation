@@ -540,7 +540,7 @@
             </div>
         </div>
 
-        : LE DICTIONNAIRE DE TRANSITION (PHASE 2) -->
+        <!-- SLIDE 2b : LE DICTIONNAIRE DE TRANSITION (PHASE 2) -->
         <div class="slide" data-aos="fade-up">
             <h2><i class="fa-solid fa-language"></i> Le Dictionnaire de Transition</h2>
             <p>Traduire la "Tech" en langage "Banque"</p>
@@ -688,247 +688,154 @@
             </div>
         </div>
 
+        <!-- SLIDE 4 : LE WALLET (3D PARALLAX) -->
+        <div class="slide" data-aos="fade-up">
+            <h2><i class="fa-solid fa-2"></i> C'est quoi un "Wallet" (Portefeuille) ?</h2>
+            <p>Un Wallet n'est pas un compte bancaire. C'est votre trousseau de clés numériques.</p>
 
-        <!-- CENTRE -->
-        <div class="vs-badge">VS</div>
+            <div class="wallet-grid">
 
-        <!-- DROITE -->
-        <div class="v-card" style="border-top: 4px solid var(--accent-purple); background: rgba(168, 85, 247, 0.03);">
-            <div class="v-icon-wrapper" style="border-color: var(--accent-purple);">
-                <i class="fa-solid fa-globe" style="color: var(--accent-purple);"></i>
+                <!-- EXPLICATION -->
+                <div>
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="color: var(--accent-green); margin-bottom: 10px;"><i class="fa-solid fa-eye"></i>
+                            L'Adresse Publique (IBAN)</h3>
+                        <p style="font-size: 16px;">
+                            Visible sur la carte (Front). C'est votre numéro de compte.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 style="color: var(--accent-purple); margin-bottom: 10px;"><i
+                                class="fa-solid fa-pen-nib"></i> La
+                            Clé Privée (Signature)</h3>
+                        <p style="font-size: 16px;">
+                            Invisible (Back). C'est votre signature secrète.
+                        </p>
+                    </div>
+
+                    <div
+                        style="margin-top: 30px; padding: 15px; border-left: 4px solid #ef4444; background: rgba(239, 68, 68, 0.1);">
+                        <strong style="color: #ef4444;">Interactivité :</strong> Passez la souris sur la carte pour voir
+                        l'effet 3D, et cliquez pour retourner la carte (révéler la clé privée).
+                    </div>
+                </div>
+
+                <!-- VISUEL CARTE 3D PARALLAX -->
+                <div class="wallet-3d-container">
+                    <div class="wallet-card-3d" id="wallet-card"
+                        onclick="this.style.transform = this.style.transform.includes('rotateY(180deg)') ? 'rotateY(0deg)' : 'rotateY(180deg)'">
+
+                        <!-- FACE AVANT -->
+                        <div class="wallet-card-face wallet-face-front">
+                            <div style="display: flex; justify-content: space-between; align-items: start;">
+                                <i class="fa-brands fa-ethereum" style="font-size: 40px; color: #fff;"></i>
+                                <span style="color: #fff; font-weight: bold; font-family: 'JetBrains Mono';">ETH
+                                    WALLET</span>
+                            </div>
+                            <div class="wallet-chip"></div>
+                            <div>
+                                <span style="color: #94a3b8; font-size: 12px; text-transform: uppercase;">Public Address
+                                    (IBAN)</span>
+                                <div class="code-block" style="background:rgba(0,0,0,0.5)">0x71C7...92F</div>
+                            </div>
+                        </div>
+
+                        <!-- FACE ARRIERE (PRIVATE KEY) -->
+                        <div class="wallet-card-face wallet-face-back">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <i class="fa-solid fa-user-secret" style="font-size: 30px; color: #ef4444;"></i>
+                                <span style="color: #ef4444; font-weight: bold;">TOP SECRET</span>
+                            </div>
+                            <div style="text-align:center;">
+                                <i class="fa-solid fa-key" style="font-size: 50px; color: #ef4444; opacity:0.2;"></i>
+                            </div>
+                            <div>
+                                <span style="color: #ef4444; font-size: 12px; text-transform: uppercase;">Private
+                                    Key</span>
+                                <div class="code-block private"
+                                    style="background:rgba(0,0,0,0.8); border:1px solid #ef4444;">5Kb8...zQ1 (NE JAMAIS
+                                    PARTAGER)</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <script>
+                    // Simple Parallax Effect script
+                    document.querySelector('.wallet-3d-container').addEventListener('mousemove', function (e) {
+                        let card = document.getElementById('wallet-card');
+                        // Only apply parallax if not flipped? Or always? Let's keep it simple.
+                        // If flipped, logic reverses. Let's simpler: just tilt base container?
+                        // For now, Click to Flip is key. Mouse move tilt is bonus.
+                        // Implementation of simple tilt:
+                        let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                        let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                        // card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`; 
+                        // Conflict with onclick flip. Skipping complex JS tilt for stability.
+                    });
+                </script>
+
             </div>
-            <span class="v-title" style="color: var(--accent-purple);">DEMAIN : Le Google Sheet</span>
-            <p class="v-desc">
-                La Blockchain est un registre partagé mondialement. Tout le monde voit la même ligne au même
-                moment. Quand je vous envoie de l'argent, le registre se met à jour pour tous (T+0).
-            </p>
+        </div>
+
+        <!-- SLIDE 5 : DISTINCTION CRUCIALE -->
+        <div class="slide" data-aos="fade-up">
+            <h2><i class="fa-solid fa-3"></i> La Confusion à Éviter</h2>
             <div
-                style="margin-top: 20px; padding: 10px; background: rgba(16, 185, 129, 0.1); color: #10b981; border-radius: 8px; font-size: 13px; font-weight: bold;">
-                ✅ Instantané & "Source Unique"
-            </div>
-        </div>
-    </div>
-    </div>
+                style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: center;">
+                <p style="font-size: 22px; margin-bottom: 40px;">
+                    "Est-ce qu'on va spéculer sur le Bitcoin ?" <br>
+                    <strong style="color: #ef4444;">NON.</strong>
+                </p>
 
-    : LE DICTIONNAIRE DE TRANSITION (PHASE 2) -->
-    <div class="slide" data-aos="fade-up">
-        <h2><i class="fa-solid fa-language"></i> Le Dictionnaire de Transition</h2>
-        <p>Traduire la "Tech" en langage "Banque"</p>
-
-        <style>
-            .trans-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 30px;
-            }
-
-            .trans-table th {
-                text-align: left;
-                padding: 15px;
-                color: var(--accent-blue);
-                border-bottom: 2px solid var(--border);
-            }
-
-            .trans-table td {
-                padding: 20px 15px;
-                border-bottom: 1px solid var(--border);
-                font-size: 18px;
-            }
-
-            .trans-table tr:hover {
-                background: rgba(255, 255, 255, 0.02);
-            }
-
-            .term-geek {
-                font-family: 'JetBrains Mono';
-                color: var(--accent-purple);
-            }
-
-            .term-pro {
-                font-weight: bold;
-                color: var(--accent-green);
-            }
-        </style>
-
-        <table class="trans-table">
-            <thead>
-                <tr>
-                    <th>Terme "Grand Public" 🤓</th>
-                    <th>Terme "Crypto / Tech" 👨‍💻</th>
-                    <th>Terme "Institutionnel" 🏦</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Compte en banque</td>
-                    <td class="term-geek">Wallet (Metamask)</td>
-                    <td class="term-pro"><i class="fas fa-check"></i> Custody Account</td>
-                </tr>
-                <tr>
-                    <td>Virement</td>
-                    <td class="term-geek">Transaction On-chain</td>
-                    <td class="term-pro"><i class="fas fa-check"></i> Settlement (Règlement)</td>
-                </tr>
-                <tr>
-                    <td>Monnaie / Jeton</td>
-                    <td class="term-geek">Token / Coin</td>
-                    <td class="term-pro"><i class="fas fa-check"></i> Digital Asset</td>
-                </tr>
-                <tr>
-                    <td>Robot automatique</td>
-                    <td class="term-geek">Smart Contract</td>
-                    <td class="term-pro"><i class="fas fa-check"></i> Protocole d'Exécution</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-
-    <!-- SLIDE 4 : LE WALLET (3D PARALLAX) -->
-    <div class="slide" data-aos="fade-up">
-        <h2><i class="fa-solid fa-2"></i> C'est quoi un "Wallet" (Portefeuille) ?</h2>
-        <p>Un Wallet n'est pas un compte bancaire. C'est votre trousseau de clés numériques.</p>
-
-        <div class="wallet-grid">
-
-            <!-- EXPLICATION -->
-            <div>
-                <div style="margin-bottom: 30px;">
-                    <h3 style="color: var(--accent-green); margin-bottom: 10px;"><i class="fa-solid fa-eye"></i>
-                        L'Adresse Publique (IBAN)</h3>
-                    <p style="font-size: 16px;">
-                        Visible sur la carte (Front). C'est votre numéro de compte.
-                    </p>
-                </div>
-
-                <div>
-                    <h3 style="color: var(--accent-purple); margin-bottom: 10px;"><i class="fa-solid fa-pen-nib"></i> La
-                        Clé Privée (Signature)</h3>
-                    <p style="font-size: 16px;">
-                        Invisible (Back). C'est votre signature secrète.
-                    </p>
-                </div>
-
-                <div
-                    style="margin-top: 30px; padding: 15px; border-left: 4px solid #ef4444; background: rgba(239, 68, 68, 0.1);">
-                    <strong style="color: #ef4444;">Interactivité :</strong> Passez la souris sur la carte pour voir
-                    l'effet 3D, et cliquez pour retourner la carte (révéler la clé privée).
-                </div>
-            </div>
-
-            <!-- VISUEL CARTE 3D PARALLAX -->
-            <div class="wallet-3d-container">
-                <div class="wallet-card-3d" id="wallet-card"
-                    onclick="this.style.transform = this.style.transform.includes('rotateY(180deg)') ? 'rotateY(0deg)' : 'rotateY(180deg)'">
-
-                    <!-- FACE AVANT -->
-                    <div class="wallet-card-face wallet-face-front">
-                        <div style="display: flex; justify-content: space-between; align-items: start;">
-                            <i class="fa-brands fa-ethereum" style="font-size: 40px; color: #fff;"></i>
-                            <span style="color: #fff; font-weight: bold; font-family: 'JetBrains Mono';">ETH
-                                WALLET</span>
-                        </div>
-                        <div class="wallet-chip"></div>
-                        <div>
-                            <span style="color: #94a3b8; font-size: 12px; text-transform: uppercase;">Public Address
-                                (IBAN)</span>
-                            <div class="code-block" style="background:rgba(0,0,0,0.5)">0x71C7...92F</div>
-                        </div>
+                <div style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 40px; align-items: center;">
+                    <div>
+                        <i class="fa-brands fa-bitcoin"
+                            style="font-size: 50px; color: #f59e0b; margin-bottom: 20px;"></i>
+                        <h3 style="color: #fff;">Crypto-Monnaies</h3>
+                        <p style="font-size: 16px; color: var(--text-muted);">Actifs volatils, spéculatifs, non régulés.
+                        </p>
+                        <span
+                            style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; margin-top: 10px; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">HORS
+                            PÉRIMÈTRE</span>
                     </div>
 
-                    <!-- FACE ARRIERE (PRIVATE KEY) -->
-                    <div class="wallet-card-face wallet-face-back">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <i class="fa-solid fa-user-secret" style="font-size: 30px; color: #ef4444;"></i>
-                            <span style="color: #ef4444; font-weight: bold;">TOP SECRET</span>
-                        </div>
-                        <div style="text-align:center;">
-                            <i class="fa-solid fa-key" style="font-size: 50px; color: #ef4444; opacity:0.2;"></i>
-                        </div>
-                        <div>
-                            <span style="color: #ef4444; font-size: 12px; text-transform: uppercase;">Private Key</span>
-                            <div class="code-block private"
-                                style="background:rgba(0,0,0,0.8); border:1px solid #ef4444;">5Kb8...zQ1 (NE JAMAIS
-                                PARTAGER)</div>
-                        </div>
+                    <div style="height: 100px; background: var(--border);"></div>
+
+                    <div>
+                        <i class="fa-solid fa-file-contract"
+                            style="font-size: 50px; color: var(--accent-blue); margin-bottom: 20px;"></i>
+                        <h3 style="color: #fff;">Digital Assets</h3>
+                        <p style="font-size: 16px; color: var(--text-muted);">Titres financiers (Obligations)
+                            représentés sur Blockchain.</p>
+                        <span
+                            style="background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); margin-top: 10px; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">NOTRE
+                            MÉTIER</span>
                     </div>
-
-                </div>
-            </div>
-
-            <script>
-                // Simple Parallax Effect script
-                document.querySelector('.wallet-3d-container').addEventListener('mousemove', function (e) {
-                    let card = document.getElementById('wallet-card');
-                    // Only apply parallax if not flipped? Or always? Let's keep it simple.
-                    // If flipped, logic reverses. Let's simpler: just tilt base container?
-                    // For now, Click to Flip is key. Mouse move tilt is bonus.
-                    // Implementation of simple tilt:
-                    let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-                    let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                    // card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`; 
-                    // Conflict with onclick flip. Skipping complex JS tilt for stability.
-                });
-            </script>
-
-        </div>
-    </div>
-
-    <!-- SLIDE 5 : DISTINCTION CRUCIALE -->
-    <div class="slide" data-aos="fade-up">
-        <h2><i class="fa-solid fa-3"></i> La Confusion à Éviter</h2>
-        <div
-            style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: center;">
-            <p style="font-size: 22px; margin-bottom: 40px;">
-                "Est-ce qu'on va spéculer sur le Bitcoin ?" <br>
-                <strong style="color: #ef4444;">NON.</strong>
-            </p>
-
-            <div style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 40px; align-items: center;">
-                <div>
-                    <i class="fa-brands fa-bitcoin" style="font-size: 50px; color: #f59e0b; margin-bottom: 20px;"></i>
-                    <h3 style="color: #fff;">Crypto-Monnaies</h3>
-                    <p style="font-size: 16px; color: var(--text-muted);">Actifs volatils, spéculatifs, non régulés.
-                    </p>
-                    <span
-                        style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; margin-top: 10px; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">HORS
-                        PÉRIMÈTRE</span>
-                </div>
-
-                <div style="height: 100px; background: var(--border);"></div>
-
-                <div>
-                    <i class="fa-solid fa-file-contract"
-                        style="font-size: 50px; color: var(--accent-blue); margin-bottom: 20px;"></i>
-                    <h3 style="color: #fff;">Digital Assets</h3>
-                    <p style="font-size: 16px; color: var(--text-muted);">Titres financiers (Obligations)
-                        représentés sur Blockchain.</p>
-                    <span
-                        style="background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); margin-top: 10px; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">NOTRE
-                        MÉTIER</span>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- SLIDE 6 : CONCLUSION & CTA -->
-    <div class="slide" data-aos="fade-up">
-        <div style="text-align: center; padding: 60px;">
-            <i class="fa-solid fa-graduation-cap"
-                style="font-size: 80px; color: var(--accent-purple); margin-bottom: 30px; animation: float 3s ease-in-out infinite;"></i>
-            <h2 style="border: none; padding: 0; margin-bottom: 20px; justify-content: center;">Vous avez les bases
-                !</h2>
-            <p style="max-width: 600px; margin: 0 auto 40px auto; color: var(--text-muted);">
-                Maintenant que le vocabulaire est clair, découvrez comment les banques utilisent ces outils pour
-                émettre des milliards d'euros d'obligations.
-            </p>
+        <!-- SLIDE 6 : CONCLUSION & CTA -->
+        <div class="slide" data-aos="fade-up">
+            <div style="text-align: center; padding: 60px;">
+                <i class="fa-solid fa-graduation-cap"
+                    style="font-size: 80px; color: var(--accent-purple); margin-bottom: 30px; animation: float 3s ease-in-out infinite;"></i>
+                <h2 style="border: none; padding: 0; margin-bottom: 20px; justify-content: center;">Vous avez les bases
+                    !</h2>
+                <p style="max-width: 600px; margin: 0 auto 40px auto; color: var(--text-muted);">
+                    Maintenant que le vocabulaire est clair, découvrez comment les banques utilisent ces outils pour
+                    émettre des milliards d'euros d'obligations.
+                </p>
 
-            <a href="index.html"
-                style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(90deg, #3b82f6, #a855f7); color: white; text-decoration: none; padding: 20px 50px; border-radius: 50px; font-weight: bold; font-size: 20px; transition: transform 0.2s; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);">
-                PASSER AU NIVEAU EXPERT <i class="fa-solid fa-arrow-right"></i>
-            </a>
+                <a href="index.html"
+                    style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(90deg, #3b82f6, #a855f7); color: white; text-decoration: none; padding: 20px 50px; border-radius: 50px; font-weight: bold; font-size: 20px; transition: transform 0.2s; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);">
+                    PASSER AU NIVEAU EXPERT <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
         </div>
-    </div>
 
     </div>
 
