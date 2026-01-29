@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Régime Pilote DLT - Cadre Légal</title>
+    <title>Régime Pilote DLT - Cadre Légal 3D</title>
 
     <!-- FONTS -->
     <link
@@ -14,16 +14,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* --- DESIGN SYSTEM DARK --- */
+        /* --- DESIGN CONFIG --- */
         :root {
             --bg-dark: #020617;
-            --bg-card: #1e293b;
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --glass-bg: rgba(30, 41, 59, 0.4);
+            --glass-border: rgba(6, 182, 212, 0.2);
             --text-main: #e2e8f0;
             --text-muted: #94a3b8;
-            --accent-cyan: #06b6d4;
-            /* Couleur spécifique Régulation */
-            --accent-blue: #3b82f6;
-            --border: #334155;
         }
 
         * {
@@ -37,22 +36,33 @@
             font-family: 'Urbanist', sans-serif;
             color: var(--text-main);
             height: 100vh;
-            display: flex;
-            flex-direction: column;
             overflow: hidden;
-            /* Force le mode "Slide unique" sans scroll */
+            perspective: 1000px;
         }
 
-        /* HEADER (TYPE DECK) */
+        /* 3D BACKGROUND CANVAS */
+        #canvas3d {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* HEADER (Floating) */
         header {
+            position: absolute;
+            top: 0;
+            width: 100%;
             height: 80px;
             padding: 0 40px;
-            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(2, 6, 23, 0.95);
             z-index: 100;
+            background: linear-gradient(to bottom, rgba(2, 6, 23, 0.9), transparent);
         }
 
         .nav-logo {
@@ -62,13 +72,15 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
         }
 
         .back-btn {
             text-decoration: none;
             color: var(--text-muted);
             font-weight: bold;
-            border: 1px solid var(--accent-cyan);
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.3);
             padding: 10px 25px;
             border-radius: 50px;
             transition: 0.3s;
@@ -76,235 +88,297 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            backdrop-filter: blur(5px);
         }
 
         .back-btn:hover {
             background: var(--accent-cyan);
             color: #000;
+            box-shadow: 0 0 20px var(--accent-cyan);
         }
 
-        /* SLIDE CONTENT */
+        /* MAIN CONTENT - FRONT LAYER */
         .slide-content {
-            flex-grow: 1;
-            padding: 0 60px;
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 80px 60px 40px 60px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: radial-gradient(circle at top right, rgba(6, 182, 212, 0.08), transparent 60%);
         }
 
-        /* GRID LAYOUT HORIZONTAL */
+        /* GRID LAYOUT */
         .horizontal-grid {
             display: grid;
-            grid-template-columns: 1fr 1.4fr;
-            /* Plus d'espace pour le schéma à droite */
-            gap: 80px;
-            height: 100%;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
             align-items: center;
+            height: 100%;
         }
 
-        /* --- COLONNE GAUCHE : TEXTE & CONCEPTS --- */
+        /* --- LEFT COLUMN : 3D CARDS --- */
         .hero-title {
-            font-size: 56px;
+            font-size: 60px;
             font-weight: 800;
             margin-bottom: 10px;
             color: #fff;
-            line-height: 1.1;
+            line-height: 1;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .hero-sub {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--accent-cyan);
             font-family: 'JetBrains Mono';
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             display: block;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
-        .concept-stack {
+        .card-stack {
+            perspective: 1000px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
         }
 
-        .concept-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 25px;
+        .tilt-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
             display: flex;
-            align-items: flex-start;
             gap: 20px;
-            transition: transform 0.2s;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .concept-card:hover {
-            transform: translateX(10px);
-            border-color: var(--accent-cyan);
+            align-items: center;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out, border-color 0.3s;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
         }
 
         .c-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(6, 182, 212, 0.1);
-            border-radius: 12px;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(6, 182, 212, 0.3);
             display: grid;
             place-items: center;
             color: var(--accent-cyan);
-            font-size: 20px;
-            flex-shrink: 0;
-            border: 1px solid rgba(6, 182, 212, 0.3);
-        }
-
-        /* --- COLONNE DROITE : DIAGRAMME TSS --- */
-        .diagram-container {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .diagram-box {
-            background: #0b1121;
-            border: 1px dashed var(--accent-cyan);
-            border-radius: 24px;
-            padding: 50px;
-            position: relative;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .diagram-label {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-dark);
-            padding: 5px 20px;
-            color: var(--accent-cyan);
-            font-weight: bold;
-            font-size: 14px;
-            border: 1px solid var(--accent-cyan);
-            border-radius: 20px;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
-        }
-
-        .flow-visual {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .node {
-            background: var(--bg-card);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            width: 160px;
-            position: relative;
-        }
-
-        .node strong {
-            display: block;
-            color: #fff;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .node i {
             font-size: 24px;
-            margin-bottom: 10px;
+            transform: translateZ(20px);
+            /* 3D pop */
+        }
+
+        .c-text {
+            transform: translateZ(10px);
+        }
+
+        .c-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
             display: block;
+        }
+
+        .c-desc {
+            font-size: 14px;
             color: var(--text-muted);
+            line-height: 1.4;
         }
 
-        .plus-sign {
-            font-size: 30px;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        .equal-sign {
-            font-size: 30px;
-            color: var(--accent-cyan);
-            font-weight: bold;
-        }
-
-        .fusion-core {
-            width: 140px;
-            height: 140px;
-            background: linear-gradient(135deg, #06b6d4, #3b82f6);
-            border-radius: 50%;
+        /* --- RIGHT COLUMN : 3D DIAGRAM --- */
+        .diagram-wrapper {
+            position: relative;
+            height: 80%;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 800;
-            box-shadow: 0 0 40px rgba(6, 182, 212, 0.4);
-            z-index: 2;
+            transform-style: preserve-3d;
+            animation: floatContainer 6s ease-in-out infinite;
+        }
+
+        @keyframes floatContainer {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .diagram-glass {
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 3D CORE ANIMATION */
+        .core-container {
+            width: 150px;
+            height: 150px;
+            margin: 30px auto;
             position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCore 10s linear infinite;
         }
 
-        .fusion-core::after {
-            content: '';
-            position: absolute;
-            width: 160px;
-            height: 160px;
-            border: 1px solid var(--accent-cyan);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes pulse {
+        @keyframes rotateCore {
             0% {
-                transform: scale(1);
-                opacity: 0.5;
+                transform: rotateY(0deg) rotateX(0deg);
             }
 
             100% {
-                transform: scale(1.2);
-                opacity: 0;
+                transform: rotateY(360deg) rotateX(360deg);
             }
         }
 
-        /* FOOTER LIMITES */
-        .limits-bar {
-            margin-top: 40px;
-            display: flex;
-            gap: 20px;
-            justify-content: space-between;
-            border-top: 1px solid var(--border);
-            padding-top: 20px;
+        .core-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--accent-cyan);
+            border-left-color: transparent;
+            border-right-color: transparent;
         }
 
-        .limit-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px 20px;
-            border-radius: 8px;
+        .ring-1 {
+            transform: rotateX(0deg);
+            animation: spin 3s linear infinite;
+        }
+
+        .ring-2 {
+            width: 120px;
+            height: 120px;
+            top: 15px;
+            left: 15px;
+            border-color: var(--accent-blue);
+            opacity: 0.7;
+            animation: spinReverse 4s linear infinite;
+        }
+
+        .ring-3 {
+            width: 90px;
+            height: 90px;
+            top: 30px;
+            left: 30px;
+            border: 4px dotted white;
+            opacity: 0.3;
+            animation: spin 5s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spinReverse {
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .core-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 20px var(--accent-cyan);
+            animation: pulseText 2s infinite alternate;
+        }
+
+        @keyframes pulseText {
+            from {
+                opacity: 0.8;
+            }
+
+            to {
+                opacity: 1;
+                text-shadow: 0 0 30px white;
+            }
+        }
+
+        .diagram-nodes {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .d-node {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            padding: 15px;
+            border-radius: 12px;
+            width: 45%;
+            text-align: left;
+            transition: 0.3s;
+        }
+
+        .d-node:hover {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: var(--accent-cyan);
+        }
+
+        .limits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .limit-box {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 10px;
+            border-top: 2px solid var(--glass-border);
+            text-align: center;
             font-size: 13px;
             color: var(--text-muted);
-            flex: 1;
-            text-align: center;
+            transition: 0.3s;
         }
 
-        .limit-item strong {
-            color: #fff;
+        .limit-box:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .limit-val {
+            font-size: 16px;
+            font-weight: 800;
+            color: white;
             display: block;
-            font-size: 14px;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 
 <body>
 
+    <!-- 3D SCENE BACKGROUND -->
+    <canvas id="canvas3d"></canvas>
+
     <header>
         <div class="nav-logo">
-            <i class="fa-solid fa-gavel" style="color: var(--accent-cyan);"></i> RÉGIME PILOTE <span
+            <i class="fa-solid fa-gavel" style="color: var(--accent-cyan);"></i> RÈGIME PILOTE <span
                 style="color:var(--text-muted)">UE</span>
         </div>
         <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> RETOUR PORTAIL</a>
@@ -314,85 +388,173 @@
 
         <div class="horizontal-grid">
 
-            <!-- GAUCHE : CONCEPTS CLÉS -->
-            <div>
-                <h1 class="hero-title">L'Innovation Légale</h1>
-                <span class="hero-sub">SANDBOX EUROPÉENNE (2023-2029)</span>
+            <!-- --- GAUCHE : VISUAL TILT CARDS --- -->
+            <div style="z-index: 2;">
+                <div style="margin-bottom: 50px;">
+                    <h1 class="hero-title">L'Innovation<br>Légale</h1>
+                    <span class="hero-sub">SANDBOX EUROPÉENNE</span>
+                </div>
 
-                <div class="concept-stack">
-                    <div class="concept-card">
+                <div class="card-stack">
+                    <!-- Card 1 -->
+                    <div class="tilt-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare
+                        data-tilt-max-glare="0.2">
                         <div class="c-icon"><i class="fa-solid fa-unlock-keyhole"></i></div>
-                        <div>
-                            <strong style="color:white; display:block; margin-bottom:5px;">Exemptions CSD</strong>
-                            <span style="font-size:15px; color:var(--text-muted); line-height: 1.4;">Plus d'obligation
-                                de passer par un Dépositaire Central. La Blockchain devient le registre légal.</span>
+                        <div class="c-text">
+                            <span class="c-title">Exemptions CSD</span>
+                            <span class="c-desc">La Blockchain devient le registre légal officiel. Suppression du
+                                Dépositaire Central classique.</span>
                         </div>
                     </div>
 
-                    <div class="concept-card">
+                    <!-- Card 2 -->
+                    <div class="tilt-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare
+                        data-tilt-max-glare="0.2">
                         <div class="c-icon"><i class="fa-solid fa-users-viewfinder"></i></div>
-                        <div>
-                            <strong style="color:white; display:block; margin-bottom:5px;">Accès Direct</strong>
-                            <span style="font-size:15px; color:var(--text-muted); line-height: 1.4;">Autorise les
-                                investisseurs finaux (Retail & Corporate) à se connecter directement au marché.</span>
+                        <div class="c-text">
+                            <span class="c-title">Accès Direct</span>
+                            <span class="c-desc">Les investisseurs (Retail & Corporate) peuvent enfin se connecter
+                                directement au marché.</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DROITE : DIAGRAMME TSS -->
-            <div class="diagram-container">
-                <div class="diagram-box">
-                    <span class="diagram-label">LA RÉVOLUTION "DLT TSS"</span>
+            <!-- --- DROITE : 3D DIAGRAM CORE --- -->
+            <div class="diagram-wrapper">
+                <div class="diagram-glass">
 
-                    <p style="color:var(--text-muted); margin-bottom:40px; font-size:16px;">
-                        Fusion historique des infrastructures de Trading et de Règlement.
-                    </p>
+                    <div
+                        style="text-transform: uppercase; letter-spacing: 2px; color: var(--accent-cyan); font-weight: 800; font-size: 14px; margin-bottom: 20px;">
+                        Architecture DLT TSS
+                    </div>
 
-                    <div class="flow-visual">
-                        <div class="node">
-                            <i class="fa-solid fa-chart-line"></i>
-                            <strong>Trading</strong>
-                            <span style="font-size:12px; color:#94a3b8;">(Bourse / MTF)</span>
+                    <!-- 3D CORE -->
+                    <div class="core-container">
+                        <div class="core-ring ring-1"></div>
+                        <div class="core-ring ring-2"></div>
+                        <div class="core-ring ring-3"></div>
+                        <div class="core-text">TSS</div>
+                    </div>
+
+                    <div class="diagram-nodes">
+                        <div class="d-node">
+                            <i class="fa-solid fa-chart-line" style="color:var(--accent-blue); margin-right:5px;"></i>
+                            <span style="color:white; font-weight:700;">Trading</span>
+                            <div style="font-size:11px; color:#94a3b8; margin-top:5px;">MTF Execution</div>
                         </div>
-
-                        <div class="plus-sign">+</div>
-
-                        <div class="node">
-                            <i class="fa-solid fa-building-columns"></i>
-                            <strong>Settlement</strong>
-                            <span style="font-size:12px; color:#94a3b8;">(Dépositaire / CSD)</span>
-                        </div>
-
-                        <div class="equal-sign">=</div>
-
-                        <div class="fusion-core">
-                            <i class="fa-solid fa-infinity" style="font-size:40px; margin-bottom:5px;"></i>
-                            DLT TSS
+                        <div class="d-node" style="text-align: right;">
+                            <span style="color:white; font-weight:700;">Settlement</span>
+                            <i class="fa-solid fa-building-columns"
+                                style="color:var(--accent-cyan); margin-left:5px;"></i>
+                            <div style="font-size:11px; color:#94a3b8; margin-top:5px;">CSD Settlement</div>
                         </div>
                     </div>
-                </div>
 
-                <!-- BARRE DES SEUILS -->
-                <div class="limits-bar">
-                    <div class="limit-item">
-                        <strong>ACTIONS</strong>
-                        Max 500 M€
+                    <div class="limits-grid">
+                        <div class="limit-box">
+                            <span class="limit-val">500 M€</span>
+                            ACTIONS
+                        </div>
+                        <div class="limit-box">
+                            <span class="limit-val">1 Md€</span>
+                            OBLIGATTIONS
+                        </div>
+                        <div class="limit-box">
+                            <span class="limit-val">500 M€</span>
+                            FONDS UCITS
+                        </div>
                     </div>
-                    <div class="limit-item">
-                        <strong>OBLIGATIONS</strong>
-                        Max 1 Md€
-                    </div>
-                    <div class="limit-item">
-                        <strong>FONDS (UCITS)</strong>
-                        Max 500 M€
-                    </div>
+
                 </div>
             </div>
 
         </div>
-
     </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+
+    <script>
+        // --- THREE.JS BACKGROUND ---
+        const canvas = document.getElementById('canvas3d');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x020617, 0.002);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        // PARTICLES (Legal Blocks)
+        const geometry = new THREE.IcosahedronGeometry(1, 0);
+        const material = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.1 });
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.x = (Math.random() - 0.5) * 40;
+            mesh.position.y = (Math.random() - 0.5) * 40;
+            mesh.position.z = (Math.random() - 0.5) * 20 - 10;
+            mesh.rotation.x = Math.random() * Math.PI;
+            mesh.rotation.y = Math.random() * Math.PI;
+            const scale = Math.random() * 2;
+            mesh.scale.set(scale, scale, scale);
+
+            scene.add(mesh);
+            particles.push({
+                mesh: mesh,
+                speedX: (Math.random() - 0.5) * 0.005,
+                speedY: (Math.random() - 0.5) * 0.005,
+                rotSpeed: (Math.random() - 0.5) * 0.01
+            });
+        }
+
+        camera.position.z = 5;
+
+        // ANIMATION LOOP
+        function animate() {
+            requestAnimationFrame(animate);
+
+            particles.forEach(p => {
+                p.mesh.rotation.x += p.rotSpeed;
+                p.mesh.rotation.y += p.rotSpeed;
+                p.mesh.position.x += p.speedX;
+                p.mesh.position.y += p.speedY;
+
+                // Loop Screen
+                if (p.mesh.position.y > 20) p.mesh.position.y = -20;
+                if (p.mesh.position.y < -20) p.mesh.position.y = 20;
+                if (p.mesh.position.x > 25) p.mesh.position.x = -25;
+                if (p.mesh.position.x < -25) p.mesh.position.x = 25;
+            });
+
+            // Mouse Parallax (Gentle)
+            // camera.position.x += (mouseX - camera.position.x) * 0.05;
+            // camera.position.y += (-mouseY - camera.position.y) * 0.05;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // RESIZE
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // TILT INIT
+        VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+            scale: 1.05
+        });
+
+    </script>
 
 </body>
 
