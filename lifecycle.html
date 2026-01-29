@@ -111,9 +111,38 @@
             gap: 10px !important;
         }
 
-        /* Fix Nav Arrows Z-Index */
+        /* Fix Nav Arrows Z-Index & Hit Area */
         .slider-controls {
-            z-index: 100 !important;
+            z-index: 9999 !important;
+            pointer-events: auto !important;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-control {
+            pointer-events: auto !important;
+            backdrop-filter: blur(10px);
+            background: rgba(2, 6, 23, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-control:hover {
+            background: white !important;
+            color: black !important;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-control i {
+            pointer-events: none;
+            /* Icon shouldn't capture clicks */
         }
 
         .ov-super-card {
