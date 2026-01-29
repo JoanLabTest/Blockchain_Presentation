@@ -681,61 +681,88 @@
             const COLOR_BG = "020617";
             const COLOR_TEXT = "F8FAFC";
             const COLOR_ACCENT = "3B82F6";
+            const COLOR_ACCENT_TEXT = "FFFFFF";
+            const COLOR_CARD_BG = "0F172A";
 
             // ---- MASTER SLIDE (Theme) ----
+            // Header Bar height increased to 0.8 inches to contain text comfortably
             pptx.defineSlideMaster({
                 title: "MASTER_SLIDE",
                 background: { color: COLOR_BG },
                 objects: [
-                    { rect: { x: 0, y: 0, w: "100%", h: 0.15, fill: COLOR_ACCENT } }, // Top Line
-                    { text: { text: "DIGITAL BOND LIFECYCLE (PILOT)", options: { x: 0.5, y: 0.2, w: 5, fontSize: 10, color: "94A3B8", bold: true } } },
-                    { text: { text: "CONFIDENTIAL", options: { x: 11.5, y: 0.2, w: 1.5, fontSize: 8, color: "EF4444", bold: true } } }
+                    { rect: { x: 0, y: 0, w: "100%", h: 0.8, fill: COLOR_ACCENT } }, // Top Line Thicker
+                    { text: { text: "DIGITAL BOND LIFECYCLE (PILOT)", options: { x: 0.5, y: 0, w: 5, h: 0.8, fontSize: 14, color: COLOR_ACCENT_TEXT, bold: true, valign: "middle" } } },
+                    { text: { text: "CONFIDENTIAL", options: { x: 11.5, y: 0, w: 1.5, h: 0.8, fontSize: 10, color: "FCA5A5", bold: true, valign: "middle", align: "right" } } },
+                    // Footer line
+                    { rect: { x: 0, y: 7.3, w: "100%", h: 0.05, fill: "334155" } },
+                    { text: { text: "© 2026 DCM Digital - Internal Use Only", options: { x: 0, y: 7.35, w: "100%", h: 0.2, fontSize: 9, color: "64748B", align: "center" } } }
                 ]
             });
 
             // ---- SLIDE 0 : Titre ----
             let slideTitle = pptx.addSlide({ masterName: "MASTER_SLIDE" });
             slideTitle.addText("Digital Bond Lifecycle", {
-                x: 1,
+                x: 0,
                 y: 2.5,
-                fontSize: 36,
+                w: "100%",
+                fontSize: 44,
                 bold: true,
-                color: COLOR_TEXT
+                color: COLOR_TEXT,
+                align: "center"
             });
             slideTitle.addText(
                 "Chronologie d’une émission tokenisée en environnement bancaire",
-                { x: 1, y: 3.5, fontSize: 18, color: "94A3B8" }
+                { x: 0, y: 3.5, w: "100%", fontSize: 20, color: "94A3B8", align: "center" }
             );
 
             // ---- Template fonction ----
             function addStep(title, content, stepNum) {
                 let slide = pptx.addSlide({ masterName: "MASTER_SLIDE" });
 
-                // Step Number
+                // Add a "Card" background for content to sit inside
+                let cardX = 1;
+                let cardY = 1.8;
+                let cardW = 11.3;
+                let cardH = 5;
+
+                // Step Number (BIG Background)
                 slide.addText(stepNum, {
                     x: 0.5, y: 1.2, fontSize: 60, color: "1E293B", bold: true, opacity: 0.3
                 });
 
+                // Content Card Background
+                // Transparency is 0-100% (50 = 50%)
+                slide.addShape(pptx.ShapeType.rect, {
+                    x: cardX, y: cardY, w: cardW, h: cardH,
+                    fill: { color: COLOR_CARD_BG, transparency: 50 },
+                    line: { color: "334155", width: 1 }
+                });
+
                 // Title
                 slide.addText(title, {
-                    x: 1.5,
-                    y: 1.5,
+                    x: cardX + 0.5,
+                    y: cardY + 0.4,
+                    w: cardW - 1,
                     fontSize: 24,
                     bold: true,
                     color: COLOR_ACCENT
                 });
 
-                // Divider
-                slide.addShape(pptx.ShapeType.line, { x: 1.5, y: 2.1, w: 8, h: 0, line: { color: "334155", width: 1 } });
+                // Divider inside card
+                slide.addShape(pptx.ShapeType.line, {
+                    x: cardX + 0.5, y: cardY + 1.0, w: cardW - 1, h: 0,
+                    line: { color: "334155", width: 1 }
+                });
 
                 // Content
                 slide.addText(content, {
-                    x: 1.5,
-                    y: 2.5,
+                    x: cardX + 0.5,
+                    y: cardY + 1.3,
+                    w: cardW - 1,
                     fontSize: 16,
                     color: COLOR_TEXT,
                     lineSpacing: 28,
-                    w: 8.5
+                    valign: "top"
                 });
             }
 
