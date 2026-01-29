@@ -7,6 +7,104 @@
     <title>Anatomie d'une Émission Tokenisée</title>
     <link rel="stylesheet" href="styles-pilot.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --accent-primary: #3b82f6;
+            --text-light: #f8fafc;
+            --card-glass: rgba(30, 41, 59, 0.4);
+            --roadmap-line: #334155;
+            --card-border: rgba(148, 163, 184, 0.1);
+        }
+
+        /* SCHÉMA GLOBAL ARCHITECTURE (EXPERT LAYER) */
+        .schema-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            /* Reduced gap */
+            margin: 20px 0 30px 0;
+            /* Reduced margins */
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            transform: scale(0.9);
+            /* Slightly smaller to fit */
+        }
+
+        .schema-box {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            width: 180px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .schema-box:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        .schema-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+        }
+
+        .schema-icon {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .schema-details {
+            font-size: 10px;
+            color: #64748b;
+            line-height: 1.4;
+            text-align: left;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+
+        .schema-arrow {
+            color: #475569;
+            font-size: 16px;
+            animation: pulseArrow 2s infinite;
+        }
+
+        @keyframes pulseArrow {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: translateX(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(5px);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -60,99 +158,20 @@
                     style="width: 100%; max-width: 1500px; display: flex; flex-direction: column; align-items: center;">
                     <h2 style="text-align: center; margin-bottom: 10px;">Le Cycle de Vie "End-to-End"</h2>
                     <style>
-                        :root {
-                            --bg-dark: #020617;
-                            --accent-primary: #3b82f6;
-                            --text-light: #f8fafc;
-                            --card-glass: rgba(30, 41, 59, 0.4);
-                            --roadmap-line: #334155;
-                            --card-border: rgba(148, 163, 184, 0.1);
+                        /* Local override to ensure fit - can also be moved to global CSS */
+                        .ov-super-grid {
+                            margin-top: 20px !important;
+                            gap: 10px !important;
                         }
 
-                        /* ... existing styles ... */
-
-                        /* SCHÉMA GLOBAL ARCHITECTURE (EXPERT LAYER) */
-                        .schema-container {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 20px;
-                            margin: 40px 0 60px 0;
-                            padding: 20px;
-                            background: rgba(15, 23, 42, 0.4);
-                            border: 1px solid rgba(148, 163, 184, 0.1);
-                            border-radius: 16px;
-                            backdrop-filter: blur(5px);
+                        .ov-super-card {
+                            height: 260px !important;
                         }
 
-                        .schema-box {
-                            background: rgba(30, 41, 59, 0.8);
-                            border: 1px solid rgba(59, 130, 246, 0.2);
-                            border-radius: 12px;
-                            padding: 20px;
-                            width: 200px;
-                            text-align: center;
-                            position: relative;
-                            transition: all 0.3s ease;
-                        }
-
-                        .schema-box:hover {
-                            transform: translateY(-5px);
-                            border-color: rgba(59, 130, 246, 0.6);
-                            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
-                        }
-
-                        .schema-title {
-                            font-size: 14px;
-                            font-weight: 700;
-                            margin-bottom: 10px;
-                            text-transform: uppercase;
-                            letter-spacing: 1px;
-                            color: #94a3b8;
-                        }
-
-                        .schema-icon {
-                            font-size: 24px;
-                            margin-bottom: 15px;
-                            color: white;
-                            background: rgba(255, 255, 255, 0.05);
-                            width: 50px;
-                            height: 50px;
-                            display: grid;
-                            place-items: center;
-                            border-radius: 10px;
-                            margin-left: auto;
-                            margin-right: auto;
-                        }
-
-                        .schema-details {
-                            font-size: 11px;
-                            color: #64748b;
-                            line-height: 1.5;
-                            text-align: left;
-                            border-top: 1px solid rgba(255, 255, 255, 0.05);
-                            padding-top: 10px;
-                            margin-top: 10px;
-                        }
-
-                        .schema-arrow {
-                            color: #475569;
-                            font-size: 18px;
-                            animation: pulseArrow 2s infinite;
-                        }
-
-                        @keyframes pulseArrow {
-
-                            0%,
-                            100% {
-                                opacity: 0.3;
-                                transform: translateX(0);
-                            }
-
-                            50% {
-                                opacity: 1;
-                                transform: translateX(5px);
-                            }
+                        /* Compact cards */
+                        .ov-icon-big {
+                            margin: 15px 0 !important;
+                            font-size: 30px !important;
                         }
                     </style>
 
@@ -198,752 +217,845 @@
                         </div>
                     </div>
 
-                    <div class="ov-super-grid">
-                        <!-- Step 1 -->
-                        <div class="ov-super-card theme-blue" onclick="goToSlide(1)">
-                            <span class="ov-step-num">01</span>
-                            <i class="fa-solid fa-passport ov-icon-big"></i>
-                            <div>
-                                <div class="ov-lbl">Onboarding</div>
-                                <div class="ov-tags">
-                                    <span class="ov-tag">KYC</span>
-                                    <span class="ov-tag">Wallet</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Step 2 -->
-                        <div class="ov-super-card theme-purple" onclick="goToSlide(2)">
-                            <span class="ov-step-num">02</span>
-                            <i class="fa-solid fa-file-contract ov-icon-big"></i>
-                            <div>
-                                <div class="ov-lbl">Structuration</div>
-                                <div class="ov-tags">
-                                    <span class="ov-tag">MiCA</span>
-                                    <span class="ov-tag">Smart Contract</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Step 3 -->
-                        <div class="ov-super-card theme-gold" onclick="goToSlide(3)">
-                            <span class="ov-step-num">03</span>
-                            <i class="fa-solid fa-server ov-icon-big"></i>
-                            <div>
-                                <div class="ov-lbl">Pricing</div>
-                                <div class="ov-tags">
-                                    <span class="ov-tag">Orderbook</span>
-                                    <span class="ov-tag">API Bridge</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Step 4 -->
-                        <div class="ov-super-card theme-red" onclick="goToSlide(4)">
-                            <span class="ov-step-num">04</span>
-                            <i class="fa-solid fa-fingerprint ov-icon-big"></i>
-                            <div>
-                                <div class="ov-lbl">Minting</div>
-                                <div class="ov-tags">
-                                    <span class="ov-tag">Tokenization</span>
-                                    <span class="ov-tag">Security</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Step 5 -->
-                        <div class="ov-super-card theme-green" onclick="goToSlide(5)">
-                            <span class="ov-step-num">05</span>
-                            <i class="fa-solid fa-rocket ov-icon-big"></i>
-                            <div>
-                                <div class="ov-lbl">Règlement</div>
-                                <div class="ov-tags">
-                                    <span class="ov-tag">DvP</span>
-                                    <span class="ov-tag">Cash Settlement</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 1 : ONBOARDING -->
-            <div class="slide theme-blue">
-                <div class="slide-grid">
-                    <!-- COL 1: BUSINESS -->
-                    <div class="col-context">
-                        <h2>Onboarding</h2>
-                        <span class="subtitle">J-30 • CLIENT & COMPLIANCE</span>
-
-                        <div class="context-card">
-                            <div class="context-title">L'Enjeu Métier</div>
-                            <p class="context-text">
-                                Garantir que seuls les investisseurs éligibles (KYC validé) peuvent détenir les tokens.
-                            </p>
-                            <!-- AUDIT: RISK LAYER -->
-                            <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
-                                <span
-                                    style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
-                                    & Compliance :</span>
-                                <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
-                                    <i class="fa-solid fa-shield-halved" style="color:#ef4444; margin-right:5px;"></i>
-                                    Risque AML/CFT : Mitigé par Whitelisting on-chain (Sanctions list check).
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="context-card">
-                            <div class="context-title">Actions Banque</div>
-                            <ul style="list-style: none; padding:0; font-size:13px; color:#cbd5e1;">
-                                <li style="margin-bottom:8px;"><i class="fa-solid fa-check"
-                                        style="color:#3b82f6; margin-right:8px;"></i> Due Diligence Classique (AML/CFT)
-                                </li>
-                                <li><i class="fa-solid fa-check" style="color:#3b82f6; margin-right:8px;"></i> Collecte
-                                    des adresses Wallet</li>
-                            </ul>
-                        </div>
-
-                        <div class="kpi-row">
-                            <div class="kpi-h"><span class="kpi-num">100%</span><span class="kpi-lbl">Identified</span>
-                            </div>
-                            <div class="kpi-h"><span class="kpi-num">MPC</span><span class="kpi-lbl">Secured</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- COL 2: VISUAL -->
-                    <div class="col-visual">
-                        <div class="dia-box" style="margin-bottom: 20px;">
-                            <i class="fa-solid fa-user-tie"></i>
-                            <div class="dia-title">Investisseur</div>
-                            <div class="dia-sub">KYC Validé (CRM)</div>
-                        </div>
-                        <div class="connector-v"></div>
-                        <i class="fa-solid fa-lock" style="color:#3b82f6; font-size:18px;"></i>
-                        <div class="connector-v"></div>
-                        <div class="dia-box"
-                            style="border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);">
-                            <i class="fa-solid fa-id-card"></i>
-                            <div class="dia-title">Identity Registry</div>
-                            <div class="dia-sub">On-Chain Whitelist</div>
-                        </div>
-                    </div>
-
-                    <!-- COL 3: TECH -->
-                    <div class="col-tech">
-                        <div class="tech-header">
-                            <span><i class="fa-solid fa-terminal"></i> Implémentation</span>
-                            <span class="tech-badge">Solidity</span>
-                        </div>
-
-                        <div class="code-editor">
-                            <span class="syntax-purple">function</span> addToWhitelist(address <span
-                                class="syntax-orange">_investor</span>) <span class="syntax-purple">public
-                                onlyAdmin</span> {
-                            <span class="syntax-blue">require</span>(kycProvider.check(_investor), "KYC Fail");
-                            _allowed[_investor] = <span class="syntax-blue">true</span>;
-                            <span class="syntax-purple">emit</span> InvestorAuth(_investor, block.timestamp);
-                            }
-                        </div>
-
-                        <div class="tech-steps">
-                            <div class="t-step">
-                                <div class="t-icon"><i class="fa-solid fa-key"></i></div>
-                                <div class="t-content">
-                                    <div class="t-title">Wallet Generation</div>
-                                    <div class="t-desc">Création de coffres-forts numériques (Fireblocks/Metaco).</div>
-                                </div>
-                            </div>
-                            <div class="t-step">
-                                <div class="t-icon"><i class="fa-solid fa-file-signature"></i></div>
-                                <div class="t-content">
-                                    <div class="t-title">Claim Verifiable</div>
-                                    <div class="t-desc">Association cryptographique de l'identité off-chain au wallet
-                                        on-chain.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 2 : STRUCTURATION -->
-            <div class="slide theme-purple">
-                <div class="slide-grid">
-                    <!-- COL 1 -->
-                    <div class="col-context">
-                        <h2>Structuration</h2>
-                        <span class="subtitle">J-10 • LEGAL ENGINEERING</span>
-
-                        <div class="context-card">
-                            <div class="context-title">De la Loi au Code</div>
-                            <p class="context-text">
-                                Nous définissons les caractéristiques financières (Term Sheet) et les inscrivons dans un
-                                Smart Contract irrévocable.
-                                C'est la garantie que le code exécutera fidèlement le contrat.
-                            </p>
-                            <!-- AUDIT: RISK LAYER -->
-                            <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
-                                <span
-                                    style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
-                                    & Compliance :</span>
-                                <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
-                                    <i class="fa-solid fa-file-signature" style="color:#ef4444; margin-right:5px;"></i>
-                                    Risque Juridique : Audit de code obligatoire pour certifier l'alignement Term Sheet
-                                    / Smart Contract.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="kpi-row">
-                            <div class="kpi-h"><span class="kpi-num">XS25..</span><span class="kpi-lbl">ISIN Code</span>
-                            </div>
-                            <div class="kpi-h"><span class="kpi-num">ERC3643</span><span class="kpi-lbl">Standard</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- COL 2 -->
-                    <div class="col-visual">
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <div class="dia-box" style="width:140px;">
-                                <i class="fa-solid fa-file-pdf"></i>
-                                <div class="dia-title">Term Sheet</div>
-                                <div class="dia-sub">Legal Prose</div>
-                            </div>
-                            <i class="fa-solid fa-arrow-right" style="color:#a855f7"></i>
-                            <div class="dia-box" style="width:140px; border-color:#a855f7;">
-                                <i class="fa-solid fa-code"></i>
-                                <div class="dia-title">Smart Bond</div>
-                                <div class="dia-sub">Code Immutable</div>
-                            </div>
-                        </div>
+                    <!-- SLIDE 0 : GLOBAL OVERVIEW -->
+                    <div class="slide active">
                         <div
-                            style="margin-top:30px; display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:300px;">
-                            <div
-                                style="background:rgba(168, 85, 247, 0.1); padding:10px; border-radius:8px; font-size:11px; text-align:center;">
-                                Coupon: <b>3.5%</b></div>
-                            <div
-                                style="background:rgba(168, 85, 247, 0.1); padding:10px; border-radius:8px; font-size:11px; text-align:center;">
-                                Maturity: <b>5Y</b></div>
-                            <div
-                                style="background:rgba(168, 85, 247, 0.1); padding:10px; border-radius:8px; font-size:11px; text-align:center;">
-                                Type: <b>Fixed</b></div>
-                            <div
-                                style="background:rgba(168, 85, 247, 0.1); padding:10px; border-radius:8px; font-size:11px; text-align:center;">
-                                Freq: <b>Annual</b></div>
-                        </div>
-                    </div>
-
-                    <!-- COL 3 -->
-                    <div class="col-tech">
-                        <div class="tech-header">
-                            <span><i class="fa-solid fa-cogs"></i> Configuration</span>
-                            <span class="tech-badge">Factory</span>
-                        </div>
-
-                        <div class="code-editor">
-                            <span class="syntax-purple">constructor</span>(string <span
-                                class="syntax-orange">_name</span>,
-                            uint <span class="syntax-orange">_rate</span>) {
-                            name = "Green Bond 2030";
-                            couponRate = 350; <span class="syntax-green">// Basis points</span>
-                            maturityDate = 1893456000;
-                            status = BondStatus.DRAFT;
-                            }
-                        </div>
-
-                        <div class="tech-steps">
-                            <div class="t-step">
-                                <div class="t-icon"><i class="fa-solid fa-robot"></i></div>
-                                <div class="t-content">
-                                    <div class="t-title">Automation</div>
-                                    <div class="t-desc">Calcul automatique des dates de paiement (Business Day
-                                        Convention).</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 3 : PRICING -->
-            <div class="slide theme-gold">
-                <div class="slide-grid">
-                    <!-- COL 1 -->
-                    <div class="col-context">
-                        <h2>Pricing & Ops</h2>
-                        <span class="subtitle">J-0 (H-2) • SYNDICATION DESK</span>
-
-                        <div class="context-card">
-                            <div class="context-title">Intégration Transparente</div>
-                            <p class="context-text">
-                                Le Front-Office utilise ses outils habituels (Bloomberg) pour construire le livre
-                                d'ordres.
+                            style="width: 100%; max-width: 1500px; display: flex; flex-direction: column; align-items: center;">
+                            <h2 style="text-align: center; margin-bottom: 10px;">Le Cycle de Vie
+                                "End-to-End"</h2>
+                            <p style="color: var(--text-muted); text-align: center; max-width: 600px; font-size: 14px;">
+                                Une chaîne de valeur entièrement numérisée, de l'entrée en relation jusqu'au
+                                règlement final.
                             </p>
-                            <!-- AUDIT: RISK LAYER -->
-                            <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
-                                <span
-                                    style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
-                                    & Compliance :</span>
-                                <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
-                                    <i class="fa-solid fa-server" style="color:#ef4444; margin-right:5px;"></i>
-                                    Risque Ops : Aucune saisie manuelle. L'Orchestrateur traduit les messages FIX en
-                                    transactions Blockchain signées HSM.
-                                </p>
-                            </div>
-                        </div>
 
-                        <div class="kpi-row">
-                            <div class="kpi-h"><span class="kpi-num">API</span><span class="kpi-lbl">Gateway</span>
-                            </div>
-                            <div class="kpi-h"><span class="kpi-num">HSM</span><span class="kpi-lbl">Security</span>
-                            </div>
-                        </div>
-                    </div>
+                            <!-- GLOBAL ARCHITECTURE SCHEMA -->
+                            <div class="schema-container">
+                                <!-- 1. LEGACY -->
+                                <div class="schema-box">
+                                    <div class="schema-title">Legacy Bank</div>
+                                    <i class="fa-solid fa-building-columns schema-icon" style="color: #94a3b8;"></i>
+                                    <div class="schema-details">
+                                        • Core Banking (T24)<br>
+                                        • Payment Engine<br>
+                                        • CRM / KYC
+                                    </div>
+                                </div>
 
-                    <!-- COL 2 -->
-                    <div class="col-visual">
-                        <div class="dia-box" style="width:220px; margin-bottom:10px;">
-                            <i class="fa-brands fa-searchengin"></i>
-                            <div class="dia-title">LEGACY SYSTEMS</div>
-                            <div class="dia-sub">Bloomberg / Calypso (FIX)</div>
-                        </div>
-                        <i class="fa-solid fa-arrow-down" style="color:#f59e0b; margin:5px 0;"></i>
-                        <div class="dia-box"
-                            style="width:240px; border-color:#f59e0b; background:rgba(245, 158, 11, 0.1);">
-                            <i class="fa-solid fa-microchip"></i>
-                            <div class="dia-title">ORCHESTRATOR NODE</div>
-                            <div class="dia-sub">Translation Logic & Key Mgmt</div>
-                        </div>
-                        <i class="fa-solid fa-arrow-down" style="color:#f59e0b; margin:5px 0;"></i>
-                        <div class="dia-box" style="width:220px; border-style:dashed; opacity:0.7;">
-                            <i class="fa-solid fa-network-wired"></i>
-                            <div class="dia-title">BLOCKCHAIN</div>
-                            <div class="dia-sub">Pending Transaction</div>
-                        </div>
-                    </div>
+                                <!-- ARROW -->
+                                <div class="schema-arrow"><i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                </div>
 
-                    <!-- COL 3 -->
-                    <div class="col-tech">
-                        <div class="tech-header">
-                            <span><i class="fa-solid fa-network-wired"></i> Flux de Données</span>
-                            <span class="tech-badge">REST API</span>
-                        </div>
+                                <!-- 2. ORCHESTRATOR -->
+                                <div class="schema-box">
+                                    <div class="schema-title" style="color:#3b82f6">Orchestrator</div>
+                                    <i class="fa-solid fa-server schema-icon" style="color: #3b82f6;"></i>
+                                    <div class="schema-details">
+                                        • API Gateway<br>
+                                        • Minting Engine<br>
+                                        • Key Management
+                                    </div>
+                                </div>
 
-                        <div class="code-editor">
-                            <span class="syntax-green">POST</span> /api/v1/issuance/allocate
-                            {
-                            "isin": "FR0078X...",
-                            "investors": [
-                            {"id": "Inv_A", "amount": 5000000},
-                            {"id": "Inv_B", "amount": 2500000}
-                            ]
-                            }
-                        </div>
+                                <!-- ARROW -->
+                                <div class="schema-arrow"><i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                </div>
 
-                        <div class="tech-steps">
-                            <div class="t-step">
-                                <div class="t-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                                <div class="t-content">
-                                    <div class="t-title">HSM Signing</div>
-                                    <div class="t-desc">La clé privée de la Banque signe la transaction sans jamais être
-                                        exposée.</div>
+                                <!-- 3. BLOCKCHAIN -->
+                                <div class="schema-box">
+                                    <div class="schema-title" style="color:#a855f7">Blockchain</div>
+                                    <i class="fa-solid fa-cubes schema-icon" style="color: #a855f7;"></i>
+                                    <div class="schema-details">
+                                        • Ethereum / RPC<br>
+                                        • Smart Contracts<br>
+                                        • Token & Identity
+                                    </div>
                                 </div>
                             </div>
-                            <div class="t-step">
-                                <div class="t-icon"><i class="fa-solid fa-gas-pump"></i></div>
-                                <div class="t-content">
-                                    <div class="t-title">Gas Mgmt</div>
-                                    <div class="t-desc">Gestion automatique des frais de réseau (ETH/MATIC).</div>
+
+                            <div class="ov-super-grid">
+                                <!-- Step 1 -->
+                                <div class="ov-super-card theme-blue" onclick="goToSlide(1)">
+                                    <span class="ov-step-num">01</span>
+                                    <i class="fa-solid fa-passport ov-icon-big"></i>
+                                    <div>
+                                        <div class="ov-lbl">Onboarding</div>
+                                        <div class="ov-tags">
+                                            <span class="ov-tag">KYC</span>
+                                            <span class="ov-tag">Wallet</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 4 : MINTING -->
-            <div class="slide theme-red">
-                <div class="slide-grid">
-                    <!-- COL 1 -->
-                    <div class="col-context">
-                        <h2>Émission (Minting)</h2>
-                        <span class="subtitle">J-0 (H-0) • CLOSING</span>
-
-                        <div class="context-card">
-                            <div class="context-title">Création des Titres</div>
-                            <p class="context-text">
-                                L'actif numérique est généré. Juridiquement, c'est l'émission primaire.
-                                Les tokens sont créés et pré-positionnés (Bloqués).
-                            </p>
-                            <!-- AUDIT: RISK LAYER -->
-                            <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
-                                <span
-                                    style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
-                                    & Compliance :</span>
-                                <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
-                                    <i class="fa-solid fa-ban" style="color:#ef4444; margin-right:5px;"></i>
-                                    Contrôle : Le Smart Contract empêche tout transfert avant le "Settlement Trigger"
-                                    (Protection investisseur).
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="kpi-row">
-                            <div class="kpi-h"><span class="kpi-num">T+0</span><span class="kpi-lbl">Issuance</span>
-                            </div>
-                            <div class="kpi-h"><span class="kpi-num">DvP</span><span class="kpi-lbl">Pending</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- COL 2 -->
-                    <div class="col-visual">
-                        <i class="fa-solid fa-fingerprint"
-                            style="font-size:100px; color:#ef4444; filter:drop-shadow(0 0 20px rgba(239,68,68,0.4)); animation: pulseGlow 2s infinite;"></i>
-                        <div style="margin-top:30px; text-align:center;">
-                            <div style="font-size:24px; font-weight:800; color:white;">TOKEN GÉNÉRÉ</div>
-                            <div
-                                style="font-family:'JetBrains Mono'; color:#ef4444; background:rgba(239,68,68,0.1); padding:5px 15px; border-radius:4px; margin-top:10px;">
-                                STATUS: LOCKED</div>
-                        </div>
-                    </div>
-
-                    <!-- COL 3 -->
-                    <div class="col-tech">
-                        <div class="tech-header">
-                            <span><i class="fa-solid fa-cube"></i> Blockchain State</span>
-                            <span class="tech-badge">Ledger</span>
-                        </div>
-
-                        <div class="code-editor">
-                            <span class="syntax-purple">event</span> TokensMinted(address <span
-                                class="syntax-orange">operator</span>, uint <span class="syntax-orange">amount</span>);
-                            <span class="syntax-green">// State Update:</span>
-                            balances[Inv_A] = 1000; <span class="syntax-purple">(Frozen)</span>
-                            balances[Inv_B] = 500; <span class="syntax-purple">(Frozen)</span>
-                            totalSupply = 1500;
-                        </div>
-
-                        <div class="tech-steps">
-                            <div class="t-step">
-                                <div class="t-icon"><i class="fa-solid fa-lock"></i></div>
-                                <div class="t-content">
-                                    <div class="t-title">Escrow Mechanism</div>
-                                    <div class="t-desc">Les titres ne sont pas négociables tant que le Cash n'est pas
-                                        reçu.</div>
+                                <!-- Step 2 -->
+                                <div class="ov-super-card theme-purple" onclick="goToSlide(2)">
+                                    <span class="ov-step-num">02</span>
+                                    <i class="fa-solid fa-file-contract ov-icon-big"></i>
+                                    <div>
+                                        <div class="ov-lbl">Structuration</div>
+                                        <div class="ov-tags">
+                                            <span class="ov-tag">MiCA</span>
+                                            <span class="ov-tag">Sm. Contract</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Step 3 -->
+                                <div class="ov-super-card theme-gold" onclick="goToSlide(3)">
+                                    <span class="ov-step-num">03</span>
+                                    <i class="fa-solid fa-server ov-icon-big"></i>
+                                    <div>
+                                        <div class="ov-lbl">Pricing</div>
+                                        <div class="ov-tags">
+                                            <span class="ov-tag">Orderbook</span>
+                                            <span class="ov-tag">API Bridge</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Step 4 -->
+                                <div class="ov-super-card theme-red" onclick="goToSlide(4)">
+                                    <span class="ov-step-num">04</span>
+                                    <i class="fa-solid fa-fingerprint ov-icon-big"></i>
+                                    <div>
+                                        <div class="ov-lbl">Minting</div>
+                                        <div class="ov-tags">
+                                            <span class="ov-tag">Tokenization</span>
+                                            <span class="ov-tag">Security</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Step 5 -->
+                                <div class="ov-super-card theme-green" onclick="goToSlide(5)">
+                                    <span class="ov-step-num">05</span>
+                                    <i class="fa-solid fa-rocket ov-icon-big"></i>
+                                    <div>
+                                        <div class="ov-lbl">Règlement</div>
+                                        <div class="ov-tags">
+                                            <span class="ov-tag">DvP</span>
+                                            <span class="ov-tag">Cash Settl.</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- SLIDE 5 : SETTLEMENT -->
-            <div class="slide theme-green">
-                <div class="slide-grid">
-                    <!-- COL 1 -->
-                    <div class="col-context">
-                        <h2>Règlement (DvP)</h2>
-                        <span class="subtitle">T+0 • POST-TRADE</span>
+                    <!-- SLIDE 1 : ONBOARDING -->
+                    <div class="slide theme-blue">
+                        <div class="slide-grid">
+                            <!-- COL 1: BUSINESS -->
+                            <div class="col-context">
+                                <h2>Onboarding</h2>
+                                <span class="subtitle">J-30 • CLIENT & COMPLIANCE</span>
 
-                        <div class="context-card">
-                            <div class="context-title">L'Échange Atomique</div>
-                            <p class="context-text">
-                                La magie du Smart Contract. Dès confirmation du paiement Cash, les titres sont libérés.
-                            </p>
-                            <!-- AUDIT: RISK LAYER -->
-                            <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
-                                <span
-                                    style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
-                                    & Compliance :</span>
-                                <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
-                                    <i class="fa-solid fa-gavel" style="color:#ef4444; margin-right:5px;"></i>
-                                    Finalité : Irrévocabilité de la transaction garantie par la Blockchain (Settlement
-                                    Finality Directive).
-                                </p>
+                                <div class="context-card">
+                                    <div class="context-title">L'Enjeu Métier</div>
+                                    <p class="context-text">
+                                        Garantir que seuls les investisseurs éligibles (KYC validé) peuvent détenir
+                                        les tokens.
+                                    </p>
+                                    <!-- AUDIT: RISK LAYER -->
+                                    <div
+                                        style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                                        <span
+                                            style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
+                                            & Compliance :</span>
+                                        <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
+                                            <i class="fa-solid fa-shield-halved"
+                                                style="color:#ef4444; margin-right:5px;"></i>
+                                            Risque AML/CFT : Mitigé par Whitelisting on-chain (Sanctions list
+                                            check).
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="context-card">
+                                    <div class="context-title">Actions Banque</div>
+                                    <ul style="list-style: none; padding:0; font-size:13px; color:#cbd5e1;">
+                                        <li style="margin-bottom:8px;"><i class="fa-solid fa-check"
+                                                style="color:#3b82f6; margin-right:8px;"></i> Due Diligence
+                                            Classique (AML/CFT)
+                                        </li>
+                                        <li><i class="fa-solid fa-check" style="color:#3b82f6; margin-right:8px;"></i>
+                                            Collecte
+                                            des adresses Wallet</li>
+                                    </ul>
+                                </div>
+
+                                <div class="kpi-row">
+                                    <div class="kpi-h"><span class="kpi-num">100%</span><span
+                                            class="kpi-lbl">Identified</span>
+                                    </div>
+                                    <div class="kpi-h"><span class="kpi-num">MPC</span><span
+                                            class="kpi-lbl">Secured</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="kpi-row">
-                            <div class="kpi-h"><span class="kpi-num">0%</span><span class="kpi-lbl">Risk</span></div>
-                            <div class="kpi-h"><span class="kpi-num">Instant</span><span
-                                    class="kpi-lbl">Settlement</span>
+                            <!-- COL 2: VISUAL -->
+                            <div class="col-visual">
+                                <div class="dia-box" style="margin-bottom: 20px;">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                    <div class="dia-title">Investisseur</div>
+                                    <div class="dia-sub">KYC Validé (CRM)</div>
+                                </div>
+                                <div class="connector-v"></div>
+                                <i class="fa-solid fa-lock" style="color:#3b82f6; font-size:18px;"></i>
+                                <div class="connector-v"></div>
+                                <div class="dia-box"
+                                    style="border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);">
+                                    <i class="fa-solid fa-id-card"></i>
+                                    <div class="dia-title">Identity Registry</div>
+                                    <div class="dia-sub">On-Chain Whitelist</div>
+                                </div>
+                            </div>
+
+                            <!-- COL 3: TECH -->
+                            <div class="col-tech">
+                                <div class="tech-header">
+                                    <span><i class="fa-solid fa-terminal"></i> Implémentation</span>
+                                    <span class="tech-badge">Solidity</span>
+                                </div>
+
+                                <div class="code-editor">
+                                    <span class="syntax-purple">function</span> addToWhitelist(address <span
+                                        class="syntax-orange">_investor</span>) <span class="syntax-purple">public
+                                        onlyAdmin</span> {
+                                    <span class="syntax-blue">require</span>(kycProvider.check(_investor), "KYC
+                                    Fail");
+                                    _allowed[_investor] = <span class="syntax-blue">true</span>;
+                                    <span class="syntax-purple">emit</span> InvestorAuth(_investor,
+                                    block.timestamp);
+                                    }
+                                </div>
+
+                                <div class="tech-steps">
+                                    <div class="t-step">
+                                        <div class="t-icon"><i class="fa-solid fa-key"></i></div>
+                                        <div class="t-content">
+                                            <div class="t-title">Wallet Generation</div>
+                                            <div class="t-desc">Création de coffres-forts numériques
+                                                (Fireblocks/Metaco).</div>
+                                        </div>
+                                    </div>
+                                    <div class="t-step">
+                                        <div class="t-icon"><i class="fa-solid fa-file-signature"></i></div>
+                                        <div class="t-content">
+                                            <div class="t-title">Claim Verifiable</div>
+                                            <div class="t-desc">Association cryptographique de l'identité off-chain
+                                                au wallet
+                                                on-chain.</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- COL 2 -->
-                    <div class="col-visual">
-                        <div
-                            style="display:flex; justify-content:space-between; width:100%; max-width:400px; position:relative;">
-                            <div class="dia-box" style="width:140px; border-color:#ef4444;">
-                                <i class="fa-solid fa-file-invoice" style="color:#ef4444"></i>
-                                <div class="dia-title">TITRES</div>
+                    <!-- SLIDE 2 : STRUCTURATION -->
+                    <div class="slide theme-purple">
+                        <div class="slide-grid">
+                            <!-- COL 1 -->
+                            <div class="col-context">
+                                <h2>Structuration</h2>
+                                <span class="subtitle">J-10 • LEGAL ENGINEERING</span>
+
+                                <div class="context-card">
+                                    <div class="context-title">De la Loi au Code</div>
+                                    <p class="context-text">
+                                        Nous définissons les caractéristiques financières (Term Sheet) et les
+                                        inscrivons dans un
+                                        Smart Contract irrévocable.
+                                        C'est la garantie que le code exécutera fidèlement le contrat.
+                                    </p>
+                                    <!-- AUDIT: RISK LAYER -->
+                                    <div
+                                        style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                                        <span
+                                            style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
+                                            & Compliance :</span>
+                                        <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
+                                            <i class="fa-solid fa-file-signature"
+                                                style="color:#ef4444; margin-right:5px;"></i>
+                                            Risque Juridique : Audit de code obligatoire pour certifier l'alignement
+                                            Term Sheet
+                                            / Smart Contract.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="kpi-row">
+                                    <div class="kpi-h"><span class="kpi-num">XS25..</span><span class="kpi-lbl">ISIN
+                                            Code</span>
+                                    </div>
+                                    <div class="kpi-h"><span class="kpi-num">ERC3643</span><span
+                                            class="kpi-lbl">Standard</span>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); 
+                            <!-- COL 2 -->
+                            <div class="col-visual">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <div class="dia-box" style="width:140px;">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                        <div class="dia-title">Term Sheet</div>
+                                        <div class="dia-sub">Legal Prose</div>
+                                    </div>
+                                    <i class="fa-solid fa-arrow-right" style="color:#a855f7"></i>
+                                    <div class="dia-box" style="width:140px; border-color:#a855f7;">
+                                        <i class="fa-solid fa-code"></i>
+                                        <div class="dia-title">Smart Bond</div>
+                                        <div class="dia-sub">Code Immutable</div>
+                                    </div>
+                                </div>
+                                <div
+                                    style="margin-top:30px; display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:300px;">
+                                    <div
+                                        style="background:rgba(168, 85, 247, 0.1); padding:10px; border-radius:8px; font-size:11px; text-align:center;">
+                                        Coupon: <b>3.5%</b></div>
+                                    <div
+                                        style="background:rgba(168, 85, 247, 0.1); padding:10px; border-radius:8px; font-size:11px; text-align:center;">
+                                        Maturity: <b>5Y</b></div>
+                                    <div
+                                        style="background:rgba(168, 85, 247, 0.1); padding:10px; border-radius:8px; font-size:11px; text-align:center;">
+                                        Type: <b>Fixed</b></div>
+                                    <div
+                                        style="background:rgba(168, 85, 247, 0.1); padding:10px; border-radius:8px; font-size:11px; text-align:center;">
+                                        Freq: <b>Annual</b></div>
+                                </div>
+                            </div>
+
+                            <!-- COL 3 -->
+                            <div class="col-tech">
+                                <div class="tech-header">
+                                    <span><i class="fa-solid fa-cogs"></i> Configuration</span>
+                                    <span class="tech-badge">Factory</span>
+                                </div>
+
+                                <div class="code-editor">
+                                    <span class="syntax-purple">constructor</span>(string <span
+                                        class="syntax-orange">_name</span>,
+                                    uint <span class="syntax-orange">_rate</span>) {
+                                    name = "Green Bond 2030";
+                                    couponRate = 350; <span class="syntax-green">// Basis points</span>
+                                    maturityDate = 1893456000;
+                                    status = BondStatus.DRAFT;
+                                    }
+                                </div>
+
+                                <div class="tech-steps">
+                                    <div class="t-step">
+                                        <div class="t-icon"><i class="fa-solid fa-robot"></i></div>
+                                        <div class="t-content">
+                                            <div class="t-title">Automation</div>
+                                            <div class="t-desc">Calcul automatique des dates de paiement (Business
+                                                Day
+                                                Convention).</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3 : PRICING -->
+                    <div class="slide theme-gold">
+                        <div class="slide-grid">
+                            <!-- COL 1 -->
+                            <div class="col-context">
+                                <h2>Pricing & Ops</h2>
+                                <span class="subtitle">J-0 (H-2) • SYNDICATION DESK</span>
+
+                                <div class="context-card">
+                                    <div class="context-title">Intégration Transparente</div>
+                                    <p class="context-text">
+                                        Le Front-Office utilise ses outils habituels (Bloomberg) pour construire le
+                                        livre
+                                        d'ordres.
+                                    </p>
+                                    <!-- AUDIT: RISK LAYER -->
+                                    <div
+                                        style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                                        <span
+                                            style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
+                                            & Compliance :</span>
+                                        <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
+                                            <i class="fa-solid fa-server" style="color:#ef4444; margin-right:5px;"></i>
+                                            Risque Ops : Aucune saisie manuelle. L'Orchestrateur traduit les
+                                            messages FIX en
+                                            transactions Blockchain signées HSM.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="kpi-row">
+                                    <div class="kpi-h"><span class="kpi-num">API</span><span
+                                            class="kpi-lbl">Gateway</span>
+                                    </div>
+                                    <div class="kpi-h"><span class="kpi-num">HSM</span><span
+                                            class="kpi-lbl">Security</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- COL 2 -->
+                            <div class="col-visual">
+                                <div class="dia-box" style="width:220px; margin-bottom:10px;">
+                                    <i class="fa-brands fa-searchengin"></i>
+                                    <div class="dia-title">LEGACY SYSTEMS</div>
+                                    <div class="dia-sub">Bloomberg / Calypso (FIX)</div>
+                                </div>
+                                <i class="fa-solid fa-arrow-down" style="color:#f59e0b; margin:5px 0;"></i>
+                                <div class="dia-box"
+                                    style="width:240px; border-color:#f59e0b; background:rgba(245, 158, 11, 0.1);">
+                                    <i class="fa-solid fa-microchip"></i>
+                                    <div class="dia-title">ORCHESTRATOR NODE</div>
+                                    <div class="dia-sub">Translation Logic & Key Mgmt</div>
+                                </div>
+                                <i class="fa-solid fa-arrow-down" style="color:#f59e0b; margin:5px 0;"></i>
+                                <div class="dia-box" style="width:220px; border-style:dashed; opacity:0.7;">
+                                    <i class="fa-solid fa-network-wired"></i>
+                                    <div class="dia-title">BLOCKCHAIN</div>
+                                    <div class="dia-sub">Pending Transaction</div>
+                                </div>
+                            </div>
+
+                            <!-- COL 3 -->
+                            <div class="col-tech">
+                                <div class="tech-header">
+                                    <span><i class="fa-solid fa-network-wired"></i> Flux de Données</span>
+                                    <span class="tech-badge">REST API</span>
+                                </div>
+
+                                <div class="code-editor">
+                                    <span class="syntax-green">POST</span> /api/v1/issuance/allocate
+                                    {
+                                    "isin": "FR0078X...",
+                                    "investors": [
+                                    {"id": "Inv_A", "amount": 5000000},
+                                    {"id": "Inv_B", "amount": 2500000}
+                                    ]
+                                    }
+                                </div>
+
+                                <div class="tech-steps">
+                                    <div class="t-step">
+                                        <div class="t-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                                        <div class="t-content">
+                                            <div class="t-title">HSM Signing</div>
+                                            <div class="t-desc">La clé privée de la Banque signe la transaction sans
+                                                jamais être
+                                                exposée.</div>
+                                        </div>
+                                    </div>
+                                    <div class="t-step">
+                                        <div class="t-icon"><i class="fa-solid fa-gas-pump"></i></div>
+                                        <div class="t-content">
+                                            <div class="t-title">Gas Mgmt</div>
+                                            <div class="t-desc">Gestion automatique des frais de réseau (ETH/MATIC).
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4 : MINTING -->
+                    <div class="slide theme-red">
+                        <div class="slide-grid">
+                            <!-- COL 1 -->
+                            <div class="col-context">
+                                <h2>Émission (Minting)</h2>
+                                <span class="subtitle">J-0 (H-0) • CLOSING</span>
+
+                                <div class="context-card">
+                                    <div class="context-title">Création des Titres</div>
+                                    <p class="context-text">
+                                        L'actif numérique est généré. Juridiquement, c'est l'émission primaire.
+                                        Les tokens sont créés et pré-positionnés (Bloqués).
+                                    </p>
+                                    <!-- AUDIT: RISK LAYER -->
+                                    <div
+                                        style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                                        <span
+                                            style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
+                                            & Compliance :</span>
+                                        <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
+                                            <i class="fa-solid fa-ban" style="color:#ef4444; margin-right:5px;"></i>
+                                            Contrôle : Le Smart Contract empêche tout transfert avant le "Settlement
+                                            Trigger"
+                                            (Protection investisseur).
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="kpi-row">
+                                    <div class="kpi-h"><span class="kpi-num">T+0</span><span
+                                            class="kpi-lbl">Issuance</span>
+                                    </div>
+                                    <div class="kpi-h"><span class="kpi-num">DvP</span><span
+                                            class="kpi-lbl">Pending</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- COL 2 -->
+                            <div class="col-visual">
+                                <i class="fa-solid fa-fingerprint"
+                                    style="font-size:100px; color:#ef4444; filter:drop-shadow(0 0 20px rgba(239,68,68,0.4)); animation: pulseGlow 2s infinite;"></i>
+                                <div style="margin-top:30px; text-align:center;">
+                                    <div style="font-size:24px; font-weight:800; color:white;">TOKEN GÉNÉRÉ</div>
+                                    <div
+                                        style="font-family:'JetBrains Mono'; color:#ef4444; background:rgba(239,68,68,0.1); padding:5px 15px; border-radius:4px; margin-top:10px;">
+                                        STATUS: LOCKED</div>
+                                </div>
+                            </div>
+
+                            <!-- COL 3 -->
+                            <div class="col-tech">
+                                <div class="tech-header">
+                                    <span><i class="fa-solid fa-cube"></i> Blockchain State</span>
+                                    <span class="tech-badge">Ledger</span>
+                                </div>
+
+                                <div class="code-editor">
+                                    <span class="syntax-purple">event</span> TokensMinted(address <span
+                                        class="syntax-orange">operator</span>, uint <span
+                                        class="syntax-orange">amount</span>);
+                                    <span class="syntax-green">// State Update:</span>
+                                    balances[Inv_A] = 1000; <span class="syntax-purple">(Frozen)</span>
+                                    balances[Inv_B] = 500; <span class="syntax-purple">(Frozen)</span>
+                                    totalSupply = 1500;
+                                </div>
+
+                                <div class="tech-steps">
+                                    <div class="t-step">
+                                        <div class="t-icon"><i class="fa-solid fa-lock"></i></div>
+                                        <div class="t-content">
+                                            <div class="t-title">Escrow Mechanism</div>
+                                            <div class="t-desc">Les titres ne sont pas négociables tant que le Cash
+                                                n'est pas
+                                                reçu.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5 : SETTLEMENT -->
+                    <div class="slide theme-green">
+                        <div class="slide-grid">
+                            <!-- COL 1 -->
+                            <div class="col-context">
+                                <h2>Règlement (DvP)</h2>
+                                <span class="subtitle">T+0 • POST-TRADE</span>
+
+                                <div class="context-card">
+                                    <div class="context-title">L'Échange Atomique</div>
+                                    <p class="context-text">
+                                        La magie du Smart Contract. Dès confirmation du paiement Cash, les titres
+                                        sont libérés.
+                                    </p>
+                                    <!-- AUDIT: RISK LAYER -->
+                                    <div
+                                        style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                                        <span
+                                            style="font-size:10px; color:#fca5a5; font-weight:700; text-transform:uppercase;">Risk
+                                            & Compliance :</span>
+                                        <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
+                                            <i class="fa-solid fa-gavel" style="color:#ef4444; margin-right:5px;"></i>
+                                            Finalité : Irrévocabilité de la transaction garantie par la Blockchain
+                                            (Settlement
+                                            Finality Directive).
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="kpi-row">
+                                    <div class="kpi-h"><span class="kpi-num">0%</span><span class="kpi-lbl">Risk</span>
+                                    </div>
+                                    <div class="kpi-h"><span class="kpi-num">Instant</span><span
+                                            class="kpi-lbl">Settlement</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- COL 2 -->
+                            <div class="col-visual">
+                                <div
+                                    style="display:flex; justify-content:space-between; width:100%; max-width:400px; position:relative;">
+                                    <div class="dia-box" style="width:140px; border-color:#ef4444;">
+                                        <i class="fa-solid fa-file-invoice" style="color:#ef4444"></i>
+                                        <div class="dia-title">TITRES</div>
+                                    </div>
+
+                                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); 
                                     width:60px; height:60px; background:#10b981; border-radius:50%; 
                                     display:grid; place-items:center; box-shadow:0 0 30px rgba(16,185,129,0.4);">
-                                <i class="fa-solid fa-rotate" style="color:white; font-size:24px;"></i>
+                                        <i class="fa-solid fa-rotate" style="color:white; font-size:24px;"></i>
+                                    </div>
+
+                                    <div class="dia-box" style="width:140px; border-color:#f59e0b;">
+                                        <i class="fa-solid fa-coins" style="color:#f59e0b"></i>
+                                        <div class="dia-title">CASH</div>
+                                    </div>
+                                </div>
+                                <div
+                                    style="margin-top:40px; color:#10b981; font-weight:800; letter-spacing:2px; animation:pulseGlow 2s infinite;">
+                                    TRANSACTION FINALIZED</div>
                             </div>
 
-                            <div class="dia-box" style="width:140px; border-color:#f59e0b;">
-                                <i class="fa-solid fa-coins" style="color:#f59e0b"></i>
-                                <div class="dia-title">CASH</div>
-                            </div>
-                        </div>
-                        <div
-                            style="margin-top:40px; color:#10b981; font-weight:800; letter-spacing:2px; animation:pulseGlow 2s infinite;">
-                            TRANSACTION FINALIZED</div>
-                    </div>
+                            <!-- COL 3 -->
+                            <div class="col-tech">
+                                <div class="tech-header">
+                                    <span><i class="fa-solid fa-check-double"></i> Settlement Logic</span>
+                                    <span class="tech-badge">Atomic</span>
+                                </div>
 
-                    <!-- COL 3 -->
-                    <div class="col-tech">
-                        <div class="tech-header">
-                            <span><i class="fa-solid fa-check-double"></i> Settlement Logic</span>
-                            <span class="tech-badge">Atomic</span>
-                        </div>
+                                <div class="code-editor">
+                                    <span class="syntax-purple">function</span> executeDvP() {
+                                    <span class="syntax-blue">require</span>(paymentReceived == <span
+                                        class="syntax-blue">true</span>);
+                                    unfreeze(investors);
+                                    <span class="syntax-purple">emit</span> SettlementCompleted(block.timestamp);
+                                    }
+                                </div>
 
-                        <div class="code-editor">
-                            <span class="syntax-purple">function</span> executeDvP() {
-                            <span class="syntax-blue">require</span>(paymentReceived == <span
-                                class="syntax-blue">true</span>);
-                            unfreeze(investors);
-                            <span class="syntax-purple">emit</span> SettlementCompleted(block.timestamp);
-                            }
-                        </div>
-
-                        <div class="tech-steps">
-                            <div class="t-step">
-                                <div class="t-icon"><i class="fa-solid fa-check"></i></div>
-                                <div class="t-content">
-                                    <div class="t-title">Réconciliation</div>
-                                    <div class="t-desc">Mise à jour immédiate des registres. Aucune intervention
-                                        manuelle.</div>
+                                <div class="tech-steps">
+                                    <div class="t-step">
+                                        <div class="t-icon"><i class="fa-solid fa-check"></i></div>
+                                        <div class="t-content">
+                                            <div class="t-title">Réconciliation</div>
+                                            <div class="t-desc">Mise à jour immédiate des registres. Aucune
+                                                intervention
+                                                manuelle.</div>
+                                        </div>
+                                    </div>
+                                    <div class="t-step">
+                                        <div class="t-icon"><i class="fa-solid fa-bell"></i></div>
+                                        <div class="t-content">
+                                            <div class="t-title">Notification</div>
+                                            <div class="t-desc">Envoi des confirmations (MT544) aux systèmes
+                                                Back-Office.</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="t-step">
-                                <div class="t-icon"><i class="fa-solid fa-bell"></i></div>
-                                <div class="t-content">
-                                    <div class="t-title">Notification</div>
-                                    <div class="t-desc">Envoi des confirmations (MT544) aux systèmes Back-Office.</div>
-                                </div>
-                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
-        </div>
-    </div>
+            <div class="slider-controls">
+                <button class="btn-control" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="btn-control" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
 
-    <div class="slider-controls">
-        <button class="btn-control" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="btn-control" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
+            <script>
+                let currentSlide = 0;
+                const totalSlides = 6;
+                const track = document.getElementById('track');
+                const slides = document.querySelectorAll('.slide');
+                const navSteps = document.querySelectorAll('.nav-step');
+                const stepDisplay = document.getElementById('currentStepDisplay');
 
-    <script>
-        let currentSlide = 0;
-        const totalSlides = 6;
-        const track = document.getElementById('track');
-        const slides = document.querySelectorAll('.slide');
-        const navSteps = document.querySelectorAll('.nav-step');
-        const stepDisplay = document.getElementById('currentStepDisplay');
+                function update() {
+                    track.style.transform = `translateX(-${currentSlide * 100}%)`;
 
-        function update() {
-            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                    slides.forEach((slide, index) => {
+                        if (index === currentSlide) slide.classList.add('active');
+                        else slide.classList.remove('active');
+                    });
 
-            slides.forEach((slide, index) => {
-                if (index === currentSlide) slide.classList.add('active');
-                else slide.classList.remove('active');
-            });
+                    navSteps.forEach((step, index) => {
+                        if (index === currentSlide) step.classList.add('active');
+                        else step.classList.remove('active');
+                    });
 
-            navSteps.forEach((step, index) => {
-                if (index === currentSlide) step.classList.add('active');
-                else step.classList.remove('active');
-            });
+                    if (currentSlide === 0) stepDisplay.innerText = "GLOBAL";
+                    else stepDisplay.innerText = "0" + currentSlide;
+                }
 
-            if (currentSlide === 0) stepDisplay.innerText = "GLOBAL";
-            else stepDisplay.innerText = "0" + currentSlide;
-        }
+                function goToSlide(index) {
+                    if (index >= 0 && index < totalSlides) {
+                        currentSlide = index;
+                        update();
+                    }
+                }
 
-        function goToSlide(index) {
-            if (index >= 0 && index < totalSlides) {
-                currentSlide = index;
+                function nextSlide() {
+                    if (currentSlide < totalSlides - 1) {
+                        currentSlide++;
+                        update();
+                    }
+                }
+
+                function prevSlide() {
+                    if (currentSlide > 0) {
+                        currentSlide--;
+                        update();
+                    }
+                }
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+                    if (e.key === 'ArrowLeft') prevSlide();
+                });
+
                 update();
-            }
-        }
+            </script>
 
-        function nextSlide() {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                update();
-            }
-        }
+            <!-- EXPORT BUTTON -->
+            <div style="text-align:center; margin-bottom:40px; position:relative; z-index:100;">
+                <button onclick="exportLifecyclePPT()"
+                    style="padding:12px 24px; font-size:14px; cursor:pointer; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); color:white; border-radius:30px; font-family:'Outfit','sans-serif'; font-weight:600; transition:all 0.3s; display:inline-flex; align-items:center; gap:10px;">
+                    <i class="fa-solid fa-file-powerpoint" style="color:#f59e0b"></i> Exporter la présentation (PPTX)
+                </button>
+            </div>
 
-        function prevSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                update();
-            }
-        }
+            <!-- PPTX Gen Library -->
+            <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.10.0/dist/pptxgen.bundle.js"></script>
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
-            if (e.key === 'ArrowLeft') prevSlide();
-        });
+            <script>
+                function exportLifecyclePPT() {
+                    let pptx = new PptxGenJS();
+                    pptx.author = "DCM Digital";
+                    pptx.company = "Blockchain Presentation";
+                    pptx.title = "Digital Bond Lifecycle – Tokenized Issuance";
+                    pptx.layout = "LAYOUT_16x9";
 
-        update();
-    </script>
+                    // Define Brand Colors
+                    const COLOR_BG = "020617";
+                    const COLOR_TEXT = "F8FAFC";
+                    const COLOR_ACCENT = "3B82F6";
+                    const COLOR_ACCENT_TEXT = "FFFFFF";
+                    const COLOR_CARD_BG = "0F172A";
 
-    <!-- EXPORT BUTTON -->
-    <div style="text-align:center; margin-bottom:40px; position:relative; z-index:100;">
-        <button onclick="exportLifecyclePPT()"
-            style="padding:12px 24px; font-size:14px; cursor:pointer; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); color:white; border-radius:30px; font-family:'Outfit','sans-serif'; font-weight:600; transition:all 0.3s; display:inline-flex; align-items:center; gap:10px;">
-            <i class="fa-solid fa-file-powerpoint" style="color:#f59e0b"></i> Exporter la présentation (PPTX)
-        </button>
-    </div>
+                    // ---- MASTER SLIDE (Theme) ----
+                    // Header Bar height increased to 0.8 inches to contain text comfortably
+                    pptx.defineSlideMaster({
+                        title: "MASTER_SLIDE",
+                        background: { color: COLOR_BG },
+                        objects: [
+                            { rect: { x: 0, y: 0, w: "100%", h: 0.8, fill: COLOR_ACCENT } }, // Top Line Thicker
+                            { text: { text: "DIGITAL BOND LIFECYCLE (PILOT)", options: { x: 0.5, y: 0, w: 5, h: 0.8, fontSize: 14, color: COLOR_ACCENT_TEXT, bold: true, valign: "middle" } } },
+                            { text: { text: "CONFIDENTIAL", options: { x: 11.5, y: 0, w: 1.5, h: 0.8, fontSize: 10, color: "FCA5A5", bold: true, valign: "middle", align: "right" } } },
+                            // Footer line
+                            { rect: { x: 0, y: 7.3, w: "100%", h: 0.05, fill: "334155" } },
+                            { text: { text: "© 2026 DCM Digital - Internal Use Only", options: { x: 0, y: 7.35, w: "100%", h: 0.2, fontSize: 9, color: "64748B", align: "center" } } }
+                        ]
+                    });
 
-    <!-- PPTX Gen Library -->
-    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.10.0/dist/pptxgen.bundle.js"></script>
+                    // ---- SLIDE 0 : Titre ----
+                    let slideTitle = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+                    slideTitle.addText("Digital Bond Lifecycle", {
+                        x: 0,
+                        y: 2.5,
+                        w: "100%",
+                        fontSize: 44,
+                        bold: true,
+                        color: COLOR_TEXT,
+                        align: "center"
+                    });
+                    slideTitle.addText(
+                        "Chronologie d’une émission tokenisée en environnement bancaire",
+                        { x: 0, y: 3.5, w: "100%", fontSize: 20, color: "94A3B8", align: "center" }
+                    );
 
-    <script>
-        function exportLifecyclePPT() {
-            let pptx = new PptxGenJS();
-            pptx.author = "DCM Digital";
-            pptx.company = "Blockchain Presentation";
-            pptx.title = "Digital Bond Lifecycle – Tokenized Issuance";
-            pptx.layout = "LAYOUT_16x9";
+                    // ---- Template fonction ----
+                    function addStep(title, content, stepNum) {
+                        let slide = pptx.addSlide({ masterName: "MASTER_SLIDE" });
 
-            // Define Brand Colors
-            const COLOR_BG = "020617";
-            const COLOR_TEXT = "F8FAFC";
-            const COLOR_ACCENT = "3B82F6";
-            const COLOR_ACCENT_TEXT = "FFFFFF";
-            const COLOR_CARD_BG = "0F172A";
+                        // Add a "Card" background for content to sit inside
+                        // Standard 16x9 size is 10 x 5.625 inches
+                        let cardX = 0.5;
+                        let cardY = 1.2;
+                        let cardW = 9.0;
+                        let cardH = 3.8;
 
-            // ---- MASTER SLIDE (Theme) ----
-            // Header Bar height increased to 0.8 inches to contain text comfortably
-            pptx.defineSlideMaster({
-                title: "MASTER_SLIDE",
-                background: { color: COLOR_BG },
-                objects: [
-                    { rect: { x: 0, y: 0, w: "100%", h: 0.8, fill: COLOR_ACCENT } }, // Top Line Thicker
-                    { text: { text: "DIGITAL BOND LIFECYCLE (PILOT)", options: { x: 0.5, y: 0, w: 5, h: 0.8, fontSize: 14, color: COLOR_ACCENT_TEXT, bold: true, valign: "middle" } } },
-                    { text: { text: "CONFIDENTIAL", options: { x: 11.5, y: 0, w: 1.5, h: 0.8, fontSize: 10, color: "FCA5A5", bold: true, valign: "middle", align: "right" } } },
-                    // Footer line
-                    { rect: { x: 0, y: 7.3, w: "100%", h: 0.05, fill: "334155" } },
-                    { text: { text: "© 2026 DCM Digital - Internal Use Only", options: { x: 0, y: 7.35, w: "100%", h: 0.2, fontSize: 9, color: "64748B", align: "center" } } }
-                ]
-            });
+                        // Step Number (BIG Background)
+                        slide.addText(stepNum, {
+                            x: 0.2, y: 0.9, fontSize: 50, color: "1E293B", bold: true, opacity: 0.3
+                        });
 
-            // ---- SLIDE 0 : Titre ----
-            let slideTitle = pptx.addSlide({ masterName: "MASTER_SLIDE" });
-            slideTitle.addText("Digital Bond Lifecycle", {
-                x: 0,
-                y: 2.5,
-                w: "100%",
-                fontSize: 44,
-                bold: true,
-                color: COLOR_TEXT,
-                align: "center"
-            });
-            slideTitle.addText(
-                "Chronologie d’une émission tokenisée en environnement bancaire",
-                { x: 0, y: 3.5, w: "100%", fontSize: 20, color: "94A3B8", align: "center" }
-            );
+                        // Content Card Background
+                        // Transparency is 0-100% (50 = 50%)
+                        slide.addShape(pptx.ShapeType.rect, {
+                            x: cardX, y: cardY, w: cardW, h: cardH,
+                            fill: { color: COLOR_CARD_BG, transparency: 50 },
+                            line: { color: "334155", width: 1 }
+                        });
 
-            // ---- Template fonction ----
-            function addStep(title, content, stepNum) {
-                let slide = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+                        // Title
+                        slide.addText(title, {
+                            x: cardX + 0.3,
+                            y: cardY + 0.3,
+                            w: cardW - 0.6,
+                            fontSize: 22,
+                            bold: true,
+                            color: COLOR_ACCENT
+                        });
 
-                // Add a "Card" background for content to sit inside
-                // Standard 16x9 size is 10 x 5.625 inches
-                let cardX = 0.5;
-                let cardY = 1.2;
-                let cardW = 9.0;
-                let cardH = 3.8;
+                        // Divider inside card
+                        slide.addShape(pptx.ShapeType.line, {
+                            x: cardX + 0.3, y: cardY + 0.8, w: cardW - 0.6, h: 0,
+                            line: { color: "334155", width: 1 }
+                        });
 
-                // Step Number (BIG Background)
-                slide.addText(stepNum, {
-                    x: 0.2, y: 0.9, fontSize: 50, color: "1E293B", bold: true, opacity: 0.3
-                });
+                        // Content
+                        slide.addText(content, {
+                            x: cardX + 0.3,
+                            y: cardY + 1.0,
+                            w: cardW - 0.6,
+                            fontSize: 14,
+                            color: COLOR_TEXT,
+                            lineSpacing: 24,
+                            valign: "top"
+                        });
+                    }
 
-                // Content Card Background
-                // Transparency is 0-100% (50 = 50%)
-                slide.addShape(pptx.ShapeType.rect, {
-                    x: cardX, y: cardY, w: cardW, h: cardH,
-                    fill: { color: COLOR_CARD_BG, transparency: 50 },
-                    line: { color: "334155", width: 1 }
-                });
+                    // ---- SLIDES LIFECYCLE ----
+                    addStep(
+                        "1. Investor Onboarding",
+                        "• KYC / AML : Vérification d'identité off-chain.\n• Whitelisting : Inscription des adresses Ethereum autorisées (Identity Registry).\n• Wallet Setup : Création des coffres-forts numériques (Fireblocks).",
+                        "01"
+                    );
 
-                // Title
-                slide.addText(title, {
-                    x: cardX + 0.3,
-                    y: cardY + 0.3,
-                    w: cardW - 0.6,
-                    fontSize: 22,
-                    bold: true,
-                    color: COLOR_ACCENT
-                });
+                    addStep(
+                        "2. Structuration (Legal)",
+                        "• Term Sheet : Définition des caractéristiques (Taux, Maturité).\n• Smart Contract : Traduction des clauses juridiques en code Solidity.\n• Audit : Vérification de la conformité du code.",
+                        "02"
+                    );
 
-                // Divider inside card
-                slide.addShape(pptx.ShapeType.line, {
-                    x: cardX + 0.3, y: cardY + 0.8, w: cardW - 0.6, h: 0,
-                    line: { color: "334155", width: 1 }
-                });
+                    addStep(
+                        "3. Pricing & Allocation",
+                        "• Bookbuilding : Utilisation des outils classiques (Bloomberg).\n• Ordres : Construction du livre d'ordres off-chain.\n• Bridge : Transmission automatique des allocations vers le noeud blockchain.",
+                        "03"
+                    );
 
-                // Content
-                slide.addText(content, {
-                    x: cardX + 0.3,
-                    y: cardY + 1.0,
-                    w: cardW - 0.6,
-                    fontSize: 14,
-                    color: COLOR_TEXT,
-                    lineSpacing: 24,
-                    valign: "top"
-                });
-            }
+                    addStep(
+                        "4. Token Issuance (Minting)",
+                        "• Émission : Génération des tokens (ERC-3643).\n• Statut : Les titres sont créés mais 'Freezed' (bloqués) en attente du paiement.\n• Registre : Mise à jour du Distributed Ledger.",
+                        "04"
+                    );
 
-            // ---- SLIDES LIFECYCLE ----
-            addStep(
-                "1. Investor Onboarding",
-                "• KYC / AML : Vérification d'identité off-chain.\n• Whitelisting : Inscription des adresses Ethereum autorisées (Identity Registry).\n• Wallet Setup : Création des coffres-forts numériques (Fireblocks).",
-                "01"
-            );
+                    addStep(
+                        "5. Settlement (DvP)",
+                        "• Atomic Swap : Échange simultané Cash vs Titres.\n• Risque : Élimination totale du risque de contrepartie.\n• Finalité : Irrévocabilité immédiate (T+0).",
+                        "05"
+                    );
 
-            addStep(
-                "2. Structuration (Legal)",
-                "• Term Sheet : Définition des caractéristiques (Taux, Maturité).\n• Smart Contract : Traduction des clauses juridiques en code Solidity.\n• Audit : Vérification de la conformité du code.",
-                "02"
-            );
+                    addStep(
+                        "6. Post-Trade & Lifecycle",
+                        "• Coupons : Calcul et paiement automatisé par Smart Contract.\n• Reporting : Transparence temps réel pour le Régulateur.\n• Marché Secondaire : Liquidité améliorée via P2P.",
+                        "06"
+                    );
 
-            addStep(
-                "3. Pricing & Allocation",
-                "• Bookbuilding : Utilisation des outils classiques (Bloomberg).\n• Ordres : Construction du livre d'ordres off-chain.\n• Bridge : Transmission automatique des allocations vers le noeud blockchain.",
-                "03"
-            );
-
-            addStep(
-                "4. Token Issuance (Minting)",
-                "• Émission : Génération des tokens (ERC-3643).\n• Statut : Les titres sont créés mais 'Freezed' (bloqués) en attente du paiement.\n• Registre : Mise à jour du Distributed Ledger.",
-                "04"
-            );
-
-            addStep(
-                "5. Settlement (DvP)",
-                "• Atomic Swap : Échange simultané Cash vs Titres.\n• Risque : Élimination totale du risque de contrepartie.\n• Finalité : Irrévocabilité immédiate (T+0).",
-                "05"
-            );
-
-            addStep(
-                "6. Post-Trade & Lifecycle",
-                "• Coupons : Calcul et paiement automatisé par Smart Contract.\n• Reporting : Transparence temps réel pour le Régulateur.\n• Marché Secondaire : Liquidité améliorée via P2P.",
-                "06"
-            );
-
-            // ---- Export ----
-            pptx.writeFile({ fileName: "Digital_Bond_Lifecycle_Pilot__JoanLab.pptx" });
-        }
-    </script>
+                    // ---- Export ----
+                    pptx.writeFile({ fileName: "Digital_Bond_Lifecycle_Pilot__JoanLab.pptx" });
+                }
+            </script>
 
 </body>
 
