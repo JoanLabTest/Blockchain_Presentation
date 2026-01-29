@@ -380,3 +380,119 @@ header {
 .theme-green {
     --active-color: #10b981;
 }
+
+/* --- GLOBAL OVERVIEW SLIDE (Slide 0) --- */
+.slide-overview {
+    width: 100%;
+    max-width: 1600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.overview-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    width: 100%;
+    position: relative;
+}
+
+/* Timeline Axis Line for Overview */
+.overview-axis {
+    position: absolute;
+    top: 110px;
+    left: 5%;
+    width: 90%;
+    height: 4px;
+    background: var(--border);
+    z-index: 0;
+}
+
+.overview-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.overview-step:hover {
+    transform: translateY(-10px);
+}
+
+.ov-badge {
+    background: var(--border);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono';
+    margin-bottom: 10px;
+}
+
+.ov-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--bg-dark);
+    border: 3px solid var(--border);
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.overview-step:hover .ov-dot {
+    border-color: var(--active-color);
+    box-shadow: 0 0 10px var(--active-color);
+}
+
+.ov-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.overview-step:hover .ov-card {
+    border-color: var(--active-color);
+}
+
+.ov-icon {
+    font-size: 24px;
+    color: var(--active-color);
+    margin-bottom: 5px;
+}
+
+.ov-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: white;
+    text-transform: uppercase;
+}
+
+.ov-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
