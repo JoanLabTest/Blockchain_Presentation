@@ -1,0 +1,118 @@
+{
+    "page": "lifecycle",
+    "title": "Le Cycle de Vie \"End-to-End\"",
+    "subtitle": "Une chaîne de valeur entièrement numérisée, de l'entrée en relation jusqu'au règlement final.",
+    "global_schema": {
+        "legacy": {
+            "title": "Legacy Bank",
+            "details": [
+                "Core Banking (T24)",
+                "Payment Engine",
+                "CRM / KYC"
+            ]
+        },
+        "orchestrator": {
+            "title": "Orchestrator",
+            "details": [
+                "API Gateway",
+                "Minting Engine",
+                "Key Management"
+            ]
+        },
+        "blockchain": {
+            "title": "Blockchain",
+            "details": [
+                "Ethereum / RPC",
+                "Smart Contracts",
+                "Token & Identity"
+            ]
+        }
+    },
+    "steps": [
+        {
+            "id": 1,
+            "title": "Onboarding",
+            "subtitle": "J-30 • CLIENT & COMPLIANCE",
+            "context": "Garantir que seuls les investisseurs éligibles (KYC validé) peuvent détenir les tokens.",
+            "risk_compliance": "Risque AML/CFT : Mitigé par Whitelisting on-chain (Sanctions list check).",
+            "kpi": [
+                {
+                    "label": "Identified",
+                    "value": "100%"
+                },
+                {
+                    "label": "Secured",
+                    "value": "MPC"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Structuration",
+            "subtitle": "J-10 • LEGAL ENGINEERING",
+            "context": "Nous définissons les caractéristiques financières (Term Sheet) et les inscrivons dans un Smart Contract irrévocable.",
+            "risk_compliance": "Risque Juridique : Audit de code obligatoire pour certifier l'alignement Term Sheet / Smart Contract.",
+            "kpi": [
+                {
+                    "label": "ISIN Code",
+                    "value": "XS25.."
+                },
+                {
+                    "label": "Standard",
+                    "value": "ERC3643"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Pricing & Ops",
+            "subtitle": "J-0 (H-2) • SYNDICATION DESK",
+            "context": "Le Front-Office utilise ses outils habituels (Bloomberg) pour construire le livre d'ordres.",
+            "risk_compliance": "Risque Ops : Aucune saisie manuelle. L'Orchestrateur traduit les messages FIX en transactions Blockchain signées HSM.",
+            "kpi": [
+                {
+                    "label": "Gateway",
+                    "value": "API"
+                },
+                {
+                    "label": "Security",
+                    "value": "HSM"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "title": "Émission (Minting)",
+            "subtitle": "J-0 (H-0) • CLOSING",
+            "context": "L'actif numérique est généré. Juridiquement, c'est l'émission primaire. Les tokens sont créés et pré-positionnés (Bloqués).",
+            "risk_compliance": "Contrôle : Le Smart Contract empêche tout transfert avant le 'Settlement Trigger' (Protection investisseur).",
+            "kpi": [
+                {
+                    "label": "Issuance",
+                    "value": "T+0"
+                },
+                {
+                    "label": "Pending",
+                    "value": "DvP"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "title": "Règlement (DvP)",
+            "subtitle": "T+0 • POST-TRADE",
+            "context": "La magie du Smart Contract. Dès confirmation du paiement Cash, les titres sont libérés.",
+            "risk_compliance": "Finalité : Irrévocabilité de la transaction garantie par la Blockchain (Settlement Finality Directive).",
+            "kpi": [
+                {
+                    "label": "Risk",
+                    "value": "0%"
+                },
+                {
+                    "label": "Settlement",
+                    "value": "Instant"
+                }
+            ]
+        }
+    ]
+}
