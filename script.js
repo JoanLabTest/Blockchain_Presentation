@@ -338,38 +338,70 @@ function closeWalletModal() {
     }
 }
 
-function simulateConnection(provider) {
+async function simulateConnection(provider) {
     const status = document.getElementById('walletStatus');
     if (!status) return;
 
-    status.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Connecting to ${provider}...`;
-    status.style.color = '#3b82f6';
+    // Helper for delay
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    // Simulate network delay
+    // STEP 1: Requesting Access
+    status.innerHTML = `
+        <div style="text-align:left; font-size:14px; color:#94a3b8; background:rgba(255,255,255,0.05); padding:15px; border-radius:8px;">
+            <div style="margin-bottom:8px;">
+                <i class="fas fa-circle-notch fa-spin" style="color:#3b82f6; width:20px;"></i> 
+                <span style="color:#e2e8f0;">Requesting Access...</span>
+            </div>
+            <div style="font-size:12px; color:#64748b; margin-left:24px;">Connection to ${provider} pending approval.</div>
+        </div>`;
+
+    await wait(1500);
+
+    // STEP 2: Signing Message
+    status.innerHTML = `
+        <div style="text-align:left; font-size:14px; color:#94a3b8; background:rgba(255,255,255,0.05); padding:15px; border-radius:8px;">
+            <div style="margin-bottom:8px; display:flex; align-items:center;">
+                <i class="fas fa-check-circle" style="color:#10b981; width:20px;"></i> 
+                <span style="color:#64748b; text-decoration:line-through;">Access Granted</span>
+            </div>
+            <div style="margin-bottom:8px;">
+                <i class="fas fa-file-signature fa-bounce" style="color:#f59e0b; width:20px;"></i> 
+                <span style="color:#e2e8f0;">Signing Message...</span>
+            </div>
+            <div style="font-size:12px; color:#f59e0b; margin-left:24px;">
+                "Authentication required. Please sign to prove ownership."
+            </div>
+        </div>`;
+    
+    await wait(2000);
+
+    // STEP 3: Success
+    status.innerHTML = `
+        <div style="text-align:left; font-size:14px; color:#94a3b8; background:rgba(255,255,255,0.05); padding:15px; border-radius:8px;">
+            <div style="margin-bottom:8px;">
+                <i class="fas fa-check-circle" style="color:#10b981; width:20px;"></i> 
+                <span style="color:#10b981;">Successfully Connected!</span>
+            </div>
+             <div style="font-size:12px; color:#64748b; margin-left:24px;">Session Token Generated.</div>
+        </div>`;
+    
+    await wait(1000);
+
+    // Generate random address like 0x71C...9A2
+    const randomAddr = '0x' + Array(40).fill(0).map(x => Math.random().toString(16)[2]).join('').substring(0, 4) + '...' + Array(4).fill(0).map(x => Math.random().toString(16)[2]).join('');
+
+    // Persist
+    localStorage.setItem('dcm_wallet_connected', 'true');
+    localStorage.setItem('dcm_wallet_address', randomAddr);
+    localStorage.setItem('dcm_wallet_provider', provider);
+
+    // Update UI
+    updateWalletUI(randomAddr);
+
+    // Close modal after short delay
     setTimeout(() => {
-        // EDUCATIONAL TOOLTIP
-        alert("🎓 CONCEPT CLÉ : L'Adresse Publique\n\nEn connectant votre Wallet, vous partagez uniquement votre 'clé publique' (comme un IBAN). Votre 'clé privée' (votre mot de passe) ne quitte jamais votre appareil.");
-
-        status.innerHTML = `<i class="fas fa-check-circle"></i> Connected!`;
-        status.style.color = '#10b981';
-
-        // Generate random address like 0x71C...9A2
-        const randomAddr = '0x' + Array(40).fill(0).map(x => Math.random().toString(16)[2]).join('').substring(0, 4) + '...' + Array(4).fill(0).map(x => Math.random().toString(16)[2]).join('');
-
-        // Persist
-        localStorage.setItem('dcm_wallet_connected', 'true');
-        localStorage.setItem('dcm_wallet_address', randomAddr);
-        localStorage.setItem('dcm_wallet_provider', provider);
-
-        // Update UI
-        updateWalletUI(randomAddr);
-
-        // Close modal after short delay
-        setTimeout(() => {
-            closeWalletModal();
-        }, 1000);
-
-    }, 1500);
+        closeWalletModal();
+    }, 1000);
 }
 
 function checkWalletConnection() {
