@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Sandbox | Blockchain Presentation</title>
+    <link rel="stylesheet" href="styles-sandbox.css">
+    <link rel="icon" href="favicon.ico">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <header>
+            <div class="logo-dev">
+                <i class="fas fa-terminal"></i> DEV_MODE_V2.0
+            </div>
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> RETURN_TO_GUI
+            </a>
+        </header>
+
+        <!-- MODULE 1: WALLET CONNECT -->
+        <div class="dev-module">
+            <div class="module-title">MODULE_01: WEB3_CONNECTION</div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <h3 style="margin-top:0;">Wallet Integration</h3>
+                    <p style="font-size: 12px; color: #888;">Simulates a connection to an Ethereum-compatible wallet
+                        (Metamask, Rabby).</p>
+                    <div id="wallet-status" style="margin-top: 15px; color: #666;">Status: DISCONNECTED</div>
+                    <div id="wallet-address" style="font-size: 12px; margin-top: 5px;"></div>
+                </div>
+                <button id="btn-connect" class="btn-term" onclick="simulateConnect()">
+                    [ CONNECT_WALLET ]
+                </button>
+            </div>
+        </div>
+
+        <!-- MODULE 2: TOKEN FACTORY -->
+        <div class="dev-module">
+            <div class="module-title">MODULE_02: SMART_CONTRACT_INTERACTION</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+
+                <!-- INPUT FORM -->
+                <div>
+                    <h3 style="margin-top:0;">Mint Digital Bond</h3>
+                    <label>ISIN Code</label>
+                    <input type="text" id="isinInput" value="FR001400H2O3" placeholder="Ex: FR001...">
+
+                    <label>Volume (€)</label>
+                    <input type="number" id="volumeInput" value="10000000">
+
+                    <label>Maturity (Date)</label>
+                    <input type="date" id="dateInput" value="2028-12-31">
+
+                    <button class="btn-term" style="margin-top: 15px; width: 100%;" onclick="simulateMint()">
+                        [ EXECUTE_MINT_FUNCTION ]
+                    </button>
+                </div>
+
+                <!-- OUTPUT CONSOLE -->
+                <div>
+                    <h3 style="margin-top:0;">Transaction Logs (Event Emitter)</h3>
+                    <div class="console-output" id="consoleMain">
+                        <div class="log-entry"><span class="log-time">10:00:01</span> System initialized. Listening for
+                            events...</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- MODULE 3: DvP VISUALIZER -->
+        <div class="dev-module">
+            <div class="module-title">MODULE_03: ATOMIC_SETTLEMENT_VISUALIZER (T+0)</div>
+            <h3 style="margin-top: 0;">Cross-Chain DvP (Delivery vs Payment)</h3>
+            <p style="font-size: 12px; color: #888;">Simulating Hash Time Locked Contract (HTLC) between Cash Chain and
+                Asset Chain.</p>
+
+            <div class="dvp-grid">
+                <!-- NODE 1: INVESTOR BANK -->
+                <div class="chain-node" id="node-buyer">
+                    <i class="fas fa-university" style="font-size: 24px; margin-bottom: 5px;"></i>
+                    BUYER
+                </div>
+
+                <!-- BRIDGE ANIMATION AREA -->
+                <div style="flex: 1; height: 100%; position: relative;">
+                    <!-- Line -->
+                    <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #003300;">
+                    </div>
+
+                    <!-- Middle Logic -->
+                    <div
+                        style="position: absolute; top: 35%; left: 45%; background: #000; border: 1px solid var(--terminal-green); padding: 5px; font-size: 10px; z-index: 10;">
+                        SMART<br>CONTRACT
+                    </div>
+
+                    <!-- Moving Packet Cash -->
+                    <div id="pkt-cash" class="packet"
+                        style="background: #0f0; border-radius: 50%; top: 45%; left: 10%;"></div>
+                    <!-- Moving Packet Asset -->
+                    <div id="pkt-asset" class="packet"
+                        style="background: #f0f; border-radius: 0%; top: 45%; right: 10%;"></div>
+                </div>
+
+                <!-- NODE 2: ISSUER BANK -->
+                <div class="chain-node" id="node-seller">
+                    <i class="fas fa-building" style="font-size: 24px; margin-bottom: 5px;"></i>
+                    ISSUER
+                </div>
+            </div>
+
+            <button class="btn-term" style="margin-top: 20px; width: 100%;" onclick="startDvpAnimation()">
+                [ INITIALIZE_SWAP ]
+            </button>
+            <div id="dvp-status" style="text-align: center; margin-top: 10px; font-size: 12px; color: #4fa;">Waiting for
+                trigger...</div>
+        </div>
+
+    </div>
+
+    <script>
+        /* --- UTILS --- */
+        function log(msg, type = 'info') {
+            const consoleDiv = document.getElementById('consoleMain');
+            const time = new Date().toLocaleTimeString();
+            const colorClass = type === 'error' ? 'log-error' : type === 'warn' ? 'log-warn' : 'log-info';
+
+            const line = document.createElement('div');
+            line.className = 'log-entry';
+            line.innerHTML = `<span class="log-time">${time}</span> <span class="${colorClass}">${msg}</span>`;
+
+            consoleDiv.appendChild(line);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        /* --- MODULE 1: WALLET --- */
+        let isConnected = false;
+        function simulateConnect() {
+            const btn = document.getElementById('btn-connect');
+            const status = document.getElementById('wallet-status');
+            const addr = document.getElementById('wallet-address');
+
+            if (!isConnected) {
+                btn.innerText = "[ CONNECTING... ]";
+                setTimeout(() => {
+                    isConnected = true;
+                    btn.innerText = "[ DISCONNECT ]";
+                    status.innerHTML = 'Status: <span style="color:#0f0">CONNECTED</span>';
+                    addr.innerText = "Addr: 0x71C...9A23 (Goerli Testnet)";
+                    log("Wallet connected: 0x71C...9A23");
+                }, 1000);
+            } else {
+                isConnected = false;
+                btn.innerText = "[ CONNECT_WALLET ]";
+                status.innerHTML = 'Status: DISCONNECTED';
+                addr.innerText = "";
+                log("Wallet disconnected", "warn");
+            }
+        }
+
+        /* --- MODULE 2: MINT --- */
+        function simulateMint() {
+            if (!isConnected) {
+                log("Error: Wallet not connected. Cannot sign transaction.", "error");
+                alert("Please connect wallet first!");
+                return;
+            }
+
+            const isin = document.getElementById('isinInput').value;
+            const vol = document.getElementById('volumeInput').value;
+
+            log(`Initiating Smart Contract Call: mintBond("${isin}", ${vol})...`);
+
+            setTimeout(() => {
+                log("Transaction Broadcasted. Hash: 0x8f2...1b4", "warn");
+                setTimeout(() => {
+                    log("Block #1829304 Confirmed. Event 'BondMinted' received.", "info");
+
+                    // Show JSON
+                    const jsonLog = {
+                        event: "BondMinted",
+                        isin: isin,
+                        volume: parseInt(vol),
+                        owner: "0x71C...9A23",
+                        timestamp: Date.now()
+                    };
+                    log(JSON.stringify(jsonLog, null, 2));
+
+                }, 1500);
+            }, 800);
+        }
+
+        /* --- MODULE 3: DVP ANIMATION --- */
+        function startDvpAnimation() {
+            const pktCash = document.getElementById('pkt-cash');
+            const pktAsset = document.getElementById('pkt-asset');
+            const status = document.getElementById('dvp-status');
+
+            // Reset
+            pktCash.style.display = 'block';
+            pktAsset.style.display = 'block';
+            pktCash.style.left = '10%';
+            pktAsset.style.right = '10%';
+            status.innerText = "STEP 1: Hashing Secrets...";
+            status.style.color = "#4fa";
+
+            log("DvP Process Started. Time Lock: 60s");
+
+            // Step 1: Move to center
+            setTimeout(() => {
+                status.innerText = "STEP 2: Locking Assets in Smart Contract...";
+                pktCash.style.transition = "all 2s ease";
+                pktAsset.style.transition = "all 2s ease";
+
+                pktCash.style.left = '45%';
+                pktAsset.style.right = '45%';
+            }, 500);
+
+            // Step 2: Swap
+            setTimeout(() => {
+                status.innerText = "STEP 3: Atomic Swap (Pre-image revealed)...";
+                log("Secrets revealed. Unlocking funds...");
+
+                pktCash.style.zIndex = 20;
+                pktAsset.style.zIndex = 19;
+            }, 2500);
+
+            // Step 3: Complete
+            setTimeout(() => {
+                status.innerText = "STEP 4: Settlement Finalized (T+0).";
+                pktCash.style.left = '90%'; // Moves to right (Seller)
+                pktAsset.style.right = '90%'; // Moves to left (Buyer)
+                log("Settlement Complete. No counterparty risk.");
+            }, 4000);
+
+            setTimeout(() => {
+                pktCash.style.display = 'none';
+                pktAsset.style.display = 'none';
+            }, 6500);
+        }
+    </script>
+</body>
+
+</html>
