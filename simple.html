@@ -26,6 +26,7 @@
 
     <!-- Logo Dropdown CSS -->
     <link rel="stylesheet" href="styles-logo-dropdown.css">
+    <link rel="stylesheet" href="styles-navigation.css?v=3.1">
     <link rel="stylesheet" href="styles-footer.css">
 
     <style>
@@ -1056,7 +1057,7 @@
 
 <body>
 
-    <nav class="navbar">
+    <nav class="navbar-pro">
         <!-- Logo Dropdown avec 3 versions -->
         <div class="nav-logo-dropdown">
             <div class="nav-logo">
@@ -1076,10 +1077,10 @@
                     <i class="fas fa-graduation-cap"></i>
                     <div>
                         <strong>Blockchain Academy</strong>
-                        <span>Version Découverte - 5 slides</span>
+                        <span>Version Découverte - 7 modules</span>
                     </div>
                 </a>
-                <a href="index-simple.html" class="logo-menu-item">
+                <a href="index.html" class="logo-menu-item">
                     <i class="fas fa-chart-line"></i>
                     <div>
                         <strong>DCM Digital</strong>
@@ -1111,22 +1112,41 @@
                     <i class="fas fa-award" style="color:#f59e0b;"></i>
                     <div>
                         <strong>Quiz Certification</strong>
-                        <span>Testez vos connaissances - Jusqu'à 45 questions</span>
+                        <span>Testez vos connaissances</span>
                     </div>
                 </a>
             </div>
+        </div>
 
-            <!-- LANGUAGE SWITCHER -->
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <div class="lang-switch">
-                    <button class="lang-btn active" onclick="setLanguage('fr')" title="Français">🇫🇷</button>
-                    <button class="lang-btn" onclick="setLanguage('en')" title="English">🇬🇧</button>
-                </div>
+        <!-- NEW HORIZONTAL MENU (ACADEMY LINKS) -->
+        <div class="nav-links-pro">
+            <a href="#blockchain-definition" class="nav-link">Définition</a>
+            <a href="#block-anatomy" class="nav-link">Blocs</a>
+            <a href="#consensus" class="nav-link">Consensus</a>
+            <a href="#wallets-crypto" class="nav-link">Wallets</a>
+            <a href="#smart-contracts" class="nav-link">Smart Contracts</a>
+            <a href="#use-cases" class="nav-link">Usages</a>
+            <a href="#glossary" class="nav-link">Glossaire</a>
+        </div>
 
-                <a href="index.html" class="mode-switch" data-i18n="nav_expert">
-                    <i class="fa-solid fa-rocket"></i> PASSER EN MODE EXPERT
-                </a>
+        <!-- LANGUAGE SWITCHER & MOBILE TOGGLE -->
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="nav-language" style="display: flex; align-items: center; gap: 10px;">
+                <a href="#" class="lang-btn active" onclick="setLanguage('fr')" title="Français"
+                    style="opacity: 1; filter: grayscale(0); font-size: 24px; text-decoration:none;">🇫🇷</a>
+                <a href="#" class="lang-btn" onclick="setLanguage('en')" title="English"
+                    style="opacity: 0.5; filter: grayscale(1); font-size: 24px; text-decoration:none;">🇬🇧</a>
             </div>
+
+            <a href="index.html" class="mode-switch-btn" data-i18n="nav_expert">
+                <i class="fa-solid fa-rocket"></i> EXPERT
+            </a>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Ouvrir le menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </nav>
 
     <div class="deck-container">
@@ -2431,6 +2451,36 @@ if (date === "2026-03-01" && balance >= 1000) {
         });
     </script>
 
+    <script>
+        // Mobile Menu Toggle Logic
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links-pro');
+            const mobileBtn = document.querySelector('.mobile-menu-toggle i');
+
+            navLinks.classList.toggle('active');
+
+            if (navLinks.classList.contains('active')) {
+                mobileBtn.classList.remove('fa-bars');
+                mobileBtn.classList.add('fa-times');
+            } else {
+                mobileBtn.classList.remove('fa-times');
+                mobileBtn.classList.add('fa-bars');
+            }
+        }
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links-pro a').forEach(link => {
+            link.addEventListener('click', () => {
+                const navLinks = document.querySelector('.nav-links-pro');
+                if (navLinks && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    const mobileBtn = document.querySelector('.mobile-menu-toggle i');
+                    mobileBtn.classList.remove('fa-times');
+                    mobileBtn.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
