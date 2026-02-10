@@ -529,19 +529,30 @@
                 grid-column: span 1;
             }
         }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #final-diploma,
+            #final-diploma * {
+                visibility: visible;
+            }
+
+            #final-diploma {
+                display: flex !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 9999;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
     </style>
-    @media print {
-    body * { visibility: hidden; }
-    #final-diploma, #final-diploma * { visibility: visible; }
-    #final-diploma {
-    display: flex !important;
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 9999;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    }
-    }
 
     /* --- DIPLOMA STYLES --- */
     #final-diploma {
@@ -580,6 +591,16 @@
     .dip-name { font-size: 50px; font-family: 'Pinyon Script', cursive; margin: 30px 0; border-bottom: 2px solid #ccc;
     display: inline-block; padding: 0 50px; }
     .dip-rank { font-size: 32px; font-weight: bold; margin-top: 20px; text-transform: uppercase; }
+
+    /* Missing Head Of Styles */
+    #final-diploma.platinum { border-color: #e2e8f0; color: #64748b; }
+    #final-diploma.diamond { border-color: #b9f2ff; color: #3b82f6; }
+    #final-diploma.crimson { border-color: #dc2626; color: #dc2626; }
+
+    /* Missing Head Of Styles */
+    #final-diploma.platinum { border-color: #e2e8f0; color: #64748b; }
+    #final-diploma.diamond { border-color: #b9f2ff; color: #3b82f6; }
+    #final-diploma.crimson { border-color: #dc2626; color: #dc2626; }
 
     .dip-seal {
     width: 150px; height: 150px;
@@ -1205,6 +1226,126 @@
             btnContainer.innerHTML = restartBtn + actionBtn;
         }
 
+        }
+
+        // --- DIPLOMA GENERATION LOGIC ---
+        function openDiplomaModal() { document.getElementById('diplomaInputModal').style.display = 'flex'; }
+        function closeDiplomaModal() { document.getElementById('diplomaInputModal').style.display = 'none'; }
+
+        function generateFinalDiploma() {
+            const name = document.getElementById('diplomaName').value;
+            if (!name || name.trim() === "") { alert("Merci d'indiquer un nom."); return; }
+
+            document.getElementById('dipNameDisplay').innerText = name;
+            document.getElementById('dipDate').innerText = new Date().toLocaleDateString('fr-FR');
+
+            // DETERMINE HIGHEST RANK & STYLE
+            const r4 = localStorage.getItem('quiz_rank_4');
+            const m3 = localStorage.getItem('quiz_metal_3');
+            const m2 = localStorage.getItem('quiz_metal_2');
+            const m1 = localStorage.getItem('quiz_metal_1');
+
+            const dip = document.getElementById('final-diploma');
+            const seal = document.getElementById('dipSeal');
+            const rankTxt = document.getElementById('dipRankDisplay');
+
+            // Reset classes
+            dip.className = '';
+
+            let bestRank = "CERTIFIÉ";
+            let color = "#000";
+            let bgSeal = "#000";
+
+            if (r4) {
+                bestRank = "GRADE " + r4.toUpperCase();
+                if (r4 === 'Iridescent') { dip.classList.add('iridescent'); color = "#3b82f6"; bgSeal = "linear-gradient(45deg, #ff0000, #002bff)"; }
+                else if (r4 === 'Crimson') { dip.classList.add('crimson'); color = "#dc2626"; bgSeal = "#dc2626"; }
+                else if (r4 === 'Diamond') { dip.classList.add('diamond'); color = "#3b82f6"; bgSeal = "#3b82f6"; }
+                else if (r4 === 'Platinum') { dip.classList.add('platinum'); color = "#64748b"; bgSeal = "#64748b"; }
+            } else if (m3) {
+                dip.classList.add('gold');
+                bestRank = "NIVEAU EXPERT (OR)";
+                color = "#d97706"; bgSeal = "#d97706";
+            } else if (m2) {
+                dip.classList.add('silver');
+                bestRank = "NIVEAU AVANCÉ (ARGENT)";
+                color = "#64748b"; bgSeal = "#64748b";
+            } else if (m1) {
+                dip.classList.add('bronze');
+                bestRank = "NIVEAU FONDAMENTAL (BRONZE)";
+                color = "#b45309"; bgSeal = "#b45309";
+            }
+
+            rankTxt.innerText = bestRank;
+            rankTxt.style.color = color;
+            seal.style.background = bgSeal;
+
+            closeDiplomaModal();
+            window.print();
+
+            // Hide diploma after print (timeout)
+            setTimeout(() => { dip.style.display = 'none'; }, 1000);
+        }
+        }
+
+        // --- DIPLOMA GENERATION LOGIC ---
+        function openDiplomaModal() { document.getElementById('diplomaInputModal').style.display = 'flex'; }
+        function closeDiplomaModal() { document.getElementById('diplomaInputModal').style.display = 'none'; }
+
+        function generateFinalDiploma() {
+            const name = document.getElementById('diplomaName').value;
+            if (!name || name.trim() === "") { alert("Merci d'indiquer un nom."); return; }
+
+            document.getElementById('dipNameDisplay').innerText = name;
+            document.getElementById('dipDate').innerText = new Date().toLocaleDateString('fr-FR');
+
+            // DETERMINE HIGHEST RANK & STYLE
+            const r4 = localStorage.getItem('quiz_rank_4');
+            const m3 = localStorage.getItem('quiz_metal_3');
+            const m2 = localStorage.getItem('quiz_metal_2');
+            const m1 = localStorage.getItem('quiz_metal_1');
+
+            const dip = document.getElementById('final-diploma');
+            const seal = document.getElementById('dipSeal');
+            const rankTxt = document.getElementById('dipRankDisplay');
+
+            // Reset classes
+            dip.className = '';
+
+            let bestRank = "CERTIFIÉ";
+            let color = "#000";
+            let bgSeal = "#000";
+
+            if (r4) {
+                bestRank = "GRADE " + r4.toUpperCase();
+                if (r4 === 'Iridescent') { dip.classList.add('iridescent'); color = "#3b82f6"; bgSeal = "linear-gradient(45deg, #ff0000, #002bff)"; }
+                else if (r4 === 'Crimson') { dip.classList.add('crimson'); color = "#dc2626"; bgSeal = "#dc2626"; }
+                else if (r4 === 'Diamond') { dip.classList.add('diamond'); color = "#3b82f6"; bgSeal = "#3b82f6"; }
+                else if (r4 === 'Platinum') { dip.classList.add('platinum'); color = "#64748b"; bgSeal = "#64748b"; }
+            } else if (m3) {
+                dip.classList.add('gold');
+                bestRank = "NIVEAU EXPERT (OR)";
+                color = "#d97706"; bgSeal = "#d97706";
+            } else if (m2) {
+                dip.classList.add('silver');
+                bestRank = "NIVEAU AVANCÉ (ARGENT)";
+                color = "#64748b"; bgSeal = "#64748b";
+            } else if (m1) {
+                dip.classList.add('bronze');
+                bestRank = "NIVEAU FONDAMENTAL (BRONZE)";
+                color = "#b45309"; bgSeal = "#b45309";
+            }
+
+            rankTxt.innerText = bestRank;
+            rankTxt.style.color = color;
+            seal.style.background = bgSeal;
+
+            closeDiplomaModal();
+            window.print();
+
+            // Hide diploma after print (timeout)
+            setTimeout(() => { dip.style.display = 'none'; }, 1000);
+        }
     </script>
 </body>
 
