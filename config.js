@@ -1,7 +1,10 @@
 // CONFIGURATION CENTRALE - DCM DIGITAL
 // Modifiez ces valeurs pour mettre à jour l'ensemble de la présentation.
 
-const DCM_CONFIG = {
+// CONFIGURATION CENTRALE - DCM DIGITAL
+// Modifiez ces valeurs pour mettre à jour l'ensemble de la présentation.
+
+window.DCM_CONFIG = {
     // Taux de rendement affiché (Yield)
     rate: "3.15%",
 
