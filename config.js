@@ -26,6 +26,9 @@ window.DCM_CONFIG = {
     // Finance Agent (n8n Workflow - RWA Expert)
     financeAgentUrl: "https://joanl.app.n8n.cloud/webhook/rwa-expert",
 
+    // Legal Agent (n8n Workflow - Legal Expert)
+    legalAgentUrl: "https://joanl.app.n8n.cloud/webhook/legal-expert",
+
     // SUPABASE CONFIGURATION (Database & Auth)
     supabaseUrl: "https://wnwerjuqtrduqkgwdjrg.supabase.co",
     supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo"
