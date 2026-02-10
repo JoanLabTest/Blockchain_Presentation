@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="styles-navigation.css">
     <link rel="stylesheet" href="styles-logo-dropdown.css">
     <link rel="stylesheet" href="styles-footer.css">
+    <link rel="stylesheet" href="styles-mobile.css">
 
     <style>
         /* --- DESIGN SYSTEM (COHÉRENT AVEC INDEX) --- */
@@ -450,14 +451,13 @@
         </div>
     </div>
 
-    <!-- Professional Sticky Navigation -->
+    <!-- Professional Sticky Navigation (Centered) -->
     <nav class="navbar-pro">
         <!-- Logo Dropdown (App Switcher) -->
         <div class="nav-logo-dropdown">
             <div class="nav-logo">
                 <i class="fa-solid fa-layer-group" style="color: var(--accent-gold);"></i>
-                RWA <span style="font-weight:400; font-size: 0.8em; margin: 0 5px; opacity:0.7;">&</span> <span
-                    style="color:var(--accent-gold)">DEFI</span>
+                RWA <span style="color:var(--accent-gold)">DEFI</span>
                 <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 8px;"></i>
             </div>
 
@@ -514,26 +514,55 @@
             </div>
         </div>
 
-        <!-- Mobile Menu Toggle -->
-        <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+        <!-- Centered Links Container -->
+        <div class="nav-links-pro"
+            style="position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 30px; align-items: center;">
+            <a href="index.html" class="nav-home-btn"
+                style="color: var(--accent-gold); font-weight: 700; text-decoration: none; font-size: 15px; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-home"></i> Hub
+            </a>
+            <a href="#rwa" class="nav-link-item"
+                style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; text-transform: uppercase;">Assets</a>
+            <a href="#repo" class="nav-link-item"
+                style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; text-transform: uppercase;">Repo
+                2.0</a>
+            <a href="#legal" class="nav-link-item"
+                style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; text-transform: uppercase;">Legal</a>
+            <a href="#cash" class="nav-link-item"
+                style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; text-transform: uppercase;">Yield</a>
+
+            <style>
+                .nav-link-item:hover {
+                    color: white !important;
+                }
+
+                @media (max-width: 1024px) {
+                    .nav-links-pro {
+                        position: fixed !important;
+                        transform: none !important;
+                        left: auto !important;
+                        flex-direction: column;
+                        background: rgba(2, 6, 23, 0.98);
+                        top: 70px;
+                        width: 100%;
+                        padding: 20px;
+                        display: none;
+                        /* Managed by JS toggle */
+                    }
+
+                    .nav-links-pro.active {
+                        display: flex;
+                    }
+                }
+            </style>
+        </div>
+
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation"
+            onclick="document.querySelector('.nav-links-pro').classList.toggle('active')">
             <i class="fas fa-bars"></i>
         </button>
-
-        <!-- Links -->
-        <!-- Links -->
-        <div class="nav-links-pro">
-            <div class="rwa-nav-group">
-                <a href="#rwa" class="rwa-nav-link">ASSETS</a>
-                <a href="#repo" class="rwa-nav-link">REPO 2.0</a>
-                <a href="#legal" class="rwa-nav-link">LEGAL</a>
-                <a href="#cash" class="rwa-nav-link">YIELD</a>
-            </div>
-
-            <a href="index.html" class="mode-switch-btn">
-                <i class="fa-solid fa-arrow-left"></i> Retour Portail
-            </a>
-        </div>
     </nav>
+    <div class="navbar-shim" style="height: 70px;"></div>
 
     <div class="deck-container">
 
