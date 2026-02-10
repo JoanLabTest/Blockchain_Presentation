@@ -162,7 +162,7 @@ const FinanceAgent = (() => {
             addMessage(response);
         } catch (error) {
             if (messagesDiv.contains(loadingDiv)) messagesDiv.removeChild(loadingDiv);
-            addMessage("⚠️ Erreur de connexion au système financier. Veuillez réessayer.");
+            addMessage(`⚠️ Erreur: ${error.message} (Vérifiez que le workflow n8n est ACTIF)`);
             console.error("Finance Agent Error:", error);
         }
     }
