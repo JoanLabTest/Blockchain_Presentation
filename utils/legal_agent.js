@@ -159,7 +159,7 @@ const LegalAgent = (() => {
             addMessage(response);
         } catch (error) {
             if (messagesDiv.contains(loadingDiv)) messagesDiv.removeChild(loadingDiv);
-            addMessage(`⚠️ Erreur: ${error.message} (Vérifiez que le workflow n8n est ACTIF)`);
+            addMessage(`⚠️ Erreur: ${error.message} \n(Cible : ${DCM_CONFIG.legalAgentUrl})`);
             console.error("Legal Agent Error:", error);
         }
     }
