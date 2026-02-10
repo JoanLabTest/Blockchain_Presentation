@@ -228,6 +228,153 @@
             opacity: 0.2;
             font-family: 'JetBrains Mono', monospace;
         }
+
+        /* --- STYLE DU CERTIFICAT (CACHÉ PAR DÉFAUT) --- */
+        #certificate-template {
+            display: none;
+        }
+
+        /* --- CONFIGURATION D'IMPRESSION (PDF) --- */
+        @media print {
+
+            /* 1. On cache TOUT le site */
+            body * {
+                visibility: hidden;
+            }
+
+            /* 2. On affiche et on positionne le certificat */
+            #certificate-template,
+            #certificate-template * {
+                visibility: visible;
+            }
+
+            #certificate-template {
+                display: block !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #fff;
+                color: #000;
+                z-index: 9999;
+            }
+
+            /* 3. Design du Certificat (Look Premium) */
+            .cert-border {
+                border: 10px solid #1e293b;
+                padding: 5px;
+                height: 98vh;
+                box-sizing: border-box;
+            }
+
+            .cert-content {
+                border: 2px solid #3b82f6;
+                height: 100%;
+                padding: 40px;
+                text-align: center;
+                background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, rgba(255, 255, 255, 1) 70%);
+                font-family: 'Garamond', 'Times New Roman', serif;
+            }
+
+            .cert-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 40px;
+            }
+
+            .cert-logo {
+                font-family: 'Urbanist', sans-serif;
+                font-weight: bold;
+                font-size: 24px;
+                color: #1e293b;
+            }
+
+            .cert-logo span {
+                color: #3b82f6;
+            }
+
+            .cert-id {
+                font-family: monospace;
+                color: #94a3b8;
+                font-size: 12px;
+            }
+
+            .cert-title {
+                font-size: 48px;
+                color: #1e293b;
+                text-transform: uppercase;
+                letter-spacing: 5px;
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+
+            .cert-subtitle {
+                font-size: 18px;
+                color: #3b82f6;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                margin-bottom: 60px;
+            }
+
+            .cert-body p {
+                font-size: 18px;
+                color: #444;
+                font-style: italic;
+                margin: 10px 0;
+            }
+
+            #displayCertName {
+                font-size: 42px;
+                font-weight: bold;
+                color: #000;
+                margin: 30px 0;
+                font-family: 'Urbanist', sans-serif;
+                border-bottom: 1px solid #ccc;
+                display: inline-block;
+                padding: 0 50px 10px 50px;
+            }
+
+            .cert-course {
+                font-size: 24px;
+                font-weight: bold;
+                color: #1e293b;
+                margin: 20px 0;
+            }
+
+            .cert-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-top: 80px;
+            }
+
+            .cert-sig {
+                width: 250px;
+                text-align: center;
+            }
+
+            .sig-line {
+                height: 1px;
+                background: #000;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            .sig-image {
+                font-family: 'Brush Script MT', cursive;
+                font-size: 24px;
+                color: #3b82f6;
+                margin-bottom: 5px;
+            }
+
+            .cert-seal {
+                font-size: 80px;
+                color: #3b82f6;
+                opacity: 0.8;
+            }
+        }
     </style>
 
     <!-- Google Analytics 4 (Placeholder) -->
@@ -6279,37 +6426,64 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
             </div>
         </div>
 
-        <!-- Certificate Button -->
-        <button class="cert-btn" id="certBtn" onclick="generateCertificate()">
-            <i class="fas fa-lock"></i> Certification Verrouillée
-        </button>
+        <!-- Name Input & Certificate Button -->
+        <div
+            style="background: rgba(15, 23, 42, 0.5); padding: 20px; border-radius: 12px; border: 1px solid #334155; margin-top: 20px; text-align: center;">
+            <label
+                style="display: block; text-align: left; margin-bottom: 8px; color: #3b82f6; font-weight: bold; font-size: 12px;">VOTRE
+                NOM & PRÉNOM :</label>
+            <input type="text" id="certNameInput" placeholder="Ex: Jean Dupont"
+                style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0b1121; color: white; font-size: 16px; margin-bottom: 15px; box-sizing: border-box;">
+            <button class="cert-btn" id="certBtn" onclick="generateCertificate()">
+                <i class="fas fa-lock"></i> Certification Verrouillée
+            </button>
+        </div>
     </div>
 </div>
 
-<!-- 3. Print Certificate Template (Hidden) -->
-<div id="certificate-print-area"
-    style="display: none; padding: 40px; font-family: 'Outfit', sans-serif; text-align: center; border: 10px solid #0f172a;">
-    <div style="border: 2px solid #3b82f6; padding: 40px; height: 100%;">
-        <h1 style="color: #0f172a; font-size: 48px; margin-bottom: 20px;">CERTIFICAT D'ACCOMPLISSEMENT</h1>
-        <p style="color: #64748b; font-size: 24px;">Ce document certifie que</p>
-        <h2 id="certName"
-            style="color: #3b82f6; font-size: 42px; margin: 30px 0; border-bottom: 2px solid #e2e8f0; display: inline-block; padding: 0 40px 10px;">
-            [Nom Prénom]</h2>
-        <p style="color: #64748b; font-size: 24px;">a validé avec succès le module de formation stratégique</p>
-        <h3 style="color: #0f172a; font-size: 32px; margin: 30px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h3>
-
-        <div
-            style="margin-top: 60px; display: flex; justify-content: space-around; width: 80%; margin-left: auto; margin-right: auto;">
-            <div>
-                <p style="font-weight: bold; color: #0f172a;">Date</p>
-                <p id="certDate" style="color: #64748b;">2024</p>
-            </div>
-            <div>
-                <div
-                    style="width: 80px; height: 80px; background: #0f172a; border-radius: 50%; color: white; display: grid; place-items: center; margin: 0 auto 10px;">
-                    <i class="fas fa-check" style="font-size: 32px;"></i>
+<!-- ============================================= -->
+<!-- TEMPLATE DU CERTIFICAT (INVISIBLE À L'ÉCRAN) -->
+<!-- ============================================= -->
+<div id="certificate-template">
+    <div class="cert-border">
+        <div class="cert-content">
+            <!-- Header -->
+            <div class="cert-header">
+                <div class="cert-logo">
+                    <i class="fa-solid fa-cube"></i> DCM <span>DIGITAL</span>
                 </div>
-                <p style="font-weight: bold; color: #0f172a;">DCM Digital</p>
+                <div class="cert-id">ID: <span id="certID">#8492-Block</span></div>
+            </div>
+
+            <!-- Titre -->
+            <h1 class="cert-title">CERTIFICAT D'ACHÈVEMENT</h1>
+            <p class="cert-subtitle">Blockchain & Digital Assets Infrastructure</p>
+
+            <!-- Corps -->
+            <div class="cert-body">
+                <p>Ce document certifie que</p>
+                <h2 id="displayCertName">NOM DU PARTICIPANT</h2>
+                <p>a validé avec succès le parcours de formation stratégique</p>
+                <div class="cert-course">BLOCKCHAIN FOR CAPITAL MARKETS</div>
+                <p>Compétences validées : Tokenisation, Smart Contracts, Règlement T+0, Régulation eWpG.</p>
+            </div>
+
+            <!-- Footer / Signature -->
+            <div class="cert-footer">
+                <div class="cert-sig">
+                    <div class="sig-line"></div>
+                    <span>Date de validation</span>
+                    <strong id="certDate">10/02/2026</strong>
+                </div>
+                <div class="cert-seal">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div class="cert-sig">
+                    <div class="sig-image">Joan Lyczak</div>
+                    <div class="sig-line"></div>
+                    <span>Directeur de la Formation</span>
+                    <strong>DCM DIGITAL ACADEMY</strong>
+                </div>
             </div>
         </div>
     </div>
@@ -6409,16 +6583,30 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
     const originalToggleAudio = window.toggleAudio; // Hook if exists
     // (Already handled below in overwrite)
 
-    // CERTIFICATE GENERATION
+    // CERTIFICATE GENERATION (PREMIUM PDF)
     function generateCertificate() {
         if (!document.getElementById('certBtn').classList.contains('unlocked')) return;
 
-        const name = prompt("Entrez votre Prénom et Nom pour le certificat :", "Invité");
-        if (name) {
-            document.getElementById('certName').innerText = name;
-            document.getElementById('certDate').innerText = new Date().toLocaleDateString('fr-FR');
-            window.print();
+        const nameInput = document.getElementById('certNameInput').value;
+
+        if (nameInput.trim() === "") {
+            alert("Veuillez entrer votre Prénom et Nom pour générer le certificat.");
+            return;
         }
+
+        // 1. Injection des données
+        document.getElementById('displayCertName').innerText = nameInput;
+
+        // Date du jour
+        const today = new Date();
+        document.getElementById('certDate').innerText = today.toLocaleDateString('fr-FR');
+
+        // ID Unique (Faux aléatoire pour le style)
+        const randomId = Math.floor(Math.random() * 10000);
+        document.getElementById('certID').innerText = "#DCM-" + randomId;
+
+        // 2. Lancer l'impression
+        window.print();
     }
 </script>
 
