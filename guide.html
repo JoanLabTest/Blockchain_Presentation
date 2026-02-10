@@ -6044,40 +6044,15 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
 </script>
 <script src="ui-interactions.js"></script>
 
-<!-- LEVEL TOGGLE SWITCH (PHASE 5 PRIORITY 2) -->
-<div class="level-toggle-container">
-    <span class="level-label" style="opacity: 0.7;">Synthétique</span>
-    <label class="level-switch">
-        <input type="checkbox" id="levelToggle">
-        <span class="slider"></span>
-    </label>
-    <span class="level-label" style="color: #3b82f6;">Détaillé</span>
-</div>
-
-<!-- SCRIPT FOR LEVEL TOGGLE -->
+<!-- LEVEL TOGGLE REMOVED - FORCED DETAILED MODE -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const toggle = document.getElementById('levelToggle');
-        const body = document.body;
-
-        // Check saved preference
-        if (localStorage.getItem('pedagogicalLevel') === 'detailed') {
-            toggle.checked = true;
-            body.classList.add('show-details');
-        }
-
-        // Handle toggle change
-        toggle.addEventListener('change', function () {
-            if (this.checked) {
-                body.classList.add('show-details');
-                localStorage.setItem('pedagogicalLevel', 'detailed');
-            } else {
-                body.classList.remove('show-details');
-                localStorage.setItem('pedagogicalLevel', 'synthetic');
-            }
-        });
+        document.body.classList.add('show-details');
     });
 </script>
+
+<!-- SCRIPT FOR LEVEL TOGGLE -->
+<!-- TOGGLE SCRIPT REMOVED -->
 <!-- BREADCRUMB LOGIC (FIX) -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -6208,7 +6183,8 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
             if (totalCorrect === 4) {
                 const msg = document.getElementById('gameSuccessMsg');
                 msg.style.display = 'block';
-                // Confetti could go here
+                // Direct Unlock for Reliability
+                if (window.unlockBadge) window.unlockBadge('strategist');
             }
         }
     });
@@ -6458,22 +6434,8 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
     };
 
     // Hook into Game (Strategist Badge)
-    // We observe the success message style (when it becomes block)
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.target.style.display === 'block') {
-                unlockBadge('strategist');
-            }
-        });
-    });
-
-    // Wait for element to exist
-    setTimeout(() => {
-        const gameMsg = document.getElementById('gameSuccessMsg');
-        if (gameMsg) {
-            observer.observe(gameMsg, { attributes: true, attributeFilter: ['style'] });
-        }
-    }, 2000);
+    // NOW HANDLED DIRECTLY IN checkWinCondition()
+    // Observer removed for stability
 </script>
 
 <!-- RESET GAME LOGIC -->
