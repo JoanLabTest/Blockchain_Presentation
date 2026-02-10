@@ -530,7 +530,68 @@
             }
         }
     </style>
-</head>
+    @media print {
+    body * { visibility: hidden; }
+    #final-diploma, #final-diploma * { visibility: visible; }
+    #final-diploma {
+    display: flex !important;
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 9999;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    }
+    }
+
+    /* --- DIPLOMA STYLES --- */
+    #final-diploma {
+    display: none;
+    width: 100%; height: 100vh;
+    background: #fff;
+    color: #1e293b;
+    font-family: 'Garamond', serif;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 20px solid #1e293b;
+    box-sizing: border-box;
+    position: fixed; top: 0; left: 0; z-index: 2000;
+    }
+
+    /* DYNAMIC THEMES */
+    #final-diploma.bronze { border-color: #cd7f32; background: radial-gradient(circle, rgba(205,127,50,0.1) 0%,
+    rgba(255,255,255,1) 70%); }
+    #final-diploma.silver { border-color: #c0c0c0; background: radial-gradient(circle, rgba(192,192,192,0.1) 0%,
+    rgba(255,255,255,1) 70%); }
+    #final-diploma.gold { border-color: #ffd700; background: radial-gradient(circle, rgba(255,215,0,0.1) 0%,
+    rgba(255,255,255,1) 70%); }
+
+    #final-diploma.iridescent {
+    border: 20px solid transparent;
+    border-image: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8,
+    #ff0000) 1;
+    background: #fff;
+    }
+
+    .dip-header { font-size: 60px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; letter-spacing:
+    5px; }
+    .dip-sub { font-size: 24px; color: #64748b; margin-bottom: 40px; }
+    .dip-name { font-size: 50px; font-family: 'Pinyon Script', cursive; margin: 30px 0; border-bottom: 2px solid #ccc;
+    display: inline-block; padding: 0 50px; }
+    .dip-rank { font-size: 32px; font-weight: bold; margin-top: 20px; text-transform: uppercase; }
+
+    .dip-seal {
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 60px; color: white;
+    margin-top: 50px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    </style>
+    <!-- Import Pinyon Script for Diploma Signature feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
 
 <body>
 
@@ -672,6 +733,94 @@
         </div>
     </div>
 
+    <!-- DIPLOMA INPUT MODAL -->
+    <div class="modal" id="diplomaInputModal">
+        <div class="modal-content">
+            <h3 style="color:var(--accent-blue); margin-bottom:10px;"><i class="fas fa-certificate"></i> ÉDITION DU
+                DIPLÔME</h3>
+            <p style="font-size:12px; color:var(--text-muted);">Entrez le nom complet qui figurera sur le certificat
+                officiel.</p>
+            <input type="text" id="diplomaName" class="modal-input" placeholder="Prénom Nom (ex: Jean Dupont)">
+            <button onclick="generateFinalDiploma()"
+                style="width:100%; padding: 10px; background: var(--accent-blue); color: white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GÉNÉRER
+                LE PDF</button>
+            <button onclick="closeDiplomaModal()"
+                style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
+        </div>
+    </div>
+
+    <!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
+    <div id="final-diploma">
+        <div style="text-align: center;">
+            <i class="fas fa-graduation-cap" style="font-size: 50px; color: #1e293b; margin-bottom: 20px;"></i>
+            <div class="dip-header">CERTIFICAT D'EXCELLENCE</div>
+            <div class="dip-sub">Ce document atteste que</div>
+            <div class="dip-name" id="dipNameDisplay">Nom Prénom</div>
+            <div class="dip-sub">a validé avec succès le parcours de certification</div>
+            <h2 style="font-size: 36px; color: #1e293b; margin: 10px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h2>
+
+            <div class="dip-rank" id="dipRankDisplay" style="color: #000;">GRADE OR</div>
+
+            <div style="display: flex; justify-content: space-around; width: 80%; margin: 60px auto 0;">
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong>Joan Lyczak</strong><br>Directeur Technique
+                </div>
+                <div class="dip-seal" id="dipSeal" style="background: #000;">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong id="dipDate">10/02/2026</strong><br>Date de Validation
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIPLOMA INPUT MODAL -->
+    <div class="modal" id="diplomaInputModal">
+        <div class="modal-content">
+            <h3 style="color:var(--accent-blue); margin-bottom:10px;"><i class="fas fa-certificate"></i> ÉDITION DU
+                DIPLÔME</h3>
+            <p style="font-size:12px; color:var(--text-muted);">Entrez le nom complet qui figurera sur le certificat
+                officiel.</p>
+            <input type="text" id="diplomaName" class="modal-input" placeholder="Prénom Nom (ex: Jean Dupont)">
+            <button onclick="generateFinalDiploma()"
+                style="width:100%; padding: 10px; background: var(--accent-blue); color: white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GÉNÉRER
+                LE PDF</button>
+            <button onclick="closeDiplomaModal()"
+                style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
+        </div>
+    </div>
+
+    <!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
+    <div id="final-diploma">
+        <div style="text-align: center;">
+            <i class="fas fa-graduation-cap" style="font-size: 50px; color: #1e293b; margin-bottom: 20px;"></i>
+            <div class="dip-header">CERTIFICAT D'EXCELLENCE</div>
+            <div class="dip-sub">Ce document atteste que</div>
+            <div class="dip-name" id="dipNameDisplay">Nom Prénom</div>
+            <div class="dip-sub">a validé avec succès le parcours de certification</div>
+            <h2 style="font-size: 36px; color: #1e293b; margin: 10px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h2>
+
+            <div class="dip-rank" id="dipRankDisplay" style="color: #000;">GRADE OR</div>
+
+            <div style="display: flex; justify-content: space-around; width: 80%; margin: 60px auto 0;">
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong>Joan Lyczak</strong><br>Directeur Technique
+                </div>
+                <div class="dip-seal" id="dipSeal" style="background: #000;">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong id="dipDate">10/02/2026</strong><br>Date de Validation
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         /* --- GAME LOGIC --- */
         let currentLevel = 1;
@@ -693,18 +842,22 @@
 
         const ui = {
             dashboard: document.getElementById('certifDashboard'),
-            quizHeader: document.getElementById('quizHeader'),
+            // ... (previous UI keys)
+            diplomaBtn: document.getElementById('globalDiplomaBtn') // We need to add this button to Dashboard
+        };
+
+        quizHeader: document.getElementById('quizHeader'),
             content: document.getElementById('questionScreen'),
-            result: document.getElementById('resultScreen'),
-            levelTitle: document.getElementById('levelTitle'),
-            qCurrent: document.getElementById('qCurrent'),
-            qTotal: document.getElementById('qTotal'),
-            questionText: document.getElementById('questionText'),
-            options: document.getElementById('optionsContainer'),
-            feedbackBox: document.getElementById('feedback'),
-            feedbackText: document.getElementById('feedbackText'),
-            nextBtn: document.getElementById('nextBtn'),
-            progressBar: document.getElementById('progressBar')
+                result: document.getElementById('resultScreen'),
+                    levelTitle: document.getElementById('levelTitle'),
+                        qCurrent: document.getElementById('qCurrent'),
+                            qTotal: document.getElementById('qTotal'),
+                                questionText: document.getElementById('questionText'),
+                                    options: document.getElementById('optionsContainer'),
+                                        feedbackBox: document.getElementById('feedback'),
+                                            feedbackText: document.getElementById('feedbackText'),
+                                                nextBtn: document.getElementById('nextBtn'),
+                                                    progressBar: document.getElementById('progressBar')
         };
 
         // --- PERSISTENCE & UNLOCKS ---
