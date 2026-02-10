@@ -159,8 +159,9 @@ const LegalAgent = (() => {
             addMessage(response);
         } catch (error) {
             if (messagesDiv.contains(loadingDiv)) messagesDiv.removeChild(loadingDiv);
-            addMessage(`⚠️ Erreur: ${error.message} \n(Cible : ${DCM_CONFIG.legalAgentUrl})`);
-            console.error("Legal Agent Error:", error);
+            const statusInfo = error.message.includes('Fetch') ? " (Echec Réseau/CORS)" : "";
+            addMessage(`⚠️ Erreur Technique : ${error.message}${statusInfo} \n(Cible : ${DCM_CONFIG.legalAgentUrl})`);
+            console.error("Legal Agent Detailed Error:", error);
         }
     }
 
