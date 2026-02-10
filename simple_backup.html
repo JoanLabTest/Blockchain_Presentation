@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self';">
+
+    <!-- METADATA & FAVICON -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2091/2091665.png" type="image/png">
+    <meta name="theme-color" content="#020617">
+    <meta property="og:title" content="Blockchain Academy - Les Fondamentaux">
+    <meta property="og:description" content="Formation pédagogique aux fondamentaux de la blockchain pour débutants.">
+
+    <title>Blockchain Academy - Les Fondamentaux</title>
+
+    <!-- FONTS & ICONS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- 3D MODULES CSS -->
+    <link rel="stylesheet" href="styles-new-modules-3d.css">
+
+    <!-- Logo Dropdown CSS -->
+    <link rel="stylesheet" href="styles-logo-dropdown.css">
+    <link rel="stylesheet" href="styles-footer.css">
+
+    <style>
+        /* --- CONFIGURATION DESIGN --- */
+        :root {
+            --bg-dark: #0b1121;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --border: #334155;
+            --gradient: linear-gradient(135deg, #a855f7, #6366f1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(11, 17, 33, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .mode-switch {
+            background: transparent;
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .mode-switch:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* LANGUAGE SWITCHER */
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+            border-left: 1px solid var(--border);
+            padding-left: 20px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            opacity: 0.5;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            opacity: 1;
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* CONTENEUR */
+        .deck-container {
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 80px;
+            padding-bottom: 100px;
+        }
+
+        .slide {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 600px;
+            background-color: var(--bg-card);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient);
+        }
+
+        h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 36px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        /* --- VISUELS COMPARATIFS --- */
+        .visual-comparison {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            align-items: stretch;
+            gap: 0;
+            margin-top: 40px;
+        }
+
+        .v-card {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .v-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2);
+        }
+
+        .v-icon-wrapper {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 25px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+        }
+
+        .v-title {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .v-desc {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .vs-badge {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-purple);
+            color: white;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            z-index: 10;
+            border: 6px solid var(--bg-card);
+            align-self: center;
+            margin: 0 -30px;
+            font-size: 18px;
+        }
+
+        /* --- WALLET VISUALIZATION --- */
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .crypto-card {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chip {
+            width: 50px;
+            height: 35px;
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .code-block {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono';
+            color: var(--accent-green);
+            font-size: 14px;
+            margin-top: 10px;
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .code-block.private {
+            color: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .visual-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .vs-badge {
+                margin: 20px auto;
+            }
+
+            .wallet-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slide {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+    <!-- Google Analytics 4 (Placeholder) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    <!-- Microsoft Clarity (Placeholder) -->
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "CLARITY_ID");
+    </script>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <!-- Logo Dropdown avec 3 versions -->
+        <div class="nav-logo-dropdown">
+            <div class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                BLOCKCHAIN <span style="color:#a855f7">ACADEMY</span>
+                <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 8px;"></i>
+            </div>
+            <div class="nav-logo-menu">
+                <a href="guide.html" class="logo-menu-item">
+                    <i class="fas fa-briefcase"></i>
+                    <div>
+                        <strong>Blockchain Pro</strong>
+                        <span>Version Expert - 23 sections</span>
+                    </div>
+                </a>
+                <a href="simple.html" class="logo-menu-item active">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>
+                        <strong>Blockchain Academy</strong>
+                        <span>Version Découverte - 5 slides</span>
+                    </div>
+                </a>
+                <a href="index-simple.html" class="logo-menu-item">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <strong>DCM Digital</strong>
+                        <span>Version Pitch - 6 sections</span>
+                    </div>
+                </a>
+                <a href="web3.html" class="logo-menu-item">
+                    <i class="fas fa-cube"></i>
+                    <div>
+                        <strong>Web3 Banking</strong>
+                        <span>Infrastructure Programmable</span>
+                    </div>
+                </a>
+                <a href="flux-comparison.html" class="logo-menu-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div>
+                        <strong>Flux & Opérations</strong>
+                        <span>Analyse Comparative</span>
+                    </div>
+                </a>
+                <a href="rwa.html" class="logo-menu-item">
+                    <i class="fas fa-layer-group" style="color:#f59e0b;"></i>
+                    <div>
+                        <strong>RWA & DeFi</strong>
+                        <span>Institutional DeFi</span>
+                    </div>
+                </a>
+                <a href="quiz.html" class="logo-menu-item">
+                    <i class="fas fa-award" style="color:#f59e0b;"></i>
+                    <div>
+                        <strong>Quiz Certification</strong>
+                        <span>Testez vos connaissances - Jusqu'à 45 questions</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- LANGUAGE SWITCHER -->
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="setLanguage('fr')" title="Français">🇫🇷</button>
+                    <button class="lang-btn" onclick="setLanguage('en')" title="English">🇬🇧</button>
+                </div>
+
+                <a href="index.html" class="mode-switch" data-i18n="nav_expert">
+                    <i class="fa-solid fa-rocket"></i> PASSER EN MODE EXPERT
+                </a>
+            </div>
+    </nav>
+
+    <div class="deck-container">
+
+        <!-- SLIDE 1 : INTRO (HERO ACADEMY 3D) -->
+        <div class="slide" data-aos="fade-up">
+            <div style="text-align: center; padding: 40px 0; width: 100%;">
+                <div
+                    style="display: inline-block; padding: 8px 20px; background: rgba(168, 85, 247, 0.1); border-radius: 50px; color: var(--accent-purple); font-weight: bold; margin-bottom: 20px; border: 1px solid rgba(168, 85, 247, 0.3);">
+                    🚀 MODULE DÉBUTANT
+                </div>
+                <h1 data-aos="zoom-in" data-aos-delay="100">La Blockchain expliquée<br>aux Banquiers</h1>
+                <p style="max-width: 700px; margin: 0 auto 50px auto;" data-aos="fade-up" data-aos-delay="200">
+                    Oubliez le jargon technique. Explorez le cube de connaissances pour comprendre comment cette
+                    technologie remplace nos vieux fichiers Excel.
+                </p>
+
+                <!-- 3D CUBE CONTAINER -->
+                <div class="academy-3d-container" style="height: 400px; margin: 0 auto;">
+                    <!-- ORBIT DECOR -->
+                    <div class="academy-orbit"></div>
+
+                    <!-- 3D CUBE -->
+                    <div class="knowledge-cube" onclick="this.classList.toggle('frozen')">
+
+                        <!-- FRONT: REGISTRE -->
+                        <div class="cube-face face-front">
+                            <i class="fas fa-book-open"></i>
+                            <div>REGISTRE</div>
+                            <p>Le Grand Livre Partagé</p>
+                        </div>
+
+                        <!-- RIGHT: WALLET -->
+                        <div class="cube-face face-right">
+                            <i class="fas fa-key"></i>
+                            <div>WALLET</div>
+                            <p>Votre Clé Secrète</p>
+                        </div>
+
+                        <!-- BACK: TOKEN -->
+                        <div class="cube-face face-back">
+                            <i class="fas fa-coins"></i>
+                            <div>TOKEN</div>
+                            <p>L'Actif Numérique</p>
+                        </div>
+
+                        <!-- LEFT: CHANGE -->
+                        <div class="cube-face face-left">
+                            <i class="fas fa-exchange-alt"></i>
+                            <div>P2P</div>
+                            <p>Transfert Direct</p>
+                        </div>
+
+                        <!-- TOP: SECURITY -->
+                        <div class="cube-face face-top">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>SÉCURITÉ</div>
+                            <p>Immuabilité</p>
+                        </div>
+
+                        <!-- BOTTOM: FUTURE -->
+                        <div class="cube-face face-bottom">
+                            <i class="fas fa-rocket"></i>
+                            <div>FUTUR</div>
+                            <p>Web3 Banking</p>
+                        </div>
+                    </div>
+
+                    <div class="academy-info" style="bottom: 10px;">
+                        <i class="fas fa-mouse-pointer"></i> Cliquez sur le cube pour figer un concept.
+                    </div>
+                </div>
+                <!-- END 3D CUBE -->
+
+            </div>
+        </div>
+
+
+        <!-- SLIDE 2 : LE CHANGEMENT DE PARADIGME (PHASE 1) -->
+        <div class="slide" data-aos="fade-up">
+            <h2><i class="fa-solid fa-exchange-alt"></i> Comprendre le Changement de Paradigme</h2>
+            <p>De l'Internet de l'Information à l'Internet de la Valeur</p>
+
+            <div class="visual-comparison">
+                <!-- GAUCHE : EMAIL -->
+                <div class="v-card" style="border-top: 4px solid #64748b;">
+                    <div class="v-icon-wrapper">
+                        <i class="fa-solid fa-envelope" style="color: #64748b;"></i>
+                    </div>
+                    <span class="v-title" style="color: #94a3b8;">HIER : L'envoi de Copies</span>
+                    <p class="v-desc">
+                        Quand vous envoyez un email ou un PDF, vous envoyez une <strong>copie</strong>. Vous gardez
+                        l'original sur votre ordinateur.
+                    </p>
+                    <div
+                        style="margin-top: 20px; padding: 10px; background: rgba(239, 68, 68, 0.1); color: #ef4444; border-radius: 8px; font-size: 13px; font-weight: bold;">
+                        ⛔ Problème pour l'argent : Pas de "copier-coller" possible
+                    </div>
+                </div>
+
+                <!-- CENTRE -->
+                <div class="vs-badge">VS</div>
+
+                <!-- DROITE : TRANSFERT -->
+                <div class="v-card"
+                    style="border-top: 4px solid var(--accent-purple); background: rgba(168, 85, 247, 0.03);">
+                    <div class="v-icon-wrapper" style="border-color: var(--accent-purple);">
+                        <i class="fa-solid fa-link" style="color: var(--accent-purple);"></i>
+                    </div>
+                    <span class="v-title" style="color: var(--accent-purple);">DEMAIN : Le Transfert d'Unicité</span>
+                    <p class="v-desc">
+                        La Blockchain permet de transférer un actif numérique unique <strong>sans intermédiaire
+                            central</strong>. C'est comme donner du cash numérique.
+                    </p>
+                    <div
+                        style="margin-top: 20px; padding: 10px; background: rgba(16, 185, 129, 0.1); color: #10b981; border-radius: 8px; font-size: 13px; font-weight: bold;">
+                        ✅ Solution : Transfert de Valeur P2P
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2b : LE DICTIONNAIRE DE TRANSITION (PHASE 2) -->
+        <div class="slide" data-aos="fade-up">
+            <h2><i class="fa-solid fa-language"></i> Le Dictionnaire de Transition</h2>
+            <p>Traduire la "Tech" en langage "Banque"</p>
+
+            <style>
+                .trans-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 30px;
+                }
+
+                .trans-table th {
+                    text-align: left;
+                    padding: 15px;
+                    color: var(--accent-blue);
+                    border-bottom: 2px solid var(--border);
+                }
+
+                .trans-table td {
+                    padding: 20px 15px;
+                    border-bottom: 1px solid var(--border);
+                    font-size: 18px;
+                }
+
+                .trans-table tr:hover {
+                    background: rgba(255, 255, 255, 0.02);
+                }
+
+                .term-geek {
+                    font-family: 'JetBrains Mono';
+                    color: var(--accent-purple);
+                }
+
+                .term-pro {
+                    font-weight: bold;
+                    color: var(--accent-green);
+                }
+            </style>
+
+            <table class="trans-table">
+                <thead>
+                    <tr>
+                        <th>Terme "Grand Public" 🤓</th>
+                        <th>Terme "Crypto / Tech" 👨‍💻</th>
+                        <th>Terme "Institutionnel" 🏦</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Compte en banque</td>
+                        <td class="term-geek">Wallet (Metamask)</td>
+                        <td class="term-pro"><i class="fas fa-check"></i> Custody Account</td>
+                    </tr>
+                    <tr>
+                        <td>Virement</td>
+                        <td class="term-geek">Transaction On-chain</td>
+                        <td class="term-pro"><i class="fas fa-check"></i> Settlement (Règlement)</td>
+                    </tr>
+                    <tr>
+                        <td>Monnaie / Jeton</td>
+                        <td class="term-geek">Token / Coin</td>
+                        <td class="term-pro"><i class="fas fa-check"></i> Digital Asset</td>
+                    </tr>
+                    <tr>
+                        <td>Robot automatique</td>
+                        <td class="term-geek">Smart Contract</td>
+                        <td class="term-pro"><i class="fas fa-check"></i> Protocole d'Exécution</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- SLIDE 3 : LE DICTIONNAIRE DE TRANSITION (3D FLIP CARDS) -->
+        <div class="slide" data-aos="fade-up">
+            <h2><i class="fa-solid fa-language"></i> Le Dictionnaire de Transition</h2>
+            <p>Cliquez sur les cartes pour traduire du langage "Banque" au langage "Tech".</p>
+
+            <div class="dict-grid">
+
+                <!-- CARD 1: Compte -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-university"></i>
+                            <h4>Compte Bancaire</h4>
+                            <p>IBAN Standard</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-wallet"></i>
+                            <h4>WALLET</h4>
+                            <p>Portefeuille Numérique</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: Virement -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-exchange-alt"></i>
+                            <h4>Virement SEPA</h4>
+                            <p>J+1 / J+2</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-bolt"></i>
+                            <h4>TRANSACTION</h4>
+                            <p>On-Chain (T+0)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3: Monnaie -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <h4>Monnaie / Actions</h4>
+                            <p>Titres Papiers</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-coins"></i>
+                            <h4>TOKEN</h4>
+                            <p>Actif Programmable</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: Process -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-cogs"></i>
+                            <h4>Procédure Manuelle</h4>
+                            <p>Back-Office</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-robot"></i>
+                            <h4>SMART CONTRACT</h4>
+                            <p>Exécution Auto</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SLIDE 4 : LE WALLET (3D PARALLAX) -->
+        <div class="slide" data-aos="fade-up">
+            <h2><i class="fa-solid fa-2"></i> C'est quoi un "Wallet" (Portefeuille) ?</h2>
+            <p>Un Wallet n'est pas un compte bancaire. C'est votre trousseau de clés numériques.</p>
+
+            <div class="wallet-grid">
+
+                <!-- EXPLICATION -->
+                <div>
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="color: var(--accent-green); margin-bottom: 10px;"><i class="fa-solid fa-eye"></i>
+                            L'Adresse Publique (IBAN)</h3>
+                        <p style="font-size: 16px;">
+                            Visible sur la carte (Front). C'est votre numéro de compte.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 style="color: var(--accent-purple); margin-bottom: 10px;"><i
+                                class="fa-solid fa-pen-nib"></i> La
+                            Clé Privée (Signature)</h3>
+                        <p style="font-size: 16px;">
+                            Invisible (Back). C'est votre signature secrète.
+                        </p>
+                    </div>
+
+                    <div
+                        style="margin-top: 30px; padding: 15px; border-left: 4px solid #ef4444; background: rgba(239, 68, 68, 0.1);">
+                        <strong style="color: #ef4444;">Interactivité :</strong> Passez la souris sur la carte pour voir
+                        l'effet 3D, et cliquez pour retourner la carte (révéler la clé privée).
+                    </div>
+                </div>
+
+                <!-- VISUEL CARTE 3D PARALLAX -->
+                <div class="wallet-3d-container">
+                    <div class="wallet-card-3d" id="wallet-card"
+                        onclick="this.style.transform = this.style.transform.includes('rotateY(180deg)') ? 'rotateY(0deg)' : 'rotateY(180deg)'">
+
+                        <!-- FACE AVANT -->
+                        <div class="wallet-card-face wallet-face-front">
+                            <div style="display: flex; justify-content: space-between; align-items: start;">
+                                <i class="fa-brands fa-ethereum" style="font-size: 40px; color: #fff;"></i>
+                                <span style="color: #fff; font-weight: bold; font-family: 'JetBrains Mono';">ETH
+                                    WALLET</span>
+                            </div>
+                            <div class="wallet-chip"></div>
+                            <div>
+                                <span style="color: #94a3b8; font-size: 12px; text-transform: uppercase;">Public Address
+                                    (IBAN)</span>
+                                <div class="code-block" style="background:rgba(0,0,0,0.5)">0x71C7...92F</div>
+                            </div>
+                        </div>
+
+                        <!-- FACE ARRIERE (PRIVATE KEY) -->
+                        <div class="wallet-card-face wallet-face-back">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <i class="fa-solid fa-user-secret" style="font-size: 30px; color: #ef4444;"></i>
+                                <span style="color: #ef4444; font-weight: bold;">TOP SECRET</span>
+                            </div>
+                            <div style="text-align:center;">
+                                <i class="fa-solid fa-key" style="font-size: 50px; color: #ef4444; opacity:0.2;"></i>
+                            </div>
+                            <div>
+                                <span style="color: #ef4444; font-size: 12px; text-transform: uppercase;">Private
+                                    Key</span>
+                                <div class="code-block private"
+                                    style="background:rgba(0,0,0,0.8); border:1px solid #ef4444;">5Kb8...zQ1 (NE JAMAIS
+                                    PARTAGER)</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <script>
+                    // Simple Parallax Effect script
+                    document.querySelector('.wallet-3d-container').addEventListener('mousemove', function (e) {
+                        let card = document.getElementById('wallet-card');
+                        // Only apply parallax if not flipped? Or always? Let's keep it simple.
+                        // If flipped, logic reverses. Let's simpler: just tilt base container?
+                        // For now, Click to Flip is key. Mouse move tilt is bonus.
+                        // Implementation of simple tilt:
+                        let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                        let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                        // card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`; 
+                        // Conflict with onclick flip. Skipping complex JS tilt for stability.
+                    });
+                </script>
+
+            </div>
+        </div>
+
+        <!-- SLIDE 5 : DISTINCTION CRUCIALE -->
+        <div class="slide" data-aos="fade-up">
+            <h2><i class="fa-solid fa-3"></i> La Confusion à Éviter</h2>
+            <div
+                style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: center;">
+                <p style="font-size: 22px; margin-bottom: 40px;">
+                    "Est-ce qu'on va spéculer sur le Bitcoin ?" <br>
+                    <strong style="color: #ef4444;">NON.</strong>
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 40px; align-items: center;">
+                    <div>
+                        <i class="fa-brands fa-bitcoin"
+                            style="font-size: 50px; color: #f59e0b; margin-bottom: 20px;"></i>
+                        <h3 style="color: #fff;">Crypto-Monnaies</h3>
+                        <p style="font-size: 16px; color: var(--text-muted);">Actifs volatils, spéculatifs, non régulés.
+                        </p>
+                        <span
+                            style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; margin-top: 10px; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">HORS
+                            PÉRIMÈTRE</span>
+                    </div>
+
+                    <div style="height: 100px; background: var(--border);"></div>
+
+                    <div>
+                        <i class="fa-solid fa-file-contract"
+                            style="font-size: 50px; color: var(--accent-blue); margin-bottom: 20px;"></i>
+                        <h3 style="color: #fff;">Digital Assets</h3>
+                        <p style="font-size: 16px; color: var(--text-muted);">Titres financiers (Obligations)
+                            représentés sur Blockchain.</p>
+                        <span
+                            style="background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); margin-top: 10px; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">NOTRE
+                            MÉTIER</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6 : CONCLUSION & CTA -->
+        <div class="slide" data-aos="fade-up">
+            <div style="text-align: center; padding: 60px;">
+                <i class="fa-solid fa-graduation-cap"
+                    style="font-size: 80px; color: var(--accent-purple); margin-bottom: 30px; animation: float 3s ease-in-out infinite;"></i>
+                <h2 style="border: none; padding: 0; margin-bottom: 20px; justify-content: center;">Vous avez les bases
+                    !</h2>
+                <p style="max-width: 600px; margin: 0 auto 40px auto; color: var(--text-muted);">
+                    Maintenant que le vocabulaire est clair, découvrez comment les banques utilisent ces outils pour
+                    émettre des milliards d'euros d'obligations.
+                </p>
+
+                <a href="index.html"
+                    style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(90deg, #3b82f6, #a855f7); color: white; text-decoration: none; padding: 20px 50px; border-radius: 50px; font-weight: bold; font-size: 20px; transition: transform 0.2s; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);">
+                    PASSER AU NIVEAU EXPERT <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+
+    <!-- BILINGUAL TRANSLATION SYSTEM -->
+    <script>
+        const translations = {
+            fr: {
+                // Navigation
+                nav_expert: "PASSER EN MODE EXPERT",
+
+                // Slide 1 - Hero
+                hero_badge: "MODULE DÉBUTANT",
+                hero_title: "La Blockchain expliquée aux Banquiers",
+                hero_desc: "Oubliez le jargon technique. Utilisons des analogies bancaires simples pour comprendre comment cette technologie remplace nos vieux fichiers Excel.",
+                hero_ledger: "Le Registre",
+                hero_wallet: "Le Wallet",
+                hero_token: "Le Token",
+
+                // Slide 2 - Blockchain
+                slide2_title: "C'est quoi la Blockchain ?",
+                slide2_intro: "C'est une technologie de stockage d'information. Pour la comprendre, comparons-la à ce que nous connaissons.",
+                slide2_yesterday: "HIER : Le Fichier Excel",
+                slide2_yesterday_desc: "Chaque banque tient son propre registre fermé. Pour faire un virement, les back-offices doivent s'envoyer des messages et réconcilier leurs fichiers (T+2).",
+                slide2_yesterday_badge: "Risque d'erreur & Lenteur",
+                slide2_tomorrow: "DEMAIN : Le Google Sheet",
+                slide2_tomorrow_desc: "La Blockchain est un registre partagé mondialement. Tout le monde voit la même ligne au même moment. Quand je vous envoie de l'argent, le registre se met à jour pour tous (T+0).",
+                slide2_tomorrow_badge: "Instantané & \"Source Unique\"",
+
+                // Slide 3 - Wallet
+                slide3_title: "C'est quoi un \"Wallet\" (Portefeuille) ?",
+                slide3_intro: "Un Wallet n'est pas un compte bancaire. C'est votre trousseau de clés numériques.",
+                slide3_public_title: "L'Adresse Publique (IBAN)",
+                slide3_public_desc: "C'est votre numéro de compte. Vous pouvez le donner à tout le monde pour recevoir des fonds. Il est visible sur la blockchain.",
+                slide3_private_title: "La Clé Privée (Signature)",
+                slide3_private_desc: "C'est votre signature électronique secrète. Elle seule permet de débloquer les fonds et de valider un virement.",
+                slide3_rule: "Règle d'Or :",
+                slide3_rule_desc: "Si vous perdez votre clé privée, vous perdez l'accès à vos fonds. Il n'y a pas de \"Mot de passe oublié\".",
+
+                // Slide 4 - Confusion
+                slide4_title: "La Confusion à Éviter",
+                slide4_question: "\"Est-ce qu'on va spéculer sur le Bitcoin ?\"",
+                slide4_no: "NON.",
+                slide4_crypto_title: "Crypto-Monnaies",
+                slide4_crypto_desc: "Actifs volatils, spéculatifs, non régulés.",
+                slide4_crypto_badge: "HORS PÉRIMÈTRE",
+                slide4_digital_title: "Digital Assets",
+                slide4_digital_desc: "Titres financiers (Obligations) représentés sur Blockchain.",
+                slide4_digital_badge: "NOTRE MÉTIER",
+
+                // Slide 5 - Conclusion
+                slide5_title: "Vous avez les bases !",
+                slide5_desc: "Maintenant que le vocabulaire est clair, découvrez comment les banques utilisent ces outils pour émettre des milliards d'euros d'obligations.",
+                slide5_cta: "PASSER AU NIVEAU EXPERT",
+
+                // Footer
+                footer_title: "Expert Digital Assets & Blockchain",
+                footer_btn: "SE CONNECTER SUR LINKEDIN",
+                footer_copyright: "Tous droits réservés",
+
+                // Legal
+                legal_warning: "AVERTISSEMENT INTERNE :",
+                legal_text: "Ce document est une présentation stratégique à usage exclusivement pédagogique et interne. Les produits financiers (Digital Bonds) et les scénarios de marché présentés sont des simulations. Ne constitue pas une offre de service ou un conseil en investissement.",
+                legal_classification: "Classification : CONFIDENTIAL / INTERNAL USE ONLY • © 2026 Blockchain Academy"
+            },
+            en: {
+                // Navigation
+                nav_expert: "SWITCH TO EXPERT MODE",
+
+                // Slide 1 - Hero
+                hero_badge: "BEGINNER MODULE",
+                hero_title: "Blockchain Explained to Bankers",
+                hero_desc: "Forget the technical jargon. Let's use simple banking analogies to understand how this technology replaces our old Excel files.",
+                hero_ledger: "The Ledger",
+                hero_wallet: "The Wallet",
+                hero_token: "The Token",
+
+                // Slide 2 - Blockchain
+                slide2_title: "What is Blockchain?",
+                slide2_intro: "It's an information storage technology. To understand it, let's compare it to what we know.",
+                slide2_yesterday: "YESTERDAY: The Excel File",
+                slide2_yesterday_desc: "Each bank keeps its own closed ledger. To make a transfer, back-offices must send messages and reconcile their files (T+2).",
+                slide2_yesterday_badge: "Error-Prone & Slow",
+                slide2_tomorrow: "TOMORROW: The Google Sheet",
+                slide2_tomorrow_desc: "Blockchain is a globally shared ledger. Everyone sees the same line at the same time. When I send you money, the ledger updates for everyone (T+0).",
+                slide2_tomorrow_badge: "Instant & \"Single Source\"",
+
+                // Slide 3 - Wallet
+                slide3_title: "What is a \"Wallet\"?",
+                slide3_intro: "A Wallet is not a bank account. It's your digital keychain.",
+                slide3_public_title: "Public Address (IBAN)",
+                slide3_public_desc: "This is your account number. You can give it to anyone to receive funds. It is visible on the blockchain.",
+                slide3_private_title: "Private Key (Signature)",
+                slide3_private_desc: "This is your secret digital signature. Only it can unlock funds and validate a transfer.",
+                slide3_rule: "Golden Rule:",
+                slide3_rule_desc: "If you lose your private key, you lose access to your funds. There is no \"Forgot Password\".",
+
+                // Slide 4 - Confusion
+                slide4_title: "The Confusion to Avoid",
+                slide4_question: "\"Are we going to speculate on Bitcoin?\"",
+                slide4_no: "NO.",
+                slide4_crypto_title: "Cryptocurrencies",
+                slide4_crypto_desc: "Volatile, speculative, unregulated assets.",
+                slide4_crypto_badge: "OUT OF SCOPE",
+                slide4_digital_title: "Digital Assets",
+                slide4_digital_desc: "Financial securities (Bonds) represented on Blockchain.",
+                slide4_digital_badge: "OUR BUSINESS",
+
+                // Slide 5 - Conclusion
+                slide5_title: "You have the basics!",
+                slide5_desc: "Now that the vocabulary is clear, discover how banks use these tools to issue billions of euros in bonds.",
+                slide5_cta: "GO TO EXPERT LEVEL",
+
+                // Footer
+                footer_title: "Expert Digital Assets & Blockchain",
+                footer_btn: "CONNECT ON LINKEDIN",
+                footer_copyright: "All rights reserved",
+
+                // Legal
+                legal_warning: "INTERNAL WARNING:",
+                legal_text: "This document is a strategic presentation for exclusively educational and internal use. The financial products (Digital Bonds) and market scenarios presented are simulations. Does not constitute a service offer or investment advice.",
+                legal_classification: "Classification: CONFIDENTIAL / INTERNAL USE ONLY • © 2026 Blockchain Academy"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (!savedLang) {
+                localStorage.setItem('preferredLanguage', 'fr');
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    if (btn.textContent.includes('🇫🇷')) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            } else if (savedLang === 'en') {
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    if (btn.textContent.includes('🇬🇧')) {
+                        btn.click();
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- SUPER FOOTER -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- BRAND -->
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                    <p>La plateforme de référence pour maîtriser la tokenisation des actifs financiers et les
+                        infrastructures DLT.</p>
+                    <div class="footer-socials">
+                        <a href="https://github.com/JoanLabTest/Blockchain_Presentation" class="social-btn"><i
+                                class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/joan-lyczak/" class="social-btn"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- EXPLORER -->
+                <div class="footer-col">
+                    <h4>Explorer</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-home" style="font-size:10px; opacity:0.5;"></i> Hub
+                                Central</a></li>
+                        <li><a href="simple.html"><i class="fas fa-graduation-cap"
+                                    style="font-size:10px; opacity:0.5;"></i> Academy (Débutant)</a></li>
+                        <li><a href="guide.html"><i class="fas fa-book" style="font-size:10px; opacity:0.5;"></i> Guide
+                                Expert (Pro)</a></li>
+                        <li><a href="lifecycle.html"><i class="fas fa-project-diagram"
+                                    style="font-size:10px; opacity:0.5;"></i> Cycle de Vie (Live)</a></li>
+                        <li><a href="flux-comparison.html"><i class="fas fa-exchange-alt"
+                                    style="font-size:10px; opacity:0.5;"></i> Comparateur Flux</a></li>
+                        <li><a href="legal_pilot.html"><i class="fas fa-scale-balanced"
+                                    style="font-size:10px; opacity:0.5;"></i> Régime Pilote (UE)</a></li>
+                        <li><a href="sandbox.html"><i class="fas fa-terminal" style="font-size:10px; opacity:0.5;"></i>
+                                Sandbox (Dev)</a></li>
+                    </ul>
+                </div>
+
+                <!-- RESOURCES -->
+                <div class="footer-col">
+                    <h4>Ressources</h4>
+                    <ul class="footer-links">
+                        <li><a href="rwa.html">RWA & DeFi</a></li>
+                        <li><a href="web3.html">Web3 Infrastructure</a></li>
+                        <li><a href="ai-finance.html">AI & Finance</a></li>
+                        <li><a href="quiz.html">Certification</a></li>
+                        <li><a href="index-simple.html">Site Corporate</a></li>
+                    </ul>
+                </div>
+
+                <!-- LEGAL -->
+                <div class="footer-col">
+                    <h4>Informations</h4>
+                    <ul class="footer-links">
+                        <li><a href="mentions-legales.html">Mentions Légales</a></li>
+                        <li><a href="privacy.html">Politique de Confidentialité</a></li>
+                        <li><a href="sitemap.xml">Sitemap</a></li>
+                    </ul>
+                    <div style="margin-top: 20px; font-size: 11px; color: #64748b; line-height: 1.5;">
+                        <strong>Disclaimer :</strong> Plateforme de démonstration éducative. Aucun conseil financier.
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright">
+                    © 2026 DCM Digital • Internal Use Only • Version 2.4 (Pilot Update)
+                </div>
+                <div class="legal-links">
+                    <a href="#">Support IT</a>
+                    <a href="#">Documentation API</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

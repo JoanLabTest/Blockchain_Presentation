@@ -26,6 +26,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
+    <script src="config.js"></script> <!-- CONFIGURATION CENTRALE -->
     <!-- ICONS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- ANIMATIONS -->
@@ -764,7 +765,8 @@
                     <div class="history-point" data-year="2024">
                         <div class="history-content">
                             <strong style="color: var(--accent-gold);">Adoption Corporate</strong>
-                            <p style="color: var(--text-muted); margin: 0;">Siemens émet 300M€ avec Trigger.</p>
+                            <p style="color: var(--text-muted); margin: 0;">Siemens émet <span
+                                    data-config="siemensAmount">300 M€</span> avec Trigger.</p>
                         </div>
                     </div>
                     <!-- 2026 -->
@@ -827,7 +829,8 @@
                                 BOND</span>
                         </div>
                         <ul style="margin-top: 20px; font-size: 16px; color: var(--text-muted); list-style: none;">
-                            <li style="margin-bottom: 10px;"><strong>Montant :</strong> 100 M€</li>
+                            <li style="margin-bottom: 10px;"><strong>Montant :</strong> <span
+                                    data-config="natixisAmount">100 M€</span></li>
                             <li style="margin-bottom: 10px;"><strong>Format :</strong> Nominatif (Digital Registered)
                             </li>
                             <li><strong>Stratégie :</strong> Digitalisation de la relation directe
@@ -844,7 +847,8 @@
                                 BOND</span>
                         </div>
                         <ul style="margin-top: 20px; font-size: 16px; color: var(--text-muted); list-style: none;">
-                            <li style="margin-bottom: 10px;"><strong>Montant :</strong> 300 M€ / 50 M€</li>
+                            <li style="margin-bottom: 10px;"><strong>Montant :</strong> <span
+                                    data-config="siemensAmount">300 M€</span> / 50 M€</li>
                             <li style="margin-bottom: 10px;"><strong>Format :</strong> Au Porteur (Collective Entry)
                             </li>
                             <li><strong>Innovation :</strong> Règlement **Trigger** (Monnaie Banque Centrale).</li>
@@ -1276,7 +1280,7 @@
                                 <div>
                                     <strong style="font-size: 24px; display:block;">SIEMENS AG (DIG)</strong>
                                     <span style="font-size: 12px; color:#94a3b8;">ISIN: DE000SIE2026 • FIXED
-                                        3.15%</span>
+                                        <span data-config="rate">3.15%</span></span>
                                 </div>
                                 <div style="text-align:right;">
                                     <strong style="font-size: 24px; color: var(--accent-green);">99.85 %</strong>
@@ -1315,7 +1319,7 @@
 
                             <div style="margin-top: 20px; display: flex; gap: 10px;">
                                 <div class="box" style="padding: 10px; flex: 1; text-align:center;">Yield:
-                                    <strong>3.15%</strong>
+                                    <strong data-config="rate">3.15%</strong>
                                 </div>
                                 <div class="box" style="padding: 10px; flex: 1; text-align:center;">Settlement: <strong
                                         style="color:var(--accent-green)">T+0 (Atomic)</strong></div>
@@ -1743,7 +1747,7 @@
                 history_2021_title: "Loi eWpG",
                 history_2021_desc: "L'Allemagne légalise les titres purement numériques.",
                 history_2024_title: "Adoption Corporate",
-                history_2024_desc: "Siemens émet 300M€ avec règlement Trigger.",
+                history_2024_desc: "Siemens émet " + DCM_CONFIG.siemensAmount + " avec règlement Trigger.",
                 history_2026_title: "Ère de la Liquidité",
                 history_2026_desc: "Standardisation BCE & Market Making.",
 
@@ -1863,7 +1867,7 @@
                 history_2021_title: "eWpG Law",
                 history_2021_desc: "Germany legalizes purely digital securities.",
                 history_2024_title: "Corporate Adoption",
-                history_2024_desc: "Siemens issues €300m with Trigger settlement.",
+                history_2024_desc: "Siemens issues " + DCM_CONFIG.siemensAmount + " with Trigger settlement.",
                 history_2026_title: "Liquidity Era",
                 history_2026_desc: "ECB Standardization & Market Making.",
 
