@@ -883,348 +883,356 @@
 
         // --- PERSISTENCE & UNLOCKS ---
         window.onload = function () {
-            // DEMO SHORTCUT: ?demo=1 in URL unlocks EVERYTHING
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('demo')) {
-                localStorage.setItem('quiz_metal_1', 'bronze');
-                localStorage.setItem('quiz_metal_2', 'silver');
-                localStorage.setItem('quiz_metal_3', 'gold');
-                localStorage.setItem('quiz_lvl4_unlocked', 'true');
+            window.onload = function () {
+                // DEMO SHORTCUT REMOVED - NOW REQUIRES PASSWORD "SATOSHI"
+
+
+                const m1 = localStorage.getItem('quiz_metal_1');
+                const m2 = localStorage.getItem('quiz_metal_2');
+                const m3 = localStorage.getItem('quiz_metal_3');
+                const rank4 = localStorage.getItem('quiz_rank_4');
+                const lvl4 = localStorage.getItem('quiz_lvl4_unlocked') === 'true';
+
+                if (m1) {
+                    unlockUI('cardLvl2', 'tagLvl2');
+                    showMedal('medalLvl1', '🥉');
+                    markPassed('tagLvl1', 'BRONZE');
+                }
+                if (m2) {
+                    unlockUI('cardLvl3', 'tagLvl3');
+                    showMedal('medalLvl2', '🥈');
+                    markPassed('tagLvl2', 'ARGENT');
+                }
+                if (m3) {
+                    showMedal('medalLvl3', '🥇');
+                    markPassed('tagLvl3', 'OR');
+                }
+                if (rank4) {
+                    showMedal('medalLvl4', getRankIcon(rank4)); // Custom icon based on rank
+                    markPassed('tagLvl4', rank4.toUpperCase());
+                }
+
+                if (lvl4) {
+                    revealHeadOf();
+                }
+            };
+
+            function getRankIcon(rank) {
+                if (rank === 'Iridescent') return '🌈';
+                if (rank === 'Crimson') return '👹';
+                if (rank === 'Diamond') return '💎';
+                if (rank === 'Platinum') return '💿';
+                return '🎖️';
             }
 
-            const m1 = localStorage.getItem('quiz_metal_1');
-            const m2 = localStorage.getItem('quiz_metal_2');
-            const m3 = localStorage.getItem('quiz_metal_3');
-            const rank4 = localStorage.getItem('quiz_rank_4');
-            const lvl4 = localStorage.getItem('quiz_lvl4_unlocked') === 'true';
-
-            if (m1) {
-                unlockUI('cardLvl2', 'tagLvl2');
-                showMedal('medalLvl1', '🥉');
-                markPassed('tagLvl1', 'BRONZE');
-            }
-            if (m2) {
-                unlockUI('cardLvl3', 'tagLvl3');
-                showMedal('medalLvl2', '🥈');
-                markPassed('tagLvl2', 'ARGENT');
-            }
-            if (m3) {
-                showMedal('medalLvl3', '🥇');
-                markPassed('tagLvl3', 'OR');
-            }
-            if (rank4) {
-                showMedal('medalLvl4', getRankIcon(rank4)); // Custom icon based on rank
-                markPassed('tagLvl4', rank4.toUpperCase());
-            }
-
-            if (lvl4) {
-                revealHeadOf();
-            }
-        };
-
-        function getRankIcon(rank) {
-            if (rank === 'Iridescent') return '🌈';
-            if (rank === 'Crimson') return '👹';
-            if (rank === 'Diamond') return '💎';
-            if (rank === 'Platinum') return '💿';
-            return '🎖️';
-        }
-
-        function showMedal(id, icon) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.innerText = icon;
-                if (icon === '🌈') el.style.fontSize = "40px"; // Bigger for final
-                el.classList.add('visible');
-            }
-        }
-
-        // KEYBOARD SHORTCUT: Press 'H' to open Password Modal
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'h' || event.key === 'H') {
-                openPasswordModal();
-            }
-        });
-
-
-        function checkGlobalExcellence() {
-            // Need to store actual scores to calculate average. For now, if L3 passed, we assume good enough?
-            // User asked for "90% minimum". We'll simplify: if L3 passed, show button.
-            // Actually, let's keep it hidden unless specific trigger. Password is main way for now.
-        }
-
-        function unlockUI(cardId, tagId) {
-            const card = document.getElementById(cardId);
-            const tag = document.getElementById(tagId);
-            if (card) { card.classList.remove('locked'); card.classList.add('unlocked'); }
-            if (tag) { tag.classList.remove('tag-locked'); tag.classList.add('tag-open'); tag.innerText = "DÉVERROUILLÉ"; }
-        }
-
-        function markPassed(tagId, label) {
-            const tag = document.getElementById(tagId);
-            if (tag) {
-                tag.classList.remove('tag-open');
-                tag.classList.add('tag-passed');
-                tag.innerText = label || "VALIDÉ ✅";
-                if (label === 'IRIDESCENT') {
-                    tag.style.background = "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)";
-                    tag.style.animation = "rainbow 3s ease infinite";
-                    tag.style.backgroundSize = "200% 200%";
-                    tag.style.color = "white";
-                    tag.style.border = "1px solid white";
+            function showMedal(id, icon) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.innerText = icon;
+                    if (icon === '🌈') el.style.fontSize = "40px"; // Bigger for final
+                    el.classList.add('visible');
                 }
             }
-        }
 
-        function revealHeadOf() {
-            const c = document.getElementById('cardLvl4');
-            const t = document.getElementById('tagLvl4');
-            c.classList.add('visible');
-            c.classList.remove('locked');
-            t.innerText = "ACCÈS AUTORISÉ";
-            t.classList.remove('tag-locked');
-            t.classList.add('tag-head-of');
-        }
-
-        // --- PASSWORD SYSTEM ---
-        function openPasswordModal() { document.getElementById('passwordModal').style.display = 'flex'; }
-        function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; }
-
-        function checkPassword() {
-            const val = document.getElementById('secretPass').value;
-            if (val.toUpperCase() === "SATOSHI") {
-                localStorage.setItem('quiz_lvl4_unlocked', 'true');
-                revealHeadOf();
-                closePasswordModal();
-                alert("Accès Head Of déverrouillé. Bonne chance.");
-            } else {
-                alert("Accès refusé.");
-            }
-        }
-
-        // --- GAME SYSTEM ---
-        function startLevel(level) {
-            // Check Locks (Now based on Metals)
-            if (level === 2 && !localStorage.getItem('quiz_metal_1')) return;
-            if (level === 3 && !localStorage.getItem('quiz_metal_2')) return;
-            if (level === 4 && localStorage.getItem('quiz_lvl4_unlocked') !== 'true') return;
-
-            currentLevel = level;
-
-            // LOAD & SHUFFLE DATA
-            // Clone to avoid modifying original
-            let pool = [];
-            if (level === 1) pool = [...QUIZ_DATA.level1];
-            else if (level === 2) pool = [...QUIZ_DATA.level2];
-            else if (level === 3) pool = [...QUIZ_DATA.level3];
-            else if (level === 4) pool = [...QUIZ_DATA.levelHeadOf];
-
-            // 1. Shuffle Questions
-            pool = shuffle(pool);
-
-            // 2. Select 20 (or 10 for Head Of)
-            const count = (level === 4) ? 10 : 20;
-            currentQuestions = pool.slice(0, count);
-
-            currentQIndex = 0;
-            score = 0;
-
-            // UI Switch
-            ui.dashboard.style.display = 'none';
-            ui.quizHeader.style.display = 'flex';
-            ui.content.style.display = 'flex';
-            ui.result.style.display = 'none';
-
-            const titles = { 1: "Niveau 1", 2: "Niveau 2", 3: "Niveau 3", 4: "HEAD OF DIGITAL" };
-            ui.levelTitle.innerText = titles[level];
-            ui.qTotal.innerText = count;
-
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const q = currentQuestions[currentQIndex];
-
-            // UI Updates
-            ui.qCurrent.innerText = currentQIndex + 1;
-            ui.progressBar.style.width = ((currentQIndex) / currentQuestions.length * 100) + "%";
-
-            const badge = document.getElementById('categoryBadge');
-            badge.innerText = q.category;
-            badge.style.background = (currentLevel === 4) ? "#FFD700" : "var(--accent-blue)";
-            badge.style.color = (currentLevel === 4) ? "black" : "white";
-
-            ui.questionText.innerText = q.q;
-            ui.options.innerHTML = "";
-
-            // HEAD OF LAYOUT
-            if (currentLevel === 4) ui.options.classList.add('head-of-mode');
-            else ui.options.classList.remove('head-of-mode');
-
-            ui.feedbackBox.classList.remove('show');
-            ui.nextBtn.style.display = "none";
-
-            // SHUFFLE OPTIONS
-            // Create array of indices [0, 1, 2, 3...]
-            let indices = Array.from({ length: q.options.length }, (_, i) => i);
-            indices = shuffle(indices);
-
-            // Render Buttons based on shuffled indices
-            // We need to track which shuffled button corresponds to the correct answer (q.a)
-            indices.forEach(originalIndex => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerText = q.options[originalIndex];
-                // Pass originalIndex to validation
-                btn.onclick = () => selectAnswer(originalIndex, btn, q.a);
-                ui.options.appendChild(btn);
-            });
-        }
-
-        function selectAnswer(selectedIndex, btn, correctIndex) {
-            const q = currentQuestions[currentQIndex];
-            const isCorrect = (selectedIndex === correctIndex);
-
-            // Disable all & Reveal Correct
-            const allBtns = document.querySelectorAll('.option-btn');
-            allBtns.forEach(b => {
-                b.classList.add('disabled');
-                // We need to find the button that has the correct text to highlight it green if user was wrong
-                if (b.innerText === q.options[correctIndex]) {
-                    if (!isCorrect) b.classList.add('correct'); // Show correct one
+            // KEYBOARD SHORTCUT: Press 'H' to open Password Modal
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'h' || event.key === 'H') {
+                    openPasswordModal();
                 }
             });
 
-            if (isCorrect) {
-                btn.classList.add('correct');
-                score++;
-            } else {
-                btn.classList.add('wrong');
+
+            function checkGlobalExcellence() {
+                // Need to store actual scores to calculate average. For now, if L3 passed, we assume good enough?
+                // User asked for "90% minimum". We'll simplify: if L3 passed, show button.
+                // Actually, let's keep it hidden unless specific trigger. Password is main way for now.
             }
 
-            // Feedback
-            ui.feedbackText.innerText = q.info;
-            ui.feedbackBox.classList.add('show');
-            ui.nextBtn.style.display = "block";
-
-            // End Check
-            if (currentQIndex === currentQuestions.length - 1) {
-                ui.nextBtn.innerHTML = 'Voir Résultats <i class="fa-solid fa-trophy"></i>';
-                ui.nextBtn.onclick = showResults; // Calls new logic
-            } else {
-                ui.nextBtn.innerHTML = 'Question Suivante <i class="fa-solid fa-arrow-right"></i>';
-                ui.nextBtn.onclick = nextQuestion;
+            function unlockUI(cardId, tagId) {
+                const card = document.getElementById(cardId);
+                const tag = document.getElementById(tagId);
+                if (card) { card.classList.remove('locked'); card.classList.add('unlocked'); }
+                if (tag) { tag.classList.remove('tag-locked'); tag.classList.add('tag-open'); tag.innerText = "DÉVERROUILLÉ"; }
             }
-        }
 
-        function nextQuestion() {
-            currentQIndex++;
-            loadQuestion();
-        }
-
-        function showResults() {
-            ui.quizHeader.style.display = 'none';
-            ui.content.style.display = 'none';
-            ui.result.style.display = 'flex';
-
-            const percentage = Math.round((score / currentQuestions.length) * 100);
-            const passed = percentage >= 80;
-
-            const finalScoreEl = document.getElementById('finalScore');
-            const finalRankEl = document.getElementById('finalRank');
-            const finalMsgEl = document.getElementById('finalMessage');
-            const btnContainer = document.getElementById('resultButtons');
-
-            finalScoreEl.innerText = percentage + "%";
-
-            // Common Restart
-            const restartBtn = `<button onclick="location.reload()" style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Retour au Centre</button>`;
-
-            let rank = "Échec";
-            let color = "#ef4444";
-            let msg = "Il faut 80% pour valider ce grade.";
-            let actionBtn = `<button onclick="startLevel(${currentLevel})" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
-
-            // --- RANKED LOGIC ---
-
-            // LEVEL 1 -> BRONZE
-            if (currentLevel === 1 && passed) {
-                rank = "MÉDAILLE DE BRONZE 🥉";
-                color = "#cd7f32"; // Bronze
-                msg = "Fondamentaux validés. Le niveau Opérationnel est débloqué.";
-                localStorage.setItem('quiz_metal_1', 'bronze');
-                actionBtn = `<button onclick="startLevel(2)" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Argent</button>`;
+            function markPassed(tagId, label) {
+                const tag = document.getElementById(tagId);
+                if (tag) {
+                    tag.classList.remove('tag-open');
+                    tag.classList.add('tag-passed');
+                    tag.innerText = label || "VALIDÉ ✅";
+                    if (label === 'IRIDESCENT') {
+                        tag.style.background = "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)";
+                        tag.style.animation = "rainbow 3s ease infinite";
+                        tag.style.backgroundSize = "200% 200%";
+                        tag.style.color = "white";
+                        tag.style.border = "1px solid white";
+                    }
+                }
             }
-            // LEVEL 2 -> SILVER
-            else if (currentLevel === 2 && passed) {
-                rank = "MÉDAILLE D'ARGENT 🥈";
-                color = "#c0c0c0"; // Silver
-                msg = "Opérations maîtrisées. Accès au niveau Stratégique.";
-                localStorage.setItem('quiz_metal_2', 'silver');
-                actionBtn = `<button onclick="startLevel(3)" style="padding: 15px 30px; background: var(--accent-purple); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Or</button>`;
-            }
-            // LEVEL 3 -> GOLD
-            else if (currentLevel === 3 && passed) {
-                rank = "MÉDAILLE D'OR 🥇";
-                color = "#ffd700"; // Gold
-                msg = "Niveau Expert validé.";
-                localStorage.setItem('quiz_metal_3', 'gold');
 
-                // UNLOCK HEAD OF IF > 90% (Original logic kept as bonus)
-                if (percentage >= 90) {
-                    msg += " SCORE ÉLITE DÉTECTÉ. Accès Head Of autorisé.";
+            function revealHeadOf() {
+                const c = document.getElementById('cardLvl4');
+                const t = document.getElementById('tagLvl4');
+                c.classList.add('visible');
+                c.classList.remove('locked');
+                t.innerText = "ACCÈS AUTORISÉ";
+                t.classList.remove('tag-locked');
+                t.classList.add('tag-head-of');
+            }
+
+            // --- PASSWORD SYSTEM ---
+            function openPasswordModal() { document.getElementById('passwordModal').style.display = 'flex'; }
+            function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; }
+
+            function checkPassword() {
+                const val = document.getElementById('secretPass').value;
+                if (val.toUpperCase() === "SATOSHI") {
+                    // MASTER UNLOCK (DEV MODE)
+                    localStorage.setItem('quiz_metal_1', 'bronze');
+                    localStorage.setItem('quiz_metal_2', 'silver');
+                    localStorage.setItem('quiz_metal_3', 'gold');
                     localStorage.setItem('quiz_lvl4_unlocked', 'true');
-                    actionBtn = `<button onclick="startLevel(4)" style="padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #B8860B); color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px; box-shadow: 0 0 20px #FFD700;">ENTRER DANS LA MATRICE</button>`;
-                } else {
-                    actionBtn = `<a href="index.html" style="padding: 15px 30px; background: var(--accent-gold); color: white; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px;">Retour au QG</a>`;
-                }
-            }
-            // LEVEL 4 -> HEAD OF RANKING
-            else if (currentLevel === 4) {
-                // Determine Rank
-                if (percentage >= 95) {
-                    rank = "IRIDESCENT 🌈";
-                    color = "transparent"; // Calculated in CSS
-                    finalRankEl.className = "rank-iridescent"; // ADD CLASS
-                    msg = "LÉGENDAIRE. Vous avez terminé le jeu.";
-                    localStorage.setItem('quiz_rank_4', 'Iridescent');
-                } else if (percentage >= 85) {
-                    rank = "CRIMSON 👹";
-                    color = "#dc2626";
-                    finalRankEl.className = "rank-crimson";
-                    msg = "Un score monstrueux. Respect.";
-                    localStorage.setItem('quiz_rank_4', 'Crimson');
-                } else if (percentage >= 75) {
-                    rank = "DIAMOND 💎";
-                    color = "#b9f2ff";
-                    finalRankEl.className = "rank-diamond";
-                    msg = "Excellence opérationnelle.";
-                    localStorage.setItem('quiz_rank_4', 'Diamond');
-                } else if (percentage >= 65) {
-                    rank = "PLATINUM 💿";
-                    color = "#e2e8f0";
-                    finalRankEl.classList.add('rank-platinum');
-                    msg = "Solide, mais peut mieux faire.";
-                    localStorage.setItem('quiz_rank_4', 'Platinum');
-                } else {
-                    rank = "ÉCHEC CRITIQUE 💀";
-                    color = "#ef4444";
-                    msg = "Le niveau Head Of ne pardonne pas les approximations (<65%).";
-                    actionBtn = `<button onclick="startLevel(4)" style="padding: 15px 30px; background: #FFD700; color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
-                }
 
-                if (percentage >= 65) {
-                    actionBtn = `<a href="index.html" style="padding: 15px 30px; background: #FFD700; color: black; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px;">Retour Triomphal</a>`;
+                    // Unlock Guide Badges too (Cross-page)
+                    localStorage.setItem('badge_explorer', 'true');
+                    localStorage.setItem('badge_listener', 'true');
+                    localStorage.setItem('badge_strategist', 'true');
+
+                    revealHeadOf();
+                    closePasswordModal();
+
+                    // Force Reload to apply all visual unlocks immediately
+                    alert("🔓 DEV MODE ACTIVÉ : Tout est débloqué (Quiz, Médailles, Badges).");
+                    location.reload();
+                } else {
+                    alert("Accès refusé.");
                 }
             }
 
-            finalRankEl.innerText = rank;
-            if (color !== "transparent") finalRankEl.style.color = color;
-            finalScoreEl.style.borderColor = (color === "transparent") ? "#FFD700" : color;
-            finalMsgEl.innerText = msg;
+            // --- GAME SYSTEM ---
+            function startLevel(level) {
+                // Check Locks (Now based on Metals)
+                if (level === 2 && !localStorage.getItem('quiz_metal_1')) return;
+                if (level === 3 && !localStorage.getItem('quiz_metal_2')) return;
+                if (level === 4 && localStorage.getItem('quiz_lvl4_unlocked') !== 'true') return;
 
-            btnContainer.innerHTML = restartBtn + actionBtn;
-        }
+                currentLevel = level;
+
+                // LOAD & SHUFFLE DATA
+                // Clone to avoid modifying original
+                let pool = [];
+                if (level === 1) pool = [...QUIZ_DATA.level1];
+                else if (level === 2) pool = [...QUIZ_DATA.level2];
+                else if (level === 3) pool = [...QUIZ_DATA.level3];
+                else if (level === 4) pool = [...QUIZ_DATA.levelHeadOf];
+
+                // 1. Shuffle Questions
+                pool = shuffle(pool);
+
+                // 2. Select 20 (or 10 for Head Of)
+                const count = (level === 4) ? 10 : 20;
+                currentQuestions = pool.slice(0, count);
+
+                currentQIndex = 0;
+                score = 0;
+
+                // UI Switch
+                ui.dashboard.style.display = 'none';
+                ui.quizHeader.style.display = 'flex';
+                ui.content.style.display = 'flex';
+                ui.result.style.display = 'none';
+
+                const titles = { 1: "Niveau 1", 2: "Niveau 2", 3: "Niveau 3", 4: "HEAD OF DIGITAL" };
+                ui.levelTitle.innerText = titles[level];
+                ui.qTotal.innerText = count;
+
+                loadQuestion();
+            }
+
+            function loadQuestion() {
+                const q = currentQuestions[currentQIndex];
+
+                // UI Updates
+                ui.qCurrent.innerText = currentQIndex + 1;
+                ui.progressBar.style.width = ((currentQIndex) / currentQuestions.length * 100) + "%";
+
+                const badge = document.getElementById('categoryBadge');
+                badge.innerText = q.category;
+                badge.style.background = (currentLevel === 4) ? "#FFD700" : "var(--accent-blue)";
+                badge.style.color = (currentLevel === 4) ? "black" : "white";
+
+                ui.questionText.innerText = q.q;
+                ui.options.innerHTML = "";
+
+                // HEAD OF LAYOUT
+                if (currentLevel === 4) ui.options.classList.add('head-of-mode');
+                else ui.options.classList.remove('head-of-mode');
+
+                ui.feedbackBox.classList.remove('show');
+                ui.nextBtn.style.display = "none";
+
+                // SHUFFLE OPTIONS
+                // Create array of indices [0, 1, 2, 3...]
+                let indices = Array.from({ length: q.options.length }, (_, i) => i);
+                indices = shuffle(indices);
+
+                // Render Buttons based on shuffled indices
+                // We need to track which shuffled button corresponds to the correct answer (q.a)
+                indices.forEach(originalIndex => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerText = q.options[originalIndex];
+                    // Pass originalIndex to validation
+                    btn.onclick = () => selectAnswer(originalIndex, btn, q.a);
+                    ui.options.appendChild(btn);
+                });
+            }
+
+            function selectAnswer(selectedIndex, btn, correctIndex) {
+                const q = currentQuestions[currentQIndex];
+                const isCorrect = (selectedIndex === correctIndex);
+
+                // Disable all & Reveal Correct
+                const allBtns = document.querySelectorAll('.option-btn');
+                allBtns.forEach(b => {
+                    b.classList.add('disabled');
+                    // We need to find the button that has the correct text to highlight it green if user was wrong
+                    if (b.innerText === q.options[correctIndex]) {
+                        if (!isCorrect) b.classList.add('correct'); // Show correct one
+                    }
+                });
+
+                if (isCorrect) {
+                    btn.classList.add('correct');
+                    score++;
+                } else {
+                    btn.classList.add('wrong');
+                }
+
+                // Feedback
+                ui.feedbackText.innerText = q.info;
+                ui.feedbackBox.classList.add('show');
+                ui.nextBtn.style.display = "block";
+
+                // End Check
+                if (currentQIndex === currentQuestions.length - 1) {
+                    ui.nextBtn.innerHTML = 'Voir Résultats <i class="fa-solid fa-trophy"></i>';
+                    ui.nextBtn.onclick = showResults; // Calls new logic
+                } else {
+                    ui.nextBtn.innerHTML = 'Question Suivante <i class="fa-solid fa-arrow-right"></i>';
+                    ui.nextBtn.onclick = nextQuestion;
+                }
+            }
+
+            function nextQuestion() {
+                currentQIndex++;
+                loadQuestion();
+            }
+
+            function showResults() {
+                ui.quizHeader.style.display = 'none';
+                ui.content.style.display = 'none';
+                ui.result.style.display = 'flex';
+
+                const percentage = Math.round((score / currentQuestions.length) * 100);
+                const passed = percentage >= 80;
+
+                const finalScoreEl = document.getElementById('finalScore');
+                const finalRankEl = document.getElementById('finalRank');
+                const finalMsgEl = document.getElementById('finalMessage');
+                const btnContainer = document.getElementById('resultButtons');
+
+                finalScoreEl.innerText = percentage + "%";
+
+                // Common Restart
+                const restartBtn = `<button onclick="location.reload()" style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Retour au Centre</button>`;
+
+                let rank = "Échec";
+                let color = "#ef4444";
+                let msg = "Il faut 80% pour valider ce grade.";
+                let actionBtn = `<button onclick="startLevel(${currentLevel})" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
+
+                // --- RANKED LOGIC ---
+
+                // LEVEL 1 -> BRONZE
+                if (currentLevel === 1 && passed) {
+                    rank = "MÉDAILLE DE BRONZE 🥉";
+                    color = "#cd7f32"; // Bronze
+                    msg = "Fondamentaux validés. Le niveau Opérationnel est débloqué.";
+                    localStorage.setItem('quiz_metal_1', 'bronze');
+                    actionBtn = `<button onclick="startLevel(2)" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Argent</button>`;
+                }
+                // LEVEL 2 -> SILVER
+                else if (currentLevel === 2 && passed) {
+                    rank = "MÉDAILLE D'ARGENT 🥈";
+                    color = "#c0c0c0"; // Silver
+                    msg = "Opérations maîtrisées. Accès au niveau Stratégique.";
+                    localStorage.setItem('quiz_metal_2', 'silver');
+                    actionBtn = `<button onclick="startLevel(3)" style="padding: 15px 30px; background: var(--accent-purple); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Or</button>`;
+                }
+                // LEVEL 3 -> GOLD
+                else if (currentLevel === 3 && passed) {
+                    rank = "MÉDAILLE D'OR 🥇";
+                    color = "#ffd700"; // Gold
+                    msg = "Niveau Expert validé.";
+                    localStorage.setItem('quiz_metal_3', 'gold');
+
+                    // UNLOCK HEAD OF IF > 90% (Original logic kept as bonus)
+                    if (percentage >= 90) {
+                        msg += " SCORE ÉLITE DÉTECTÉ. Accès Head Of autorisé.";
+                        localStorage.setItem('quiz_lvl4_unlocked', 'true');
+                        actionBtn = `<button onclick="startLevel(4)" style="padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #B8860B); color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px; box-shadow: 0 0 20px #FFD700;">ENTRER DANS LA MATRICE</button>`;
+                    } else {
+                        actionBtn = `<a href="index.html" style="padding: 15px 30px; background: var(--accent-gold); color: white; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px;">Retour au QG</a>`;
+                    }
+                }
+                // LEVEL 4 -> HEAD OF RANKING
+                else if (currentLevel === 4) {
+                    // Determine Rank
+                    if (percentage >= 95) {
+                        rank = "IRIDESCENT 🌈";
+                        color = "transparent"; // Calculated in CSS
+                        finalRankEl.className = "rank-iridescent"; // ADD CLASS
+                        msg = "LÉGENDAIRE. Vous avez terminé le jeu.";
+                        localStorage.setItem('quiz_rank_4', 'Iridescent');
+                    } else if (percentage >= 85) {
+                        rank = "CRIMSON 👹";
+                        color = "#dc2626";
+                        finalRankEl.className = "rank-crimson";
+                        msg = "Un score monstrueux. Respect.";
+                        localStorage.setItem('quiz_rank_4', 'Crimson');
+                    } else if (percentage >= 75) {
+                        rank = "DIAMOND 💎";
+                        color = "#b9f2ff";
+                        finalRankEl.className = "rank-diamond";
+                        msg = "Excellence opérationnelle.";
+                        localStorage.setItem('quiz_rank_4', 'Diamond');
+                    } else if (percentage >= 65) {
+                        rank = "PLATINUM 💿";
+                        color = "#e2e8f0";
+                        finalRankEl.classList.add('rank-platinum');
+                        msg = "Solide, mais peut mieux faire.";
+                        localStorage.setItem('quiz_rank_4', 'Platinum');
+                    } else {
+                        rank = "ÉCHEC CRITIQUE 💀";
+                        color = "#ef4444";
+                        msg = "Le niveau Head Of ne pardonne pas les approximations (<65%).";
+                        actionBtn = `<button onclick="startLevel(4)" style="padding: 15px 30px; background: #FFD700; color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
+                    }
+
+                    if (percentage >= 65) {
+                        actionBtn = `<a href="index.html" style="padding: 15px 30px; background: #FFD700; color: black; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px;">Retour Triomphal</a>`;
+                    }
+                }
+
+                finalRankEl.innerText = rank;
+                if (color !== "transparent") finalRankEl.style.color = color;
+                finalScoreEl.style.borderColor = (color === "transparent") ? "#FFD700" : color;
+                finalMsgEl.innerText = msg;
+
+                btnContainer.innerHTML = restartBtn + actionBtn;
+            }
 
         }
 
