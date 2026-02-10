@@ -22,6 +22,14 @@
 
     <!-- DATA IMPORT -->
     <script src="quiz_data.js"></script>
+    <script src="config.js"></script>
+
+    <!-- SUPABASE INTEGRATION -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="utils/supabase_client.js"></script>
+
+    <!-- AI PROFESSOR -->
+    <script src="utils/ai_professor.js"></script>
 
     <style>
         /* --- CONFIGURATION DESIGN --- */
@@ -481,6 +489,7 @@
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: rainbow 3s ease infinite;
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
@@ -863,22 +872,19 @@
 
         const ui = {
             dashboard: document.getElementById('certifDashboard'),
-            // ... (previous UI keys)
-            diplomaBtn: document.getElementById('globalDiplomaBtn') // We need to add this button to Dashboard
-        };
-
-        quizHeader: document.getElementById('quizHeader'),
+            quizHeader: document.getElementById('quizHeader'),
             content: document.getElementById('questionScreen'),
-                result: document.getElementById('resultScreen'),
-                    levelTitle: document.getElementById('levelTitle'),
-                        qCurrent: document.getElementById('qCurrent'),
-                            qTotal: document.getElementById('qTotal'),
-                                questionText: document.getElementById('questionText'),
-                                    options: document.getElementById('optionsContainer'),
-                                        feedbackBox: document.getElementById('feedback'),
-                                            feedbackText: document.getElementById('feedbackText'),
-                                                nextBtn: document.getElementById('nextBtn'),
-                                                    progressBar: document.getElementById('progressBar')
+            result: document.getElementById('resultScreen'),
+            levelTitle: document.getElementById('levelTitle'),
+            qCurrent: document.getElementById('qCurrent'),
+            qTotal: document.getElementById('qTotal'),
+            questionText: document.getElementById('questionText'),
+            options: document.getElementById('optionsContainer'),
+            feedbackBox: document.getElementById('feedback'),
+            feedbackText: document.getElementById('feedbackText'),
+            nextBtn: document.getElementById('nextBtn'),
+            progressBar: document.getElementById('progressBar'),
+            diplomaBtn: document.getElementById('globalDiplomaBtn')
         };
 
         // --- PERSISTENCE & UNLOCKS ---
@@ -1115,6 +1121,20 @@
                 ui.feedbackBox.classList.add('show');
                 ui.nextBtn.style.display = "block";
 
+                // AI PROFESSOR TRIGGER (on wrong answer)
+                if (!isCorrect && window.AIProfessor) {
+                    setTimeout(() => {
+                        if (confirm("❓ Voulez-vous une explication du Professeur IA ?")) {
+                            AIProfessor.explainQuestion(
+                                q.question,
+                                btn.innerText,
+                                q.options[correctIndex],
+                                q.info
+                            );
+                        }
+                    }, 500);
+                }
+
                 // End Check
                 if (currentQIndex === currentQuestions.length - 1) {
                     ui.nextBtn.innerHTML = 'Voir Résultats <i class="fa-solid fa-trophy"></i>';
@@ -1137,6 +1157,16 @@
 
                 const percentage = Math.round((score / currentQuestions.length) * 100);
                 const passed = percentage >= 80;
+
+                // LOG TO SUPABASE
+                if (window.SupabaseService) {
+                    SupabaseService.recordQuizResult(
+                        currentLevel,
+                        score,
+                        currentQuestions.length,
+                        passed
+                    );
+                }
 
                 const finalScoreEl = document.getElementById('finalScore');
                 const finalRankEl = document.getElementById('finalRank');
@@ -1236,65 +1266,7 @@
 
         }
 
-        // --- DIPLOMA GENERATION LOGIC ---
-        function openDiplomaModal() { document.getElementById('diplomaInputModal').style.display = 'flex'; }
-        function closeDiplomaModal() { document.getElementById('diplomaInputModal').style.display = 'none'; }
 
-        function generateFinalDiploma() {
-            const name = document.getElementById('diplomaName').value;
-            if (!name || name.trim() === "") { alert("Merci d'indiquer un nom."); return; }
-
-            document.getElementById('dipNameDisplay').innerText = name;
-            document.getElementById('dipDate').innerText = new Date().toLocaleDateString('fr-FR');
-
-            // DETERMINE HIGHEST RANK & STYLE
-            const r4 = localStorage.getItem('quiz_rank_4');
-            const m3 = localStorage.getItem('quiz_metal_3');
-            const m2 = localStorage.getItem('quiz_metal_2');
-            const m1 = localStorage.getItem('quiz_metal_1');
-
-            const dip = document.getElementById('final-diploma');
-            const seal = document.getElementById('dipSeal');
-            const rankTxt = document.getElementById('dipRankDisplay');
-
-            // Reset classes
-            dip.className = '';
-
-            let bestRank = "CERTIFIÉ";
-            let color = "#000";
-            let bgSeal = "#000";
-
-            if (r4) {
-                bestRank = "GRADE " + r4.toUpperCase();
-                if (r4 === 'Iridescent') { dip.classList.add('iridescent'); color = "#3b82f6"; bgSeal = "linear-gradient(45deg, #ff0000, #002bff)"; }
-                else if (r4 === 'Crimson') { dip.classList.add('crimson'); color = "#dc2626"; bgSeal = "#dc2626"; }
-                else if (r4 === 'Diamond') { dip.classList.add('diamond'); color = "#3b82f6"; bgSeal = "#3b82f6"; }
-                else if (r4 === 'Platinum') { dip.classList.add('platinum'); color = "#64748b"; bgSeal = "#64748b"; }
-            } else if (m3) {
-                dip.classList.add('gold');
-                bestRank = "NIVEAU EXPERT (OR)";
-                color = "#d97706"; bgSeal = "#d97706";
-            } else if (m2) {
-                dip.classList.add('silver');
-                bestRank = "NIVEAU AVANCÉ (ARGENT)";
-                color = "#64748b"; bgSeal = "#64748b";
-            } else if (m1) {
-                dip.classList.add('bronze');
-                bestRank = "NIVEAU FONDAMENTAL (BRONZE)";
-                color = "#b45309"; bgSeal = "#b45309";
-            }
-
-            rankTxt.innerText = bestRank;
-            rankTxt.style.color = color;
-            seal.style.background = bgSeal;
-
-            closeDiplomaModal();
-            window.print();
-
-            // Hide diploma after print (timeout)
-            setTimeout(() => { dip.style.display = 'none'; }, 1000);
-        }
-        }
 
         // --- DIPLOMA GENERATION LOGIC ---
         function openDiplomaModal() { document.getElementById('diplomaInputModal').style.display = 'flex'; }
@@ -1349,6 +1321,17 @@
             seal.style.background = bgSeal;
 
             closeDiplomaModal();
+
+            // WEBHOOK TRACKING
+            if (window.DCM_CONFIG && DCM_CONFIG.sendWebhook) {
+                DCM_CONFIG.sendWebhook({
+                    event: "DIPLOMA_GENERATED",
+                    name: name,
+                    rank: bestRank,
+                    source: "QUIZ"
+                });
+            }
+
             window.print();
 
             // Hide diploma after print (timeout)

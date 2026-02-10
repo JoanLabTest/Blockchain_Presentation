@@ -520,6 +520,7 @@
     </style>
     <!-- Import Pinyon Script for Diploma Signature feel -->
     <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+    <script src="config.js"></script>
 </head>
 
 <body>
@@ -6846,6 +6847,16 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
 
         // Hide Modal
         document.getElementById('diplomaInputModal').style.display = 'none';
+
+        // WEBHOOK TRACKING
+        if (window.DCM_CONFIG && DCM_CONFIG.sendWebhook) {
+            DCM_CONFIG.sendWebhook({
+                event: "DIPLOMA_GENERATED",
+                name: document.getElementById('diplomaName').value,
+                rank: bestRank,
+                source: "GUIDE"
+            });
+        }
 
         // 3. Lancer l'impression
         window.print();
