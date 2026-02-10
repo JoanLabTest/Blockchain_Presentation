@@ -106,7 +106,7 @@ const FinanceAgent = (() => {
     }
 
     function toggle() { isOpen ? close() : open(); }
-    
+
     function open() {
         chatContainer.style.display = 'flex';
         isOpen = true;
@@ -126,8 +126,8 @@ const FinanceAgent = (() => {
             padding: 12px 16px;
             border-radius: 12px;
             max-width: 80%;
-            ${isUser ? 
-                'background: #3b82f6; color: white; align-self: flex-end; margin-left: auto;' : 
+            ${isUser ?
+                'background: #3b82f6; color: white; align-self: flex-end; margin-left: auto;' :
                 'background: rgba(59, 130, 246, 0.1); color: #e2e8f0; border: 1px solid rgba(59, 130, 246, 0.2);'}
         `;
         msgDiv.innerText = text;
@@ -170,8 +170,8 @@ const FinanceAgent = (() => {
     async function callAI(userMessage, context = {}) {
         if (!window.DCM_CONFIG || !DCM_CONFIG.financeAgentUrl) {
             // Fallback for demo/testing if URL not set
-            console.warn("Finance Agent URL not configured in DCM_CONFIG");
-            return "Configuration manquante : `financeAgentUrl`. Veuillez vérifier config.js.";
+            console.error("Finance Agent Configuration Error. DCM_CONFIG:", window.DCM_CONFIG);
+            return "Configuration manquante : `financeAgentUrl`. Veuillez vérifier config.js. (Debug: " + (window.DCM_CONFIG ? "Config loaded but URL missing" : "Config object missing") + ")";
         }
 
         const payload = {
