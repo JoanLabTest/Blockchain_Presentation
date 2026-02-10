@@ -1,9 +1,6 @@
 // CONFIGURATION CENTRALE - DCM DIGITAL
 // Modifiez ces valeurs pour mettre à jour l'ensemble de la présentation.
 
-// CONFIGURATION CENTRALE - DCM DIGITAL
-// Modifiez ces valeurs pour mettre à jour l'ensemble de la présentation.
-
 window.DCM_CONFIG = {
     // Taux de rendement affiché (Yield)
     rate: "3.15%",
@@ -28,6 +25,9 @@ window.DCM_CONFIG = {
 
     // Legal Agent (n8n Workflow - Legal Expert)
     legalAgentUrl: "https://joanl.app.n8n.cloud/webhook/legal-expert",
+
+    // Analytics Dashboard (n8n Workflow - KPIs)
+    analyticsUrl: "https://joanl.app.n8n.cloud/webhook/academy-analytics",
 
     // SUPABASE CONFIGURATION (Database & Auth)
     supabaseUrl: "https://wnwerjuqtrduqkgwdjrg.supabase.co",
