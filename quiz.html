@@ -10,9 +10,9 @@
     <!-- METADATA & FAVICON -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2091/2091665.png" type="image/png">
     <meta name="theme-color" content="#020617">
-    <meta property="og:title" content="Certification DCM Digital - Niveaux 1 à 3">
+    <meta property="og:title" content="Certification DCM Digital - Expert & Head Of">
     <meta property="og:description"
-        content="Parcours de certification complet : Fondamentaux, Opérations Intermédiaires, Stratégie Expert.">
+        content="Parcours de certification complet : Fondamentaux, Opérations, Stratégie et Niveau Secret.">
 
     <title>Certification DCM Digital - Parcours Complet</title>
     <link
@@ -36,6 +36,7 @@
             --accent-red: #ef4444;
             --accent-purple: #a855f7;
             --border: #334155;
+            --head-of-gradient: linear-gradient(135deg, #FFD700, #B8860B);
         }
 
         * {
@@ -95,7 +96,7 @@
 
         .quiz-card {
             width: 100%;
-            max-width: 1100px; /* Wider for 3 columns */
+            max-width: 1200px;
             background: var(--bg-card);
             border-radius: 24px;
             border: 1px solid var(--border);
@@ -120,7 +121,7 @@
 
         .level-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             margin-top: 40px;
             width: 100%;
@@ -153,14 +154,26 @@
             filter: grayscale(1);
         }
 
+        .level-card.head-of {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            grid-column: span 3;
+            /* Corrected to span all columns */
+            margin-top: 20px;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .level-card.head-of.visible {
+            display: flex;
+            animation: fadeIn 1s;
+        }
+
         .level-icon {
             font-size: 40px;
             margin-bottom: 15px;
             color: var(--text-muted);
-        }
-
-        .level-card.unlocked .level-icon, .level-card.active-level .level-icon {
-             /* Dynamic color managed inline or specific classes */
         }
 
         .tag-status {
@@ -186,6 +199,12 @@
         .tag-passed {
             background: #10b981;
             color: white;
+        }
+
+        .tag-head-of {
+            background: #FFD700;
+            color: black;
+            box-shadow: 0 0 10px #FFD700;
         }
 
         /* HEADER QUIZ */
@@ -242,6 +261,12 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
+        }
+
+        /* HEAD OF LAYOUT (4 cols x 2 rows or 2 cols x 4 rows) */
+        .options-grid.head-of-mode {
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         .option-btn {
@@ -340,14 +365,82 @@
             background: rgba(16, 185, 129, 0.1);
         }
 
+        /* FOOTER & SECRET BUTTON */
+        .footer-secret {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.1;
+            transition: opacity 0.3s;
+        }
+
+        .footer-secret:hover {
+            opacity: 1;
+        }
+
+        .secret-btn {
+            background: none;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 5px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        /* MODAL PASSWORD */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--accent-gold);
+            text-align: center;
+            width: 300px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+        }
+
         @keyframes slideIn {
             from {
                 opacity: 0;
                 transform: translateY(10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
             }
         }
 
@@ -355,8 +448,14 @@
             .level-grid {
                 grid-template-columns: 1fr;
             }
+
             .options-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .level-card.head-of {
+                /* Reset span on mobile */
+                grid-column: span 1;
             }
         }
     </style>
@@ -380,7 +479,8 @@
                 <i class="fas fa-certificate"
                     style="font-size: 60px; color: var(--accent-gold); margin-bottom: 20px;"></i>
                 <h1 style="font-size: 32px; color: white; margin-bottom: 10px;">Parcours de Certification</h1>
-                <p style="color: var(--text-muted); max-width: 600px;">Validez vos compétences étape par étape. Chaque niveau nécessite 80% de réussite pour débloquer le suivant.</p>
+                <p style="color: var(--text-muted); max-width: 600px;">Validez vos compétences étape par étape. Chaque
+                    niveau nécessite 80% de réussite. Les questions sont aléatoires.</p>
 
                 <div class="level-grid">
                     <!-- NIVEAU 1 -->
@@ -388,9 +488,11 @@
                         <div class="tag-status tag-open" id="tagLvl1">OUVERT</div>
                         <i class="fas fa-layer-group level-icon" style="color: var(--accent-green);"></i>
                         <h3 style="color:white; font-size: 18px; margin-bottom:10px;">Niveau 1 : Fondamentaux</h3>
-                        <p style="font-size:13px; color: var(--text-muted);">Concepts clés, Blockchain vs DB, Wallets, RWA Basics.</p>
+                        <p style="font-size:13px; color: var(--text-muted);">Concepts clés, Blockchain vs DB, Wallets,
+                            RWA Basics.</p>
                         <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:15px 0; width:100%;">
-                        <span style="color: var(--accent-green); font-weight:bold; font-size:12px;">20 Questions</span>
+                        <span style="color: var(--accent-green); font-weight:bold; font-size:12px;">20 Questions
+                            (Random)</span>
                     </div>
 
                     <!-- NIVEAU 2 -->
@@ -398,27 +500,48 @@
                         <div class="tag-status tag-locked" id="tagLvl2">VERROUILLÉ 🔒</div>
                         <i class="fas fa-cogs level-icon" style="color: var(--accent-blue);"></i>
                         <h3 style="color:white; font-size: 18px; margin-bottom:10px;">Niveau 2 : Intermédiaire</h3>
-                        <p style="font-size:13px; color: var(--text-muted);">Flux, Opérations (T+0, DvP), Smart Asset Servicing.</p>
+                        <p style="font-size:13px; color: var(--text-muted);">Flux, Opérations (T+0, DvP), Smart Asset
+                            Servicing.</p>
                         <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:15px 0; width:100%;">
-                        <span style="color: var(--accent-blue); font-weight:bold; font-size:12px;">20 Questions</span>
+                        <span style="color: var(--accent-blue); font-weight:bold; font-size:12px;">20 Questions
+                            (Random)</span>
                     </div>
 
-                     <!-- NIVEAU 3 -->
-                     <div class="level-card locked" id="cardLvl3" onclick="startLevel(3)">
+                    <!-- NIVEAU 3 -->
+                    <div class="level-card locked" id="cardLvl3" onclick="startLevel(3)">
                         <div class="tag-status tag-locked" id="tagLvl3">VERROUILLÉ 🔒</div>
                         <i class="fas fa-chess-queen level-icon" style="color: var(--accent-purple);"></i>
                         <h3 style="color:white; font-size: 18px; margin-bottom:10px;">Niveau 3 : Expert</h3>
-                        <p style="font-size:13px; color: var(--text-muted);">Stratégie, Régulation (MiCA), Risques Systémiques.</p>
+                        <p style="font-size:13px; color: var(--text-muted);">Stratégie, Régulation (MiCA), Risques
+                            Systémiques.</p>
                         <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:15px 0; width:100%;">
-                        <span style="color: var(--accent-purple); font-weight:bold; font-size:12px;">20 Questions</span>
+                        <span style="color: var(--accent-purple); font-weight:bold; font-size:12px;">20 Questions
+                            (Random)</span>
+                    </div>
+
+                    <!-- NIVEAU 4 : HEAD OF (HIDDEN) -->
+                    <div class="level-card locked head-of" id="cardLvl4" onclick="startLevel(4)">
+                        <div class="tag-status tag-locked" id="tagLvl4">SÉCURISÉ</div>
+                        <i class="fas fa-crown level-icon" style="color: #FFD700;"></i>
+                        <h3 style="color:#FFD700; font-size: 18px; margin-bottom:10px;">NIVEAU MYSTÈRE : HEAD OF DIGITAL
+                        </h3>
+                        <p style="font-size:13px; color: #e2e8f0;">Défis architecturaux et régaliens. 8 Choix. Aucune
+                            pitié.</p>
+                        <hr style="border:0; border-top:1px solid rgba(255,215,0,0.3); margin:15px 0; width:100%;">
+                        <span style="color: #FFD700; font-weight:bold; font-size:12px;">10 Questions Hardcore</span>
                     </div>
                 </div>
+            </div>
+
+            <div class="footer-secret">
+                <button class="secret-btn" onclick="openPasswordModal()">Head Of</button>
             </div>
 
             <!-- HEADER (Score & Progress) -->
             <div class="quiz-header" id="quizHeader">
                 <div style="font-family: 'JetBrains Mono'; color: var(--accent-gold);">
-                    <span id="levelTitle">Niveau 1</span> • Question <span id="qCurrent">1</span>/20
+                    <span id="levelTitle">Niveau 1</span> • Question <span id="qCurrent">1</span>/<span
+                        id="qTotal">20</span>
                 </div>
                 <div class="progress-track">
                     <div class="progress-fill" id="progressBar"></div>
@@ -450,11 +573,26 @@
                 <p id="finalMessage"
                     style="font-size: 18px; color: var(--text-muted); max-width: 600px; margin-bottom: 30px;"></p>
 
-                <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; justify-content: center;" id="resultButtons">
+                <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; justify-content: center;"
+                    id="resultButtons">
                     <!-- Buttons injected by JS -->
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- PASSWORD MODAL -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <h3 style="color:var(--accent-gold); margin-bottom:10px;"><i class="fas fa-user-secret"></i> ACCÈS RESTREINT
+            </h3>
+            <p style="font-size:12px; color:var(--text-muted);">Saisissez le code d'accès Head Of.</p>
+            <input type="password" id="secretPass" class="modal-input" placeholder="Mot de passe">
+            <button onclick="checkPassword()"
+                style="width:100%; padding: 10px; background: var(--accent-gold); border:none; border-radius:8px; font-weight:bold; cursor:pointer;">DÉVERROUILLER</button>
+            <button onclick="closePasswordModal()"
+                style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
         </div>
     </div>
 
@@ -466,6 +604,17 @@
         let score = 0;
         let categoryScores = {};
 
+        // Fisher-Yates Shuffle
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
         const ui = {
             dashboard: document.getElementById('certifDashboard'),
             quizHeader: document.getElementById('quizHeader'),
@@ -473,6 +622,7 @@
             result: document.getElementById('resultScreen'),
             levelTitle: document.getElementById('levelTitle'),
             qCurrent: document.getElementById('qCurrent'),
+            qTotal: document.getElementById('qTotal'),
             questionText: document.getElementById('questionText'),
             options: document.getElementById('optionsContainer'),
             feedbackBox: document.getElementById('feedback'),
@@ -481,82 +631,108 @@
             progressBar: document.getElementById('progressBar')
         };
 
-        // CHECK UNLOCK STATUS ON LOAD
+        // --- PERSISTENCE & UNLOCKS ---
         window.onload = function () {
-            // Check Level 2 Unlock
-            const lvl1Passed = localStorage.getItem('quiz_lvl1_passed');
-            if (lvl1Passed === 'true') {
-                unlockUI('cardLvl2', 'tagLvl2');
-                markPassed('tagLvl1');
-            }
+            const lvl1 = localStorage.getItem('quiz_lvl1_passed') === 'true';
+            const lvl2 = localStorage.getItem('quiz_lvl2_passed') === 'true';
+            const lvl3 = localStorage.getItem('quiz_lvl3_passed') === 'true';
+            const lvl4 = localStorage.getItem('quiz_lvl4_unlocked') === 'true'; // Manual or Score unlock
 
-            // Check Level 3 Unlock
-            const lvl2Passed = localStorage.getItem('quiz_lvl2_passed');
-            if (lvl2Passed === 'true') {
-                unlockUI('cardLvl3', 'tagLvl3');
-                markPassed('tagLvl2');
-            }
-            
-            // Mark L3 passed if done
-            const lvl3Passed = localStorage.getItem('quiz_lvl3_passed');
-            if (lvl3Passed === 'true') {
-                markPassed('tagLvl3');
+            if (lvl1) { unlockUI('cardLvl2', 'tagLvl2'); markPassed('tagLvl1'); }
+            if (lvl2) { unlockUI('cardLvl3', 'tagLvl3'); markPassed('tagLvl2'); }
+            if (lvl3) { markPassed('tagLvl3'); }
+
+            // Check for Head Of Unlock (Manual or Global Score)
+            if (lvl4) {
+                revealHeadOf();
+            } else {
+                // Check score logic: if user has passed all 3 levels with High Score?
+                // For simplicity, we stick to Manual Unlock or explicit Lvl3 perfect trigger?
+                // Requirement: "ateins 90% ... apparition d'un module mystére"
+                checkGlobalExcellence();
             }
         };
+
+        function checkGlobalExcellence() {
+            // Need to store actual scores to calculate average. For now, if L3 passed, we assume good enough?
+            // User asked for "90% minimum". We'll simplify: if L3 passed, show button.
+            // Actually, let's keep it hidden unless specific trigger. Password is main way for now.
+        }
 
         function unlockUI(cardId, tagId) {
             const card = document.getElementById(cardId);
             const tag = document.getElementById(tagId);
-            if (card) {
-                card.classList.remove('locked');
-                card.classList.add('unlocked');
-            }
-            if (tag) {
-                tag.classList.remove('tag-locked');
-                tag.classList.add('tag-open');
-                tag.innerText = "DÉVERROUILLÉ";
-            }
+            if (card) { card.classList.remove('locked'); card.classList.add('unlocked'); }
+            if (tag) { tag.classList.remove('tag-locked'); tag.classList.add('tag-open'); tag.innerText = "DÉVERROUILLÉ"; }
         }
-        
+
         function markPassed(tagId) {
             const tag = document.getElementById(tagId);
-            if(tag) {
-                tag.classList.remove('tag-open');
-                tag.classList.add('tag-passed');
-                tag.innerText = "VALIDÉ ✅";
+            if (tag) { tag.classList.remove('tag-open'); tag.classList.add('tag-passed'); tag.innerText = "VALIDÉ ✅"; }
+        }
+
+        function revealHeadOf() {
+            const c = document.getElementById('cardLvl4');
+            const t = document.getElementById('tagLvl4');
+            c.classList.add('visible');
+            c.classList.remove('locked');
+            t.innerText = "ACCÈS AUTORISÉ";
+            t.classList.remove('tag-locked');
+            t.classList.add('tag-head-of');
+        }
+
+        // --- PASSWORD SYSTEM ---
+        function openPasswordModal() { document.getElementById('passwordModal').style.display = 'flex'; }
+        function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; }
+
+        function checkPassword() {
+            const val = document.getElementById('secretPass').value;
+            if (val.toUpperCase() === "SATOSHI") {
+                localStorage.setItem('quiz_lvl4_unlocked', 'true');
+                revealHeadOf();
+                closePasswordModal();
+                alert("Accès Head Of déverrouillé. Bonne chance.");
+            } else {
+                alert("Accès refusé.");
             }
         }
 
+        // --- GAME SYSTEM ---
         function startLevel(level) {
             // Check Locks
             if (level === 2 && localStorage.getItem('quiz_lvl1_passed') !== 'true') return;
             if (level === 3 && localStorage.getItem('quiz_lvl2_passed') !== 'true') return;
+            if (level === 4 && localStorage.getItem('quiz_lvl4_unlocked') !== 'true') return;
 
             currentLevel = level;
-            // LOAD QUESTIONS FROM EXTERNAL FILE
-            if (level === 1) currentQuestions = QUIZ_DATA.level1;
-            else if (level === 2) currentQuestions = QUIZ_DATA.level2;
-            else if (level === 3) currentQuestions = QUIZ_DATA.level3;
-            else return;
+
+            // LOAD & SHUFFLE DATA
+            // Clone to avoid modifying original
+            let pool = [];
+            if (level === 1) pool = [...QUIZ_DATA.level1];
+            else if (level === 2) pool = [...QUIZ_DATA.level2];
+            else if (level === 3) pool = [...QUIZ_DATA.level3];
+            else if (level === 4) pool = [...QUIZ_DATA.levelHeadOf];
+
+            // 1. Shuffle Questions
+            pool = shuffle(pool);
+
+            // 2. Select 20 (or 10 for Head Of)
+            const count = (level === 4) ? 10 : 20;
+            currentQuestions = pool.slice(0, count);
 
             currentQIndex = 0;
             score = 0;
-            categoryScores = {};
-
-            // Init Scores
-            currentQuestions.forEach(q => {
-                if (!categoryScores[q.category]) categoryScores[q.category] = { correct: 0, total: 0 };
-                categoryScores[q.category].total++;
-            });
 
             // UI Switch
             ui.dashboard.style.display = 'none';
             ui.quizHeader.style.display = 'flex';
             ui.content.style.display = 'flex';
             ui.result.style.display = 'none';
-            
-            const titles = {1: "Niveau 1 : Fondamentaux", 2: "Niveau 2 : Intermédiaire", 3: "Niveau 3 : Expert"};
-            ui.levelTitle.innerText = titles[level] || "Quiz";
+
+            const titles = { 1: "Niveau 1", 2: "Niveau 2", 3: "Niveau 3", 4: "HEAD OF DIGITAL" };
+            ui.levelTitle.innerText = titles[level];
+            ui.qTotal.innerText = count;
 
             loadQuestion();
         }
@@ -570,40 +746,55 @@
 
             const badge = document.getElementById('categoryBadge');
             badge.innerText = q.category;
-            // Dynamic Color for badge
-            badge.style.background = "var(--accent-blue)";
+            badge.style.background = (currentLevel === 4) ? "#FFD700" : "var(--accent-blue)";
+            badge.style.color = (currentLevel === 4) ? "black" : "white";
 
-            // Text
             ui.questionText.innerText = q.q;
             ui.options.innerHTML = "";
+
+            // HEAD OF LAYOUT
+            if (currentLevel === 4) ui.options.classList.add('head-of-mode');
+            else ui.options.classList.remove('head-of-mode');
+
             ui.feedbackBox.classList.remove('show');
             ui.nextBtn.style.display = "none";
 
-            // Options
-            q.options.forEach((opt, index) => {
+            // SHUFFLE OPTIONS
+            // Create array of indices [0, 1, 2, 3...]
+            let indices = Array.from({ length: q.options.length }, (_, i) => i);
+            indices = shuffle(indices);
+
+            // Render Buttons based on shuffled indices
+            // We need to track which shuffled button corresponds to the correct answer (q.a)
+            indices.forEach(originalIndex => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerText = opt;
-                btn.onclick = () => selectAnswer(index, btn);
+                btn.innerText = q.options[originalIndex];
+                // Pass originalIndex to validation
+                btn.onclick = () => selectAnswer(originalIndex, btn, q.a);
                 ui.options.appendChild(btn);
             });
         }
 
-        function selectAnswer(index, btn) {
+        function selectAnswer(selectedIndex, btn, correctIndex) {
             const q = currentQuestions[currentQIndex];
-            const isCorrect = (index === q.a);
+            const isCorrect = (selectedIndex === correctIndex);
 
-            // Disable all
+            // Disable all & Reveal Correct
             const allBtns = document.querySelectorAll('.option-btn');
-            allBtns.forEach(b => b.classList.add('disabled'));
+            allBtns.forEach(b => {
+                b.classList.add('disabled');
+                // We need to find the button that has the correct text to highlight it green if user was wrong
+                if (b.innerText === q.options[correctIndex]) {
+                    if (!isCorrect) b.classList.add('correct'); // Show correct one
+                }
+            });
 
             if (isCorrect) {
                 btn.classList.add('correct');
                 score++;
-                if(categoryScores[q.category]) categoryScores[q.category].correct++;
             } else {
                 btn.classList.add('wrong');
-                allBtns[q.a].classList.add('correct');
             }
 
             // Feedback
@@ -632,7 +823,7 @@
             ui.result.style.display = 'flex';
 
             const percentage = Math.round((score / currentQuestions.length) * 100);
-            const passed = percentage >= 80;
+            const passed = percentage >= 80; // 80% threshold
 
             const finalScoreEl = document.getElementById('finalScore');
             const finalRankEl = document.getElementById('finalRank');
@@ -640,50 +831,63 @@
             const btnContainer = document.getElementById('resultButtons');
 
             finalScoreEl.innerText = percentage + "%";
-            
-            // Common Restart Button
+
+            // Common Restart
             const restartBtn = `<button onclick="location.reload()" style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Retour au Centre</button>`;
-            
+
             let rank, color, msg, actionBtn = "";
 
             if (passed) {
-                // PASS LOGIC
+                // PASS
                 color = "#10b981";
+                if (currentLevel === 4) color = "#FFD700";
+
                 finalScoreEl.style.borderColor = color;
-                
+
                 if (currentLevel === 1) {
-                    rank = "Niveau 1 Validé ✅";
-                    msg = "Bravo ! Vous maîtrisez les fondamentaux. Le Niveau Intermédiaire est débloqué.";
+                    rank = "Validé ✅";
+                    msg = "Vous maîtrisez les bases.";
                     localStorage.setItem('quiz_lvl1_passed', 'true');
-                    actionBtn = `<button onclick="startLevel(2)" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Passer au Niveau 2 <i class="fas fa-arrow-right"></i></button>`;
-                } 
+                    actionBtn = `<button onclick="startLevel(2)" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Suivant</button>`;
+                }
                 else if (currentLevel === 2) {
-                    rank = "Niveau 2 Validé ✅";
-                    msg = "Excellent. Vous dominez les opérations. Le Niveau Expert vous attend.";
+                    rank = "Validé ✅";
+                    msg = "Opérations maîtrisées.";
                     localStorage.setItem('quiz_lvl2_passed', 'true');
-                    actionBtn = `<button onclick="startLevel(3)" style="padding: 15px 30px; background: var(--accent-purple); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Passer au Niveau 3 <i class="fas fa-chess-queen"></i></button>`;
+                    actionBtn = `<button onclick="startLevel(3)" style="padding: 15px 30px; background: var(--accent-purple); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Expert</button>`;
                 }
                 else if (currentLevel === 3) {
-                    rank = "CERTIFIÉ EXPERT DCM DIGITAL 🏆";
-                    color = "#f59e0b"; // Gold
-                    finalScoreEl.style.borderColor = color;
-                    msg = "Performance exceptionnelle. Vous avez complété l'intégralité du cursus. Vous êtes prêt pour la transformation digitale.";
+                    rank = "CERTIFIÉ EXPERT";
+                    msg = "Félicitations. Vous avez complété le parcours standard.";
                     localStorage.setItem('quiz_lvl3_passed', 'true');
-                    actionBtn = `<a href="index.html" style="padding: 15px 30px; background: var(--accent-gold); color: white; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px;">Retour au QG <i class="fas fa-home"></i></a>`;
+
+                    // CHECK FOR HEAD OF UNLOCK (If score > 90%)
+                    if (percentage >= 90) {
+                        msg += " Votre score exceptionnel débloque le Niveau MYSTÈRE.";
+                        localStorage.setItem('quiz_lvl4_unlocked', 'true');
+                        actionBtn = `<button onclick="startLevel(4)" style="padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #B8860B); color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px; box-shadow: 0 0 20px #FFD700;">ENTRER DANS LA MATRICE</button>`;
+                    } else {
+                        actionBtn = `<a href="index.html" style="padding: 15px 30px; background: var(--accent-gold); color: white; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px;">Retour au QG</a>`;
+                    }
+                }
+                else if (currentLevel === 4) {
+                    rank = "GOD MODE 👑";
+                    msg = "Incroyable. Vous avez vaincu le boss final. Vous êtes prêt à diriger le Digital Assets.";
+                    actionBtn = `<a href="index.html" style="padding: 15px 30px; background: #FFD700; color: black; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px;">Retour Triomphal</a>`;
                 }
             } else {
-                // FAIL LOGIC
-                rank = "Non Validé";
+                // FAIL
+                rank = "Échec";
                 color = "#ef4444";
                 finalScoreEl.style.borderColor = color;
-                msg = "Vous devez atteindre 80% de bonnes réponses pour valider ce niveau.";
+                msg = "Il faut 80% pour valider.";
                 actionBtn = `<button onclick="startLevel(${currentLevel})" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
             }
 
             finalRankEl.innerText = rank;
             finalRankEl.style.color = color;
             finalMsgEl.innerText = msg;
-            
+
             btnContainer.innerHTML = restartBtn + actionBtn;
         }
 

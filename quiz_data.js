@@ -1,6 +1,5 @@
 const QUIZ_DATA = {
-    // NIVEAU 1 : FONDAMENTAUX (20 Questions)
-    // Objectif : Valider les bases (Blockchain, Token vs Coin, RWA simple)
+    // NIVEAU 1 : FONDAMENTAUX (POOL DE 30 QUESTIONS)
     level1: [
         {
             q: "Quelle est la principale différence entre une blockchain et une base de données classique ?",
@@ -141,11 +140,81 @@ const QUIZ_DATA = {
             a: 1,
             category: "Fondamentaux",
             info: "L'immuabilité est la clé. Pas de 'Ctrl+Z' sur la Blockchain. Cela impose une rigueur absolue."
+        },
+        // QUESTIONS SUPPLÉMENTAIRES (NOUVELLES)
+        {
+            q: "Qu'est-ce qu'un 'Fork' ?",
+            options: ["Une fourchette", "Une modification du protocole créant deux chaînes distinctes", "Un bug", "Un virus"],
+            a: 1,
+            category: "Technique",
+            info: "Un fork se produit quand la communauté diverge sur les règles (ex: Bitcoin vs Bitcoin Cash)."
+        },
+        {
+            q: "Que signifie 'Peer-to-Peer' (P2P) ?",
+            options: ["Père à Père", "D'égal à égal, sans serveur central", "Paiement par carte", "Réseau privé"],
+            a: 1,
+            category: "Fondamentaux",
+            info: "Le P2P permet aux ordinateurs de communiquer directement entre eux sans passer par un serveur central."
+        },
+        {
+            q: "Qui a inventé Bitcoin ?",
+            options: ["Elon Musk", "Satoshi Nakamoto", "Bill Gates", "Vitalik Buterin"],
+            a: 1,
+            category: "Histoire",
+            info: "Satoshi Nakamoto est le pseudonyme du créateur (ou groupe) anonyme de Bitcoin (Whitepaper 2008)."
+        },
+        {
+            q: "Quelle est la blockchain la plus utilisée pour la DeFi ?",
+            options: ["Bitcoin", "Ethereum", "Dogecoin", "Ripple"],
+            a: 1,
+            category: "Finance 2.0",
+            info: "Ethereum héberge la majorité des applications DeFi grâce à ses Smart Contracts Turing-complets."
+        },
+        {
+            q: "Qu'est-ce que la 'Volatilité' ?",
+            options: ["La stabilité", "L'ampleur des variations de prix d'un actif", "La vitesse de transaction", "Le coût du gas"],
+            a: 1,
+            category: "Marché",
+            info: "Les cryptos sont connues pour leur forte volatilité, contrairement aux Stablecoins."
+        },
+        {
+            q: "Un token ERC-20 est-il fongible ?",
+            options: ["Non", "Oui, chaque token est identique aux autres (comme une pièce de 1€)", "Seulement le week-end", "Je ne sais pas"],
+            a: 1,
+            category: "Technique",
+            info: "L'ERC-20 est le standard des tokens fongibles sur Ethereum."
+        },
+        {
+            q: "Qu'est-ce que le KYC (Know Your Customer) ?",
+            options: ["Un fast-food", "La procédure d'identification obligatoire des clients", "Une crypto", "Un wallet"],
+            a: 1,
+            category: "Régulation",
+            info: "Obligatoire pour les banques et CASP pour lutter contre le blanchiment."
+        },
+        {
+            q: "Qu'est-ce qu'une phrase mnémonique (Seed Phrase) ?",
+            options: ["Une poésie", "Une suite de 12/24 mots pour restaurer un wallet", "Un mot de passe", "Une adresse"],
+            a: 1,
+            category: "Sécurité",
+            info: "Si vous perdez votre Seed Phrase, vous perdez vos fonds à jamais. C'est la clé maîtresse."
+        },
+        {
+            q: "La Blockchain est-elle anonyme ?",
+            options: ["Oui totalement", "Elle est pseudonyme (adresses visibles, identités cachées)", "Non, tout est public", "Seulement Bitcoin"],
+            a: 1,
+            category: "Privacy",
+            info: "On voit les adresses (0x...) mais pas forcément les noms. L'analyse on-chain permet souvent de désanonymiser."
+        },
+        {
+            q: "Qu'est-ce qu'un 'Whitepaper' ?",
+            options: ["Une feuille blanche", "Le document technique fondateur décrivant un projet crypto", "Un chèque", "Une loi"],
+            a: 1,
+            category: "Fondamentaux",
+            info: "Le Whitepaper de Bitcoin (2008) est le document le plus célèbre de l'écosystème."
         }
     ],
 
-    // NIVEAU 2 : INTERMÉDIAIRE (20 Questions)
-    // Objectif : Comprendre les mécanismes et flux (DvP, SPV, T+0, Operations)
+    // NIVEAU 2 : INTERMÉDIAIRE (POOL DE 30 QUESTIONS)
     level2: [
         {
             q: "Quel est le rôle principal du DvP atomique (Delivery vs Payment) ?",
@@ -191,7 +260,7 @@ const QUIZ_DATA = {
         },
         {
             q: "Quel est le risque de 'Divergence' pour un RWA ?",
-            options: ["Que le token vaille zéro", "Que l'état du token on-chain ne reflète plus l'état de l'actif off-chain (ex: maison brûlée)", "Que la blockchain s'arrête", "Perte de clé"],
+            options: ["Que le token vaille zéro", "Que l'état du token on-chain ne reflète plus l'état de l'actif off-chain", "Que la blockchain s'arrête", "Perte de clé"],
             a: 1,
             category: "Risques RWA",
             info: "C'est le risque majeur : le lien physique-numérique doit être audité en permanence."
@@ -286,11 +355,81 @@ const QUIZ_DATA = {
             a: 1,
             category: "IA Risques",
             info: "C'est un risque majeur pour l'analyse financière autonome. L'IA peut inventer des chiffres."
+        },
+        // QUESTIONS SUPPLÉMENTAIRES (NOUVELLES)
+        {
+            q: "Dans un Security Token, où est généralement géré le 'White-listing' ?",
+            options: ["Dans le code du Smart Contract", "Sur Excel", "Par téléphone", "Sur un post-it"],
+            a: 0,
+            category: "Technique",
+            info: "Le Smart Contract interroge une liste d'adresses approuvées avant d'autoriser tout transfert."
+        },
+        {
+            q: "Qu'apporte la Blockchain à la gestion du collatéral (Collateral Management) ?",
+            options: ["Plus de lenteur", "Mobilité instantanée 24/7 (HQLA) pour couvrir les appels de marge", "Rien", "Des frais plus élevés"],
+            a: 1,
+            category: "Opérations",
+            info: "Le collatéral n'est plus piégé dans les silos des dépositaires le week-end."
+        },
+        {
+            q: "Qu'est-ce qu'un 'Asset Servicing' automatisé ?",
+            options: ["Un robot qui sert le café", "L'exécution automatique des événements sur titres (Coupons, AG) par Smart Contract", "Un service client", "Une maintenance IT"],
+            a: 1,
+            category: "Lifecycle",
+            info: "Fini les fax et les fichiers Excel. Le code distribue les dividendes au prorata exact."
+        },
+        {
+            q: "Un titre 'Native Digital' a-t-il une existence papier ?",
+            options: ["Oui toujours", "Non, il est né et vit uniquement sur la Blockchain", "Parfois", "Seulement la copie"],
+            a: 1,
+            category: "Légal",
+            info: "C'est la différence avec un titre dématérialisé classique. Ici, l'original EST le token."
+        },
+        {
+            q: "Qu'est-ce que le 'Gaseless' transaction ?",
+            options: ["Une transaction gratuite", "L'utilisateur ne paie pas le gas, un relai le paie pour lui (Meta-transaction)", "Une voiture électrique", "Une erreur"],
+            a: 1,
+            category: "UX",
+            info: "Essentiel pour l'adoption bancaire : la banque paie les frais de réseau pour le client de manière transparente."
+        },
+        {
+            q: "En DeFi, qu'est-ce que le 'Impermanent Loss' ?",
+            options: ["Une perte définitive", "Une perte temporaire de valeur lors de l'apport de liquidité dans une pool volatile", "Un vol", "Une assurance"],
+            a: 1,
+            category: "Risque DeFi",
+            info: "Risque spécifique aux AMM (Automated Market Makers) quand le prix des actifs diverge."
+        },
+        {
+            q: "Quel est l'intérêt du 'Fractionnement' d'actifs immobiliers ?",
+            options: ["Habiter dans 1m²", "Permettre à de petits investisseurs d'acheter des parts (ex: 100€) d'un immeuble de prestige", "Détruire l'immeuble", "Payer moins de loyer"],
+            a: 1,
+            category: "Tokenisation",
+            info: "Démocratisation de l'accès à des classes d'actifs réservées aux fortunés."
+        },
+        {
+            q: "Qu'est-ce qu'une 'Sidechain' ?",
+            options: ["Une chaîne vélo", "Une blockchain parallèle connectée à la chaîne principale pour désengorger le trafic", "Un côté obscur", "Un menu"],
+            a: 1,
+            category: "Infrastructure",
+            info: "Polygon (PoS) est souvent utilisée comme Sidechain d'Ethereum pour réduire les coûts."
+        },
+        {
+            q: "L'IA peut-elle auditer un Smart Contract ?",
+            options: ["Non", "Oui, elle peut scanner le code pour trouver des vulnérabilités connues bien plus vite qu'un humain", "C'est interdit", "Seulement le mardi"],
+            a: 1,
+            category: "Sécurité",
+            info: "Les outils d'audit IA deviennent standards, mais la validation humaine reste nécessaire."
+        },
+        {
+            q: "Pourquoi utiliser l'USDC plutôt que le Bitcoin pour le règlement ?",
+            options: ["Le Bitcoin est trop lent et volatil", "Le Bitcoin est mieux", "L'USDC est joli", "Aucune raison"],
+            a: 0,
+            category: "Flux",
+            info: "Le règlement nécessite une valeur stable (Stablecoin) pour éviter le risque de change pendant la transaction."
         }
     ],
 
-    // NIVEAU 3 : EXPERT (20 Questions)
-    // Objectif : Stratégie, Régulation, Architecture, Risques Systémiques
+    // NIVEAU 3 : EXPERT (POOL DE 30 QUESTIONS)
     level3: [
         {
             q: "Quel est le principal risque spécifique aux RWA tokenisés ?",
@@ -431,6 +570,241 @@ const QUIZ_DATA = {
             a: 1,
             category: "Vision Stratégique",
             info: "La BRI (BIS) imagine un 'Unified Ledger' où monnaie et actifs vivent ensemble pour permettre des échanges programmables universels."
+        },
+        // QUESTIONS SUPPLÉMENTAIRES (NOUVELLES)
+        {
+            q: "Qu'est-ce qu'un 'Wrapped Asset' (ex: wBTC) ?",
+            options: ["Un cadeau", "Une représentation d'un actif (BTC) sur une autre blockchain (Ethereum) via un bridge", "Un papier cadeau", "Un bug"],
+            a: 1,
+            category: "Interopérabilité",
+            info: "Attention au risque de Bridge : si le coffre qui détient le vrai BTC est hacké, le wBTC ne vaut rien."
+        },
+        {
+            q: "Quel est le principe de la 'Tokenisation de Fonds' (ex: KKR sur Avalanche) ?",
+            options: ["Donner au fonds", "Rendre les parts de Private Equity accessibles et échangeables numériquement", "Créer un nouveau fonds", "Fermer le fonds"],
+            a: 1,
+            category: "RWA",
+            info: "Cela ouvre le Private Equity (illiquide) à une base d'investisseurs plus large et permet les marchés secondaires."
+        },
+        {
+            q: "Qu'est-ce que la 'Preuve de Réserves' (Proof of Reserves) ?",
+            options: ["Une facture", "La vérification cryptographique qu'un exchange ou émetteur détient bien les fonds qu'il prétend avoir", "Un audit papier", "Une promesse"],
+            a: 1,
+            category: "Transparence",
+            info: "Devenu standard après la chute de FTX. La blockchain permet de prouver la solvabilité en temps réel."
+        },
+        {
+            q: "Dans le cadre de Bâle III, comment sont traités les crypto-actifs sans couverture (Unbacked) ?",
+            options: ["Comme du cash", "Avec une pondération de risque prohibitive (1250%)", "Sans risque", "Comme de l'or"],
+            a: 1,
+            category: "Régulation",
+            info: "Bâle III décourage fortement les banques de détenir du Bitcoin en propre via des exigences en capital maximales."
+        },
+        {
+            q: "Qu'est-ce qu'un 'Soulbound Token' (SBT) ?",
+            options: ["Un token maudit", "Un token non-transférable lié à l'identité d'une personne (Diplôme, Réputation)", "Un jeu vidéo", "Un NFT d'art"],
+            a: 1,
+            category: "Identité",
+            info: "Idéal pour le KYC ou les certifications : une fois reçu, vous ne pouvez pas le vendre."
+        },
+        {
+            q: "Qu'est-ce que l'Account Abstraction (ERC-4337) ?",
+            options: ["Un concept abstrait", "Une amélioration UX permettant de récupérer son compte sans seed phrase (Social Recovery)", "Une erreur", "Un calcul"],
+            a: 1,
+            category: "UX / Adoption",
+            info: "C'est la clé pour l'adoption de masse : rendre le wallet aussi simple qu'un compte bancaire."
+        },
+        {
+            q: "Quel est le risque de 'Front Running' (MEV) ?",
+            options: ["Courir devant", "Un robot repère votre transaction et passe devant vous pour profiter du prix", "Une course", "Rien"],
+            a: 1,
+            category: "Risque Trading",
+            info: "Le MEV (Maximal Extractable Value) est une taxe invisible prélevée par les validateurs/bots sur les utilisateurs."
+        },
+        {
+            q: "Pourquoi utiliser une 'Subnet' (Avalanche) ou 'Supernet' (Polygon) pour une institution ?",
+            options: ["Pour le marketing", "Pour avoir une souveraineté totale sur les validateurs et la conformité (KYC) de la chaîne", "Pour payer plus cher", "C'est moins bien"],
+            a: 1,
+            category: "Architecture",
+            info: "Ces chaînes dédiées permettent de respecter les règles bancaires tout en utilisant la technologie publique."
+        },
+        {
+            q: "Qu'est-ce que le trading 'Over-The-Counter' (OTC) en crypto ?",
+            options: ["Sur le comptoir", "Des transactions directes entre deux parties sans passer par le carnet d'ordres public", "Au marché", "Illégal"],
+            a: 1,
+            category: "Trading",
+            info: "Les institutionnels utilisent l'OTC pour acheter de gros volumes sans faire bouger le prix du marché."
+        },
+        {
+            q: "L'IA peut-elle prédire le prix du Bitcoin à coup sûr ?",
+            options: ["Oui", "Non, le marché est trop chaotique et influencé par des événements imprévisibles (Cygnes Noirs)", "Peut-être", "Demain"],
+            a: 1,
+            category: "IA Limites",
+            info: "L'IA gère les probabilités, pas les certitudes. Attention aux promesses de gains garantis."
+        }
+    ],
+
+    // NIVEAU 4 : HEAD OF DIGITAL ASSETS (BONUS - 10 QUESTIONS HARDCORE - 8 CHOIX)
+    levelHeadOf: [
+        {
+            q: "Dans l'architecture de marché cible de l'Euro-système (NewTech), quelle est la modalité de règlement privilégiée pour le DvP ?",
+            options: [
+                "Utilisation exclusive de Stablecoins commerciaux",
+                "Règlement en monnaie banque centrale via la Solution Trigger (Interconnexion DLT-Target2)",
+                "Règlement via un token de gros (Wholesale CBDC) natif sur la blockchain de marché",
+                "Règlement différé en T+1 via CLS",
+                "Les trois solutions (Trigger, Tips, Full-DLT) sont testées en parallèle dans les expérimentations",
+                "Uniquement via le TIPS (Target Instant Payment Settlement)",
+                "Le règlement se fait en Bitcoin",
+                "L'Euro numérique de détail est utilisé"
+            ],
+            a: 4, // "Les trois solutions..."
+            category: "Stratégie BCE",
+            info: "La BCE explore 3 pistes : Trigger (Bundesbank), TIPS Hash-Link (Banca d'Italia) et Wholesale CBDC (Banque de France)."
+        },
+        {
+            q: "Selon Bâle III (Standard Crypto), quelle est la condition stricte pour qu'un Stablecoin soit classé en Groupe 1b (faible risque) ?",
+            options: [
+                "Il doit être populaire",
+                "Il doit être algorithmique",
+                "Il doit passer un test de remboursement (Redemption Risk Test) et être supervisé régulé",
+                "Il doit être émis par une banque uniquement",
+                "Il doit avoir une capitalisation > 1 Milliard",
+                "Il doit être sur Ethereum",
+                "Il n'y a pas de condition, tous les stablecoins sont Groupe 2",
+                "Il doit payer des intérêts"
+            ],
+            a: 2,
+            category: "Prudentiel",
+            info: "Si le test de stabilité échoue (écart > 10bp), il tombe en Groupe 2 (Pondération 1250% !)."
+        },
+        {
+            q: "Quelle est la nuance juridique exacte entre un 'Native Digital Bond' (Loi eWpG) et un titre 'Tokenisé' classique ?",
+            options: [
+                "Aucune nuance",
+                "Le Native Bond a son registre légal DANS la blockchain, le tokenisé est un jumeau numérique d'un titre papier (Shadow Token)",
+                "Le Native Bond est moins cher",
+                "Le Tokenisé est illégal",
+                "Le Native Bond ne peut pas être tradé",
+                "Le Tokenisé est plus rapide",
+                "C'est juste du marketing",
+                "Le Native Bond utilise la Proof of Work"
+            ],
+            a: 1,
+            category: "Droit Comparé",
+            info: "Le 'Native' supprime la racine papier (Global Note). Le 'Tokenisé' classique nécessite souvent encore un CSD central."
+        },
+        {
+            q: "Dans un Smart Contract d'obligation Solidity, comment gérer le risque de 'Reentrancy Attack' lors du paiement des coupons ?",
+            options: [
+                "En utilisant un antivirus",
+                "En priant",
+                "En appliquant le pattern Checks-Effects-Interactions (Mettre à jour l'état AVANT d'envoyer les fonds)",
+                "En utilisant uniquement Bitcoin",
+                "En demandant le KYC",
+                "En bloquant le contrat le dimanche",
+                "Le risque n'existe pas",
+                "En utilisant une boucle for"
+            ],
+            a: 2,
+            category: "Cybersécurité Avancée",
+            info: "C'est la faille classique (The DAO hack). Si on envoie l'Ether avant de réduire le solde, l'attaquant peut rapeller la fonction en boucle."
+        },
+        {
+            q: "Quel est le 'Trilemme de la Blockchain' théorisé par Vitalik Buterin ?",
+            options: [
+                "Vitesse, Coût, Qualité",
+                "Décentralisation, Sécurité, Scalabilité (On ne peut en optimiser que 2 sur 3)",
+                "Privacy, Public, Permissioned",
+                "Bitcoin, Ethereum, Solana",
+                "Banque, Client, Régulateur",
+                "Passé, Présent, Futur",
+                "Layer 1, Layer 2, Layer 3",
+                "Il n'y a pas de trilemme"
+            ],
+            a: 1,
+            category: "Théorie DLT",
+            info: "Tout le design des Layer 2 vise à résoudre ce trilemme en déportant la scalabilité hors de la chaîne principale."
+        },
+        {
+            q: "Qu'est-ce que le 'MEV' (Maximal Extractable Value) et pourquoi est-ce un problème pour les institutionnels ?",
+            options: [
+                "C'est un nouveau token",
+                "C'est une méthode de validation",
+                "C'est la capacité des mineurs/validateurs à réordonner les transactions pour extraire du profit au détriment des utilisateurs (Front-running)",
+                "C'est une taxe légale",
+                "C'est une assurance",
+                "C'est un protocole DeFi",
+                "C'est bon pour le marché",
+                "Je ne sais pas"
+            ],
+            a: 2,
+            category: "Microstructure Marché",
+            info: "Pour une banque, voir son ordre de 50M€ front-runné par un bot est inacceptable (Best Execution)."
+        },
+        {
+            q: "Quel est l'impact précis de la norme comptable IFRS sur la détention de crypto-actifs par une entreprise ?",
+            options: [
+                "Ils sont comptabilisés comme du Cash (Cash Equivalent)",
+                "Ils sont comptabilisés comme des stocks (Inventaires) ou immobilisations incorporelles (Intagible Assets)",
+                "Ils sont hors bilan",
+                "Ils sont comptabilisés comme des dettes",
+                "Ils sont interdits",
+                "Ils sont taxés à 30%",
+                "C'est du Goodwill",
+                "Aucun impact"
+            ],
+            a: 1,
+            category: "Comptabilité",
+            info: "Problème : les incorporels ne sont pas réévalués à la juste valeur (Fair Value) à la hausse, seulement dépréciés à la baisse."
+        },
+        {
+            q: "Quelle est la différence entre un Bridge 'Lock & Mint' et un Bridge 'Liquidity Pool' (ex: LayerZero/Stargate) ?",
+            options: [
+                "Lock & Mint crée un actif synthétique (risque de depeg), alors que Liquidity Pool utilise des actifs natifs de chaque côté",
+                "Aucune différence",
+                "Lock & Mint est plus rapide",
+                "Liquidity Pool est centralisé",
+                "Lock & Mint est pour Bitcoin uniquement",
+                "Le Bridge n'existe pas",
+                "C'est du jargon",
+                "L'un est rouge, l'autre bleu"
+            ],
+            a: 0,
+            category: "Architecture Cross-Chain",
+            info: "Le modèle Lock & Mint (Wormhole, etc.) a subi les plus gros hacks de l'histoire. L'échange d'actifs natifs est plus sûr."
+        },
+        {
+            q: "Qu'est-ce que la 'Finalité Probabiliste' (Probabilistic Finality) de Bitcoin/Ethereum ?",
+            options: [
+                "La certitude absolue",
+                "Le fait que la probabilité d'une réorganisation de chaîne (Reorg) diminue exponentiellement avec le temps, sans jamais être nulle techniquement",
+                "Une erreur mathématique",
+                "Un concept philosophique",
+                "C'est lié au prix",
+                "C'est une loi",
+                "C'est faux, la finalité est immédiate",
+                "C'est aléatoire"
+            ],
+            a: 1,
+            category: "Risque Settlement",
+            info: "Juridiquement, c'est un cauchemar pour le 'Settlement Finality'. D'où l'attente de '6 confirmations' ou l'usage de chaînes à finalité instantanée."
+        },
+        {
+            q: "Dans un réseau ZK-Rollup, quel est le rôle du 'Prover' ?",
+            options: [
+                "Vérifier l'identité",
+                "Générer la preuve cryptographique (succinct proof) que le lot de transactions off-chain est valide",
+                "Stocker les données",
+                "Rien",
+                "Miner des blocks",
+                "Payer le gas",
+                "Créer des tokens",
+                "Faire du marketing"
+            ],
+            a: 1,
+            category: "Layer 2 Scaling",
+            info: "Le Prover fait le travail mathématique lourd. Le Smart Contract sur L1 ne fait que vérifier la preuve (d'où le coût faible)."
         }
     ]
 };
