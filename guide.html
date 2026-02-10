@@ -6703,179 +6703,181 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
             localStorage.setItem('quiz_lvl4_unlocked', 'true');
 
             alert("🔓 DEV MODE : Badges & Certification Débloqués.");
-            location.reload();
+        } else {
+            alert("Accès Refusé. Mot de passe incorrect.");
         }
+    }
 </script>
 
 <!-- 5. Hooking into Existing Interactive Elements -->
 <script>
-        // Hook into Audio (Listener Badge)
-        const oldAudioFn = window.toggleAudio;
-        window.toggleAudio = function (id) {
-            if (oldAudioFn) oldAudioFn(id); // Call original
-            setTimeout(() => {
-                unlockBadge('listener'); // Unlock after "listening" (simulated 5s)
-            }, 5000);
-        };
+    // Hook into Audio (Listener Badge)
+    const oldAudioFn = window.toggleAudio;
+    window.toggleAudio = function (id) {
+        if (oldAudioFn) oldAudioFn(id); // Call original
+        setTimeout(() => {
+            unlockBadge('listener'); // Unlock after "listening" (simulated 5s)
+        }, 5000);
+    };
 
-        // Hook into Game (Strategist Badge)
-        // NOW HANDLED DIRECTLY IN checkWinCondition()
-        // Observer removed for stability
+    // Hook into Game (Strategist Badge)
+    // NOW HANDLED DIRECTLY IN checkWinCondition()
+    // Observer removed for stability
 </script>
 
 <!-- RESET GAME LOGIC -->
 <script>
-        function resetGame() {
-            const draggables = document.querySelectorAll('.draggable');
-            const dropZones = document.querySelectorAll('.drop-zone');
-            const itemsContainer = document.querySelector('.draggable-items');
-            const successMsg = document.getElementById('gameSuccessMsg');
-            const resetBtn = document.getElementById('gameResetBtn');
+    function resetGame() {
+        const draggables = document.querySelectorAll('.draggable');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        const itemsContainer = document.querySelector('.draggable-items');
+        const successMsg = document.getElementById('gameSuccessMsg');
+        const resetBtn = document.getElementById('gameResetBtn');
 
-            // 1. Reset Draggables
-            draggables.forEach(drag => {
-                drag.classList.remove('placed');
-                drag.setAttribute('draggable', 'true');
-                itemsContainer.appendChild(drag); // Move back to source
-            });
-
-            // 2. Reset Zones
-            dropZones.forEach(zone => {
-                zone.classList.remove('correct', 'drag-over');
-            });
-
-            // 3. Hide Messages
-            successMsg.style.display = 'none';
-            resetBtn.style.display = 'none'; // Only show when game interacts? Or always?
-
-            // Optional: Shuffle items for replayability
-            for (let i = itemsContainer.children.length; i >= 0; i--) {
-                itemsContainer.appendChild(itemsContainer.children[Math.random() * i | 0]);
-            }
-        }
-
-        // Show reset button when any item is placed (User experience improvement)
-        document.addEventListener('dragend', () => {
-            const anyPlaced = document.querySelector('.drop-zone .draggable');
-            const resetBtn = document.getElementById('gameResetBtn');
-            if (anyPlaced && resetBtn) resetBtn.style.display = 'block';
+        // 1. Reset Draggables
+        draggables.forEach(drag => {
+            drag.classList.remove('placed');
+            drag.setAttribute('draggable', 'true');
+            itemsContainer.appendChild(drag); // Move back to source
         });
+
+        // 2. Reset Zones
+        dropZones.forEach(zone => {
+            zone.classList.remove('correct', 'drag-over');
+        });
+
+        // 3. Hide Messages
+        successMsg.style.display = 'none';
+        resetBtn.style.display = 'none'; // Only show when game interacts? Or always?
+
+        // Optional: Shuffle items for replayability
+        for (let i = itemsContainer.children.length; i >= 0; i--) {
+            itemsContainer.appendChild(itemsContainer.children[Math.random() * i | 0]);
+        }
+    }
+
+    // Show reset button when any item is placed (User experience improvement)
+    document.addEventListener('dragend', () => {
+        const anyPlaced = document.querySelector('.drop-zone .draggable');
+        const resetBtn = document.getElementById('gameResetBtn');
+        if (anyPlaced && resetBtn) resetBtn.style.display = 'block';
+    });
 </script>
 
 <!-- RESET GAME LOGIC -->
 <script>
-        function resetGame() {
-            const draggables = Array.from(document.querySelectorAll('.draggable'));
-            const dropZones = document.querySelectorAll('.drop-zone');
-            const itemsContainer = document.querySelector('.draggable-items');
-            const successMsg = document.getElementById('gameSuccessMsg');
-            const resetBtn = document.getElementById('gameResetBtn');
+    function resetGame() {
+        const draggables = Array.from(document.querySelectorAll('.draggable'));
+        const dropZones = document.querySelectorAll('.drop-zone');
+        const itemsContainer = document.querySelector('.draggable-items');
+        const successMsg = document.getElementById('gameSuccessMsg');
+        const resetBtn = document.getElementById('gameResetBtn');
 
-            // 1. Reset Draggables
-            draggables.forEach(drag => {
-                drag.classList.remove('placed');
-                drag.setAttribute('draggable', 'true');
-                itemsContainer.appendChild(drag); // Move back to source
-                drag.style.opacity = '1'; /* Reset opacity if changed */
-            });
-
-            // 2. Reset Zones
-            dropZones.forEach(zone => {
-                zone.classList.remove('correct', 'drag-over');
-                // Remove any draggable children if not moved by appendChild
-                while (zone.firstChild) {
-                    if (zone.firstChild.classList && zone.firstChild.classList.contains('draggable')) {
-                        itemsContainer.appendChild(zone.firstChild);
-                    } else {
-                        zone.removeChild(zone.firstChild);
-                    }
-                }
-                // Restore Step Number if lost (simple version: just clear text content & re-add? No, structure is specific)
-                // Better: The appendChild above moves the NODE. The dropZone text "Etape X" might be obscured or removed?
-                // Checking structure: dropZone has .step-number span. We should ensure it remains.
-            });
-
-            // Re-Ensure Step Numbers are visible (if covered by drop)
-            dropZones.forEach((zone, index) => {
-                // Check if step-number span exists, if not recreate (defensive)
-                if (!zone.querySelector('.step-number')) {
-                    const stepSpan = document.createElement('span');
-                    stepSpan.className = 'step-number';
-                    stepSpan.innerText = 'Étape ' + (index + 1);
-                    zone.prepend(stepSpan);
-                }
-            });
-
-            // 3. Hide Messages
-            if (successMsg) successMsg.style.display = 'none';
-            if (resetBtn) resetBtn.style.display = 'none';
-
-            // 4. Shuffle items for replayability
-            for (let i = draggables.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                itemsContainer.appendChild(draggables[j]);
-            }
-        }
-
-        // Show reset button when any item is placed (User experience improvement)
-        document.addEventListener('dragend', () => {
-            // Wait small delay for DOM update
-            setTimeout(() => {
-                const dropZones = document.querySelectorAll('.drop-zone');
-                let anyPlaced = false;
-                dropZones.forEach(zone => {
-                    if (zone.querySelector('.draggable')) anyPlaced = true;
-                });
-
-                const resetBtn = document.getElementById('gameResetBtn');
-                if (anyPlaced && resetBtn) {
-                    resetBtn.style.display = 'block';
-                }
-            }, 100);
+        // 1. Reset Draggables
+        draggables.forEach(drag => {
+            drag.classList.remove('placed');
+            drag.setAttribute('draggable', 'true');
+            itemsContainer.appendChild(drag); // Move back to source
+            drag.style.opacity = '1'; /* Reset opacity if changed */
         });
+
+        // 2. Reset Zones
+        dropZones.forEach(zone => {
+            zone.classList.remove('correct', 'drag-over');
+            // Remove any draggable children if not moved by appendChild
+            while (zone.firstChild) {
+                if (zone.firstChild.classList && zone.firstChild.classList.contains('draggable')) {
+                    itemsContainer.appendChild(zone.firstChild);
+                } else {
+                    zone.removeChild(zone.firstChild);
+                }
+            }
+            // Restore Step Number if lost (simple version: just clear text content & re-add? No, structure is specific)
+            // Better: The appendChild above moves the NODE. The dropZone text "Etape X" might be obscured or removed?
+            // Checking structure: dropZone has .step-number span. We should ensure it remains.
+        });
+
+        // Re-Ensure Step Numbers are visible (if covered by drop)
+        dropZones.forEach((zone, index) => {
+            // Check if step-number span exists, if not recreate (defensive)
+            if (!zone.querySelector('.step-number')) {
+                const stepSpan = document.createElement('span');
+                stepSpan.className = 'step-number';
+                stepSpan.innerText = 'Étape ' + (index + 1);
+                zone.prepend(stepSpan);
+            }
+        });
+
+        // 3. Hide Messages
+        if (successMsg) successMsg.style.display = 'none';
+        if (resetBtn) resetBtn.style.display = 'none';
+
+        // 4. Shuffle items for replayability
+        for (let i = draggables.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            itemsContainer.appendChild(draggables[j]);
+        }
+    }
+
+    // Show reset button when any item is placed (User experience improvement)
+    document.addEventListener('dragend', () => {
+        // Wait small delay for DOM update
+        setTimeout(() => {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let anyPlaced = false;
+            dropZones.forEach(zone => {
+                if (zone.querySelector('.draggable')) anyPlaced = true;
+            });
+
+            const resetBtn = document.getElementById('gameResetBtn');
+            if (anyPlaced && resetBtn) {
+                resetBtn.style.display = 'block';
+            }
+        }, 100);
+    });
 </script>
 <!-- MISSING SCRIPTS RE-INJECTION (FAQ FIX) -->
 <script>
-        function toggleFaq(button) {
-            const answer = button.nextElementSibling;
-            const icon = button.querySelector('.faq-icon');
+    function toggleFaq(button) {
+        const answer = button.nextElementSibling;
+        const icon = button.querySelector('.faq-icon');
 
-            if (answer.style.maxHeight) {
-                answer.style.maxHeight = null;
-                icon.innerText = '+';
-                button.classList.remove('active');
-            } else {
-                answer.style.maxHeight = answer.scrollHeight + 'px';
-                icon.innerText = '-';
-                button.classList.add('active');
-            }
+        if (answer.style.maxHeight) {
+            answer.style.maxHeight = null;
+            icon.innerText = '+';
+            button.classList.remove('active');
+        } else {
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            icon.innerText = '-';
+            button.classList.add('active');
         }
+    }
 </script>
 <!-- WALLET MODAL LOGIC (NEXT GEN) -->
 <script>
-        function openWalletModal() {
-            const modal = document.getElementById('walletModalOverlay');
-            if (modal) modal.style.display = 'flex';
-        }
+    function openWalletModal() {
+        const modal = document.getElementById('walletModalOverlay');
+        if (modal) modal.style.display = 'flex';
+    }
 
-        function closeWalletModal() {
-            const modal = document.getElementById('walletModalOverlay');
-            if (modal) modal.style.display = 'none';
-        }
+    function closeWalletModal() {
+        const modal = document.getElementById('walletModalOverlay');
+        if (modal) modal.style.display = 'none';
+    }
 
-        function simulateConnection(walletName) {
-            const status = document.getElementById('walletStatus');
-            status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to ' + walletName + '...';
+    function simulateConnection(walletName) {
+        const status = document.getElementById('walletStatus');
+        status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to ' + walletName + '...';
 
+        setTimeout(() => {
+            status.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981;"></i> Connected to ' + walletName;
             setTimeout(() => {
-                status.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981;"></i> Connected to ' + walletName;
-                setTimeout(() => {
-                    closeWalletModal();
-                    alert('Wallet ' + walletName + ' connected! (Simulation Mode)');
-                    document.querySelector('.connect-wallet-btn').innerHTML = '<i class="fas fa-user-check"></i> ' + walletName;
-                    document.querySelector('.connect-wallet-btn').style.background = 'rgba(16, 185, 129, 0.2)';
-                    document.querySelector('.connect-wallet-btn').style.border = '1px solid #10b981';
-                }, 1000);
-            }, 1500);
-        }
+                closeWalletModal();
+                alert('Wallet ' + walletName + ' connected! (Simulation Mode)');
+                document.querySelector('.connect-wallet-btn').innerHTML = '<i class="fas fa-user-check"></i> ' + walletName;
+                document.querySelector('.connect-wallet-btn').style.background = 'rgba(16, 185, 129, 0.2)';
+                document.querySelector('.connect-wallet-btn').style.border = '1px solid #10b981';
+            }, 1000);
+        }, 1500);
+    }
 </script>
