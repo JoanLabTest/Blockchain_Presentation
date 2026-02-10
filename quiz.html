@@ -370,7 +370,8 @@
             position: absolute;
             bottom: 20px;
             right: 20px;
-            opacity: 0.1;
+            opacity: 0.7;
+            /* More visible for user */
             transition: opacity 0.3s;
         }
 
@@ -633,16 +634,24 @@
 
         // --- PERSISTENCE & UNLOCKS ---
         window.onload = function () {
+            // DEMO SHORTCUT: ?demo=1 in URL unlocks EVERYTHING
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('demo')) {
+                localStorage.setItem('quiz_lvl1_passed', 'true');
+                localStorage.setItem('quiz_lvl2_passed', 'true');
+                localStorage.setItem('quiz_lvl3_passed', 'true');
+                localStorage.setItem('quiz_lvl4_unlocked', 'true');
+            }
+
             const lvl1 = localStorage.getItem('quiz_lvl1_passed') === 'true';
             const lvl2 = localStorage.getItem('quiz_lvl2_passed') === 'true';
             const lvl3 = localStorage.getItem('quiz_lvl3_passed') === 'true';
-            const lvl4 = localStorage.getItem('quiz_lvl4_unlocked') === 'true'; // Manual or Score unlock
+            const lvl4 = localStorage.getItem('quiz_lvl4_unlocked') === 'true';
 
             if (lvl1) { unlockUI('cardLvl2', 'tagLvl2'); markPassed('tagLvl1'); }
             if (lvl2) { unlockUI('cardLvl3', 'tagLvl3'); markPassed('tagLvl2'); }
             if (lvl3) { markPassed('tagLvl3'); }
 
-            // Check for Head Of Unlock (Manual or Global Score)
             if (lvl4) {
                 revealHeadOf();
             } else {
@@ -652,6 +661,14 @@
                 checkGlobalExcellence();
             }
         };
+
+        // KEYBOARD SHORTCUT: Press 'H' to open Password Modal
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'h' || event.key === 'H') {
+                openPasswordModal();
+            }
+        });
+
 
         function checkGlobalExcellence() {
             // Need to store actual scores to calculate average. For now, if L3 passed, we assume good enough?
