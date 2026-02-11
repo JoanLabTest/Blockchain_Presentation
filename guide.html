@@ -6226,7 +6226,7 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
             <div class="footer-bottom">
                 <p>&copy; 2026 Blockchain Academy. Tous droits réservés.</p>
                 <div style="margin-top: 10px;">
-                    <button onclick="document.getElementById('devModal').style.display='flex'"
+                    <button onclick="toggleDevMode()"
                         style="background:transparent; border:none; color:rgba(255,255,255,0.1); font-size:10px; cursor:pointer;">Dev
                         Access</button>
                 </div>
@@ -6241,6 +6241,9 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
         </div>
         </div>
     </footer>
+    <!-- Shared Dev Mode Script -->
+    <script src="utils/dev_mode_shared.js"></script>
+    <link rel="stylesheet" href="styles/dev_mode.css">
 </body>
 
 </html>
@@ -6894,75 +6897,59 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
     </div>
 </div>
 
-<!-- DEV MODAL -->
-<div class="modal" id="devModal"
-    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:20000; justify-content:center; align-items:center;">
-    <div style="background:#1e293b; padding:20px; border-radius:10px; text-align:center; border:1px solid #3b82f6;">
-        <h3 style="color:#3b82f6; margin-bottom:15px;">DEV ACCESS</h3>
-        <input type="password" id="devPass" class="modal-input" placeholder="Password"
-            style="width:100%; padding:10px; margin-bottom:10px; background:#0f172a; border:1px solid #334155; color:white;">
-        <button onclick="checkDevPassword()"
-            style="width:100%; padding:10px; background:#3b82f6; color:white; border:none; border-radius:5px; cursor:pointer;">UNLOCK
-            ALL</button>
-        <button onclick="document.getElementById('devModal').style.display='none'"
-            style="width:100%; margin-top:10px; background:transparent; color:#94a3b8; border:none; cursor:pointer;">Close</button>
-    </div>
-</div>
+<!-- DEV MODAL REMOVED - Replaced by Shared Component -->
+window.addEventListener('load', () => {
+// Restore Badge UI from LocalStorage
+const badges = ['explorer', 'listener', 'strategist'];
+let count = 0;
 
-<script>
-    // --- PERSISTENCE & DEV LOGIC ---
-    window.addEventListener('load', () => {
-        // Restore Badge UI from LocalStorage
-        const badges = ['explorer', 'listener', 'strategist'];
-        let count = 0;
+badges.forEach(key => {
+if (localStorage.getItem('badge_' + key)) {
+const el = document.getElementById('badge-' + key);
+if (el) {
+el.classList.add('unlocked');
+el.style.opacity = "1";
+el.querySelector('.badge-icon').style.color = "#f59e0b";
+count++;
+}
+}
+});
 
-        badges.forEach(key => {
-            if (localStorage.getItem('badge_' + key)) {
-                const el = document.getElementById('badge-' + key);
-                if (el) {
-                    el.classList.add('unlocked');
-                    el.style.opacity = "1";
-                    el.querySelector('.badge-icon').style.color = "#f59e0b";
-                    count++;
-                }
-            }
-        });
+// Update Count
+document.getElementById('badgeCount').innerText = count;
+document.getElementById('badgeProgress').style.width = (count / 3 * 100) + "%";
 
-        // Update Count
-        document.getElementById('badgeCount').innerText = count;
-        document.getElementById('badgeProgress').style.width = (count / 3 * 100) + "%";
+if (count === 3) {
+const btn = document.getElementById('certBtn');
+if (btn) {
+btn.classList.add('unlocked');
+btn.innerHTML = '<i class="fas fa-unlock"></i> TÉLÉCHARGER LA CERTIFICATION';
+btn.style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
+btn.style.boxShadow = "0 0 20px rgba(245, 158, 11, 0.4)";
+btn.disabled = false;
+}
+}
+});
 
-        if (count === 3) {
-            const btn = document.getElementById('certBtn');
-            if (btn) {
-                btn.classList.add('unlocked');
-                btn.innerHTML = '<i class="fas fa-unlock"></i> TÉLÉCHARGER LA CERTIFICATION';
-                btn.style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
-                btn.style.boxShadow = "0 0 20px rgba(245, 158, 11, 0.4)";
-                btn.disabled = false;
-            }
-        }
-    });
+function checkDevPassword() {
+const pass = document.getElementById('devPass').value;
+if (pass.toUpperCase() === 'SATOSHI') {
+// Unlock ALL Badges
+localStorage.setItem('badge_explorer', 'true');
+localStorage.setItem('badge_listener', 'true');
+localStorage.setItem('badge_strategist', 'true');
 
-    function checkDevPassword() {
-        const pass = document.getElementById('devPass').value;
-        if (pass.toUpperCase() === 'SATOSHI') {
-            // Unlock ALL Badges
-            localStorage.setItem('badge_explorer', 'true');
-            localStorage.setItem('badge_listener', 'true');
-            localStorage.setItem('badge_strategist', 'true');
+// Also Unlock Quiz Levels (Bonus)
+localStorage.setItem('quiz_metal_1', 'bronze');
+localStorage.setItem('quiz_metal_2', 'silver');
+localStorage.setItem('quiz_metal_3', 'gold');
+localStorage.setItem('quiz_lvl4_unlocked', 'true');
 
-            // Also Unlock Quiz Levels (Bonus)
-            localStorage.setItem('quiz_metal_1', 'bronze');
-            localStorage.setItem('quiz_metal_2', 'silver');
-            localStorage.setItem('quiz_metal_3', 'gold');
-            localStorage.setItem('quiz_lvl4_unlocked', 'true');
-
-            alert("🔓 DEV MODE : Badges & Certification Débloqués.");
-        } else {
-            alert("Accès Refusé. Mot de passe incorrect.");
-        }
-    }
+alert("🔓 DEV MODE : Badges & Certification Débloqués.");
+} else {
+alert("Accès Refusé. Mot de passe incorrect.");
+}
+}
 </script>
 
 <!-- 5. Hooking into Existing Interactive Elements -->
