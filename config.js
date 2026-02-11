@@ -27,7 +27,7 @@ window.DCM_CONFIG = {
     legalAgentUrl: "https://joanl.app.n8n.cloud/webhook/legal-expert-v18",
 
     // Analytics Dashboard (n8n Workflow - KPIs)
-    analyticsUrl: "https://joanl.app.n8n.cloud/webhook/academy-analytics",
+    analyticsUrl: "https://joanl.app.n8n.cloud/webhook/academy-analytics-v18",
 
     // SUPABASE CONFIGURATION (Database & Auth)
     supabaseUrl: "https://wnwerjuqtrduqkgwdjrg.supabase.co",
