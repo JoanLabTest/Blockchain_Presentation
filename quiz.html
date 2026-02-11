@@ -625,6 +625,11 @@
             border-bottom: 2px solid #ccc;
             display: inline-block;
             padding: 0 50px;
+            position: relative;
+            z-index: 10;
+            color: #1e293b;
+            /* Default Dark Blue */
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
 
         .dip-rank {
@@ -1313,7 +1318,10 @@
             const name = document.getElementById('diplomaName').value;
             if (!name || name.trim() === "") { alert("Merci d'indiquer un nom."); return; }
 
-            document.getElementById('dipNameDisplay').innerText = name;
+            const dipName = document.getElementById('dipNameDisplay');
+            dipName.innerText = name;
+            dipName.style.color = "#1e293b"; // Reset default
+
             document.getElementById('dipDate').innerText = new Date().toLocaleDateString('fr-FR');
 
             // DETERMINE HIGHEST RANK & STYLE
@@ -1357,6 +1365,9 @@
             rankTxt.style.color = color;
             seal.style.background = bgSeal;
 
+            // Apply color to name as well for style consistency (optional, but looks better)
+            // dipName.style.color = color; 
+
             closeDiplomaModal();
 
             // WEBHOOK TRACKING
@@ -1369,10 +1380,12 @@
                 });
             }
 
-            window.print();
-
-            // Hide diploma after print (timeout)
-            setTimeout(() => { dip.style.display = 'none'; }, 1000);
+            // DELAY PRINT TO ENSURE RENDERING
+            setTimeout(() => {
+                window.print();
+                // Hide diploma after print (timeout)
+                setTimeout(() => { dip.style.display = 'none'; }, 1000);
+            }, 500);
         }
     </script>
 </body>
