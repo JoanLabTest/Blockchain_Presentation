@@ -4,7 +4,15 @@
 // Requires: node-fetch (or native fetch in Node 18+)
 
 const SUPABASE_URL = "https://wnwerjuqtrduqkgwdjrg.supabase.co";
-const SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MDczODc5MSwiZXhwIjoyMDg2MzE0NzkxfQ.4EAxRUw_wJHbqjav9-HvG6QWE7n0_WUKEAVRa_H-q5E";
+// SECURITY: Service Key should NEVER be hardcoded in production or committed to git.
+// Use environment variables: SUPABASE_SERVICE_KEY=your_key node scripts/init_supabase.js
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+
+if (!SUPABASE_SERVICE_KEY) {
+    console.error("❌ Error: SUPABASE_SERVICE_KEY environment variable is missing.");
+    console.error("Usage: SUPABASE_SERVICE_KEY=<your_service_role_key> node scripts/init_supabase.js");
+    process.exit(1);
+}
 
 const SQL_SCHEMA = `
 -- Supabase Schema for Blockchain Academy (DCM Digital)

@@ -743,8 +743,11 @@
                 </div>
             </div>
 
-            <div class="footer-secret">
-                <button class="secret-btn" onclick="openPasswordModal()">Head Of</button>
+            <div class="footer-secret" style="position: fixed; bottom: 20px; right: 20px; z-index: 100;">
+                <button class="secret-btn" onclick="openPasswordModal()"
+                    style="background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; transition: all 0.3s;">
+                    <i class="fas fa-terminal"></i> Dev Mode
+                </button>
             </div>
 
             <!-- HEADER (Score & Progress) -->
@@ -800,7 +803,15 @@
             <p style="font-size:12px; color:var(--text-muted);">Saisissez le code d'accès Head Of.</p>
             <input type="password" id="secretPass" class="modal-input" placeholder="Mot de passe">
             <button onclick="checkPassword()"
-                style="width:100%; padding: 10px; background: var(--accent-gold); border:none; border-radius:8px; font-weight:bold; cursor:pointer;">DÉVERROUILLER</button>
+                style="width:100%; padding: 10px; background: var(--accent-gold); border:none; border-radius:8px; font-weight:bold; cursor:pointer; color: #000;">DÉVERROUILLÉ</button>
+
+            <div style="margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px;">
+                <button onclick="resetProgress()"
+                    style="width:100%; padding: 8px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; border-radius: 8px; font-size: 12px; cursor: pointer;">
+                    <i class="fas fa-trash"></i> Réinitialiser la progression
+                </button>
+            </div>
+
             <button onclick="closePasswordModal()"
                 style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
         </div>
@@ -1028,6 +1039,14 @@
                 location.reload();
             } else {
                 alert("Accès refusé.");
+            }
+        }
+
+        function resetProgress() {
+            if (confirm("⚠️ Êtes-vous sûr de vouloir tout réinitialiser ? Cette action est irréversible.")) {
+                localStorage.clear();
+                alert("Progression réinitialisée.");
+                location.reload();
             }
         }
 

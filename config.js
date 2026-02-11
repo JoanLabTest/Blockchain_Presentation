@@ -31,6 +31,8 @@ window.DCM_CONFIG = {
 
     // SUPABASE CONFIGURATION (Database & Auth)
     supabaseUrl: "https://wnwerjuqtrduqkgwdjrg.supabase.co",
+    // NOTE: This is the 'anon' public key. It is safe to expose in the browser 
+    // as long as Row Level Security (RLS) policies are properly configured in Supabase.
     supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo"
 };
 
