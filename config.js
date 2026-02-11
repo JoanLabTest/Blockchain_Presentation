@@ -24,7 +24,7 @@ window.DCM_CONFIG = {
     financeAgentUrl: "https://joanl.app.n8n.cloud/webhook/rwa-expert",
 
     // Legal Agent (n8n Workflow - Legal Expert)
-    legalAgentUrl: "https://joanl.app.n8n.cloud/webhook/legal-expert-v15",
+    legalAgentUrl: "https://joanl.app.n8n.cloud/webhook/legal-expert-v16",
 
     // Analytics Dashboard (n8n Workflow - KPIs)
     analyticsUrl: "https://joanl.app.n8n.cloud/webhook/academy-analytics",
