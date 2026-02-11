@@ -172,8 +172,7 @@ const LegalAgent = (() => {
         }
 
         const payload = {
-            message: userMessage,
-            ...context
+            message: userMessage // 'userMessage' is 'text' from sendMessage
         };
 
         const res = await fetch(DCM_CONFIG.legalAgentUrl, {
