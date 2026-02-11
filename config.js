@@ -18,10 +18,10 @@ window.DCM_CONFIG = {
     webhookUrl: "https://n8n.domain.com/webhook/agent-x",
 
     // AI Professor (n8n Workflow)
-    aiProfessorUrl: "https://joanl.app.n8n.cloud/webhook/ai-professor",
+    aiProfessorUrl: "https://joanl.app.n8n.cloud/webhook/ai-professor-v18",
 
     // Finance Agent (n8n Workflow - RWA Expert)
-    financeAgentUrl: "https://joanl.app.n8n.cloud/webhook/rwa-expert",
+    financeAgentUrl: "https://joanl.app.n8n.cloud/webhook/rwa-expert-v18",
 
     // Legal Agent (n8n Workflow - Legal Expert)
     legalAgentUrl: "https://joanl.app.n8n.cloud/webhook/legal-expert-v18",
