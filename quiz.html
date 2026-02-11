@@ -1396,3 +1396,44 @@
 
 <script>
     // ... (Existing quiz logic)
+
+    // DASHBOARD INITIALIZATION
+    document.addEventListener('DOMContentLoaded', () => {
+        // Check for existing progress
+        const m1 = localStorage.getItem('quiz_metal_1');
+        const m2 = localStorage.getItem('quiz_metal_2');
+        const m3 = localStorage.getItem('quiz_metal_3'); // Gold = Certified
+        const r4 = localStorage.getItem('quiz_rank_4');  // Head Of = Elite
+
+        // Show Certificate Button if at least Gold or Head Of
+        if (m3 || r4) {
+            const certBtn = document.getElementById('dashboardCertBtn');
+            if (certBtn) certBtn.style.display = 'flex';
+        }
+
+        // Unlock Cards Visuals
+        if (m1) {
+            const c2 = document.getElementById('cardLvl2');
+            const t2 = document.getElementById('tagLvl2');
+            if (c2 && t2) {
+                c2.classList.remove('locked');
+                t2.innerText = "DÉVERROUILLÉ";
+                t2.classList.remove('tag-locked');
+                t2.classList.add('tag-success');
+            }
+        }
+        if (m2) {
+            const c3 = document.getElementById('cardLvl3');
+            const t3 = document.getElementById('tagLvl3');
+            if (c3 && t3) {
+                c3.classList.remove('locked');
+                t3.innerText = "DÉVERROUILLÉ";
+                t3.classList.remove('tag-locked');
+                t3.classList.add('tag-success');
+            }
+        }
+        if (r4 || localStorage.getItem('quiz_lvl4_unlocked') === 'true') {
+            if (window.revealHeadOf) window.revealHeadOf();
+        }
+    });
+</script>

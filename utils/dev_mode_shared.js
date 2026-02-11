@@ -81,6 +81,10 @@ const DevMode = {
             localStorage.setItem('quiz_metal_2', 'silver');
             localStorage.setItem('quiz_metal_3', 'gold');
             localStorage.setItem('quiz_lvl4_unlocked', 'true');
+            // Ensure Rank 4 is set to something valid so Diploma works immediately
+            if (!localStorage.getItem('quiz_rank_4')) {
+                localStorage.setItem('quiz_rank_4', 'Platinum');
+            }
 
             // Unlock Guide Badges
             localStorage.setItem('badge_explorer', 'true');
@@ -90,7 +94,7 @@ const DevMode = {
             // Specific page handling
             if (window.revealHeadOf) window.revealHeadOf(); // quiz.html specific
 
-            alert("🔓 DEV MODE ACTIVÉ : Tout est débloqué.");
+            alert("🔓 DEV MODE ACTIVÉ : Tout est débloqué (Passeport, Quiz, Badges).");
             document.getElementById('devModal').style.display = 'none';
             location.reload();
         } else {
