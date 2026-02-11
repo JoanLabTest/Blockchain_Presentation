@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Webhook Connection Tester</title>
+    <style>
+        body {
+            background: #0f172a;
+            color: #fff;
+            font-family: monospace;
+            padding: 20px;
+        }
+
+        .log {
+            background: #1e293b;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #3b82f6;
+        }
+
+        .error {
+            border-left-color: #ef4444;
+        }
+
+        .success {
+            border-left-color: #10b981;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #3b82f6;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔍 Webhook Diagnostic Tool</h1>
+    <div style="margin-bottom: 20px;">
+        <label>URL Cible : </label>
+        <input type="text" id="targetUrl" value="https://joanl.app.n8n.cloud/webhook/legal-expert"
+            style="width: 400px; padding: 5px;">
+        <button onclick="runTest()">Lancer le Test</button>
+    </div>
+    <div id="console"></div>
+
+    <script>
+        const consoleDiv = document.getElementById('console');
+
+        function log(msg, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            consoleDiv.appendChild(div);
+        }
+
+        async function runTest() {
+            const url = document.getElementById('targetUrl').value;
+            consoleDiv.innerHTML = '';
+            log(`Testing connection to: <b>${url}</b>`);
+
+            try {
+                // 1. Simple GET (Ping)
+                log("1. Sending GET Payload...");
+                try {
+                    const resGet = await fetch(url, { method: 'GET' });
+                    log(`GET Status: ${resGet.status} ${resGet.statusText}`, resGet.ok ? 'success' : 'error');
+                } catch (e) {
+                    log(`GET Failed: ${e.message}`, 'error');
+                }
+
+                // 2. POST with JSON
+                log("2. Sending POST Payload...");
+                const resPost = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: "Test Connection", page_title: "Debug Page" })
+                });
+
+                if (resPost.ok) {
+                    const text = await resPost.text();
+                    log(`POST Success! Status: ${resPost.status}`, 'success');
+                    log(`Response: ${text.substring(0, 100)}...`);
+                } else {
+                    log(`POST Failed. Status: ${resPost.status} ${resPost.statusText}`, 'error');
+                    if (resPost.status === 404) log("👉 404 = L'URL est fausse ou le Workflow n'est pas ACTIF.", 'error');
+                    if (resPost.status === 500) log("👉 500 = Le Workflow a planté (Erreur OpenAI ?)", 'error');
+                }
+
+            } catch (error) {
+                log(`CRITICAL NETWORK ERROR: ${error.message}`, 'error');
+                if (error.message.includes('Failed to fetch')) {
+                    log("👉 'Failed to fetch' = Probablement bloqué par CORS.", 'error');
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
