@@ -24,11 +24,18 @@ const AuthManager = (() => {
 
         // DEV MODE BYPASS
         if (typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE) {
-            console.warn("AuthManager: 🚧 DEV MODE ACTIVE - Simulating Logged In User");
+            console.warn("AuthManager: 🚧 DEV MODE ACTIVE - Simulating Super Dev User");
             currentUser = {
-                id: 'dev-user-id',
-                email: 'dev@dcm-hub.com',
-                role: 'authenticated'
+                id: 'super-dev-id',
+                email: 'superdev@dcm-hub.com',
+                role: 'admin',
+                user_metadata: {
+                    first_name: "Super",
+                    last_name: "Dev",
+                    full_access: true,
+                    levels_unlocked: true,
+                    certificates_ready: true
+                }
             };
             // Mock getSessionToken for agents
             AuthManager.getSessionToken = async () => "mock-dev-token";
