@@ -218,9 +218,12 @@ const FinanceAgent = (() => {
 return { init, open, close };
 }) ();
 
-// Auto-init
+// Auto-init disabled - pages should call FinanceAgent.init() manually
+// This prevents double initialization conflicts
+/*
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => FinanceAgent.init());
 } else {
     FinanceAgent.init();
 }
+*/
