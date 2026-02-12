@@ -36,7 +36,12 @@ async function fetchAnalyticsData() {
                 headers: { "Content-Type": "application/json" }
             });
             if (res.ok) {
-                return await res.json();
+                const result = await res.json();
+                // Handle n8n returning an array of items (common)
+                if (Array.isArray(result) && result.length > 0) {
+                    return result[0];
+                }
+                return result;
             }
         } catch (e) {
             console.warn("API Fetch failed, using fallback data", e);
@@ -66,60 +71,84 @@ function updateKPIs(data) {
 }
 
 function renderCharts(data) {
-    // 1. BAR CHART (Levels)
-    const ctxLevel = document.getElementById('levelChart').getContext('2d');
-    new Chart(ctxLevel, {
-        type: 'bar',
-        data: {
-            labels: ['Fondamental', 'Intermédiaire', 'Expert'],
-            datasets: [
-                {
-                    label: 'Réussite (%)',
-                    data: [data.levels.fundamental.pass, data.levels.intermediate.pass, data.levels.expert.pass],
-                    backgroundColor: '#10b981',
-                    borderRadius: 6
-                },
-                {
-                    label: 'Échec (%)',
-                    data: [data.levels.fundamental.fail, data.levels.intermediate.fail, data.levels.expert.fail],
-                    backgroundColor: '#ef4444',
-                    borderRadius: 6
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'bottom', labels: { color: '#94a3b8' } }
-            },
-            scales: {
-                y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
-                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-            }
-        }
-    });
+    if (!data || !data.levels || !data.ranks) {
+        console.error("Incomplete data for charts:", data);
+        return;
+    }
 
-    // 2. DOUGHNUT CHART (Ranks)
-    const ctxRank = document.getElementById('rankChart').getContext('2d');
-    new Chart(ctxRank, {
-        type: 'doughnut',
-        data: {
-            labels: ['Bronze', 'Silver', 'Gold'],
-            datasets: [{
-                data: data.ranks,
-                backgroundColor: ['#cd7f32', '#c0c0c0', '#fbbf24'],
-                borderWidth: 0,
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'bottom', labels: { color: '#94a3b8' } }
+    // Delay slightly to ensure layout and canvas sizes are ready
+    setTimeout(() => {
+        // 1. BAR CHART (Levels)
+        const canvasLevel = document.getElementById('levelChart');
+        if (!canvasLevel) return;
+        
+        const ctxLevel = canvasLevel.getContext('2d');
+        new Chart(ctxLevel, {
+            type: 'bar',
+            data: {
+                labels: ['Fondamental', 'Intermédiaire', 'Expert'],
+                datasets: [
+                    {
+                        label: 'Réussite (%)',
+                        data: [
+                            data.levels.fundamental?.pass || 0, 
+                            data.levels.intermediate?.pass || 0, 
+                            data.levels.expert?.pass || 0
+                        ],
+                        backgroundColor: '#10b981',
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Échec (%)',
+                        data: [
+                            data.levels.fundamental?.fail || 0, 
+                            data.levels.intermediate?.fail || 0, 
+                            data.levels.expert?.fail || 0
+                        ],
+                        backgroundColor: '#ef4444',
+                        borderRadius: 6
+                    }
+                ]
             },
-            cutout: '70%'
-        }
-    });
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#94a3b8' } }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        // 2. DOUGHNUT CHART (Ranks)
+        const canvasRank = document.getElementById('rankChart');
+        if (!canvasRank) return;
+
+        const ctxRank = canvasRank.getContext('2d');
+        new Chart(ctxRank, {
+            type: 'doughnut',
+            data: {
+                labels: ['Bronze', 'Silver', 'Gold'],
+                datasets: [{
+                    data: data.ranks || [0, 0, 0],
+                    backgroundColor: ['#cd7f32', '#c0c0c0', '#fbbf24'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#94a3b8' } }
+                },
+                cutout: '70%'
+            }
+        });
+    }, 100);
 }
 
 // Utility: Count Up Animation
