@@ -70,99 +70,87 @@ function updateKPIs(data) {
     document.getElementById("kpi-avg-score").innerText = data.avg_score + "/10";
 }
 
-// Global chart instances to allow destruction
+// Global chart instances
 let charts = {};
 
 function renderCharts(data) {
-    if (!data || !data.levels || !data.ranks) {
-        console.error("Incomplete data for charts:", data);
+    console.log("DEBUG: renderCharts data:", JSON.stringify(data, null, 2));
+
+    if (!data) {
+        console.error("DEBUG: No data provided to renderCharts");
         return;
     }
 
-    // Delay slightly to ensure layout and canvas sizes are ready
+    // Delay to ensure DOM is ready
     setTimeout(() => {
-        // 1. BAR CHART (Levels)
-        const canvasLevel = document.getElementById('levelChart');
-        if (!canvasLevel) return;
+        // 1. BAR CHART
+        try {
+            const canvasLevel = document.getElementById('levelChart');
+            if (canvasLevel) {
+                if (charts.level) charts.level.destroy();
 
-        // Destroy existing chart if it exists
-        if (charts.level) charts.level.destroy();
+                const barData = [
+                    Number(data.levels?.fundamental?.pass || 0),
+                    Number(data.levels?.intermediate?.pass || 0),
+                    Number(data.levels?.expert?.pass || 0)
+                ];
+                const failData = [
+                    Number(data.levels?.fundamental?.fail || 0),
+                    Number(data.levels?.intermediate?.fail || 0),
+                    Number(data.levels?.expert?.fail || 0)
+                ];
 
-        charts.level = new Chart(canvasLevel, {
-            type: 'bar',
-            data: {
-                labels: ['Fondamental', 'Intermédiaire', 'Expert'],
-                datasets: [
-                    {
-                        label: 'Réussite (%)',
-                        data: [
-                            Number(data.levels.fundamental?.pass || 0),
-                            Number(data.levels.intermediate?.pass || 0),
-                            Number(data.levels.expert?.pass || 0)
-                        ],
-                        backgroundColor: '#10b981',
-                        borderRadius: 6
+                console.log("DEBUG: Initializing Bar Chart with:", barData, failData);
+
+                charts.level = new Chart(canvasLevel, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Fondamental', 'Intermédiaire', 'Expert'],
+                        datasets: [
+                            { label: 'Réussite', data: barData, backgroundColor: '#10b981' },
+                            { label: 'Échec', data: failData, backgroundColor: '#ef4444' }
+                        ]
                     },
-                    {
-                        label: 'Échec (%)',
-                        data: [
-                            Number(data.levels.fundamental?.fail || 0),
-                            Number(data.levels.intermediate?.fail || 0),
-                            Number(data.levels.expert?.fail || 0)
-                        ],
-                        backgroundColor: '#ef4444',
-                        borderRadius: 6
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
                     }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom', labels: { color: '#94a3b8' } }
-                },
-                scales: {
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: '#94a3b8' }
+                });
+                console.log("DEBUG: Bar Chart initialized successfully");
+            }
+        } catch (err) {
+            console.error("DEBUG: Error in Bar Chart:", err);
+        }
+
+        // 2. DOUGHNUT CHART
+        try {
+            const canvasRank = document.getElementById('rankChart');
+            if (canvasRank) {
+                if (charts.rank) charts.rank.destroy();
+
+                const rankData = Array.isArray(data.ranks) ? data.ranks.map(v => Number(v)) : [0, 0, 0];
+                console.log("DEBUG: Initializing Doughnut Chart with:", rankData);
+
+                charts.rank = new Chart(canvasRank, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Bronze', 'Silver', 'Gold'],
+                        datasets: [{
+                            data: rankData,
+                            backgroundColor: ['#cd7f32', '#c0c0c0', '#fbbf24']
+                        }]
                     },
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#334155' },
-                        ticks: { color: '#94a3b8' }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
                     }
-                }
+                });
+                console.log("DEBUG: Doughnut Chart initialized successfully");
             }
-        });
-
-        // 2. DOUGHNUT CHART (Ranks)
-        const canvasRank = document.getElementById('rankChart');
-        if (!canvasRank) return;
-
-        // Destroy existing chart if it exists
-        if (charts.rank) charts.rank.destroy();
-
-        charts.rank = new Chart(canvasRank, {
-            type: 'doughnut',
-            data: {
-                labels: ['Bronze', 'Silver', 'Gold'],
-                datasets: [{
-                    data: (data.ranks || [0, 0, 0]).map(v => Number(v)),
-                    backgroundColor: ['#cd7f32', '#c0c0c0', '#fbbf24'],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom', labels: { color: '#94a3b8' } }
-                },
-                cutout: '70%'
-            }
-        });
-    }, 200);
+        } catch (err) {
+            console.error("DEBUG: Error in Doughnut Chart:", err);
+        }
+    }, 500);
 }
 
 // Utility: Count Up Animation
