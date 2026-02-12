@@ -1198,12 +1198,14 @@
             const passed = percentage >= 80;
 
             // LOG TO SUPABASE
-            if (window.SupabaseService) {
-                SupabaseService.recordQuizResult(
+            if (window.QuizSync) {
+                // Pass percentage to calculate rank inside
+                QuizSync.saveResult(
                     currentLevel,
                     score,
                     currentQuestions.length,
-                    passed
+                    passed,
+                    null // Rank is calculated in Sync logic or we pass it later
                 );
             }
 
