@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Blockchain Academy</title>
+
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- SUPABASE -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js?v=3"></script>
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --glass-bg: rgba(30, 41, 59, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #e2e8f0;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Urbanist', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            z-index: -1;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .orb-1 { width: 300px; height: 300px; background: var(--accent-cyan); top: -50px; left: -50px; }
+        .orb-2 { width: 400px; height: 400px; background: var(--accent-blue); bottom: -100px; right: -100px; animation-delay: -5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 50px); }
+        }
+
+        /* Login Card */
+        .login-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .logo-area { text-align: center; margin-bottom: 30px; }
+        .logo-area i {
+            font-size: 40px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .logo-area h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+        .logo-area p { color: #94a3b8; font-size: 14px; margin-top: 5px; font-family: 'JetBrains Mono', monospace; }
+
+        /* Tabs */
+        .auth-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: none;
+            color: var(--text-main);
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-blue);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Form */
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 14px; color: #94a3b8; font-weight: 600; }
+        
+        .input-wrapper { position: relative; }
+        .input-wrapper i {
+            position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #64748b; transition: 0.3s;
+        }
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .input-wrapper input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1);
+            background: rgba(30, 41, 59, 0.8);
+        }
+        .input-wrapper input:focus + i { color: var(--accent-cyan); }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.4);
+        }
+        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn.loading { opacity: 0.7; cursor: wait; }
+
+        /* Feedback Message */
+        #auth-message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+            font-weight: 500;
+        }
+        .success { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .error { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.2); }
+
+        /* Footer */
+        .card-footer { margin-top: 30px; text-align: center; font-size: 14px; color: #64748b; }
+        .card-footer a { color: var(--accent-cyan); text-decoration: none; font-weight: 600; transition: 0.2s; }
+        .card-footer a:hover { color: var(--accent-blue); text-decoration: underline; }
+
+        /* Helper */
+        .hidden { display: none; }
+    </style>
+</head>
+
+<body>
+    
+    <!-- Background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="login-card">
+        <div class="logo-area">
+            <i class="fas fa-cube"></i>
+            <h1>Blockchain Academy</h1>
+            <p>Espace Membre Sécurisé</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button class="tab-btn active" id="tab-login">Connexion</button>
+            <button class="tab-btn" id="tab-signup">Inscription</button>
+        </div>
+
+        <form id="auth-form">
+            <div class="input-group">
+                <label>Email Professionnel</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" placeholder="nom@entreprise.com" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Mot de passe</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="password" placeholder="••••••••" required minlength="6">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submit-btn">
+                <span id="btn-text">Se connecter</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <div id="auth-message"></div>
+
+        <div class="card-footer">
+            <p>Protégé par Supabase Auth</p>
+            <div style="margin-top: 10px;">
+                <a href="index.html">← Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTH LOGIC -->
+    <script>
+        // INIT SUPABASE
+        const { createClient } = supabase;
+        // Looking for config...
+        if (typeof DCM_CONFIG === 'undefined') {
+            document.body.innerHTML = "<h2 style='color:white;text-align:center;'>Erreur: config.js non chargé</h2>";
+        }
+        const supabaseClient = createClient(DCM_CONFIG.supabaseUrl, DCM_CONFIG.supabaseAnonKey);
+
+        // STATE
+        let isSignup = false;
+
+        // ELEMENTS
+        const form = document.getElementById('auth-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const messageDiv = document.getElementById('auth-message');
+        const tabLogin = document.getElementById('tab-login');
+        const tabSignup = document.getElementById('tab-signup');
+
+        // TABS HANDLER
+        tabLogin.addEventListener('click', () => toggleMode(false));
+        tabSignup.addEventListener('click', () => toggleMode(true));
+
+        function toggleMode(signupMode) {
+            isSignup = signupMode;
+            if (isSignup) {
+                tabLogin.classList.remove('active');
+                tabSignup.classList.add('active');
+                btnText.innerText = "Créer un compte";
+                submitBtn.style.background = "linear-gradient(135deg, var(--accent-purple), var(--accent-blue))";
+            } else {
+                tabSignup.classList.remove('active');
+                tabLogin.classList.add('active');
+                btnText.innerText = "Se connecter";
+                submitBtn.style.background = "linear-gradient(135deg, var(--accent-blue), var(--accent-cyan))";
+            }
+            showMessage('', ''); // Clear messages
+        }
+
+        // SUBMIT HANDLER
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            setLoading(true);
+            showMessage('', '');
+
+            try {
+                if (isSignup) {
+                    // --- SIGN UP ---
+                    const { data, error } = await supabaseClient.auth.signUp({
+                        email: email,
+                        password: password,
+                    });
+                    
+                    if (error) throw error;
+                    
+                    showMessage("Compte créé avec succès ! Vérifiez vos emails pour confirmer.", "success");
+                    // Optionnel: Auto-switch to login
+                } else {
+                    // --- SIGN IN ---
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({
+                        email: email,
+                        password: password,
+                    });
+
+                    if (error) throw error;
+
+                    showMessage("Connexion réussie ! Redirection...", "success");
+                    
+                    // SAVE SESSION if needed (Supabase SDK handles this by default in localStorage)
+                    
+                    // REDIRECT
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 1500);
+                }
+            } catch (err) {
+                console.error("Auth Error:", err);
+                let msg = err.message;
+                if (msg.includes("Invalid login credentials")) msg = "Email ou mot de passe incorrect.";
+                showMessage(msg, "error");
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        // HELPERS
+        function setLoading(loading) {
+            submitBtn.disabled = loading;
+            if (loading) {
+                submitBtn.classList.add('loading');
+                btnText.innerText = "Chargement...";
+            } else {
+                submitBtn.classList.remove('loading');
+                btnText.innerText = isSignup ? "Créer un compte" : "Se connecter";
+            }
+        }
+
+        function showMessage(text, type) {
+            if (!text) {
+                messageDiv.style.display = 'none';
+                return;
+            }
+            messageDiv.innerText = text;
+            messageDiv.className = type;
+            messageDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
