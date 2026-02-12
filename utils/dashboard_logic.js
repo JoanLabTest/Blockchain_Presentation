@@ -74,14 +74,11 @@ function updateKPIs(data) {
 let charts = {};
 
 function renderCharts(data) {
-    console.log("DEBUG: renderCharts data:", JSON.stringify(data, null, 2));
+    console.log("DEBUG: renderCharts started. Data:", JSON.stringify(data));
 
-    if (!data) {
-        console.error("DEBUG: No data provided to renderCharts");
-        return;
-    }
+    if (!data) return;
 
-    // Delay to ensure DOM is ready
+    // Use a slightly longer delay to ensure DOM and layout are absolute 100% ready
     setTimeout(() => {
         // 1. BAR CHART
         try {
@@ -100,26 +97,51 @@ function renderCharts(data) {
                     Number(data.levels?.expert?.fail || 0)
                 ];
 
-                console.log("DEBUG: Initializing Bar Chart with:", barData, failData);
-
                 charts.level = new Chart(canvasLevel, {
                     type: 'bar',
                     data: {
                         labels: ['Fondamental', 'Intermédiaire', 'Expert'],
                         datasets: [
-                            { label: 'Réussite', data: barData, backgroundColor: '#10b981' },
-                            { label: 'Échec', data: failData, backgroundColor: '#ef4444' }
+                            {
+                                label: 'Réussite (%)',
+                                data: barData,
+                                backgroundColor: '#10b981',
+                                borderRadius: 6
+                            },
+                            {
+                                label: 'Échec (%)',
+                                data: failData,
+                                backgroundColor: '#ef4444',
+                                borderRadius: 6
+                            }
                         ]
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false
+                        maintainAspectRatio: false,
+                        animation: false, // Disable animations to prevent 'axis' access before full init
+                        plugins: {
+                            legend: { position: 'bottom', labels: { color: '#94a3b8' } }
+                        },
+                        scales: {
+                            x: {
+                                type: 'category',
+                                grid: { display: false },
+                                ticks: { color: '#94a3b8' }
+                            },
+                            y: {
+                                type: 'linear',
+                                beginAtZero: true,
+                                grid: { color: '#334155' },
+                                ticks: { color: '#94a3b8' }
+                            }
+                        }
                     }
                 });
-                console.log("DEBUG: Bar Chart initialized successfully");
+                console.log("DEBUG: Bar Chart Rendering Complete");
             }
         } catch (err) {
-            console.error("DEBUG: Error in Bar Chart:", err);
+            console.error("DEBUG: Bar Chart Error:", err);
         }
 
         // 2. DOUGHNUT CHART
@@ -128,8 +150,12 @@ function renderCharts(data) {
             if (canvasRank) {
                 if (charts.rank) charts.rank.destroy();
 
-                const rankData = Array.isArray(data.ranks) ? data.ranks.map(v => Number(v)) : [0, 0, 0];
-                console.log("DEBUG: Initializing Doughnut Chart with:", rankData);
+                // Correctly map the ranks object if it's not an array
+                const rankData = [
+                    Number(data.ranks?.bronze || 0),
+                    Number(data.ranks?.silver || 0),
+                    Number(data.ranks?.gold || 0)
+                ];
 
                 charts.rank = new Chart(canvasRank, {
                     type: 'doughnut',
@@ -137,20 +163,26 @@ function renderCharts(data) {
                         labels: ['Bronze', 'Silver', 'Gold'],
                         datasets: [{
                             data: rankData,
-                            backgroundColor: ['#cd7f32', '#c0c0c0', '#fbbf24']
+                            backgroundColor: ['#cd7f32', '#c0c0c0', '#fbbf24'],
+                            borderWidth: 0
                         }]
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false
+                        maintainAspectRatio: false,
+                        animation: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { color: '#94a3b8' } }
+                        },
+                        cutout: '70%'
                     }
                 });
-                console.log("DEBUG: Doughnut Chart initialized successfully");
+                console.log("DEBUG: Doughnut Chart Rendering Complete");
             }
         } catch (err) {
-            console.error("DEBUG: Error in Doughnut Chart:", err);
+            console.error("DEBUG: Doughnut Chart Error:", err);
         }
-    }, 500);
+    }, 800);
 }
 
 // Utility: Count Up Animation
