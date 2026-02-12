@@ -89,9 +89,16 @@ const AuthManager = (() => {
                 authBtnPlaceholder.onclick = signOut;
                 authBtnPlaceholder.href = "#"; // Prevent navigation
 
+                const name = currentUser.user_metadata?.first_name || currentUser.email.split('@')[0];
+
                 if (userDisplay) {
-                    const name = currentUser.user_metadata?.first_name || currentUser.email.split('@')[0];
                     userDisplay.innerText = name;
+                }
+
+                // Handle Dashboard Welcome Title if present
+                const welcomeTitle = document.getElementById('welcome-title');
+                if (welcomeTitle) {
+                    welcomeTitle.innerText = `Bienvenue, ${name} !`;
                 }
             } else {
                 authBtnPlaceholder.innerHTML = '<i class="fas fa-user"></i> Connexion';
