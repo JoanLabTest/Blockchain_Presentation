@@ -74,8 +74,6 @@ function updateKPIs(data) {
 let charts = {};
 
 function renderCharts(data) {
-    console.log("DEBUG: renderCharts started. Data:", JSON.stringify(data));
-
     if (!data) return;
 
     // Use a slightly longer delay to ensure DOM and layout are absolute 100% ready
@@ -138,10 +136,9 @@ function renderCharts(data) {
                         }
                     }
                 });
-                console.log("DEBUG: Bar Chart Rendering Complete");
             }
         } catch (err) {
-            console.error("DEBUG: Bar Chart Error:", err);
+            console.warn("Chart.js Bar Chart error (handled):", err);
         }
 
         // 2. DOUGHNUT CHART
@@ -177,10 +174,9 @@ function renderCharts(data) {
                         cutout: '70%'
                     }
                 });
-                console.log("DEBUG: Doughnut Chart Rendering Complete");
             }
         } catch (err) {
-            console.error("DEBUG: Doughnut Chart Error:", err);
+            console.warn("Chart.js Doughnut Chart error (handled):", err);
         }
     }, 800);
 }
