@@ -70,6 +70,9 @@ function updateKPIs(data) {
     document.getElementById("kpi-avg-score").innerText = data.avg_score + "/10";
 }
 
+// Global chart instances to allow destruction
+let charts = {};
+
 function renderCharts(data) {
     if (!data || !data.levels || !data.ranks) {
         console.error("Incomplete data for charts:", data);
@@ -81,9 +84,11 @@ function renderCharts(data) {
         // 1. BAR CHART (Levels)
         const canvasLevel = document.getElementById('levelChart');
         if (!canvasLevel) return;
-        
-        const ctxLevel = canvasLevel.getContext('2d');
-        new Chart(ctxLevel, {
+
+        // Destroy existing chart if it exists
+        if (charts.level) charts.level.destroy();
+
+        charts.level = new Chart(canvasLevel, {
             type: 'bar',
             data: {
                 labels: ['Fondamental', 'Intermédiaire', 'Expert'],
@@ -91,9 +96,9 @@ function renderCharts(data) {
                     {
                         label: 'Réussite (%)',
                         data: [
-                            data.levels.fundamental?.pass || 0, 
-                            data.levels.intermediate?.pass || 0, 
-                            data.levels.expert?.pass || 0
+                            Number(data.levels.fundamental?.pass || 0),
+                            Number(data.levels.intermediate?.pass || 0),
+                            Number(data.levels.expert?.pass || 0)
                         ],
                         backgroundColor: '#10b981',
                         borderRadius: 6
@@ -101,9 +106,9 @@ function renderCharts(data) {
                     {
                         label: 'Échec (%)',
                         data: [
-                            data.levels.fundamental?.fail || 0, 
-                            data.levels.intermediate?.fail || 0, 
-                            data.levels.expert?.fail || 0
+                            Number(data.levels.fundamental?.fail || 0),
+                            Number(data.levels.intermediate?.fail || 0),
+                            Number(data.levels.expert?.fail || 0)
                         ],
                         backgroundColor: '#ef4444',
                         borderRadius: 6
@@ -117,8 +122,15 @@ function renderCharts(data) {
                     legend: { position: 'bottom', labels: { color: '#94a3b8' } }
                 },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
-                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94a3b8' }
+                    }
                 }
             }
         });
@@ -127,13 +139,15 @@ function renderCharts(data) {
         const canvasRank = document.getElementById('rankChart');
         if (!canvasRank) return;
 
-        const ctxRank = canvasRank.getContext('2d');
-        new Chart(ctxRank, {
+        // Destroy existing chart if it exists
+        if (charts.rank) charts.rank.destroy();
+
+        charts.rank = new Chart(canvasRank, {
             type: 'doughnut',
             data: {
                 labels: ['Bronze', 'Silver', 'Gold'],
                 datasets: [{
-                    data: data.ranks || [0, 0, 0],
+                    data: (data.ranks || [0, 0, 0]).map(v => Number(v)),
                     backgroundColor: ['#cd7f32', '#c0c0c0', '#fbbf24'],
                     borderWidth: 0,
                     hoverOffset: 4
@@ -148,7 +162,7 @@ function renderCharts(data) {
                 cutout: '70%'
             }
         });
-    }, 100);
+    }, 200);
 }
 
 // Utility: Count Up Animation
