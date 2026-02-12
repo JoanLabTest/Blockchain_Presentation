@@ -1373,6 +1373,29 @@
         // Optional: Open agent if user stays for 10s via generic logic in finance_agent.js?
         // Or just let it sit there.
     </script>
+
+    <!-- FINANCE AGENT (RWA Expert) -->
+    <script src="config.js?v=3"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="utils/auth.js"></script>
+    <script src="utils/finance_agent.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Init Auth for token management
+            if (typeof AuthManager !== 'undefined') {
+                AuthManager.init();
+            }
+
+            // 2. Init Finance Agent (RWA Expert)
+            if (typeof FinanceAgent !== 'undefined') {
+                setTimeout(() => {
+                    FinanceAgent.init();
+                    console.log("Finance Agent (RWA Expert) initialized on rwa.html");
+                }, 1000);
+            }
+        });
+    </script>
 </body>
 
 </html>
