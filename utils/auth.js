@@ -61,6 +61,13 @@ const AuthManager = (() => {
         // 6. Listen for Auth Changes
         supabaseClient.auth.onAuthStateChange((event, session) => {
             console.log("AuthManager: Event", event);
+
+            // Bypass listener in DEV_MODE to prevent overwriting simulated user
+            if (typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE) {
+                console.log("AuthManager: Listener bypassed (DEV_MODE active)");
+                return;
+            }
+
             currentUser = session?.user || null;
             handleRouteGuard();
             updateUI();
