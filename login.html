@@ -303,6 +303,23 @@
         </div>
 
         <form id="auth-form">
+            <!-- Prénom et Nom (visible uniquement en mode inscription) -->
+            <div class="input-group" id="firstname-group" style="display: none;">
+                <label>Prénom</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="firstname" placeholder="Jean">
+                </div>
+            </div>
+
+            <div class="input-group" id="lastname-group" style="display: none;">
+                <label>Nom</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="lastname" placeholder="Dupont">
+                </div>
+            </div>
+
             <div class="input-group">
                 <label>Email Professionnel</label>
                 <div class="input-wrapper">
@@ -352,6 +369,10 @@
         const form = document.getElementById('auth-form');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
+        const firstnameInput = document.getElementById('firstname');
+        const lastnameInput = document.getElementById('lastname');
+        const firstnameGroup = document.getElementById('firstname-group');
+        const lastnameGroup = document.getElementById('lastname-group');
         const submitBtn = document.getElementById('submit-btn');
         const btnText = document.getElementById('btn-text');
         const messageDiv = document.getElementById('auth-message');
@@ -376,11 +397,21 @@
                 tabSignup.classList.add('active');
                 btnText.innerText = "Créer un compte";
                 submitBtn.style.background = "linear-gradient(135deg, var(--accent-purple), var(--accent-blue))";
+                // Show profile fields
+                firstnameGroup.style.display = 'block';
+                lastnameGroup.style.display = 'block';
+                firstnameInput.required = true;
+                lastnameInput.required = true;
             } else {
                 tabSignup.classList.remove('active');
                 tabLogin.classList.add('active');
                 btnText.innerText = "Se connecter";
                 submitBtn.style.background = "linear-gradient(135deg, var(--accent-blue), var(--accent-cyan))";
+                // Hide profile fields
+                firstnameGroup.style.display = 'none';
+                lastnameGroup.style.display = 'none';
+                firstnameInput.required = false;
+                lastnameInput.required = false;
             }
             showMessage('', ''); // Clear messages
         }
@@ -397,9 +428,19 @@
             try {
                 if (isSignup) {
                     // --- SIGN UP ---
+                    const firstname = firstnameInput.value.trim();
+                    const lastname = lastnameInput.value.trim();
+
                     const { data, error } = await supabaseClient.auth.signUp({
                         email: email,
                         password: password,
+                        options: {
+                            data: {
+                                first_name: firstname,
+                                last_name: lastname,
+                                full_name: `${firstname} ${lastname}`
+                            }
+                        }
                     });
 
                     if (error) throw error;
