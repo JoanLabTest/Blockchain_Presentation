@@ -359,10 +359,17 @@
         const tabSignup = document.getElementById('tab-signup');
 
         // TABS HANDLER
-        tabLogin.addEventListener('click', () => toggleMode(false));
-        tabSignup.addEventListener('click', () => toggleMode(true));
+        tabLogin.addEventListener('click', (e) => {
+            console.log("Login Tab Clicked");
+            toggleMode(false);
+        });
+        tabSignup.addEventListener('click', (e) => {
+            console.log("Signup Tab Clicked");
+            toggleMode(true);
+        });
 
         function toggleMode(signupMode) {
+            console.log("Toggle Mode:", signupMode ? "Signup" : "Login");
             isSignup = signupMode;
             if (isSignup) {
                 tabLogin.classList.remove('active');

@@ -21,8 +21,27 @@ const AuthManager = (() => {
         }
 
         // 3. Check Session
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        currentUser = session?.user || null;
+
+        // DEV MODE BYPASS
+        if (typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE) {
+            console.warn("AuthManager: 🚧 DEV MODE ACTIVE - Simulating Logged In User");
+            currentUser = {
+                id: 'dev-user-id',
+                email: 'dev@dcm-hub.com',
+                role: 'authenticated'
+            };
+            // Mock getSessionToken for agents
+            AuthManager.getSessionToken = async () => "mock-dev-token";
+        } else {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            currentUser = session?.user || null;
+
+            // Standard getSessionToken
+            AuthManager.getSessionToken = async () => {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                return session ? session.access_token : null;
+            };
+        }
 
         console.log("AuthManager: User is", currentUser ? "Logged In" : "Guest");
 

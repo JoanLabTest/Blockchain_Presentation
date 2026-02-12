@@ -3,7 +3,11 @@
 
 window.DCM_CONFIG = {
     // Taux de rendement affiché (Yield)
+    // Taux de rendement affiché (Yield)
     rate: "3.15%",
+
+    // MODE DÉVELOPPEUR (Bypass Auth) - Mettre à false en production
+    DEV_MODE: true,
 
     // Montant de l'émission Siemens (Simulateur & Benchmarks)
     siemensAmount: "300 M€",
