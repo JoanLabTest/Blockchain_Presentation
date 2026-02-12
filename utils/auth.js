@@ -17,7 +17,7 @@ const AuthManager = (() => {
         // 2. Init Supabase
         // Ensure supabaseClient is ready (might be already init in another script, but let's be safe)
         if (!supabaseClient) {
-            supabaseClient = supabase.createClient(DCM_CONFIG.supabaseUrl, DCM_CONFIG.supabaseAnonKey);
+            supabaseClient = supabase.createClient(DCM_CONFIG.supabaseUrl, DCM_CONFIG.supabaseKey);
         }
 
         // 3. Check Session

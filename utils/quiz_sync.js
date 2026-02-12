@@ -14,7 +14,7 @@ window.QuizSync = (() => {
 
         // Singleton Client check
         if (!client) {
-            client = supabase.createClient(DCM_CONFIG.supabaseUrl, DCM_CONFIG.supabaseAnonKey);
+            client = supabase.createClient(DCM_CONFIG.supabaseUrl, DCM_CONFIG.supabaseKey);
         }
         console.log("QuizSync: Ready ☁️");
 
