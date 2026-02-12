@@ -11,6 +11,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loading = document.getElementById('loading');
 
     try {
+        // 2. Personalize Welcome
+        if (window.AuthManager) {
+            const user = AuthManager.getUser();
+            if (user && user.user_metadata && user.user_metadata.first_name) {
+                const welcomeTitle = document.getElementById('welcome-title');
+                if (welcomeTitle) {
+                    welcomeTitle.innerText = `Bienvenue, ${user.user_metadata.first_name} !`;
+                }
+            }
+        }
+
         // 3. Fetch Data (or fall back to mock)
         const data = await fetchAnalyticsData();
 

@@ -90,7 +90,8 @@ const AuthManager = (() => {
                 authBtnPlaceholder.href = "#"; // Prevent navigation
 
                 if (userDisplay) {
-                    userDisplay.innerText = currentUser.email.split('@')[0]; // Show username part
+                    const name = currentUser.user_metadata?.first_name || currentUser.email.split('@')[0];
+                    userDisplay.innerText = name;
                 }
             } else {
                 authBtnPlaceholder.innerHTML = '<i class="fas fa-user"></i> Connexion';
