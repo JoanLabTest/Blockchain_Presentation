@@ -900,6 +900,28 @@
             }, 1500);
         }
     </script>
-</body>
+
+    <!-- DEPENDENCIES & AGENTS -->
+    <script src="config.js?v=3"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="utils/auth.js"></script>
+    <script src="utils/finance_agent.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Init Auth to get Token/User
+            if (typeof AuthManager !== 'undefined') {
+                AuthManager.init();
+            }
+
+            // 2. Init Finance Agent
+            if (typeof FinanceAgent !== 'undefined') {
+                // Delay slightly to ensure Auth is ready
+                setTimeout(() => {
+                    FinanceAgent.init();
+                }, 1000);
+            }
+        });
+    </script>
 
 </html>
