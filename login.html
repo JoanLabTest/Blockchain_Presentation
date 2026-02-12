@@ -336,6 +336,14 @@
                 </div>
             </div>
 
+            <div class="input-group" id="confirm-password-group" style="display: none;">
+                <label>Confirmer le mot de passe</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-check-circle"></i>
+                    <input type="password" id="confirm-password" placeholder="••••••••">
+                </div>
+            </div>
+
             <button type="submit" class="submit-btn" id="submit-btn">
                 <span id="btn-text">Se connecter</span>
                 <i class="fas fa-arrow-right"></i>
@@ -369,10 +377,12 @@
         const form = document.getElementById('auth-form');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
         const firstnameInput = document.getElementById('firstname');
         const lastnameInput = document.getElementById('lastname');
         const firstnameGroup = document.getElementById('firstname-group');
         const lastnameGroup = document.getElementById('lastname-group');
+        const confirmPasswordGroup = document.getElementById('confirm-password-group');
         const submitBtn = document.getElementById('submit-btn');
         const btnText = document.getElementById('btn-text');
         const messageDiv = document.getElementById('auth-message');
@@ -400,8 +410,10 @@
                 // Show profile fields
                 firstnameGroup.style.display = 'block';
                 lastnameGroup.style.display = 'block';
+                confirmPasswordGroup.style.display = 'block';
                 firstnameInput.required = true;
                 lastnameInput.required = true;
+                confirmPasswordInput.required = true;
             } else {
                 tabSignup.classList.remove('active');
                 tabLogin.classList.add('active');
@@ -410,8 +422,10 @@
                 // Hide profile fields
                 firstnameGroup.style.display = 'none';
                 lastnameGroup.style.display = 'none';
+                confirmPasswordGroup.style.display = 'none';
                 firstnameInput.required = false;
                 lastnameInput.required = false;
+                confirmPasswordInput.required = false;
             }
             showMessage('', ''); // Clear messages
         }
@@ -421,6 +435,12 @@
             e.preventDefault();
             const email = emailInput.value;
             const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (isSignup && password !== confirmPassword) {
+                showMessage("Les mots de passe ne correspondent pas.", "error");
+                return;
+            }
 
             setLoading(true);
             showMessage('', '');
