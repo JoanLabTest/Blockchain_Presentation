@@ -150,49 +150,73 @@ const FinanceAgent = (() => {
         messagesDiv.appendChild(loadingDiv);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
+        // SECURE CALL
         try {
-            const context = {
-                page_title: document.title,
-                page_url: window.location.href,
-                timestamp: new Date().toISOString()
-            };
+            const token = await AuthManager.getSessionToken();
+            if (!token) {
+                addMessage("⚠️ Connexion requise pour accéder à l'Agent Finance.", true);
+                // remove loading
+                messagesDiv.removeChild(messagesDiv.lastChild);
+                return;
+            }
 
-            const response = await callAI(text, context);
+            const response = await fetch(DCM_CONFIG.financeWebhook, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    message: text,
+                    pageContext: document.title,
+                    sessionId: 'session-' + Date.now()
+                })
+            });
+
+            if (response.status === 401) throw new Error("Accès non autorisé.");
+
+            const data = await response.json();
             messagesDiv.removeChild(loadingDiv);
-            addMessage(response);
+
+            if (data.output) {
+                addMessage(data.output);
+            } else {
+                addMessage("Je n'ai pas compris la réponse.");
+            }
         } catch (error) {
             if (messagesDiv.contains(loadingDiv)) messagesDiv.removeChild(loadingDiv);
-            addMessage(`⚠️ Erreur: ${error.message} (Vérifiez que le workflow n8n est ACTIF)`);
-            console.error("Finance Agent Error:", error);
+            addMessage(`⚠️ Erreur: ${error.message}`);
         }
+        console.error("Finance Agent Error:", error);
     }
+}
 
     async function callAI(userMessage, context = {}) {
-        if (!window.DCM_CONFIG || !DCM_CONFIG.financeAgentUrl) {
-            // Fallback for demo/testing if URL not set
-            console.error("Finance Agent Configuration Error. DCM_CONFIG:", window.DCM_CONFIG);
-            return "Configuration manquante : `financeAgentUrl`. Veuillez vérifier config.js. (Debug: " + (window.DCM_CONFIG ? "Config loaded but URL missing" : "Config object missing") + ")";
-        }
-
-        const payload = {
-            message: userMessage,
-            ...context
-        };
-
-        const res = await fetch(DCM_CONFIG.financeAgentUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) throw new Error("Network error: " + res.statusText);
-
-        const data = await res.json();
-        return data.response || data.message || "Aucune analyse disponible.";
+    if (!window.DCM_CONFIG || !DCM_CONFIG.financeAgentUrl) {
+        // Fallback for demo/testing if URL not set
+        console.error("Finance Agent Configuration Error. DCM_CONFIG:", window.DCM_CONFIG);
+        return "Configuration manquante : `financeAgentUrl`. Veuillez vérifier config.js. (Debug: " + (window.DCM_CONFIG ? "Config loaded but URL missing" : "Config object missing") + ")";
     }
 
-    return { init, open, close };
-})();
+    const payload = {
+        message: userMessage,
+        ...context
+    };
+
+    const res = await fetch(DCM_CONFIG.financeAgentUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error("Network error: " + res.statusText);
+
+    const data = await res.json();
+    return data.response || data.message || "Aucune analyse disponible.";
+}
+
+return { init, open, close };
+}) ();
 
 // Auto-init
 if (document.readyState === 'loading') {
