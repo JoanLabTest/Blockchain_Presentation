@@ -248,6 +248,101 @@
                 font-size: 2.5rem;
             }
         }
+
+        /* --- 3D IMMERSIVE UPGRADE --- */
+        #hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            /* Let clicks pass through */
+        }
+
+        /* 3D Exploded View */
+        .anatomy-container {
+            perspective: 1200px;
+            height: 500px;
+            /* Space for the stack */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 60px 0;
+        }
+
+        .token-stack {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            transform-style: preserve-3d;
+            transform: rotateX(60deg) rotateZ(-30deg) translateZ(-50px);
+            transition: transform 1s ease;
+        }
+
+        .layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s;
+            /* Layer contents */
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .layer i {
+            font-size: 2rem;
+            color: #60a5fa;
+            transform: translateZ(20px);
+            /* Pop icon out */
+        }
+
+        /* Exploded State (Triggered by Scroll) */
+        .anatomy-container.exploded .token-stack {
+            transform: rotateX(60deg) rotateZ(-30deg) translateZ(0);
+        }
+
+        .anatomy-container.exploded .layer:nth-child(1) {
+            transform: translateZ(0px);
+        }
+
+        .anatomy-container.exploded .layer:nth-child(2) {
+            transform: translateZ(80px);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .anatomy-container.exploded .layer:nth-child(3) {
+            transform: translateZ(160px);
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .anatomy-container.exploded .layer:nth-child(4) {
+            transform: translateZ(240px);
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .anatomy-container.exploded .layer:nth-child(5) {
+            transform: translateZ(320px);
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        /* Smooth Tilt on Cards */
+        .stat-card {
+            transition: transform 0.1s;
+            /* Fast visual response */
+            transform-style: preserve-3d;
+        }
     </style>
 </head>
 
@@ -272,11 +367,15 @@
     </nav>
 
     <!-- Hero -->
-    <header class="case-study-hero" data-aos="fade-up">
-        <span class="tag-pill">Institutional Research • Updated: Feb 2026</span>
-        <h1 class="hero-title">BlackRock BUIDL</h1>
-        <p class="hero-subtitle">La première incursion institutionnelle majeure dans la tokenisation des Money Market
-            Funds. Une analyse structurelle et stratégique.</p>
+    <header class="case-study-hero" data-aos="fade-up" style="position: relative; overflow: hidden;">
+        <canvas id="hero-particles"></canvas>
+        <div style="position: relative; z-index: 2;">
+            <span class="tag-pill">Institutional Research • Updated: Feb 2026</span>
+            <h1 class="hero-title" data-tilt>BlackRock BUIDL</h1>
+            <p class="hero-subtitle">La première incursion institutionnelle majeure dans la tokenisation des Money
+                Market
+                Funds. Une analyse structurelle et stratégique.</p>
+        </div>
     </header>
 
     <!-- Content -->
@@ -363,12 +462,47 @@
                     Contrairement aux stablecoins traditionnels (USDC, USDT) qui sont des instruments de paiement ne
                     versant généralement pas d'intérêts aux détenteurs, BUIDL est un produit d'investissement.
                 </p>
-                <h3>Mécanisme de Distribution</h3>
                 <p>
                     La valeur du token est maintenue stable à <strong>$1.00</strong>. Le rendement généré par les actifs
                     sous-jacents est distribué quotidiennement sous forme de nouveaux tokens directement dans les
                     wallets des investisseurs (Rebasing).
                 </p>
+
+                <!-- 3D Breakdown Section -->
+                <div id="token-anatomy" class="anatomy-container">
+                    <div class="token-stack">
+                        <!-- Layer 1: Base Assets -->
+                        <div class="layer" style="z-index: 1;">
+                            <i class="fas fa-university"></i>
+                            <span style="font-size:0.9rem;">US Treasury Bills</span>
+                        </div>
+                        <!-- Layer 2: SPV -->
+                        <div class="layer" style="z-index: 2;">
+                            <i class="fas fa-building-columns"></i>
+                            <span style="font-size:0.9rem;">Structure SPV (Delaware)</span>
+                        </div>
+                        <!-- Layer 3: Custody -->
+                        <div class="layer" style="z-index: 3;">
+                            <i class="fas fa-shield-halved"></i>
+                            <span style="font-size:0.9rem;">Custody (BNY Mellon)</span>
+                        </div>
+                        <!-- Layer 4: Securitize -->
+                        <div class="layer" style="z-index: 4;">
+                            <i class="fas fa-file-contract"></i>
+                            <span style="font-size:0.9rem;">Securitize (Transfer Agent)</span>
+                        </div>
+                        <!-- Layer 5: Token -->
+                        <div class="layer" style="z-index: 5; background: rgba(16, 185, 129, 0.1);">
+                            <i class="fab fa-ethereum" style="color: #10b981;"></i>
+                            <span style="font-size:0.9rem;">BUIDL Token (ERC-20)</span>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    style="text-align: center; color: #64748b; font-size: 0.8rem; margin-top: -40px; margin-bottom: 40px;">
+                    *Exploded Structure View (Scroll to Interact)
+                </div>
+
             </section>
 
             <!-- 3. Architecture Technique -->
@@ -533,6 +667,8 @@
     <script src="config.js"></script>
     <script src="utils/auth.js"></script>
     <script src="utils/dev_mode_shared.js"></script>
+    <!-- Immersive Script -->
+    <script src="utils/immersive-buidl.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
