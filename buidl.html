@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlackRock BUIDL | Case Study Institutionnel</title>
+    <title>BlackRock BUIDL | Institutional Case Study</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap"
         rel="stylesheet">
 
     <!-- Icons -->
@@ -20,458 +20,117 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Styles -->
+    <!-- Note: styles.css is kept for base reset/auth compatibility if needed, but styling is overridden by styles-buidl.css -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="styles-navigation.css">
-    <link rel="stylesheet" href="styles-footer.css">
-
-    <style>
-        :root {
-            --bs-blue: #0056b3;
-            /* BlackRockish Blue */
-            --paper-bg: #0f172a;
-            --text-primary: #cbd5e1;
-            --text-heading: #ffffff;
-            --border-color: #1e293b;
-        }
-
-        body {
-            background-color: var(--paper-bg);
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-family: 'Playfair Display', serif;
-            /* Editorial/Institutional feel */
-            color: var(--text-heading);
-        }
-
-        /* Hero Section */
-        .case-study-hero {
-            padding: 120px 20px 60px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(30, 41, 59, 0.3) 100%);
-        }
-
-        .tag-pill {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 50px;
-            background: rgba(59, 130, 246, 0.1);
-            color: #60a5fa;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            max-width: 800px;
-            margin: 0 auto;
-            font-weight: 300;
-        }
-
-        /* Content Layout */
-        .content-container {
-            max-width: 1000px;
-            margin: 60px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 60px;
-        }
-
-        /* Sidebar Navigation */
-        .sticky-toc {
-            position: sticky;
-            top: 100px;
-            height: fit-content;
-        }
-
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            border-left: 2px solid var(--border-color);
-        }
-
-        .toc-item {
-            padding: 10px 0 10px 20px;
-            position: relative;
-        }
-
-        .toc-link {
-            text-decoration: none;
-            color: #64748b;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-            display: block;
-        }
-
-        .toc-link:hover,
-        .toc-link.active {
-            color: #3b82f6;
-        }
-
-        .toc-item.active {
-            border-left: 2px solid #3b82f6;
-            margin-left: -2px;
-        }
-
-        /* Main Article */
-        .article-section {
-            margin-bottom: 80px;
-        }
-
-        .section-header {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .key-stat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .stat-card {
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #334155;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            text-transform: uppercase;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #fff;
-            margin-top: 5px;
-        }
-
-        .info-box {
-            background: rgba(59, 130, 246, 0.05);
-            border-left: 4px solid #3b82f6;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
-
-        /* Agent UI */
-        .analyst-ui {
-            background: #1e293b;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            overflow: hidden;
-            margin-top: 60px;
-        }
-
-        .analyst-header {
-            background: #0f172a;
-            padding: 15px 20px;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .analyst-avatar {
-            width: 40px;
-            height: 40px;
-            background: #3b82f6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .analyst-body {
-            padding: 30px;
-        }
-
-        .chat-message {
-            margin-bottom: 20px;
-            max-width: 80%;
-        }
-
-        .chat-message.ai {
-            background: #334155;
-            padding: 15px;
-            border-radius: 12px 12px 12px 0;
-        }
-
-        .chat-message.user {
-            background: rgba(59, 130, 246, 0.2);
-            color: white;
-            padding: 15px;
-            border-radius: 12px 12px 0 12px;
-            margin-left: auto;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .content-container {
-                grid-template-columns: 1fr;
-            }
-
-            .sticky-toc {
-                display: none;
-            }
-
-            .hero-title {
-                font-size: 2.5rem;
-            }
-        }
-
-        /* --- 3D IMMERSIVE UPGRADE --- */
-        #hero-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-            /* Let clicks pass through */
-        }
-
-        /* 3D Exploded View */
-        .anatomy-container {
-            perspective: 1200px;
-            height: 600px;
-            /* Increased height for scrubbing */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 60px 0;
-            position: relative;
-        }
-
-        .token-stack {
-            position: relative;
-            width: 300px;
-            height: 200px;
-            transform-style: preserve-3d;
-            transform: rotateX(60deg) rotateZ(-30deg) translateZ(-50px);
-            /* Transition removed for scroll-linking */
-        }
-
-        .layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(30, 41, 59, 0.95);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 600;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-            /* Instant transform for scroll sync */
-            transition: box-shadow 0.3s ease;
-            /* Layer contents */
-            flex-direction: column;
-            gap: 5px;
-            will-change: transform;
-        }
-
-        .layer i {
-            font-size: 2rem;
-            color: #60a5fa;
-            transform: translateZ(20px);
-            /* Pop icon out */
-        }
-
-        /* Exploded State (Triggered by Scroll) */
-        .anatomy-container.exploded .token-stack {
-            transform: rotateX(60deg) rotateZ(-30deg) translateZ(0);
-        }
-
-        .anatomy-container.exploded .layer:nth-child(1) {
-            transform: translateZ(0px);
-        }
-
-        .anatomy-container.exploded .layer:nth-child(2) {
-            transform: translateZ(80px);
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .anatomy-container.exploded .layer:nth-child(3) {
-            transform: translateZ(160px);
-            background: rgba(59, 130, 246, 0.15);
-        }
-
-        .anatomy-container.exploded .layer:nth-child(4) {
-            transform: translateZ(240px);
-            background: rgba(59, 130, 246, 0.2);
-        }
-
-        .anatomy-container.exploded .layer:nth-child(5) {
-            transform: translateZ(320px);
-            border-color: #10b981;
-            color: #10b981;
-        }
-
-        /* Smooth Tilt on Cards */
-        .stat-card {
-            transition: transform 0.1s;
-            /* Fast visual response */
-            transform-style: preserve-3d;
-        }
-    </style>
+    <link rel="stylesheet" href="styles-buidl.css">
 </head>
 
 <body>
 
-    <!-- Navigation -->
-    <nav class="glass-nav">
-        <div class="nav-content">
-            <div class="logo-container">
-                <a href="index.html" class="logo-link">
-                    <img src="assets/logo-dcm.png" alt="DCM Logo" class="nav-logo">
-                    <span class="logo-text">DCM Digital<span class="highlight">.</span></span>
-                </a>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-item">Accueil</a>
-                <a href="rwa.html" class="nav-item">RWA & Tokenisation</a>
-                <a href="dashboard.html" class="nav-item">Dashboard</a>
-                <a href="#" class="nav-item active">Case Study: BUIDL</a>
-            </div>
+    <!-- 1. Progress Navigation -->
+    <nav class="buidl-nav">
+        <a href="index.html" class="buidl-nav-logo">
+            <span style="color:var(--accent-blue)">DCM</span> Digital<span class="highlight">.</span> Insights
+        </a>
+        <div class="buidl-progress-container">
+            <div class="progress-step active" data-label="Hero"
+                onclick="document.querySelector('#hero').scrollIntoView({behavior:'smooth'})"></div>
+            <div class="progress-step" data-label="Executive"
+                onclick="document.querySelector('#executive-summary').scrollIntoView({behavior:'smooth'})"></div>
+            <div class="progress-step" data-label="Structure"
+                onclick="document.querySelector('#structure').scrollIntoView({behavior:'smooth'})"></div>
+            <!-- Tech merged into Structure flow visually or logically -->
+            <div class="progress-step" data-label="Analyst"
+                onclick="document.querySelector('#analyst').scrollIntoView({behavior:'smooth'})"></div>
         </div>
+        <a href="index.html" class="buidl-back-btn">
+            <i class="fas fa-arrow-left" style="margin-right:8px;"></i> Return to Hub
+        </a>
     </nav>
 
-    <!-- Hero -->
-    <header class="case-study-hero" data-aos="fade-up" style="position: relative; overflow: hidden;">
-        <canvas id="hero-particles"></canvas>
-        <div style="position: relative; z-index: 2;">
-            <span class="tag-pill">Institutional Research • Updated: Feb 2026</span>
-            <h1 class="hero-title" data-tilt>BlackRock BUIDL</h1>
-            <p class="hero-subtitle">La première incursion institutionnelle majeure dans la tokenisation des Money
-                Market
-                Funds. Une analyse structurelle et stratégique.</p>
+    <!-- 2. Cinematic Hero -->
+    <section id="hero" class="hero-section">
+        <canvas id="hero-particles"></canvas> <!-- Particle JS hooks here -->
+        <div class="hero-content">
+            <span class="hero-eyebrow">Institutional Research Note • Feb 2026</span>
+            <h1 class="hero-title-large" data-tilt>BlackRock BUIDL</h1>
+            <p class="hero-desc">
+                The definitive institutional guide to the **$2.4B** tokenized money market fund reshaping global capital
+                markets.
+            </p>
         </div>
-    </header>
+        <div class="scroll-indicator">
+            <span>Scroll to Explore</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
 
-    <!-- Content -->
-    <div class="content-container">
-
-        <!-- Sidebar TOC -->
-        <aside class="sticky-toc">
-            <nav>
-                <div
-                    style="font-size: 0.8rem; text-transform:uppercase; color:#94a3b8; margin-bottom:15px; font-weight:600;">
-                    Sommaire</div>
-                <ul class="toc-list">
-                    <li class="toc-item active"><a href="#executive-summary" class="toc-link">1. Executive Summary</a>
-                    </li>
-                    <li class="toc-item"><a href="#structure" class="toc-link">2. Structure Financière</a></li>
-                    <li class="toc-item"><a href="#tech" class="toc-link">3. Architecture Technique</a></li>
-                    <li class="toc-item"><a href="#strategy" class="toc-link">4. Enjeux Stratégiques</a></li>
-                    <li class="toc-item"><a href="#compliance" class="toc-link">5. Regulation & Compliance</a></li>
-                    <li class="toc-item"><a href="#analyst" class="toc-link">6. AI Analyst View</a></li>
-                </ul>
-            </nav>
-        </aside>
-
-        <!-- Main Article -->
-        <main>
-
-            <!-- 1. Executive Summary -->
-            <section id="executive-summary" class="article-section" data-aos="fade-up">
-                <h2 class="section-header">1. Executive Summary</h2>
-                <p>
-                    En mars 2024, BlackRock a lancé le <strong>BlackRock USD Institutional Digital Liquidity Fund
-                        (BUIDL)</strong>.
-                    Il s'agit du premier <em>money market fund</em> tokenisé émis directement par le plus grand
-                    gestionnaire d'actifs mondial, initialement sur Ethereum et désormais déployé sur <strong>7
-                        blockchains majeures</strong>.
-                </p>
-                <div class="info-box">
-                    <strong>Chiffres Clés (Fév. 2026)</strong><br>
-                    <div style="display: flex; gap: 20px; margin-top: 10px;">
-                        <div>
-                            <span style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">AUM</span><br>
-                            <span style="font-size: 1.2rem; font-weight: 700; color: #fff;">$2.4 Billion+</span>
-                        </div>
-                        <div>
-                            <span
-                                style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Launch</span><br>
-                            <span style="font-size: 1.2rem; font-weight: 700; color: #fff;">Mars 2024</span>
-                        </div>
-                        <div>
-                            <span style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Yield</span><br>
-                            <span style="font-size: 1.2rem; font-weight: 700; color: #10b981;">~4.75%*</span>
-                        </div>
-                    </div>
+    <!-- 3. Executive Summary (Bento Grid) -->
+    <section id="executive-summary" class="slide-section">
+        <h2 class="section-title" data-aos="fade-up">The Institutional Standard</h2>
+        <div class="bento-grid">
+            <!-- AUM Card -->
+            <div class="bento-card col-span-4" data-aos="fade-up" data-aos-delay="100">
+                <h3>Assets Under Management</h3>
+                <div class="value">$2.4B+</div>
+                <div class="sub">Largest Tokenized Fund Globally</div>
+                <div style="margin-top:20px; height:4px; background:rgba(255,255,255,0.1); border-radius:2px;">
+                    <div style="width:85%; height:100%; background:var(--accent-blue); border-radius:2px;"></div>
                 </div>
-                <p>
-                    Ce fonds permet aux investisseurs institutionnels qualifiés (Qualified Purchasers) de détenir des
-                    tokens qui représentent des parts d'un
-                    fonds investit en <strong>bons du Trésor américain (T-Bills)</strong>, tout en bénéficiant de la
-                    liquidité et de la transférabilité instantanée de la blockchain.
-                </p>
-            </section>
+            </div>
 
-            <!-- 2. Structure Financière -->
-            <section id="structure" class="article-section" data-aos="fade-up">
-                <h2 class="section-header">2. Structure Financière</h2>
-                <div class="key-stat-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">Min. Investment</div>
-                        <div class="stat-value">$5,000,000</div>
-                        <div style="font-size:0.75rem; color:#64748b;">Institutions Only</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Management Fee</div>
-                        <div class="stat-value">Variable</div>
-                        <div style="font-size:0.75rem; color:#64748b;">(0.20% - 0.50%)</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Stabilité</div>
-                        <div class="stat-value">$1.00 NAV</div>
-                        <div style="font-size:0.75rem; color:#64748b;">Daily Rebase</div>
-                    </div>
+            <!-- APY Card -->
+            <div class="bento-card col-span-4" data-aos="fade-up" data-aos-delay="200">
+                <h3>Current Yield (APY)</h3>
+                <div class="value" style="color:var(--accent-green)">~4.75%</div>
+                <div class="sub">Paid Monthly (Daily Rebase)</div>
+                <i class="fas fa-chart-line"
+                    style="font-size:3rem; color:var(--accent-green); opacity:0.2; align-self:flex-end; margin-top:-30px;"></i>
+            </div>
+
+            <!-- Context Card -->
+            <div class="bento-card col-span-4" data-aos="fade-up" data-aos-delay="300">
+                <h3>Strategic Impact</h3>
+                <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.6;">
+                    BUIDL enables <strong>Instant Collateral</strong> utility for institutional treasuries, replacing
+                    idle stablecoins with yield-bearing assets.
+                </p>
+            </div>
+
+            <!-- Multi-Chain Strip -->
+            <div class="bento-card col-span-12"
+                style="flex-direction:row; align-items:center; gap:30px; overflow-x:auto; padding-bottom: 20px;"
+                data-aos="fade-up" data-aos-delay="400">
+                <div style="font-weight:600; white-space:nowrap;">Deployed on 7 Networks:</div>
+                <div style="display:flex; gap:20px; opacity:0.9; align-items: center;">
+                    <div style="display:flex; align-items:center; gap:8px;"><i class="fab fa-ethereum fa-lg"></i>
+                        Ethereum</div>
+                    <span style="width:1px; height:20px; background:rgba(255,255,255,0.2);"></span>
+                    <div style="display:flex; align-items:center; gap:8px;"> Solana</div>
+                    <span style="width:1px; height:20px; background:rgba(255,255,255,0.2);"></span>
+                    <div style="display:flex; align-items:center; gap:8px;"> Aptos</div>
+                    <span style="width:1px; height:20px; background:rgba(255,255,255,0.2);"></span>
+                    <div style="display:flex; align-items:center; gap:8px;"> Polygon</div>
+                    <span style="width:1px; height:20px; background:rgba(255,255,255,0.2);"></span>
+                    <div style="display:flex; align-items:center; gap:8px;"> Avalanche</div>
+                    <span style="width:1px; height:20px; background:rgba(255,255,255,0.2);"></span>
+                    <div style="display:flex; align-items:center; gap:8px;"> Optimism</div>
+                    <span style="width:1px; height:20px; background:rgba(255,255,255,0.2);"></span>
+                    <div style="display:flex; align-items:center; gap:8px;"> Arbitrum</div>
                 </div>
-                <p>
-                    Contrairement aux stablecoins traditionnels (USDC, USDT) qui sont des instruments de paiement ne
-                    versant généralement pas d'intérêts aux détenteurs, BUIDL est un produit d'investissement.
-                </p>
-                <p>
-                    La valeur du token est maintenue stable à <strong>$1.00</strong>. Le rendement généré par les actifs
-                    sous-jacents est distribué quotidiennement sous forme de nouveaux tokens directement dans les
-                    wallets des investisseurs (Rebasing).
-                </p>
+            </div>
+        </div>
+    </section>
 
-                <!-- 3D Breakdown Section -->
+    <!-- 4. Financial & Tech (Mixed Layout) -->
+    <section id="structure" class="slide-section" style="background: rgba(0,0,0,0.2);">
+        <h2 class="section-title" data-aos="fade-up">Deep Dive: Architecture</h2>
+
+        <div
+            style="display:grid; grid-template-columns: 1fr 1fr; gap:60px; max-width:1200px; margin:0 auto; align-items:center;">
+
+            <!-- Left: 3D Anatomy -->
+            <div data-aos="fade-right">
                 <div id="token-anatomy" class="anatomy-container">
                     <div class="token-stack">
                         <!-- Layer 1: Base Assets -->
@@ -501,170 +160,101 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    style="text-align: center; color: #64748b; font-size: 0.8rem; margin-top: -40px; margin-bottom: 40px;">
-                    *Exploded Structure View (Scroll to Interact)
+                <div style="text-align: center; color: #64748b; font-size: 0.8rem; margin-top:-40px;">
+                    *Scroll to explore the architecture (Exploded View)
                 </div>
+            </div>
 
-            </section>
-
-            <!-- 3. Architecture Technique -->
-            <section id="tech" class="article-section" data-aos="fade-up">
-                <h2 class="section-header">3. Architecture Technique</h2>
-                <p>
-                    L'architecture de BUIDL repose sur un modèle hybride, combinant la robustesse de la conservation
-                    traditionnelle et l'agilité de la blockchain.
-                </p>
-                <ul style="list-style: none; padding: 0; margin-top: 20px;">
-                    <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid #3b82f6;">
-                        <strong>Multi-Chain Deployment :</strong>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px;">
-                            <span
-                                style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:4px; font-size:0.8rem;">Ethereum</span>
-                            <span
-                                style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:4px; font-size:0.8rem;">Solana</span>
-                            <span
-                                style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:4px; font-size:0.8rem;">Aptos</span>
-                            <span
-                                style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:4px; font-size:0.8rem;">Arbitrum</span>
-                            <span
-                                style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:4px; font-size:0.8rem;">Avalanche</span>
-                            <span
-                                style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:4px; font-size:0.8rem;">Optimism</span>
-                            <span
-                                style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:4px; font-size:0.8rem;">Polygon</span>
-                            <span
-                                style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:4px; font-size:0.8rem;">BNB
-                                Chain</span>
-                        </div>
-                    </li>
-                    <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid #3b82f6;">
-                        <strong>Ecosystème de Custody :</strong>
-                        <ul
-                            style="margin-top:5px; font-size:0.9rem; color:#cbd5e1; list-style:circle; padding-left:20px;">
-                            <li><strong>Assets Traditionnels (T-Bills) :</strong> BNY Mellon.</li>
-                            <li><strong>Digital Assets :</strong> Anchorage Digital, BitGo, Fireblocks, Copper, Komainu.
-                            </li>
-                        </ul>
-                    </li>
-                    <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid #3b82f6;">
-                        <strong>Tokenisation & Transfer Agent :</strong>
-                        <strong>Securitize</strong> assure l'émission, la gestion du registre (cap table) et la
-                        conformité on-chain.
-                    </li>
-                </ul>
-                <div class="info-box">
-                    <strong>Smart Contracts :</strong> Les contrats permettent des transferts 24/7/365, mais incluent
-                    des fonctions de "Whitelisting" pour assurer que seuls les investisseurs KYC/AML validés peuvent
-                    détenir ou échanger le token.
+            <!-- Right: Explanatory Bento -->
+            <div style="display:flex; flex-direction:column; gap:20px;" data-aos="fade-left">
+                <div class="bento-card">
+                    <h3><i class="fas fa-fingerprint" style="color:var(--accent-blue);"></i> Identity (Securitize ID)
+                    </h3>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); line-height: 1.6;">
+                        Each wallet is whitelisted via on-chain KYC. Transfers are programmatically restricted to
+                        eligible Qualified Purchasers (Rule 506(c)).
+                    </p>
                 </div>
-            </section>
+                <div class="bento-card">
+                    <h3><i class="fas fa-building-columns" style="color:var(--accent-blue);"></i> Custody Network</h3>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); line-height: 1.6;">
+                        <strong>Cash:</strong> BNY Mellon<br>
+                        <strong>Crypto:</strong> Anchorage, BitGo, Fireblocks<br>
+                        A hybrid approach maximizing security and speed.
+                    </p>
+                </div>
+                <div class="bento-card">
+                    <h3><i class="fas fa-money-bill-transfer" style="color:var(--accent-blue);"></i> $5M Minimum</h3>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); line-height: 1.6;">
+                        Tailored for treasuries, DAOs, and Hedge Funds. Not a retail product.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <!-- 4. Enjeux Stratégiques -->
-            <section id="strategy" class="article-section" data-aos="fade-up">
-                <h2 class="section-header">4. Analyse Stratégique</h2>
-                <h3>Concurrence aux Stablecoins</h3>
-                <p>
-                    BUIDL introduit une pression concurrentielle majeure sur les émetteurs de stablecoins. Pour les
-                    trésoreries d'entreprises institutionnelles, pourquoi détenir de l'USDC à 0% de rendement quand on
-                    peut détenir du BUIDL (risque BlackRock + rendement T-Bill) ?
-                </p>
-                <h3>Transformation du Collatéral</h3>
-                <p>
-                    À terme, BUIDL pourrait être utilisé comme collatéral dans des opérations de produits dérivés ou de
-                    repo on-chain, fluidifiant considérablement la gestion du collatéral interbancaire.
-                </p>
-            </section>
+    <!-- 4.1 Tech (Hidden anchor for nav logic or merged above) -->
+    <div id="tech"></div>
 
-            <!-- 5. Regulation & Compliance -->
-            <section id="compliance" class="article-section" data-aos="fade-up">
-                <h2 class="section-header">5. Regulation & Compliance</h2>
-                <p>
-                    BUIDL opère dans un cadre réglementaire strict, conçu pour offrir aux investisseurs institutionnels
-                    les garanties juridiques nécessaires et assurer la conformité avec les régulateurs américains (SEC).
+    <!-- 5. Regulation & Analyst -->
+    <section id="analyst" class="slide-section">
+        <h2 class="section-title" data-aos="fade-up">Regulation & Analysis</h2>
+        <div class="bento-grid">
+            <!-- Regulation -->
+            <div class="bento-card col-span-6" data-aos="fade-up">
+                <h3><i class="fas fa-scale-balanced" style="color:#f59e0b;"></i> Regulatory Framework</h3>
+                <p style="color:var(--text-secondary); margin-top:20px; line-height:1.7;">
+                    Operates under <strong>SEC Regulation D, Rule 506(c)</strong>. This exemption allows for general
+                    solicitation while strictly verifying accredited investor status. It represents the "compliant path"
+                    for RWA adoption.
                 </p>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-                    <div
-                        style="background: rgba(30, 41, 59, 0.5); padding: 20px; border-radius: 8px; border: 1px solid #334155;">
-                        <h4 style="margin-top:0; color:#fff;">SEC Regulation D</h4>
-                        <p style="font-size:0.9rem; color:#94a3b8; margin-bottom:0;">
-                            Le fonds est émis sous l'exemption <strong>Rule 506(c)</strong>, ce qui autorise la
-                            sollicitation générale mais restreint strictement l'accès aux <em>Qualified Purchasers</em>
-                            (individus ou entités disposant d'au moins $5M d'investissements).
-                        </p>
+            </div>
+
+            <!-- AI Analyst -->
+            <div class="bento-card col-span-6" data-aos="fade-up" data-aos-delay="200"
+                style="background:rgba(30, 41, 59, 0.4); border-color:var(--accent-blue);">
+                <h3><i class="fas fa-robot" style="color:var(--accent-blue);"></i> BUIDL Analyst (AI Agent)</h3>
+                <div class="analyst-body" style="padding:0; margin-top:15px;">
+                    <div class="chat-message ai"
+                        style="background:rgba(255,255,255,0.05); padding:15px; border-radius:8px; margin-bottom:15px; color:#e2e8f0; font-size:0.95rem;">
+                        Analyzing live metrics... BUIDL AUM is $2.4B. Ask me about yield or custody comparison.
                     </div>
-                    <div
-                        style="background: rgba(30, 41, 59, 0.5); padding: 20px; border-radius: 8px; border: 1px solid #334155;">
-                        <h4 style="margin-top:0; color:#fff;">Identity & Whitelisting</h4>
-                        <p style="font-size:0.9rem; color:#94a3b8; margin-bottom:0;">
-                            <strong>Securitize ID</strong> assure que chaque wallet détenant du BUIDL a passé les
-                            contrôles KYC/AML. Les smart contracts intègrent un mécanisme de <em>White-listing</em>
-                            bloquant tout transfert (P2P ou vers un protocole DeFi) si l'adresse de destination n'est
-                            pas pré-approuvée.
-                        </p>
+
+                    <!-- Prompts -->
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+                        <button
+                            onclick="document.querySelector('.analyst-body input').value='Yield vs Stablecoins?'; handleChat();"
+                            style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:0.8rem; transition:all 0.2s;">
+                            🆚 Yield Comparison
+                        </button>
+                        <button
+                            onclick="document.querySelector('.analyst-body input').value='Explain Custody'; handleChat();"
+                            style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:0.8rem; transition:all 0.2s;">
+                            🛡️ Custody Chain
+                        </button>
+                        <button
+                            onclick="document.querySelector('.analyst-body input').value='Multi-chain details'; handleChat();"
+                            style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:0.8rem; transition:all 0.2s;">
+                            🔗 Interoperability
+                        </button>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" placeholder="Ask specific questions..."
+                            style="flex:1; background: rgba(0,0,0,0.3); border: 1px solid #334155; padding: 14px; border-radius: 8px; color: white;">
+                        <button
+                            style="background: #3b82f6; border: none; color: white; padding: 0 25px; border-radius: 8px; cursor: pointer; transition:background 0.2s;"><i
+                                class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
-            </section>
-
-            <!-- 5. AI Analyst -->
-            <section id="analyst" class="article-section" data-aos="fade-up">
-                <h2 class="section-header">5. BUIDL Analyst (AI)</h2>
-                <p>Interrogez notre agent spécialisé pour obtenir des données spécifiques ou des comparaisons.</p>
-
-                <div class="analyst-ui">
-                    <div class="analyst-header">
-                        <div class="analyst-avatar"><i class="fas fa-robot"></i></div>
-                        <div>
-                            <div style="font-weight: 600;">BUIDL Expert Agent</div>
-                            <div style="font-size: 0.8rem; color: #94a3b8; display:flex; align-items:center; gap:5px;">
-                                <span style="width:8px; height:8px; background:#10b981; border-radius:50%;"></span>
-                                Online
-                            </div>
-                        </div>
-                    </div>
-                    <div class="analyst-body">
-                        <div class="chat-message ai">
-                            Bonjour. Je suis spécialisé dans l'analyse du fonds BUIDL de BlackRock ($2.4B AUM). Je peux
-                            détailler la structure multi-chain, les partenaires de custody ou la conformité
-                            réglementaire.
-                        </div>
-
-                        <!-- Suggested Prompts -->
-                        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
-                            <button
-                                onclick="document.querySelector('.analyst-body input').value='Quels sont les partenaires de Custody ?'; handleChat();"
-                                style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:5px 10px; border-radius:20px; cursor:pointer; font-size:0.8rem;">
-                                🛡️ Custody Partners
-                            </button>
-                            <button
-                                onclick="document.querySelector('.analyst-body input').value='Structure multi-chain ?'; handleChat();"
-                                style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:5px 10px; border-radius:20px; cursor:pointer; font-size:0.8rem;">
-                                🔗 Multi-Chain
-                            </button>
-                            <button
-                                onclick="document.querySelector('.analyst-body input').value='Détails du rendement ?'; handleChat();"
-                                style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; padding:5px 10px; border-radius:20px; cursor:pointer; font-size:0.8rem;">
-                                📈 Yield Details
-                            </button>
-                        </div>
-                        <!-- Mock Input -->
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <input type="text" placeholder="Posez une question sur BUIDL..."
-                                style="flex:1; background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 6px; color: white;">
-                            <button
-                                style="background: #3b82f6; border: none; color: white; padding: 0 20px; border-radius: 6px; cursor: pointer;"><i
-                                    class="fas fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top:10px; font-size:0.75rem; color:#64748b; text-align:center;">
-                    Disclaimer: AI agent for educational simulation only. Not financial advice. Data based on public
-                    sources as of Feb 2026.
-                </div>
-            </section>
-
-        </main>
-    </div>
+            </div>
+        </div>
+        <div
+            style="text-align:center; margin-top:80px; padding-bottom:40px; color:var(--text-secondary); font-size:0.8rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:20px;">
+            Case Study Prepared by DCM Digital • <a href="#"
+                style="color:var(--accent-blue); text-decoration:none;">Download Full PDF Report</a>
+        </div>
+    </section>
 
     <!-- Scripts -->
     <script src="config.js"></script>
@@ -676,72 +266,81 @@
     <script>
         AOS.init();
 
-        // Active Table of Contents on scroll
-        const sections = document.querySelectorAll('section');
-        const navLi = document.querySelectorAll('.toc-link');
+        // --- 1. Progress Bar Logic ---
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navSteps = document.querySelectorAll('.progress-step');
 
-        window.onscroll = () => {
-            var current = "";
-
-            sections.forEach((section) => {
+            let current = '';
+            sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 150) {
+                if (pageYOffset >= sectionTop - 300) {
                     current = section.getAttribute('id');
                 }
             });
 
-            navLi.forEach((li) => {
-                li.parentElement.classList.remove('active');
-                if (li.getAttribute('href').includes(current)) {
-                    li.parentElement.classList.add('active');
-                }
-            });
-        };
+            navSteps.forEach(step => {
+                step.classList.remove('active');
+                const label = step.getAttribute('data-label').toLowerCase();
 
-        // Agent Chat Logic
+                // Map Logic
+                if (label === 'hero' && current === 'hero') step.classList.add('active');
+                if (label === 'executive' && current === 'executive-summary') step.classList.add('active');
+                if (label === 'structure' && (current === 'structure')) step.classList.add('active');
+                if (label === 'analyst' && current === 'analyst') step.classList.add('active');
+            });
+        });
+
+        // --- 2. Chat Logic (Simplified & Robust) ---
         const chatInput = document.querySelector('.analyst-body input');
-        const chatBtn = document.querySelector('.analyst-body button');
-        const chatBody = document.querySelector('.analyst-body');
+        const chatBtn = document.querySelector('.analyst-body button.fas').parentElement; // Select by icon parent
+        const chatBody = document.querySelector('.analyst-body'); // Be careful, selector might match first one
+
+        // Find the input container to insert messages before
+        const chatInputContainer = document.querySelector('.analyst-body div[style*="display: flex"]');
+        const chatSuggestions = document.querySelector('.analyst-body div[style*="flex-wrap:wrap"]');
 
         function addMessage(text, type) {
             const div = document.createElement('div');
             div.className = `chat-message ${type}`;
+            div.style.cssText = type === 'ai' ?
+                "background:rgba(255,255,255,0.05); padding:15px; border-radius:8px; margin-bottom:15px; color:#e2e8f0; font-size:0.95rem; animation: fadeUp 0.3s ease;" :
+                "background:rgba(59,130,246,0.2); padding:15px; border-radius:8px; margin-bottom:15px; margin-left:auto; width:fit-content; color:#fff; font-size:0.95rem; animation: fadeUp 0.3s ease;";
             div.textContent = text;
-            // Insert before the input container (last child is the input container)
-            chatBody.insertBefore(div, chatBody.lastElementChild);
+
+            // Insert before suggestions
+            if (chatSuggestions) {
+                chatBody.insertBefore(div, chatSuggestions);
+            } else {
+                chatBody.insertBefore(div, chatInputContainer);
+            }
+
+            // Auto scroll? not strictly needed in Bento card but good if overflowing
         }
 
         function handleChat() {
             const val = chatInput.value.trim();
             if (!val) return;
-
             addMessage(val, 'user');
             chatInput.value = '';
 
-            // Simulate thinking
+            // Simulate AI Delay
             setTimeout(() => {
-                let response = "Je suis spécialisé sur BUIDL. Pouvez-vous préciser votre question sur la structure, le rendement ou la conformité ?";
+                let response = "I specialize in BUIDL analysis.";
                 const v = val.toLowerCase();
-                if (v.includes('yield') || v.includes('rendement') || v.includes('performance') || v.includes('return')) {
-                    response = "BUIDL vise une valeur stable de $1.00 avec des dividendes quotidiens versés mensuellement. Le rendement reflète les taux des US Treasury Bills à court terme, actuellement autour de 5.00-5.25% (selon conditions de marché).";
-                } else if (v.includes('asset') || v.includes('sous-jacent') || v.includes('collateral') || v.includes('tresor')) {
-                    response = "Le fonds investit 100% de ses actifs en cash, US Treasury Bills et accords de rachat (Repos), assurant une liquidité et une sécurité maximale.";
-                } else if (v.includes('custody') || v.includes('dépositaire') || v.includes('bank') || v.includes('banque')) {
-                    response = "BNY Mellon est le dépositaire des actifs traditionnels. Securitize gère la couche de transfert. Pour les actifs numériques, BUIDL s'appuie sur Anchorage, BitGo, Fireblocks, Copper et Komainu.";
-                } else if (v.includes('blackrock') || v.includes('strategy') || v.includes('strategie')) {
-                    response = "Pour BlackRock, BUIDL est une infrastructure stratégique visant à résoudre les frictions de règlement (T+0), à améliorer l'efficacité du collatéral et à offrir une transparence accrue via la blockchain publique.";
-                } else if (v.includes('chain') || v.includes('network') || v.includes('réseau') || v.includes('multi')) {
-                    response = "Initialement sur Ethereum, BUIDL est désormais disponible sur Aptos, Arbitrum, Avalanche, Optimism, Polygon, Solana et BNB Chain, garantissant une interopérabilité maximale pour les cas d'usage DeFi.";
-                }
+                if (v.includes('yield') || v.includes('stablecoin')) response = "BUIDL yields ~4.75% via daily rebase, reflecting short-term US Treasury rates. Unlike stablecoins (0%), it's an investment product.";
+                else if (v.includes('custody')) response = "BNY Mellon (Cash) and Anchorage/BitGo (Crypto) form a hybrid custody network, maximizing security.";
+                else if (v.includes('chain') || v.includes('multi')) response = "Deployed on Ethereum, Solana, Aptos, Arbitrum, Avalanche, Optimism, Polygon, and BNB Chain.";
+                else if (v.includes('reg') || v.includes('sec')) response = "It operates under SEC Reg D Rule 506(c), restricted to Qualified Purchasers.";
 
                 addMessage(response, 'ai');
             }, 800);
         }
 
-        chatBtn.addEventListener('click', handleChat);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleChat();
-        });
+        // Fix button selection
+        const submitBtn = document.querySelector('.analyst-body button i.fa-paper-plane').parentElement;
+        if (submitBtn) submitBtn.addEventListener('click', handleChat);
+        if (chatInput) chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleChat(); });
 
     </script>
 </body>
