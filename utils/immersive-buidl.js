@@ -1,6 +1,6 @@
 /**
  * BUIDL Immersive Experience
- * Handles Particle background, 3D Scroll Triggers, and Parallax Tilt.
+ * Handles Particle background, 3D Scroll Triggers (Scrubbing), and Parallax Tilt.
  */
 
 // --- 1. Particle Network Background (Canvas) ---
@@ -111,22 +111,70 @@ if (canvas) {
     animateParticles();
 }
 
-// --- 2. 3D Exploded View Scroll Trigger ---
-const anatomySection = document.getElementById('token-anatomy');
-const layers = document.querySelectorAll('.anatomy-layer');
+// --- 2. 3D Exploded View Scroll Scrubbing (Revised) ---
+const anatomyContainer = document.querySelector('.anatomy-container');
+const tokenStack = document.querySelector('.token-stack');
+const layers = document.querySelectorAll('.layer');
 
-if (anatomySection && layers.length > 0) {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                anatomySection.classList.add('exploded');
+if (anatomyContainer && tokenStack && layers.length > 0) {
+
+    function updateExplodedView() {
+        const rect = anatomyContainer.getBoundingClientRect();
+        const viewHeight = window.innerHeight;
+
+        // Calculate progress: 0 when top enters bottom of screen, 1 when bottom leaves top
+        // But we want the effect to happen while it's in the middle.
+        // Let's define: 0% when element is at bottom of viewport, 100% when at top.
+
+        const start = viewHeight * 0.9;
+        const end = viewHeight * 0.1;
+
+        // Map rect.top from 'start' to 'end' -> progress 0 to 1
+        let progress = (start - rect.top) / (start - end);
+
+        // Clamp progress
+        progress = Math.max(0, Math.min(1, progress));
+
+        // Ease function (optional, smoothstep)
+        // const eased = progress * progress * (3 - 2 * progress); 
+        const eased = progress; // Linear scrubbing plays better with direct scroll control
+
+        // Base transform
+        const baseRotateX = 60 - (30 * eased); // Tile up to 30deg
+        const baseRotateZ = -30 + (30 * eased); // Straighten to 0deg
+        const baseTranslateZ = -50 + (50 * eased); // Bring forward
+
+        tokenStack.style.transform = `rotateX(${baseRotateX}deg) rotateZ(${baseRotateZ}deg) translateZ(${baseTranslateZ}px)`;
+
+        // Spread layers
+        // Max spread: 80px per layer
+        const spread = 80 * eased;
+
+        layers.forEach((layer, index) => {
+            const z = index * spread;
+            let bgOpacity = 0.9 - (index * 0.15 * eased);
+            // Change background opacity/color for visual clarity when expanded
+            // This needs to be handled via style accumulation or carefully
+
+            layer.style.transform = `translateZ(${z}px)`;
+
+            if (index > 0 && eased > 0.1) {
+                layer.style.background = `rgba(30, 41, 59, ${bgOpacity})`;
             } else {
-                anatomySection.classList.remove('exploded');
+                layer.style.background = `rgba(30, 41, 59, 0.95)`;
             }
         });
-    }, { threshold: 0.4 });
 
-    observer.observe(anatomySection);
+        requestAnimationFrame(updateExplodedView);
+    }
+
+    // Bind scroll
+    window.addEventListener('scroll', () => {
+        requestAnimationFrame(updateExplodedView);
+    }, { passive: true });
+
+    // Initial call
+    updateExplodedView();
 }
 
 // --- 3. Parallax Tilt Effect for Cards ---
