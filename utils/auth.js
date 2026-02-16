@@ -22,9 +22,9 @@ const AuthManager = (() => {
 
         // 3. Check Session
 
-        // DEV MODE BYPASS
-        if (typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE) {
-            console.warn("AuthManager: 🚧 DEV MODE ACTIVE - Simulating Super Dev User");
+        // DEV MODE BYPASS (Only if explicitly activated via SATOSHI password)
+        if (typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true') {
+            console.warn("AuthManager: 🚧 SUPER DEV MODE ACTIVE - Simulating Super Dev User");
             currentUser = {
                 id: 'super-dev-id',
                 email: 'superdev@dcm-hub.com',

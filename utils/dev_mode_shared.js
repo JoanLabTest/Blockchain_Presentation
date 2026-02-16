@@ -91,10 +91,13 @@ const DevMode = {
             localStorage.setItem('badge_listener', 'true');
             localStorage.setItem('badge_strategist', 'true');
 
+            // Activate Super Dev Mode (Auth Bypass)
+            localStorage.setItem('is_super_dev', 'true');
+
             // Specific page handling
             if (window.revealHeadOf) window.revealHeadOf(); // quiz.html specific
 
-            alert("🔓 DEV MODE ACTIVÉ : Tout est débloqué (Passeport, Quiz, Badges).");
+            alert("🔓 SUPER DEV MODE ACTIVÉ : Tout est débloqué (Passeport, Quiz, Badges, Auth Bypass).");
             document.getElementById('devModal').style.display = 'none';
             location.reload();
         } else {
@@ -106,7 +109,9 @@ const DevMode = {
     resetProgress: function () {
         if (confirm("⚠️ Êtes-vous sûr de vouloir tout réinitialiser ? Cette action est irréversible.")) {
             localStorage.clear();
-            alert("Progression réinitialisée.");
+            // Explicitly remove Super Dev flag
+            localStorage.removeItem('is_super_dev');
+            alert("Progression réinitialisée (Super Dev Mode désactivé).");
             location.reload();
         }
     },
