@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yield Mechanics in Digital Assets | APR, APY & Staking Risk Framework</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Comprehensive guide to yield mechanics in digital assets: APR vs APY, staking mechanics, risk framework, and institutional analysis. Educational resource for retail users, students, investors, and risk managers.">
+    <meta name="keywords" content="APR, APY, staking, yield, crypto, DeFi, risk framework, institutional analysis">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS Animation -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 40px 40px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border-radius: 20px;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .audience-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .badge {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 60px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .toc h2 {
+            color: #10b981;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .toc-link {
+            color: #888;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: block;
+            border-left: 3px solid transparent;
+        }
+
+        .toc-link:hover {
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: #10b981;
+            color: #10b981;
+            padding-left: 15px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-intro {
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 40px;
+            max-width: 900px;
+        }
+
+        /* Cards */
+        .card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+        }
+
+        .card h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .card h4 {
+            color: #3b82f6;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        /* Formula Card */
+        .formula-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .formula {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            color: #10b981;
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+        }
+
+        .formula-explanation {
+            color: #888;
+            font-size: 14px;
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .comparison-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: white;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        /* Interactive Calculator */
+        .calculator {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .calculator h3 {
+            color: #10b981;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #888;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            background: #0a0a0a;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        .calc-result {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .calc-result h4 {
+            color: #10b981;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .calc-result .value {
+            font-size: 48px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        /* Risk Cards */
+        .risk-card {
+            border-left: 4px solid;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .risk-low {
+            border-left-color: #10b981;
+        }
+
+        .risk-medium {
+            border-left-color: #f59e0b;
+        }
+
+        .risk-high {
+            border-left-color: #ef4444;
+        }
+
+        .risk-critical {
+            border-left-color: #dc2626;
+        }
+
+        .risk-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .risk-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-low {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .badge-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .badge-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .badge-critical {
+            background: rgba(220, 38, 38, 0.2);
+            color: #dc2626;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .stat-card .icon {
+            font-size: 36px;
+            color: #10b981;
+            margin-bottom: 15px;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* Example Box */
+        .example-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .example-box h4 {
+            color: #3b82f6;
+            margin-bottom: 15px;
+        }
+
+        .example-box .calculation {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #10b981;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .warning-box h4 {
+            color: #f59e0b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero .subtitle {
+                font-size: 18px;
+            }
+
+            .section h2 {
+                font-size: 28px;
+            }
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .container {
+                padding: 80px 20px 20px;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-solid fa-chart-line"></i>
+            YIELD MECHANICS
+        </div>
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> RETOUR AU HUB
+        </a>
+    </nav>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <div class="hero" data-aos="fade-up">
+            <h1>Yield Mechanics in Digital Assets</h1>
+            <p class="subtitle">APR, APY & Staking Risk Framework</p>
+            <p style="max-width: 800px; margin: 0 auto; color: #888;">
+                Un guide complet pour comprendre les mécanismes de rendement dans les actifs numériques,
+                de la théorie fondamentale à l'analyse institutionnelle.
+            </p>
+            <div class="audience-badges">
+                <span class="badge"><i class="fa-solid fa-user"></i> Retail Users</span>
+                <span class="badge"><i class="fa-solid fa-graduation-cap"></i> Students</span>
+                <span class="badge"><i class="fa-solid fa-chart-pie"></i> Investors</span>
+                <span class="badge"><i class="fa-solid fa-shield-halved"></i> Risk Managers</span>
+            </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc" data-aos="fade-up">
+            <h2><i class="fa-solid fa-list"></i> Table des Matières</h2>
+            <div class="toc-grid">
+                <a href="#section-1" class="toc-link">1. APR vs APY — Fondamentaux</a>
+                <a href="#section-2" class="toc-link">2. Qu'est-ce que le Staking ?</a>
+                <a href="#section-3" class="toc-link">3. Sources de Rendement</a>
+                <a href="#section-4" class="toc-link">4. Risk Framework (5 Catégories)</a>
+                <a href="#section-5" class="toc-link">5. DeFi Yield Illusions</a>
+                <a href="#section-6" class="toc-link">6. Analyse Comparative</a>
+                <a href="#section-7" class="toc-link">7. Perspective Institutionnelle</a>
+                <a href="#section-8" class="toc-link">8. Exemples Quantitatifs</a>
+                <a href="#section-9" class="toc-link">9. Advanced Analytics</a>
+            </div>
+        </div>
+
+        <!-- Section 1: APR vs APY -->
+        <div id="section-1" class="section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-calculator"></i> 1. APR vs APY — Comprendre la Mécanique du Rendement</h2>
+            <p class="section-intro">
+                La différence entre APR et APY est fondamentale pour évaluer le rendement réel d'un investissement.
+                L'APR représente le taux nominal, tandis que l'APY intègre la capitalisation des intérêts.
+            </p>
+
+            <div class="grid-2">
+                <!-- APR Card -->
+                <div class="card">
+                    <h3><i class="fa-solid fa-percent"></i> APR (Annual Percentage Rate)</h3>
+                    <p>L'APR représente le <strong>taux d'intérêt annuel simple</strong>, sans prise en compte des
+                        intérêts composés.</p>
+
+                    <div class="formula-card" style="margin-top: 20px;">
+                        <div class="formula">APR = Taux nominal annuel</div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4><i class="fa-solid fa-lightbulb"></i> Exemple</h4>
+                        <p><strong>Staking à 10% APR</strong></p>
+                        <div class="calculation">
+                            Investment: 1,000 USDC<br>
+                            APR: 10%<br>
+                            Duration: 1 an<br>
+                            <br>
+                            Résultat: 1,100 USDC
+                        </div>
+                        <p style="color: #888; margin-top: 10px;">
+                            <i class="fa-solid fa-info-circle"></i> Pas de capitalisation automatique
+                        </p>
+                    </div>
+                </div>
+
+                <!-- APY Card -->
+                <div class="card">
+                    <h3><i class="fa-solid fa-chart-line"></i> APY (Annual Percentage Yield)</h3>
+                    <p>L'APY inclut la <strong>capitalisation des intérêts</strong>. Plus la fréquence de composition
+                        est élevée, plus l'APY augmente.</p>
+
+                    <div class="formula-card" style="margin-top: 20px;">
+                        <div class="formula">APY = (1 + r/n)^n - 1</div>
+                        <div class="formula-explanation">
+                            Où :<br>
+                            • r = taux annuel<br>
+                            • n = nombre de périodes de composition
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4><i class="fa-solid fa-lightbulb"></i> Exemple</h4>
+                        <p><strong>10% APR composé quotidiennement</strong></p>
+                        <div class="calculation">
+                            APR: 10%<br>
+                            Composition: Quotidienne (n=365)<br>
+                            <br>
+                            APY ≈ 10.52%
+                        </div>
+                        <p style="color: #888; margin-top: 10px;">
+                            <i class="fa-solid fa-info-circle"></i> +0.52% grâce à la capitalisation
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <h3 style="margin-top: 40px; color: #10b981;"><i class="fa-solid fa-table"></i> Comparaison APR vs APY</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Critère</th>
+                        <th>APR</th>
+                        <th>APY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Intérêts composés</strong></td>
+                        <td>❌ Non</td>
+                        <td>✅ Oui</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Représente</strong></td>
+                        <td>Taux nominal</td>
+                        <td>Rendement réel</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Plus pertinent pour</strong></td>
+                        <td>Emprunt</td>
+                        <td>Investissement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Métrique économique</strong></td>
+                        <td>Indicative</td>
+                        <td>✅ Vraie métrique</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <h4><i class="fa-solid fa-exclamation-triangle"></i> Perspective Institutionnelle</h4>
+                <p>
+                    Institutionnellement, <strong>l'APY est la vraie métrique économique</strong>.
+                    Les investisseurs professionnels analysent toujours l'APY pour comparer les rendements réels,
+                    car il reflète l'effet de la capitalisation sur la période d'investissement.
+                </p>
+            </div>
+
+            <!-- Interactive Calculator -->
+            <div class="calculator">
+                <h3><i class="fa-solid fa-calculator"></i> Calculateur APR → APY Interactif</h3>
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label for="apr-input">APR (%)</label>
+                        <input type="number" id="apr-input" value="10" min="0" max="100" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="compound-freq">Fréquence de composition</label>
+                        <select id="compound-freq">
+                            <option value="365">Quotidienne (365)</option>
+                            <option value="52">Hebdomadaire (52)</option>
+                            <option value="12">Mensuelle (12)</option>
+                            <option value="4">Trimestrielle (4)</option>
+                            <option value="1">Annuelle (1)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="calc-result">
+                    <h4>APY Résultant</h4>
+                    <div class="value" id="apy-result">10.52%</div>
+                    <p style="color: #888; margin-top: 15px;">
+                        Différence: <span id="apy-diff" style="color: #10b981;">+0.52%</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Staking Mechanics -->
+        <div id="section-2" class="section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-lock"></i> 2. Qu'est-ce que le Staking ?</h2>
+            <p class="section-intro">
+                Le staking consiste à bloquer des tokens pour participer à la sécurité d'un réseau Proof-of-Stake (PoS)
+                et recevoir des récompenses. Contrairement au mining (Proof-of-Work), le staking repose sur la
+                validation
+                des transactions et l'engagement économique.
+            </p>
+
+            <div class="card">
+                <h3>Définition</h3>
+                <p
+                    style="font-size: 18px; color: #10b981; font-weight: 600; margin: 20px 0; padding: 20px; background: rgba(16, 185, 129, 0.1); border-radius: 8px;">
+                    <i class="fa-solid fa-quote-left"></i>
+                    Bloquer des tokens pour participer à la sécurité d'un réseau Proof-of-Stake (PoS) et recevoir des
+                    récompenses.
+                    <i class="fa-solid fa-quote-right"></i>
+                </p>
+            </div>
+
+            <h3 style="margin-top: 40px; color: #10b981;"><i class="fa-solid fa-gears"></i> Comment fonctionne le
+                staking ?</h3>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h4><i class="fa-solid fa-server"></i> Sur un réseau PoS (ex: Ethereum)</h4>
+                    <ol style="margin-left: 20px; color: #888;">
+                        <li style="margin-bottom: 10px;">Les validateurs déposent <strong style="color: #10b981;">32
+                                ETH</strong></li>
+                        <li style="margin-bottom: 10px;">Ils valident des blocs de transactions</li>
+                        <li style="margin-bottom: 10px;">Ils reçoivent des récompenses</li>
+                        <li style="margin-bottom: 10px;">En cas de mauvaise conduite → <strong
+                                style="color: #ef4444;">slashing</strong> (pénalité)</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h4><i class="fa-solid fa-users"></i> Pour les utilisateurs</h4>
+                    <div class="grid-3" style="margin-top: 20px;">
+                        <div class="stat-card">
+                            <div class="icon"><i class="fa-solid fa-user-shield"></i></div>
+                            <div class="label">Staking Direct</div>
+                            <p style="font-size: 12px; color: #888; margin-top: 10px;">32 ETH minimum</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon"><i class="fa-solid fa-layer-group"></i></div>
+                            <div class="label">Staking Pool</div>
+                            <p style="font-size: 12px; color: #888; margin-top: 10px;">Lido, Rocket Pool</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon"><i class="fa-solid fa-building-columns"></i></div>
+                            <div class="label">Exchange Staking</div>
+                            <p style="font-size: 12px; color: #888; margin-top: 10px;">Coinbase, Binance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card"
+                style="margin-top: 30px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid #3b82f6;">
+                <h3 style="color: #3b82f6;"><i class="fa-solid fa-diagram-project"></i> PoS vs PoW</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Critère</th>
+                            <th>Proof-of-Stake (PoS)</th>
+                            <th>Proof-of-Work (PoW)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mécanisme</strong></td>
+                            <td>Validation par stake</td>
+                            <td>Mining par calcul</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Consommation énergie</strong></td>
+                            <td>✅ Très faible</td>
+                            <td>❌ Très élevée</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Barrière d'entrée</strong></td>
+                            <td>Capital (tokens)</td>
+                            <td>Hardware (ASICs)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rendement</strong></td>
+                            <td>3-15% APY</td>
+                            <td>Variable (block rewards)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exemples</strong></td>
+                            <td>Ethereum, Cardano, Solana</td>
+                            <td>Bitcoin, Litecoin</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section 3: Yield Sources -->
+        <div id="section-3" class="section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-coins"></i> 3. D'où vient le Rendement ?</h2>
+            <p class="section-intro">
+                Les récompenses de staking proviennent de trois sources principales : les frais de transaction,
+                l'inflation monétaire du protocole, et le MEV (Maximal Extractable Value).
+            </p>
+
+            <div class="grid-3">
+                <div class="card">
+                    <div class="icon" style="font-size: 48px; color: #10b981; text-align: center; margin-bottom: 20px;">
+                        <i class="fa-solid fa-money-bill-transfer"></i>
+                    </div>
+                    <h3 style="text-align: center;">Frais de Transaction</h3>
+                    <p style="text-align: center; color: #888;">
+                        Les utilisateurs paient des frais (gas fees) pour exécuter des transactions.
+                        Une partie est distribuée aux validateurs.
+                    </p>
+                    <div class="stat-card" style="margin-top: 20px;">
+                        <div class="value">~30%</div>
+                        <div class="label">du rendement total</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="icon" style="font-size: 48px; color: #3b82f6; text-align: center; margin-bottom: 20px;">
+                        <i class="fa-solid fa-chart-line-up"></i>
+                    </div>
+                    <h3 style="text-align: center; color: #3b82f6;">Inflation Monétaire</h3>
+                    <p style="text-align: center; color: #888;">
+                        Le protocole émet de nouveaux tokens pour récompenser les validateurs.
+                        C'est la source principale de rendement.
+                    </p>
+                    <div class="stat-card" style="margin-top: 20px;">
+                        <div class="value" style="color: #3b82f6;">~60%</div>
+                        <div class="label">du rendement total</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="icon" style="font-size: 48px; color: #f59e0b; text-align: center; margin-bottom: 20px;">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 style="text-align: center; color: #f59e0b;">MEV</h3>
+                    <p style="text-align: center; color: #888;">
+                        Maximal Extractable Value : profits tirés de la réorganisation des transactions
+                        (arbitrage, liquidations, front-running).
+                    </p>
+                    <div class="stat-card" style="margin-top: 20px;">
+                        <div class="value" style="color: #f59e0b;">~10%</div>
+                        <div class="label">du rendement total</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-box" style="margin-top: 40px;">
+                <h4><i class="fa-brands fa-ethereum"></i> Exemple sur Ethereum</h4>
+                <p><strong>Rendement typique : 3%–5% APY</strong></p>
+                <div class="calculation">
+                    Composition du rendement :<br>
+                    <br>
+                    • Frais de transaction: ~1.2% APY<br>
+                    • Inflation (issuance): ~2.5% APY<br>
+                    • MEV: ~0.8% APY<br>
+                    <br>
+                    Total: ~4.5% APY
+                </div>
+                <p style="color: #888; margin-top: 15px;">
+                    <i class="fa-solid fa-info-circle"></i> Le rendement varie selon :
+                </p>
+                <ul style="margin-left: 20px; color: #888;">
+                    <li>Activité réseau (plus de transactions = plus de fees)</li>
+                    <li>Nombre total de validateurs (dilution)</li>
+                    <li>MEV capturé (opportunités d'arbitrage)</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4><i class="fa-solid fa-triangle-exclamation"></i> Important</h4>
+                <p>
+                    Le rendement de staking <strong>n'est pas fixe</strong>. Il fluctue en fonction de l'activité
+                    réseau,
+                    du nombre de validateurs, et des conditions de marché. Un APY de 5% aujourd'hui peut devenir 3%
+                    demain
+                    si plus de validateurs rejoignent le réseau (yield compression).
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 4: Risk Framework -->
+        <div id="section-4" class="section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-shield-halved"></i> 4. Staking Risk Framework — 5 Catégories</h2>
+            <p class="section-intro">
+                Le staking comporte plusieurs risques qu'il est essentiel de comprendre et de quantifier.
+                Voici un framework institutionnel pour évaluer les risques du staking.
+            </p>
+
+            <!-- Risk 1: Slashing -->
+            <div class="risk-card risk-high">
+                <div class="risk-header">
+                    <h3><i class="fa-solid fa-scissors"></i> 1. Slashing Risk</h3>
+                    <span class="risk-badge badge-high">🔴 HIGH</span>
+                </div>
+                <p><strong>Définition :</strong> Perte de capital si le validateur est hors ligne ou valide un bloc
+                    frauduleux.</p>
+
+                <div class="example-box" style="margin-top: 20px;">
+                    <h4>Scénarios de Slashing</h4>
+                    <ul style="margin-left: 20px; color: #888;">
+                        <li><strong>Double signing</strong> : Valider deux blocs conflictuels → Pénalité de 1-5% du
+                            stake</li>
+                        <li><strong>Downtime prolongé</strong> : Validateur hors ligne >18h → Perte progressive de
+                            rewards</li>
+                        <li><strong>Attaque coordonnée</strong> : Participation à une attaque réseau → Perte totale du
+                            stake</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>Mitigation :</strong></p>
+                <ul style="margin-left: 20px; color: #888;">
+                    <li>Utiliser des validateurs réputés (uptime >99.9%)</li>
+                    <li>Diversifier entre plusieurs validateurs</li>
+                    <li>Monitorer l'uptime en temps réel</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>KPI de Monitoring :</strong> Uptime, Attestation rate, Slashing
+                    events historiques</p>
+            </div>
+
+            <!-- Risk 2: Smart Contract -->
+            <div class="risk-card risk-critical">
+                <div class="risk-header">
+                    <h3><i class="fa-solid fa-code"></i> 2. Smart Contract Risk</h3>
+                    <span class="risk-badge badge-critical">🔴 CRITICAL</span>
+                </div>
+                <p><strong>Définition :</strong> Bugs, exploits, ou hacks dans les protocoles de staking DeFi (Lido,
+                    Rocket Pool, etc.).</p>
+
+                <div class="warning-box" style="margin-top: 20px;">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Historique</h4>
+                    <p>
+                        Depuis 2020, <strong>plusieurs milliards de dollars</strong> ont été perdus dans des exploits
+                        DeFi.
+                        Les protocoles de staking ne sont pas immunisés contre ces risques.
+                    </p>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>Mitigation :</strong></p>
+                <ul style="margin-left: 20px; color: #888;">
+                    <li>Privilégier les protocoles audités (Certik, Trail of Bits, OpenZeppelin)</li>
+                    <li>Vérifier les bug bounties actifs</li>
+                    <li>Limiter l'exposition à un seul protocole</li>
+                    <li>Suivre les TVL (Total Value Locked) comme proxy de confiance</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>KPI de Monitoring :</strong> Nombre d'audits, Bug bounty actif,
+                    TVL, Historique d'incidents</p>
+            </div>
+
+            <!-- Risk 3: Liquidity -->
+            <div class="risk-card risk-medium">
+                <div class="risk-header">
+                    <h3><i class="fa-solid fa-droplet"></i> 3. Liquidity Risk</h3>
+                    <span class="risk-badge badge-medium">🟡 MEDIUM</span>
+                </div>
+                <p><strong>Définition :</strong> Impossibilité de liquider rapidement la position en raison de périodes
+                    d'unbonding.</p>
+
+                <table class="comparison-table" style="margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Réseau</th>
+                            <th>Unbonding Period</th>
+                            <th>Liquidity Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ethereum</strong></td>
+                            <td>Variable (withdrawals queue)</td>
+                            <td>🟡 Medium</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cardano</strong></td>
+                            <td>~5 epochs (20-25 jours)</td>
+                            <td>🟡 Medium</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cosmos</strong></td>
+                            <td>21 jours</td>
+                            <td>🔶 Elevated</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Polkadot</strong></td>
+                            <td>28 jours</td>
+                            <td>🔶 Elevated</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="margin-top: 20px;"><strong>Mitigation :</strong></p>
+                <ul style="margin-left: 20px; color: #888;">
+                    <li>Utiliser des <strong>liquid staking tokens</strong> (stETH, rETH) pour liquidité instantanée
+                    </li>
+                    <li>Planifier les besoins de liquidité à l'avance</li>
+                    <li>Maintenir une réserve de liquidité hors staking</li>
+                </ul>
+            </div>
+
+            <!-- Risk 4: Yield Compression -->
+            <div class="risk-card risk-high">
+                <div class="risk-header">
+                    <h3><i class="fa-solid fa-compress"></i> 4. Yield Compression</h3>
+                    <span class="risk-badge badge-high">🔶 ELEVATED</span>
+                </div>
+                <p><strong>Définition :</strong> Diminution du rendement à mesure que plus de validateurs rejoignent le
+                    réseau.</p>
+
+                <div class="example-box" style="margin-top: 20px;">
+                    <h4>Exemple sur Ethereum</h4>
+                    <div class="calculation">
+                        Scénario 1 (10M ETH stakés) :<br>
+                        APY ≈ 6.5%<br>
+                        <br>
+                        Scénario 2 (20M ETH stakés) :<br>
+                        APY ≈ 4.5%<br>
+                        <br>
+                        Scénario 3 (30M ETH stakés) :<br>
+                        APY ≈ 3.7%<br>
+                        <br>
+                        → Yield compression de -43% entre scénario 1 et 3
+                    </div>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>Mitigation :</strong></p>
+                <ul style="margin-left: 20px; color: #888;">
+                    <li>Diversifier entre plusieurs réseaux PoS</li>
+                    <li>Monitorer le taux de participation réseau</li>
+                    <li>Ajuster l'allocation en fonction des rendements relatifs</li>
+                </ul>
+            </div>
+
+            <!-- Risk 5: Market -->
+            <div class="risk-card risk-critical">
+                <div class="risk-header">
+                    <h3><i class="fa-solid fa-chart-line-down"></i> 5. Market Risk</h3>
+                    <span class="risk-badge badge-critical">🔴 CRITICAL</span>
+                </div>
+                <p><strong>Définition :</strong> Le rendement est en token natif. Si le token baisse, le rendement réel
+                    devient négatif.</p>
+
+                <div class="example-box" style="margin-top: 20px;">
+                    <h4>Exemple : Rendement Nominal vs Réel</h4>
+                    <div class="calculation">
+                        Investment: €100,000<br>
+                        Staking APY: 5%<br>
+                        Duration: 1 an<br>
+                        Token Performance: -30%<br>
+                        <br>
+                        Tokens earned: 100,000 × 1.05 = 105,000 tokens<br>
+                        Token value: 105,000 × 0.70 = €73,500<br>
+                        <br>
+                        Rendement nominal: +5%<br>
+                        Rendement réel: <strong style="color: #ef4444;">-26.5%</strong>
+                    </div>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>Mitigation :</strong></p>
+                <ul style="margin-left: 20px; color: #888;">
+                    <li>Hedger l'exposition au token (futures, options)</li>
+                    <li>Diversifier entre plusieurs tokens</li>
+                    <li>Considérer le staking comme un <strong>long-term hold</strong></li>
+                    <li>Analyser la corrélation token/marché</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 5: DeFi Yield Illusions -->
+        <div id="section-5" class="section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-eye-slash"></i> 5. DeFi Yield Illusions — Attention aux Pièges</h2>
+            <p class="section-intro">
+                Beaucoup de protocoles DeFi affichent des APY extrêmement élevés (200%, 500%, 1000%+).
+                Ces rendements sont souvent insoutenables et cachent des risques majeurs.
+            </p>
+
+            <div class="warning-box">
+                <h4><i class="fa-solid fa-triangle-exclamation"></i> Red Flags d'un APY Insoutenable</h4>
+                <div class="grid-2" style="margin-top: 20px;">
+                    <div>
+                        <p><strong style="color: #ef4444;">🚩 APY > 100%</strong></p>
+                        <p style="color: #888; font-size: 14px;">Souvent dû à une inflation massive du token de reward
+                        </p>
+                    </div>
+                    <div>
+                        <p><strong style="color: #ef4444;">🚩 Rewards en token peu liquide</strong></p>
+                        <p style="color: #888; font-size: 14px;">Impossible de vendre sans crash du prix</p>
+                    </div>
+                    <div>
+                        <p><strong style="color: #ef4444;">🚩 Protocole non-audité</strong></p>
+                        <p style="color: #888; font-size: 14px;">Risque de rug pull ou exploit</p>
+                    </div>
+                    <div>
+                        <p><strong style="color: #ef4444;">🚩 TVL en chute libre</strong></p>
+                        <p style="color: #888; font-size: 14px;">Les utilisateurs fuient le protocole</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px; color: #10b981;"><i class="fa-solid fa-chart-mixed"></i> Analyse de
+                Soutenabilité</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Type de Yield</th>
+                        <th>Source</th>
+                        <th>Soutenabilité</th>
+                        <th>Exemple</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Yield Organique</strong></td>
+                        <td>Frais réels d'utilisateurs</td>
+                        <td>✅ Soutenable</td>
+                        <td>Ethereum staking (fees)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Yield d'Inflation</strong></td>
+                        <td>Émission de nouveaux tokens</td>
+                        <td>🟡 Modéré</td>
+                        <td>Ethereum staking (issuance)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Yield d'Incentive</strong></td>
+                        <td>Rewards temporaires (liquidity mining)</td>
+                        <td>🔶 Court-terme</td>
+                        <td>Uniswap v2 (2020)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Yield Ponzi</strong></td>
+                        <td>Nouveaux dépôts paient les anciens</td>
+                        <td>❌ Insoutenable</td>
+                        <td>Anchor Protocol (2022)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example-box" style="margin-top: 40px;">
+                <h4><i class="fa-solid fa-book"></i> Case Study : Anchor Protocol</h4>
+                <p><strong>APY affiché :</strong> 19.5% sur UST (stablecoin)</p>
+                <p><strong>Problème :</strong> Le yield était subventionné par la Terraform Labs Foundation, pas par des
+                    revenus organiques.</p>
+                <p><strong>Résultat :</strong> Effondrement de l'écosystème Terra/Luna en mai 2022 → <strong>$40B+ de
+                        pertes</strong></p>
+                <div class="calculation" style="margin-top: 15px;">
+                    Leçon institutionnelle :<br>
+                    <br>
+                    Un APY élevé sans source de revenus organique<br>
+                    = Modèle économique insoutenable<br>
+                    = Risque systémique élevé
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Comparative Analysis -->
+        <div id="section-6" class="section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-scale-balanced"></i> 6. Analyse Comparative — Staking vs Lending vs RWA</h2>
+            <p class="section-intro">
+                Pour évaluer le staking, il est essentiel de le comparer aux autres sources de rendement crypto et
+                TradFi.
+            </p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Yield Source</th>
+                        <th>APY Typique</th>
+                        <th>Risk Profile</th>
+                        <th>Liquidity</th>
+                        <th>Regulatory</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Staking (PoS)</strong></td>
+                        <td>Inflation + Fees + MEV</td>
+                        <td>3-15%</td>
+                        <td>🔶 Medium-High</td>
+                        <td>🔴 Low (unbonding)</td>
+                        <td>🟡 Evolving</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DeFi Lending</strong></td>
+                        <td>Borrower Interest</td>
+                        <td>2-10%</td>
+                        <td>🔶 Medium</td>
+                        <td>🟡 Medium</td>
+                        <td>🟡 Evolving</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RWA (ex: BUIDL)</strong></td>
+                        <td>US T-Bills</td>
+                        <td>4-5%</td>
+                        <td>🟢 Low</td>
+                        <td>✅ High</td>
+                        <td>✅ Regulated</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CeFi (Exchanges)</strong></td>
+                        <td>Lending + Trading fees</td>
+                        <td>1-8%</td>
+                        <td>🔴 High (custody)</td>
+                        <td>✅ High</td>
+                        <td>🟡 Varies</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 40px; color: #10b981;"><i class="fa-solid fa-chart-scatter"></i> Risk/Return Matrix
+            </h3>
+
+            <div class="card"
+                style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid #3b82f6;">
+                <div class="grid-3">
+                    <div class="stat-card">
+                        <div class="icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="value" style="color: #10b981;">Low Risk</div>
+                        <div class="label">RWA Yield</div>
+                        <p style="font-size: 12px; color: #888; margin-top: 10px;">4-5% APY, Regulated, High Liquidity
+                        </p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon"><i class="fa-solid fa-balance-scale"></i></div>
+                        <div class="value" style="color: #f59e0b;">Medium Risk</div>
+                        <div class="label">Staking / Lending</div>
+                        <p style="font-size: 12px; color: #888; margin-top: 10px;">3-15% APY, Smart contract risk,
+                            Variable liquidity</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="value" style="color: #ef4444;">High Risk</div>
+                        <div class="label">DeFi Farming</div>
+                        <p style="font-size: 12px; color: #888; margin-top: 10px;">50-500% APY, Insoutenable, Exploit
+                            risk</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box" style="margin-top: 40px;">
+                <h4><i class="fa-solid fa-lightbulb"></i> Insight Institutionnel</h4>
+                <p>
+                    Le staking offre un <strong>rendement non-corrélé aux T-Bills</strong>, ce qui en fait un outil de
+                    diversification potentiel.
+                    Cependant, l'exposition au token natif introduit une volatilité significative qui doit être gérée
+                    via hedging ou diversification.
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 7: Institutional Perspective -->
+        <div id="section-7" class="section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-building-columns"></i> 7. Perspective Institutionnelle</h2>
+            <p class="section-intro">
+                Un investisseur institutionnel analyse le staking sous plusieurs angles : soutenabilité du yield,
+                duration risk, liquidité, et cadre réglementaire.
+            </p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3><i class="fa-solid fa-chart-line"></i> Yield Sustainability Metrics</h3>
+                    <p>Les institutions évaluent la soutenabilité du rendement via plusieurs KPIs :</p>
+
+                    <div class="formula-card" style="margin-top: 20px;">
+                        <div class="formula">Sustainability Score = (Fees Revenue / Total Rewards) × 100</div>
+                        <div class="formula-explanation">
+                            Plus le score est élevé, moins le yield dépend de l'inflation
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <div class="formula">Inflation Dependency = (Inflation Rewards / Total Rewards) × 100</div>
+                        <div class="formula-explanation">
+                            Mesure la dépendance à l'émission de nouveaux tokens
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>Exemple : Ethereum</h4>
+                        <div class="calculation">
+                            Fees Revenue: ~30% du yield<br>
+                            Inflation: ~60% du yield<br>
+                            MEV: ~10% du yield<br>
+                            <br>
+                            Sustainability Score: 30%<br>
+                            Inflation Dependency: 60%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fa-solid fa-clock"></i> Duration Risk</h3>
+                    <p>Le staking introduit un duration risk similaire aux obligations :</p>
+
+                    <ul style="margin-left: 20px; color: #888; margin-top: 20px;">
+                        <li style="margin-bottom: 15px;">
+                            <strong style="color: white;">Unbonding Period</strong><br>
+                            Période pendant laquelle le capital est bloqué (7-28 jours)
+                        </li>
+                        <li style="margin-bottom: 15px;">
+                            <strong style="color: white;">Yield Sensitivity</strong><br>
+                            Le yield fluctue avec la participation réseau
+                        </li>
+                        <li style="margin-bottom: 15px;">
+                            <strong style="color: white;">Market Exposure</strong><br>
+                            Exposition continue au prix du token
+                        </li>
+                    </ul>
+
+                    <div class="warning-box" style="margin-top: 20px;">
+                        <h4><i class="fa-solid fa-info-circle"></i> Comparaison TradFi</h4>
+                        <p style="font-size: 14px;">
+                            Une obligation à 10 ans a un duration risk mais un yield fixe.
+                            Le staking a un duration risk ET un yield variable + exposition au token.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px; color: #10b981;"><i class="fa-solid fa-gavel"></i> Regulatory Considerations
+            </h3>
+
+            <div class="card">
+                <p>Le cadre réglementaire du staking est en évolution :</p>
+
+                <div class="grid-2" style="margin-top: 20px;">
+                    <div>
+                        <h4 style="color: #3b82f6;">🇺🇸 États-Unis (SEC)</h4>
+                        <ul style="margin-left: 20px; color: #888; font-size: 14px;">
+                            <li>Débat sur la classification des staking rewards (securities?)</li>
+                            <li>Kraken a payé $30M pour régler un litige sur le staking (2023)</li>
+                            <li>Incertitude réglementaire persistante</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #3b82f6;">🇪🇺 Europe (MiCA)</h4>
+                        <ul style="margin-left: 20px; color: #888; font-size: 14px;">
+                            <li>Cadre plus clair avec MiCA (Markets in Crypto-Assets)</li>
+                            <li>Staking considéré comme service crypto</li>
+                            <li>Exigences de licence pour les providers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-box" style="margin-top: 30px;">
+                    <h4><i class="fa-solid fa-exclamation-triangle"></i> Risque Réglementaire</h4>
+                    <p>
+                        Les institutions doivent monitorer l'évolution réglementaire. Un changement de classification
+                        (ex: staking rewards = securities) pourrait impacter la viabilité du staking institutionnel.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Quantitative Examples -->
+        <div id="section-8" class="section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-calculator"></i> 8. Exemples Quantitatifs — Real Yield Analysis</h2>
+            <p class="section-intro">
+                Analysons des scénarios concrets pour comprendre l'impact du market risk sur le rendement réel.
+            </p>
+
+            <div class="example-box">
+                <h4><i class="fa-solid fa-chart-line"></i> Exemple 1 : Rendement Nominal Positif, Réel Négatif</h4>
+                <div class="calculation">
+                    Investment Initial: €100,000<br>
+                    Staking APR: 5%<br>
+                    Duration: 1 an<br>
+                    Token Performance: -20%<br>
+                    <br>
+                    === Calcul ===<br>
+                    Tokens earned: 100,000 × 1.05 = 105,000 tokens<br>
+                    Token value après -20%: 105,000 × 0.80 = €84,000<br>
+                    <br>
+                    === Résultat ===<br>
+                    Rendement nominal: +5%<br>
+                    Rendement réel: <strong style="color: #ef4444;">-16%</strong>
+                </div>
+                <p style="color: #888; margin-top: 15px;">
+                    <i class="fa-solid fa-exclamation-triangle"></i>
+                    Le rendement de staking ne compense pas la baisse du token
+                </p>
+            </div>
+
+            <div class="example-box">
+                <h4><i class="fa-solid fa-chart-line-up"></i> Exemple 2 : Token Stable, Rendement Réel = Nominal</h4>
+                <div class="calculation">
+                    Investment Initial: €100,000<br>
+                    Staking APR: 5%<br>
+                    Duration: 1 an<br>
+                    Token Performance: 0%<br>
+                    <br>
+                    === Calcul ===<br>
+                    Tokens earned: 100,000 × 1.05 = 105,000 tokens<br>
+                    Token value: 105,000 × 1.00 = €105,000<br>
+                    <br>
+                    === Résultat ===<br>
+                    Rendement nominal: +5%<br>
+                    Rendement réel: <strong style="color: #10b981;">+5%</strong>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h4><i class="fa-solid fa-rocket"></i> Exemple 3 : Token en Hausse, Rendement Amplifié</h4>
+                <div class="calculation">
+                    Investment Initial: €100,000<br>
+                    Staking APR: 5%<br>
+                    Duration: 1 an<br>
+                    Token Performance: +50%<br>
+                    <br>
+                    === Calcul ===<br>
+                    Tokens earned: 100,000 × 1.05 = 105,000 tokens<br>
+                    Token value après +50%: 105,000 × 1.50 = €157,500<br>
+                    <br>
+                    === Résultat ===<br>
+                    Rendement nominal: +5%<br>
+                    Rendement réel: <strong style="color: #10b981;">+57.5%</strong>
+                </div>
+                <p style="color: #888; margin-top: 15px;">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    Le staking amplifie les gains du token
+                </p>
+            </div>
+
+            <!-- Interactive Yield Simulator -->
+            <div class="calculator">
+                <h3><i class="fa-solid fa-calculator"></i> Simulateur de Rendement Réel</h3>
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label for="investment-amount">Montant Investi (€)</label>
+                        <input type="number" id="investment-amount" value="100000" min="0" step="1000">
+                    </div>
+                    <div class="input-group">
+                        <label for="staking-apr">Staking APR (%)</label>
+                        <input type="number" id="staking-apr" value="5" min="0" max="100" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="duration">Durée (années)</label>
+                        <input type="number" id="duration" value="1" min="0.1" max="10" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="token-performance">Performance Token (%)</label>
+                        <input type="number" id="token-performance" value="-20" min="-100" max="500" step="1">
+                    </div>
+                </div>
+                <div class="calc-result">
+                    <div class="grid-2">
+                        <div>
+                            <h4>Rendement Nominal</h4>
+                            <div class="value" id="nominal-yield" style="font-size: 36px;">+5.0%</div>
+                        </div>
+                        <div>
+                            <h4>Rendement Réel</h4>
+                            <div class="value" id="real-yield" style="font-size: 36px; color: #ef4444;">-16.0%</div>
+                        </div>
+                    </div>
+                    <p style="color: #888; margin-top: 20px; text-align: center;">
+                        Valeur Finale: <span id="final-value"
+                            style="color: #10b981; font-size: 24px; font-weight: 700;">€84,000</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 9: Advanced Analytics -->
+        <div id="section-9" class="section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-microscope"></i> 9. Advanced Analytics — Institutional Framework</h2>
+            <p class="section-intro">
+                Pour les risk managers et analystes institutionnels, voici des frameworks avancés pour évaluer le
+                staking.
+            </p>
+
+            <h3 style="color: #10b981;"><i class="fa-solid fa-vial"></i> Staking Stress Test Model</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>APY Impact</th>
+                        <th>Token Price</th>
+                        <th>Real Yield</th>
+                        <th>Capital at Risk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Base Case</strong></td>
+                        <td>5.0%</td>
+                        <td>0%</td>
+                        <td style="color: #10b981;">+5.0%</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Network Congestion</strong></td>
+                        <td>7.5%</td>
+                        <td>+10%</td>
+                        <td style="color: #10b981;">+18.25%</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Validator Surge</strong></td>
+                        <td>3.5%</td>
+                        <td>0%</td>
+                        <td style="color: #f59e0b;">+3.5%</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Token Crash (-50%)</strong></td>
+                        <td>5.0%</td>
+                        <td>-50%</td>
+                        <td style="color: #ef4444;">-47.5%</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Slashing Event (5%)</strong></td>
+                        <td>5.0%</td>
+                        <td>0%</td>
+                        <td style="color: #ef4444;">0%</td>
+                        <td style="color: #ef4444;">5%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Black Swan (Token -80%)</strong></td>
+                        <td>5.0%</td>
+                        <td>-80%</td>
+                        <td style="color: #dc2626;">-79%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 40px; color: #10b981;"><i class="fa-solid fa-chart-network"></i> Correlation Matrix —
+                Crypto Yield vs TradFi</h3>
+
+            <div class="card"
+                style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid #10b981;">
+                <p style="margin-bottom: 20px;">
+                    Analyse de corrélation entre différentes sources de rendement (données hypothétiques pour
+                    illustration) :
+                </p>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Staking APY</th>
+                            <th>Lending APY</th>
+                            <th>RWA Yield</th>
+                            <th>US 10Y</th>
+                            <th>S&P 500</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Staking APY</strong></td>
+                            <td>1.00</td>
+                            <td>0.65</td>
+                            <td>-0.15</td>
+                            <td>-0.20</td>
+                            <td>0.45</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lending APY</strong></td>
+                            <td>0.65</td>
+                            <td>1.00</td>
+                            <td>-0.10</td>
+                            <td>-0.15</td>
+                            <td>0.50</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RWA Yield</strong></td>
+                            <td>-0.15</td>
+                            <td>-0.10</td>
+                            <td>1.00</td>
+                            <td>0.95</td>
+                            <td>-0.30</td>
+                        </tr>
+                        <tr>
+                            <td><strong>US 10Y</strong></td>
+                            <td>-0.20</td>
+                            <td>-0.15</td>
+                            <td>0.95</td>
+                            <td>1.00</td>
+                            <td>-0.35</td>
+                        </tr>
+                        <tr>
+                            <td><strong>S&P 500</strong></td>
+                            <td>0.45</td>
+                            <td>0.50</td>
+                            <td>-0.30</td>
+                            <td>-0.35</td>
+                            <td>1.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box" style="margin-top: 30px;">
+                    <h4><i class="fa-solid fa-lightbulb"></i> Insight</h4>
+                    <p>
+                        Le staking yield est <strong>faiblement corrélé négativement</strong> avec les T-Bills (-0.15 à
+                        -0.20),
+                        ce qui en fait un outil de diversification potentiel pour un portefeuille institutionnel.
+                        Cependant, la corrélation positive avec le S&P 500 (0.45) indique une exposition au risk-on
+                        sentiment.
+                    </p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px; color: #10b981;"><i class="fa-solid fa-chart-pie"></i> Portfolio Allocation
+                Framework</h3>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h4 style="text-align: center; color: #10b981;">Conservative</h4>
+                    <div class="stat-card" style="margin-top: 20px;">
+                        <div class="value">10%</div>
+                        <div class="label">Staking Allocation</div>
+                    </div>
+                    <ul style="margin-top: 20px; color: #888; font-size: 14px;">
+                        <li>70% RWA (BUIDL, OUSG)</li>
+                        <li>20% Stablecoins</li>
+                        <li>10% Staking (ETH, ADA)</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="text-align: center; color: #3b82f6;">Balanced</h4>
+                    <div class="stat-card" style="margin-top: 20px;">
+                        <div class="value" style="color: #3b82f6;">30%</div>
+                        <div class="label">Staking Allocation</div>
+                    </div>
+                    <ul style="margin-top: 20px; color: #888; font-size: 14px;">
+                        <li>40% RWA</li>
+                        <li>30% Staking</li>
+                        <li>30% DeFi Lending</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="text-align: center; color: #f59e0b;">Aggressive</h4>
+                    <div class="stat-card" style="margin-top: 20px;">
+                        <div class="value" style="color: #f59e0b;">60%</div>
+                        <div class="label">Staking Allocation</div>
+                    </div>
+                    <ul style="margin-top: 20px; color: #888; font-size: 14px;">
+                        <li>60% Staking (diversifié)</li>
+                        <li>25% DeFi Farming</li>
+                        <li>15% RWA (safety buffer)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="section" data-aos="fade-up" style="text-align: center; padding: 60px 0;">
+            <h2 style="color: #10b981; margin-bottom: 30px;">
+                <i class="fa-solid fa-graduation-cap"></i> Conclusion
+            </h2>
+            <p style="max-width: 800px; margin: 0 auto 30px; font-size: 18px; color: #888;">
+                Le staking offre un rendement attractif mais comporte des risques significatifs.
+                La clé est de comprendre la mécanique (APR vs APY), les sources de yield,
+                et d'appliquer un framework de risque rigoureux.
+            </p>
+
+            <div class="card"
+                style="max-width: 900px; margin: 0 auto; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">
+                <h3 style="color: white; margin-bottom: 20px;">
+                    <i class="fa-solid fa-key"></i> Key Takeaways
+                </h3>
+                <div style="text-align: left; color: rgba(255,255,255,0.9);">
+                    <p style="margin-bottom: 15px;">
+                        ✅ <strong>APY > APR</strong> : Toujours analyser l'APY (avec capitalisation) pour le rendement
+                        réel
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        ✅ <strong>5 Risques Majeurs</strong> : Slashing, Smart Contract, Liquidity, Yield Compression,
+                        Market
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        ✅ <strong>Yield Sustainability</strong> : Privilégier les yields organiques vs
+                        inflation/incentives
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        ✅ <strong>Market Risk = Critical</strong> : Le rendement nominal peut être positif mais le
+                        rendement réel négatif
+                    </p>
+                    <p>
+                        ✅ <strong>Diversification</strong> : Le staking est non-corrélé aux T-Bills → outil de
+                        diversification potentiel
+                    </p>
+                </div>
+            </div>
+
+            <p style="margin-top: 40px; color: #888;">
+                <i class="fa-solid fa-quote-left"></i>
+                <em>Le rendement crypto n'est jamais "risk-free". Il combine risque technologique, économique, marché,
+                    et réglementaire.</em>
+                <i class="fa-solid fa-quote-right"></i>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- AOS Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // APR to APY Calculator
+        function calculateAPY() {
+            const apr = parseFloat(document.getElementById('apr-input').value) / 100;
+            const n = parseFloat(document.getElementById('compound-freq').value);
+
+            const apy = Math.pow(1 + apr / n, n) - 1;
+            const apyPercent = (apy * 100).toFixed(2);
+            const diff = ((apy - apr) * 100).toFixed(2);
+
+            document.getElementById('apy-result').textContent = apyPercent + '%';
+            document.getElementById('apy-diff').textContent = (diff >= 0 ? '+' : '') + diff + '%';
+        }
+
+        // Real Yield Simulator
+        function calculateRealYield() {
+            const investment = parseFloat(document.getElementById('investment-amount').value);
+            const apr = parseFloat(document.getElementById('staking-apr').value) / 100;
+            const duration = parseFloat(document.getElementById('duration').value);
+            const tokenPerf = parseFloat(document.getElementById('token-performance').value) / 100;
+
+            // Calculate nominal yield (simple compounding)
+            const nominalMultiplier = Math.pow(1 + apr, duration);
+            const nominalYield = (nominalMultiplier - 1) * 100;
+
+            // Calculate real yield (including token performance)
+            const realMultiplier = nominalMultiplier * (1 + tokenPerf);
+            const realYield = (realMultiplier - 1) * 100;
+
+            // Calculate final value
+            const finalValue = investment * realMultiplier;
+
+            // Update display
+            document.getElementById('nominal-yield').textContent = (nominalYield >= 0 ? '+' : '') + nominalYield.toFixed(1) + '%';
+
+            const realYieldElement = document.getElementById('real-yield');
+            realYieldElement.textContent = (realYield >= 0 ? '+' : '') + realYield.toFixed(1) + '%';
+
+            // Color coding for real yield
+            if (realYield >= 10) {
+                realYieldElement.style.color = '#10b981';
+            } else if (realYield >= 0) {
+                realYieldElement.style.color = '#f59e0b';
+            } else {
+                realYieldElement.style.color = '#ef4444';
+            }
+
+            // Update final value
+            const finalValueElement = document.getElementById('final-value');
+            finalValueElement.textContent = '€' + finalValue.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
+
+            // Color coding for final value
+            if (finalValue >= investment) {
+                finalValueElement.style.color = '#10b981';
+            } else {
+                finalValueElement.style.color = '#ef4444';
+            }
+        }
+
+        // Event listeners for APR to APY calculator
+        document.getElementById('apr-input').addEventListener('input', calculateAPY);
+        document.getElementById('compound-freq').addEventListener('change', calculateAPY);
+
+        // Event listeners for Real Yield Simulator
+        document.getElementById('investment-amount').addEventListener('input', calculateRealYield);
+        document.getElementById('staking-apr').addEventListener('input', calculateRealYield);
+        document.getElementById('duration').addEventListener('input', calculateRealYield);
+        document.getElementById('token-performance').addEventListener('input', calculateRealYield);
+
+        // Initialize calculators
+        calculateAPY();
+        calculateRealYield();
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    const offset = 100;
+                    const targetPosition = targetSection.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
