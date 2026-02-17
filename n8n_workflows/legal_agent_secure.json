@@ -1,0 +1,238 @@
+{
+    "name": "Legal Agent (Secure V18)",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "legal-agent",
+                "options": {
+                    "includeHeaders": true
+                }
+            },
+            "name": "Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                460,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "// Extract Bearer Token\nconst headers = $input.item.json.headers;\nconst authHeader = headers['authorization'] || headers['Authorization'];\n\nif (!authHeader) {\n  throw new Error('Missing Authorization Header');\n}\n\nconst token = authHeader.replace('Bearer ', '');\n\nreturn { json: { token } };"
+            },
+            "name": "Extract Token",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 1,
+            "position": [
+                680,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "method": "GET",
+                "url": "https://<YOUR-SUPABASE-URL>.supabase.co/auth/v1/user",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "=Bearer {{$json.token}}"
+                        },
+                        {
+                            "name": "apikey",
+                            "value": "<YOUR-ANON-KEY>"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "name": "Supabase Auth Check",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 3,
+            "position": [
+                900,
+                300
+            ],
+            "retryOnFail": true
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "string": [
+                        {
+                            "value1": "={{$json.aud}}",
+                            "value2": "authenticated"
+                        }
+                    ]
+                }
+            },
+            "name": "Is Authenticated?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 1,
+            "position": [
+                1120,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://api.openai.com/v1/chat/completions",
+                "authentication": "predefinedCredentialType",
+                "nodeCredentialType": "openAiApi",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "model",
+                            "value": "gpt-4o"
+                        },
+                        {
+                            "name": "messages",
+                            "value": "={{ [ {\"role\": \"system\", \"content\": \"Tu es un expert juridique spécialisé en Blockchain (MiCA, DLT Pilot Regime, RGPD). Tu es précis, professionnel et concis.\"}, {\"role\": \"user\", \"content\": $node[\"Webhook\"].json.body.message} ] }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "name": "OpenAI API (Raw)",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 3,
+            "position": [
+                1340,
+                200
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "YOUR_OPENAI_CREDENTIAL_ID",
+                    "name": "OpenAI account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "name": "Respond to Webhook",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1560,
+                200
+            ]
+        },
+        {
+            "parameters": {
+                "httpCode": 401,
+                "respondWith": "json",
+                "responseBody": "{\n  \"error\": \"Unauthorized Access\"\n}",
+                "options": {}
+            },
+            "name": "Respond 401",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1340,
+                440
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "// Format output for Client\nconst content = $input.item.json.choices[0].message.content;\nreturn { json: { output: content } };"
+            },
+            "name": "Format Output",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 1,
+            "position": [
+                1460,
+                200
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "Extract Token",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extract Token": {
+            "main": [
+                [
+                    {
+                        "node": "Supabase Auth Check",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Supabase Auth Check": {
+            "main": [
+                [
+                    {
+                        "node": "Is Authenticated?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Is Authenticated?": {
+            "main": [
+                [
+                    {
+                        "node": "OpenAI API (Raw)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Respond 401",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI API (Raw)": {
+            "main": [
+                [
+                    {
+                        "node": "Format Output",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Format Output": {
+            "main": [
+                [
+                    {
+                        "node": "Respond to Webhook",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}
