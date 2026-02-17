@@ -215,6 +215,51 @@
             margin-bottom: 100px;
         }
 
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 100px;
+        }
+
+        /* --- CONTENT CARDS --- */
+        .content-card {
+            background: #080808;
+            border: 1px solid #222;
+            padding: 40px;
+            border-radius: 0px;
+            height: 100%;
+        }
+
+        .content-card h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-card p {
+            color: #888;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 10px;
+            color: #888;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .feature-list i {
+            color: var(--accent-green);
+            font-size: 12px;
+        }
+
         /* --- REBASE CARD --- */
         .rebase-card {
             background: #080808;
@@ -246,7 +291,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 100px;
+            margin-bottom: 40px;
             position: relative;
         }
 
@@ -324,6 +369,66 @@
             font-family: 'JetBrains Mono';
         }
 
+        /* --- RISK FLIP CARDS (Re-styled) --- */
+        .risk-card {
+            background-color: transparent;
+            height: 220px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .risk-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border: 1px solid #222;
+            background: #0a0a0a;
+        }
+
+        .risk-card:hover .risk-inner {
+            transform: rotateY(180deg);
+            border-color: var(--accent-green);
+        }
+
+        .risk-front,
+        .risk-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .risk-front h4 {
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .risk-icon {
+            font-size: 30px;
+            color: #555;
+        }
+
+        .risk-back {
+            transform: rotateY(180deg);
+            background: #111;
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 30px;
+        }
+
         /* --- TABLE --- */
         .comp-table {
             width: 100%;
@@ -374,7 +479,8 @@
         @media (max-width: 900px) {
 
             .metrics-grid,
-            .grid-2 {
+            .grid-2,
+            .grid-3 {
                 grid-template-columns: 1fr;
             }
 
@@ -397,7 +503,7 @@
 
 <body>
 
-    <!-- PARTICLES (Subtle Background) -->
+    <!-- PARTICLES -->
     <canvas id="particles-js"></canvas>
 
     <!-- NAV -->
@@ -419,91 +525,51 @@
                 speed.</p>
         </div>
 
-        <!-- KEY METRICS (Exact User Grid) -->
+        <!-- KEY METRICS -->
         <div class="metrics-grid" data-aos="fade-up" data-aos-delay="100">
-            <div class="metric-card">
-                <span class="metric-val">$560M+</span>
-                <span class="metric-lbl">Assets Under Mgmt</span>
+            <div class="metric-card"><span class="metric-val">$560M+</span><span class="metric-lbl">Assets Under
+                    Mgmt</span></div>
+            <div class="metric-card"><span class="metric-val">4.75%</span><span class="metric-lbl">Yield (APY)</span>
             </div>
-            <div class="metric-card">
-                <span class="metric-val">4.75%</span>
-                <span class="metric-lbl">Yield (APY)</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-val">Daily</span>
-                <span class="metric-lbl">Rebase Distribution</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-val">T+0</span>
-                <span class="metric-lbl">Settlement</span>
-            </div>
+            <div class="metric-card"><span class="metric-val">Daily</span><span class="metric-lbl">Rebase
+                    Distribution</span></div>
+            <div class="metric-card"><span class="metric-val">T+0</span><span class="metric-lbl">Settlement</span></div>
         </div>
 
-        <!-- SECTION 1 : TOKENOMICS & SIMULATOR (Layout 2) -->
-        <div class="grid-2">
-            <div data-aos="fade-right">
-                <h2><i class="fa-solid fa-coins" style="color:var(--accent-green); font-size:24px;"></i> The Rebase
-                    Mechanism</h2>
-                <p style="color:#aaa; margin-bottom:20px;">
-                    Unlike a traditional ETF where the price fluctuates (NAV Accumulating), BUIDL maintains a
-                    <strong>Stable Value of $1.00</strong>.
-                </p>
-                <p style="color:#aaa; margin-bottom:30px;">
-                    Yield is distributed via <strong>Daily Rebase</strong>: new tokens are minted and sent to your
-                    wallet every day. Your balance grows, but the price stays fixed. Ideally suited for Treasury
-                    Management.
-                </p>
-
-                <div class="rebase-card">
-                    <div class="token-row" style="color:#666; font-size:11px;">
-                        <span>TIMEFRAME</span><span>BALANCE</span><span>VALUE</span></div>
-                    <div class="token-row"><span>Day 0</span><span>1,000,000.00</span><span>$1.0M</span></div>
-                    <div class="token-row"><span>Day 1</span><span>1,000,130.13</span><span>$1.0M+</span></div>
-                    <div class="token-row highlight" style="border:none;"><span>Day
-                            30</span><span>1,003,950.00</span><span>+Yield</span></div>
-                </div>
+        <!-- 1. STRATEGIC CONTEXT (RESTORED MACRO & LEGAL) -->
+        <div class="grid-2" data-aos="fade-up">
+            <div class="content-card">
+                <h3><i class="fa-solid fa-earth-americas"></i> Macro Context</h3>
+                <p>Depuis 2022, la hausse des Fed Funds a rendu le rendement du cash stratégique. La migration massive
+                    vers les T-Bills a créé une opportunité pour tokeniser ce rendement, permettant :</p>
+                <ul class="feature-list" style="list-style:none; padding:0; margin-top:15px;">
+                    <li><i class="fa-solid fa-check"></i> Mobilité de collatéral inter-protocoles.</li>
+                    <li><i class="fa-solid fa-check"></i> Settlement instantané (T+0).</li>
+                </ul>
             </div>
-
-            <!-- SIMULATOR (User's Box Design) -->
-            <div class="sim-box" data-aos="fade-left">
-                <h3 style="color:white; margin-bottom:20px;">Yield Simulator</h3>
-                <label style="color:#666; font-size:11px; font-weight:bold; letter-spacing:1px;">PRINCIPAL INVESTMENT
-                    ($)</label>
-                <input type="number" id="investInput" class="sim-input" value="10000000" oninput="calcEarnings()">
-
-                <div class="sim-result">
-                    <span>Daily Payout</span>
-                    <span class="sim-total" id="dailyYield">+ $1,301</span>
-                </div>
-                <div class="sim-result">
-                    <span>Monthly Payout</span>
-                    <span class="sim-total" id="monthlyYield">+ $39,583</span>
-                </div>
-
-                <div style="margin-top:20px; font-size:12px; color:#555; display:flex; align-items:center; gap:10px;">
-                    <i class="fa-solid fa-circle-check" style="color:var(--accent-green)"></i> Paid directly to Wallet
-                    (0 Gas Fee)
+            <div class="content-card">
+                <h3><i class="fa-solid fa-scale-balanced"></i> Legal Structure</h3>
+                <p>"BUIDL n’est pas un stablecoin, c’est un véhicule d’investissement réglementé (SEC Reg D) réservé aux
+                    institutionnels (KYC)."</p>
+                <div
+                    style="margin-top:20px; padding:15px; border:1px solid #333; background:#000; font-size:13px; color:#aaa;">
+                    <strong style="color:white;">Structure:</strong> Delaware Statutory Trust
                 </div>
             </div>
         </div>
 
-        <!-- SECTION 2 : ARCHITECTURE (User's Flow Diagram) -->
+        <!-- 2. TECHNICAL ARCHITECTURE (LAYERS + FLOW) -->
         <div data-aos="fade-up">
             <h2><i class="fa-solid fa-network-wired" style="color:#fff; font-size:24px;"></i> Infrastructure Flow</h2>
-            <p style="color:#666; margin-bottom:40px; text-align:center;">How T-Bills yield moves from BNY Mellon to the
-                Blockchain.</p>
+            <p style="color:#666; margin-bottom:40px; text-align:center;">L'architecture repose sur une synchronisation
+                constante entre l'Off-chain (BlackRock) et l'On-chain (Ethereum).</p>
 
+            <!-- FLOW DIAGRAM -->
             <div class="arch-diagram">
                 <div class="arch-node">
                     <i class="fa-solid fa-landmark" style="font-size:24px; color:#fff; margin-bottom:10px;"></i>
                     <strong style="display:block; color:#fff; font-size:14px;">T-BILLS</strong>
                     <span style="font-size:10px; color:#666;">BlackRock (Asset)</span>
-                </div>
-                <div class="arch-line"></div>
-                <div class="arch-node">
-                    <i class="fa-solid fa-vault" style="font-size:24px; color:#fff; margin-bottom:10px;"></i>
-                    <strong style="display:block; color:#fff; font-size:14px;">CUSTODY</strong>
-                    <span style="font-size:10px; color:#666;">BNY Mellon (Cash)</span>
                 </div>
                 <div class="arch-line"></div>
                 <div class="arch-node">
@@ -516,22 +582,119 @@
                     <i class="fa-brands fa-ethereum"
                         style="font-size:24px; color:var(--accent-green); margin-bottom:10px;"></i>
                     <strong style="display:block; color:#fff; font-size:14px;">TOKEN</strong>
-                    <span style="font-size:10px; color:var(--accent-green);">On-chain Asset</span>
+                    <span style="font-size:10px; color:var(--accent-green);">ERC-20 (Yield)</span>
+                </div>
+            </div>
+
+            <!-- STACK LAYERS EXPLANATION -->
+            <div class="grid-3" style="margin-bottom:100px;">
+                <div class="content-card" style="text-align:center;">
+                    <span style="font-family:'JetBrains Mono'; color:var(--accent-green); font-size:12px;">LAYER
+                        3</span>
+                    <h4 style="color:white; margin:10px 0;">Token (ERC-20)</h4>
+                    <p style="font-size:13px;">Programmable, Transferable 24/7</p>
+                </div>
+                <div class="content-card" style="text-align:center;">
+                    <span style="font-family:'JetBrains Mono'; color:#666; font-size:12px;">LAYER 2</span>
+                    <h4 style="color:white; margin:10px 0;">Compliance (SPV)</h4>
+                    <p style="font-size:13px;">Whitelisting, KYC/AML enforcement</p>
+                </div>
+                <div class="content-card" style="text-align:center;">
+                    <span style="font-family:'JetBrains Mono'; color:#666; font-size:12px;">LAYER 1</span>
+                    <h4 style="color:white; margin:10px 0;">Asset (T-Bills)</h4>
+                    <p style="font-size:13px;">Held at BNY Mellon Custody</p>
                 </div>
             </div>
         </div>
 
-        <!-- SECTION 3 : MARKET COMPARISON & LIQUIDITY (Layout 2) -->
-        <div class="grid-2" style="margin-bottom:80px;" data-aos="fade-up">
+        <!-- 3. TOKENOMICS & SIMULATOR -->
+        <div data-aos="fade-up">
+            <h2><i class="fa-solid fa-coins" style="color:white; font-size:24px;"></i> Yield Mechanism</h2>
 
+            <div class="grid-2">
+                <div>
+                    <p style="color:#aaa; margin-bottom:20px;">
+                        Le rendement est calculé off-chain et distribué on-chain chaque jour via rebase.
+                    </p>
+                    <h4 style="color:white; margin-bottom:15px; font-size:16px;">Rebase vs Accrual Model</h4>
+                    <table class="comp-table" style="margin-bottom:20px;">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Price</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Accrual</td>
+                                <td>Increases</td>
+                                <td>Static</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-green)">Rebase (BUIDL)</td>
+                                <td>Stable ($1.00)</td>
+                                <td>Increases</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- SIMULATOR -->
+                <div class="sim-box">
+                    <h3 style="color:white; margin-bottom:20px;">Yield Simulator</h3>
+                    <label style="color:#666; font-size:11px; font-weight:bold; letter-spacing:1px;">PRINCIPAL
+                        INVESTMENT ($)</label>
+                    <input type="number" id="investInput" class="sim-input" value="10000000" oninput="calcEarnings()">
+                    <div class="sim-result"><span>Daily Payout</span><span class="sim-total" id="dailyYield">+
+                            $1,301</span></div>
+                    <div class="sim-result"><span>Monthly Payout</span><span class="sim-total" id="monthlyYield">+
+                            $39,583</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. RISK ASSESSMENT (RESTORED FLIP CARDS) -->
+        <div data-aos="fade-up" style="margin-bottom:100px;">
+            <h2><i class="fa-solid fa-shield-halved" style="color:white; font-size:24px;"></i> Risk Assessment</h2>
+            <div class="grid-3">
+                <div class="risk-card">
+                    <div class="risk-inner">
+                        <div class="risk-front"><i class="fa-solid fa-chart-line risk-icon"></i>
+                            <h4>Financial</h4>
+                        </div>
+                        <div class="risk-back">Interest rate risk & Sovereign risk exposure (US Treasuries).</div>
+                    </div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-inner">
+                        <div class="risk-front"><i class="fa-solid fa-gears risk-icon"></i>
+                            <h4>Operational</h4>
+                        </div>
+                        <div class="risk-back">Smart contract bugs, Infrastructure dependency, Custody failure.</div>
+                    </div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-inner">
+                        <div class="risk-front"><i class="fa-solid fa-scale-balanced risk-icon"></i>
+                            <h4>Regulatory</h4>
+                        </div>
+                        <div class="risk-back">SEC Evolution, Security token classification (Reg D).</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. MARKET COMPARISON & LIQUIDITY -->
+        <div class="grid-2" style="margin-bottom:80px;" data-aos="fade-up">
             <!-- TABLEAU -->
             <div>
-                <h2>Market Positioning</h2>
+                <h2>Comparative Framework</h2>
                 <table class="comp-table">
                     <thead>
                         <tr>
                             <th>Feature</th>
-                            <th>Stablecoin (USDC)</th>
+                            <th>Stablecoin</th>
                             <th style="color:var(--accent-green)">BUIDL</th>
                         </tr>
                     </thead>
@@ -556,35 +719,35 @@
                             <td>Public</td>
                             <td>Qualified (KYC)</td>
                         </tr>
+                        <tr>
+                            <td><strong>On-Chain</strong></td>
+                            <td>Yes</td>
+                            <td>Yes</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- LIQUIDITY (User's Secret Box) -->
-            <div style="background:#0a0a0a; padding:40px; border-radius:0px; border:1px solid #333;">
+            <!-- LIQUIDITY -->
+            <div style="background:#0a0a0a; padding:40px; border:1px solid #333;">
                 <h3 style="color:white; margin-bottom:20px; font-size:20px;">The Liquidity Secret</h3>
                 <p style="color:#aaa; font-size:14px; line-height:1.6; margin-bottom:20px;">
-                    How to exit a $50M position on a Saturday night? <br>
-                    BlackRock established a <strong>Pre-funded Pool</strong> with Circle (USDC).
+                    How to exit a $50M position on a Saturday night? BlackRock established a <strong>Pre-funded
+                        Pool</strong> with Circle (USDC).
                 </p>
                 <div style="background:#000; padding:20px; border:1px dashed #444; font-size:13px; color:#888;">
                     <strong style="color:#fff; display:block; margin-bottom:10px;">INSTANT EXIT FLOW:</strong>
                     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                        <span>Sell BUIDL</span>
-                        <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i>
-                        <span>Smart Contract</span>
-                        <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i>
+                        <span>Sell BUIDL</span><i class="fa-solid fa-arrow-right" style="font-size:10px;"></i>
+                        <span>Contract</span><i class="fa-solid fa-arrow-right" style="font-size:10px;"></i>
                         <span style="color:white; font-weight:bold;">Receive USDC</span>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- FOOTER -->
-        <div class="footer">
-            DCM DIGITAL RESEARCH NOTE • STRICTLY CONFIDENTIAL • © 2026
-        </div>
+        <div class="footer">DCM DIGITAL RESEARCH NOTE • STRICTLY CONFIDENTIAL • © 2026</div>
 
     </div>
 
@@ -593,31 +756,26 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // SIMULATOR LOGIC
+        // SIMULATOR
         function calcEarnings() {
             const amount = parseFloat(document.getElementById('investInput').value);
             if (!amount) return;
-
             const rate = 0.0475; // 4.75%
             const daily = (amount * rate) / 365;
             const monthly = daily * 30;
-
             const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-
             document.getElementById('dailyYield').innerText = "+ " + fmt.format(daily);
             document.getElementById('monthlyYield').innerText = "+ " + fmt.format(monthly);
         }
         calcEarnings();
 
-        // PARTICLE BACKGROUND (Subtle)
+        // PARTICLES (Subtle)
         const canvas = document.getElementById('particles-js');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
         let particles = [];
-        const particleCount = 40; // Reduced for subtle effect
-
+        const particleCount = 40;
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
@@ -627,49 +785,34 @@
                 this.size = Math.random() * 2;
             }
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
+                this.x += this.vx; this.y += this.vy;
                 if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
             }
             draw() {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; // Faint white
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
-
         for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach((p, index) => {
-                p.update();
-                p.draw();
+                p.update(); p.draw();
                 for (let j = index + 1; j < particles.length; j++) {
                     const p2 = particles[j];
                     const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
                     if (dist < 120) {
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 - dist / 2400})`; // Very faint lines
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 - dist / 2400})`; ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
                     }
                 }
             });
             requestAnimationFrame(animate);
         }
         animate();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
     </script>
-
 </body>
 
 </html>
