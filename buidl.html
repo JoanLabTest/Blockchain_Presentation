@@ -13,6 +13,22 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap"
         rel="stylesheet">
 
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Comprehensive institutional analysis of BlackRock's BUIDL fund ($2.4B AUM). Breakdown of structure, multi-chain architecture, and strategic impact on capital markets.">
+    <meta name="keywords"
+        content="BlackRock BUIDL, Tokenized Funds, RWA, Securitize, Institutional Crypto, Money Market Fund, Ethereum, Solana">
+    <meta name="author" content="DCM Digital Insights">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="BlackRock BUIDL | Institutional Case Study (Feb 2026)">
+    <meta property="og:description"
+        content="Explore the $2.4B tokenized money market fund reshaping global finance. 3D Architecture, AUM Data, and Competitive Analysis.">
+    <meta property="og:image" content="https://joanlabtest.github.io/Blockchain_Presentation/assets/buidl_preview.png">
+    <meta property="og:url" content="https://joanlabtest.github.io/Blockchain_Presentation/buidl.html">
+    <meta name="twitter:card" content="summary_large_image">
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -74,8 +90,9 @@
                 <h3>Assets Under Management</h3>
                 <div class="value">$2.4B+</div>
                 <div class="sub">Largest Tokenized Fund Globally</div>
-                <div style="margin-top:20px; height:4px; background:rgba(255,255,255,0.1); border-radius:2px;">
-                    <div style="width:85%; height:100%; background:var(--accent-blue); border-radius:2px;"></div>
+                <!-- Mini Chart Area -->
+                <div style="margin-top:20px; position:relative; height:100px; width:100%;">
+                    <canvas id="aumChart"></canvas>
                 </div>
             </div>
 
@@ -92,8 +109,9 @@
             <div class="bento-card col-span-4" data-aos="fade-up" data-aos-delay="300">
                 <h3>Strategic Impact</h3>
                 <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.6;">
-                    BUIDL enables <strong>Instant Collateral</strong> utility for institutional treasuries, replacing
-                    idle stablecoins with yield-bearing assets.
+                    BUIDL enables <strong>Instant Collateral</strong> utility on major exchanges (e.g.,
+                    <strong>Binance</strong>) and institutional platforms like <strong>FalconX</strong> & <strong>Hidden
+                        Road</strong>.
                 </p>
             </div>
 
@@ -165,28 +183,58 @@
                 </div>
             </div>
 
-            <!-- Right: Explanatory Bento -->
+            <!-- Right: Explanatory Bento & Competitive Table -->
             <div style="display:flex; flex-direction:column; gap:20px;" data-aos="fade-left">
-                <div class="bento-card">
-                    <h3><i class="fas fa-fingerprint" style="color:var(--accent-blue);"></i> Identity (Securitize ID)
+
+                <!-- Competitive Table -->
+                <div class="bento-card" style="padding:20px;">
+                    <h3><i class="fas fa-scale-balanced" style="color:var(--accent-blue);"></i> Competitive Landscape
                     </h3>
-                    <p style="font-size:0.9rem; color:var(--text-secondary); line-height: 1.6;">
-                        Each wallet is whitelisted via on-chain KYC. Transfers are programmatically restricted to
-                        eligible Qualified Purchasers (Rule 506(c)).
-                    </p>
+                    <table
+                        style="width:100%; border-collapse:collapse; color:var(--text-secondary); font-size:0.85rem; margin-top:10px;">
+                        <thead>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1); text-align:left;">
+                                <th style="padding:10px;">Feature</th>
+                                <th style="color:#fff;">BUIDL</th>
+                                <th>USDC</th>
+                                <th>Ondo OUSG</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:10px;">Yield</td>
+                                <td style="color:var(--accent-green); font-weight:700;">~4.75%</td>
+                                <td>0%</td>
+                                <td>~4.70%</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:10px;">Structure</td>
+                                <td style="color:#fff;">Direct Tokenized Fund</td>
+                                <td>Payment Stablecoin</td>
+                                <td>ETF Wrapper</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:10px;">Reg Status</td>
+                                <td style="color:#fff;">SEC Reg D</td>
+                                <td>MTL / MiCA</td>
+                                <td>Reg D</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px;">Access</td>
+                                <td style="color:#fff;">Qualified Purchasers</td>
+                                <td>Public</td>
+                                <td>Qualified Purchasers</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+
                 <div class="bento-card">
                     <h3><i class="fas fa-building-columns" style="color:var(--accent-blue);"></i> Custody Network</h3>
                     <p style="font-size:0.9rem; color:var(--text-secondary); line-height: 1.6;">
                         <strong>Cash:</strong> BNY Mellon<br>
                         <strong>Crypto:</strong> Anchorage, BitGo, Fireblocks<br>
                         A hybrid approach maximizing security and speed.
-                    </p>
-                </div>
-                <div class="bento-card">
-                    <h3><i class="fas fa-money-bill-transfer" style="color:var(--accent-blue);"></i> $5M Minimum</h3>
-                    <p style="font-size:0.9rem; color:var(--text-secondary); line-height: 1.6;">
-                        Tailored for treasuries, DAOs, and Hedge Funds. Not a retail product.
                     </p>
                 </div>
             </div>
@@ -213,11 +261,22 @@
             <!-- AI Analyst -->
             <div class="bento-card col-span-6" data-aos="fade-up" data-aos-delay="200"
                 style="background:rgba(30, 41, 59, 0.4); border-color:var(--accent-blue);">
-                <h3><i class="fas fa-robot" style="color:var(--accent-blue);"></i> BUIDL Analyst (AI Agent)</h3>
-                <div class="analyst-body" style="padding:0; margin-top:15px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <h3 style="margin-bottom:0;"><i class="fas fa-robot" style="color:var(--accent-blue);"></i> BUIDL
+                        Analyst (AI Agent)</h3>
+                    <div style="opacity:0.8;">
+                        <i class="fas fa-circle-info" style="color:var(--text-secondary); cursor:help;"
+                            title="Ask about Yield, Custody, or Strategy."></i>
+                        <span style="font-size:0.75rem; color:var(--text-secondary); margin-left:5px;">Explorer</span>
+                    </div>
+                </div>
+
+                <div class="analyst-body" style="padding:0; margin-top:0;">
                     <div class="chat-message ai"
                         style="background:rgba(255,255,255,0.05); padding:15px; border-radius:8px; margin-bottom:15px; color:#e2e8f0; font-size:0.95rem;">
-                        Analyzing live metrics... BUIDL AUM is $2.4B. Ask me about yield or custody comparison.
+                        <strong><i class="fas fa-bolt" style="color:#fbbf24; margin-right:5px;"></i> Live
+                            Insight:</strong> BUIDL AUM is <strong>$2.45B</strong>. I can compare yields vs USDC,
+                        explain the 7-chain deployment, or detail BNY Mellon's custody role.
                     </div>
 
                     <!-- Prompts -->
@@ -249,14 +308,44 @@
                 </div>
             </div>
         </div>
+        <!-- References Footer -->
         <div
-            style="text-align:center; margin-top:80px; padding-bottom:40px; color:var(--text-secondary); font-size:0.8rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:20px;">
-            Case Study Prepared by DCM Digital • <a href="#"
-                style="color:var(--accent-blue); text-decoration:none;">Download Full PDF Report</a>
+            style="margin-top:60px; padding-top:30px; border-top:1px solid rgba(255,255,255,0.1); color:var(--text-secondary); font-size:0.8rem; display:grid; grid-template-columns: 1fr 1fr; gap:20px; text-align:left;">
+            <div>
+                <strong>Primary Sources:</strong>
+                <ul style="list-style:none; padding:0; margin-top:10px; line-height:1.8;">
+                    <li><a href="https://www.blackrock.com/us/individual/products/333011/blackrock-usd-institutional-digital-liquidity-fund"
+                            target="_blank" style="color:#64748b; text-decoration:none; transition:color 0.2s;"
+                            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">• BlackRock
+                            Official Product Page</a></li>
+                    <li><a href="https://securitize.io/invest/blackrock-buidl" target="_blank"
+                            style="color:#64748b; text-decoration:none; transition:color 0.2s;"
+                            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">• Securitize
+                            BUIDL Dashboard</a></li>
+                </ul>
+            </div>
+            <div>
+                <strong>Market Data:</strong>
+                <ul style="list-style:none; padding:0; margin-top:10px; line-height:1.8;">
+                    <li><a href="https://app.rwa.xyz/treasuries" target="_blank"
+                            style="color:#64748b; text-decoration:none; transition:color 0.2s;"
+                            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">• RWA.xyz
+                            Analytics (Treasuries)</a></li>
+                    <li><a href="https://dune.com/21co/tokenized-government-securities" target="_blank"
+                            style="color:#64748b; text-decoration:none; transition:color 0.2s;"
+                            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">• 21.co Dune
+                            Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:40px; color:#475569; font-size:0.75rem;">
+            Disclaimer: This page is for educational simulation purposes only. Not financial advice. BUIDL is a
+            trademark of BlackRock.
         </div>
     </section>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="config.js"></script>
     <script src="utils/auth.js"></script>
     <script src="utils/dev_mode_shared.js"></script>
@@ -265,6 +354,63 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
+
+        // --- AUM Chart Logic (Chart.js) ---
+        const ctx = document.getElementById('aumChart').getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)'); // Blue fade
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mar 24', 'Jul 24', 'Nov 24', 'Feb 26'],
+                datasets: [{
+                    label: 'AUM (Billions)',
+                    data: [0, 0.5, 1.5, 2.45],
+                    borderColor: '#3b82f6',
+                    backgroundColor: gradient,
+                    borderWidth: 2,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#3b82f6',
+                    pointRadius: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleColor: '#94a3b8',
+                        bodyColor: '#fff',
+                        borderColor: 'rgba(59, 130, 246, 0.3)',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    x: {
+                        display: false, // Hide X axis labels for clean look
+                        grid: { display: false }
+                    },
+                    y: {
+                        display: false, // Hide Y axis for clean sparkline look
+                        grid: { display: false },
+                        min: 0
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        });
 
         // --- 1. Progress Bar Logic ---
         window.addEventListener('scroll', () => {
