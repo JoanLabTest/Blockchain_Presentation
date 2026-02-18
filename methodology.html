@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Méthodologie & Données | DCM Digital Hub</title>
+
+    <!-- SEO -->
+    <meta name="description"
+        content="Documentation technique et méthodologique du DCM Digital Hub. Sources de données, algorithmes de recherche et modèles financiers.">
+    <meta name="robots" content="noindex, follow"> <!-- Internal use / Professional reference -->
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --border: #334155;
+            --code-bg: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        /* HEADER */
+        .method-header {
+            padding: 100px 20px 60px;
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Urbanist', sans-serif;
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* CONTENT */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            font-family: 'Urbanist', sans-serif;
+            font-size: 28px;
+            color: white;
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            font-size: 18px;
+            color: #cbd5e1;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        p,
+        li {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* CODE BLOCKS */
+        .code-block {
+            background: var(--code-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 20px 0;
+            color: #e2e8f0;
+        }
+
+        .equation {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 20px;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-size: 18px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Retour au Hub</a>
+    </nav>
+
+    <header class="method-header">
+        <h1>Méthodologie de Recherche</h1>
+        <p class="subtitle">Documentation technique des modèles, sources de données et algorithmes utilisés sur cette
+            plateforme.</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. DATA SOURCES -->
+        <section id="sources">
+            <h2>1. Sources de Données</h2>
+            <p>DCM Digital Hub agrège des données provenant de sources primaires et secondaires pour garantir
+                l'exactitude des analyses.</p>
+
+            <h3>Flux de Marché (Market Data)</h3>
+            <ul>
+                <li><strong>Prix Actifs (Crypto/Fiats) :</strong> CoinGecko API (Pro Plan) & Chainlink Price Feeds
+                    (On-chain Oracle).</li>
+                <li><strong>Rendements Staking :</strong> Beacon Chain Direct Data (Ethereum) & Validator Performance
+                    Indices.</li>
+                <li><strong>Risk Free Rate :</strong> US Treasury 10Y Yield (Bloomberg / FRED Data).</li>
+            </ul>
+
+            <h3>Données On-Chain</h3>
+            <ul>
+                <li><strong>Token Standards :</strong> ERC-3643 Association & EIP Repository.</li>
+                <li><strong>Transaction Volume :</strong> Etherscan & Dune Analytics Public Dashboards.</li>
+            </ul>
+        </section>
+
+        <!-- 2. SEARCH ALGORITHM -->
+        <section id="search-logic">
+            <h2>2. Algorithme de Recherche (Search 4.0)</h2>
+            <p>Le moteur de recherche interne n'utilise pas de base de données SQL classique mais un index inversé
+                vectoriel généré statiquement.</p>
+
+            <h3>Calcul du Score de Pertinence</h3>
+            <p>Le classement des résultats est déterminé par un algorithme TF-IDF pondéré par le contexte :</p>
+
+            <div class="equation">
+                Score = (TF × IDF) × (Field_Weight) × (Context_Boost)
+            </div>
+
+            <div class="code-block">
+                // PONDÉRATION DES CHAMPS (Field_Weight)
+                const WEIGHTS = {
+                title: 10, // Correspondance exacte dans le titre
+                h2: 5, // Sous-titre
+                keywords: 8, // Mots-clés méta
+                content: 1 // Corps du texte
+                };
+            </div>
+            <p>Un "Context Boost" de x1.5 est appliqué si le terme recherché appartient à la même catégorie sémantique
+                que la page en cours de lecture (ex: Recherche "Yield" depuis la page "Validator Economics").</p>
+        </section>
+
+        <!-- 3. FINANCIAL MODELS -->
+        <section id="models">
+            <h2>3. Modèles Financiers</h2>
+
+            <h3>Calcul du ROI Validateur</h3>
+            <p>Le simulateur présent sur <code>pos-economics.html</code> utilise la formule suivante pour estimer le
+                rendement net :</p>
+
+            <div class="equation">
+                ROI_Net = [ (Stake × APY_Gross) - OpEx_Yearly ] / Stake
+            </div>
+
+            <h3>Courbe de Dilution du Rendement</h3>
+            <p>La projection de baisse du rendement (Yield Decay) suit une courbe logarithmique inverse basée sur le
+                taux d'émission du protocole Ethereum (Issuance Curve) :</p>
+            <div class="code-block">
+                Yield(y) = c / sqrt(Total_Staked)
+                // Où 'c' est une constante définie par le protocole pour cibler une inflation spécifique.
+            </div>
+        </section>
+
+        <!-- 4. LIMITATIONS -->
+        <section id="limitations">
+            <h2>4. Limitations & Avertissements</h2>
+            <p>Afin de garantir une transparence totale ("Institutional Grade"), nous listons ici les limites connues de
+                nos modèles :</p>
+
+            <ul>
+                <li><strong>Latence des Données :</strong> Les prix affichés peuvent avoir un décalage de 60 secondes
+                    par rapport au marché spot (API Caching).</li>
+                <li><strong>Risques "Cygne Noir" :</strong> Les simulations de Stress Test (ex: Depeg) s'arrêtent à une
+                    déviation de -50%. Elles ne modélisent pas un effondrement total de l'infrastructure (L1 liveness
+                    failure).</li>
+                <li><strong>Fiscalité :</strong> Les calculs de ROI sont "Bruts de fiscalité". Aucune hypothèse fiscale
+                    (Flat Tax, IS) n'est intégrée.</li>
+            </ul>
+        </section>
+
+        <footer
+            style="margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12px; color: #64748b;">
+            <p>Dernière mise à jour de la méthodologie : <strong>Février 2026</strong>.<br>
+                Responsable de la Recherche : Joan Lyczak (Head of Blockchain Innovation).</p>
+        </footer>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>

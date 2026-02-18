@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Legal Matrix | DCM Digital Hub</title>
+    <meta name="description"
+        content="Comparateur de juridictions crypto : MiCA vs SEC vs VARA vs MAS. Analyse fiscale et réglementaire pour institutionnels.">
+    <meta name="robots" content="noindex, follow">
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- STYLES -->
+    <link rel="stylesheet" href="styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            /* MiCA - Safe */
+            --accent-orange: #f59e0b;
+            /* SEC - Caution */
+            --accent-gold: #fbbf24;
+            /* VARA - Opportunity */
+            --accent-blue: #3b82f6;
+            /* MAS - Standard */
+            --border: #334155;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            padding: 6px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            border-color: white;
+            color: white;
+        }
+
+        /* HERO & MAP */
+        .hero-section {
+            padding: 120px 20px 60px;
+            text-align: center;
+            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 70%);
+        }
+
+        .hero-title {
+            font-size: 42px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, white 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* MAP VISUALIZATION */
+        .map-container {
+            max-width: 900px;
+            height: 400px;
+            margin: 40px auto;
+            position: relative;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg') no-repeat center center;
+            background-size: contain;
+            filter: invert(1) opacity(0.1);
+            border: 1px dashed var(--border);
+            border-radius: 20px;
+        }
+
+        .map-node {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        .map-node:hover {
+            transform: scale(1.5);
+        }
+
+        .node-eu {
+            top: 32%;
+            left: 49%;
+            background: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .node-usa {
+            top: 35%;
+            left: 25%;
+            background: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        .node-uae {
+            top: 42%;
+            left: 56%;
+            background: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .node-sg {
+            top: 55%;
+            left: 75%;
+            background: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .node-label {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            color: white;
+            display: none;
+        }
+
+        .map-node:hover .node-label {
+            display: block;
+        }
+
+        /* MATRIX TABLE */
+        .matrix-container {
+            max-width: 1100px;
+            margin: 0 auto 80px;
+            overflow-x: auto;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .matrix-table th {
+            text-align: left;
+            padding: 20px;
+            border-bottom: 2px solid var(--border);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .matrix-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .matrix-header-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .tag-green {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+        }
+
+        .tag-orange {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-orange);
+        }
+
+        .tag-blue {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+        }
+
+        /* CALCULATOR */
+        .calc-box {
+            max-width: 800px;
+            margin: 0 auto 100px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .result-panel {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fas fa-globe" style="color: var(--accent-blue);"></i>
+            GLOBAL <span style="color: var(--text-muted);">LEGAL MATRIX</span>
+        </div>
+        <a href="index.html" class="back-link">Retour au Hub</a>
+    </nav>
+
+    <!-- HERO Map -->
+    <div class="hero-section">
+        <h1 class="hero-title" data-aos="fade-down">Arbitrage Réglementaire</h1>
+        <p style="color:var(--text-muted); max-width:600px; margin:0 auto;" data-aos="fade-up">Comparative analysis of
+            major crypto jurisdictions. Navigate the global regulatory fragmentation.</p>
+
+        <div class="map-container" data-aos="zoom-in" data-aos-delay="200">
+            <div class="map-node node-eu"><span class="node-label">EU (MiCA)</span></div>
+            <div class="map-node node-usa"><span class="node-label">USA (SEC)</span></div>
+            <div class="map-node node-uae"><span class="node-label">UAE (VARA)</span></div>
+            <div class="map-node node-sg"><span class="node-label">SG (MAS)</span></div>
+        </div>
+    </div>
+
+    <!-- MATRIX -->
+    <div class="matrix-container" data-aos="fade-up">
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th style="width:20%">Feature</th>
+                    <th style="width:20%">
+                        <div class="matrix-header-cell">
+                            <i class="fas fa-flag-eu" style="color:var(--accent-green)"></i> EU (MiCA)
+                        </div>
+                    </th>
+                    <th style="width:20%">
+                        <div class="matrix-header-cell">
+                            <i class="fas fa-flag-usa" style="color:var(--accent-orange)"></i> USA (SEC)
+                        </div>
+                    </th>
+                    <th style="width:20%">
+                        <div class="matrix-header-cell">
+                            <i class="fas fa-landmark" style="color:var(--accent-gold)"></i> UAE (VARA)
+                        </div>
+                    </th>
+                    <th style="width:20%">
+                        <div class="matrix-header-cell">
+                            <i class="fas fa-building" style="color:var(--accent-blue)"></i> SG (MAS)
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color:white; font-weight:bold;">Token Classification</td>
+                    <td>
+                        <span class="tag tag-green">Clear Taxonomy</span><br>
+                        Utility vs E-Money vs ART. Clear separation.
+                    </td>
+                    <td>
+                        <span class="tag tag-orange">Complex (Howey)</span><br>
+                        Most tokens risk being "Unregistered Securities".
+                    </td>
+                    <td>
+                        <span class="tag tag-green">Progressive</span><br>
+                        Virtual Asset specific framework.
+                    </td>
+                    <td>
+                        <span class="tag tag-blue">Pragmatic</span><br>
+                        Payment Token vs Capital Markets Product.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:white; font-weight:bold;">Onboarding (KYC)</td>
+                    <td>Strict (TFR Regulation). Travel Rule applied.</td>
+                    <td>Strict (BSA/AML). Sanctions focus.</td>
+                    <td>Flexible but Robust. Fast-track for Inst.</td>
+                    <td>Strict. High standard.</td>
+                </tr>
+                <tr>
+                    <td style="color:white; font-weight:bold;">Taxation (Corp)</td>
+                    <td>Varies (FR: 25%, IE: 12.5%).</td>
+                    <td>State dependent (21% Fed + State).</td>
+                    <td><span class="tag tag-gold"
+                            style="background:rgba(251, 191, 36, 0.2); color:var(--accent-gold)">0% / 9%</span> Free
+                        Zones available.</td>
+                    <td>17% (with exemptions).</td>
+                </tr>
+                <tr>
+                    <td style="color:white; font-weight:bold;">Primary Use Case</td>
+                    <td>RWA & Stablecoins (Euro)</td>
+                    <td>Equity & ETFs</td>
+                    <td>Trading & Prop Shops</td>
+                    <td>Wealth Management</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc-box" data-aos="fade-up">
+        <div>
+            <h2 style="color:white; margin-top:0;">⚡ Onboarding Friction Calculator</h2>
+            <p style="font-size:14px; color:var(--text-muted); margin-bottom:20px;">
+                Estimer la complexité administrative pour onboarder un investisseur en fonction de sa juridiction.
+            </p>
+
+            <div class="form-group">
+                <label class="form-label">Type d'Investisseur</label>
+                <select id="calc-type" class="form-select" onchange="calculateFriction()">
+                    <option value="retail">Retail (Particulier)</option>
+                    <option value="HNWI">HNWI (Fortune > 1M€)</option>
+                    <option value="inst">Institutionnel Regulé</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Juridiction de Résidence</label>
+                <select id="calc-region" class="form-select" onchange="calculateFriction()">
+                    <option value="eu">Union Européenne (MiCA)</option>
+                    <option value="us">États-Unis (Accredited)</option>
+                    <option value="offshore">Offshore / High Risk</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <span
+                style="color:var(--text-muted); font-size:12px; text-transform:uppercase; letter-spacing:1px;">Friction
+                Score</span>
+            <div id="friction-score" style="font-size:48px; font-weight:800; color:var(--accent-green); margin:10px 0;">
+                LOW</div>
+            <div id="friction-desc" style="font-size:13px; color:white;">Passporting automatique. KYC simplifié.</div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        function calculateFriction() {
+            const type = document.getElementById('calc-type').value;
+            const region = document.getElementById('calc-region').value;
+
+            let score = "LOW";
+            let color = "var(--accent-green)";
+            let desc = "Standard KYC.";
+
+            // Logic
+            if (region === 'us') {
+                score = "HIGH";
+                color = "var(--accent-orange)";
+                desc = "Req: Reg D/S Filing. Accredited Checks.";
+            } else if (region === 'offshore') {
+                score = "EXTREME";
+                color = "#ef4444";
+                desc = "Enhanced Due Diligence (EDD) Required.";
+            }
+
+            if (type === 'inst' && region === 'eu') {
+                score = "NONE";
+                color = "var(--accent-blue)";
+                desc = "MiCA Passporting. Instant Onboarding.";
+            }
+
+            // Update UI
+            const scoreEl = document.getElementById('friction-score');
+            scoreEl.innerText = score;
+            scoreEl.style.color = color;
+            document.getElementById('friction-desc').innerText = desc;
+        }
+    </script>
+</body>
+
+</html>

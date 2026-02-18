@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gouvernance & Sécurité | DCM Digital Hub</title>
+
+    <meta name="description"
+        content="Dashboard de Gouvernance On-Chain : Visualisation Multisig, Vote DAO et Timelock de sécurité.">
+    <meta name="robots" content="noindex, follow">
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- STYLES -->
+    <link rel="stylesheet" href="styles-footer.css">
+    <link rel="stylesheet" href="styles-print.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-gold: #f59e0b;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --border: #334155;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            padding: 6px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            border-color: white;
+            color: white;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1000px;
+            margin: 100px auto;
+            padding: 0 20px;
+        }
+
+        .section-box {
+            margin-bottom: 60px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        /* METRICS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .metric-val {
+            font-size: 24px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: white;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* MULTISIG VISUALIZER */
+        .multisig-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .signer-card {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 10px;
+            width: 140px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .signer-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--text-muted);
+        }
+
+        .signer-card.signed {
+            border-color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .signer-icon {
+            font-size: 24px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .signer-card.signed .signer-icon {
+            color: var(--accent-green);
+        }
+
+        .status-badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: #334155;
+            color: #94a3b8;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .signer-card.signed .status-badge {
+            background: var(--accent-green);
+            color: black;
+        }
+
+        /* VOTING */
+        .vote-bar-bg {
+            height: 12px;
+            background: #334155;
+            border-radius: 6px;
+            margin: 15px 0;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .vote-bar-for {
+            background: var(--accent-green);
+            width: 60%;
+            transition: width 1s;
+        }
+
+        .vote-bar-against {
+            background: var(--accent-red);
+            width: 10%;
+            transition: width 1s;
+        }
+
+        .vote-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-vote {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-vote:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-for:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .btn-against:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* TIMELOCK */
+        .timeline {
+            position: relative;
+            margin-top: 40px;
+            padding-left: 20px;
+            border-left: 2px solid var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -26px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            background: var(--bg-card);
+            border: 2px solid var(--text-muted);
+            border-radius: 50%;
+        }
+
+        .timeline-item.active .timeline-dot {
+            border-color: var(--accent-gold);
+            background: var(--accent-gold);
+            box-shadow: 0 0 10px var(--accent-gold);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fas fa-shield-alt" style="color: var(--accent-gold);"></i>
+            GOVERNANCE <span style="color: var(--text-muted);">HQ</span>
+        </div>
+        <a href="index.html" class="back-link">Retour au Hub</a>
+    </nav>
+
+    <div class="container">
+
+        <div class="hero-header" data-aos="fade-down">
+            <h1>Gouvernance Décentralisée</h1>
+            <p style="color:var(--text-muted);">Transparence totale sur les mécanismes de contrôle du protocole.</p>
+        </div>
+
+        <!-- 1. METRICS -->
+        <div class="metrics-grid" data-aos="fade-up">
+            <div class="metric-card">
+                <span style="font-size:12px; color:var(--text-muted);">TOTAL VOTING POWER</span>
+                <span class="metric-val" style="color:var(--accent-purple);">12.5M DCM</span>
+            </div>
+            <div class="metric-card">
+                <span style="font-size:12px; color:var(--text-muted);">TIMELOCK DELAY</span>
+                <span class="metric-val" style="color:var(--accent-gold);">48 HEURES</span>
+            </div>
+            <div class="metric-card">
+                <span style="font-size:12px; color:var(--text-muted);">ACTIVE PROPOSALS</span>
+                <span class="metric-val" style="color:var(--accent-green);">1</span>
+            </div>
+        </div>
+
+        <!-- 2. MULTISIG -->
+        <div class="section-box" data-aos="fade-up">
+            <h2><i class="fas fa-key" style="color:var(--accent-purple);"></i> Sécurité Multisig (3-of-5)</h2>
+            <p style="font-size:14px; color:var(--text-muted);">Toute modification critique du code nécessite la
+                signature cryptographique de 3 "Gardiens" distincts. Cliquez pour simuler une signature.</p>
+
+            <div class="multisig-container" id="multisig-grid">
+                <!-- Injected via JS -->
+            </div>
+
+            <div
+                style="margin-top:20px; text-align:center; font-family:'JetBrains Mono'; font-size:13px; color:var(--text-muted);">
+                STATUS: <span id="multisig-status" style="color:var(--accent-gold);">PENDING (0/5)</span>
+            </div>
+        </div>
+
+        <!-- 3. VOTING -->
+        <div class="section-box" data-aos="fade-up">
+            <h2><i class="fas fa-vote-yea" style="color:var(--accent-green);"></i> Vote DAO (Simulation)</h2>
+            <div style="background:rgba(0,0,0,0.2); padding:20px; border-radius:8px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h3 style="margin:0; font-size:18px; color:white;">DIP-12 : Increase Staking APY</h3>
+                    <span
+                        style="background:rgba(16, 185, 129, 0.2); color:var(--accent-green); font-size:10px; padding:3px 8px; border-radius:4px; font-weight:bold;">ACTIVE</span>
+                </div>
+                <p style="font-size:13px; color:var(--text-muted);">Proposition pour augmenter le taux de base des
+                    validateurs de 3.5% à 4.2% pour attirer plus de liquidité.</p>
+
+                <div class="vote-bar-bg">
+                    <div class="vote-bar-for" id="bar-for" style="width:65%;"></div>
+                    <div class="vote-bar-against" id="bar-against" style="width:15%;"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted);">
+                    <span id="txt-for">Pour: 65% (8.1M)</span>
+                    <span id="txt-against">Contre: 15% (1.8M)</span>
+                </div>
+
+                <div class="vote-actions">
+                    <button class="btn-vote btn-for" onclick="Governance.castVote('for')">Voter POUR</button>
+                    <button class="btn-vote btn-against" onclick="Governance.castVote('against')">Voter CONTRE</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. TIMELOCK -->
+        <div class="section-box" data-aos="fade-up">
+            <h2><i class="fas fa-hourglass-half" style="color:var(--accent-gold);"></i> Timelock de Sécurité</h2>
+            <p style="font-size:14px; color:var(--text-muted);">Protection contre les "Coups d'État". Une décision votée
+                ne s'applique jamais immédiatement.</p>
+
+            <div class="timeline">
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <strong style="color:white; font-size:14px;">Vote Validé</strong>
+                    <div style="font-size:12px; color:var(--text-muted);">Jour J</div>
+                </div>
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <strong style="color:white; font-size:14px;">Mise en Queue (Queued)</strong>
+                    <div style="font-size:12px; color:var(--text-muted);">Jour J + 1h</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <strong style="color:var(--text-muted); font-size:14px;">Délai de Sécurité (48h)</strong>
+                    <div style="font-size:12px; color:var(--accent-gold);">En attente... (Permet aux investisseurs de
+                        sortir)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <strong style="color:var(--text-muted); font-size:14px;">Exécution Automatique</strong>
+                    <div style="font-size:12px; color:var(--text-muted);">Jour J + 3</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="governance.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>

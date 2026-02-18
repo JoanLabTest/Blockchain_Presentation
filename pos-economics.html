@@ -10,6 +10,34 @@
     <meta name="description"
         content="Analyse économique du Proof-of-Stake (PoS) pour les institutions. ROI des validateurs, comparatif Ethereum/Solana, risques de Slashing et matrice de rentabilité.">
 
+    <!-- JSON-LD Structured Data (Report) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Report",
+      "headline": "Validator Economics - Analyse Financière du Staking",
+      "description": "Analyse économique du Proof-of-Stake (PoS) pour les institutions. ROI, Risques de Slashing, et Modèles de Rentabilité.",
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Digital Innovation Lab"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "DCM Digital Hub",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://joanlabtest.github.io/Blockchain_Presentation/assets/logo-dcm.png"
+        }
+      },
+      "datePublished": "2026-02-18",
+      "inLanguage": "fr",
+      "about": {
+        "@type": "Thing",
+        "name": "Proof of Stake Economics"
+      }
+    }
+    </script>
+
     <!-- FONTS -->
     <link
         href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
@@ -17,6 +45,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="styles-footer.css">
+    <link rel="stylesheet" href="styles-print.css"> <!-- PRINT CSS -->
+
+    <!-- MathJax for LaTeX Formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
         :root {
@@ -466,33 +499,77 @@
                     </div>
                 </section>
 
-                <!-- 4. ECONOMIC MODELS (NEW) -->
+                <!-- 4. ECONOMIC MODELS (QUANT UPGRADE) -->
                 <section id="section-4" class="section-box" data-aos="fade-up">
                     <h2><i class="fa-solid fa-square-root-variable" style="color: var(--accent-gold);"></i> 4.
-                        Modélisation Mathématique</h2>
-                    <p>Déconstruction de la formule de récompense basique (Modèle générique Proof-of-Stake).</p>
+                        Modélisation Mathématique (Quant)</h2>
+                    <p>Déconstruction de la formule de récompense avec notation académique.</p>
 
                     <div
-                        style="background:#1e293b; padding:30px; border-radius:12px; border:1px solid #334155; font-family:'JetBrains Mono', monospace; color:#cbd5e1; margin-top:20px;">
-                        <span style="color:var(--accent-blue)">Reward</span> =
-                        <span style="color:var(--accent-gold)">Base_Issuance</span> ×
-                        (<span style="color:#10b981">Val_Stake</span> / <span style="color:#a855f7">Total_Stake</span>)
-                        ×
-                        <span style="color:#f472b6">Performance_Factor</span>
+                        style="background:#1e293b; padding:30px; border-radius:12px; border:1px solid #334155; margin-top:20px; text-align:center;">
+                        <p style="color:#cbd5e1; font-family:'Times New Roman', serif; font-size:18px;">
+                            \[ R_{validator} = \frac{I_{base} \times P_{factor}}{\sqrt{S_{total}}} \times (1 -
+                            \phi_{burn}) \]
+                        </p>
+                        <p style="font-size:12px; color:#64748b; margin-top:10px;">
+                            Où \( I_{base} \) est l'inflation, \( P_{factor} \) la performance, \( S_{total} \) le stake
+                            global et \( \phi_{burn} \) le taux de destruction (EIP-1559).
+                        </p>
                     </div>
 
-                    <ul style="margin-top:20px; color:#94a3b8; font-size:15px; list-style:none; padding-left:0;">
-                        <li style="margin-bottom:10px;"><i class="fas fa-caret-right"
-                                style="color:var(--accent-gold); margin-right:10px;"></i> <strong>Base Issuance
-                                :</strong> Inflation programmée du protocole (ex: ETH émet ~2500 ETH/jour).</li>
-                        <li style="margin-bottom:10px;"><i class="fas fa-caret-right"
-                                style="color:var(--accent-gold); margin-right:10px;"></i> <strong>Stake Ratio :</strong>
-                            Votre part de propriété du réseau sécurisé.</li>
-                        <li><i class="fas fa-caret-right" style="color:var(--accent-gold); margin-right:10px;"></i>
-                            <strong>Performance Factor :</strong> Pourcentage d'uptime et d'attestations valides
-                            (downtime = 0).
-                        </li>
-                    </ul>
+                    <!-- RISK LAB -->
+                    <div
+                        style="margin-top: 50px; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border); border-radius: 16px; padding: 30px;">
+                        <h3 style="color:white; margin-top:0;"><i class="fas fa-flask"></i> Risk Lab : Sensitivity
+                            Analysis</h3>
+                        <p style="font-size:14px; color:#94a3b8; margin-bottom:30px;">Simulez l'impact des variables
+                            macro-économiques sur le rendement net.</p>
+
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
+                            <!-- CONTROLS -->
+                            <div>
+                                <div style="margin-bottom:20px;">
+                                    <label
+                                        style="color:#cbd5e1; font-size:13px; display:flex; justify-content:space-between;">
+                                        Global ETH Staked (Millions)
+                                        <span id="val-staked" style="color:var(--accent-blue)">30M</span>
+                                    </label>
+                                    <input type="range" id="slider-staked" min="10" max="100" value="30" step="1"
+                                        style="width:100%; accent-color:var(--accent-blue);">
+                                </div>
+                                <div style="margin-bottom:20px;">
+                                    <label
+                                        style="color:#cbd5e1; font-size:13px; display:flex; justify-content:space-between;">
+                                        Base Reward Factor
+                                        <span id="val-reward" style="color:var(--accent-gold)">64</span>
+                                    </label>
+                                    <input type="range" id="slider-reward" min="32" max="128" value="64" step="1"
+                                        style="width:100%; accent-color:var(--accent-gold);">
+                                </div>
+                                <div style="margin-bottom:20px;">
+                                    <label
+                                        style="color:#cbd5e1; font-size:13px; display:flex; justify-content:space-between;">
+                                        Network Activity (MEV Boost)
+                                        <span id="val-mev" style="color:#10b981">+15%</span>
+                                    </label>
+                                    <input type="range" id="slider-mev" min="0" max="50" value="15" step="5"
+                                        style="width:100%; accent-color:#10b981;">
+                                </div>
+                            </div>
+
+                            <!-- LIVE CHART -->
+                            <div style="height:200px;">
+                                <canvas id="sensitivityChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:20px; text-align:center;">
+                            <span
+                                style="font-size:12px; text-transform:uppercase; color:#64748b; letter-spacing:1px;">Projected
+                                APR</span>
+                            <div id="projected-apr" style="font-size:36px; font-weight:800; color:white;">3.85%</div>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- 5. YIELD CURVE -->
@@ -627,6 +704,7 @@
                 <div class="footer-col">
                     <h4>Informations</h4>
                     <ul class="footer-links">
+                        <li><a href="methodology.html">Méthodologie</a></li>
                         <li><a href="mentions-legales.html">Mentions Légales</a></li>
                         <li><a href="privacy.html">Politique de Confidentialité</a></li>
                         <li><a href="sitemap.xml">Sitemap</a></li>
@@ -641,9 +719,97 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="search-engine.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="citation.js"></script> <!-- AUTHORITY -->
     <script>
         AOS.init({ duration: 800, once: true });
+
+        // --- SENSITIVITY ANALYSIS LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('sensitivityChart').getContext('2d');
+
+            // Initial Data
+            const initialData = {
+                labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                datasets: [{
+                    label: 'Yield Projection (%)',
+                    data: [3.85, 3.5, 3.2, 3.0, 2.8],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            };
+
+            window.sensitivityChart = new Chart(ctx, {
+                type: 'line',
+                data: initialData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+
+            // Event Listeners
+            ['slider-staked', 'slider-reward', 'slider-mev'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updateSensitivity);
+            });
+
+            // Initial update to set correct values and chart
+            updateSensitivity();
+        });
+
+        function updateSensitivity() {
+            // 1. Get Values
+            const staked = parseInt(document.getElementById('slider-staked').value); // Millions
+            const baseFactor = parseInt(document.getElementById('slider-reward').value);
+            const mevBoost = parseInt(document.getElementById('slider-mev').value); // Percent
+
+            // 2. Update Labels
+            document.getElementById('val-staked').innerText = staked + "M";
+            document.getElementById('val-reward').innerText = baseFactor;
+            document.getElementById('val-mev').innerText = "+" + mevBoost + "%";
+
+            // 3. Calculate Base Yield (Simplified Formula mimicking Eth curve)
+            // Yield ~ c / sqrt(staked)
+            // Base Constant derived to match ~3.5% at 30M staked with factor 64
+            const k = 19.5; // Constant to calibrate
+            let baseYield = (k * Math.sqrt(baseFactor)) / Math.sqrt(staked);
+
+            // Apply MEV Boost
+            let finalYield = baseYield * (1 + (mevBoost / 100));
+
+            // 4. Update Display
+            document.getElementById('projected-apr').innerText = finalYield.toFixed(2) + "%";
+
+            // 5. Update Chart (Simulate decay over years)
+            const newData = [
+                finalYield,
+                finalYield * 0.92,
+                finalYield * 0.85,
+                finalYield * 0.80,
+                finalYield * 0.75
+            ];
+
+            window.sensitivityChart.data.datasets[0].data = newData;
+            window.sensitivityChart.update();
+        }
 
         // --- SCROLL SPY ---
         const sections = document.querySelectorAll('section');

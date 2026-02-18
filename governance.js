@@ -1,63 +1,88 @@
-// governance.js
-// Governance & Legal Hardening Engine for Research OS
-// Provides Radical Transparency on "Who controls the protocol"
+/* GOVERNANCE ENGINE - PHASE 13 */
 
-const GovernanceEngine = {
-    data: {
-        entity: {
-            name: "DCM Digital Assets SAS",
-            lei: "969500A1B2C3D4E5F678", // Mock LEI
-            jurisdiction: "Paris, France (MiCA)",
-            regulator: "AMF / ACPR"
-        },
-        multisig: {
-            address: "0x5A...9F2B",
-            signers: 5,
-            threshold: 3, // 3 of 5 required
-            signersList: [
-                { role: "Custody Head", status: "Active" },
-                { role: "Compliance Officer", status: "Active" },
-                { role: "Risk Manager", status: "Active" },
-                { role: "Legal Counsel", status: "Offline" },
-                { role: "Ext. Auditor", status: "Active" }
-            ]
-        },
-        timelock: {
-            delay: "48 hours",
-            pendingActions: [] // No upgrades pending
-        }
+const Governance = {
+    state: {
+        signers: [
+            { role: "Risk Manager", icon: "fa-chart-line", signed: false },
+            { role: "Tech Lead", icon: "fa-code", signed: false },
+            { role: "Custodian", icon: "fa-university", signed: false },
+            { role: "Legal Head", icon: "fa-balance-scale", signed: false },
+            { role: "Community Rep", icon: "fa-users", signed: false }
+        ],
+        signatures: 0,
+        threshold: 3,
+        voted: false
     },
 
     init() {
-        console.log("⚖️ Initializing Governance Transparency Layer...");
-        this.renderGovernanceWidget();
+        this.renderMultisig();
     },
 
-    renderGovernanceWidget() {
-        // Find container or inject if missing (Strategy: Append to main wrapper if specific ID not found)
-        // For this implementation, we assume a container with ID 'governance-module' exists
-        // or we render generically.
+    renderMultisig() {
+        const grid = document.getElementById('multisig-grid');
+        grid.innerHTML = '';
 
-        this.updateDOM('gov-entity', this.data.entity.name);
-        this.updateDOM('gov-lei', this.data.entity.lei);
-        this.updateDOM('gov-jurisdiction', this.data.entity.jurisdiction);
+        this.state.signers.forEach((s, index) => {
+            const card = document.createElement('div');
+            card.className = `signer-card ${s.signed ? 'signed' : ''}`;
+            card.onclick = () => this.toggleSigner(index);
+            card.innerHTML = `
+                <i class="fas ${s.icon} signer-icon"></i>
+                <div style="font-weight:bold; color:white; font-size:12px; margin-bottom:5px;">${s.role}</div>
+                <div class="status-badge">${s.signed ? 'SIGNED' : 'WAITING'}</div>
+            `;
+            grid.appendChild(card);
+        });
 
-        this.updateDOM('gov-multisig-threshold', `${this.data.multisig.threshold}/${this.data.multisig.signers}`);
-        this.updateDOM('gov-timelock', this.data.timelock.delay);
+        this.updateMultisigStatus();
+    },
 
-        // Security Status Logic
-        const securityBadge = document.getElementById('gov-security-badge');
-        if (securityBadge) {
-            securityBadge.innerHTML = `<i class="fas fa-shield-alt"></i> AUDITED & REGULATED`;
-            securityBadge.style.color = "#10b981"; // Green
+    toggleSigner(index) {
+        // Toggle Logic
+        this.state.signers[index].signed = !this.state.signers[index].signed;
+        this.state.signatures = this.state.signers.filter(s => s.signed).length;
+
+        // Re-render
+        this.renderMultisig();
+    },
+
+    updateMultisigStatus() {
+        const el = document.getElementById('multisig-status');
+        const count = this.state.signatures;
+        const required = this.state.threshold;
+
+        if (count >= required) {
+            el.innerHTML = `<span style="color:#10b981"><i class="fas fa-check-circle"></i> QUORUM REACHED (${count}/${this.state.signers.length})</span> - READY TO EXECUTE`;
+            // Trigger visual feedback (optional)
+        } else {
+            el.innerHTML = `PENDING (${count}/${required} Required)`;
         }
     },
 
-    updateDOM(id, value) {
-        const el = document.getElementById(id);
-        if (el) el.innerText = value;
+    castVote(direction) {
+        if (this.state.voted) {
+            alert("Vote already cast from this address.");
+            return;
+        }
+
+        const barFor = document.getElementById('bar-for');
+        const txtFor = document.getElementById('txt-for');
+
+        // Simulate Network Request
+        setTimeout(() => {
+            if (direction === 'for') {
+                barFor.style.width = '82%';
+                txtFor.innerText = 'Pour: 82% (10.2M)';
+                alert("✅ Vote Confirmé: +150k DCM pour 'Increase Yield'");
+            } else {
+                // Logic for against
+                document.getElementById('bar-against').style.width = '25%';
+                document.getElementById('txt-against').innerText = 'Contre: 25% (3.1M)';
+                alert("❌ Vote Confirmé: Contre la proposition");
+            }
+            this.state.voted = true;
+        }, 300);
     }
 };
 
-// Auto-init
-document.addEventListener('DOMContentLoaded', () => GovernanceEngine.init());
+document.addEventListener('DOMContentLoaded', () => Governance.init());
