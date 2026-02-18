@@ -17,6 +17,7 @@
     <!-- MATH -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         /* --- DESIGN SYSTEM (INSTITUTIONAL DARK) --- */
@@ -513,6 +514,100 @@
             color: var(--accent-green);
             font-size: 18px;
         }
+
+        /* --- VISUAL RISK MATRIX --- */
+        .risk-matrix-grid {
+            display: grid;
+            grid-template-columns: 40px 1fr 1fr 1fr;
+            grid-template-rows: auto 1fr 1fr 1fr;
+            gap: 5px;
+            margin-top: 30px;
+            background: #1e293b;
+            padding: 5px;
+            border-radius: 8px;
+        }
+
+        .rm-header {
+            font-weight: bold;
+            text-align: center;
+            font-size: 12px;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rm-axis-y {
+            grid-row: 2 / span 3;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .rm-axis-x {
+            grid-column: 2 / span 3;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .rm-cell {
+            background: #0f172a;
+            border: 1px solid #333;
+            min-height: 120px;
+            position: relative;
+            padding: 10px;
+            transition: 0.2s;
+        }
+
+        .rm-cell:hover {
+            background: #1a2333;
+        }
+
+        /* Risk Points */
+        .risk-point {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            margin: 2px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: 0.2s;
+        }
+
+        .risk-point:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .rp-high {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .rp-med {
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .rp-low {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        /* Chart Canvas */
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -539,6 +634,7 @@
             <li class="toc-item"><a href="#section-7" class="toc-link">7. Perspective Institutionnelle</a></li>
             <li class="toc-item"><a href="#section-8" class="toc-link">8. Sim Rendement Réel</a></li>
             <li class="toc-item"><a href="#section-9" class="toc-link">9. Analytique Avancée</a></li>
+            <li class="toc-item"><a href="#section-10" class="toc-link">10. Fiscalité & Conformité</a></li>
         </ul>
     </div>
 
@@ -624,6 +720,10 @@
                     </div>
                     <div style="text-align:right; font-size:12px; color:var(--text-muted); margin-top:5px;">
                         Gain dû à la composition : <span id="apyDiff" style="color:var(--accent-green)">+0.52%</span>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="apyChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -714,53 +814,60 @@
             <h2>4. Cadre de Risques (5 Points)</h2>
             <p>Évaluation institutionnelle des risques de staking au-delà de la simple volatilité de marché.</p>
 
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th style="width:20%">Catégorie de Risque</th>
-                        <th style="width:35%">Définition & Scénario</th>
-                        <th style="width:30%">Atténuation</th>
-                        <th style="width:15%">Sévérité</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong><i class="fa-solid fa-scissors"></i> Risque de Slashing</strong></td>
-                        <td>Perte de principal due à une faute du validateur.<br><small>Scénario : Double signature,
-                                temps d'arrêt prolongé.</small></td>
-                        <td>Opérateurs Tier-1, DVT (Distributed Validator Tech).</td>
-                        <td><span class="risk-tag r-yellow">MOYEN</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong><i class="fa-solid fa-bug"></i> Smart Contract</strong></td>
-                        <td>Bugs ou exploits dans le protocole de staking/LSD.<br><small>Scénario : Hack Liquid Staking
-                                (ex: Curve/Vyper).</small></td>
-                        <td>Audits, Bug Bounties, Assurance Protocolaire.</td>
-                        <td><span class="risk-tag r-red">CRITIQUE</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong><i class="fa-solid fa-droplet-slash"></i> Risque de Liquidité</strong></td>
-                        <td>Incapacité de sortir rapidement.<br><small>Scénario : Périodes de déblocage (21j cosmos),
-                                Depegs.</small></td>
-                        <td>Utiliser des Liquid Staking Tokens (LST) très liquides.</td>
-                        <td><span class="risk-tag r-yellow">MOYEN</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong><i class="fa-solid fa-arrow-down-wide-short"></i> Compression de Yield</strong></td>
-                        <td>Dilution du taux avec plus de stakers.<br><small>Scénario : La participation passe de 20% à
-                                50%.</small></td>
-                        <td>Surveiller les ratios de staking et les files d'attente.</td>
-                        <td><span class="risk-tag r-green">FAIBLE</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong><i class="fa-solid fa-chart-simple"></i> Risque de Marché</strong></td>
-                        <td>Baisse du prix de l'actif > Gains de rendement.<br><small>Scénario : +5% Rendement, -20%
-                                Prix = -15% Net.</small></td>
-                        <td>Hedging (Perps/Options) ou stratégies Delta-Neutre.</td>
-                        <td><span class="risk-tag r-red">ÉLEVÉ</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="risk-matrix-grid">
+                <!-- Header Row -->
+                <div class="rm-header"></div>
+                <div class="rm-header" style="background:#22c55e20; color:var(--accent-green)">IMPACT FAIBLE</div>
+                <div class="rm-header" style="background:#eab30820; color:var(--accent-gold)">IMPACT MOYEN</div>
+                <div class="rm-header" style="background:#ef444420; color:var(--accent-red)">IMPACT CRITIQUE</div>
+
+                <!-- Axis Labels -->
+                <div class="rm-axis-y">PROBABILITÉ</div>
+
+                <!-- Row 1: ÉLEVÉE -->
+                <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
+                    FRÉQUENT</div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-low" title="Fluctuations mineures du rendement">Yield Compression</div>
+                </div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-med" title="Volatilité prix > rendement">Volatilité Marché</div>
+                </div>
+                <div class="rm-cell">
+                    <!-- Vide -->
+                </div>
+
+                <!-- Row 2: MOYENNE -->
+                <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
+                    OCCASIONNEL</div>
+                <div class="rm-cell">
+                    <!-- Vide -->
+                </div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-med" title="Délai de déblocage">Illiquidité (21j)</div>
+                </div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-high" title="Pénalité mineure de slashing">Slashing (Downtime)</div>
+                </div>
+
+                <!-- Row 3: RARE -->
+                <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">RARE
+                </div>
+                <div class="rm-cell">
+                    <!-- Vide -->
+                </div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-high" title="Depeg Stablecoin/LST">Validateur Malicieux</div>
+                </div>
+                <div class="rm-cell" style="background:rgba(239,68,68,0.05)">
+                    <div class="risk-point rp-high" title="Echec complet du protocole ou Hack">Smart Contract Exploit
+                    </div>
+                </div>
+            </div>
+
+            <div style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:10px;">
+                <i class="fa-solid fa-arrows-up-down-left-right"></i> Survolez les risques pour voir les détails.
+            </div>
         </div>
 
         <!-- 5. DEFI ILLUSIONS -->
@@ -923,7 +1030,8 @@
                             style="margin-bottom:10px; accent-color:var(--text-muted);" oninput="calcRealYield()">
                         <div
                             style="font-family:'JetBrains Mono'; font-size:12px; text-align:right; color:var(--text-muted);">
-                            <span id="durationVal">1</span> Ans</div>
+                            <span id="durationVal">1</span> Ans
+                        </div>
                     </div>
 
                     <div class="input-group">
@@ -946,6 +1054,10 @@
                                 style="color:white;">+8000 Jetons</span></div>
                         <div style="color:var(--text-muted);">P&L Net : <span id="netPnl"
                                 style="color:var(--accent-red)">-13.60%</span></div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="yieldChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -1042,100 +1154,281 @@
             </div>
         </div>
 
+        <!-- 10. FISCALITY & COMPLIANCE -->
+        <div id="section-10" class="section-box" data-aos="fade-up" style="border:none;">
+            <h2>10. Fiscalité & Conformité (Focus France/EU)</h2>
+            <div class="grid-2">
+                <div>
+                    <h3><i class="fa-solid fa-scale-balanced" style="color:var(--accent-blue)"></i> Régime Fiscal</h3>
+                    <p>Traitement des revenus de staking pour les résidents fiscaux français et sociétés.</p>
+
+                    <div class="card" style="margin-bottom:20px;">
+                        <h4>Personnes Physiques (Retail)</h4>
+                        <ul style="font-size:14px; margin-top:10px;">
+                            <li><strong>Flat Tax (PFU) :</strong> 30% sur les plus-values lors de la conversion en Fiat.
+                            </li>
+                            <li><strong>Transactions Crypto-Crypto :</strong> Neutralisées (pas d'imposition tant que ça
+                                reste en crypto).</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-left:4px solid var(--accent-purple);">
+                        <h4>Sociétés (IS)</h4>
+                        <ul style="font-size:14px; margin-top:10px;">
+                            <li><strong>Impôt sur les Sociétés :</strong> 15% (PME) ou 25%.</li>
+                            <li><strong>Latence :</strong> Les gains doivent être comptabilisés à la valeur de marché au
+                                moment de la réception (Mark-to-Market), même sans conversion.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h3><i class="fa-solid fa-passport" style="color:var(--accent-green)"></i> Statut Réglementaire</h3>
+                    <div class="callout callout-inst">
+                        <div>
+                            <strong>MiCA (Markets in Crypto-Assets) :</strong>
+                            L'UE établit un cadre clair. Les services de Staking peuvent être fournis par des CASP
+                            (Crypto-Asset Service Providers) agréés.
+                        </div>
+                    </div>
+
+                    <h3>Documentation Requise (Audit)</h3>
+                    <ul style="font-size:14px;">
+                        <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Preuve de
+                                Délégation :</strong> Transaction on-chain vers le validateur.</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Relevé de
+                                Récompenses :</strong> Export CSV quotidien des rewards reçus.</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Valorisation
+                                :</strong> Prix du token au jour de chaque reward.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-    AOS.init({ duration: 800, once: true, offset: 100 });
+        AOS.init({ duration: 800, once: true, offset: 100 });
 
-    /* --- APR to APY CALCULATOR --- */
-    function calcAPY() {
-        const apr = parseFloat(document.getElementById('aprInput').value);
-        const freq = parseFloat(document.getElementById('freqInput').value);
-        
-        if(!isNaN(apr) && !isNaN(freq)) {
-            const r = apr / 100;
-            const apy = (Math.pow((1 + r/freq), freq) - 1) * 100;
-            const diff = apy - apr;
-            
-            document.getElementById('apyResult').innerText = apy.toFixed(2) + "%";
-            
-            const diffEl = document.getElementById('apyDiff');
-            diffEl.innerText = "+" + diff.toFixed(2) + "%";
-            diffEl.style.color = diff > 0.5 ? "var(--accent-green)" : "var(--text-muted)";
+        // --- GLOBAL CHART CONFIG ---
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = '#334155';
+        let apyChartInstance = null;
+        let yieldChartInstance = null;
+
+        /* --- APR to APY CALCULATOR --- */
+        function calcAPY() {
+            const apr = parseFloat(document.getElementById('aprInput').value);
+            const freq = parseFloat(document.getElementById('freqInput').value);
+
+            if (!isNaN(apr) && !isNaN(freq)) {
+                const r = apr / 100;
+                const apy = (Math.pow((1 + r / freq), freq) - 1) * 100;
+                const diff = apy - apr;
+
+                document.getElementById('apyResult').innerText = apy.toFixed(2) + "%";
+
+                const diffEl = document.getElementById('apyDiff');
+                diffEl.innerText = "+" + diff.toFixed(2) + "%";
+                diffEl.style.color = diff > 0.5 ? "var(--accent-green)" : "var(--text-muted)";
+
+                updateAPYChart(apr, apy);
+            }
         }
-    }
 
-    /* --- REAL YIELD SIMULATOR --- */
-    function calcRealYield() {
-        const P = parseFloat(document.getElementById('principal').value);
-        const APY = parseFloat(document.getElementById('apy').value);
-        const Duration = parseFloat(document.getElementById('duration').value);
-        const PriceChange = parseFloat(document.getElementById('priceChange').value);
+        function updateAPYChart(apr, apy) {
+            const ctx = document.getElementById('apyChart').getContext('2d');
 
-        // Update UI displays
-        document.getElementById('priceVal').innerText = (PriceChange > 0 ? "+" : "") + PriceChange + "%";
-        document.getElementById('durationVal').innerText = Duration;
+            // Generate data points for 12 months
+            const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const dataAPR = [];
+            const dataAPY = [];
 
-        // Logic: 
-        // 1. Calculate Compound Token Growth
-        // Tokens = P * (1 + APY/100)^Duration
-        const tokensEnd = P * Math.pow((1 + APY/100), Duration);
-        
-        // 2. Adjust for Price change
-        // Assumes P starts as 1:1 value ratio for simplicity in display, or simply P is principal value.
-        // Actually, logic is: Final Value = (Tokens End amount) * (Price Multiplier)
-        // Since input P is in Dollars, we simulate 'Token Units' = P (assuming $1 start price)
-        
-        const priceMultiplier = 1 * (1 + PriceChange/100);
-        const finalValue = tokensEnd * priceMultiplier;
-
-        // 3. Metrics
-        const nominalGain = tokensEnd - P;
-        const pnlPercent = ((finalValue - P) / P) * 100;
-        
-        // Formatting
-        const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-        const numFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
-
-        document.getElementById('finalValue').innerText = formatter.format(finalValue);
-        document.getElementById('nominalGain').innerText = "+" + numFormatter.format(nominalGain) + " (Nominal)";
-        
-        const pnlEl = document.getElementById('netPnl');
-        pnlEl.innerText = (pnlPercent > 0 ? "+" : "") + pnlPercent.toFixed(2) + "%";
-        pnlEl.style.color = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
-        
-        // Dynamic calc box border color
-        const box = document.querySelector('#section-8 .calc-box');
-        box.style.borderTopColor = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
-    }
-
-    // Initialize Calculators
-    calcAPY();
-    calcRealYield();
-
-    // Scroll Spy for TOC
-    const sections = document.querySelectorAll('.section-box');
-    const navLinks = document.querySelectorAll('.toc-link');
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (pageYOffset >= (sectionTop - 200)) {
-                current = section.getAttribute('id');
+            for (let i = 0; i <= 12; i++) {
+                dataAPR.push(100 * (1 + (apr / 100) * (i / 12))); // Simple interest linear
+                dataAPY.push(100 * Math.pow((1 + apy / 100), i / 12)); // Compound interest exponential
             }
+
+            if (apyChartInstance) {
+                apyChartInstance.data.datasets[0].data = dataAPR;
+                apyChartInstance.data.datasets[1].data = dataAPY;
+                apyChartInstance.update();
+            } else {
+                apyChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Intérêt Simple (APR)',
+                                data: dataAPR,
+                                borderColor: '#3b82f6',
+                                borderDash: [5, 5],
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Intérêt Composé (APY)',
+                                data: dataAPY,
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                fill: true,
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            tooltip: { mode: 'index', intersect: false }
+                        },
+                        scales: {
+                            y: { display: false }
+                        }
+                    }
+                });
+            }
+        }
+
+        /* --- REAL YIELD SIMULATOR --- */
+        function calcRealYield() {
+            const P = parseFloat(document.getElementById('principal').value);
+            const APY = parseFloat(document.getElementById('apy').value);
+            const Duration = parseFloat(document.getElementById('duration').value);
+            const PriceChange = parseFloat(document.getElementById('priceChange').value);
+
+            // Update UI displays
+            document.getElementById('priceVal').innerText = (PriceChange > 0 ? "+" : "") + PriceChange + "%";
+            document.getElementById('durationVal').innerText = Duration;
+
+            // Logic: 
+            const tokensStart = P; // Assuming $1 = 1 Token for start
+            // Tokens = P * (1 + APY/100)^Duration
+            const tokensEnd = P * Math.pow((1 + APY / 100), Duration);
+            const priceMultiplier = 1 * (1 + PriceChange / 100);
+            const finalValue = tokensEnd * priceMultiplier;
+
+            // Metrics
+            const nominalGain = tokensEnd - P;
+            const pnlPercent = ((finalValue - P) / P) * 100;
+
+            // Formatting
+            const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+            const numFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+
+            document.getElementById('finalValue').innerText = formatter.format(finalValue);
+            document.getElementById('nominalGain').innerText = "+" + numFormatter.format(nominalGain) + " (Nominal)";
+
+            const pnlEl = document.getElementById('netPnl');
+            pnlEl.innerText = (pnlPercent > 0 ? "+" : "") + pnlPercent.toFixed(2) + "%";
+            pnlEl.style.color = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+
+            // Dynamic calc box border color
+            const box = document.querySelector('#section-8 .calc-box');
+            box.style.borderTopColor = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+
+            updateYieldChart(P, finalValue, Duration, PriceChange);
+        }
+
+        function updateYieldChart(principal, finalValue, duration, priceChange) {
+            const ctx = document.getElementById('yieldChart').getContext('2d');
+
+            const isProfit = finalValue >= principal;
+            const color = isProfit ? '#10b981' : '#ef4444';
+
+            const labels = ['Investissement Initial', 'Valeur Finale (' + duration + ' ans)'];
+            const data = [principal, finalValue];
+
+            if (yieldChartInstance) {
+                yieldChartInstance.data.labels = labels;
+                yieldChartInstance.data.datasets[0].data = data;
+                yieldChartInstance.data.datasets[0].backgroundColor = [
+                    '#3b82f6', // Initial is always blue
+                    color
+                ];
+                yieldChartInstance.update();
+            } else {
+                yieldChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Valeur de Portefeuille ($)',
+                            data: data,
+                            backgroundColor: ['#3b82f6', color],
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: '#333' } }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize Calculators (and Charts)
+        // Delay slightly to ensure canvas is ready
+        setTimeout(() => {
+            calcAPY();
+            calcRealYield();
+        }, 100);
+
+        // Scroll Spy for TOC
+        const sections = document.querySelectorAll('.section-box');
+        const navLinks = document.querySelectorAll('.toc-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link && link.getAttribute('href') && link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
         });
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').includes(current)) {
-                link.classList.add('active');
-            }
-        });
-    });
+        /* --- CORRELATION HEATMAP --- */
+        function colorizeCorrelationMatrix() {
+            const cells = document.querySelectorAll('.corr-val');
+            cells.forEach(cell => {
+                const val = parseFloat(cell.innerText);
+                if (isNaN(val)) return;
+
+                // Color Logic
+                cell.style.color = "#fff";
+                if (val >= 0.7) {
+                    cell.style.backgroundColor = "rgba(16, 185, 129, 0.2)"; // Strong Green
+                    cell.style.color = "var(--accent-green)";
+                } else if (val >= 0.3) {
+                    cell.style.backgroundColor = "rgba(16, 185, 129, 0.05)"; // Weak Green
+                } else if (val <= -0.5) {
+                    cell.style.backgroundColor = "rgba(239, 68, 68, 0.2)"; // Strong Red
+                    cell.style.color = "var(--accent-red)";
+                } else if (val < 0) {
+                    cell.style.backgroundColor = "rgba(239, 68, 68, 0.05)"; // Weak Red
+                }
+            });
+        }
+
+        colorizeCorrelationMatrix();
 
     </script>
 
