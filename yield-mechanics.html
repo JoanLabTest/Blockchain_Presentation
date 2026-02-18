@@ -26,7 +26,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="styles-footer.css">
     <!-- MATH -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -1440,127 +1439,133 @@
 
             // Update UI displays
             document.getElementById('priceVal').innerText = (PriceChange > 0 ? "+" : "") + PriceChange + "%";
-    document.getElementById('durationVal').innerText = Duration;
+            document.getElementById('durationVal').innerText = Duration;
 
-    // Logic:
-    const tokensStart = P; // Assuming $1 = 1 Token for start
-    // Tokens = P * (1 + APY/100)^Duration
-    const tokensEnd = P * Math.pow((1 + APY / 100), Duration);
-    const priceMultiplier = 1 * (1 + PriceChange / 100);
-    const finalValue = tokensEnd * priceMultiplier;
+            // Logic:
+            const tokensStart = P; // Assuming $1 = 1 Token for start
+            // Tokens = P * (1 + APY/100)^Duration
+            const tokensEnd = P * Math.pow((1 + APY / 100), Duration);
+            const priceMultiplier = 1 * (1 + PriceChange / 100);
+            const finalValue = tokensEnd * priceMultiplier;
 
-    // Metrics
-    const nominalGain = tokensEnd - P;
-    const pnlPercent = ((finalValue - P) / P) * 100;
+            // Metrics
+            const nominalGain = tokensEnd - P;
+            const pnlPercent = ((finalValue - P) / P) * 100;
 
-    // Formatting
-    const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-    const numFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+            // Formatting
+            const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+            const numFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
 
-    document.getElementById('finalValue').innerText = formatter.format(finalValue);
-    document.getElementById('nominalGain').innerText = "+" + numFormatter.format(nominalGain) + " (Nominal)";
+            document.getElementById('finalValue').innerText = formatter.format(finalValue);
+            document.getElementById('nominalGain').innerText = "+" + numFormatter.format(nominalGain) + " (Nominal)";
 
-    const pnlEl = document.getElementById('netPnl');
-    pnlEl.innerText = (pnlPercent > 0 ? "+" : "") + pnlPercent.toFixed(2) + "%";
-    pnlEl.style.color = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+            const pnlEl = document.getElementById('netPnl');
+            pnlEl.innerText = (pnlPercent > 0 ? "+" : "") + pnlPercent.toFixed(2) + "%";
+            pnlEl.style.color = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
 
-    // Dynamic calc box border color
-    const box = document.querySelector('#section-8 .calc-box');
-    box.style.borderTopColor = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+            // Dynamic calc box border color
+            const box = document.querySelector('#section-8 .calc-box');
+            box.style.borderTopColor = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
 
-    updateYieldChart(P, finalValue, Duration, PriceChange);
-    }
+            updateYieldChart(P, finalValue, Duration, PriceChange);
+        }
 
-    function updateYieldChart(principal, finalValue, duration, priceChange) {
-    const ctx = document.getElementById('yieldChart').getContext('2d');
+        function updateYieldChart(principal, finalValue, duration, priceChange) {
+            const ctx = document.getElementById('yieldChart').getContext('2d');
 
-    const isProfit = finalValue >= principal;
-    const color = isProfit ? '#10b981' : '#ef4444';
+            const isProfit = finalValue >= principal;
+            const color = isProfit ? '#10b981' : '#ef4444';
 
-    const labels = ['Investissement Initial', 'Valeur Finale (' + duration + ' ans)'];
-    const data = [principal, finalValue];
+            const labels = ['Investissement Initial', 'Valeur Finale (' + duration + ' ans)'];
+            const data = [principal, finalValue];
 
-    if (yieldChartInstance) {
-    yieldChartInstance.data.labels = labels;
-    yieldChartInstance.data.datasets[0].data = data;
-    yieldChartInstance.data.datasets[0].backgroundColor = [
-    '#3b82f6', // Initial is always blue
-    color
-    ];
-    yieldChartInstance.update();
-    } else {
-    yieldChartInstance = new Chart(ctx, {
-    type: 'bar',
-    data: {
-    labels: labels,
-    datasets: [{
-    label: 'Valeur de Portefeuille ($)',
-    data: data,
-    backgroundColor: ['#3b82f6', color],
-    borderRadius: 8
-    }]
-    },
-    options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-    legend: { display: false }
-    },
-    scales: {
-    y: { beginAtZero: true, grid: { color: '#333' } }
-    }
-    }
-    });
-    }
-    }
+            if (yieldChartInstance) {
+                yieldChartInstance.data.labels = labels;
+                yieldChartInstance.data.datasets[0].data = data;
+                yieldChartInstance.data.datasets[0].backgroundColor = [
+                    '#3b82f6', // Initial is always blue
+                    color
+                ];
+                yieldChartInstance.update();
+            } else {
+                yieldChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Valeur de Portefeuille ($)',
+                            data: data,
+                            backgroundColor: ['#3b82f6', color],
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: '#333' } }
+                        }
+                    }
+                });
+            }
+        }
 
-    // Initialize Calculators (and Charts)
-    // Delay slightly to ensure canvas is ready
-    setTimeout(() => {
-    calcAPY();
-    calcRealYield();
-    }, 100);
+        // Initialize Calculators (and Charts)
+        // Delay slightly to ensure canvas is ready
+        setTimeout(() => {
+            calcAPY();
+            calcRealYield();
+        }, 100);
 
-    // Scroll Spy for TOC
-    const sections = document.querySelectorAll('.section-box');
-    const navLinks = document.querySelectorAll('.toc-link');
+        // Scroll Spy for TOC
+        const sections = document.querySelectorAll('.section-box');
+        const navLinks = document.querySelectorAll('.toc-link');
 
-    window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-    if (pageYOffset >= (sectionTop - 200)) {
-    current = section.getAttribute('id');
-    }
-    });
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-    navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link && link.getAttribute('href') && link.getAttribute('href').includes(current)) {
-    link.classList.add('active');
-    }
-    });
-    });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link && link.getAttribute('href') && link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
 
-    /* --- CORRELATION HEATMAP --- */
-    function colorizeCorrelationMatrix() {
-    const cells = document.querySelectorAll('.corr-val');
-    cells.forEach(cell => {
-    const val = parseFloat(cell.innerText);
-    if (isNaN(val)) return;
+        /* --- CORRELATION HEATMAP --- */
+        function colorizeCorrelationMatrix() {
+            const cells = document.querySelectorAll('.corr-val');
+            cells.forEach(cell => {
+                const val = parseFloat(cell.innerText);
+                if (isNaN(val)) return;
 
-    // Color Logic
-    cell.style.color = "#fff";
-    if (val >= 0.7) {
-    cell.style.backgroundColor = "rgba(16, 185, 129, 0.2)"; // Strong Green
-    cell.style.color = "var(--accent-green)";
-    } else if (val >= 0.3) {
-    cell.style.backgroundColor = "rgba(16, 185, 129, 0.05)"; // Weak Green
-    } else if (val <= -0.5) { cell.style.backgroundColor="rgba(239, 68, 68, 0.2)" ; // Strong Red
-        cell.style.color="var(--accent-red)" ; } else if (val < 0) {
-        cell.style.backgroundColor="rgba(239, 68, 68, 0.05)" ; // Weak Red } }); } colorizeCorrelationMatrix();
-        </script>
+                // Color Logic
+                cell.style.color = "#fff";
+                if (val >= 0.7) {
+                    cell.style.backgroundColor = "rgba(16, 185, 129, 0.2)"; // Strong Green
+                    cell.style.color = "var(--accent-green)";
+                } else if (val >= 0.3) {
+                    cell.style.backgroundColor = "rgba(16, 185, 129, 0.05)"; // Weak Green
+                } else if (val <= -0.5) {
+                    cell.style.backgroundColor = "rgba(239, 68, 68, 0.2)"; // Strong Red
+                    cell.style.color = "var(--accent-red)";
+                } else if (val < 0) {
+                    cell.style.backgroundColor = "rgba(239, 68, 68, 0.05)"; // Weak Red
+                }
+            });
+        }
+        colorizeCorrelationMatrix();
+    </script>
 
 </body>
 
