@@ -6193,6 +6193,7 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
                     <ul class="footer-links">
                         <li><a href="rwa.html">RWA & DeFi</a></li>
                         <li><a href="buidl.html">BUIDL Research</a></li>
+                        <li><a href="yield-mechanics.html">Yield Mechanics</a></li>
                         <li><a href="web3.html">Web3 Infrastructure</a></li>
                         <li><a href="ai-finance.html">AI & Finance</a></li>
                         <li><a href="quiz.html">Certification</a></li>
@@ -6215,903 +6216,897 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Blockchain Academy. Tous droits réservés.</p>
-                <div style="margin-top: 10px;">
-                    <button onclick="toggleDevMode()"
-                        style="background:transparent; border:none; color:rgba(255,255,255,0.1); font-size:10px; cursor:pointer;">Dev
-                        Access</button>
+                <div class="copyright">
+                    © 2026 DCM Digital • Internal Use Only • Version 2.5 (Yield Update)
+                </div>
+                <div class="legal-links">
+                    <a href="#">Support IT</a>
+                    <a href="#">Documentation API</a>
                 </div>
             </div>
-            <div class="copyright">
-                © 2026 DCM Digital • Internal Use Only • Version 2.4 (Pilot Update)
-            </div>
-            <div class="legal-links">
-                <a href="#">Support IT</a>
-                <a href="#">Documentation API</a>
-            </div>
-        </div>
         </div>
     </footer>
     <!-- Shared Dev Mode Script -->
     <script src="utils/dev_mode_shared.js"></script>
     <link rel="stylesheet" href="styles/dev_mode.css">
+    <script>
+        /* ===================================
+           ROI CALCULATOR LOGIC
+           =================================== */
+        function calculateROI() {
+            // 1. Get Inputs
+            const volume = parseFloat(document.getElementById('volumeInput').value) || 0;
+            const duration = parseFloat(document.getElementById('durationInput').value) || 5;
+
+            // Update Duration Label
+            document.getElementById('durationValue').innerText = duration + " ans";
+
+            // 2. Constants (in basis points)
+            // 1 bps = 0.0001
+            const BPS_CUSTODY = 2.0 * 0.0001;
+            const BPS_AGENT = 1.5 * 0.0001;
+
+            // Savings Assumptions
+            const SAVE_CUSTODY_PCT = 0.40; // 40% savings
+            const SAVE_AGENT_PCT = 0.80;   // 80% savings
+
+            // 3. Calculate Annual Costs (Traditional)
+            const costCustody = volume * BPS_CUSTODY;
+            const costAgent = volume * BPS_AGENT;
+            const totalAnnualCostTraditional = costCustody + costAgent;
+
+            // 4. Calculate Savings
+            const saveCustody = costCustody * SAVE_CUSTODY_PCT;
+            const saveAgent = costAgent * SAVE_AGENT_PCT;
+            const totalAnnualSavings = saveCustody + saveAgent;
+
+            // 5. Calculate Blockchain Cost
+            const totalAnnualCostBlockchain = totalAnnualCostTraditional - totalAnnualSavings;
+
+            // 6. Update Visual Bars (Percentage)
+            const pctBlockchain = (totalAnnualCostBlockchain / totalAnnualCostTraditional) * 100;
+            document.getElementById('barBlockchain').style.width = pctBlockchain + "%";
+            document.getElementById('costBlockchain').innerText = Math.round(pctBlockchain) + "%";
+
+            // 7. Calculate Totals
+            const totalLifetimeSavings = totalAnnualSavings * duration;
+
+            // Margin Gain (bps saved)
+            // Total saved percentage = (totalAnnualSavings / volume) * 10000 (to get bps)
+            const marginGainBps = (totalAnnualSavings / volume) * 10000;
+
+            // 8. Update UI with Animation
+            animateValue(document.getElementById('savingsYear'), totalAnnualSavings, " €");
+            animateValue(document.getElementById('savingsTotal'), totalLifetimeSavings, " €");
+            animateValue(document.getElementById('marginGain'), marginGainBps, " bps", 1);
+        }
+
+        function animateValue(obj, end, suffix, decimals = 0) {
+            // Simple animation
+            const start = 0;
+            const duration = 1000;
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+
+                // Format number
+                let current = progress * end;
+                let formatted = current.toLocaleString('fr-FR', {
+                    minimumFractionDigits: decimals,
+                    maximumFractionDigits: decimals
+                });
+
+                obj.innerHTML = formatted + suffix;
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Run on init
+        document.addEventListener('DOMContentLoaded', calculateROI);
+    </script>
+    <script src="ui-interactions.js"></script>
+
+    <!-- LEVEL TOGGLE REMOVED - FORCED DETAILED MODE -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('show-details');
+        });
+    </script>
+
+    <!-- SCRIPT FOR LEVEL TOGGLE -->
+    <!-- TOGGLE SCRIPT REMOVED -->
+    <!-- BREADCRUMB LOGIC (FIX) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const breadcrumbBar = document.getElementById('breadcrumbBar');
+            const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+            const sections = document.querySelectorAll('section[id]');
+
+            // Threshold to show breadcrumbs
+            const SHOW_THRESHOLD = 300;
+
+            window.addEventListener('scroll', function () {
+                let current = '';
+
+                // 1. Show/Hide Breadcrumb Bar
+                if (window.scrollY > SHOW_THRESHOLD) {
+                    breadcrumbBar.classList.add('visible');
+                } else {
+                    breadcrumbBar.classList.remove('visible');
+                }
+
+                // 2. Detect Current Section
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+
+                    // Offset for fixed header
+                    if (pageYOffset >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+
+                        // Try to get a clean title from h2 or h1
+                        let title = "";
+                        const h2 = section.querySelector('h2');
+                        const h1 = section.querySelector('h1');
+
+                        if (h2) title = h2.innerText;
+                        else if (h1) title = h1.innerText;
+
+                        // Fallback to ID if no title found (capitalized)
+                        if (!title) title = current.charAt(0).toUpperCase() + current.slice(1);
+
+                        // Truncate if too long (max 40 chars)
+                        if (title.length > 40) title = title.substring(0, 40) + "...";
+
+                        // Update text
+                        if (title) breadcrumbCurrent.innerText = title;
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- INTERACTIVITY SCRIPTS (PHASE 5) -->
+    <script>
+        /* 1. AUDIO CAPSULE LOGIC */
+        function toggleAudio(id) {
+            const icon = document.getElementById('icon-' + id);
+            // Simulate playing state for demo
+            if (icon.classList.contains('fa-play')) {
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+                // Here we would play actual audio: audioElem.play();
+                setTimeout(() => {
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+                }, 5000); // Reset after 5s for demo
+            } else {
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+                // audioElem.pause();
+            }
+        }
+
+        /* 2. DRAG & DROP GAME LOGIC */
+        document.addEventListener('DOMContentLoaded', function () {
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            // Correct Order Mapping
+            const correctOrder = {
+                1: 'item-structuring',
+                2: 'item-issuance',
+                3: 'item-distribution',
+                4: 'item-servicing'
+            };
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => {
+                    draggable.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging');
+                    checkWinCondition();
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    const draggable = document.querySelector('.dragging');
+                    zone.classList.add('drag-over');
+
+                    // Allow only one item per zone
+                    if (!zone.querySelector('.draggable')) {
+                        zone.appendChild(draggable);
+                    }
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', () => {
+                    zone.classList.remove('drag-over');
+                    const draggable = document.querySelector('.dragging');
+                    // Check if placement is correct immediately for feedback
+                    const step = zone.getAttribute('data-step');
+                    if (draggable.id === correctOrder[step]) {
+                        zone.classList.add('correct');
+                        draggable.classList.add('placed');
+                        // Optional: Disable dragging once placed correctly
+                        draggable.setAttribute('draggable', 'false');
+                    }
+                });
+            });
+
+            function checkWinCondition() {
+                const totalCorrect = document.querySelectorAll('.drop-zone.correct').length;
+                if (totalCorrect === 4) {
+                    const msg = document.getElementById('gameSuccessMsg');
+                    msg.style.display = 'block';
+                    // Direct Unlock for Reliability
+                    if (window.unlockBadge) window.unlockBadge('strategist');
+                }
+            }
+        });
+    </script>
+
+    <!-- RISK SECTION VISUALS (PHASE 5 EXTENSION) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.interactive-card');
+
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    // 1. Spotlight Effect (CSS Variable)
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+
+                    // 2. 3D Tilt Effect
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg tilt
+                    const rotateY = ((x - centerX) / centerX) * 5;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    // Reset
+                    card.style.setProperty('--mouse-x', '50%');
+                    card.style.setProperty('--mouse-y', '50%');
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+    <!-- BADGE SYSTEM & CERTIFICATE (PHASE 5 PRIORITY 5) -->
+
+    <!-- 1. Floating Trigger -->
+    <div class="badge-trigger" onclick="toggleBadgeModal()" title="Mes Compétences Blockchain">
+        <i class="fas fa-trophy"></i>
+        <div class="badge-notification" id="badgeNotif"></div>
+    </div>
+
+    <!-- 2. Modal Overlay -->
+    <div class="badge-modal-overlay" id="badgeModal">
+        <div class="badge-modal">
+            <button class="modal-close" onclick="toggleBadgeModal()">&times;</button>
+
+            <h2 style="color: white; margin-top: 0;">Passport Compétences 🏆</h2>
+            <p style="color: #94a3b8; font-size: 14px;">Complétez les défis pour obtenir votre certification officielle.
+            </p>
+
+            <!-- Dynamic Progress Bar -->
+            <div
+                style="width: 100%; height: 6px; background: #334155; border-radius: 3px; margin: 20px 0; overflow: hidden;">
+                <div id="badgeProgress"
+                    style="width: 0%; height: 100%; background: linear-gradient(90deg, #f59e0b, #d97706); transition: width 0.5s;">
+                </div>
+            </div>
+            <div style="text-align: right; color: #f59e0b; font-size: 12px; font-weight: bold; margin-bottom: 20px;">
+                <span id="badgeCount">0</span>/3 Badges
+            </div>
+
+            <!-- Badges Grid -->
+            <div class="badges-grid">
+                <!-- 1. EXPLORER -->
+                <div class="badge-item" id="badge-explorer" onclick="toggleBadgeModal(); window.location.href='#hero'"
+                    style="cursor: pointer;" title="Explorer le Guide">
+                    <i class="fas fa-compass badge-icon"></i>
+                    <div class="badge-name">DCM Explorer</div>
+                    <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Visiter 3 Modules</div>
+                </div>
+
+                <!-- 2. LISTENER -->
+                <div class="badge-item" id="badge-listener"
+                    onclick="toggleBadgeModal(); window.location.href='#mission-audio'" style="cursor: pointer;"
+                    title="Écouter la Capsule">
+                    <i class="fas fa-headphones badge-icon"></i>
+                    <div class="badge-name">Active Listener</div>
+                    <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Écouter 1 Capsule</div>
+                </div>
+
+                <!-- 3. STRATEGIST -->
+                <div class="badge-item" id="badge-strategist"
+                    onclick="toggleBadgeModal(); window.location.href='#mission-game'" style="cursor: pointer;"
+                    title="Jouer au Challenge">
+                    <i class="fas fa-chess-knight badge-icon"></i>
+                    <div class="badge-name">Cycle Master</div>
+                    <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Gagner le Mini-Jeu</div>
+                </div>
+            </div>
+
+            <!-- Name Input & Certificate Button -->
+            <!-- Certificate Button Trigger -->
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="cert-btn" id="certBtn" onclick="openDiplomaModal()">
+                    <i class="fas fa-lock"></i> Certification Verrouillée
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIPLOMA INPUT MODAL (ADDED FIX) -->
+    <div class="modal" id="diplomaInputModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10000; justify-content:center; align-items:center;">
+        <div class="modal-content"
+            style="background:#1e293b; padding:30px; border-radius:20px; border:1px solid #3b82f6; text-align:center; width:300px;">
+            <h3 style="color:#3b82f6; margin-bottom:10px;"><i class="fas fa-certificate"></i> ÉDITION DU DIPLÔME</h3>
+            <p style="font-size:12px; color:#94a3b8;">Entrez le nom complet qui figurera sur le certificat officiel.</p>
+            <input type="text" id="diplomaName"
+                style="width:100%; padding:10px; margin:15px 0; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px; text-align:center;"
+                placeholder="Prénom Nom (ex: Jean Dupont)">
+            <button onclick="generateFinalDiploma()"
+                style="width:100%; padding: 10px; background: #3b82f6; color: white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GÉNÉRER
+                LE PDF</button>
+            <button onclick="document.getElementById('diplomaInputModal').style.display='none'"
+                style="width:100%; margin-top:10px; background: transparent; border:none; color:#94a3b8; cursor:pointer;">Annuler</button>
+        </div>
+    </div>
+
+    <!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
+    <div id="final-diploma">
+        <div style="text-align: center;">
+            <i class="fas fa-graduation-cap" style="font-size: 50px; color: #1e293b; margin-bottom: 20px;"></i>
+            <div class="dip-header">CERTIFICAT D'EXCELLENCE</div>
+            <div class="dip-sub">Ce document atteste que</div>
+            <div class="dip-name" id="dipNameDisplay">Nom Prénom</div>
+            <div class="dip-sub">a validé avec succès le parcours de certification</div>
+            <h2 style="font-size: 36px; color: #1e293b; margin: 10px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h2>
+
+            <div class="dip-rank" id="dipRankDisplay" style="color: #000;">GRADE OR</div>
+
+            <div style="display: flex; justify-content: space-around; width: 80%; margin: 60px auto 0;">
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong>Joan Lyczak</strong><br>Directeur Technique
+                </div>
+                <div class="dip-seal" id="dipSeal" style="background: #000;">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong id="dipDate">10/02/2026</strong><br>Date de Validation
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
+    <div id="final-diploma">
+        <div style="text-align: center;">
+            <i class="fas fa-graduation-cap" style="font-size: 50px; color: #1e293b; margin-bottom: 20px;"></i>
+            <div class="dip-header">CERTIFICAT D'EXCELLENCE</div>
+            <div class="dip-sub">Ce document atteste que</div>
+            <div class="dip-name" id="dipNameDisplay">Nom Prénom</div>
+            <div class="dip-sub">a validé avec succès le parcours de certification</div>
+            <h2 style="font-size: 36px; color: #1e293b; margin: 10px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h2>
+
+            <div class="dip-rank" id="dipRankDisplay" style="color: #000;">GRADE OR</div>
+
+            <div style="display: flex; justify-content: space-around; width: 80%; margin: 60px auto 0;">
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong>Joan Lyczak</strong><br>Directeur Technique
+                </div>
+                <div class="dip-seal" id="dipSeal" style="background: #000;">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong id="dipDate">10/02/2026</strong><br>Date de Validation
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- TEMPLATE DU CERTIFICAT (INVISIBLE À L'ÉCRAN) -->
+    <!-- ============================================= -->
+    <div id="certificate-template">
+        <div class="cert-border">
+            <div class="cert-content">
+                <!-- Header -->
+                <div class="cert-header">
+                    <div class="cert-logo">
+                        <i class="fa-solid fa-cube"></i> DCM <span>DIGITAL</span>
+                    </div>
+                    <div class="cert-id">ID: <span id="certID">#8492-Block</span></div>
+                </div>
+
+                <!-- Titre -->
+                <h1 class="cert-title">CERTIFICAT D'ACHÈVEMENT</h1>
+                <p class="cert-subtitle">Blockchain & Digital Assets Infrastructure</p>
+
+                <!-- Corps -->
+                <div class="cert-body">
+                    <p>Ce document certifie que</p>
+                    <h2 id="displayCertName">NOM DU PARTICIPANT</h2>
+                    <p>a validé avec succès le parcours de formation stratégique</p>
+                    <div class="cert-course">BLOCKCHAIN FOR CAPITAL MARKETS</div>
+                    <p>Compétences validées : Tokenisation, Smart Contracts, Règlement T+0, Régulation eWpG.</p>
+                </div>
+
+                <!-- Footer / Signature -->
+                <div class="cert-footer">
+                    <div class="cert-sig">
+                        <div class="sig-line"></div>
+                        <span>Date de validation</span>
+                        <strong id="certDate">10/02/2026</strong>
+                    </div>
+                    <div class="cert-seal">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="cert-sig">
+                        <div class="sig-image">Joan Lyczak</div>
+                        <div class="sig-line"></div>
+                        <span>Directeur de la Formation</span>
+                        <strong>DCM DIGITAL ACADEMY</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Logic Script -->
+    <script>
+        const STORAGE_KEY_BADGES = 'dcm_badges_v1';
+        let userBadges = JSON.parse(localStorage.getItem(STORAGE_KEY_BADGES)) || {
+            explorer: false,
+            listener: false,
+            strategist: false
+        };
+
+        // INIT
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBadgeUI();
+            checkExplorerBadge(); // Check navigation progress on load
+        });
+
+        // UI TOGGLE
+        function toggleBadgeModal() {
+            const modal = document.getElementById('badgeModal');
+            modal.classList.toggle('active');
+
+            // Hide notification when opened
+            if (modal.classList.contains('active')) {
+                document.getElementById('badgeNotif').style.display = 'none';
+            }
+        }
+
+        // UPDATE UI FROM STATE
+        function updateBadgeUI() {
+            const badgeIds = ['explorer', 'listener', 'strategist'];
+            let earnedCount = 0;
+
+            badgeIds.forEach(id => {
+                const el = document.getElementById('badge-' + id);
+                if (userBadges[id]) {
+                    el.classList.add('unlocked');
+                    earnedCount++;
+                }
+            });
+
+            // Update Progress Bar
+            const pct = (earnedCount / 3) * 100;
+            document.getElementById('badgeProgress').style.width = pct + '%';
+            document.getElementById('badgeCount').innerText = earnedCount;
+
+            // Button State
+            const btn = document.getElementById('certBtn');
+            if (earnedCount === 3) {
+                btn.classList.add('unlocked');
+                btn.innerHTML = '<i class="fas fa-download"></i> Télécharger mon Certificat';
+                btn.onclick = generateCertificate;
+            } else {
+                btn.innerHTML = '<i class="fas fa-lock"></i> Certification Verrouillée';
+                btn.onclick = null;
+            }
+
+            // Save State
+            localStorage.setItem(STORAGE_KEY_BADGES, JSON.stringify(userBadges));
+        }
+
+        // UNLOCK FUNCTION (GLOBAL)
+        window.unlockBadge = function (badgeKey) {
+            if (!userBadges[badgeKey]) {
+                userBadges[badgeKey] = true;
+                updateBadgeUI();
+
+                // Show Notification Dot
+                const notif = document.getElementById('badgeNotif');
+                notif.style.display = 'block';
+
+                // Optional: Toast or Alert
+                // alert('Nouveau Badge Débloqué : ' + badgeKey.toUpperCase());
+            }
+        };
+
+        // BADGE 1 CHECKER: EXPLORER
+        function checkExplorerBadge() {
+            // Simple logic: if user scrolls deep enough (70%)
+            window.addEventListener('scroll', () => {
+                let scrollTop = window.scrollY;
+                let docHeight = document.body.offsetHeight;
+                let winHeight = window.innerHeight;
+                let scrollPercent = scrollTop / (docHeight - winHeight);
+
+                if (scrollPercent > 0.7) {
+                    unlockBadge('explorer');
+                }
+            });
+        }
+
+        // BADGE 2 CHECKER: LISTENER (Hook into toggleAudio)
+        // We modify the existing toggleAudio to call unlockBadge('listener')
+        const originalToggleAudio = window.toggleAudio; // Hook if exists
+        // (Already handled below in overwrite)
+
+        // OPEN MODAL
+        function openDiplomaModal() {
+            if (!document.getElementById('certBtn').classList.contains('unlocked')) return;
+            document.getElementById('diplomaInputModal').style.display = 'flex';
+        }
+
+        // GENERATE PDF
+        // GENERATE PDF
+        function generateFinalDiploma() {
+            const nameInput = document.getElementById('diplomaName').value;
+
+            if (!nameInput || nameInput.trim() === "") {
+                alert("Veuillez entrer votre Prénom et Nom pour générer le certificat.");
+                return;
+            }
+
+            // 1. Injection des données
+            document.getElementById('dipNameDisplay').innerText = nameInput;
+            document.getElementById('dipDate').innerText = new Date().toLocaleDateString('fr-FR');
+
+            // 2. Determine Style from LocalStorage (Quiz Rank or Just Badge Completion)
+            const r4 = localStorage.getItem('quiz_rank_4');
+            const m3 = localStorage.getItem('quiz_metal_3');
+            const m2 = localStorage.getItem('quiz_metal_2');
+            const m1 = localStorage.getItem('quiz_metal_1');
+
+            const dip = document.getElementById('final-diploma');
+            const seal = document.getElementById('dipSeal');
+            const rankTxt = document.getElementById('dipRankDisplay');
+
+            // Reset
+            dip.className = '';
+            let bestRank = "CERTIFIÉ";
+            let color = "#000";
+            let bgSeal = "#000";
+
+            // Logic: Try to use Quiz Rank if available, otherwise default to "Badge Completion" (Gold equivalent)
+            if (r4) {
+                bestRank = "GRADE " + r4.toUpperCase();
+                if (r4 === 'Iridescent') { dip.classList.add('iridescent'); color = "#3b82f6"; bgSeal = "linear-gradient(45deg, #ff0000, #002bff)"; }
+                else if (r4 === 'Crimson') { dip.classList.add('crimson'); color = "#dc2626"; bgSeal = "#dc2626"; }
+                else if (r4 === 'Diamond') { dip.classList.add('diamond'); color = "#3b82f6"; bgSeal = "#3b82f6"; }
+                else if (r4 === 'Platinum') { dip.classList.add('platinum'); color = "#64748b"; bgSeal = "#64748b"; }
+            } else if (m3) {
+                dip.classList.add('gold');
+                bestRank = "NIVEAU EXPERT (OR)";
+                color = "#d97706"; bgSeal = "#d97706";
+            } else {
+                // Fallback for Guide-only completion
+                dip.classList.add('gold');
+                bestRank = "CERTIFICATION VALIDÉE";
+                color = "#d97706"; bgSeal = "#d97706";
+            }
+
+            rankTxt.innerText = bestRank;
+            rankTxt.style.color = color;
+            seal.style.background = bgSeal;
+
+            // Hide Modal
+            document.getElementById('diplomaInputModal').style.display = 'none';
+
+            // WEBHOOK TRACKING
+            if (window.DCM_CONFIG && DCM_CONFIG.sendWebhook) {
+                DCM_CONFIG.sendWebhook({
+                    event: "DIPLOMA_GENERATED",
+                    name: document.getElementById('diplomaName').value,
+                    rank: bestRank,
+                    source: "GUIDE"
+                });
+            }
+
+            // 3. Lancer l'impression
+            window.print();
+
+            // Hide diploma after print
+            setTimeout(() => { dip.style.display = 'none'; }, 1000);
+        }
+    </script>
+
+    <!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
+    <div id="final-diploma">
+        <div style="text-align: center;">
+            <i class="fas fa-graduation-cap" style="font-size: 50px; color: #1e293b; margin-bottom: 20px;"></i>
+            <div class="dip-header">CERTIFICAT D'EXCELLENCE</div>
+            <div class="dip-sub">Ce document atteste que</div>
+            <div class="dip-name" id="dipNameDisplay">Nom Prénom</div>
+            <div class="dip-sub">a validé avec succès le parcours de certification</div>
+            <h2 style="font-size: 36px; color: #1e293b; margin: 10px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h2>
+
+            <div class="dip-rank" id="dipRankDisplay" style="color: #000;">GRADE OR</div>
+
+            <div style="display: flex; justify-content: space-around; width: 80%; margin: 60px auto 0;">
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong>Joan Lyczak</strong><br>Directeur Technique
+                </div>
+                <div class="dip-seal" id="dipSeal" style="background: #000;">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div style="text-align: center;">
+                    <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
+                    <strong id="dipDate">10/02/2026</strong><br>Date de Validation
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEV MODAL REMOVED - Replaced by Shared Component -->
+    window.addEventListener('load', () => {
+    // Restore Badge UI from LocalStorage
+    const badges = ['explorer', 'listener', 'strategist'];
+    let count = 0;
+
+    badges.forEach(key => {
+    if (localStorage.getItem('badge_' + key)) {
+    const el = document.getElementById('badge-' + key);
+    if (el) {
+    el.classList.add('unlocked');
+    el.style.opacity = "1";
+    el.querySelector('.badge-icon').style.color = "#f59e0b";
+    count++;
+    }
+    }
+    });
+
+    // Update Count
+    document.getElementById('badgeCount').innerText = count;
+    document.getElementById('badgeProgress').style.width = (count / 3 * 100) + "%";
+
+    if (count === 3) {
+    const btn = document.getElementById('certBtn');
+    if (btn) {
+    btn.classList.add('unlocked');
+    btn.innerHTML = '<i class="fas fa-unlock"></i> TÉLÉCHARGER LA CERTIFICATION';
+    btn.style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
+    btn.style.boxShadow = "0 0 20px rgba(245, 158, 11, 0.4)";
+    btn.disabled = false;
+    }
+    }
+    });
+
+    function checkDevPassword() {
+    const pass = document.getElementById('devPass').value;
+    if (pass.toUpperCase() === 'SATOSHI') {
+    // Unlock ALL Badges
+    localStorage.setItem('badge_explorer', 'true');
+    localStorage.setItem('badge_listener', 'true');
+    localStorage.setItem('badge_strategist', 'true');
+
+    // Also Unlock Quiz Levels (Bonus)
+    localStorage.setItem('quiz_metal_1', 'bronze');
+    localStorage.setItem('quiz_metal_2', 'silver');
+    localStorage.setItem('quiz_metal_3', 'gold');
+    localStorage.setItem('quiz_lvl4_unlocked', 'true');
+
+    alert("🔓 DEV MODE : Badges & Certification Débloqués.");
+    } else {
+    alert("Accès Refusé. Mot de passe incorrect.");
+    }
+    }
+    </script>
+
+    <!-- 5. Hooking into Existing Interactive Elements -->
+    <script>
+        // Hook into Audio (Listener Badge)
+        const oldAudioFn = window.toggleAudio;
+        window.toggleAudio = function (id) {
+            if (oldAudioFn) oldAudioFn(id); // Call original
+            setTimeout(() => {
+                unlockBadge('listener'); // Unlock after "listening" (simulated 5s)
+            }, 5000);
+        };
+
+        // Hook into Game (Strategist Badge)
+        // NOW HANDLED DIRECTLY IN checkWinCondition()
+        // Observer removed for stability
+    </script>
+
+    <!-- RESET GAME LOGIC -->
+    <script>
+        function resetGame() {
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const itemsContainer = document.querySelector('.draggable-items');
+            const successMsg = document.getElementById('gameSuccessMsg');
+            const resetBtn = document.getElementById('gameResetBtn');
+
+            // 1. Reset Draggables
+            draggables.forEach(drag => {
+                drag.classList.remove('placed');
+                drag.setAttribute('draggable', 'true');
+                itemsContainer.appendChild(drag); // Move back to source
+            });
+
+            // 2. Reset Zones
+            dropZones.forEach(zone => {
+                zone.classList.remove('correct', 'drag-over');
+            });
+
+            // 3. Hide Messages
+            successMsg.style.display = 'none';
+            resetBtn.style.display = 'none'; // Only show when game interacts? Or always?
+
+            // Optional: Shuffle items for replayability
+            for (let i = itemsContainer.children.length; i >= 0; i--) {
+                itemsContainer.appendChild(itemsContainer.children[Math.random() * i | 0]);
+            }
+        }
+
+        // Show reset button when any item is placed (User experience improvement)
+        document.addEventListener('dragend', () => {
+            const anyPlaced = document.querySelector('.drop-zone .draggable');
+            const resetBtn = document.getElementById('gameResetBtn');
+            if (anyPlaced && resetBtn) resetBtn.style.display = 'block';
+        });
+    </script>
+
+    <!-- RESET GAME LOGIC -->
+    <script>
+        function resetGame() {
+            const draggables = Array.from(document.querySelectorAll('.draggable'));
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const itemsContainer = document.querySelector('.draggable-items');
+            const successMsg = document.getElementById('gameSuccessMsg');
+            const resetBtn = document.getElementById('gameResetBtn');
+
+            // 1. Reset Draggables
+            draggables.forEach(drag => {
+                drag.classList.remove('placed');
+                drag.setAttribute('draggable', 'true');
+                itemsContainer.appendChild(drag); // Move back to source
+                drag.style.opacity = '1'; /* Reset opacity if changed */
+            });
+
+            // 2. Reset Zones
+            dropZones.forEach(zone => {
+                zone.classList.remove('correct', 'drag-over');
+                // Remove any draggable children if not moved by appendChild
+                while (zone.firstChild) {
+                    if (zone.firstChild.classList && zone.firstChild.classList.contains('draggable')) {
+                        itemsContainer.appendChild(zone.firstChild);
+                    } else {
+                        zone.removeChild(zone.firstChild);
+                    }
+                }
+                // Restore Step Number if lost (simple version: just clear text content & re-add? No, structure is specific)
+                // Better: The appendChild above moves the NODE. The dropZone text "Etape X" might be obscured or removed?
+                // Checking structure: dropZone has .step-number span. We should ensure it remains.
+            });
+
+            // Re-Ensure Step Numbers are visible (if covered by drop)
+            dropZones.forEach((zone, index) => {
+                // Check if step-number span exists, if not recreate (defensive)
+                if (!zone.querySelector('.step-number')) {
+                    const stepSpan = document.createElement('span');
+                    stepSpan.className = 'step-number';
+                    stepSpan.innerText = 'Étape ' + (index + 1);
+                    zone.prepend(stepSpan);
+                }
+            });
+
+            // 3. Hide Messages
+            if (successMsg) successMsg.style.display = 'none';
+            if (resetBtn) resetBtn.style.display = 'none';
+
+            // 4. Shuffle items for replayability
+            for (let i = draggables.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                itemsContainer.appendChild(draggables[j]);
+            }
+        }
+
+        // Show reset button when any item is placed (User experience improvement)
+        document.addEventListener('dragend', () => {
+            // Wait small delay for DOM update
+            setTimeout(() => {
+                const dropZones = document.querySelectorAll('.drop-zone');
+                let anyPlaced = false;
+                dropZones.forEach(zone => {
+                    if (zone.querySelector('.draggable')) anyPlaced = true;
+                });
+
+                const resetBtn = document.getElementById('gameResetBtn');
+                if (anyPlaced && resetBtn) {
+                    resetBtn.style.display = 'block';
+                }
+            }, 100);
+        });
+    </script>
+    <!-- MISSING SCRIPTS RE-INJECTION (FAQ FIX) -->
+    <script>
+        function toggleFaq(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+
+            if (answer.style.maxHeight) {
+                answer.style.maxHeight = null;
+                icon.innerText = '+';
+                button.classList.remove('active');
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                icon.innerText = '-';
+                button.classList.add('active');
+            }
+        }
+    </script>
+    <!-- WALLET MODAL LOGIC (NEXT GEN) -->
+    <script>
+        function openWalletModal() {
+            const modal = document.getElementById('walletModalOverlay');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeWalletModal() {
+            const modal = document.getElementById('walletModalOverlay');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function simulateConnection(walletName) {
+            const status = document.getElementById('walletStatus');
+            status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to ' + walletName + '...';
+
+            setTimeout(() => {
+                status.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981;"></i> Connected to ' + walletName;
+                setTimeout(() => {
+                    closeWalletModal();
+                    alert('Wallet ' + walletName + ' connected! (Simulation Mode)');
+                    document.querySelector('.connect-wallet-btn').innerHTML = '<i class="fas fa-user-check"></i> ' + walletName;
+                    document.querySelector('.connect-wallet-btn').style.background = 'rgba(16, 185, 129, 0.2)';
+                    document.querySelector('.connect-wallet-btn').style.border = '1px solid #10b981';
+                }, 1000);
+            }, 1500);
+        }
+    </script>
 </body>
 
 </html>
-<script>
-    /* ===================================
-       ROI CALCULATOR LOGIC
-       =================================== */
-    function calculateROI() {
-        // 1. Get Inputs
-        const volume = parseFloat(document.getElementById('volumeInput').value) || 0;
-        const duration = parseFloat(document.getElementById('durationInput').value) || 5;
-
-        // Update Duration Label
-        document.getElementById('durationValue').innerText = duration + " ans";
-
-        // 2. Constants (in basis points)
-        // 1 bps = 0.0001
-        const BPS_CUSTODY = 2.0 * 0.0001;
-        const BPS_AGENT = 1.5 * 0.0001;
-
-        // Savings Assumptions
-        const SAVE_CUSTODY_PCT = 0.40; // 40% savings
-        const SAVE_AGENT_PCT = 0.80;   // 80% savings
-
-        // 3. Calculate Annual Costs (Traditional)
-        const costCustody = volume * BPS_CUSTODY;
-        const costAgent = volume * BPS_AGENT;
-        const totalAnnualCostTraditional = costCustody + costAgent;
-
-        // 4. Calculate Savings
-        const saveCustody = costCustody * SAVE_CUSTODY_PCT;
-        const saveAgent = costAgent * SAVE_AGENT_PCT;
-        const totalAnnualSavings = saveCustody + saveAgent;
-
-        // 5. Calculate Blockchain Cost
-        const totalAnnualCostBlockchain = totalAnnualCostTraditional - totalAnnualSavings;
-
-        // 6. Update Visual Bars (Percentage)
-        const pctBlockchain = (totalAnnualCostBlockchain / totalAnnualCostTraditional) * 100;
-        document.getElementById('barBlockchain').style.width = pctBlockchain + "%";
-        document.getElementById('costBlockchain').innerText = Math.round(pctBlockchain) + "%";
-
-        // 7. Calculate Totals
-        const totalLifetimeSavings = totalAnnualSavings * duration;
-
-        // Margin Gain (bps saved)
-        // Total saved percentage = (totalAnnualSavings / volume) * 10000 (to get bps)
-        const marginGainBps = (totalAnnualSavings / volume) * 10000;
-
-        // 8. Update UI with Animation
-        animateValue(document.getElementById('savingsYear'), totalAnnualSavings, " €");
-        animateValue(document.getElementById('savingsTotal'), totalLifetimeSavings, " €");
-        animateValue(document.getElementById('marginGain'), marginGainBps, " bps", 1);
-    }
-
-    function animateValue(obj, end, suffix, decimals = 0) {
-        // Simple animation
-        const start = 0;
-        const duration = 1000;
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-
-            // Format number
-            let current = progress * end;
-            let formatted = current.toLocaleString('fr-FR', {
-                minimumFractionDigits: decimals,
-                maximumFractionDigits: decimals
-            });
-
-            obj.innerHTML = formatted + suffix;
-
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
-        };
-        window.requestAnimationFrame(step);
-    }
-
-    // Run on init
-    document.addEventListener('DOMContentLoaded', calculateROI);
-</script>
-<script src="ui-interactions.js"></script>
-
-<!-- LEVEL TOGGLE REMOVED - FORCED DETAILED MODE -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.body.classList.add('show-details');
-    });
-</script>
-
-<!-- SCRIPT FOR LEVEL TOGGLE -->
-<!-- TOGGLE SCRIPT REMOVED -->
-<!-- BREADCRUMB LOGIC (FIX) -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const breadcrumbBar = document.getElementById('breadcrumbBar');
-        const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
-        const sections = document.querySelectorAll('section[id]');
-
-        // Threshold to show breadcrumbs
-        const SHOW_THRESHOLD = 300;
-
-        window.addEventListener('scroll', function () {
-            let current = '';
-
-            // 1. Show/Hide Breadcrumb Bar
-            if (window.scrollY > SHOW_THRESHOLD) {
-                breadcrumbBar.classList.add('visible');
-            } else {
-                breadcrumbBar.classList.remove('visible');
-            }
-
-            // 2. Detect Current Section
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-
-                // Offset for fixed header
-                if (pageYOffset >= (sectionTop - 150)) {
-                    current = section.getAttribute('id');
-
-                    // Try to get a clean title from h2 or h1
-                    let title = "";
-                    const h2 = section.querySelector('h2');
-                    const h1 = section.querySelector('h1');
-
-                    if (h2) title = h2.innerText;
-                    else if (h1) title = h1.innerText;
-
-                    // Fallback to ID if no title found (capitalized)
-                    if (!title) title = current.charAt(0).toUpperCase() + current.slice(1);
-
-                    // Truncate if too long (max 40 chars)
-                    if (title.length > 40) title = title.substring(0, 40) + "...";
-
-                    // Update text
-                    if (title) breadcrumbCurrent.innerText = title;
-                }
-            });
-        });
-    });
-</script>
-<!-- INTERACTIVITY SCRIPTS (PHASE 5) -->
-<script>
-    /* 1. AUDIO CAPSULE LOGIC */
-    function toggleAudio(id) {
-        const icon = document.getElementById('icon-' + id);
-        // Simulate playing state for demo
-        if (icon.classList.contains('fa-play')) {
-            icon.classList.remove('fa-play');
-            icon.classList.add('fa-pause');
-            // Here we would play actual audio: audioElem.play();
-            setTimeout(() => {
-                icon.classList.remove('fa-pause');
-                icon.classList.add('fa-play');
-            }, 5000); // Reset after 5s for demo
-        } else {
-            icon.classList.remove('fa-pause');
-            icon.classList.add('fa-play');
-            // audioElem.pause();
-        }
-    }
-
-    /* 2. DRAG & DROP GAME LOGIC */
-    document.addEventListener('DOMContentLoaded', function () {
-        const draggables = document.querySelectorAll('.draggable');
-        const dropZones = document.querySelectorAll('.drop-zone');
-
-        // Correct Order Mapping
-        const correctOrder = {
-            1: 'item-structuring',
-            2: 'item-issuance',
-            3: 'item-distribution',
-            4: 'item-servicing'
-        };
-
-        draggables.forEach(draggable => {
-            draggable.addEventListener('dragstart', () => {
-                draggable.classList.add('dragging');
-            });
-
-            draggable.addEventListener('dragend', () => {
-                draggable.classList.remove('dragging');
-                checkWinCondition();
-            });
-        });
-
-        dropZones.forEach(zone => {
-            zone.addEventListener('dragover', e => {
-                e.preventDefault();
-                const draggable = document.querySelector('.dragging');
-                zone.classList.add('drag-over');
-
-                // Allow only one item per zone
-                if (!zone.querySelector('.draggable')) {
-                    zone.appendChild(draggable);
-                }
-            });
-
-            zone.addEventListener('dragleave', () => {
-                zone.classList.remove('drag-over');
-            });
-
-            zone.addEventListener('drop', () => {
-                zone.classList.remove('drag-over');
-                const draggable = document.querySelector('.dragging');
-                // Check if placement is correct immediately for feedback
-                const step = zone.getAttribute('data-step');
-                if (draggable.id === correctOrder[step]) {
-                    zone.classList.add('correct');
-                    draggable.classList.add('placed');
-                    // Optional: Disable dragging once placed correctly
-                    draggable.setAttribute('draggable', 'false');
-                }
-            });
-        });
-
-        function checkWinCondition() {
-            const totalCorrect = document.querySelectorAll('.drop-zone.correct').length;
-            if (totalCorrect === 4) {
-                const msg = document.getElementById('gameSuccessMsg');
-                msg.style.display = 'block';
-                // Direct Unlock for Reliability
-                if (window.unlockBadge) window.unlockBadge('strategist');
-            }
-        }
-    });
-</script>
-
-<!-- RISK SECTION VISUALS (PHASE 5 EXTENSION) -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const cards = document.querySelectorAll('.interactive-card');
-
-        cards.forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                // 1. Spotlight Effect (CSS Variable)
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
-
-                // 2. 3D Tilt Effect
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg tilt
-                const rotateY = ((x - centerX) / centerX) * 5;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                // Reset
-                card.style.setProperty('--mouse-x', '50%');
-                card.style.setProperty('--mouse-y', '50%');
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-            });
-        });
-    });
-</script>
-<!-- BADGE SYSTEM & CERTIFICATE (PHASE 5 PRIORITY 5) -->
-
-<!-- 1. Floating Trigger -->
-<div class="badge-trigger" onclick="toggleBadgeModal()" title="Mes Compétences Blockchain">
-    <i class="fas fa-trophy"></i>
-    <div class="badge-notification" id="badgeNotif"></div>
-</div>
-
-<!-- 2. Modal Overlay -->
-<div class="badge-modal-overlay" id="badgeModal">
-    <div class="badge-modal">
-        <button class="modal-close" onclick="toggleBadgeModal()">&times;</button>
-
-        <h2 style="color: white; margin-top: 0;">Passport Compétences 🏆</h2>
-        <p style="color: #94a3b8; font-size: 14px;">Complétez les défis pour obtenir votre certification officielle.</p>
-
-        <!-- Dynamic Progress Bar -->
-        <div
-            style="width: 100%; height: 6px; background: #334155; border-radius: 3px; margin: 20px 0; overflow: hidden;">
-            <div id="badgeProgress"
-                style="width: 0%; height: 100%; background: linear-gradient(90deg, #f59e0b, #d97706); transition: width 0.5s;">
-            </div>
-        </div>
-        <div style="text-align: right; color: #f59e0b; font-size: 12px; font-weight: bold; margin-bottom: 20px;">
-            <span id="badgeCount">0</span>/3 Badges
-        </div>
-
-        <!-- Badges Grid -->
-        <div class="badges-grid">
-            <!-- 1. EXPLORER -->
-            <div class="badge-item" id="badge-explorer" onclick="toggleBadgeModal(); window.location.href='#hero'"
-                style="cursor: pointer;" title="Explorer le Guide">
-                <i class="fas fa-compass badge-icon"></i>
-                <div class="badge-name">DCM Explorer</div>
-                <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Visiter 3 Modules</div>
-            </div>
-
-            <!-- 2. LISTENER -->
-            <div class="badge-item" id="badge-listener"
-                onclick="toggleBadgeModal(); window.location.href='#mission-audio'" style="cursor: pointer;"
-                title="Écouter la Capsule">
-                <i class="fas fa-headphones badge-icon"></i>
-                <div class="badge-name">Active Listener</div>
-                <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Écouter 1 Capsule</div>
-            </div>
-
-            <!-- 3. STRATEGIST -->
-            <div class="badge-item" id="badge-strategist"
-                onclick="toggleBadgeModal(); window.location.href='#mission-game'" style="cursor: pointer;"
-                title="Jouer au Challenge">
-                <i class="fas fa-chess-knight badge-icon"></i>
-                <div class="badge-name">Cycle Master</div>
-                <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Gagner le Mini-Jeu</div>
-            </div>
-        </div>
-
-        <!-- Name Input & Certificate Button -->
-        <!-- Certificate Button Trigger -->
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="cert-btn" id="certBtn" onclick="openDiplomaModal()">
-                <i class="fas fa-lock"></i> Certification Verrouillée
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- DIPLOMA INPUT MODAL (ADDED FIX) -->
-<div class="modal" id="diplomaInputModal"
-    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10000; justify-content:center; align-items:center;">
-    <div class="modal-content"
-        style="background:#1e293b; padding:30px; border-radius:20px; border:1px solid #3b82f6; text-align:center; width:300px;">
-        <h3 style="color:#3b82f6; margin-bottom:10px;"><i class="fas fa-certificate"></i> ÉDITION DU DIPLÔME</h3>
-        <p style="font-size:12px; color:#94a3b8;">Entrez le nom complet qui figurera sur le certificat officiel.</p>
-        <input type="text" id="diplomaName"
-            style="width:100%; padding:10px; margin:15px 0; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px; text-align:center;"
-            placeholder="Prénom Nom (ex: Jean Dupont)">
-        <button onclick="generateFinalDiploma()"
-            style="width:100%; padding: 10px; background: #3b82f6; color: white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GÉNÉRER
-            LE PDF</button>
-        <button onclick="document.getElementById('diplomaInputModal').style.display='none'"
-            style="width:100%; margin-top:10px; background: transparent; border:none; color:#94a3b8; cursor:pointer;">Annuler</button>
-    </div>
-</div>
-
-<!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
-<div id="final-diploma">
-    <div style="text-align: center;">
-        <i class="fas fa-graduation-cap" style="font-size: 50px; color: #1e293b; margin-bottom: 20px;"></i>
-        <div class="dip-header">CERTIFICAT D'EXCELLENCE</div>
-        <div class="dip-sub">Ce document atteste que</div>
-        <div class="dip-name" id="dipNameDisplay">Nom Prénom</div>
-        <div class="dip-sub">a validé avec succès le parcours de certification</div>
-        <h2 style="font-size: 36px; color: #1e293b; margin: 10px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h2>
-
-        <div class="dip-rank" id="dipRankDisplay" style="color: #000;">GRADE OR</div>
-
-        <div style="display: flex; justify-content: space-around; width: 80%; margin: 60px auto 0;">
-            <div style="text-align: center;">
-                <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
-                <strong>Joan Lyczak</strong><br>Directeur Technique
-            </div>
-            <div class="dip-seal" id="dipSeal" style="background: #000;">
-                <i class="fas fa-award"></i>
-            </div>
-            <div style="text-align: center;">
-                <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
-                <strong id="dipDate">10/02/2026</strong><br>Date de Validation
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
-<div id="final-diploma">
-    <div style="text-align: center;">
-        <i class="fas fa-graduation-cap" style="font-size: 50px; color: #1e293b; margin-bottom: 20px;"></i>
-        <div class="dip-header">CERTIFICAT D'EXCELLENCE</div>
-        <div class="dip-sub">Ce document atteste que</div>
-        <div class="dip-name" id="dipNameDisplay">Nom Prénom</div>
-        <div class="dip-sub">a validé avec succès le parcours de certification</div>
-        <h2 style="font-size: 36px; color: #1e293b; margin: 10px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h2>
-
-        <div class="dip-rank" id="dipRankDisplay" style="color: #000;">GRADE OR</div>
-
-        <div style="display: flex; justify-content: space-around; width: 80%; margin: 60px auto 0;">
-            <div style="text-align: center;">
-                <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
-                <strong>Joan Lyczak</strong><br>Directeur Technique
-            </div>
-            <div class="dip-seal" id="dipSeal" style="background: #000;">
-                <i class="fas fa-award"></i>
-            </div>
-            <div style="text-align: center;">
-                <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
-                <strong id="dipDate">10/02/2026</strong><br>Date de Validation
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ============================================= -->
-<!-- TEMPLATE DU CERTIFICAT (INVISIBLE À L'ÉCRAN) -->
-<!-- ============================================= -->
-<div id="certificate-template">
-    <div class="cert-border">
-        <div class="cert-content">
-            <!-- Header -->
-            <div class="cert-header">
-                <div class="cert-logo">
-                    <i class="fa-solid fa-cube"></i> DCM <span>DIGITAL</span>
-                </div>
-                <div class="cert-id">ID: <span id="certID">#8492-Block</span></div>
-            </div>
-
-            <!-- Titre -->
-            <h1 class="cert-title">CERTIFICAT D'ACHÈVEMENT</h1>
-            <p class="cert-subtitle">Blockchain & Digital Assets Infrastructure</p>
-
-            <!-- Corps -->
-            <div class="cert-body">
-                <p>Ce document certifie que</p>
-                <h2 id="displayCertName">NOM DU PARTICIPANT</h2>
-                <p>a validé avec succès le parcours de formation stratégique</p>
-                <div class="cert-course">BLOCKCHAIN FOR CAPITAL MARKETS</div>
-                <p>Compétences validées : Tokenisation, Smart Contracts, Règlement T+0, Régulation eWpG.</p>
-            </div>
-
-            <!-- Footer / Signature -->
-            <div class="cert-footer">
-                <div class="cert-sig">
-                    <div class="sig-line"></div>
-                    <span>Date de validation</span>
-                    <strong id="certDate">10/02/2026</strong>
-                </div>
-                <div class="cert-seal">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-                <div class="cert-sig">
-                    <div class="sig-image">Joan Lyczak</div>
-                    <div class="sig-line"></div>
-                    <span>Directeur de la Formation</span>
-                    <strong>DCM DIGITAL ACADEMY</strong>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 4. Logic Script -->
-<script>
-    const STORAGE_KEY_BADGES = 'dcm_badges_v1';
-    let userBadges = JSON.parse(localStorage.getItem(STORAGE_KEY_BADGES)) || {
-        explorer: false,
-        listener: false,
-        strategist: false
-    };
-
-    // INIT
-    document.addEventListener('DOMContentLoaded', () => {
-        updateBadgeUI();
-        checkExplorerBadge(); // Check navigation progress on load
-    });
-
-    // UI TOGGLE
-    function toggleBadgeModal() {
-        const modal = document.getElementById('badgeModal');
-        modal.classList.toggle('active');
-
-        // Hide notification when opened
-        if (modal.classList.contains('active')) {
-            document.getElementById('badgeNotif').style.display = 'none';
-        }
-    }
-
-    // UPDATE UI FROM STATE
-    function updateBadgeUI() {
-        const badgeIds = ['explorer', 'listener', 'strategist'];
-        let earnedCount = 0;
-
-        badgeIds.forEach(id => {
-            const el = document.getElementById('badge-' + id);
-            if (userBadges[id]) {
-                el.classList.add('unlocked');
-                earnedCount++;
-            }
-        });
-
-        // Update Progress Bar
-        const pct = (earnedCount / 3) * 100;
-        document.getElementById('badgeProgress').style.width = pct + '%';
-        document.getElementById('badgeCount').innerText = earnedCount;
-
-        // Button State
-        const btn = document.getElementById('certBtn');
-        if (earnedCount === 3) {
-            btn.classList.add('unlocked');
-            btn.innerHTML = '<i class="fas fa-download"></i> Télécharger mon Certificat';
-            btn.onclick = generateCertificate;
-        } else {
-            btn.innerHTML = '<i class="fas fa-lock"></i> Certification Verrouillée';
-            btn.onclick = null;
-        }
-
-        // Save State
-        localStorage.setItem(STORAGE_KEY_BADGES, JSON.stringify(userBadges));
-    }
-
-    // UNLOCK FUNCTION (GLOBAL)
-    window.unlockBadge = function (badgeKey) {
-        if (!userBadges[badgeKey]) {
-            userBadges[badgeKey] = true;
-            updateBadgeUI();
-
-            // Show Notification Dot
-            const notif = document.getElementById('badgeNotif');
-            notif.style.display = 'block';
-
-            // Optional: Toast or Alert
-            // alert('Nouveau Badge Débloqué : ' + badgeKey.toUpperCase());
-        }
-    };
-
-    // BADGE 1 CHECKER: EXPLORER
-    function checkExplorerBadge() {
-        // Simple logic: if user scrolls deep enough (70%)
-        window.addEventListener('scroll', () => {
-            let scrollTop = window.scrollY;
-            let docHeight = document.body.offsetHeight;
-            let winHeight = window.innerHeight;
-            let scrollPercent = scrollTop / (docHeight - winHeight);
-
-            if (scrollPercent > 0.7) {
-                unlockBadge('explorer');
-            }
-        });
-    }
-
-    // BADGE 2 CHECKER: LISTENER (Hook into toggleAudio)
-    // We modify the existing toggleAudio to call unlockBadge('listener')
-    const originalToggleAudio = window.toggleAudio; // Hook if exists
-    // (Already handled below in overwrite)
-
-    // OPEN MODAL
-    function openDiplomaModal() {
-        if (!document.getElementById('certBtn').classList.contains('unlocked')) return;
-        document.getElementById('diplomaInputModal').style.display = 'flex';
-    }
-
-    // GENERATE PDF
-    // GENERATE PDF
-    function generateFinalDiploma() {
-        const nameInput = document.getElementById('diplomaName').value;
-
-        if (!nameInput || nameInput.trim() === "") {
-            alert("Veuillez entrer votre Prénom et Nom pour générer le certificat.");
-            return;
-        }
-
-        // 1. Injection des données
-        document.getElementById('dipNameDisplay').innerText = nameInput;
-        document.getElementById('dipDate').innerText = new Date().toLocaleDateString('fr-FR');
-
-        // 2. Determine Style from LocalStorage (Quiz Rank or Just Badge Completion)
-        const r4 = localStorage.getItem('quiz_rank_4');
-        const m3 = localStorage.getItem('quiz_metal_3');
-        const m2 = localStorage.getItem('quiz_metal_2');
-        const m1 = localStorage.getItem('quiz_metal_1');
-
-        const dip = document.getElementById('final-diploma');
-        const seal = document.getElementById('dipSeal');
-        const rankTxt = document.getElementById('dipRankDisplay');
-
-        // Reset
-        dip.className = '';
-        let bestRank = "CERTIFIÉ";
-        let color = "#000";
-        let bgSeal = "#000";
-
-        // Logic: Try to use Quiz Rank if available, otherwise default to "Badge Completion" (Gold equivalent)
-        if (r4) {
-            bestRank = "GRADE " + r4.toUpperCase();
-            if (r4 === 'Iridescent') { dip.classList.add('iridescent'); color = "#3b82f6"; bgSeal = "linear-gradient(45deg, #ff0000, #002bff)"; }
-            else if (r4 === 'Crimson') { dip.classList.add('crimson'); color = "#dc2626"; bgSeal = "#dc2626"; }
-            else if (r4 === 'Diamond') { dip.classList.add('diamond'); color = "#3b82f6"; bgSeal = "#3b82f6"; }
-            else if (r4 === 'Platinum') { dip.classList.add('platinum'); color = "#64748b"; bgSeal = "#64748b"; }
-        } else if (m3) {
-            dip.classList.add('gold');
-            bestRank = "NIVEAU EXPERT (OR)";
-            color = "#d97706"; bgSeal = "#d97706";
-        } else {
-            // Fallback for Guide-only completion
-            dip.classList.add('gold');
-            bestRank = "CERTIFICATION VALIDÉE";
-            color = "#d97706"; bgSeal = "#d97706";
-        }
-
-        rankTxt.innerText = bestRank;
-        rankTxt.style.color = color;
-        seal.style.background = bgSeal;
-
-        // Hide Modal
-        document.getElementById('diplomaInputModal').style.display = 'none';
-
-        // WEBHOOK TRACKING
-        if (window.DCM_CONFIG && DCM_CONFIG.sendWebhook) {
-            DCM_CONFIG.sendWebhook({
-                event: "DIPLOMA_GENERATED",
-                name: document.getElementById('diplomaName').value,
-                rank: bestRank,
-                source: "GUIDE"
-            });
-        }
-
-        // 3. Lancer l'impression
-        window.print();
-
-        // Hide diploma after print
-        setTimeout(() => { dip.style.display = 'none'; }, 1000);
-    }
-</script>
-
-<!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
-<div id="final-diploma">
-    <div style="text-align: center;">
-        <i class="fas fa-graduation-cap" style="font-size: 50px; color: #1e293b; margin-bottom: 20px;"></i>
-        <div class="dip-header">CERTIFICAT D'EXCELLENCE</div>
-        <div class="dip-sub">Ce document atteste que</div>
-        <div class="dip-name" id="dipNameDisplay">Nom Prénom</div>
-        <div class="dip-sub">a validé avec succès le parcours de certification</div>
-        <h2 style="font-size: 36px; color: #1e293b; margin: 10px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h2>
-
-        <div class="dip-rank" id="dipRankDisplay" style="color: #000;">GRADE OR</div>
-
-        <div style="display: flex; justify-content: space-around; width: 80%; margin: 60px auto 0;">
-            <div style="text-align: center;">
-                <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
-                <strong>Joan Lyczak</strong><br>Directeur Technique
-            </div>
-            <div class="dip-seal" id="dipSeal" style="background: #000;">
-                <i class="fas fa-award"></i>
-            </div>
-            <div style="text-align: center;">
-                <div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
-                <strong id="dipDate">10/02/2026</strong><br>Date de Validation
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- DEV MODAL REMOVED - Replaced by Shared Component -->
-window.addEventListener('load', () => {
-// Restore Badge UI from LocalStorage
-const badges = ['explorer', 'listener', 'strategist'];
-let count = 0;
-
-badges.forEach(key => {
-if (localStorage.getItem('badge_' + key)) {
-const el = document.getElementById('badge-' + key);
-if (el) {
-el.classList.add('unlocked');
-el.style.opacity = "1";
-el.querySelector('.badge-icon').style.color = "#f59e0b";
-count++;
-}
-}
-});
-
-// Update Count
-document.getElementById('badgeCount').innerText = count;
-document.getElementById('badgeProgress').style.width = (count / 3 * 100) + "%";
-
-if (count === 3) {
-const btn = document.getElementById('certBtn');
-if (btn) {
-btn.classList.add('unlocked');
-btn.innerHTML = '<i class="fas fa-unlock"></i> TÉLÉCHARGER LA CERTIFICATION';
-btn.style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
-btn.style.boxShadow = "0 0 20px rgba(245, 158, 11, 0.4)";
-btn.disabled = false;
-}
-}
-});
-
-function checkDevPassword() {
-const pass = document.getElementById('devPass').value;
-if (pass.toUpperCase() === 'SATOSHI') {
-// Unlock ALL Badges
-localStorage.setItem('badge_explorer', 'true');
-localStorage.setItem('badge_listener', 'true');
-localStorage.setItem('badge_strategist', 'true');
-
-// Also Unlock Quiz Levels (Bonus)
-localStorage.setItem('quiz_metal_1', 'bronze');
-localStorage.setItem('quiz_metal_2', 'silver');
-localStorage.setItem('quiz_metal_3', 'gold');
-localStorage.setItem('quiz_lvl4_unlocked', 'true');
-
-alert("🔓 DEV MODE : Badges & Certification Débloqués.");
-} else {
-alert("Accès Refusé. Mot de passe incorrect.");
-}
-}
-</script>
-
-<!-- 5. Hooking into Existing Interactive Elements -->
-<script>
-    // Hook into Audio (Listener Badge)
-    const oldAudioFn = window.toggleAudio;
-    window.toggleAudio = function (id) {
-        if (oldAudioFn) oldAudioFn(id); // Call original
-        setTimeout(() => {
-            unlockBadge('listener'); // Unlock after "listening" (simulated 5s)
-        }, 5000);
-    };
-
-    // Hook into Game (Strategist Badge)
-    // NOW HANDLED DIRECTLY IN checkWinCondition()
-    // Observer removed for stability
-</script>
-
-<!-- RESET GAME LOGIC -->
-<script>
-    function resetGame() {
-        const draggables = document.querySelectorAll('.draggable');
-        const dropZones = document.querySelectorAll('.drop-zone');
-        const itemsContainer = document.querySelector('.draggable-items');
-        const successMsg = document.getElementById('gameSuccessMsg');
-        const resetBtn = document.getElementById('gameResetBtn');
-
-        // 1. Reset Draggables
-        draggables.forEach(drag => {
-            drag.classList.remove('placed');
-            drag.setAttribute('draggable', 'true');
-            itemsContainer.appendChild(drag); // Move back to source
-        });
-
-        // 2. Reset Zones
-        dropZones.forEach(zone => {
-            zone.classList.remove('correct', 'drag-over');
-        });
-
-        // 3. Hide Messages
-        successMsg.style.display = 'none';
-        resetBtn.style.display = 'none'; // Only show when game interacts? Or always?
-
-        // Optional: Shuffle items for replayability
-        for (let i = itemsContainer.children.length; i >= 0; i--) {
-            itemsContainer.appendChild(itemsContainer.children[Math.random() * i | 0]);
-        }
-    }
-
-    // Show reset button when any item is placed (User experience improvement)
-    document.addEventListener('dragend', () => {
-        const anyPlaced = document.querySelector('.drop-zone .draggable');
-        const resetBtn = document.getElementById('gameResetBtn');
-        if (anyPlaced && resetBtn) resetBtn.style.display = 'block';
-    });
-</script>
-
-<!-- RESET GAME LOGIC -->
-<script>
-    function resetGame() {
-        const draggables = Array.from(document.querySelectorAll('.draggable'));
-        const dropZones = document.querySelectorAll('.drop-zone');
-        const itemsContainer = document.querySelector('.draggable-items');
-        const successMsg = document.getElementById('gameSuccessMsg');
-        const resetBtn = document.getElementById('gameResetBtn');
-
-        // 1. Reset Draggables
-        draggables.forEach(drag => {
-            drag.classList.remove('placed');
-            drag.setAttribute('draggable', 'true');
-            itemsContainer.appendChild(drag); // Move back to source
-            drag.style.opacity = '1'; /* Reset opacity if changed */
-        });
-
-        // 2. Reset Zones
-        dropZones.forEach(zone => {
-            zone.classList.remove('correct', 'drag-over');
-            // Remove any draggable children if not moved by appendChild
-            while (zone.firstChild) {
-                if (zone.firstChild.classList && zone.firstChild.classList.contains('draggable')) {
-                    itemsContainer.appendChild(zone.firstChild);
-                } else {
-                    zone.removeChild(zone.firstChild);
-                }
-            }
-            // Restore Step Number if lost (simple version: just clear text content & re-add? No, structure is specific)
-            // Better: The appendChild above moves the NODE. The dropZone text "Etape X" might be obscured or removed?
-            // Checking structure: dropZone has .step-number span. We should ensure it remains.
-        });
-
-        // Re-Ensure Step Numbers are visible (if covered by drop)
-        dropZones.forEach((zone, index) => {
-            // Check if step-number span exists, if not recreate (defensive)
-            if (!zone.querySelector('.step-number')) {
-                const stepSpan = document.createElement('span');
-                stepSpan.className = 'step-number';
-                stepSpan.innerText = 'Étape ' + (index + 1);
-                zone.prepend(stepSpan);
-            }
-        });
-
-        // 3. Hide Messages
-        if (successMsg) successMsg.style.display = 'none';
-        if (resetBtn) resetBtn.style.display = 'none';
-
-        // 4. Shuffle items for replayability
-        for (let i = draggables.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            itemsContainer.appendChild(draggables[j]);
-        }
-    }
-
-    // Show reset button when any item is placed (User experience improvement)
-    document.addEventListener('dragend', () => {
-        // Wait small delay for DOM update
-        setTimeout(() => {
-            const dropZones = document.querySelectorAll('.drop-zone');
-            let anyPlaced = false;
-            dropZones.forEach(zone => {
-                if (zone.querySelector('.draggable')) anyPlaced = true;
-            });
-
-            const resetBtn = document.getElementById('gameResetBtn');
-            if (anyPlaced && resetBtn) {
-                resetBtn.style.display = 'block';
-            }
-        }, 100);
-    });
-</script>
-<!-- MISSING SCRIPTS RE-INJECTION (FAQ FIX) -->
-<script>
-    function toggleFaq(button) {
-        const answer = button.nextElementSibling;
-        const icon = button.querySelector('.faq-icon');
-
-        if (answer.style.maxHeight) {
-            answer.style.maxHeight = null;
-            icon.innerText = '+';
-            button.classList.remove('active');
-        } else {
-            answer.style.maxHeight = answer.scrollHeight + 'px';
-            icon.innerText = '-';
-            button.classList.add('active');
-        }
-    }
-</script>
-<!-- WALLET MODAL LOGIC (NEXT GEN) -->
-<script>
-    function openWalletModal() {
-        const modal = document.getElementById('walletModalOverlay');
-        if (modal) modal.style.display = 'flex';
-    }
-
-    function closeWalletModal() {
-        const modal = document.getElementById('walletModalOverlay');
-        if (modal) modal.style.display = 'none';
-    }
-
-    function simulateConnection(walletName) {
-        const status = document.getElementById('walletStatus');
-        status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to ' + walletName + '...';
-
-        setTimeout(() => {
-            status.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981;"></i> Connected to ' + walletName;
-            setTimeout(() => {
-                closeWalletModal();
-                alert('Wallet ' + walletName + ' connected! (Simulation Mode)');
-                document.querySelector('.connect-wallet-btn').innerHTML = '<i class="fas fa-user-check"></i> ' + walletName;
-                document.querySelector('.connect-wallet-btn').style.background = 'rgba(16, 185, 129, 0.2)';
-                document.querySelector('.connect-wallet-btn').style.border = '1px solid #10b981';
-            }, 1000);
-        }, 1500);
-    }
-</script>
