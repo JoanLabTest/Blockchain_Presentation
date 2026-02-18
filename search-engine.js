@@ -1,4 +1,14 @@
-/* --- RESEARCH ENGINE LOGIC (Legacy-Free) --- */
+/* --- RESEARCH ENGINE LOGIC (Bloomberg-Lite) --- */
+
+const SYNONYMS = {
+    "risk": ["danger", "hazard", "warning", "stress", "panic", "drawdown"],
+    "staking": ["pos", "validator", "yield", "reward", "proof of stake"],
+    "contract": ["code", "solidity", "smart contract", "program", "dapp"],
+    "compliance": ["legal", "regulation", "law", "kyc", "aml", "sanction"],
+    "security": ["audit", "hack", "exploit", "guard", "protection", "safe"],
+    "liquidity": ["depth", "volume", "market making", "slippage"],
+    "architecture": ["structure", "design", "pattern", "flow", "diagram"]
+};
 
 class ResearchEngine {
     constructor() {
@@ -18,7 +28,7 @@ class ResearchEngine {
 
         // 3. Bind Events
         this.bindEvents();
-        console.log("Research Engine: Online 🟢");
+        console.log("Research Engine: Intelligent Mode Online 🧠");
     }
 
     injectStyles() {
@@ -50,9 +60,27 @@ class ResearchEngine {
                     <input type="text" id="search-input" placeholder="Rechercher (Risk, Yield, Compliance...)" autocomplete="off">
                     <span class="esc-hint">ESC</span>
                 </div>
+                
+                <!-- FACETED FILTERS -->
+                <div class="search-filters">
+                    <button class="filter-btn active" data-filter="ALL">ALL</button>
+                    <button class="filter-btn" data-filter="RISK">RISK</button>
+                    <button class="filter-btn" data-filter="TECH">TECH</button>
+                    <button class="filter-btn" data-filter="LEGAL">LEGAL</button>
+                    <button class="filter-btn" data-filter="MACRO">MACRO</button>
+                </div>
+
                 <div id="search-results">
                     <!-- Results injected here -->
-                    <div class="empty-state">Commencez à taper pour explorer le Knowledge Hub...</div>
+                    <div class="empty-state">
+                        <i class="fa-regular fa-compass" style="font-size: 24px; margin-bottom: 10px; opacity: 0.5;"></i><br>
+                        Commencez à taper pour explorer le Knowledge Hub...
+                    </div>
+                </div>
+                
+                <div class="search-footer">
+                    <span><i class="fa-solid fa-arrows-up-down"></i> Naviguer</span>
+                    <span><i class="fa-solid fa-turn-down-left"></i> Ouvrir</span>
                 </div>
             </div>
         `;
@@ -62,6 +90,17 @@ class ResearchEngine {
         this.modalEl = modal;
         this.inputEl = document.getElementById('search-input');
         this.resultsEl = document.getElementById('search-results');
+
+        // Filter Logic
+        this.activeFilter = 'ALL';
+        this.modalEl.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.modalEl.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.activeFilter = e.target.dataset.filter;
+                this.handleSearch(this.inputEl.value); // Re-run search
+            });
+        });
     }
 
     async loadIndex() {
@@ -69,119 +108,10 @@ class ResearchEngine {
             const response = await fetch('search-index.json');
             this.index = await response.json();
         } catch (e) {
-            console.warn("Research Engine: Failed to load index via fetch (likely CORS on local file://). Using embedded fallback data.");
-            // FALLBACK DATA FOR LOCAL TESTING
+            console.warn("Research Engine: Failed to load index via fetch. Using embedded fallback.");
+            // Compact fallback for demo continuity if JSON fails
             this.index = [
-                {
-                    "id": "pos-stress-test",
-                    "title": "Liquidity Crunch Scenario (30% Unstake)",
-                    "page": "pos-economics.html",
-                    "anchor": "#section-6",
-                    "category": "RISK",
-                    "tags": ["#StressTest", "#Liquidity", "#PoS", "#Panic"],
-                    "content": "Impact of mass unbonding: Exit queue saturation (>45 days), LSD depeg (stETH), and collateral value collapse.",
-                    "weight": 10
-                },
-                {
-                    "id": "pos-model-limitations",
-                    "title": "PoS Model Limitations & Assumptions",
-                    "page": "pos-economics.html",
-                    "anchor": "#section-6",
-                    "category": "RISK",
-                    "tags": ["#ModelRisk", "#Assumptions", "#Volatility"],
-                    "content": "Key model constraints: Assumes perfect uptime, ignores token price volatility, excludes hardware upgrade costs.",
-                    "weight": 8
-                },
-                {
-                    "id": "smart-contracts-force-transfer",
-                    "title": "Regulatory Seizure (Force Transfer)",
-                    "page": "smart-contracts.html",
-                    "anchor": "#section-anatomie",
-                    "category": "LEGAL",
-                    "tags": ["#Compliance", "#Seizure", "#AgentRole", "#RWA"],
-                    "content": "Solidity function allowing the Agent role to seize assets for legal recovery (Court order compliance).",
-                    "weight": 10
-                },
-                {
-                    "id": "smart-contracts-blacklist",
-                    "title": "Sanctions & Blacklist Mechanism",
-                    "page": "smart-contracts.html",
-                    "anchor": "#section-anatomie",
-                    "category": "LEGAL",
-                    "tags": ["#Sanctions", "#Blacklist", "#Compliance", "#OFAC"],
-                    "content": "On-chain blocking of specific addresses to comply with AML/CFT regulations.",
-                    "weight": 9
-                },
-                {
-                    "id": "smart-contracts-proxy",
-                    "title": "Upgradeability: UUPS Proxy Pattern",
-                    "page": "smart-contracts.html",
-                    "anchor": "#section-gov",
-                    "category": "TECH",
-                    "tags": ["#Architecture", "#Upgradeability", "#Proxy", "#SmartContract"],
-                    "content": "Separation of Logic and Storage/State to allow contract upgrades without losing data.",
-                    "weight": 9
-                },
-                {
-                    "id": "smart-contracts-multisig",
-                    "title": "Governance Key Management (Multisig)",
-                    "page": "smart-contracts.html",
-                    "anchor": "#section-gov",
-                    "category": "GOV",
-                    "tags": ["#Security", "#Multisig", "#KeyManagement", "#Gnosis"],
-                    "content": "Use of Gnosis Safe (N-of-M) or Timelock Controllers to secure the DEFAULT_ADMIN_ROLE.",
-                    "weight": 9
-                },
-                {
-                    "id": "smart-contracts-audit",
-                    "title": "Formal Verification & Audit Process",
-                    "page": "smart-contracts.html",
-                    "anchor": "#section-security",
-                    "category": "TECH",
-                    "tags": ["#Audit", "#FormalVerification", "#Security", "#Slither"],
-                    "content": "Three-tier security process: Automated Analysis, Manual Review, and Formal Verification (Certora).",
-                    "weight": 8
-                },
-                {
-                    "id": "yield-apy-vs-apr",
-                    "title": "APR vs APY Distinction",
-                    "page": "yield-mechanics.html",
-                    "anchor": "#section-1",
-                    "category": "MACRO",
-                    "tags": ["#Yield", "#Math", "#Finance", "#Compounding"],
-                    "content": "Difference between nominal rate (APR) and effective compounded rate (APY). Formula: (1 + r/n)^n - 1.",
-                    "weight": 10
-                },
-                {
-                    "id": "yield-staking-calculator",
-                    "title": "Staking Yield Calculator",
-                    "page": "yield-mechanics.html",
-                    "anchor": "#section-1",
-                    "category": "TOOL",
-                    "tags": ["#Calculator", "#Simulation", "#Forecasting"],
-                    "content": "Interactive tool to convert APR to APY based on compounding frequency (Daily, Weekly, etc.).",
-                    "weight": 7
-                },
-                {
-                    "id": "legal-pilot-regime",
-                    "title": "EU DLT Pilot Regime (T+0)",
-                    "page": "legal_pilot.html",
-                    "anchor": "#section-pilot",
-                    "category": "LEGAL",
-                    "tags": ["#Regulation", "#EU", "#Settlement", "#T0"],
-                    "content": "European framework allowing T+0 settlement and bridging the gap between TradFi and DeFi.",
-                    "weight": 9
-                },
-                {
-                    "id": "ai-finance-architecture",
-                    "title": "AI-Driven Finance Architecture",
-                    "page": "ai-finance.html",
-                    "anchor": "#section-arch",
-                    "category": "TECH",
-                    "tags": ["#AI", "#Architecture", "#DataFlow", "#LLM"],
-                    "content": "Integration of LLMs into financial workflows for sentiment analysis and alpha generation.",
-                    "weight": 7
-                }
+                { id: "fallback-1", title: "Liquidity Crunch Scenario", category: "RISK", type: "Scenario", fullText: "Mass exit scenario...", weight: 10, page: "pos-economics.html", anchor: "#section-6", tags: ["#StressTest"] }
             ];
         }
     }
@@ -236,6 +166,7 @@ class ResearchEngine {
         this.resultsEl.innerHTML = '<div class="empty-state">Commencez à taper pour explorer le Knowledge Hub...</div>';
     }
 
+    // --- INTELLIGENT SCORING ENGINE ---
     handleSearch(query) {
         if (!query) {
             this.resultsEl.innerHTML = '<div class="empty-state">Commencez à taper pour explorer le Knowledge Hub...</div>';
@@ -244,32 +175,73 @@ class ResearchEngine {
 
         const q = query.toLowerCase();
 
-        // Simple Scoring Logic
+        // 1. Get Synonyms
+        let expandedQuery = [q];
+        Object.keys(SYNONYMS).forEach(key => {
+            if (q.includes(key)) {
+                expandedQuery = [...expandedQuery, ...SYNONYMS[key]];
+            }
+            // Reverse check: if query is "danger", map to "risk"
+            if (SYNONYMS[key].includes(q)) {
+                expandedQuery.push(key);
+            }
+        });
+
         const results = this.index.map(item => {
             let score = 0;
-            if (item.title.toLowerCase().includes(q)) score += 10;
-            if (JSON.stringify(item.tags).toLowerCase().includes(q)) score += 5;
-            if (item.content.toLowerCase().includes(q)) score += 2;
+
+            // A. Title Match (High Weight)
+            if (item.title.toLowerCase().includes(q)) score += 25;
+
+            // B. Synonym/Tags Match (Medium Weight)
+            const itemString = (JSON.stringify(item.tags) + " " + item.category).toLowerCase();
+            expandedQuery.forEach(term => {
+                if (itemString.includes(term)) score += 10;
+            });
+
+            // C. Full Text Match (Low Weight but captures depth)
+            if (item.fullText && item.fullText.toLowerCase().includes(q)) score += 5;
+
+            // D. Exact ID Match (Very High)
+            if (item.id === q) score += 50;
+
+            // E. Filter Check
+            if (this.activeFilter !== 'ALL' && item.category !== this.activeFilter) {
+                score = 0; // Filter out
+            }
 
             return { ...item, score };
         })
             .filter(item => item.score > 0)
-            .sort((a, b) => b.score - a.score || b.weight - a.weight) // Tie-break with static weight
-            .slice(0, 5); // Limit to top 5
+            .sort((a, b) => b.score - a.score || b.weight - a.weight)
+            .slice(0, 7); // Show top 7
 
-        this.renderResults(results);
-        this.selectedIndex = 0; // Reset selection
+        this.renderResults(results, q);
+        this.selectedIndex = 0;
     }
 
-    renderResults(results) {
+    renderResults(results, query) {
         if (results.length === 0) {
-            this.resultsEl.innerHTML = '<div class="empty-state">Aucun résultat trouvé.</div>';
+            this.resultsEl.innerHTML = '<div class="empty-state">Aucun résultat trouvé pour cette recherche.</div>';
             return;
         }
 
-        this.currentResults = results; // Store for navigation
+        this.currentResults = results;
 
-        this.resultsEl.innerHTML = results.map((item, index) => `
+        this.resultsEl.innerHTML = results.map((item, index) => {
+            // Snippet Logic
+            let snippet = item.content;
+            if (item.fullText) {
+                // Try to find the query in fullText to show context
+                const idx = item.fullText.toLowerCase().indexOf(query.toLowerCase());
+                if (idx !== -1) {
+                    const start = Math.max(0, idx - 20);
+                    const end = Math.min(item.fullText.length, idx + 80);
+                    snippet = "..." + item.fullText.substring(start, end) + "...";
+                }
+            }
+
+            return `
             <div class="result-item ${index === 0 ? 'selected' : ''}" data-index="${index}" onclick="window.engine.goTo('${item.page}', '${item.anchor}')">
                 <div class="result-icon">
                     ${this.getIcon(item.category)}
@@ -278,14 +250,16 @@ class ResearchEngine {
                     <div class="result-title">
                         ${item.title}
                         <span class="badge-cat cat-${item.category}">${item.category}</span>
+                        ${item.type ? `<span class="badge-type">${item.type}</span>` : ''}
                     </div>
-                    <div class="result-desc">${item.content}</div>
+                    <div class="result-desc">${snippet}</div>
                 </div>
-                <div style="font-size:12px; color:#444;">
+                <div class="result-arrow">
                     <i class="fa-solid fa-arrow-turn-down-left"></i>
                 </div>
             </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     getIcon(category) {

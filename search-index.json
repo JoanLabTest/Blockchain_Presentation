@@ -1,135 +1,162 @@
 [
     {
-        "id": "pos-stress-test",
+        "id": "risk-liquidity-crunch",
         "title": "Liquidity Crunch Scenario (30% Unstake)",
         "page": "pos-economics.html",
         "anchor": "#section-6",
         "category": "RISK",
+        "type": "Scenario",
         "tags": [
             "#StressTest",
             "#Liquidity",
             "#PoS",
-            "#Panic"
+            "#Panic",
+            "#Depeg"
         ],
         "content": "Impact of mass unbonding: Exit queue saturation (>45 days), LSD depeg (stETH), and collateral value collapse.",
+        "fullText": "This scenario simulates a mass exit where 30% of total staked ETH is unstaked within 72 hours. Consequences include: Exit Queue Saturation exceeding 45 days, rapid depegging of Liquid Staking Derivatives (stETH), and a collapse in DeFi collateral value triggering cascading liquidations.",
         "weight": 10
     },
     {
-        "id": "pos-model-limitations",
+        "id": "risk-model-limitations",
         "title": "PoS Model Limitations & Assumptions",
         "page": "pos-economics.html",
         "anchor": "#section-6",
         "category": "RISK",
+        "type": "Concept",
         "tags": [
             "#ModelRisk",
             "#Assumptions",
-            "#Volatility"
+            "#Volatility",
+            "#BlackSwan"
         ],
         "content": "Key model constraints: Assumes perfect uptime, ignores token price volatility, excludes hardware upgrade costs.",
+        "fullText": "The predictive model relies on several core assumptions: 1. Perfect Validator Uptime (no slashing). 2. Constant Network Participation rate. 3. Exclusion of hardware maintenance and upgrade costs. 4. Token price volatility is not factored into the yield calculation (purely denomination-based).",
         "weight": 8
     },
     {
-        "id": "smart-contracts-force-transfer",
+        "id": "legal-force-transfer",
         "title": "Regulatory Seizure (Force Transfer)",
         "page": "smart-contracts.html",
         "anchor": "#section-anatomie",
         "category": "LEGAL",
+        "type": "Function",
         "tags": [
             "#Compliance",
             "#Seizure",
             "#AgentRole",
-            "#RWA"
+            "#RWA",
+            "#Recovery"
         ],
         "content": "Solidity function allowing the Agent role to seize assets for legal recovery (Court order compliance).",
+        "fullText": "The `forceTransfer` function is a critical compliance feature for Regulated Real World Assets (RWA). It allows a designated 'Agent' or 'Recovery' role to forcefully move tokens from a wallet in the event of a court order, loss of private keys, or sanctions enforcement. This bypasses standard transfer restrictions.",
         "weight": 10
     },
     {
-        "id": "smart-contracts-blacklist",
+        "id": "legal-blacklist",
         "title": "Sanctions & Blacklist Mechanism",
         "page": "smart-contracts.html",
         "anchor": "#section-anatomie",
         "category": "LEGAL",
+        "type": "Function",
         "tags": [
             "#Sanctions",
             "#Blacklist",
             "#Compliance",
-            "#OFAC"
+            "#OFAC",
+            "#AML"
         ],
         "content": "On-chain blocking of specific addresses to comply with AML/CFT regulations.",
+        "fullText": "Smart contracts implement a `isBlacklisted` modifier that checks an on-chain registry before allowing any transfer. This ensures real-time compliance with OFAC sanctions lists and Anti-Money Laundering (AML) directives, instantly freezing assets held by illicit actors.",
         "weight": 9
     },
     {
-        "id": "smart-contracts-proxy",
+        "id": "tech-proxy-pattern",
         "title": "Upgradeability: UUPS Proxy Pattern",
         "page": "smart-contracts.html",
         "anchor": "#section-gov",
         "category": "TECH",
+        "type": "Architecture",
         "tags": [
             "#Architecture",
             "#Upgradeability",
             "#Proxy",
-            "#SmartContract"
+            "#SmartContract",
+            "#UUPS"
         ],
         "content": "Separation of Logic and Storage/State to allow contract upgrades without losing data.",
+        "fullText": "The UUPS (Universal Upgradeable Proxy Standard) pattern separates the contract into a Proxy (storage) and an Implementation (logic). This allows the protocol to update business logic (fix bugs, add features) by simply pointing the Proxy to a new Implementation address, preserving all user balances and state.",
         "weight": 9
     },
     {
-        "id": "smart-contracts-multisig",
+        "id": "gov-multisig",
         "title": "Governance Key Management (Multisig)",
         "page": "smart-contracts.html",
         "anchor": "#section-gov",
         "category": "GOV",
+        "type": "Security",
         "tags": [
             "#Security",
             "#Multisig",
             "#KeyManagement",
-            "#Gnosis"
+            "#Gnosis",
+            "#Admin"
         ],
         "content": "Use of Gnosis Safe (N-of-M) or Timelock Controllers to secure the DEFAULT_ADMIN_ROLE.",
+        "fullText": "Critical administrative privileges (DEFAULT_ADMIN_ROLE) are never held by a single EOA (Externally Owned Account). Instead, they are secured by a Gnosis Safe Multisig requiring N-of-M consensus (e.g., 3 out of 5 signers) or a Timelock Controller that enforces a delay between proposal and execution.",
         "weight": 9
     },
     {
-        "id": "smart-contracts-audit",
+        "id": "tech-audit-process",
         "title": "Formal Verification & Audit Process",
         "page": "smart-contracts.html",
         "anchor": "#section-security",
         "category": "TECH",
+        "type": "Process",
         "tags": [
             "#Audit",
             "#FormalVerification",
             "#Security",
-            "#Slither"
+            "#Slither",
+            "#Certora"
         ],
         "content": "Three-tier security process: Automated Analysis, Manual Review, and Formal Verification (Certora).",
+        "fullText": "Our security pipeline consists of three rigorous stages: 1. Automated Static Analysis using Slither and Mythril. 2. Manual Line-by-Line Audit by senior engineers. 3. Formal Verification using Certora Prover to mathematically prove the correctness of invariants and absence of logical flaws.",
         "weight": 8
     },
     {
-        "id": "yield-apy-vs-apr",
+        "id": "macro-apy-apr",
         "title": "APR vs APY Distinction",
         "page": "yield-mechanics.html",
         "anchor": "#section-1",
         "category": "MACRO",
+        "type": "Concept",
         "tags": [
             "#Yield",
             "#Math",
             "#Finance",
-            "#Compounding"
+            "#Compounding",
+            "#Formula"
         ],
         "content": "Difference between nominal rate (APR) and effective compounded rate (APY). Formula: (1 + r/n)^n - 1.",
+        "fullText": "APR (Annual Percentage Rate) is the simple interest rate calculated over a year. APY (Annual Percentage Yield) takes into account the effects of compounding interest. The formula for APY is ((1 + r/n)^n) - 1, where r is the nominal rate and n is the number of compounding periods.",
         "weight": 10
     },
     {
-        "id": "yield-staking-calculator",
+        "id": "tool-yield-calculator",
         "title": "Staking Yield Calculator",
         "page": "yield-mechanics.html",
         "anchor": "#section-1",
         "category": "TOOL",
+        "type": "Interactive",
         "tags": [
             "#Calculator",
             "#Simulation",
-            "#Forecasting"
+            "#Forecasting",
+            "#ROI"
         ],
         "content": "Interactive tool to convert APR to APY based on compounding frequency (Daily, Weekly, etc.).",
+        "fullText": "A real-time financial modeling tool allowing users to input Principal Amount, APR, and Compounding Frequency to project future value. Useful for comparing different staking products and understanding the impact of daily vs monthly compounding.",
         "weight": 7
     },
     {
@@ -138,28 +165,68 @@
         "page": "legal_pilot.html",
         "anchor": "#section-pilot",
         "category": "LEGAL",
+        "type": "Regulation",
         "tags": [
             "#Regulation",
             "#EU",
             "#Settlement",
-            "#T0"
+            "#T0",
+            "#MiCA"
         ],
         "content": "European framework allowing T+0 settlement and bridging the gap between TradFi and DeFi.",
+        "fullText": "The EU DLT Pilot Regime represents a regulatory sandox allowing market infrastructures to trade and settle tokenized securities on blockchain. Its key advantage is enabling T+0 (Atomic Settlement), removing counterparty risk and the need for traditional clearing houses (CCPs).",
         "weight": 9
     },
     {
-        "id": "ai-finance-architecture",
+        "id": "tech-ai-architecture",
         "title": "AI-Driven Finance Architecture",
         "page": "ai-finance.html",
         "anchor": "#section-arch",
         "category": "TECH",
+        "type": "Architecture",
         "tags": [
             "#AI",
             "#Architecture",
             "#DataFlow",
-            "#LLM"
+            "#LLM",
+            "#Sentiment"
         ],
         "content": "Integration of LLMs into financial workflows for sentiment analysis and alpha generation.",
+        "fullText": "The architecture integrates Large Language Models (LLMs) via RAG (Retrieval Augmented Generation) to process unstructured financial data (news, earnings calls). This feeds into a vector database, enabling automated sentiment analysis and signal generation for trading algorithms.",
         "weight": 7
+    },
+    {
+        "id": "tech-reentrancy-guard",
+        "title": "Reentrancy Guard Pattern",
+        "page": "smart-contracts.html",
+        "anchor": "#section-security",
+        "category": "TECH",
+        "type": "Code",
+        "tags": [
+            "#Security",
+            "#Reentrancy",
+            "#CodePattern",
+            "#Guard"
+        ],
+        "content": "Security modifier preventing recursive calls to a function, mitigating the DAO hack vector.",
+        "fullText": "The `nonReentrant` modifier works by setting a boolean lock (`_status`) before function execution and releasing it afterwards. If an attacker attempts to call the function again (re-enter) before the first call finishes, the modifier detects the lock is active and reverts the transaction.",
+        "weight": 9
+    },
+    {
+        "id": "macro-exit-queue",
+        "title": "Validator Exit Queue Dynamics",
+        "page": "pos-economics.html",
+        "anchor": "#section-network",
+        "category": "MACRO",
+        "type": "Concept",
+        "tags": [
+            "#Liquidity",
+            "#Ethereum",
+            "#ChurnLimit",
+            "#Queue"
+        ],
+        "content": "Protocol-level limit on how many validators can exit per epoch (Churn Limit).",
+        "fullText": "Ethereum enforces a Churn Limit to maintain network stability. Only a limited number of validators can enter or exit per epoch. In a mass withdrawal scenario, this creates an 'Exit Queue', potentially locking staked capital for days or weeks depending on the backlog.",
+        "weight": 8
     }
 ]
