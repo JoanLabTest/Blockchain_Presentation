@@ -380,7 +380,8 @@
                     <a href="#section-anatomie" class="toc-link active">1. Anatomie RWA</a>
                     <a href="#section-arch" class="toc-link">2. Architecture On-Chain</a>
                     <a href="#section-standards" class="toc-link">3. Standards (ERC-3643)</a>
-                    <a href="#section-security" class="toc-link">4. Sécurité & Audit</a>
+                    <a href="#section-gov" class="toc-link">4. Gouvernance & Proxy</a>
+                    <a href="#section-security" class="toc-link">5. Sécurité & Audit</a>
                 </nav>
             </aside>
 
@@ -415,7 +416,11 @@
                             <span class="com">// State Variables</span>
                             <span class="typ">bytes32</span> <span class="kwd">public constant</span> ISSUER_ROLE =
                             <span class="fn">keccak256</span>(<span class="str">"ISSUER_ROLE"</span>);
+                            <span class="typ">bytes32</span> <span class="kwd">public constant</span> AGENT_ROLE = <span
+                                class="fn">keccak256</span>(<span class="str">"AGENT_ROLE"</span>);
                             ICompliance <span class="kwd">public</span> complianceModule;
+                            <span class="kwd">mapping</span>(<span class="typ">address</span> => <span
+                                class="typ">bool</span>) <span class="kwd">public</span> isBlacklisted;
 
                             <span class="kwd">constructor</span>(<span class="typ">string</span> <span
                                 class="kwd">memory</span> name, <span class="typ">string</span> <span
@@ -426,16 +431,21 @@
                             }
 
                             <span class="com">/*
-                                * @notice Mint tokens only to whitelisted investors
-                                * @dev Checks compliance module before state change
+                                * @notice Regulatory seizure (Court order recovery)
+                                * @dev Bypasses approval check, only for Agent Role
                                 */</span>
-                            <span class="kwd">function</span> <span class="fn">mint</span>(<span
-                                class="typ">address</span> to, <span class="typ">uint256</span> amount) <span
-                                class="kwd">public</span> <span class="fn">onlyRole</span>(ISSUER_ROLE) {
-                            <span class="kwd">require</span>(complianceModule.<span
-                                class="fn">checkEligibility</span>(to), <span class="str">"Investor not eligible
-                                (KYC)"</span>);
-                            <span class="fn">_mint</span>(to, amount);
+                            <span class="kwd">function</span> <span class="fn">forceTransfer</span>(<span
+                                class="typ">address</span> from, <span class="typ">address</span> to, <span
+                                class="typ">uint256</span> amount) <span class="kwd">public</span> <span
+                                class="fn">onlyRole</span>(AGENT_ROLE) {
+                            <span class="fn">_transfer</span>(from, to, amount);
+                            <span class="kwd">emit</span> <span class="fn">RecoveryExecuted</span>(from, to, amount);
+                            }
+
+                            <span class="kwd">function</span> <span class="fn">setBlacklist</span>(<span
+                                class="typ">address</span> account, <span class="typ">bool</span> status) <span
+                                class="kwd">public</span> <span class="fn">onlyRole</span>(AGENT_ROLE) {
+                            isBlacklisted[account] = status;
                             }
 
                             <span class="com">// Override transfer to enforce ongoing compliance (Secondary
@@ -444,6 +454,9 @@
                                 class="typ">address</span> from, <span class="typ">address</span> to, <span
                                 class="typ">uint256</span> amount) <span class="kwd">internal override</span> <span
                                 class="fn">whenNotPaused</span> {
+                            <span class="kwd">require</span>(!isBlacklisted[from] && !isBlacklisted[to], <span
+                                class="str">"Address is sanctioned"</span>);
+
                             <span class="kwd">if</span> (from != <span class="typ">address</span>(0) && to != <span
                                 class="typ">address</span>(0)) {
                             <span class="kwd">require</span>(complianceModule.<span class="fn">canTransfer</span>(from,
@@ -528,9 +541,44 @@
                     </table>
                 </section>
 
-                <!-- 4. SECURITY PATTERNS -->
+                <!-- 4. GOVERNANCE & UPGRADEABILITY (NEW - PHASE 7) -->
+                <section id="section-gov" class="tech-section" data-aos="fade-up">
+                    <h2><i class="fa-solid fa-chess-rook" style="color: var(--accent-gold);"></i> 4. Gouvernance &
+                        Upgradeability</h2>
+                    <p>Gestion du cycle de vie des contrats institutionnels : Mises à jour et protection des clés.</p>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:30px; margin-top:30px;">
+                        <div style="background:#111; padding:25px; border-radius:8px; border:1px solid #333;">
+                            <h3 style="color:#fff; font-size:16px; margin-top:0;"><i
+                                    class="fa-solid fa-code-branch"></i> Proxy Pattern (UUPS)</h3>
+                            <p style="font-size:13px; color:#888;">
+                                Les contrats financiers doivent être évolutifs (fix de bugs, nouvelles régulations).
+                                On utilise le pattern <strong>UUPS (Universal Upgradeable Proxy Standard)</strong> qui
+                                sépare :
+                            </p>
+                            <ul style="font-size:13px; color:#888; padding-left:20px;">
+                                <li><strong>Proxy :</strong> Détient l'état (Balances) et l'adresse. Ne change jamais.
+                                </li>
+                                <li><strong>Implementation :</strong> Contient la logique. Peut être remplacée par la
+                                    Gouvernance.</li>
+                            </ul>
+                        </div>
+                        <div style="background:#111; padding:25px; border-radius:8px; border:1px solid #333;">
+                            <h3 style="color:#fff; font-size:16px; margin-top:0;"><i class="fa-solid fa-vault"></i>
+                                Gestion des Clés (Multisig)</h3>
+                            <p style="font-size:13px; color:#888;">
+                                Aucun "Admin" ne doit être une clé privée unique (EOA). Le rôle
+                                <code>DEFAULT_ADMIN_ROLE</code> est détenu par un <strong>Gnosis Safe (Multisig
+                                    3/5)</strong> ou un <strong>Timelock Controller</strong> pour empêcher les actions
+                                malveillantes immédiates.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. SECURITY PATTERNS -->
                 <section id="section-security" class="tech-section" data-aos="fade-up" style="border-bottom:none;">
-                    <h2><i class="fa-solid fa-shield-halved" style="color: var(--accent-green);"></i> 4. Patterns de
+                    <h2><i class="fa-solid fa-shield-halved" style="color: var(--accent-green);"></i> 5. Patterns de
                         Sécurité & Audit</h2>
                     <div class="pattern-grid">
                         <div class="pattern-card">
@@ -568,10 +616,16 @@
                         <div>
                             <h3 style="color:white; margin-bottom:5px;">Processus d'Audit & Vérification Formelle</h3>
                             <p style="font-size:14px; color:#aaa; margin:0;">
-                                Avant déploiement, les contrats institutionnels subissent des audits par des firmes
-                                tierces (Trail of Bits, OpenZeppelin) et des vérifications formelles (Certora) pour
-                                prouver mathématiquement l'invariance des règles comptables.
+                                Avant déploiement, les contrats institutionnels doivent valider 3 niveaux de sécurité :
                             </p>
+                            <ul style="font-size:13px; color:#aaa; margin-top:5px; padding-left:20px;">
+                                <li><strong>Automated Analysis :</strong> Slither, MythX (Détection vulnérabilités
+                                    connues).</li>
+                                <li><strong>Manual Audit :</strong> Revue humaine ligne par ligne (ex: Trail of Bits,
+                                    OpenZeppelin).</li>
+                                <li><strong>Formal Verification :</strong> Preuve mathématique des invariants du code
+                                    (ex: Certora Prover).</li>
+                            </ul>
                         </div>
                     </div>
                 </section>
