@@ -250,8 +250,54 @@
             color: var(--accent-cyan);
             font-family: 'JetBrains Mono';
             margin-bottom: 50px;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 15px;
             letter-spacing: 3px;
+        }
+
+        .compliance-shield {
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 50px;
+            color: #10b981;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+            animation: pulse-green 3s infinite;
+        }
+
+        .compliance-shield {
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 50px;
+            color: #10b981;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+            animation: pulse-green 3s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
         }
 
         .card-stack {
@@ -966,9 +1012,11 @@
             <div style="z-index: 2;">
                 <div style="margin-bottom: 40px;">
                     <h1 class="hero-title">L'Innovation<br>Légale</h1>
-                    <span class="hero-sub"
-                        style="font-size: 14px; background: rgba(6,182,212,0.1); border: 1px solid var(--accent-cyan); padding: 5px 10px; border-radius: 4px;">
-                        RÈGLEMENT (UE) 2022/858 • DLTR
+                    <span class="hero-sub">
+                        RÈGLEMENT (UE) 2022/858
+                        <div class="compliance-shield">
+                            <i class="fas fa-shield-check"></i> OFFICIAL
+                        </div>
                     </span>
                     <p
                         style="color: var(--text-muted); margin-top: 20px; font-size: 15px; max-width: 500px; line-height: 1.6;">
@@ -1329,6 +1377,17 @@
                     <li><strong>Liquidité</strong> : Le marché secondaire DLT est encore fragmenté.</li>
                 </ul>
             </div>
+
+            <!-- COL 4: SOURCES (NEW) -->
+            <div class="reg-card" style="border-color: rgba(16, 185, 129, 0.3);">
+                <h3 style="color: #10b981;"><i class="fa-solid fa-gavel"></i> Sources Légales</h3>
+                <ul class="reg-list">
+                    <li><strong>Pilot Regime</strong> : EU regulation 2022/858 on distributed ledger technology market
+                        infrastructures.</li>
+                    <li><strong>MiCA</strong> : Regulation on Markets in Crypto-Assets.</li>
+                    <li><strong>Ordonnance Blockchain</strong> : Ordonnance n° 2017-1674 (France).</li>
+                </ul>
+            </div>
         </div>
 
         <!-- ========================================= -->
@@ -1376,6 +1435,86 @@
                         <p>Permettre aux acteurs de tester la DLT sans être immédiatement soumis à MiFID II ou CSDR.</p>
                         <div class="card-particles"></div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: COMPARATIVE TABLE (T+2 vs T+0) -->
+        <section class="pilot-impact-section" style="padding: 100px 0; background: #020617;">
+            <div class="section-container">
+                <div class="section-header" data-aos="fade-up">
+                    <span class="section-number">02</span>
+                    <h2>Impact Concret : Settlement T+0</h2>
+                    <p class="section-subtitle">Comparaison directe entre le modèle traditionnel et le modèle DLT</p>
+                </div>
+
+                <div class="impact-table-container" data-aos="zoom-in"
+                    style="background: rgba(30, 41, 59, 0.4); border-radius: 20px; padding: 40px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <style>
+                        .impact-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            color: #cbd5e1;
+                        }
+
+                        .impact-table th {
+                            text-align: left;
+                            padding: 20px;
+                            border-bottom: 2px solid #334155;
+                            font-size: 18px;
+                            color: white;
+                        }
+
+                        .impact-table td {
+                            padding: 20px;
+                            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                            font-size: 15px;
+                        }
+
+                        .impact-table tr:last-child td {
+                            border-bottom: none;
+                        }
+
+                        .impact-highlight {
+                            color: #10b981;
+                            font-weight: 700;
+                        }
+
+                        .impact-bad {
+                            color: #fca5a5;
+                        }
+                    </style>
+                    <table class="impact-table">
+                        <thead>
+                            <tr>
+                                <th>Critère</th>
+                                <th style="color: #94a3b8;">Modèle Traditionnel (CSDR)</th>
+                                <th style="color: #3b82f6;">Modèle DLT (Pilot Regime)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Cycle de Règlement</strong></td>
+                                <td class="impact-bad">T+2 (2 jours ouvrés)</td>
+                                <td class="impact-highlight">T+0 (Instantané / Atomique)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Intermédiation</strong></td>
+                                <td>Multiple (Broker -> Custodian -> CSD)</td>
+                                <td class="impact-highlight">Accès Direct (Investisseur -> DLT)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Réconciliation</strong></td>
+                                <td class="impact-bad">Manuelle & Coûteuse</td>
+                                <td class="impact-highlight">Automatisée (Smart Contract)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transparence</strong></td>
+                                <td>Limitée (Silos de données)</td>
+                                <td class="impact-highlight">Totale (Registre Distribué)</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
