@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Contracts Pro - Architecture RWA & Sécurité | DCM Digital</title>
+
+    <!-- SEO -->
+    <meta name="description"
+        content="Analyse technique approfondie des Smart Contracts pour la tokenisation d'actifs réels (RWA). Anatomie Solidity, Standards ERC-3643, Sécurité et Audit.">
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --bg-card: #0a0a0a;
+            --text-main: #f3f4f6;
+            --text-muted: #888888;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --border: #222;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* NAV */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        /* HERO */
+        .hero-section {
+            padding: 120px 20px 80px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #000 70%);
+        }
+
+        h1 {
+            font-size: 60px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .pro-badge {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple);
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono';
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        /* SECTIONS */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .tech-section {
+            padding: 80px 0;
+            border-bottom: 1px solid #111;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* CODE BLOCKS */
+        .code-window {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 30px 0;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .code-header {
+            background: #161b22;
+            padding: 10px 20px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .code-content {
+            padding: 20px;
+            color: #c9d1d9;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .kwd {
+            color: #ff7b72;
+        }
+
+        /* Keyword */
+        .typ {
+            color: #79c0ff;
+        }
+
+        /* Type */
+        .fn {
+            color: #d2a8ff;
+        }
+
+        /* Function */
+        .str {
+            color: #a5d6ff;
+        }
+
+        /* String */
+        .com {
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        /* Comment */
+
+        /* STANDARDS TABLE */
+        .std-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .std-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid #333;
+            color: #888;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .std-table td {
+            padding: 15px;
+            border-bottom: 1px solid #222;
+            color: #ccc;
+        }
+
+        .std-table tr:hover {
+            background: #111;
+        }
+
+        /* SECURITY PATTERNS GRID */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .pattern-card {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            padding: 30px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .pattern-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
+        }
+
+        .pattern-icon {
+            font-size: 24px;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+        }
+
+        /* CALLOUT */
+        .security-audit-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid var(--accent-green);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 60px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div style="font-weight: 800; font-size: 18px; color: white;">
+            <i class="fa-solid fa-code"></i> SMART CONTRACTS <span
+                style="color:var(--accent-purple); font-weight:400;">PRO</span>
+        </div>
+        <a href="buidl.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> RETOUR BUIDL</a>
+    </nav>
+
+    <section class="hero-section">
+        <span class="pro-badge">INSTITUTIONAL GRADE • TECHNICAL DEEP DIVE</span>
+        <h1>Architecture & Sécurité<br>Des Smart Contracts</h1>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 18px;">
+            Analyse technique des standards de tokenisation (ERC-3643), des patterns de sécurité et de l'implémentation
+            de la conformité On-Chain.
+        </p>
+    </section>
+
+    <div class="container">
+
+        <!-- 1. ANATOMY -->
+        <section class="tech-section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-microchip" style="color: var(--accent-blue);"></i> 1. Anatomie d'un Contrat RWA
+            </h2>
+            <p>Structure typique d'un smart contract de tokenisation d'actifs réels, incluant les contrôles d'accès et
+                la conformité intégrée.</p>
+
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="dot" style="background:#ff5f56"></div>
+                    <div class="dot" style="background:#ffbd2e"></div>
+                    <div class="dot" style="background:#27c93f"></div>
+                    <span style="color:#888; font-size:12px; margin-left:10px;">RWA_Token.sol</span>
+                </div>
+                <div class="code-content">
+                    <span class="kwd">pragma solidity</span> ^0.8.20;
+
+                    <span class="kwd">import</span> <span
+                        class="str">"@openzeppelin/contracts/token/ERC20/ERC20.sol"</span>;
+                    <span class="kwd">import</span> <span class="str">"./ComplianceModule.sol"</span>;
+
+                    <span class="com">/// @title Digital Bond Token with Embedded Compliance</span>
+                    <span class="kwd">contract</span> DigitalBond <span class="kwd">is</span> ERC20, AccessControl,
+                    Pausable {
+
+                    <span class="com">// State Variables</span>
+                    <span class="typ">bytes32</span> <span class="kwd">public constant</span> ISSUER_ROLE = <span
+                        class="fn">keccak256</span>(<span class="str">"ISSUER_ROLE"</span>);
+                    ICompliance <span class="kwd">public</span> complianceModule;
+
+                    <span class="kwd">constructor</span>(<span class="typ">string</span> <span class="kwd">memory</span>
+                    name, <span class="typ">string</span> <span class="kwd">memory</span> symbol, <span
+                        class="typ">address</span> complianceAddress) <span class="fn">ERC20</span>(name, symbol) {
+                    <span class="fn">_grantRole</span>(DEFAULT_ADMIN_ROLE, <span class="fn">msg.sender</span>);
+                    complianceModule = <span class="fn">ICompliance</span>(complianceAddress);
+                    }
+
+                    <span class="com">/*
+                        * @notice Mint tokens only to whitelisted investors
+                        * @dev Checks compliance module before state change
+                        */</span>
+                    <span class="kwd">function</span> <span class="fn">mint</span>(<span class="typ">address</span> to,
+                    <span class="typ">uint256</span> amount) <span class="kwd">public</span> <span
+                        class="fn">onlyRole</span>(ISSUER_ROLE) {
+                    <span class="kwd">require</span>(complianceModule.<span class="fn">checkEligibility</span>(to),
+                    <span class="str">"Investor not eligible (KYC)"</span>);
+                    <span class="fn">_mint</span>(to, amount);
+                    }
+
+                    <span class="com">// Override transfer to enforce ongoing compliance (Secondary Market)</span>
+                    <span class="kwd">function</span> <span class="fn">_update</span>(<span class="typ">address</span>
+                    from, <span class="typ">address</span> to, <span class="typ">uint256</span> amount) <span
+                        class="kwd">internal override</span> <span class="fn">whenNotPaused</span> {
+                    <span class="kwd">if</span> (from != <span class="typ">address</span>(0) && to != <span
+                        class="typ">address</span>(0)) {
+                    <span class="kwd">require</span>(complianceModule.<span class="fn">canTransfer</span>(from, to,
+                    amount), <span class="str">"Transfer restricted"</span>);
+                    }
+                    <span class="kwd">super</span>.<span class="fn">_update</span>(from, to, amount);
+                    }
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. STANDARDS -->
+        <section class="tech-section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-ruler-combined" style="color: var(--accent-purple);"></i> 2. Standards de
+                Tokenisation</h2>
+            <p>Comparatif des standards Ethereum utilisés pour les actifs institutionnels.</p>
+
+            <table class="std-table">
+                <thead>
+                    <tr>
+                        <th>Standard</th>
+                        <th>Usage Principal</th>
+                        <th>Spécificité Compliance</th>
+                        <th>Complexité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color:white; font-weight:bold;">ERC-20</td>
+                        <td>Utility Tokens / Stablecoins</td>
+                        <td>Aucune (Permissionless)</td>
+                        <td>Faible</td>
+                    </tr>
+                    <tr>
+                        <td style="color:white; font-weight:bold;">ERC-1400</td>
+                        <td>Security Tokens (Old School)</td>
+                        <td>Partitions & Tranches</td>
+                        <td>Élevée</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#10b981; font-weight:bold;">ERC-3643 (T-REX)</td>
+                        <td>RWA & Securities (Moderne)</td>
+                        <td>Identity Registry ON-CHAIN (ONCHID)</td>
+                        <td>Moyenne</td>
+                    </tr>
+                    <tr>
+                        <td style="color:white; font-weight:bold;">ERC-4626</td>
+                        <td>Tokenized Vaults (Yield)</td>
+                        <td>Standardisation des parts de fonds</td>
+                        <td>Moyenne</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 3. SECURITY PATTERNS -->
+        <section class="tech-section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-shield-halved" style="color: var(--accent-green);"></i> 3. Patterns de Sécurité &
+                Audit</h2>
+            <div class="pattern-grid">
+                <div class="pattern-card">
+                    <div class="pattern-icon"><i class="fa-solid fa-user-lock"></i></div>
+                    <h3 style="color:white; font-size:18px; margin-bottom:10px;">Access Control</h3>
+                    <p style="font-size:14px; color:#888;">Séparation stricte des rôles (Admin, Issuer, Agent).
+                        Utilisation de <code>AccessControl.sol</code> d'OpenZeppelin plutôt que <code>Ownable</code>
+                        pour éviter le point unique de défaillance (SPOF).</p>
+                </div>
+                <div class="pattern-card">
+                    <div class="pattern-icon"><i class="fa-solid fa-rotate-left"></i></div>
+                    <h3 style="color:white; font-size:18px; margin-bottom:10px;">Reentrancy Guard</h3>
+                    <p style="font-size:14px; color:#888;">Protection contre les attaques récursives lors des retraits
+                        de fonds. Obligatoire pour toute fonction manipulant des ETH ou tokens natifs.</p>
+                </div>
+                <div class="pattern-card">
+                    <div class="pattern-icon"><i class="fa-solid fa-pause"></i></div>
+                    <h3 style="color:white; font-size:18px; margin-bottom:10px;">Emergency Pause</h3>
+                    <p style="font-size:14px; color:#888;">Mécanisme "Circuit Breaker" permettant de geler les
+                        transferts en cas d'anomalie détectée, sans altérer les soldes (Pausable).</p>
+                </div>
+                <div class="pattern-card">
+                    <div class="pattern-icon"><i class="fa-solid fa-id-card"></i></div>
+                    <h3 style="color:white; font-size:18px; margin-bottom:10px;">Identity Registry</h3>
+                    <p style="font-size:14px; color:#888;">Liste blanche dynamique liée aux statuts KYC/AML des
+                        investisseurs off-chain. Le token ne bouge pas si le wallet de destination n'est pas validé.</p>
+                </div>
+            </div>
+
+            <div class="security-audit-box">
+                <i class="fa-solid fa-file-contract" style="font-size: 40px; color: var(--accent-green);"></i>
+                <div>
+                    <h3 style="color:white; margin-bottom:5px;">Processus d'Audit & Vérification Formelle</h3>
+                    <p style="font-size:14px; color:#aaa; margin:0;">
+                        Avant déploiement, les contrats institutionnels subissent des audits par des firmes tierces
+                        (Trail of Bits, OpenZeppelin) et des vérifications formelles (Certora) pour prouver
+                        mathématiquement l'invariance des règles comptables.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer style="text-align:center; padding:50px; border-top:1px solid #222; font-size:12px; color:#666;">
+        DCM Digital Research • Educational Purpose Only
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>

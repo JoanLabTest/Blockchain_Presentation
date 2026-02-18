@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validator Economics - Analyse Financière du Staking | DCM Digital</title>
+
+    <!-- SEO -->
+    <meta name="description"
+        content="Analyse économique du Proof-of-Stake (PoS) pour les institutions. ROI des validateurs, comparatif Ethereum/Solana, risques de Slashing et matrice de rentabilité.">
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --text-main: #f1f5f9;
+            --accent-gold: #f59e0b;
+            --accent-blue: #3b82f6;
+            --border: #334155;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* NAV */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--accent-gold);
+            color: black;
+            border-color: var(--accent-gold);
+        }
+
+        /* HERO */
+        .hero-section {
+            padding: 120px 20px 80px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 30%, #312e81 0%, #0f172a 70%);
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-family: 'JetBrains Mono';
+            color: #94a3b8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 12px;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* CONTENT */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-box {
+            padding: 80px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* COMPARATIVE TABLE */
+        .network-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        .network-table th {
+            background: #1e293b;
+            padding: 20px;
+            text-align: left;
+            color: #fff;
+            border-bottom: 3px solid var(--accent-gold);
+        }
+
+        .network-table td {
+            padding: 20px;
+            border-bottom: 1px solid #334155;
+            color: #cbd5e1;
+            font-size: 15px;
+        }
+
+        .network-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .net-icon {
+            width: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .val-good {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .val-mid {
+            color: #f59e0b;
+        }
+
+        .val-bad {
+            color: #ef4444;
+        }
+
+        /* RISK MATRIX */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .risk-item {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid #334155;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .risk-item h3 {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: auto;
+        }
+
+        .risk-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .risk-med {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        /* CALCULATOR */
+        .calc-panel {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+        }
+
+        .calc-input label {
+            display: block;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .calc-input input,
+        .calc-input select {
+            width: 100%;
+            padding: 15px;
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .calc-result {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .roi-display {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent-gold);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div style="font-weight: 800; font-size: 18px; color: white;">
+            <i class="fa-solid fa-chart-pie"></i> VALIDATOR <span
+                style="color:var(--accent-gold); font-weight:400;">ECONOMICS</span>
+        </div>
+        <a href="yield-mechanics.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> RETOUR YIELD</a>
+    </nav>
+
+    <section class="hero-section">
+        <span class="tagline">Institutional Staking Research</span>
+        <h1>Modèles Économiques<br>& Rentabilité Valideur</h1>
+        <p style="color: #cbd5e1; max-width: 650px; margin: 0 auto; font-size: 18px;">
+            Analyse comparative des rendements protocolaires, coûts opérationnels et matrice des risques pour les
+            validateurs institutionnels.
+        </p>
+    </section>
+
+    <div class="container">
+
+        <!-- 1. COMPARATIVE TABLE -->
+        <section class="section-box" data-aos="fade-up">
+            <h2><i class="fa-solid fa-scale-balanced" style="color: var(--accent-blue);"></i> 1. Comparatif Réseaux (L1)
+            </h2>
+            <p>Analyse des métriques fondamentales de staking pour les principales blockchains Proof-of-Stake.</p>
+
+            <table class="network-table">
+                <thead>
+                    <tr>
+                        <th width="20%">Réseau</th>
+                        <th>Nominal APY</th>
+                        <th>Inflation Réelle</th>
+                        <th>Slashing Risk</th>
+                        <th>Lock-up Period</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong><i class="fab fa-ethereum"></i> Ethereum</strong></td>
+                        <td class="val-good">3.5% - 5.0%</td>
+                        <td>~0.5% (Burn)</td>
+                        <td class="val-bad">Severe (1ETH - 100%)</td>
+                        <td>Queue de sortie (~days)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SOL Solana</strong></td>
+                        <td class="val-good">~7.0%</td>
+                        <td>~5.0%</td>
+                        <td class="val-mid">100% (Manual Halt)</td>
+                        <td>~2.5 Jours (Epoch)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DOT Polkadot</strong></td>
+                        <td class="val-good">~15.0%</td>
+                        <td>~10.0%</td>
+                        <td class="val-bad">Unresponsiveness</td>
+                        <td>28 Jours</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ADA Cardano</strong></td>
+                        <td class="val-mid">~3.0%</td>
+                        <td>~2.5%</td>
+                        <td class="val-good">Aucun (Unslashed)</td>
+                        <td>Liquid (Snapshot)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 2. ROI CALCULATOR -->
+        <section class="section-box" data-aos="fade-up">
+            <h2><i class="fa-solid fa-calculator" style="color: var(--accent-gold);"></i> 2. Simulateur de Rentabilité
+                Valideur</h2>
+            <p>Estimez les revenus nets après coûts d'infrastructure et commissions.</p>
+
+            <div class="calc-panel">
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="calc-input">
+                        <label>Capital Staké (USD)</label>
+                        <input type="number" id="stakeAmount" value="1000000">
+                    </div>
+                    <div class="calc-input">
+                        <label>Protocol APY (%)</label>
+                        <input type="number" id="apyInput" value="4.5" step="0.1">
+                    </div>
+                    <div class="calc-input">
+                        <label>Coûts Infra / An (Cloud, Hardware)</label>
+                        <input type="number" id="costInput" value="5000">
+                    </div>
+                </div>
+                <div class="calc-result">
+                    <span
+                        style="color: #94a3b8; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Résultat
+                        Net Annuel</span>
+                    <span class="roi-display" id="netResult">$40,000</span>
+                    <span style="color: #10b981; font-size: 18px; margin-top: 10px;" id="netRoi">4.0% Net ROI</span>
+                </div>
+            </div>
+
+            <script>
+                const inputs = document.querySelectorAll('input');
+                inputs.forEach(input => input.addEventListener('input', calculateROI));
+
+                function calculateROI() {
+                    const capital = parseFloat(document.getElementById('stakeAmount').value) || 0;
+                    const apy = parseFloat(document.getElementById('apyInput').value) || 0;
+                    const cost = parseFloat(document.getElementById('costInput').value) || 0;
+
+                    const grossReward = capital * (apy / 100);
+                    const netReward = grossReward - cost;
+                    const netRoi = (netReward / capital) * 100;
+
+                    document.getElementById('netResult').innerText = '$' + netReward.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                    document.getElementById('netRoi').innerText = netRoi.toFixed(2) + '% Net ROI';
+                }
+                calculateROI();
+            </script>
+        </section>
+
+        <!-- 3. RISK MATRIX -->
+        <section class="section-box" style="border-bottom: none;" data-aos="fade-up">
+            <h2><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i> 3. Matrice des Risques
+                Opérationnels</h2>
+            <div class="risk-grid">
+                <div class="risk-item">
+                    <h3><i class="fa-solid fa-gavel"></i> Slashing (Double Sign) <span
+                            class="risk-badge risk-high">Critique</span></h3>
+                    <p style="color: #94a3b8; font-size: 14px;">Le risque de perte la plus sévère. Survient si un
+                        validateur signe deux blocs différents à la même hauteur (équivocation). Entraîne une pénalité
+                        immédiate et l'éjection du réseau.</p>
+                </div>
+                <div class="risk-item">
+                    <h3><i class="fa-solid fa-server"></i> Downtime Penalty <span
+                            class="risk-badge risk-med">Moyen</span></h3>
+                    <p style="color: #94a3b8; font-size: 14px;">Si le validateur est hors ligne. La pénalité est
+                        généralement faible (équivalente à la perte de rewards potentiels) sauf si une grande partie du
+                        réseau est offline simultanément (Correlation Penalty).</p>
+                </div>
+                <div class="risk-item">
+                    <h3><i class="fa-solid fa-key"></i> Key Management <span
+                            class="risk-badge risk-high">Critique</span></h3>
+                    <p style="color: #94a3b8; font-size: 14px;">La compromission des clés de retrait entraîne la perte
+                        totale des fonds. Les clés de signature (hot) doivent être séparées des clés de retrait
+                        (cold/multisig).</p>
+                </div>
+                <div class="risk-item">
+                    <h3><i class="fa-solid fa-water"></i> Liquidity Risks <span class="risk-badge risk-med">Moyen</span>
+                    </h3>
+                    <p style="color: #94a3b8; font-size: 14px;">Le délai de sortie ("unbonding period") empêche la vente
+                        immédiate des actifs en cas de crash du marché si aucun dérivé liquide (LSD) n'est utilisé.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer
+        style="text-align:center; padding:50px; background:#0f172a; border-top:1px solid #334155; font-size:12px; color:#64748b;">
+        DCM Digital Research • Educational Purpose & Financial Analysis
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>
