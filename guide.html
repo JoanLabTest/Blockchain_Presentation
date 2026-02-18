@@ -1480,560 +1480,655 @@
                     </div>
                 </section>
 
-                <!-- Section 5: Alimentation des Tokens -->
-                <section id="alimentation" class="fade-in section-alternate">
+                <!-- NEW: MODULE EXPERT - SMART CONTRACTS -->
+                <section id="smart-contracts-expert" class="fade-in module-section"
+                    style="border-top: 1px dashed #334155; border-bottom: 1px dashed #334155; background: rgba(15, 23, 42, 0.3);">
                     <div class="section-title">
-                        <span class="section-number">05</span>
-                        <h2>Comment un Token est « Alimenté » ?</h2>
-                        <p>Les mécanismes qui créent la valeur d'un token</p>
+                        <span class="section-number"
+                            style="background: linear-gradient(135deg, #10b981, #0ea5e9);">EXP</span>
+                        <h2>Module Expert : Anatomie d'un Smart Contract</h2>
+                        <p style="color: #94a3b8;">La logique programmable qui remplace les intermédiaires</p>
                     </div>
 
-                    <div class="content-block">
-                        <div class="info-box">
-                            <h3>💡 Concept Fondamental</h3>
-                            <p>Un token n'a pas de valeur par défaut. Contrairement à une monnaie traditionnelle
-                                soutenue par un
-                                État ou une banque centrale, la valeur d'un token provient entièrement de
-                                <strong>mécanismes
-                                    économiques précis</strong> intégrés dans son architecture.
+                    <div class="expert-split-view"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 40px;">
+
+                        <!-- LEFT: LOGIC -->
+                        <div class="logic-side">
+                            <h3 style="margin-bottom: 20px; color: #fff;"><i class="fas fa-brain"
+                                    style="color: #a855f7;"></i> Logique Métier</h3>
+                            <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                                Un Smart Contract n'est pas "intelligent". C'est un <strong>automate
+                                    déterministe</strong>.
+                                Il exécute strictement ce qui est écrit, sans biais ni corruption possible.
                             </p>
-                        </div>
-                    </div>
 
-                    <div class="flow-container">
-                        <!-- Placeholder: Mécanismes d'Alimentation visualisés via stats -->
-                        <div class="mechanism-card">
-                            <div class="mechanism-number">1</div>
-                            <h3>🔑 Utility (Utilité)</h3>
-                            <p class="mechanism-desc">Le token donne accès à un service ou une fonctionnalité</p>
-                            <ul>
-                                <li>Paiement des frais de transaction sur une blockchain</li>
-                                <li>Accès à une application décentralisée</li>
-                                <li>Utilisation d'un protocole DeFi</li>
-                                <li>Droit d'utiliser une API ou service cloud décentralisé</li>
+                            <ul class="clean-list" style="margin-bottom: 30px;">
+                                <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                                    <span><strong>Trustless :</strong> Pas besoin de faire confiance à la
+                                        contrepartie.</span>
+                                </li>
+                                <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-lock" style="color: #f59e0b;"></i>
+                                    <span><strong>Immutable :</strong> Le code ne peut pas être modifié
+                                        unilatéralement.</span>
+                                </li>
+                                <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-bolt" style="color: #3b82f6;"></i>
+                                    <span><strong>Instant Settlement :</strong> Paiement et livraison simultanés
+                                        (DvP).</span>
+                                </li>
                             </ul>
+
+                            <a href="smart-contracts.html" class="cta-button"
+                                style="display: inline-block; padding: 15px 30px; background: linear-gradient(90deg, #10b981, #059669); color: white; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); transition: transform 0.2s;">
+                                <i class="fas fa-code"></i> Lancer l'Audit Technique & Architecture
+                            </a>
                         </div>
 
-                        <div class="mechanism-card">
-                            <div class="mechanism-number">2</div>
-                            <h3>💵 Revenue-Sharing (Partage de Revenus)</h3>
-                            <p class="mechanism-desc">Le token distribue une partie des revenus générés</p>
-                            <ul>
-                                <li>Partage automatique des frais de transaction</li>
-                                <li>Rémunération basée sur le volume d'activité</li>
-                                <li>Distribution des profits du pool de liquidités</li>
-                                <li>Dividendes programmés dans le smart contract</li>
-                            </ul>
+                        <!-- RIGHT: CODE VISUALIZATION -->
+                        <div class="code-side"
+                            style="background: #0f172a; border-radius: 16px; border: 1px solid #334155; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+                            <div class="code-header"
+                                style="background: #1e293b; padding: 10px 15px; display: flex; gap: 8px;">
+                                <div style="width: 12px; height: 12px; border-radius: 50%; background: #ef4444;"></div>
+                                <div style="width: 12px; height: 12px; border-radius: 50%; background: #f59e0b;"></div>
+                                <div style="width: 12px; height: 12px; border-radius: 50%; background: #10b981;"></div>
+                                <span style="margin-left: auto; color: #64748b;">BondToken.sol</span>
+                            </div>
+                            <div class="code-body" style="padding: 20px; color: #e2e8f0;">
+                                <span style="color: #94a3b8;">// Obligation tokenisée simple</span><br>
+                                <span style="color: #c084fc;">contract</span> DigitalBond {<br>
+                                &nbsp;&nbsp;<span style="color: #c084fc;">uint256</span> <span
+                                    style="color: #60a5fa;">public</span> maturityDate;<br>
+                                &nbsp;&nbsp;<span style="color: #c084fc;">uint256</span> <span
+                                    style="color: #60a5fa;">public</span> couponRate = 500; <span
+                                    style="color: #94a3b8;">// 5.00%</span><br>
+                                <br>
+                                &nbsp;&nbsp;<span style="color: #c084fc;">function</span> <span
+                                    style="color: #fca5a5;">payCoupon</span>() <span
+                                    style="color: #c084fc;">external</span> {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c084fc;">require</span>(block.timestamp >=
+                                nextPayment, <span style="color: #f1f5f9;">"Too early"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #94a3b8;">// Exécution automatique du
+                                    paiement</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;token.transfer(investor, amount);<br>
+                                &nbsp;&nbsp;}<br>
+                                }
+                            </div>
+                            <div class="code-footer"
+                                style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); border-top: 1px solid rgba(16, 185, 129, 0.2); color: #10b981; font-size: 11px; display: flex; align-items: center; gap: 10px;">
+                                <i class="fas fa-check"></i> <span>Compilé & Vérifié (v0.8.20)</span>
+                            </div>
                         </div>
 
-                        <div class="mechanism-card">
-                            <div class="mechanism-number">3</div>
-                            <h3>🏛️ Asset-Backed (Adossement à des Actifs)</h3>
-                            <p class="mechanism-desc">Le token est garanti par un actif réel</p>
-                            <ul>
-                                <li>Stablecoins adossés à des monnaies fiat (USD, EUR)</li>
-                                <li>Tokens immobiliers représentant des propriétés</li>
-                                <li>Tokens obligataires liés à des titres de dette</li>
-                                <li>Tokens adossés à des matières premières (or, pétrole)</li>
-                            </ul>
-                        </div>
-
-                        <div class="mechanism-card">
-                            <div class="mechanism-number">4</div>
-                            <h3>🔐 Staking (Mise en Jeu)</h3>
-                            <p class="mechanism-desc">Le token génère des récompenses en étant verrouillé</p>
-                            <ul>
-                                <li>Blockchains Proof of Stake (Ethereum, Cardano)</li>
-                                <li>Protocoles DeFi offrant des rendements</li>
-                                <li>Programmes de yield farming</li>
-                                <li>Validation de transactions dans les réseaux</li>
-                            </ul>
-                        </div>
-
-                        <div class="mechanism-card">
-                            <div class="mechanism-number">5</div>
-                            <h3>⚖️ Governance (Gouvernance)</h3>
-                            <p class="mechanism-desc">Le token donne un pouvoir de décision</p>
-                            <ul>
-                                <li>Ajustement des frais et paramètres économiques</li>
-                                <li>Ajout de nouvelles fonctionnalités</li>
-                                <li>Allocation de la trésorerie du projet</li>
-                                <li>Partenariats stratégiques et modifications du code</li>
-                            </ul>
-                        </div>
-
-                        <div class="mechanism-card">
-                            <div class="mechanism-number">6</div>
-                            <h3>💎 Scarcity (Rareté)</h3>
-                            <p class="mechanism-desc">La valeur vient de l'offre limitée</p>
-                            <ul>
-                                <li><strong>Supply cap :</strong> Offre maximale définie (21M pour Bitcoin)</li>
-                                <li><strong>Burn de tokens :</strong> Destruction régulière via les frais</li>
-                                <li><strong>Halving :</strong> Réduction progressive de l'émission</li>
-                                <li><strong>Inflation contrôlée :</strong> Émission décroissante programmée</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- AUDIO CAPSULE (PHASE 5 PRIORITY 3) -->
-                <div class="audio-capsule" id="mission-audio">
-                    <button class="audio-btn" onclick="toggleAudio('audio-cycle')">
-                        <i class="fas fa-play" id="icon-audio-cycle"></i>
-                    </button>
-                    <div class="audio-info">
-                        <span class="audio-title">🔊 L'essentiel en 30s</span>
-                        <span class="audio-meta">Comprendre le cycle de vie d'un token</span>
-                    </div>
-                </div>
-
-                <!-- Section 6: Cycle de Vie d'un Token -->
-                <section id="cycle" class="fade-in">
-                    <div class="section-title">
-                        <span class="section-number">06</span>
-                        <h2>Cycle de Vie Complet d'un Token</h2>
-                        <p>De la conception à l'extinction : comprendre toutes les étapes</p>
                     </div>
 
-                    <div class="content-block">
-                        <p>Chaque token suit un cycle de vie structuré, de sa conception initiale jusqu'à son éventuelle
-                            extinction.
-                            Comprendre ces étapes est essentiel pour évaluer la viabilité et la pérennité d'un projet
-                            blockchain.
-                        </p>
 
-                        <!-- AUDIT VISUAL: Token Lifecycle Diagram -->
-                        <div class="token-lifecycle-visual"
-                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 40px 0;">
-                            <div class="lifecycle-step"
-                                style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
-                                <i class="fas fa-file-contract"
-                                    style="font-size: 24px; color: #3b82f6; margin-bottom: 15px;"></i>
-                                <h4 style="color: #fff; margin-bottom: 5px;">1. Structuring</h4>
-                                <p style="font-size: 13px; color: #94a3b8; margin: 0;">Définition juridique et smart
-                                    contract
-                                    (T&Cs).</p>
-                            </div>
-
-                            <div class="lifecycle-step"
-                                style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
-                                <i class="fas fa-magic"
-                                    style="font-size: 24px; color: #10b981; margin-bottom: 15px;"></i>
-                                <h4 style="color: #fff; margin-bottom: 5px;">2. Issuance</h4>
-                                <p style="font-size: 13px; color: #94a3b8; margin: 0;">Minting des tokens contre
-                                    paiement (DVP).</p>
-                            </div>
-
-                            <div class="lifecycle-step"
-                                style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
-                                <i class="fas fa-paper-plane"
-                                    style="font-size: 24px; color: #f59e0b; margin-bottom: 15px;"></i>
-                                <h4 style="color: #fff; margin-bottom: 5px;">3. Distribution</h4>
-                                <p style="font-size: 13px; color: #94a3b8; margin: 0;">Placement auprès des
-                                    investisseurs
-                                    (Primaire).</p>
-                            </div>
-
-                            <div class="lifecycle-step"
-                                style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
-                                <i class="fas fa-cogs"
-                                    style="font-size: 24px; color: #a855f7; margin-bottom: 15px;"></i>
-                                <h4 style="color: #fff; margin-bottom: 5px;">4. Servicing</h4>
-                                <p style="font-size: 13px; color: #94a3b8; margin: 0;">Gestion des coupons et
-                                    remboursements.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- DIAGRAMME CYCLE DE VIE CSS -->
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin: 50px 0; position: relative; padding: 0 20px;">
-                        <div
-                            style="position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #334155; z-index: 0;">
+                    <!-- Section 5: Alimentation des Tokens -->
+                    <section id="alimentation" class="fade-in section-alternate">
+                        <div class="section-title">
+                            <span class="section-number">05</span>
+                            <h2>Comment un Token est « Alimenté » ?</h2>
+                            <p>Les mécanismes qui créent la valeur d'un token</p>
                         </div>
 
-                        <div class="step-circle"
-                            style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #3b82f6; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
-                            <i class="fa-solid fa-pen-ruler" style="color: #3b82f6;"></i>
-                            <span
-                                style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">1.
-                                Design</span>
-                        </div>
-                        <div class="step-circle"
-                            style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #a855f7; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
-                            <i class="fa-solid fa-code" style="color: #a855f7;"></i>
-                            <span
-                                style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">2.
-                                Minting</span>
-                        </div>
-                        <div class="step-circle"
-                            style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #10b981; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
-                            <i class="fa-solid fa-rocket" style="color: #10b981;"></i>
-                            <span
-                                style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">3.
-                                Distribution</span>
-                        </div>
-                        <div class="step-circle"
-                            style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #f59e0b; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
-                            <i class="fa-solid fa-rotate" style="color: #f59e0b;"></i>
-                            <span
-                                style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">4.
-                                Trading</span>
-                        </div>
-                        <div class="step-circle"
-                            style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #ef4444; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
-                            <i class="fa-solid fa-fire" style="color: #ef4444;"></i>
-                            <span
-                                style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">5.
-                                Burn</span>
-                        </div>
-                    </div>
-
-                    <style>
-                        .step-circle:hover {
-                            transform: scale(1.1);
-                            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-                        }
-                    </style>
-
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-marker">1</div>
-                            <div class="timeline-content">
-                                <h3>💡 Conception</h3>
-                                <p><strong>Phase de design et planification</strong></p>
-                                <ul>
-                                    <li>Définition des objectifs du projet</li>
-                                    <li>Conception de la tokenomics (offre, distribution, mécanismes)</li>
-                                    <li>Choix de la blockchain support</li>
-                                    <li>Rédaction du whitepaper</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker">2</div>
-                            <div class="timeline-content">
-                                <h3>⚙️ Développement</h3>
-                                <p><strong>Création technique du token</strong></p>
-                                <ul>
-                                    <li>Développement du smart contract</li>
-                                    <li>Audit de sécurité par des experts</li>
-                                    <li>Tests sur testnet</li>
-                                    <li>Vérification des mécanismes économiques</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker">3</div>
-                            <div class="timeline-content">
-                                <h3>🪙 Émission (Minting)</h3>
-                                <p><strong>Création initiale des tokens</strong></p>
-                                <ul>
-                                    <li>Déploiement du smart contract sur la blockchain</li>
-                                    <li>Création de l'offre totale de tokens</li>
-                                    <li>Allocation aux différentes parties (équipe, investisseurs, trésorerie)</li>
-                                    <li>Mise en place des mécanismes de vesting</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker">4</div>
-                            <div class="timeline-content">
-                                <h3>📤 Distribution</h3>
-                                <p><strong>Mise à disposition du public</strong></p>
-                                <ul>
-                                    <li><strong>ICO/IEO :</strong> Vente publique initiale</li>
-                                    <li><strong>Airdrop :</strong> Distribution gratuite pour marketing</li>
-                                    <li><strong>Liquidity Mining :</strong> Récompenses pour fournisseurs de liquidité
-                                    </li>
-                                    <li><strong>Vesting :</strong> Déblocage progressif pour l'équipe</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker">5</div>
-                            <div class="timeline-content">
-                                <h3>🔄 Circulation</h3>
-                                <p><strong>Utilisation active du token</strong></p>
-                                <ul>
-                                    <li>Trading sur les exchanges (CEX et DEX)</li>
-                                    <li>Utilisation dans l'écosystème (paiements, staking, governance)</li>
-                                    <li>Transferts entre utilisateurs</li>
-                                    <li>Intégration dans des protocoles DeFi</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- DRAG & DROP MINI GAME (PHASE 5 PRIORITY 3) -->
-                        <div class="game-container" id="mission-game">
-                            <div class="game-header">
-                                <div class="game-title">🎮 Challenge : Reconstituez le Cycle</div>
-                                <p style="color: #94a3b8; font-size: 0.9rem;">Glissez les étapes dans le bon ordre
-                                    chronologique.</p>
-                            </div>
-
-                            <div class="drop-zones-container">
-                                <div class="drop-zone" data-step="1">
-                                    <span class="step-number">Étape 1</span>
-                                </div>
-                                <div class="drop-zone" data-step="2">
-                                    <span class="step-number">Étape 2</span>
-                                </div>
-                                <div class="drop-zone" data-step="3">
-                                    <span class="step-number">Étape 3</span>
-                                </div>
-                                <div class="drop-zone" data-step="4">
-                                    <span class="step-number">Étape 4</span>
-                                </div>
-                            </div>
-
-                            <div class="draggable-items">
-                                <div class="draggable" draggable="true" id="item-issuance">Issuance (Minting)</div>
-                                <div class="draggable" draggable="true" id="item-structuring">Structuring</div>
-                                <div class="draggable" draggable="true" id="item-servicing">Servicing (Coupons)</div>
-                                <div class="draggable" draggable="true" id="item-distribution">Distribution (Primaire)
-                                </div>
-                            </div>
-
-                            <div class="game-success-msg" id="gameSuccessMsg">
-                                🎉 Bravo ! Vous maitrisez le cycle de vie.
-                            </div>
-
-                            <button onclick="resetGame()" class="game-reset-btn" id="gameResetBtn"
-                                style="display: none; margin: 20px auto 0 auto; background: rgba(148, 163, 184, 0.2); border: 1px solid #475569; padding: 8px 16px; border-radius: 20px; color: #94a3b8; cursor: pointer; transition: all 0.2s;">
-                                <i class="fas fa-redo"></i> Recommencer
-                            </button>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker">6</div>
-                            <div class="timeline-content">
-                                <h3>🛠️ Gestion</h3>
-                                <p><strong>Maintenance et évolution</strong></p>
-                                <ul>
-                                    <li>Votes de gouvernance pour modifications</li>
-                                    <li>Mises à jour du protocole</li>
-                                    <li>Burn de tokens (réduction de l'offre)</li>
-                                    <li>Ajustements des paramètres économiques</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker">7</div>
-                            <div class="timeline-content">
-                                <h3>🔚 Extinction</h3>
-                                <p><strong>Fin de vie du token</strong></p>
-                                <ul>
-                                    <li>Migration vers une nouvelle version</li>
-                                    <li>Fusion avec un autre projet</li>
-                                    <li>Arrêt du projet (échec ou objectif atteint)</li>
-                                    <li>Rachat et destruction des tokens restants</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section 7: Cas Pratique - Émission d'Obligation -->
-
-                <!-- Link 3D Styles -->
-                <link rel="stylesheet" href="styles-architecture-3d.css">
-
-                <!-- Section : Architecture Expert (Phase 3) -->
-                <section id="architecture-expert" class="fade-in expert-section"
-                    style="background: #0f172a; padding: 80px 0; border-top: 1px solid #1e293b; overflow: hidden;">
-                    <div class="section-title">
-                        <span class="section-number" style="background: #ea580c; color: white;">NIVEAU EXPERT</span>
-                        <h2>Architecture de Marché Cible</h2>
-                        <p style="color: #94a3b8;">La nouvelle pile technologique (Tech Stack 2026)</p>
-                    </div>
-
-                    <div class="architecture-3d-scene">
-                        <div class="architecture-stack" onclick="this.classList.toggle('scene-active')">
-
-                            <!-- LAYER 1: BASE (INFRA) -->
-                            <div class="arch-layer layer-base">
-                                <i class="fa-solid fa-server layer-icon" style="color:#94a3b8"></i>
-                                <div class="layer-title" style="color:#94a3b8">INFRA PHYSIQUE</div>
-                                <p class="layer-desc">Noeuds validateurs, Hardware sécurisé (HSM), Cloud Privé</p>
-                            </div>
-
-                            <!-- LAYER 2: PROTOCOLE (CONSENSUS) -->
-                            <div class="arch-layer layer-protocol">
-                                <i class="fa-solid fa-link layer-icon" style="color:#a855f7"></i>
-                                <div class="layer-title" style="color:#a855f7">PROTOCOLE & CONSENSUS</div>
-                                <p class="layer-desc">EVM (Ethereum Virtual Machine), Proof of Authority, Gas Management
+                        <div class="content-block">
+                            <div class="info-box">
+                                <h3>💡 Concept Fondamental</h3>
+                                <p>Un token n'a pas de valeur par défaut. Contrairement à une monnaie traditionnelle
+                                    soutenue par un
+                                    État ou une banque centrale, la valeur d'un token provient entièrement de
+                                    <strong>mécanismes
+                                        économiques précis</strong> intégrés dans son architecture.
                                 </p>
                             </div>
-
-                            <!-- LAYER 3: APP (SMART CONTRACTS) -->
-                            <div class="arch-layer layer-app">
-                                <i class="fa-solid fa-file-code layer-icon" style="color:#3b82f6"></i>
-                                <div class="layer-title" style="color:#3b82f6">SMART CONTRACTS</div>
-                                <p class="layer-desc">Factory d'émission, Whitelist (Identity), DvP Atomique</p>
-                            </div>
-
-                            <!-- LAYER 4: USER (DISTRIBUTION) -->
-                            <div class="arch-layer layer-user">
-                                <i class="fa-solid fa-users layer-icon" style="color:#10b981"></i>
-                                <div class="layer-title" style="color:#10b981">DISTRIBUTION</div>
-                                <p class="layer-desc">Plateformes Clients, Wallets Institutionnels, API de Trading</p>
-                            </div>
-
                         </div>
 
-                        <!-- CAROUSEL CONTROLS -->
-                        <div class="scene-controls"
-                            style="display:flex; justify-content:center; align-items:center; gap:20px; margin-top:30px;">
-                            <button class="nav-btn" onclick="rotateLayer(-1)">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
+                        <div class="flow-container">
+                            <!-- Placeholder: Mécanismes d'Alimentation visualisés via stats -->
+                            <div class="mechanism-card">
+                                <div class="mechanism-number">1</div>
+                                <h3>🔑 Utility (Utilité)</h3>
+                                <p class="mechanism-desc">Le token donne accès à un service ou une fonctionnalité</p>
+                                <ul>
+                                    <li>Paiement des frais de transaction sur une blockchain</li>
+                                    <li>Accès à une application décentralisée</li>
+                                    <li>Utilisation d'un protocole DeFi</li>
+                                    <li>Droit d'utiliser une API ou service cloud décentralisé</li>
+                                </ul>
+                            </div>
 
-                            <span id="layer-indicator"
-                                style="color:#fff; font-weight:bold; width:200px; text-align:center;">VUE
-                                D'ENSEMBLE</span>
+                            <div class="mechanism-card">
+                                <div class="mechanism-number">2</div>
+                                <h3>💵 Revenue-Sharing (Partage de Revenus)</h3>
+                                <p class="mechanism-desc">Le token distribue une partie des revenus générés</p>
+                                <ul>
+                                    <li>Partage automatique des frais de transaction</li>
+                                    <li>Rémunération basée sur le volume d'activité</li>
+                                    <li>Distribution des profits du pool de liquidités</li>
+                                    <li>Dividendes programmés dans le smart contract</li>
+                                </ul>
+                            </div>
 
-                            <button class="nav-btn" onclick="rotateLayer(1)">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
+                            <div class="mechanism-card">
+                                <div class="mechanism-number">3</div>
+                                <h3>🏛️ Asset-Backed (Adossement à des Actifs)</h3>
+                                <p class="mechanism-desc">Le token est garanti par un actif réel</p>
+                                <ul>
+                                    <li>Stablecoins adossés à des monnaies fiat (USD, EUR)</li>
+                                    <li>Tokens immobiliers représentant des propriétés</li>
+                                    <li>Tokens obligataires liés à des titres de dette</li>
+                                    <li>Tokens adossés à des matières premières (or, pétrole)</li>
+                                </ul>
+                            </div>
+
+                            <div class="mechanism-card">
+                                <div class="mechanism-number">4</div>
+                                <h3>🔐 Staking (Mise en Jeu)</h3>
+                                <p class="mechanism-desc">Le token génère des récompenses en étant verrouillé</p>
+                                <ul>
+                                    <li>Blockchains Proof of Stake (Ethereum, Cardano)</li>
+                                    <li>Protocoles DeFi offrant des rendements</li>
+                                    <li>Programmes de yield farming</li>
+                                    <li>Validation de transactions dans les réseaux</li>
+                                </ul>
+                            </div>
+
+                            <div class="mechanism-card">
+                                <div class="mechanism-number">5</div>
+                                <h3>⚖️ Governance (Gouvernance)</h3>
+                                <p class="mechanism-desc">Le token donne un pouvoir de décision</p>
+                                <ul>
+                                    <li>Ajustement des frais et paramètres économiques</li>
+                                    <li>Ajout de nouvelles fonctionnalités</li>
+                                    <li>Allocation de la trésorerie du projet</li>
+                                    <li>Partenariats stratégiques et modifications du code</li>
+                                </ul>
+                            </div>
+
+                            <div class="mechanism-card">
+                                <div class="mechanism-number">6</div>
+                                <h3>💎 Scarcity (Rareté)</h3>
+                                <p class="mechanism-desc">La valeur vient de l'offre limitée</p>
+                                <ul>
+                                    <li><strong>Supply cap :</strong> Offre maximale définie (21M pour Bitcoin)</li>
+                                    <li><strong>Burn de tokens :</strong> Destruction régulière via les frais</li>
+                                    <li><strong>Halving :</strong> Réduction progressive de l'émission</li>
+                                    <li><strong>Inflation contrôlée :</strong> Émission décroissante programmée</li>
+                                </ul>
+                            </div>
                         </div>
+                    </section>
 
-                        <button class="explode-btn" onclick="toggleExplode()">
-                            <i class="fa-solid fa-layer-group"></i> <span id="explode-text">ÉCLATER LA VUE</span>
+                    <!-- AUDIO CAPSULE (PHASE 5 PRIORITY 3) -->
+                    <div class="audio-capsule" id="mission-audio">
+                        <button class="audio-btn" onclick="toggleAudio('audio-cycle')">
+                            <i class="fas fa-play" id="icon-audio-cycle"></i>
                         </button>
+                        <div class="audio-info">
+                            <span class="audio-title">🔊 L'essentiel en 30s</span>
+                            <span class="audio-meta">Comprendre le cycle de vie d'un token</span>
+                        </div>
                     </div>
 
-                    <script>
-                        let currentLayer = 0; // 0 = Overview, 1=Base, 2=Protocol, 3=App, 4=User
-                        const layerNames = ["VUE D'ENSEMBLE", "1. INFRA PHYSIQUE", "2. PROTOCOLE", "3. SMART CONTRACTS", "4. DISTRIBUTION"];
+                    <!-- Section 6: Cycle de Vie d'un Token -->
+                    <section id="cycle" class="fade-in">
+                        <div class="section-title">
+                            <span class="section-number">06</span>
+                            <h2>Cycle de Vie Complet d'un Token</h2>
+                            <p>De la conception à l'extinction : comprendre toutes les étapes</p>
+                        </div>
 
-                        function toggleExplode() {
-                            const stack = document.querySelector('.architecture-stack');
-                            stack.classList.toggle('scene-active');
+                        <div class="content-block">
+                            <p>Chaque token suit un cycle de vie structuré, de sa conception initiale jusqu'à son
+                                éventuelle
+                                extinction.
+                                Comprendre ces étapes est essentiel pour évaluer la viabilité et la pérennité d'un
+                                projet
+                                blockchain.
+                            </p>
 
-                            const isExploded = stack.classList.contains('scene-active');
-                            document.getElementById('explode-text').innerText = isExploded ? "FERMER LA VUE" : "ÉCLATER LA VUE";
+                            <!-- AUDIT VISUAL: Token Lifecycle Diagram -->
+                            <div class="token-lifecycle-visual"
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 40px 0;">
+                                <div class="lifecycle-step"
+                                    style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <i class="fas fa-file-contract"
+                                        style="font-size: 24px; color: #3b82f6; margin-bottom: 15px;"></i>
+                                    <h4 style="color: #fff; margin-bottom: 5px;">1. Structuring</h4>
+                                    <p style="font-size: 13px; color: #94a3b8; margin: 0;">Définition juridique et smart
+                                        contract
+                                        (T&Cs).</p>
+                                </div>
 
-                            // Reset carousel when toggling
-                            currentLayer = 0;
-                            updateLayerFocus();
-                        }
+                                <div class="lifecycle-step"
+                                    style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <i class="fas fa-magic"
+                                        style="font-size: 24px; color: #10b981; margin-bottom: 15px;"></i>
+                                    <h4 style="color: #fff; margin-bottom: 5px;">2. Issuance</h4>
+                                    <p style="font-size: 13px; color: #94a3b8; margin: 0;">Minting des tokens contre
+                                        paiement (DVP).</p>
+                                </div>
 
-                        function rotateLayer(direction) {
-                            // Ensure we are exploded first
-                            const stack = document.querySelector('.architecture-stack');
-                            if (!stack.classList.contains('scene-active')) {
-                                toggleExplode();
+                                <div class="lifecycle-step"
+                                    style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <i class="fas fa-paper-plane"
+                                        style="font-size: 24px; color: #f59e0b; margin-bottom: 15px;"></i>
+                                    <h4 style="color: #fff; margin-bottom: 5px;">3. Distribution</h4>
+                                    <p style="font-size: 13px; color: #94a3b8; margin: 0;">Placement auprès des
+                                        investisseurs
+                                        (Primaire).</p>
+                                </div>
+
+                                <div class="lifecycle-step"
+                                    style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <i class="fas fa-cogs"
+                                        style="font-size: 24px; color: #a855f7; margin-bottom: 15px;"></i>
+                                    <h4 style="color: #fff; margin-bottom: 5px;">4. Servicing</h4>
+                                    <p style="font-size: 13px; color: #94a3b8; margin: 0;">Gestion des coupons et
+                                        remboursements.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAMME CYCLE DE VIE CSS -->
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin: 50px 0; position: relative; padding: 0 20px;">
+                            <div
+                                style="position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #334155; z-index: 0;">
+                            </div>
+
+                            <div class="step-circle"
+                                style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #3b82f6; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
+                                <i class="fa-solid fa-pen-ruler" style="color: #3b82f6;"></i>
+                                <span
+                                    style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">1.
+                                    Design</span>
+                            </div>
+                            <div class="step-circle"
+                                style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #a855f7; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
+                                <i class="fa-solid fa-code" style="color: #a855f7;"></i>
+                                <span
+                                    style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">2.
+                                    Minting</span>
+                            </div>
+                            <div class="step-circle"
+                                style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #10b981; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
+                                <i class="fa-solid fa-rocket" style="color: #10b981;"></i>
+                                <span
+                                    style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">3.
+                                    Distribution</span>
+                            </div>
+                            <div class="step-circle"
+                                style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #f59e0b; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
+                                <i class="fa-solid fa-rotate" style="color: #f59e0b;"></i>
+                                <span
+                                    style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">4.
+                                    Trading</span>
+                            </div>
+                            <div class="step-circle"
+                                style="width: 80px; height: 80px; background: #0f172a; border: 2px solid #ef4444; border-radius: 50%; display: grid; place-items: center; font-size: 24px; position: relative; z-index: 1; transition: transform 0.3s;">
+                                <i class="fa-solid fa-fire" style="color: #ef4444;"></i>
+                                <span
+                                    style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #cbd5e1; white-space: nowrap;">5.
+                                    Burn</span>
+                            </div>
+                        </div>
+
+                        <style>
+                            .step-circle:hover {
+                                transform: scale(1.1);
+                                box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+                            }
+                        </style>
+
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker">1</div>
+                                <div class="timeline-content">
+                                    <h3>💡 Conception</h3>
+                                    <p><strong>Phase de design et planification</strong></p>
+                                    <ul>
+                                        <li>Définition des objectifs du projet</li>
+                                        <li>Conception de la tokenomics (offre, distribution, mécanismes)</li>
+                                        <li>Choix de la blockchain support</li>
+                                        <li>Rédaction du whitepaper</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker">2</div>
+                                <div class="timeline-content">
+                                    <h3>⚙️ Développement</h3>
+                                    <p><strong>Création technique du token</strong></p>
+                                    <ul>
+                                        <li>Développement du smart contract</li>
+                                        <li>Audit de sécurité par des experts</li>
+                                        <li>Tests sur testnet</li>
+                                        <li>Vérification des mécanismes économiques</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker">3</div>
+                                <div class="timeline-content">
+                                    <h3>🪙 Émission (Minting)</h3>
+                                    <p><strong>Création initiale des tokens</strong></p>
+                                    <ul>
+                                        <li>Déploiement du smart contract sur la blockchain</li>
+                                        <li>Création de l'offre totale de tokens</li>
+                                        <li>Allocation aux différentes parties (équipe, investisseurs, trésorerie)</li>
+                                        <li>Mise en place des mécanismes de vesting</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker">4</div>
+                                <div class="timeline-content">
+                                    <h3>📤 Distribution</h3>
+                                    <p><strong>Mise à disposition du public</strong></p>
+                                    <ul>
+                                        <li><strong>ICO/IEO :</strong> Vente publique initiale</li>
+                                        <li><strong>Airdrop :</strong> Distribution gratuite pour marketing</li>
+                                        <li><strong>Liquidity Mining :</strong> Récompenses pour fournisseurs de
+                                            liquidité
+                                        </li>
+                                        <li><strong>Vesting :</strong> Déblocage progressif pour l'équipe</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker">5</div>
+                                <div class="timeline-content">
+                                    <h3>🔄 Circulation</h3>
+                                    <p><strong>Utilisation active du token</strong></p>
+                                    <ul>
+                                        <li>Trading sur les exchanges (CEX et DEX)</li>
+                                        <li>Utilisation dans l'écosystème (paiements, staking, governance)</li>
+                                        <li>Transferts entre utilisateurs</li>
+                                        <li>Intégration dans des protocoles DeFi</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- DRAG & DROP MINI GAME (PHASE 5 PRIORITY 3) -->
+                            <div class="game-container" id="mission-game">
+                                <div class="game-header">
+                                    <div class="game-title">🎮 Challenge : Reconstituez le Cycle</div>
+                                    <p style="color: #94a3b8; font-size: 0.9rem;">Glissez les étapes dans le bon ordre
+                                        chronologique.</p>
+                                </div>
+
+                                <div class="drop-zones-container">
+                                    <div class="drop-zone" data-step="1">
+                                        <span class="step-number">Étape 1</span>
+                                    </div>
+                                    <div class="drop-zone" data-step="2">
+                                        <span class="step-number">Étape 2</span>
+                                    </div>
+                                    <div class="drop-zone" data-step="3">
+                                        <span class="step-number">Étape 3</span>
+                                    </div>
+                                    <div class="drop-zone" data-step="4">
+                                        <span class="step-number">Étape 4</span>
+                                    </div>
+                                </div>
+
+                                <div class="draggable-items">
+                                    <div class="draggable" draggable="true" id="item-issuance">Issuance (Minting)</div>
+                                    <div class="draggable" draggable="true" id="item-structuring">Structuring</div>
+                                    <div class="draggable" draggable="true" id="item-servicing">Servicing (Coupons)
+                                    </div>
+                                    <div class="draggable" draggable="true" id="item-distribution">Distribution
+                                        (Primaire)
+                                    </div>
+                                </div>
+
+                                <div class="game-success-msg" id="gameSuccessMsg">
+                                    🎉 Bravo ! Vous maitrisez le cycle de vie.
+                                </div>
+
+                                <button onclick="resetGame()" class="game-reset-btn" id="gameResetBtn"
+                                    style="display: none; margin: 20px auto 0 auto; background: rgba(148, 163, 184, 0.2); border: 1px solid #475569; padding: 8px 16px; border-radius: 20px; color: #94a3b8; cursor: pointer; transition: all 0.2s;">
+                                    <i class="fas fa-redo"></i> Recommencer
+                                </button>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker">6</div>
+                                <div class="timeline-content">
+                                    <h3>🛠️ Gestion</h3>
+                                    <p><strong>Maintenance et évolution</strong></p>
+                                    <ul>
+                                        <li>Votes de gouvernance pour modifications</li>
+                                        <li>Mises à jour du protocole</li>
+                                        <li>Burn de tokens (réduction de l'offre)</li>
+                                        <li>Ajustements des paramètres économiques</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker">7</div>
+                                <div class="timeline-content">
+                                    <h3>🔚 Extinction</h3>
+                                    <p><strong>Fin de vie du token</strong></p>
+                                    <ul>
+                                        <li>Migration vers une nouvelle version</li>
+                                        <li>Fusion avec un autre projet</li>
+                                        <li>Arrêt du projet (échec ou objectif atteint)</li>
+                                        <li>Rachat et destruction des tokens restants</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 7: Cas Pratique - Émission d'Obligation -->
+
+                    <!-- Link 3D Styles -->
+                    <link rel="stylesheet" href="styles-architecture-3d.css">
+
+                    <!-- Section : Architecture Expert (Phase 3) -->
+                    <section id="architecture-expert" class="fade-in expert-section"
+                        style="background: #0f172a; padding: 80px 0; border-top: 1px solid #1e293b; overflow: hidden;">
+                        <div class="section-title">
+                            <span class="section-number" style="background: #ea580c; color: white;">NIVEAU EXPERT</span>
+                            <h2>Architecture de Marché Cible</h2>
+                            <p style="color: #94a3b8;">La nouvelle pile technologique (Tech Stack 2026)</p>
+                        </div>
+
+                        <div class="architecture-3d-scene">
+                            <div class="architecture-stack" onclick="this.classList.toggle('scene-active')">
+
+                                <!-- LAYER 1: BASE (INFRA) -->
+                                <div class="arch-layer layer-base">
+                                    <i class="fa-solid fa-server layer-icon" style="color:#94a3b8"></i>
+                                    <div class="layer-title" style="color:#94a3b8">INFRA PHYSIQUE</div>
+                                    <p class="layer-desc">Noeuds validateurs, Hardware sécurisé (HSM), Cloud Privé</p>
+                                </div>
+
+                                <!-- LAYER 2: PROTOCOLE (CONSENSUS) -->
+                                <div class="arch-layer layer-protocol">
+                                    <i class="fa-solid fa-link layer-icon" style="color:#a855f7"></i>
+                                    <div class="layer-title" style="color:#a855f7">PROTOCOLE & CONSENSUS</div>
+                                    <p class="layer-desc">EVM (Ethereum Virtual Machine), Proof of Authority, Gas
+                                        Management
+                                    </p>
+                                </div>
+
+                                <!-- LAYER 3: APP (SMART CONTRACTS) -->
+                                <div class="arch-layer layer-app">
+                                    <i class="fa-solid fa-file-code layer-icon" style="color:#3b82f6"></i>
+                                    <div class="layer-title" style="color:#3b82f6">SMART CONTRACTS</div>
+                                    <p class="layer-desc">Factory d'émission, Whitelist (Identity), DvP Atomique</p>
+                                </div>
+
+                                <!-- LAYER 4: USER (DISTRIBUTION) -->
+                                <div class="arch-layer layer-user">
+                                    <i class="fa-solid fa-users layer-icon" style="color:#10b981"></i>
+                                    <div class="layer-title" style="color:#10b981">DISTRIBUTION</div>
+                                    <p class="layer-desc">Plateformes Clients, Wallets Institutionnels, API de Trading
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <!-- CAROUSEL CONTROLS -->
+                            <div class="scene-controls"
+                                style="display:flex; justify-content:center; align-items:center; gap:20px; margin-top:30px;">
+                                <button class="nav-btn" onclick="rotateLayer(-1)">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+
+                                <span id="layer-indicator"
+                                    style="color:#fff; font-weight:bold; width:200px; text-align:center;">VUE
+                                    D'ENSEMBLE</span>
+
+                                <button class="nav-btn" onclick="rotateLayer(1)">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+
+                            <button class="explode-btn" onclick="toggleExplode()">
+                                <i class="fa-solid fa-layer-group"></i> <span id="explode-text">ÉCLATER LA VUE</span>
+                            </button>
+                        </div>
+
+                        <script>
+                            let currentLayer = 0; // 0 = Overview, 1=Base, 2=Protocol, 3=App, 4=User
+                            const layerNames = ["VUE D'ENSEMBLE", "1. INFRA PHYSIQUE", "2. PROTOCOLE", "3. SMART CONTRACTS", "4. DISTRIBUTION"];
+
+                            function toggleExplode() {
+                                const stack = document.querySelector('.architecture-stack');
+                                stack.classList.toggle('scene-active');
+
+                                const isExploded = stack.classList.contains('scene-active');
+                                document.getElementById('explode-text').innerText = isExploded ? "FERMER LA VUE" : "ÉCLATER LA VUE";
+
+                                // Reset carousel when toggling
+                                currentLayer = 0;
+                                updateLayerFocus();
                             }
 
-                            currentLayer += direction;
-                            if (currentLayer > 4) currentLayer = 1; // Cycle 1-4
-                            if (currentLayer < 1) currentLayer = 4;
-
-                            updateLayerFocus();
-                        }
-
-                        function updateLayerFocus() {
-                            // Remove all focus classes
-                            document.querySelectorAll('.arch-layer').forEach(el => el.classList.remove('focused', 'blurred'));
-
-                            if (currentLayer === 0) {
-                                document.getElementById('layer-indicator').innerText = layerNames[0];
-                                return;
-                            }
-
-                            document.getElementById('layer-indicator').innerText = layerNames[currentLayer];
-
-                            // Logic: Focus current, blur others
-                            // Layer classes map: 1=base, 2=protocol, 3=app, 4=user
-                            const layers = [
-                                document.querySelector('.layer-base'),
-                                document.querySelector('.layer-protocol'),
-                                document.querySelector('.layer-app'),
-                                document.querySelector('.layer-user')
-                            ];
-
-                            layers.forEach((layer, index) => {
-                                if (index + 1 === currentLayer) {
-                                    layer.classList.add('focused');
-                                } else {
-                                    layer.classList.add('blurred');
+                            function rotateLayer(direction) {
+                                // Ensure we are exploded first
+                                const stack = document.querySelector('.architecture-stack');
+                                if (!stack.classList.contains('scene-active')) {
+                                    toggleExplode();
                                 }
-                            });
-                        }
-                    </script>
 
-                    <style>
-                        .nav-btn {
-                            background: rgba(255, 255, 255, 0.1);
-                            border: 1px solid rgba(255, 255, 255, 0.2);
-                            color: white;
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                            cursor: pointer;
-                            transition: all 0.2s;
-                        }
+                                currentLayer += direction;
+                                if (currentLayer > 4) currentLayer = 1; // Cycle 1-4
+                                if (currentLayer < 1) currentLayer = 4;
 
-                        .nav-btn:hover {
-                            background: white;
-                            color: black;
-                        }
+                                updateLayerFocus();
+                            }
 
-                        /* Focus State Styles */
-                        .arch-layer.focused {
-                            transform: translateZ(500px) !important;
-                            /* Bring to very front */
-                            opacity: 1 !important;
-                            border-color: #fff;
-                            box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
-                            z-index: 100;
-                        }
+                            function updateLayerFocus() {
+                                // Remove all focus classes
+                                document.querySelectorAll('.arch-layer').forEach(el => el.classList.remove('focused', 'blurred'));
 
-                        .arch-layer.blurred {
-                            opacity: 0.1 !important;
-                            filter: blur(5px);
-                        }
-                    </style>
-                </section>
+                                if (currentLayer === 0) {
+                                    document.getElementById('layer-indicator').innerText = layerNames[0];
+                                    return;
+                                }
 
-                <!-- RISK FOCUS -->
-                <div class="risk-focus"
-                    style="background: rgba(234, 88, 12, 0.1); border-left: 4px solid #ea580c; padding: 30px; border-radius: 0 8px 8px 0;">
-                    <h3 style="color: #ea580c; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-exclamation-triangle"></i> Focus Gestionnaire de Risque
-                    </h3>
-                    <p style="color: #cbd5e1; margin-bottom: 20px;">Le passage à l'infrastructure Blockchain transforme
-                        radicalement la nature des risques opérationnels :</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 6px;">
-                            <span style="color: #10b981; font-weight: bold; display: block; margin-bottom: 5px;">📉
-                                Risque
-                                de Contrepartie</span>
-                            <span style="color: #fff; font-size: 14px;">ÉLIMINÉ (grâce au DvP Atomique
-                                instantané)</span>
-                        </div>
-                        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 6px;">
-                            <span style="color: #ef4444; font-weight: bold; display: block; margin-bottom: 5px;">📈
-                                Risque
-                                Opérationnel</span>
-                            <span style="color: #fff; font-size: 14px;">AUGMENTÉ (gestion critique des clés
-                                privées/HSM)</span>
-                        </div>
-                        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 6px;">
-                            <span style="color: #f59e0b; font-weight: bold; display: block; margin-bottom: 5px;">⚠️
-                                Risque
-                                de Liquidité</span>
-                            <span style="color: #fff; font-size: 14px;">POINT D'ATTENTION (marchés secondaires
-                                naissants)</span>
+                                document.getElementById('layer-indicator').innerText = layerNames[currentLayer];
+
+                                // Logic: Focus current, blur others
+                                // Layer classes map: 1=base, 2=protocol, 3=app, 4=user
+                                const layers = [
+                                    document.querySelector('.layer-base'),
+                                    document.querySelector('.layer-protocol'),
+                                    document.querySelector('.layer-app'),
+                                    document.querySelector('.layer-user')
+                                ];
+
+                                layers.forEach((layer, index) => {
+                                    if (index + 1 === currentLayer) {
+                                        layer.classList.add('focused');
+                                    } else {
+                                        layer.classList.add('blurred');
+                                    }
+                                });
+                            }
+                        </script>
+
+                        <style>
+                            .nav-btn {
+                                background: rgba(255, 255, 255, 0.1);
+                                border: 1px solid rgba(255, 255, 255, 0.2);
+                                color: white;
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%;
+                                cursor: pointer;
+                                transition: all 0.2s;
+                            }
+
+                            .nav-btn:hover {
+                                background: white;
+                                color: black;
+                            }
+
+                            /* Focus State Styles */
+                            .arch-layer.focused {
+                                transform: translateZ(500px) !important;
+                                /* Bring to very front */
+                                opacity: 1 !important;
+                                border-color: #fff;
+                                box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+                                z-index: 100;
+                            }
+
+                            .arch-layer.blurred {
+                                opacity: 0.1 !important;
+                                filter: blur(5px);
+                            }
+                        </style>
+                    </section>
+
+                    <!-- RISK FOCUS -->
+                    <div class="risk-focus"
+                        style="background: rgba(234, 88, 12, 0.1); border-left: 4px solid #ea580c; padding: 30px; border-radius: 0 8px 8px 0;">
+                        <h3 style="color: #ea580c; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-exclamation-triangle"></i> Focus Gestionnaire de Risque
+                        </h3>
+                        <p style="color: #cbd5e1; margin-bottom: 20px;">Le passage à l'infrastructure Blockchain
+                            transforme
+                            radicalement la nature des risques opérationnels :</p>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 6px;">
+                                <span style="color: #10b981; font-weight: bold; display: block; margin-bottom: 5px;">📉
+                                    Risque
+                                    de Contrepartie</span>
+                                <span style="color: #fff; font-size: 14px;">ÉLIMINÉ (grâce au DvP Atomique
+                                    instantané)</span>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 6px;">
+                                <span style="color: #ef4444; font-weight: bold; display: block; margin-bottom: 5px;">📈
+                                    Risque
+                                    Opérationnel</span>
+                                <span style="color: #fff; font-size: 14px;">AUGMENTÉ (gestion critique des clés
+                                    privées/HSM)</span>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 6px;">
+                                <span style="color: #f59e0b; font-weight: bold; display: block; margin-bottom: 5px;">⚠️
+                                    Risque
+                                    de Liquidité</span>
+                                <span style="color: #fff; font-size: 14px;">POINT D'ATTENTION (marchés secondaires
+                                    naissants)</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
             </div>
             </section>
