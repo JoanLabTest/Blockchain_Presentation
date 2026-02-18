@@ -137,7 +137,7 @@ class ResearchEngine {
         this.resultsEl.innerHTML = '<div class="empty-state">Commencez à taper pour explorer le Knowledge Hub...</div>';
     }
 
-    // --- INTELLIGENT SCORING ENGINE v3.0 ---
+    // --- INTELLIGENT SCORING ENGINE v3.0 (with Graph) ---
     handleSearch(query) {
         if (!query) {
             this.resultsEl.innerHTML = '<div class="empty-state">Commencez à taper pour explorer le Knowledge Hub...</div>';
@@ -181,7 +181,12 @@ class ResearchEngine {
             // E. ID Match
             if (item.id.toLowerCase().includes(q)) score += 40;
 
-            // F. Intersection Logic (Multi-term)
+            // F. TF-IDF Weight (Quant Data) -> Multiplier
+            if (item.weight) {
+                score += (item.weight * 2);
+            }
+
+            // G. Intersection Logic (Multi-term)
             const terms = q.split(' ');
             if (terms.length > 1) {
                 const allTermsMatch = terms.every(t =>
@@ -191,7 +196,7 @@ class ResearchEngine {
                 if (allTermsMatch) score += 20;
             }
 
-            // G. Filter
+            // H. Filter
             if (this.activeFilter !== 'ALL' && item.category !== this.activeFilter) {
                 score = 0;
             }
@@ -227,6 +232,22 @@ class ResearchEngine {
                 }
             }
 
+            // Graph Connections (Related Items)
+            let graphLinks = '';
+            if (item.related && item.related.length > 0) {
+                const relatedItems = this.index
+                    .filter(i => item.related.includes(i.id))
+                    .slice(0, 2); // Show max 2 links
+
+                if (relatedItems.length > 0) {
+                    graphLinks = `
+                    <div class="result-graph">
+                        <i class="fa-solid fa-share-nodes"></i> Voir aussi : 
+                        ${relatedItems.map(r => `<span class="graph-link" onclick="event.stopPropagation(); window.engine.goTo('${r.page}', '${r.anchor}')">${r.title.substring(0, 20)}...</span>`).join(', ')}
+                    </div>`;
+                }
+            }
+
             return `
             <div class="result-item ${index === 0 ? 'selected' : ''}" data-index="${index}" onclick="window.engine.goTo('${item.page}', '${item.anchor}')">
                 <div class="result-icon">
@@ -239,6 +260,7 @@ class ResearchEngine {
                         ${item.type ? `<span class="badge-type">${item.type}</span>` : ''}
                     </div>
                     <div class="result-desc">${snippet}</div>
+                    ${graphLinks}
                 </div>
                 <div class="result-arrow">
                     <i class="fa-solid fa-arrow-turn-down-left"></i>
