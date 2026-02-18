@@ -1575,9 +1575,52 @@
                         document.getElementById('risk-modal').style.display = 'none';
                     }
                 </script>
+                <!-- MACRO SENSITIVITY MODULE -->
+                <div
+                    style="margin-top: 40px; background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 16px; padding: 25px; display: flex; gap: 30px; align-items: center;">
+                    <div style="flex: 1;">
+                        <h3 style="color: #fff; font-size: 18px; margin-bottom: 5px;"><i class="fas fa-globe-americas"
+                                style="color: #3b82f6;"></i> Macro Sensitivity</h3>
+                        <p style="color: #94a3b8; font-size: 13px; margin: 0;">Compare Crypto Yields vs Risk-Free Rate
+                            (US 10Y).</p>
+
+                        <div style="margin-top: 20px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span style="font-size: 12px; color: #cbd5e1;">Fed Policy Simulator</span>
+                                <strong id="fed-adjustment-label"
+                                    style="font-size: 12px; color: #94a3b8;">0.00%</strong>
+                            </div>
+                            <input type="range" id="fedSlider" min="-2.0" max="2.0" step="0.25" value="0"
+                                style="width: 100%; cursor: pointer;">
+                            <div
+                                style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 10px; color: #64748b;">
+                                <span>Pivot (-2%)</span>
+                                <span>Neutral</span>
+                                <span>Hike (+2%)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="box" style="padding: 15px; background: #0f172a;">
+                            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 5px;">RISK PREMIUM</div>
+                            <div id="macro-spread" style="font-size: 24px; font-weight: 800; color: #10b981;">--%</div>
+                            <div style="font-size: 10px; color: #64748b;">Staking vs US10Y</div>
+                        </div>
+                        <div class="box" style="padding: 15px; background: #0f172a;">
+                            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 5px;">SIGNAL</div>
+                            <div id="macro-signal"
+                                style="font-size: 14px; font-weight: 800; color: #f59e0b; line-height: 1.2; margin-top: 5px;">
+                                WAITING</div>
+                            <div style="font-size: 10px; color: #64748b; margin-top: 5px;">Algorithmic Rating</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END MACRO MODULE -->
+
             </div>
         </div>
-
+    </div>
     </div>
 
     <!-- ========================================= -->
@@ -1808,6 +1851,7 @@
     <script src="config.js?v=2"></script>
     <script src="market-data.js"></script> <!-- Live Data Oracle -->
     <script src="risk-engine.js"></script> <!-- Monte Carlo Sim -->
+    <script src="macro-analytics.js"></script> <!-- Macro Fed Simulator -->
     <script>
         // Init AOS
         AOS.init({ duration: 800, once: true });
