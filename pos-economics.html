@@ -240,6 +240,53 @@
             font-weight: 800;
             color: var(--accent-gold);
         }
+
+        /* LAYOUT WITH TOC */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            position: relative;
+        }
+
+        .toc-sidebar {
+            width: 250px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding-right: 20px;
+            display: none;
+            /* Mobile hidden by default */
+        }
+
+        @media (min-width: 1024px) {
+            .toc-sidebar {
+                display: block;
+            }
+        }
+
+        .toc-link {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 10px 0;
+            font-size: 14px;
+            border-left: 2px solid transparent;
+            padding-left: 15px;
+            transition: all 0.3s;
+        }
+
+        .toc-link:hover,
+        .toc-link.active {
+            color: var(--accent-gold);
+            border-left-color: var(--accent-gold);
+            padding-left: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
     </style>
 </head>
 
@@ -264,139 +311,204 @@
 
     <div class="container">
 
-        <!-- 1. COMPARATIVE TABLE -->
-        <section class="section-box" data-aos="fade-up">
-            <h2><i class="fa-solid fa-scale-balanced" style="color: var(--accent-blue);"></i> 1. Comparatif Réseaux (L1)
-            </h2>
-            <p>Analyse des métriques fondamentales de staking pour les principales blockchains Proof-of-Stake.</p>
+        <div class="content-wrapper">
+            <!-- SIDEBAR TOC -->
+            <aside class="toc-sidebar">
+                <h4
+                    style="color:white; margin-bottom:20px; font-size:14px; text-transform:uppercase; letter-spacing:1px;">
+                    Sommaire</h4>
+                <nav>
+                    <a href="#section-1" class="toc-link active">1. Comparatif Réseaux</a>
+                    <a href="#section-2" class="toc-link">2. Simulateur ROI</a>
+                    <a href="#section-3" class="toc-link">3. Matrice Risques</a>
+                    <a href="#section-4" class="toc-link">4. Modèle Mathématique</a>
+                    <a href="#section-5" class="toc-link">5. Courbe de Rendement</a>
+                </nav>
+            </aside>
 
-            <table class="network-table">
-                <thead>
-                    <tr>
-                        <th width="20%">Réseau</th>
-                        <th>Nominal APY</th>
-                        <th>Inflation Réelle</th>
-                        <th>Slashing Risk</th>
-                        <th>Lock-up Period</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong><i class="fab fa-ethereum"></i> Ethereum</strong></td>
-                        <td class="val-good">3.5% - 5.0%</td>
-                        <td>~0.5% (Burn)</td>
-                        <td class="val-bad">Severe (1ETH - 100%)</td>
-                        <td>Queue de sortie (~days)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SOL Solana</strong></td>
-                        <td class="val-good">~7.0%</td>
-                        <td>~5.0%</td>
-                        <td class="val-mid">100% (Manual Halt)</td>
-                        <td>~2.5 Jours (Epoch)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>DOT Polkadot</strong></td>
-                        <td class="val-good">~15.0%</td>
-                        <td>~10.0%</td>
-                        <td class="val-bad">Unresponsiveness</td>
-                        <td>28 Jours</td>
-                    </tr>
-                    <tr>
-                        <td><strong>ADA Cardano</strong></td>
-                        <td class="val-mid">~3.0%</td>
-                        <td>~2.5%</td>
-                        <td class="val-good">Aucun (Unslashed)</td>
-                        <td>Liquid (Snapshot)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
 
-        <!-- 2. ROI CALCULATOR -->
-        <section class="section-box" data-aos="fade-up">
-            <h2><i class="fa-solid fa-calculator" style="color: var(--accent-gold);"></i> 2. Simulateur de Rentabilité
-                Valideur</h2>
-            <p>Estimez les revenus nets après coûts d'infrastructure et commissions.</p>
+                <!-- 1. COMPARATIVE TABLE -->
+                <section id="section-1" class="section-box" data-aos="fade-up">
+                    <h2><i class="fa-solid fa-scale-balanced" style="color: var(--accent-blue);"></i> 1. Comparatif
+                        Réseaux (L1)</h2>
+                    <p>Analyse des métriques fondamentales de staking (Données Marché 2026).</p>
 
-            <div class="calc-panel">
-                <div style="display: flex; flex-direction: column; gap: 20px;">
-                    <div class="calc-input">
-                        <label>Capital Staké (USD)</label>
-                        <input type="number" id="stakeAmount" value="1000000">
+                    <table class="network-table">
+                        <thead>
+                            <tr>
+                                <th width="20%">Réseau</th>
+                                <th>Nominal APY</th>
+                                <th>Staked Ratio</th>
+                                <th>Validators</th>
+                                <th>Slashing</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong><i class="fab fa-ethereum"></i> Ethereum</strong></td>
+                                <td class="val-good">3.2%</td>
+                                <td>~28%</td>
+                                <td>1,000,000+</td>
+                                <td class="val-bad">Severe</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SOL Solana</strong></td>
+                                <td class="val-good">6.5%</td>
+                                <td>~64%</td>
+                                <td>1,800+</td>
+                                <td class="val-mid">100% Halt</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DOT Polkadot</strong></td>
+                                <td class="val-good">15.0%</td>
+                                <td>~52%</td>
+                                <td>297 (Active)</td>
+                                <td class="val-bad">Unresponsive</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ADA Cardano</strong></td>
+                                <td class="val-mid">3.0%</td>
+                                <td>~62%</td>
+                                <td>3,000+</td>
+                                <td class="val-good">None</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- 2. ROI CALCULATOR -->
+                <section id="section-2" class="section-box" data-aos="fade-up">
+                    <h2><i class="fa-solid fa-calculator" style="color: var(--accent-gold);"></i> 2. Simulateur de
+                        Rentabilité Valideur</h2>
+                    <p>Estimez les revenus nets après coûts d'infrastructure et commissions.</p>
+
+                    <div class="calc-panel">
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            <div class="calc-input">
+                                <label>Capital Staké (USD)</label>
+                                <input type="number" id="stakeAmount" value="1000000">
+                            </div>
+                            <div class="calc-input">
+                                <label>Protocol APY (%)</label>
+                                <input type="number" id="apyInput" value="3.2" step="0.1">
+                            </div>
+                            <div class="calc-input">
+                                <label>Coûts Infra / An (Cloud, Hardware)</label>
+                                <input type="number" id="costInput" value="5000">
+                            </div>
+                        </div>
+                        <div class="calc-result">
+                            <span
+                                style="color: #94a3b8; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Résultat
+                                Net Annuel</span>
+                            <span class="roi-display" id="netResult">$27,000</span>
+                            <span style="color: #10b981; font-size: 18px; margin-top: 10px;" id="netRoi">2.7% Net
+                                ROI</span>
+                        </div>
                     </div>
-                    <div class="calc-input">
-                        <label>Protocol APY (%)</label>
-                        <input type="number" id="apyInput" value="4.5" step="0.1">
+
+                    <script>
+                        const inputs = document.querySelectorAll('input');
+                        inputs.forEach(input => input.addEventListener('input', calculateROI));
+
+                        function calculateROI() {
+                            const capital = parseFloat(document.getElementById('stakeAmount').value) || 0;
+                            const apy = parseFloat(document.getElementById('apyInput').value) || 0;
+                            const cost = parseFloat(document.getElementById('costInput').value) || 0;
+
+                            const grossReward = capital * (apy / 100);
+                            const netReward = grossReward - cost;
+                            const netRoi = (netReward / capital) * 100;
+
+                            document.getElementById('netResult').innerText = '$' + netReward.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                            document.getElementById('netRoi').innerText = netRoi.toFixed(2) + '% Net ROI';
+                        }
+                        calculateROI();
+                    </script>
+                </section>
+
+                <!-- 3. RISK MATRIX -->
+                <section id="section-3" class="section-box" data-aos="fade-up">
+                    <h2><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i> 3. Matrice des Risques
+                        Opérationnels</h2>
+                    <div class="risk-grid">
+                        <div class="risk-item">
+                            <h3><i class="fa-solid fa-gavel"></i> Slashing (Double Sign) <span
+                                    class="risk-badge risk-high">Critique</span></h3>
+                            <p style="color: #94a3b8; font-size: 14px;">Le risque de perte la plus sévère. Survient si
+                                un validateur signe deux blocs différents à la même hauteur (équivocation). Entraîne une
+                                pénalité immédiate et l'éjection du réseau.</p>
+                        </div>
+                        <div class="risk-item">
+                            <h3><i class="fa-solid fa-server"></i> Downtime Penalty <span
+                                    class="risk-badge risk-med">Moyen</span></h3>
+                            <p style="color: #94a3b8; font-size: 14px;">Si le validateur est hors ligne. La pénalité est
+                                généralement faible (équivalente à la perte de rewards potentiels) sauf si une grande
+                                partie du réseau est offline simultanément (Correlation Penalty).</p>
+                        </div>
+                        <div class="risk-item">
+                            <h3><i class="fa-solid fa-key"></i> Key Management <span
+                                    class="risk-badge risk-high">Critique</span></h3>
+                            <p style="color: #94a3b8; font-size: 14px;">La compromission des clés de retrait entraîne la
+                                perte totale des fonds. Les clés de signature (hot) doivent être séparées des clés de
+                                retrait (cold/multisig).</p>
+                        </div>
+                        <div class="risk-item">
+                            <h3><i class="fa-solid fa-water"></i> Liquidity Risks <span
+                                    class="risk-badge risk-med">Moyen</span></h3>
+                            <p style="color: #94a3b8; font-size: 14px;">Le délai de sortie ("unbonding period") empêche
+                                la vente immédiate des actifs en cas de crash du marché si aucun dérivé liquide (LSD)
+                                n'est utilisé.</p>
+                        </div>
                     </div>
-                    <div class="calc-input">
-                        <label>Coûts Infra / An (Cloud, Hardware)</label>
-                        <input type="number" id="costInput" value="5000">
+                </section>
+
+                <!-- 4. ECONOMIC MODELS (NEW) -->
+                <section id="section-4" class="section-box" data-aos="fade-up">
+                    <h2><i class="fa-solid fa-square-root-variable" style="color: var(--accent-gold);"></i> 4.
+                        Modélisation Mathématique</h2>
+                    <p>Déconstruction de la formule de récompense basique (Modèle générique Proof-of-Stake).</p>
+
+                    <div
+                        style="background:#1e293b; padding:30px; border-radius:12px; border:1px solid #334155; font-family:'JetBrains Mono', monospace; color:#cbd5e1; margin-top:20px;">
+                        <span style="color:var(--accent-blue)">Reward</span> =
+                        <span style="color:var(--accent-gold)">Base_Issuance</span> ×
+                        (<span style="color:#10b981">Val_Stake</span> / <span style="color:#a855f7">Total_Stake</span>)
+                        ×
+                        <span style="color:#f472b6">Performance_Factor</span>
                     </div>
-                </div>
-                <div class="calc-result">
-                    <span
-                        style="color: #94a3b8; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Résultat
-                        Net Annuel</span>
-                    <span class="roi-display" id="netResult">$40,000</span>
-                    <span style="color: #10b981; font-size: 18px; margin-top: 10px;" id="netRoi">4.0% Net ROI</span>
-                </div>
-            </div>
 
-            <script>
-                const inputs = document.querySelectorAll('input');
-                inputs.forEach(input => input.addEventListener('input', calculateROI));
+                    <ul style="margin-top:20px; color:#94a3b8; font-size:15px; list-style:none; padding-left:0;">
+                        <li style="margin-bottom:10px;"><i class="fas fa-caret-right"
+                                style="color:var(--accent-gold); margin-right:10px;"></i> <strong>Base Issuance
+                                :</strong> Inflation programmée du protocole (ex: ETH émet ~2500 ETH/jour).</li>
+                        <li style="margin-bottom:10px;"><i class="fas fa-caret-right"
+                                style="color:var(--accent-gold); margin-right:10px;"></i> <strong>Stake Ratio :</strong>
+                            Votre part de propriété du réseau sécurisé.</li>
+                        <li><i class="fas fa-caret-right" style="color:var(--accent-gold); margin-right:10px;"></i>
+                            <strong>Performance Factor :</strong> Pourcentage d'uptime et d'attestations valides
+                            (downtime = 0).
+                        </li>
+                    </ul>
+                </section>
 
-                function calculateROI() {
-                    const capital = parseFloat(document.getElementById('stakeAmount').value) || 0;
-                    const apy = parseFloat(document.getElementById('apyInput').value) || 0;
-                    const cost = parseFloat(document.getElementById('costInput').value) || 0;
+                <!-- 5. YIELD CURVE (NEW) -->
+                <section id="section-5" class="section-box" style="border-bottom: none;" data-aos="fade-up">
+                    <h2><i class="fa-solid fa-chart-line" style="color: #10b981;"></i> 5. Courbe de Dilution du
+                        Rendement</h2>
+                    <p>Impact de l'augmentation du staking global sur le rendement individuel (Loi des rendements
+                        décroissants).</p>
 
-                    const grossReward = capital * (apy / 100);
-                    const netReward = grossReward - cost;
-                    const netRoi = (netReward / capital) * 100;
+                    <div style="height:400px; margin-top:30px;">
+                        <canvas id="yieldCurveChart"></canvas>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                </section>
 
-                    document.getElementById('netResult').innerText = '$' + netReward.toLocaleString(undefined, { maximumFractionDigits: 0 });
-                    document.getElementById('netRoi').innerText = netRoi.toFixed(2) + '% Net ROI';
-                }
-                calculateROI();
-            </script>
-        </section>
-
-        <!-- 3. RISK MATRIX -->
-        <section class="section-box" style="border-bottom: none;" data-aos="fade-up">
-            <h2><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i> 3. Matrice des Risques
-                Opérationnels</h2>
-            <div class="risk-grid">
-                <div class="risk-item">
-                    <h3><i class="fa-solid fa-gavel"></i> Slashing (Double Sign) <span
-                            class="risk-badge risk-high">Critique</span></h3>
-                    <p style="color: #94a3b8; font-size: 14px;">Le risque de perte la plus sévère. Survient si un
-                        validateur signe deux blocs différents à la même hauteur (équivocation). Entraîne une pénalité
-                        immédiate et l'éjection du réseau.</p>
-                </div>
-                <div class="risk-item">
-                    <h3><i class="fa-solid fa-server"></i> Downtime Penalty <span
-                            class="risk-badge risk-med">Moyen</span></h3>
-                    <p style="color: #94a3b8; font-size: 14px;">Si le validateur est hors ligne. La pénalité est
-                        généralement faible (équivalente à la perte de rewards potentiels) sauf si une grande partie du
-                        réseau est offline simultanément (Correlation Penalty).</p>
-                </div>
-                <div class="risk-item">
-                    <h3><i class="fa-solid fa-key"></i> Key Management <span
-                            class="risk-badge risk-high">Critique</span></h3>
-                    <p style="color: #94a3b8; font-size: 14px;">La compromission des clés de retrait entraîne la perte
-                        totale des fonds. Les clés de signature (hot) doivent être séparées des clés de retrait
-                        (cold/multisig).</p>
-                </div>
-                <div class="risk-item">
-                    <h3><i class="fa-solid fa-water"></i> Liquidity Risks <span class="risk-badge risk-med">Moyen</span>
-                    </h3>
-                    <p style="color: #94a3b8; font-size: 14px;">Le délai de sortie ("unbonding period") empêche la vente
-                        immédiate des actifs en cas de crash du marché si aucun dérivé liquide (LSD) n'est utilisé.</p>
-                </div>
-            </div>
-        </section>
+            </div> <!-- END MAIN CONTENT -->
+        </div> <!-- END CONTENT WRAPPER -->
 
     </div>
 
@@ -472,6 +584,86 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
+
+        // --- SCROLL SPY ---
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.toc-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 300)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // --- YIELD CURVE CHART ---
+        // Simulation: Theoretical yield dilution based on total percent staked
+        const ctx = document.getElementById('yieldCurveChart').getContext('2d');
+
+        // Data Points
+        const stakedPercentage = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        const validatorYield = [12.5, 8.2, 6.1, 4.8, 3.9, 3.2, 2.7, 2.3, 2.0, 1.8]; // Example curve
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: stakedPercentage.map(p => p + '% Staked'),
+                datasets: [{
+                    label: 'Validator Yield (%)',
+                    data: validatorYield,
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#0f172a',
+                    pointBorderColor: '#10b981',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function (context) {
+                                return `Yield: ${context.parsed.y}%`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#334155' },
+                        title: { display: true, text: 'Annual Yield (%)', color: '#94a3b8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94a3b8' }
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        });
     </script>
 </body>
 

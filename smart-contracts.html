@@ -246,6 +246,106 @@
             align-items: center;
             gap: 30px;
         }
+
+        /* LAYOUT WITH TOC */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            position: relative;
+        }
+
+        .toc-sidebar {
+            width: 250px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            border-right: 1px solid #333;
+            padding-right: 20px;
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .toc-sidebar {
+                display: block;
+            }
+        }
+
+        .toc-link {
+            display: block;
+            color: #888;
+            text-decoration: none;
+            padding: 10px 0;
+            font-size: 14px;
+            border-left: 2px solid transparent;
+            padding-left: 15px;
+            transition: all 0.3s;
+        }
+
+        .toc-link:hover,
+        .toc-link.active {
+            color: var(--accent-purple);
+            border-left-color: var(--accent-purple);
+            padding-left: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ARCHITECTURE DIAGRAM */
+        .arch-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 40px 0;
+            position: relative;
+            background: #000;
+            padding: 20px;
+            border: 1px solid #222;
+            border-radius: 12px;
+        }
+
+        .arch-box {
+            background: #111;
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 180px;
+            z-index: 10;
+        }
+
+        .arch-box h4 {
+            margin: 0 0 10px 0;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .arch-box p {
+            margin: 0;
+            font-size: 11px;
+            color: #888;
+        }
+
+        .arch-arrow {
+            flex: 1;
+            height: 2px;
+            background: #333;
+            position: relative;
+        }
+
+        .arch-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #333;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
     </style>
 </head>
 
@@ -270,159 +370,214 @@
 
     <div class="container">
 
-        <!-- 1. ANATOMY -->
-        <section class="tech-section" data-aos="fade-up">
-            <h2><i class="fa-solid fa-microchip" style="color: var(--accent-blue);"></i> 1. Anatomie d'un Contrat RWA
-            </h2>
-            <p>Structure typique d'un smart contract de tokenisation d'actifs réels, incluant les contrôles d'accès et
-                la conformité intégrée.</p>
+        <div class="content-wrapper">
+            <!-- SIDEBAR TOC -->
+            <aside class="toc-sidebar">
+                <h4
+                    style="color:white; margin-bottom:20px; font-size:14px; text-transform:uppercase; letter-spacing:1px;">
+                    Sommaire</h4>
+                <nav>
+                    <a href="#section-anatomie" class="toc-link active">1. Anatomie RWA</a>
+                    <a href="#section-arch" class="toc-link">2. Architecture On-Chain</a>
+                    <a href="#section-standards" class="toc-link">3. Standards (ERC-3643)</a>
+                    <a href="#section-security" class="toc-link">4. Sécurité & Audit</a>
+                </nav>
+            </aside>
 
-            <div class="code-window">
-                <div class="code-header">
-                    <div class="dot" style="background:#ff5f56"></div>
-                    <div class="dot" style="background:#ffbd2e"></div>
-                    <div class="dot" style="background:#27c93f"></div>
-                    <span style="color:#888; font-size:12px; margin-left:10px;">RWA_Token.sol</span>
-                </div>
-                <div class="code-content">
-                    <span class="kwd">pragma solidity</span> ^0.8.20;
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
 
-                    <span class="kwd">import</span> <span
-                        class="str">"@openzeppelin/contracts/token/ERC20/ERC20.sol"</span>;
-                    <span class="kwd">import</span> <span class="str">"./ComplianceModule.sol"</span>;
+                <!-- 1. ANATOMY -->
+                <section id="section-anatomie" class="tech-section" data-aos="fade-up">
+                    <h2><i class="fa-solid fa-microchip" style="color: var(--accent-blue);"></i> 1. Anatomie d'un
+                        Contrat RWA</h2>
+                    <p>Structure typique d'un smart contract de tokenisation d'actifs réels, incluant les contrôles
+                        d'accès et la conformité intégrée.</p>
 
-                    <span class="com">/// @title Digital Bond Token with Embedded Compliance</span>
-                    <span class="kwd">contract</span> DigitalBond <span class="kwd">is</span> ERC20, AccessControl,
-                    Pausable {
+                    <div class="code-window">
+                        <div class="code-header">
+                            <div class="dot" style="background:#ff5f56"></div>
+                            <div class="dot" style="background:#ffbd2e"></div>
+                            <div class="dot" style="background:#27c93f"></div>
+                            <span style="color:#888; font-size:12px; margin-left:10px;">RWA_Token.sol</span>
+                        </div>
+                        <div class="code-content">
+                            <span class="kwd">pragma solidity</span> ^0.8.20;
 
-                    <span class="com">// State Variables</span>
-                    <span class="typ">bytes32</span> <span class="kwd">public constant</span> ISSUER_ROLE = <span
-                        class="fn">keccak256</span>(<span class="str">"ISSUER_ROLE"</span>);
-                    ICompliance <span class="kwd">public</span> complianceModule;
+                            <span class="kwd">import</span> <span
+                                class="str">"@openzeppelin/contracts/token/ERC20/ERC20.sol"</span>;
+                            <span class="kwd">import</span> <span class="str">"./ComplianceModule.sol"</span>;
 
-                    <span class="kwd">constructor</span>(<span class="typ">string</span> <span class="kwd">memory</span>
-                    name, <span class="typ">string</span> <span class="kwd">memory</span> symbol, <span
-                        class="typ">address</span> complianceAddress) <span class="fn">ERC20</span>(name, symbol) {
-                    <span class="fn">_grantRole</span>(DEFAULT_ADMIN_ROLE, <span class="fn">msg.sender</span>);
-                    complianceModule = <span class="fn">ICompliance</span>(complianceAddress);
-                    }
+                            <span class="com">/// @title Digital Bond Token with Embedded Compliance</span>
+                            <span class="kwd">contract</span> DigitalBond <span class="kwd">is</span> ERC20,
+                            AccessControl, Pausable {
 
-                    <span class="com">/*
-                        * @notice Mint tokens only to whitelisted investors
-                        * @dev Checks compliance module before state change
-                        */</span>
-                    <span class="kwd">function</span> <span class="fn">mint</span>(<span class="typ">address</span> to,
-                    <span class="typ">uint256</span> amount) <span class="kwd">public</span> <span
-                        class="fn">onlyRole</span>(ISSUER_ROLE) {
-                    <span class="kwd">require</span>(complianceModule.<span class="fn">checkEligibility</span>(to),
-                    <span class="str">"Investor not eligible (KYC)"</span>);
-                    <span class="fn">_mint</span>(to, amount);
-                    }
+                            <span class="com">// State Variables</span>
+                            <span class="typ">bytes32</span> <span class="kwd">public constant</span> ISSUER_ROLE =
+                            <span class="fn">keccak256</span>(<span class="str">"ISSUER_ROLE"</span>);
+                            ICompliance <span class="kwd">public</span> complianceModule;
 
-                    <span class="com">// Override transfer to enforce ongoing compliance (Secondary Market)</span>
-                    <span class="kwd">function</span> <span class="fn">_update</span>(<span class="typ">address</span>
-                    from, <span class="typ">address</span> to, <span class="typ">uint256</span> amount) <span
-                        class="kwd">internal override</span> <span class="fn">whenNotPaused</span> {
-                    <span class="kwd">if</span> (from != <span class="typ">address</span>(0) && to != <span
-                        class="typ">address</span>(0)) {
-                    <span class="kwd">require</span>(complianceModule.<span class="fn">canTransfer</span>(from, to,
-                    amount), <span class="str">"Transfer restricted"</span>);
-                    }
-                    <span class="kwd">super</span>.<span class="fn">_update</span>(from, to, amount);
-                    }
-                    }
-                </div>
-            </div>
-        </section>
+                            <span class="kwd">constructor</span>(<span class="typ">string</span> <span
+                                class="kwd">memory</span> name, <span class="typ">string</span> <span
+                                class="kwd">memory</span> symbol, <span class="typ">address</span> complianceAddress)
+                            <span class="fn">ERC20</span>(name, symbol) {
+                            <span class="fn">_grantRole</span>(DEFAULT_ADMIN_ROLE, <span class="fn">msg.sender</span>);
+                            complianceModule = <span class="fn">ICompliance</span>(complianceAddress);
+                            }
 
-        <!-- 2. STANDARDS -->
-        <section class="tech-section" data-aos="fade-up">
-            <h2><i class="fa-solid fa-ruler-combined" style="color: var(--accent-purple);"></i> 2. Standards de
-                Tokenisation</h2>
-            <p>Comparatif des standards Ethereum utilisés pour les actifs institutionnels.</p>
+                            <span class="com">/*
+                                * @notice Mint tokens only to whitelisted investors
+                                * @dev Checks compliance module before state change
+                                */</span>
+                            <span class="kwd">function</span> <span class="fn">mint</span>(<span
+                                class="typ">address</span> to, <span class="typ">uint256</span> amount) <span
+                                class="kwd">public</span> <span class="fn">onlyRole</span>(ISSUER_ROLE) {
+                            <span class="kwd">require</span>(complianceModule.<span
+                                class="fn">checkEligibility</span>(to), <span class="str">"Investor not eligible
+                                (KYC)"</span>);
+                            <span class="fn">_mint</span>(to, amount);
+                            }
 
-            <table class="std-table">
-                <thead>
-                    <tr>
-                        <th>Standard</th>
-                        <th>Usage Principal</th>
-                        <th>Spécificité Compliance</th>
-                        <th>Complexité</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="color:white; font-weight:bold;">ERC-20</td>
-                        <td>Utility Tokens / Stablecoins</td>
-                        <td>Aucune (Permissionless)</td>
-                        <td>Faible</td>
-                    </tr>
-                    <tr>
-                        <td style="color:white; font-weight:bold;">ERC-1400</td>
-                        <td>Security Tokens (Old School)</td>
-                        <td>Partitions & Tranches</td>
-                        <td>Élevée</td>
-                    </tr>
-                    <tr>
-                        <td style="color:#10b981; font-weight:bold;">ERC-3643 (T-REX)</td>
-                        <td>RWA & Securities (Moderne)</td>
-                        <td>Identity Registry ON-CHAIN (ONCHID)</td>
-                        <td>Moyenne</td>
-                    </tr>
-                    <tr>
-                        <td style="color:white; font-weight:bold;">ERC-4626</td>
-                        <td>Tokenized Vaults (Yield)</td>
-                        <td>Standardisation des parts de fonds</td>
-                        <td>Moyenne</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+                            <span class="com">// Override transfer to enforce ongoing compliance (Secondary
+                                Market)</span>
+                            <span class="kwd">function</span> <span class="fn">_update</span>(<span
+                                class="typ">address</span> from, <span class="typ">address</span> to, <span
+                                class="typ">uint256</span> amount) <span class="kwd">internal override</span> <span
+                                class="fn">whenNotPaused</span> {
+                            <span class="kwd">if</span> (from != <span class="typ">address</span>(0) && to != <span
+                                class="typ">address</span>(0)) {
+                            <span class="kwd">require</span>(complianceModule.<span class="fn">canTransfer</span>(from,
+                            to, amount), <span class="str">"Transfer restricted"</span>);
+                            }
+                            <span class="kwd">super</span>.<span class="fn">_update</span>(from, to, amount);
+                            }
+                            }
+                        </div>
+                    </div>
+                </section>
 
-        <!-- 3. SECURITY PATTERNS -->
-        <section class="tech-section" data-aos="fade-up">
-            <h2><i class="fa-solid fa-shield-halved" style="color: var(--accent-green);"></i> 3. Patterns de Sécurité &
-                Audit</h2>
-            <div class="pattern-grid">
-                <div class="pattern-card">
-                    <div class="pattern-icon"><i class="fa-solid fa-user-lock"></i></div>
-                    <h3 style="color:white; font-size:18px; margin-bottom:10px;">Access Control</h3>
-                    <p style="font-size:14px; color:#888;">Séparation stricte des rôles (Admin, Issuer, Agent).
-                        Utilisation de <code>AccessControl.sol</code> d'OpenZeppelin plutôt que <code>Ownable</code>
-                        pour éviter le point unique de défaillance (SPOF).</p>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-icon"><i class="fa-solid fa-rotate-left"></i></div>
-                    <h3 style="color:white; font-size:18px; margin-bottom:10px;">Reentrancy Guard</h3>
-                    <p style="font-size:14px; color:#888;">Protection contre les attaques récursives lors des retraits
-                        de fonds. Obligatoire pour toute fonction manipulant des ETH ou tokens natifs.</p>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-icon"><i class="fa-solid fa-pause"></i></div>
-                    <h3 style="color:white; font-size:18px; margin-bottom:10px;">Emergency Pause</h3>
-                    <p style="font-size:14px; color:#888;">Mécanisme "Circuit Breaker" permettant de geler les
-                        transferts en cas d'anomalie détectée, sans altérer les soldes (Pausable).</p>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-icon"><i class="fa-solid fa-id-card"></i></div>
-                    <h3 style="color:white; font-size:18px; margin-bottom:10px;">Identity Registry</h3>
-                    <p style="font-size:14px; color:#888;">Liste blanche dynamique liée aux statuts KYC/AML des
-                        investisseurs off-chain. Le token ne bouge pas si le wallet de destination n'est pas validé.</p>
-                </div>
-            </div>
+                <!-- 2. ARCHITECTURE DIAGRAM (NEW) -->
+                <section id="section-arch" class="tech-section" data-aos="fade-up">
+                    <h2><i class="fa-solid fa-project-diagram" style="color: var(--accent-purple);"></i> 2. Architecture
+                        On-Chain</h2>
+                    <p>Le flux de validation d'une transaction RWA pour garantir la conformité en temps réel.</p>
 
-            <div class="security-audit-box">
-                <i class="fa-solid fa-file-contract" style="font-size: 40px; color: var(--accent-green);"></i>
-                <div>
-                    <h3 style="color:white; margin-bottom:5px;">Processus d'Audit & Vérification Formelle</h3>
-                    <p style="font-size:14px; color:#aaa; margin:0;">
-                        Avant déploiement, les contrats institutionnels subissent des audits par des firmes tierces
-                        (Trail of Bits, OpenZeppelin) et des vérifications formelles (Certora) pour prouver
-                        mathématiquement l'invariance des règles comptables.
+                    <div class="arch-diagram">
+                        <div class="arch-box" style="border-color:var(--accent-blue)">
+                            <h4>Investor Wallet</h4>
+                            <p>Induit la Tx (Transfer)</p>
+                        </div>
+                        <div class="arch-arrow"></div>
+                        <div class="arch-box" style="border-color:var(--accent-purple)">
+                            <h4>RWA Token</h4>
+                            <p>Intercept (_beforeTokenTransfer)</p>
+                        </div>
+                        <div class="arch-arrow"></div>
+                        <div class="arch-box" style="border-color:var(--accent-green)">
+                            <h4>Identity Registry</h4>
+                            <p>Vérifie KYC/Whitelisting</p>
+                        </div>
+                    </div>
+                    <p style="font-size:12px; color:#666; text-align:center; margin-top:-20px;">
+                        Si l'Identity Registry retourne <span style="color:#ef4444">FALSE</span>, la transaction RWA
+                        revert automatiquement.
                     </p>
-                </div>
-            </div>
-        </section>
+                </section>
+
+                <!-- 3. STANDARDS -->
+                <section id="section-standards" class="tech-section" data-aos="fade-up">
+                    <h2><i class="fa-solid fa-ruler-combined" style="color: var(--accent-purple);"></i> 3. Standards de
+                        Tokenisation</h2>
+                    <p>Comparatif des standards Ethereum utilisés pour les actifs institutionnels.</p>
+
+                    <table class="std-table">
+                        <thead>
+                            <tr>
+                                <th>Standard</th>
+                                <th>Usage Principal</th>
+                                <th>Spécificité Compliance</th>
+                                <th>Complexité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:white; font-weight:bold;">ERC-20</td>
+                                <td>Utility Tokens / Stablecoins</td>
+                                <td>Aucune (Permissionless)</td>
+                                <td>Faible</td>
+                            </tr>
+                            <tr>
+                                <td style="color:white; font-weight:bold;">ERC-1400</td>
+                                <td>Security Tokens (Old School)</td>
+                                <td>Partitions & Tranches</td>
+                                <td>Élevée</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#10b981; font-weight:bold;">ERC-3643 (T-REX)</td>
+                                <td>RWA & Securities (Moderne)</td>
+                                <td>Identity Registry ON-CHAIN (ONCHID)</td>
+                                <td>Moyenne</td>
+                            </tr>
+                            <tr>
+                                <td style="color:white; font-weight:bold;">ERC-4626</td>
+                                <td>Tokenized Vaults (Yield)</td>
+                                <td>Standardisation des parts de fonds</td>
+                                <td>Moyenne</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- 4. SECURITY PATTERNS -->
+                <section id="section-security" class="tech-section" data-aos="fade-up" style="border-bottom:none;">
+                    <h2><i class="fa-solid fa-shield-halved" style="color: var(--accent-green);"></i> 4. Patterns de
+                        Sécurité & Audit</h2>
+                    <div class="pattern-grid">
+                        <div class="pattern-card">
+                            <div class="pattern-icon"><i class="fa-solid fa-user-lock"></i></div>
+                            <h3 style="color:white; font-size:18px; margin-bottom:10px;">Access Control</h3>
+                            <p style="font-size:14px; color:#888;">Séparation stricte des rôles (Admin, Issuer, Agent).
+                                Utilisation de <code>AccessControl.sol</code> d'OpenZeppelin plutôt que
+                                <code>Ownable</code> pour éviter le point unique de défaillance (SPOF).
+                            </p>
+                        </div>
+                        <div class="pattern-card">
+                            <div class="pattern-icon"><i class="fa-solid fa-rotate-left"></i></div>
+                            <h3 style="color:white; font-size:18px; margin-bottom:10px;">Reentrancy Guard</h3>
+                            <p style="font-size:14px; color:#888;">Protection contre les attaques récursives lors des
+                                retraits de fonds. Obligatoire pour toute fonction manipulant des ETH ou tokens natifs.
+                            </p>
+                        </div>
+                        <div class="pattern-card">
+                            <div class="pattern-icon"><i class="fa-solid fa-pause"></i></div>
+                            <h3 style="color:white; font-size:18px; margin-bottom:10px;">Emergency Pause</h3>
+                            <p style="font-size:14px; color:#888;">Mécanisme "Circuit Breaker" permettant de geler les
+                                transferts en cas d'anomalie détectée, sans altérer les soldes (Pausable).</p>
+                        </div>
+                        <div class="pattern-card">
+                            <div class="pattern-icon"><i class="fa-solid fa-id-card"></i></div>
+                            <h3 style="color:white; font-size:18px; margin-bottom:10px;">Identity Registry</h3>
+                            <p style="font-size:14px; color:#888;">Liste blanche dynamique liée aux statuts KYC/AML des
+                                investisseurs off-chain. Le token ne bouge pas si le wallet de destination n'est pas
+                                validé.</p>
+                        </div>
+                    </div>
+
+                    <div class="security-audit-box">
+                        <i class="fa-solid fa-file-contract" style="font-size: 40px; color: var(--accent-green);"></i>
+                        <div>
+                            <h3 style="color:white; margin-bottom:5px;">Processus d'Audit & Vérification Formelle</h3>
+                            <p style="font-size:14px; color:#aaa; margin:0;">
+                                Avant déploiement, les contrats institutionnels subissent des audits par des firmes
+                                tierces (Trail of Bits, OpenZeppelin) et des vérifications formelles (Certora) pour
+                                prouver mathématiquement l'invariance des règles comptables.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+            </div> <!-- END MAIN CONTENT -->
+        </div> <!-- END CONTENT WRAPPER -->
 
     </div>
 
@@ -431,8 +586,31 @@
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
+
+        // --- SCROLL SPY ---
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.toc-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 300)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 
