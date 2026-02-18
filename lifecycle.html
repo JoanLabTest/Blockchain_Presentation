@@ -240,49 +240,61 @@
                         règlement final.
                     </p>
 
-                    <!-- GLOBAL ARCHITECTURE SCHEMA -->
-                    <div class="schema-container">
-                        <!-- 1. LEGACY -->
-                        <div class="schema-box">
-                            <div class="schema-title">Legacy Bank</div>
-                            <i class="fa-solid fa-building-columns schema-icon" style="color: #94a3b8;"></i>
-                            <div class="schema-details">
-                                • Core Banking (T24)<br>
-                                • Payment Engine<br>
-                                • CRM / KYC
-                            </div>
-                        </div>
+                    <!-- MERMAID DIAGRAM -->
+                    <div class="mermaid-container"
+                        style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2); margin: 20px 0;">
+                        <div class="mermaid">
+                            sequenceDiagram
+                            participant B as 🏦 Legacy Bank
+                            participant O as ⚡ Orchestrator
+                            participant C as ⛓️ Blockchain
+                            participant I as 👤 Investor
 
-                        <!-- ARROW -->
-                        <div class="schema-arrow"><i class="fa-solid fa-arrow-right-arrow-left"></i>
-                        </div>
+                            Note over B, I: Digital Bond Lifecycle (T+0)
 
-                        <!-- 2. ORCHESTRATOR -->
-                        <div class="schema-box">
-                            <div class="schema-title" style="color:#3b82f6">Orchestrator</div>
-                            <i class="fa-solid fa-server schema-icon" style="color: #3b82f6;"></i>
-                            <div class="schema-details">
-                                • API Gateway<br>
-                                • Minting Engine<br>
-                                • Key Management
-                            </div>
-                        </div>
+                            I->>O: 1. Onboarding (KYC/Wallet)
+                            O->>C: Whitelist Address (Identity)
+                            C-->>O: Confirmed
 
-                        <!-- ARROW -->
-                        <div class="schema-arrow"><i class="fa-solid fa-arrow-right-arrow-left"></i>
-                        </div>
+                            B->>O: 2. Structuration (Term Sheet)
+                            O->>C: Deploy Smart Contract (Draft)
 
-                        <!-- 3. BLOCKCHAIN -->
-                        <div class="schema-box">
-                            <div class="schema-title" style="color:#a855f7">Blockchain</div>
-                            <i class="fa-solid fa-cubes schema-icon" style="color: #a855f7;"></i>
-                            <div class="schema-details">
-                                • Ethereum / RPC<br>
-                                • Smart Contracts<br>
-                                • Token & Identity
-                            </div>
+                            I->>O: 3. Order (Subscription)
+                            O->>B: Update Orderbook
+
+                            Note right of O: Pricing & Allocation
+
+                            O->>C: 4. Minting (Finalize)
+                            C->>I: Transfer Tokens (DvP)
+                            I->>B: Cash Settlement (Fiat)
+
+                            Note over C, I: 5. Settlement Complete (T+0)
                         </div>
                     </div>
+
+                    <!-- Mermaid JS Load -->
+                    <script type="module">
+                        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+                        mermaid.initialize({
+                            startOnLoad: true,
+                            theme: 'dark',
+                            themeVariables: {
+                                darkMode: true,
+                                background: '#0f172a',
+                                primaryColor: '#3b82f6',
+                                secondaryColor: '#a855f7',
+                                tertiaryColor: '#020617',
+                                primaryTextColor: '#fff',
+                                secondaryTextColor: '#cbd5e1',
+                                mainBkg: '#1e293b',
+                                nodeBorder: '#334155',
+                                clusterBkg: '#0f172a',
+                                clusterBorder: '#334155',
+                                lineColor: '#64748b',
+                                fontFamily: 'Urbanist'
+                            }
+                        });
+                    </script>
 
                     <div class="ov-super-grid">
                         <!-- Step 1 -->

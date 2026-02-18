@@ -764,6 +764,12 @@
             <a href="#vision">Vision</a>
         </div>
 
+        <div style="display:flex; gap:15px; align-items:center; margin-right:20px;">
+            <button id="connectWalletBtn" class="connect-btn" onclick="simulateConnection()">
+                <i class="fas fa-wallet"></i> Connect Wallet
+            </button>
+        </div>
+
         <!-- Language Switcher -->
         <div class="nav-language" style="display: flex; align-items: center; margin-right: 20px; gap: 10px;">
             <a href="web3.html" class="lang-btn active" style="opacity: 1; filter: grayscale(0); transition: all 0.2s;">
@@ -1524,6 +1530,79 @@
         });
     </script>
 
+    <script>
+        // ... (Existing Scripts) ... 
+
+        /* --- CONNECT WALLET SIMULATION --- */
+        function simulateConnection() {
+            const btn = document.getElementById('connectWalletBtn');
+            const originalContent = btn.innerHTML;
+
+            // 1. Loading State
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Connecting...';
+            btn.style.opacity = "0.8";
+
+            // 2. Simulated Delay
+            setTimeout(() => {
+                // 3. Connected State
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> 0x71C...9A';
+                btn.classList.add('connected');
+
+                // 4. Toast Notification
+                showToast();
+            }, 1500);
+        }
+
+        function showToast() {
+            // Create Toast Element
+            const toast = document.createElement('div');
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.right = '20px';
+            toast.style.background = '#1e293b';
+            toast.style.color = '#fff';
+            toast.style.padding = '15px 25px';
+            toast.style.borderRadius = '10px';
+            toast.style.border = '1px solid #10b981';
+            toast.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+            toast.style.display = 'flex';
+            toast.style.alignItems = 'center';
+            toast.style.gap = '10px';
+            toast.style.zIndex = '10000';
+            toast.style.animation = 'slideIn 0.5s ease';
+
+            toast.innerHTML = `
+                <i class="fas fa-wifi" style="color:#10b981"></i>
+                <div>
+                    <div style="font-weight:bold; font-size:14px;">Wallet Connected</div>
+                    <div style="font-size:12px; color:#94a3b8;">Network: Ethereum Mainnet</div>
+                </div>
+            `;
+
+            document.body.appendChild(toast);
+
+            // Remove after 3s
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // Add Keyframes for Toast
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+    </script>
 </body>
 
 </html>
