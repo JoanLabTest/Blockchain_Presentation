@@ -159,7 +159,7 @@ const AIProfessor = (() => {
         messagesDiv.appendChild(loadingDiv);
 
         try {
-            const response = await callAI(text);
+            const response = await callAI(text, {}, 'guide_chat');
             messagesDiv.removeChild(loadingDiv);
             addMessage(response);
         } catch (error) {
@@ -169,26 +169,41 @@ const AIProfessor = (() => {
         }
     }
 
-    async function callAI(userMessage, context = {}) {
-        if (!window.DCM_CONFIG || !DCM_CONFIG.aiProfessorUrl) {
-            throw new Error("AI Professor URL not configured");
-        }
+    async function callAI(userMessage, context = {}, type = 'guide_chat') {
+        const supabaseUrl = window.DCM_CONFIG?.supabaseUrl || "https://wnwerjuqtrduqkgwdjrg.supabase.co";
+        const functionUrl = `${supabaseUrl}/functions/v1/ai-professor`;
+        const anonKey = window.DCM_CONFIG?.supabaseKey;
+
+        // Identify user level to adapt language
+        let userLevel = 'Beginner';
+        try {
+            const profile = JSON.parse(localStorage.getItem('dcm_user_profile') || '{}');
+            userLevel = profile.role || 'Beginner';
+        } catch (e) { }
 
         const payload = {
-            message: userMessage,
-            ...context
+            question: userMessage,
+            context: JSON.stringify(context),
+            user_level: userLevel,
+            type: type
         };
 
-        const res = await fetch(DCM_CONFIG.aiProfessorUrl, {
+        const res = await fetch(functionUrl, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${anonKey}`
+            },
             body: JSON.stringify(payload)
         });
 
-        if (!res.ok) throw new Error("Network error");
+        if (!res.ok) {
+            const err = await res.text();
+            throw new Error(`Edge Function error: ${err}`);
+        }
 
         const data = await res.json();
-        return data.response || data.message || "Pas de réponse disponible.";
+        return data.reply || "Le professeur IA n'a pas pu formuler de réponse.";
     }
 
     function explainQuestion(question, userAnswer, correctAnswer, info) {
@@ -204,17 +219,54 @@ const AIProfessor = (() => {
 
         addMessage(`Pourquoi la réponse "${correctAnswer}" est-elle correcte ?`, true);
 
-        // Auto-send
-        callAI("Explique cette question", context)
-            .then(response => addMessage(response))
-            .catch(() => addMessage("Erreur lors de la récupération de l'explication."));
+        // Show loading manually for programmatic trigger
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'ai-loading';
+        loadingDiv.style.cssText = 'padding: 12px; color: #94a3b8;';
+        loadingDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Le professeur réfléchit...';
+        messagesDiv.appendChild(loadingDiv);
+
+        // Auto-send with specific type
+        callAI("Peux-tu m'expliquer pourquoi je me suis trompé sur cette question, en t'appuyant sur l'explication officielle ?", context, 'quiz_feedback')
+            .then(response => {
+                messagesDiv.removeChild(loadingDiv);
+                addMessage(response);
+            })
+            .catch(() => {
+                messagesDiv.removeChild(loadingDiv);
+                addMessage("Erreur lors de la récupération de l'explication.");
+            });
+    }
+
+    function analyzeSession(sessionContext) {
+        show();
+        open();
+
+        addMessage(`Génération d'un résumé de session d'après tes résultats...`, true);
+
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'ai-loading';
+        loadingDiv.style.cssText = 'padding: 12px; color: #94a3b8;';
+        loadingDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Le professeur analyse les données...';
+        messagesDiv.appendChild(loadingDiv);
+
+        callAI("Fais-moi un débriefing de ma session de quiz. Félicite-moi ou encourage-moi selon le score. Indique mes points forts et les thèmes à réviser.", sessionContext, 'quiz_feedback')
+            .then(response => {
+                messagesDiv.removeChild(loadingDiv);
+                addMessage(response);
+            })
+            .catch(() => {
+                messagesDiv.removeChild(loadingDiv);
+                addMessage("Erreur lors de l'analyse de la session.");
+            });
     }
 
     return {
         init,
         show,
         hide,
-        explainQuestion
+        explainQuestion,
+        analyzeSession
     };
 })();
 
