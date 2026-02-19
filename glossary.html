@@ -171,12 +171,98 @@
                     seule preuve cryptographique (Zero-Knowledge Proof) pour réduire les coûts et augmenter la vitesse.
                 </div>
             </div>
+
+            <!-- INSTITUTIONAL ADDITIONS (PHASE 23) -->
+            <div class="term-card" id="term-nakamoto" data-term="nakamoto coefficient decentralization">
+                <div class="term-title">Nakamoto Coefficient <span
+                        style="font-size:12px; color:var(--text-muted); font-weight:normal;">(Metrique)</span></div>
+                <div class="term-def">Nombre minimal d'entités (noeuds, validateurs, développeurs) nécessaires pour
+                    compromettre un système blockchain. Plus ce chiffre est élevé, plus le réseau est décentralisé.
+                </div>
+                <div style="font-size:11px; color:var(--accent-blue); margin-top:5px;">Source: Balaji Srinivasan (2017)
+                </div>
+            </div>
+
+            <div class="term-card" id="term-bicameral" data-term="bicameral governance optimism">
+                <div class="term-title">Bicameral Governance</div>
+                <div class="term-def">Système de gouvernance à deux chambres (ex: Token House + Citizens' House)
+                    permettant de séparer les décisions financières des décisions d'identité ou de biens publics.</div>
+                <div style="font-size:11px; color:var(--accent-blue); margin-top:5px;">Exemple: Optimism Collective
+                </div>
+            </div>
+
+            <div class="term-card" id="term-futarchy" data-term="futarchy prediction markets">
+                <div class="term-title">Futarchy</div>
+                <div class="term-def">Forme de gouvernance où les décisions sont prises par des marchés de prédiction
+                    ("Vote on values, bet on beliefs"). Le marché décide quelle politique maximisera une métrique
+                    donnée.</div>
+                <div style="font-size:11px; color:var(--accent-blue); margin-top:5px;">Concept: Robin Hanson / Vitalik
+                    Buterin</div>
+            </div>
+
+            <div class="term-card" id="term-mica" data-term="mica regulation eu">
+                <div class="term-title">MiCA (Markets in Crypto-Assets)</div>
+                <div class="term-def">Règlement de l'Union Européenne (2024) établissant un cadre harmonisé pour
+                    l'émission et le service de crypto-actifs, incluant des règles strictes pour les Stablecoins (EMT).
+                </div>
+                <div style="font-size:11px; color:var(--accent-blue); margin-top:5px;">Ref: Regulation (EU) 2023/1114
+                </div>
+            </div>
+
+            <div class="term-card" id="term-vara" data-term="vara dubai regulation">
+                <div class="term-title">VARA (Virtual Assets Regulatory Authority)</div>
+                <div class="term-def">Autorité de régulation de Dubaï dédiée aux actifs virtuels. Offre un cadre
+                    spécifique (FMP License) couvrant l'émission, le trading et la conservation.</div>
+            </div>
         </div>
 
         <center>
             <a href="index.html" class="back-btn">Retour au Hub</a>
         </center>
     </div>
+
+    <!-- JSON-LD Structured Data (Glossary) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTermSet",
+      "name": "Blockchain & Institutional Finance Glossary",
+      "description": "Terminologie technique standardisée pour la finance décentralisée (DeFi), la régulation (MiCA/VARA) et la gouvernance institutionnelle.",
+      "inDefinedTermSet": "https://joanlabtest.github.io/Blockchain_Presentation/glossary.html",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "termCode": "Nakamoto Coefficient",
+          "name": "Nakamoto Coefficient",
+          "description": "Nombre minimal d'entités nécessaires pour compromettre un système blockchain."
+        },
+        {
+          "@type": "DefinedTerm",
+          "termCode": "Bicameral Governance",
+          "name": "Bicameral Governance",
+          "description": "Système de gouvernance à deux chambres séparant les décisions financières des biens publics."
+        },
+        {
+          "@type": "DefinedTerm",
+          "termCode": "Futarchy",
+          "name": "Futarchy",
+          "description": "Forme de gouvernance où les décisions sont prises par des marchés de prédiction."
+        },
+        {
+            "@type": "DefinedTerm",
+            "termCode": "MiCA",
+            "name": "Markets in Crypto-Assets (MiCA)",
+            "description": "Règlement de l'Union Européenne établissant un cadre harmonisé pour les crypto-actifs."
+        },
+        {
+            "@type": "DefinedTerm",
+            "termCode": "ERC-3643",
+            "name": "ERC-3643 (T-REX)",
+            "description": "Standard de tokenisation pour les actifs régulés (RWA) avec identité on-chain."
+        }
+      ]
+    }
+    </script>
 
     <script>
         function filterTerms(val) {
@@ -189,6 +275,24 @@
                     card.style.display = 'none';
                 }
             });
+        }
+
+        // Auto-filter from URL param
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const term = urlParams.get('term');
+            if (term) {
+                const searchBox = document.querySelector('.search-box');
+                searchBox.value = term;
+                filterTerms(term);
+
+                // Highlight specific card if ID matches
+                const specificCard = document.getElementById('term-' + term);
+                if (specificCard) {
+                    specificCard.style.border = "2px solid var(--accent-gold)";
+                    specificCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            }
         }
     </script>
 
