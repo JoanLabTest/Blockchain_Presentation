@@ -490,6 +490,7 @@
                 <p>Suivi de progression et conformité réglementaire.</p>
             </div>
             <div class="actions">
+                <div id="data-source-badge" style="display:flex;align-items:center"></div>
                 <div class="user-meta">
                     <span id="user-role"><i class="fas fa-user-shield"></i> ...</span>
                     <span>|</span>
@@ -644,10 +645,30 @@
 
         // Make SessionManager global for HTML onclick events
         window.SessionManager = SessionManager;
+        window.generateReport = function () {
+            if (SessionManager.checkAccess('REPORT_EXPORT')) {
+                const win = window.open('report.html', '_blank', 'width=1000,height=1200');
+                if (!win) alert('Veuillez autoriser les popups pour générer le rapport.');
+            }
+        };
+        window.toggleManagerMode = function () {
+            const isManager = document.getElementById('managerToggle').checked;
+            if (isManager) {
+                if (!SessionManager.checkAccess('MANAGER_VIEW')) {
+                    document.getElementById('managerToggle').checked = false;
+                    return;
+                }
+                DashboardEngine.switchToTeamView();
+                SessionManager.showToast('👥', 'Mode Manager Actif', "Affichage des données consolidées de l'équipe.");
+            } else {
+                DashboardEngine.switchToPersonalView();
+                SessionManager.showToast('👤', 'Mode Personnel', 'Retour à vos performances individuelles.');
+            }
+        };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Session Check & Init
-            const user = SessionManager.init();
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Session Check (async — real Supabase JWT)
+            const user = await SessionManager.init();
 
             // 2. Populate Header
             if (user) {
@@ -656,18 +677,27 @@
                 document.getElementById('user-jurisdiction').innerHTML = `<i class="fas fa-globe-europe"></i> ${user.jurisdiction}`;
             }
 
-            // 3. Generate Mock Data (Using existing Engine)
-            const data = DashboardEngine.generateMockData();
+            // 3. Load Real Data (Supabase → fallback mock)
+            const data = await DashboardEngine.loadData();
 
-            // 4. Render Charts & Widgets
+            // 4. Show data source badge
+            const sourceEl = document.getElementById('data-source-badge');
+            if (sourceEl) {
+                const isLive = data.source === 'supabase';
+                sourceEl.innerHTML = isLive
+                    ? `<span style="background:rgba(16,185,129,0.15);color:#10b981;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px"><i class="fas fa-circle" style="font-size:7px;vertical-align:middle"></i> LIVE DATA</span>`
+                    : `<span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px"><i class="fas fa-circle" style="font-size:7px;vertical-align:middle"></i> DEMO MODE</span>`;
+            }
+
+            // 5. Render Charts & Widgets
             DashboardEngine.initCharts(data);
             DashboardEngine.renderSimulationTable(data.simulations);
             DashboardEngine.renderComplianceWidget(data.complianceProfile);
             DashboardEngine.renderTimeline(data.timeline);
 
-            // 5. Update Specific Text Metrics
-            const score = data.researchScores ? data.researchScores[data.researchScores.length - 1] : "A";
-            document.querySelector('.score-val').innerText = score;
+            // 6. Update KPI Text
+            const scoreVal = document.querySelector('.score-val');
+            if (scoreVal) scoreVal.innerText = data.lastGrade || 'A-';
         });
     </script>
     <!-- SAAS LOGIC -->

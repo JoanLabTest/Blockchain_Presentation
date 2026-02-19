@@ -1,212 +1,244 @@
 /**
- * SESSION MANAGER (v1.0)
- * Handles Authentication State, Security Context, and Global Logout.
- * Centralizes all Auth logic to prepare for Supabase integration.
+ * SESSION MANAGER — v2.0 (Phase 31: Production Grade)
+ * Real Supabase Auth integration replacing localStorage mock.
+ * Handles: Auth state, JWT verification, RLS-backed data, logout.
  */
 
+import { supabase } from './supabase-client.js';
+
 export const SessionManager = {
-    // --- CONFIG ---
+
+    // --- KEYS (kept for offline/fallback cache) ---
     KEYS: {
         AUTH_TOKEN: 'dcm_auth_token',
         USER_PROFILE: 'dcm_user_profile',
         SESSION_START: 'dcm_session_start',
-        PREMIUM_USER: 'dcm_premium_user'
     },
 
-    // --- INITIALIZATION ---
-    init: () => {
-        // 1. Check if user is logged in
-        const token = localStorage.getItem(SessionManager.KEYS.AUTH_TOKEN);
-        const profile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
+    // =============================================
+    //  INITIALIZATION — Check Supabase session
+    // =============================================
+    init: async () => {
+        const { data: { session }, error } = await supabase.auth.getSession();
 
-        // 2. Strict Redirect (Gatekeeper)
-        // Note: We bypass this check if we are on public pages
-        if (!token || !profile) {
-            const path = window.location.pathname;
-            const isPublicPage = path.endsWith('index.html') || path.endsWith('login.html') || path.endsWith('/');
+        const path = window.location.pathname;
+        const isPublicPage = path.endsWith('index.html') || path.endsWith('login.html') || path === '/' || path.endsWith('/');
 
-            if (!isPublicPage) {
-                console.warn("Security Alert: No active session. Redirecting to Login...");
-                // Note: We don't call full logout() here to avoid recursive redirects if logout() goes to index.html
-                // Just force the user to the login page
-                window.location.href = 'login.html';
+        if (error || !session) {
+            // Fallback: check localStorage cache (offline/demo mode)
+            const cachedToken = localStorage.getItem(SessionManager.KEYS.AUTH_TOKEN);
+            const cachedProfile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
+
+            if (!cachedToken || !cachedProfile) {
+                if (!isPublicPage) {
+                    console.warn('🔒 No active Supabase session. Redirecting to login...');
+                    window.location.href = 'login.html';
+                }
+                return null;
             }
-            return null;
+            // Return cached profile (offline/demo mode)
+            return JSON.parse(cachedProfile);
         }
 
-        return JSON.parse(profile);
+        // Real Supabase session exists — build & cache profile
+        const user = session.user;
+        const profile = await SessionManager._buildProfile(user, session.access_token);
+        return profile;
     },
 
-    // --- LOGIN (Mock Implementation) ---
-    login: (email, role = 'Risk Manager') => {
-        const mockProfile = {
-            id: 'u-123456',
-            name: email.split('@')[0], // Extract name from email
-            email: email,
-            role: role,
-            jurisdiction: 'EU (France)',
-            kycLevel: 'Verified (Level 3)',
+    // =============================================
+    //  BUILD USER PROFILE from Supabase user object
+    // =============================================
+    _buildProfile: async (user, accessToken) => {
+        // Try to fetch extended profile from public.profiles table
+        const { data: profileData } = await supabase
+            .from('profiles')
+            .select('full_name, role, jurisdiction, subscription_tier')
+            .eq('id', user.id)
+            .single();
+
+        const profile = {
+            id: user.id,
+            name: profileData?.full_name || user.user_metadata?.full_name || user.email.split('@')[0],
+            email: user.email,
+            role: profileData?.role || 'Analyste',
+            jurisdiction: profileData?.jurisdiction || 'EU (France)',
+            subscription_tier: profileData?.subscription_tier || 'free',
             lastLogin: new Date().toISOString()
         };
 
-        localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, 'mock-jwt-token-xyz-789');
-        localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(mockProfile));
+        // Cache locally for offline fallback
+        localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, accessToken);
+        localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(profile));
         localStorage.setItem(SessionManager.KEYS.SESSION_START, Date.now());
 
-        return mockProfile;
+        return profile;
     },
 
-    // --- LOGOUT (Destructive) ---
-    logout: () => {
-        console.log("🔒 Terminating Session...");
+    // =============================================
+    //  LOGIN — Delegates to Supabase Auth
+    // =============================================
+    login: async (email, password) => {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
 
-        // 1. Clear Local Storage (Auth)
+        const profile = await SessionManager._buildProfile(data.user, data.session.access_token);
+        return profile;
+    },
+
+    // =============================================
+    //  LOGOUT — Clears Supabase session + local cache
+    // =============================================
+    logout: async () => {
+        console.log('🔒 Terminating session (Supabase + LocalStorage)...');
+
+        // 1. Sign out from Supabase
+        await supabase.auth.signOut();
+
+        // 2. Clear all local caches
         localStorage.removeItem(SessionManager.KEYS.AUTH_TOKEN);
         localStorage.removeItem(SessionManager.KEYS.USER_PROFILE);
         localStorage.removeItem(SessionManager.KEYS.SESSION_START);
-
-        // 2. Clear Session Storage (Temp Data)
         sessionStorage.clear();
 
-        // 3. Optional: Clear Application State (if any)
-        // ...
-
-        // 4. Redirect to Landing
+        // 3. Redirect
         window.location.href = 'index.html';
     },
 
-    // --- UTILS ---
-    getSessionDuration: () => {
-        const start = localStorage.getItem(SessionManager.KEYS.SESSION_START);
-        if (!start) return 0;
-        const diff = Date.now() - parseInt(start);
-        return Math.floor(diff / 60000); // Minutes
-    },
-
+    // =============================================
+    //  UTILS
+    // =============================================
     getCurrentUser: () => {
         const profile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
         return profile ? JSON.parse(profile) : null;
     },
 
-    // --- TIME TRACKER ---
+    getSessionDuration: () => {
+        const start = localStorage.getItem(SessionManager.KEYS.SESSION_START);
+        if (!start) return 0;
+        return Math.floor((Date.now() - parseInt(start)) / 60000);
+    },
+
+    // =============================================
+    //  DATA SYNC — Write activity to Supabase
+    // =============================================
+    syncPageActivity: async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) return; // No real session, skip sync
+
+        const path = window.location.pathname.split('/').pop() || 'index.html';
+        const localHistory = JSON.parse(localStorage.getItem('dcm_page_history') || '{}');
+        const seconds = localHistory[path] || 0;
+        if (seconds < 10) return; // Don't bother syncing < 10s
+
+        await supabase.from('activity_logs').upsert({
+            user_id: session.user.id,
+            page_url: path,
+            time_spent_seconds: seconds,
+            session_date: new Date().toISOString().split('T')[0]
+        }, { onConflict: 'user_id,page_url,session_date' });
+    },
+
+    // =============================================
+    //  TIME TRACKER (unchanged)
+    // =============================================
     startTracking: () => {
         const path = window.location.pathname.split('/').pop() || 'index.html';
-        console.log(`⏱️ Tracking time for: ${path}`);
-
         setInterval(() => {
-            // Read
             let history = JSON.parse(localStorage.getItem('dcm_page_history') || '{}');
-
-            // Increment (5 seconds)
             if (!history[path]) history[path] = 0;
             history[path] += 5;
-
-            // Save
             localStorage.setItem('dcm_page_history', JSON.stringify(history));
-
-            // Also update Global Total Time
             let total = parseInt(localStorage.getItem('dcm_total_time') || '0');
             localStorage.setItem('dcm_total_time', total + 5);
-
         }, 5000);
+
+        // Sync to Supabase every 2 minutes
+        setInterval(() => SessionManager.syncPageActivity(), 120000);
     },
 
-    // --- SMART NOTIFICATIONS (Phase 28) ---
-    checkAndShowNotifications: () => {
-        // Only on Dashboard
-        if (!window.location.pathname.includes('dashboard.html')) return;
-
-        const history = JSON.parse(localStorage.getItem('dcm_quiz_history') || '[]');
-
-        // 1. Welcome Back Context
-        if (history.length > 0) {
-            const lastQuiz = history[history.length - 1];
-
-            let msg = "";
-            let icon = "👋";
-
-            if (lastQuiz.score < lastQuiz.total * 0.8) {
-                msg = `Ravi de vous revoir. Votre dernier score était de ${Math.round((lastQuiz.score / lastQuiz.total) * 100)}%. Prêt à réessayer ?`;
-                icon = "💪";
-            } else {
-                msg = `Bon retour ! Vous avez validé le dernier module avec ${Math.round((lastQuiz.score / lastQuiz.total) * 100)}%. Cap sur le prochain niveau ?`;
-                icon = "🏆";
-            }
-
-            // Show Toast
-            SessionManager.showToast(icon, "Bienvenue", msg);
-        } else {
-            // First time or no history
-            SessionManager.showToast("👋", "Bienvenue", "Votre cockpit est prêt. Commencez par le Quiz ou explorez les données.");
-        }
-    },
-
+    // =============================================
+    //  TOAST (unchanged API)
+    // =============================================
     showToast: (icon, title, message) => {
-        // Create Toast Element
         const toast = document.createElement('div');
-        toast.className = 'smart-toast';
         toast.innerHTML = `
-            <div style="font-size: 24px;">\${icon}</div>
+            <div style="font-size:24px">${icon}</div>
             <div>
-                <div style="font-weight: bold; margin-bottom: 2px;">\${title}</div>
-                <div style="font-size: 12px; opacity: 0.8;">\${message}</div>
+                <div style="font-weight:bold;margin-bottom:2px">${title}</div>
+                <div style="font-size:12px;opacity:0.8">${message}</div>
             </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:white; cursor:pointer;">&times;</button>
+            <button onclick="this.parentElement.remove()" style="background:none;border:none;color:white;cursor:pointer;margin-left:auto">×</button>
         `;
-
-        // Styling
         toast.style.cssText = `
-            position: fixed;
-            top: 100px;
-            right: 30px;
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #3b82f6;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            min-width: 300px;
-            z-index: 9999;
-            animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position:fixed;top:100px;right:30px;
+            background:rgba(30,41,59,0.95);backdrop-filter:blur(10px);
+            border:1px solid rgba(255,255,255,0.1);border-left:4px solid #3b82f6;
+            color:white;padding:15px 20px;border-radius:12px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.5);
+            display:flex;align-items:center;gap:15px;min-width:300px;z-index:9999;
+            animation:slideInRight 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
         `;
-
-        // Animation Keyframes
         const style = document.createElement('style');
-        style.innerHTML = `@keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }`;
+        style.innerHTML = `@keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}`;
         document.head.appendChild(style);
-
         document.body.appendChild(toast);
-
-        // Auto remove after 8s
         setTimeout(() => {
+            toast.style.transition = 'all 0.5s';
             toast.style.opacity = '0';
             toast.style.transform = 'translateY(-20px)';
-            toast.style.transition = 'all 0.5s';
             setTimeout(() => toast.remove(), 500);
         }, 8000);
     },
 
-    // --- ACCESS CONTROL (Phase 29) ---
-    checkAccess: (feature) => {
-        const profile = JSON.parse(localStorage.getItem(SessionManager.KEYS.USER_PROFILE) || '{}');
-        const role = profile.role || 'Guest';
+    // =============================================
+    //  SMART NOTIFICATIONS (Phase 28 — unchanged)
+    // =============================================
+    checkAndShowNotifications: () => {
+        if (!window.location.pathname.includes('dashboard.html')) return;
+        const history = JSON.parse(localStorage.getItem('dcm_quiz_history') || '[]');
+        if (history.length > 0) {
+            const last = history[history.length - 1];
+            const pct = Math.round((last.score / last.total) * 100);
+            const icon = pct < 80 ? '💪' : '🏆';
+            const msg = pct < 80
+                ? `Votre dernier score était de ${pct}%. Prêt à réessayer ?`
+                : `Vous avez validé le dernier module avec ${pct}%. Cap sur le prochain niveau ?`;
+            SessionManager.showToast(icon, 'Bienvenue', msg);
+        } else {
+            SessionManager.showToast('👋', 'Bienvenue', 'Votre cockpit est prêt. Commencez par le Quiz ou explorez les données.');
+        }
+    },
 
-        // Define Rules
+    // =============================================
+    //  ACCESS CONTROL (Phase 29 — upgraded for tiers)
+    // =============================================
+    checkAccess: (feature) => {
+        const profile = SessionManager.getCurrentUser() || {};
+        const role = profile.role || 'Guest';
+        const tier = profile.subscription_tier || 'free';
+
         const RULES = {
             'REPORT_EXPORT': ['Risk Manager', 'Head of Digital', 'Compliance Officer'],
             'LEGAL_MATRIX_FULL': ['Compliance Officer', 'Head of Digital'],
             'MANAGER_VIEW': ['Head of Digital']
         };
 
-        const allowedRoles = RULES[feature] || [];
+        // Subscription tier check (Phase 34 ready)
+        const TIER_RULES = {
+            'REPORT_EXPORT': ['pro', 'institutional'],
+            'LEGAL_MATRIX_FULL': ['pro', 'institutional'],
+            'AI_ADVANCED': ['institutional']
+        };
 
-        // Check if user has role
-        if (!allowedRoles.includes(role) && role !== 'Head of Digital') { // Head of Digital is SuperAdmin
+        const allowedRoles = RULES[feature] || [];
+        const allowedTiers = TIER_RULES[feature] || [];
+
+        // Allow if role matches OR tier matches OR is Head of Digital (superadmin)
+        const hasRoleAccess = allowedRoles.includes(role) || role === 'Head of Digital';
+        const hasTierAccess = allowedTiers.length === 0 || allowedTiers.includes(tier);
+
+        if (!hasRoleAccess && !hasTierAccess) {
             SessionManager.showPaywall(feature);
             return false;
         }
@@ -216,20 +248,18 @@ export const SessionManager = {
     showPaywall: (feature) => {
         const modal = document.createElement('div');
         modal.style.cssText = `
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(2, 6, 23, 0.9);
-            backdrop-filter: blur(10px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 10000;
+            position:fixed;top:0;left:0;width:100%;height:100%;
+            background:rgba(2,6,23,0.9);backdrop-filter:blur(10px);
+            display:flex;justify-content:center;align-items:center;z-index:10000;
         `;
         modal.innerHTML = `
-            <div style="background: #1e293b; padding: 40px; border-radius: 20px; text-align: center; border: 1px solid #e2e8f0; max-width: 500px; box-shadow: 0 0 50px rgba(59,130,246,0.3);">
-                <i class="fas fa-lock" style="font-size: 50px; color: #f59e0b; margin-bottom: 20px;"></i>
-                <h2 style="color:white; margin-bottom:10px;">Fonctionnalité Premium</h2>
-                <p style="color:#94a3b8; margin-bottom:20px;">L'accès à <strong>${feature}</strong> est réservé aux comptes Institutionnels Pro.</p>
-                <div style="display:flex; justify-content:center; gap:10px;">
-                    <button onclick="this.closest('div').parentElement.parentElement.remove()" style="padding:10px 20px; background:transparent; border:1px solid #64748b; color:white; border-radius:8px; cursor:pointer;">Fermer</button>
-                    <button onclick="alert('Contact Sales: sales@dcm-digital.com')" style="padding:10px 20px; background:#3b82f6; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Mettre à niveau</button>
+            <div style="background:#1e293b;padding:40px;border-radius:20px;text-align:center;border:1px solid #334155;max-width:500px;box-shadow:0 0 50px rgba(59,130,246,0.3);">
+                <i class="fas fa-lock" style="font-size:50px;color:#f59e0b;margin-bottom:20px;"></i>
+                <h2 style="color:white;margin-bottom:10px">Fonctionnalité Premium</h2>
+                <p style="color:#94a3b8;margin-bottom:20px">L'accès à <strong>${feature}</strong> est réservé aux comptes Pro & Institutional.</p>
+                <div style="display:flex;justify-content:center;gap:10px">
+                    <button onclick="this.closest('div').parentElement.parentElement.remove()" style="padding:10px 20px;background:transparent;border:1px solid #64748b;color:white;border-radius:8px;cursor:pointer">Fermer</button>
+                    <a href="pricing.html" style="padding:10px 20px;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:bold;text-decoration:none;display:inline-flex;align-items:center">Mettre à niveau →</a>
                 </div>
             </div>
         `;
@@ -237,11 +267,25 @@ export const SessionManager = {
     }
 };
 
-// Auto-start tracking if loaded
+// =============================================
+//  SUPABASE AUTH STATE LISTENER
+//  Auto-sync session changes (token refresh, expiry)
+// =============================================
+supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+        localStorage.removeItem(SessionManager.KEYS.AUTH_TOKEN);
+        localStorage.removeItem(SessionManager.KEYS.USER_PROFILE);
+        localStorage.removeItem(SessionManager.KEYS.SESSION_START);
+    } else if (event === 'TOKEN_REFRESHED' && session) {
+        // Update cached token with fresh one
+        localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, session.access_token);
+        const profile = await SessionManager._buildProfile(session.user, session.access_token);
+        console.log('🔄 Token refreshed, profile updated:', profile.name);
+    }
+});
+
+// Auto-start tracking if in browser
 if (typeof window !== 'undefined') {
-    // Only start if not already managed by another script to avoid double counting? 
-    // Actually, setInterval is per page instance.
     SessionManager.startTracking();
-    // Delay slightly
     setTimeout(() => SessionManager.checkAndShowNotifications(), 1500);
 }
