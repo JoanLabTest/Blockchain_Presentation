@@ -108,6 +108,86 @@ export const SessionManager = {
             localStorage.setItem('dcm_total_time', total + 5);
 
         }, 5000);
+    },
+
+    // --- SMART NOTIFICATIONS (Phase 28) ---
+    checkAndShowNotifications: () => {
+        // Only on Dashboard
+        if (!window.location.pathname.includes('dashboard.html')) return;
+
+        const history = JSON.parse(localStorage.getItem('dcm_quiz_history') || '[]');
+
+        // 1. Welcome Back Context
+        if (history.length > 0) {
+            const lastQuiz = history[history.length - 1];
+
+            let msg = "";
+            let icon = "👋";
+
+            if (lastQuiz.score < lastQuiz.total * 0.8) {
+                msg = `Ravi de vous revoir. Votre dernier score était de ${Math.round((lastQuiz.score / lastQuiz.total) * 100)}%. Prêt à réessayer ?`;
+                icon = "💪";
+            } else {
+                msg = `Bon retour ! Vous avez validé le dernier module avec ${Math.round((lastQuiz.score / lastQuiz.total) * 100)}%. Cap sur le prochain niveau ?`;
+                icon = "🏆";
+            }
+
+            // Show Toast
+            SessionManager.showToast(icon, "Bienvenue", msg);
+        } else {
+            // First time or no history
+            SessionManager.showToast("👋", "Bienvenue", "Votre cockpit est prêt. Commencez par le Quiz ou explorez les données.");
+        }
+    },
+
+    showToast: (icon, title, message) => {
+        // Create Toast Element
+        const toast = document.createElement('div');
+        toast.className = 'smart-toast';
+        toast.innerHTML = `
+            <div style="font-size: 24px;">\${icon}</div>
+            <div>
+                <div style="font-weight: bold; margin-bottom: 2px;">\${title}</div>
+                <div style="font-size: 12px; opacity: 0.8;">\${message}</div>
+            </div>
+            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:white; cursor:pointer;">&times;</button>
+        `;
+
+        // Styling
+        toast.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #3b82f6;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 300px;
+            z-index: 9999;
+            animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        `;
+
+        // Animation Keyframes
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }`;
+        document.head.appendChild(style);
+
+        document.body.appendChild(toast);
+
+        // Auto remove after 8s
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-20px)';
+            toast.style.transition = 'all 0.5s';
+            setTimeout(() => toast.remove(), 500);
+        }, 8000);
     }
 };
 
@@ -116,4 +196,6 @@ if (typeof window !== 'undefined') {
     // Only start if not already managed by another script to avoid double counting? 
     // Actually, setInterval is per page instance.
     SessionManager.startTracking();
+    // Delay slightly
+    setTimeout(() => SessionManager.checkAndShowNotifications(), 1500);
 }
