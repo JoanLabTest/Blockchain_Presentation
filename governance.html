@@ -714,10 +714,26 @@
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 800,
-            once: true
+        // Robust Initialization
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 50 // Trigger sooner
+            });
         });
+
+        // SAFETY FAILSAFE: Force visibility if AOS fails or lags
+        // This prevents the "Black Screen" issue
+        setTimeout(function () {
+            const hiddenElements = document.querySelectorAll('[data-aos]');
+            hiddenElements.forEach(el => {
+                if (getComputedStyle(el).opacity === '0') {
+                    el.style.opacity = '1';
+                    el.style.visibility = 'visible';
+                }
+            });
+        }, 500); // .5s max wait
     </script>
 </body>
 

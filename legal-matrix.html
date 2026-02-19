@@ -691,10 +691,25 @@
             <script src="script.js"></script>
             <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
             <script>
-                AOS.init({
-                    duration: 800,
-                    once: true
+                // Robust Initialization
+                document.addEventListener('DOMContentLoaded', function () {
+                    AOS.init({
+                        duration: 800,
+                        once: true,
+                        offset: 50
+                    });
                 });
+
+                // SAFETY FAILSAFE: Force visibility if AOS fails or lags
+                setTimeout(function () {
+                    const hiddenElements = document.querySelectorAll('[data-aos]');
+                    hiddenElements.forEach(el => {
+                        if (getComputedStyle(el).opacity === '0') {
+                            el.style.opacity = '1';
+                            el.style.visibility = 'visible';
+                        }
+                    });
+                }, 500);
             </script>
 </body>
 
