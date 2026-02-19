@@ -521,6 +521,13 @@
 
                     if (error) throw error;
 
+                    // CACHE USER NAME
+                    if (data.user && data.user.user_metadata) {
+                        const fullName = data.user.user_metadata.full_name || data.user.email.split('@')[0];
+                        localStorage.setItem('dcm_user_name', fullName);
+                        localStorage.setItem('dcm_user_session', 'authenticated'); // Standard session
+                    }
+
                     showMessage("Connexion réussie ! Redirection...", "success");
 
                     // REDIRECT

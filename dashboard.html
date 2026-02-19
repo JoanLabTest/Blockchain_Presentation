@@ -301,15 +301,11 @@
         </div>
 
         <a href="#" class="nav-item active"><i class="fas fa-chart-pie"></i> Vue d'ensemble</a>
-        <a href="#" class="nav-item"><i class="fas fa-flask"></i> Simulations</a>
+        <a href="yield-mechanics.html" class="nav-item"><i class="fas fa-flask"></i> Simulations</a>
         <a href="legal-matrix.html" class="nav-item"><i class="fas fa-scale-balanced"></i> Compliance</a>
         <a href="index.html" class="nav-item"><i class="fas fa-globe"></i> Site Public</a>
 
-        <div
-            style="margin-top:30px; padding:0 15px; color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">
-            Rapports</div>
-        <a href="#" class="nav-item"><i class="fas fa-file-pdf"></i> Executive Brief</a>
-        <a href="#" class="nav-item"><i class="fas fa-bookmark"></i> Ma Watchlist</a>
+        <!-- ... (lines 283-290 hidden) ... -->
 
         <div class="user-profile">
             <div class="avatar">JP</div>
@@ -321,6 +317,41 @@
                 onclick="logout()"></i>
         </div>
     </nav>
+
+    <!-- ... MAIN ... -->
+
+    <script type="module">
+        // ... imports ...
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = localStorage.getItem('dcm_user_session');
+            const userName = localStorage.getItem('dcm_user_name');
+            const avatar = document.querySelector('.avatar');
+            const nameEl = document.getElementById('user-name');
+            const roleEl = nameEl.nextElementSibling;
+
+            // Auth & Profile Logic
+            if (session === 'demo') {
+                nameEl.innerText = 'Invité Démo';
+                roleEl.innerText = 'Mode Lecture';
+                avatar.innerText = 'G';
+            } else if (session === 'admin') {
+                nameEl.innerText = 'Super Admin';
+                roleEl.innerText = 'Full Access + Dev Mode';
+                avatar.style.background = 'linear-gradient(135deg, #ef4444, #f59e0b)';
+                avatar.innerText = 'DEV';
+            } else if (userName) {
+                // STANDARD USER
+                nameEl.innerText = userName;
+                roleEl.innerText = 'Membre';
+                avatar.innerText = userName.substring(0, 2).toUpperCase();
+            }
+
+            loadDashboardData();
+            initEvolutionChart();
+        });
+        // ...
+    </script>
 
     <main class="main-content">
         <header>
