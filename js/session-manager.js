@@ -15,17 +15,27 @@ export const SessionManager = {
     // --- INITIALIZATION ---
     init: () => {
         // 1. Check if user is logged in
-        const token = localStorage.getItem(SessionManager.KEYS.AUTH_TOKEN);
-        const profile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
+        let token = localStorage.getItem(SessionManager.KEYS.AUTH_TOKEN);
+        let profile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
 
-        // 2. Strict Redirect (Gatekeeper)
-        // Note: We bypass this check if we are on index.html (login page)
+        // 2. Auto-Create Guest Session (Demo Mode)
+        // If no session exists, we create one on the fly to prevent the "Login Loop"
         if (!token || !profile) {
-            if (!window.location.pathname.endsWith('index.html') && !window.location.pathname.endsWith('/')) {
-                console.warn("Security Alert: No active session. Redirecting...");
-                SessionManager.logout(); // Ensure clean state before redirect
-            }
-            return null;
+            console.warn("⚠️ No session found. Auto-creating Guest Session for Demo...");
+
+            const guestProfile = {
+                name: "Visiteur",
+                role: "Observateur",
+                jurisdiction: "Global",
+                impactScore: 50
+            };
+
+            localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, 'guest-auto-token');
+            localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(guestProfile));
+            localStorage.setItem(SessionManager.KEYS.SESSION_START, Date.now());
+
+            token = 'guest-auto-token';
+            profile = JSON.stringify(guestProfile);
         }
 
         return JSON.parse(profile);
