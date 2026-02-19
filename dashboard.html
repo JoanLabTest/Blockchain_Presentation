@@ -718,10 +718,20 @@
                         }, 800);
                     }
 
-                    window.logout = function () {
-                        localStorage.removeItem('dcm_user_session');
-                        window.location.href = 'index.html';
-                    }
+                }
+            }); // End DOMContentLoaded
+
+            // --- GLOBAL FUNCTIONS ---
+            window.logout = function () {
+                console.log("Déconnexion en cours...");
+                localStorage.removeItem('dcm_user_session');
+                localStorage.removeItem('dcm_user_name');
+                // Clear Supabase if used
+                localStorage.removeItem('sb-access-token');
+                localStorage.removeItem('sb-refresh-token');
+
+                window.location.href = 'index.html';
+            }
     </script>
 </body>
 
