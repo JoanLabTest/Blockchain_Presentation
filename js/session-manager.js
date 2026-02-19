@@ -15,27 +15,22 @@ export const SessionManager = {
     // --- INITIALIZATION ---
     init: () => {
         // 1. Check if user is logged in
-        let token = localStorage.getItem(SessionManager.KEYS.AUTH_TOKEN);
-        let profile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
+        const token = localStorage.getItem(SessionManager.KEYS.AUTH_TOKEN);
+        const profile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
 
-        // 2. Auto-Create Guest Session (Demo Mode)
-        // If no session exists, we create one on the fly to prevent the "Login Loop"
+        // 2. Strict Redirect (Gatekeeper)
+        // Note: We bypass this check if we are on public pages
         if (!token || !profile) {
-            console.warn("⚠️ No session found. Auto-creating Guest Session for Demo...");
+            const path = window.location.pathname;
+            const isPublicPage = path.endsWith('index.html') || path.endsWith('login.html') || path.endsWith('/');
 
-            const guestProfile = {
-                name: "Visiteur",
-                role: "Observateur",
-                jurisdiction: "Global",
-                impactScore: 50
-            };
-
-            localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, 'guest-auto-token');
-            localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(guestProfile));
-            localStorage.setItem(SessionManager.KEYS.SESSION_START, Date.now());
-
-            token = 'guest-auto-token';
-            profile = JSON.stringify(guestProfile);
+            if (!isPublicPage) {
+                console.warn("Security Alert: No active session. Redirecting to Login...");
+                // Note: We don't call full logout() here to avoid recursive redirects if logout() goes to index.html
+                // Just force the user to the login page
+                window.location.href = 'login.html';
+            }
+            return null;
         }
 
         return JSON.parse(profile);
