@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCM Intelligence - Review & Progress</title>
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CHARTS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- STYLES (Reuse Dashboard) -->
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: rgba(15, 23, 42, 0.6);
+            --bg-glass: rgba(30, 41, 59, 0.4);
+            --border: rgba(148, 163, 184, 0.1);
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --gradient-main: linear-gradient(135deg, #3b82f6, #a855f7);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Urbanist', sans-serif;
+            min-height: 100vh;
+            /* Native Scroll Enabled */
+            overflow-x: hidden;
+            display: block;
+            margin: 0;
+        }
+
+        /* SIDEBAR (Fixed) */
+        .sidebar {
+            width: 280px;
+            background: rgba(2, 6, 23, 0.95);
+            border-right: 1px solid var(--border);
+            height: 100vh;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-main);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .brand-text {
+            font-weight: 800;
+            font-size: 20px;
+            color: white;
+        }
+
+        .brand-text span {
+            color: var(--accent-blue);
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+            padding: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: white;
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            background: radial-gradient(circle at top right, #1e1b4b 0%, #020617 40%);
+            min-height: 100vh;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .grid-1 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 10px;
+            color: var(--text-muted);
+            font-size: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            color: white;
+        }
+
+        .time-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono';
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon"><i class="fas fa-cube"></i></div>
+            <div class="brand-text">DCM <span>DIGITAL</span></div>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-item"><i class="fas fa-home"></i> Accueil Hub</a></li>
+            <li><a href="dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="#" class="nav-item active"><i class="fas fa-tasks"></i> Review & Time</a></li>
+            <li><a href="quiz.html" class="nav-item"><i class="fas fa-graduation-cap"></i> Quiz & Tests</a></li>
+            <li style="margin-top:auto;"><a href="index.html" class="nav-item" style="color:var(--accent-red)"><i
+                        class="fas fa-sign-out-alt"></i> Exit</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div class="page-title">
+                <h1>Progress Review</h1>
+                <p style="color:var(--text-muted)">Analyse de votre temps d'apprentissage et historique des
+                    performances.</p>
+            </div>
+        </header>
+
+        <!-- TOP METRICS -->
+        <div class="grid-2">
+            <!-- TIME TRACKER CANVAS -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fas fa-clock" style="color:var(--accent-gold)"></i> Time Tracking
+                        (Top Pages)</div>
+                    <div id="total-time-display" style="font-family:'JetBrains Mono'; color:var(--accent-gold)">0m</div>
+                </div>
+                <div style="height: 250px;">
+                    <canvas id="timeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- QUIZ EVOLUTION CANVAS -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fas fa-chart-line" style="color:var(--accent-green)"></i> Quiz
+                        Evolution</div>
+                    <div id="avg-score-display" style="font-family:'JetBrains Mono'; color:var(--accent-green)">- %
+                    </div>
+                </div>
+                <div style="height: 250px;">
+                    <canvas id="quizChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- DETAILED HISTORY -->
+        <div class="grid-1">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fas fa-history"></i> Historique des Détails</div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Activité</th>
+                            <th>Détail</th>
+                            <th>Résultat / Durée</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body">
+                        <!-- JS Injected -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <script type="module">
+        import { SessionManager } from './js/session-manager.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            SessionManager.init(); // Check Auth
+
+            // --- 1. LOAD DATA ---
+            const timeData = JSON.parse(localStorage.getItem('dcm_page_history') || '{}');
+            const quizData = JSON.parse(localStorage.getItem('dcm_quiz_history') || '[]');
+
+            // --- 2. RENDER TIME CHART ---
+            // Sort pages by time desc
+            const sortedPages = Object.entries(timeData)
+                .sort(([, a], [, b]) => b - a)
+                .slice(0, 5); // Top 5
+
+            const timeLabels = sortedPages.map(([k]) => k);
+            const timeValues = sortedPages.map(([, v]) => (v / 60).toFixed(1)); // Minutes
+
+            new Chart(document.getElementById('timeChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: timeLabels,
+                    datasets: [{
+                        data: timeValues,
+                        backgroundColor: ['#3b82f6', '#a855f7', '#10b981', '#f59e0b', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right', labels: { color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // Update Total Time
+            const totalSeconds = Object.values(timeData).reduce((a, b) => a + b, 0);
+            document.getElementById('total-time-display').innerText = Math.floor(totalSeconds / 60) + " min";
+
+            // --- 3. RENDER QUIZ CHART ---
+            const quizLabels = quizData.map((_, i) => `Test ${i + 1}`);
+            const quizScores = quizData.map(q => (q.score / q.total) * 100);
+
+            new Chart(document.getElementById('quizChart'), {
+                type: 'line',
+                data: {
+                    labels: quizLabels,
+                    datasets: [{
+                        label: 'Score (%)',
+                        data: quizScores,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.1)' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Calc Avg
+            if (quizScores.length > 0) {
+                const avg = quizScores.reduce((a, b) => a + b, 0) / quizScores.length;
+                document.getElementById('avg-score-display').innerText = Math.round(avg) + "%";
+            }
+
+            // --- 4. POPULATE TABLE ---
+            const tbody = document.getElementById('history-table-body');
+
+            // Merge Data streams? simpler to just show Quiz history for now, + top time stats
+            // Let's list Quiz Attempts
+            quizData.reverse().forEach(q => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${new Date(q.date).toLocaleDateString()} ${new Date(q.date).toLocaleTimeString()}</td>
+                    <td><span class="time-badge" style="background:rgba(16,185,129,0.1); color:#10b981">QUIZ</span></td>
+                    <td>${q.module}</td>
+                    <td><strong>${q.score}/${q.total}</strong> (${Math.round(q.score / q.total * 100)}%)</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Add Time Stats to table
+            sortedPages.forEach(([page, seconds]) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>--</td>
+                    <td><span class="time-badge">PAGE VIEW</span></td>
+                    <td>${page}</td>
+                    <td>${(seconds / 60).toFixed(1)} min</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -85,5 +85,35 @@ export const SessionManager = {
     getCurrentUser: () => {
         const profile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
         return profile ? JSON.parse(profile) : null;
+    },
+
+    // --- TIME TRACKER ---
+    startTracking: () => {
+        const path = window.location.pathname.split('/').pop() || 'index.html';
+        console.log(`⏱️ Tracking time for: ${path}`);
+
+        setInterval(() => {
+            // Read
+            let history = JSON.parse(localStorage.getItem('dcm_page_history') || '{}');
+
+            // Increment (5 seconds)
+            if (!history[path]) history[path] = 0;
+            history[path] += 5;
+
+            // Save
+            localStorage.setItem('dcm_page_history', JSON.stringify(history));
+
+            // Also update Global Total Time
+            let total = parseInt(localStorage.getItem('dcm_total_time') || '0');
+            localStorage.setItem('dcm_total_time', total + 5);
+
+        }, 5000);
     }
 };
+
+// Auto-start tracking if loaded
+if (typeof window !== 'undefined') {
+    // Only start if not already managed by another script to avoid double counting? 
+    // Actually, setInterval is per page instance.
+    SessionManager.startTracking();
+}
