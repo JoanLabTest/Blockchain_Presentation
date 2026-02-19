@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossaire Blockchain Institutionnel | DCM Digital</title>
+    <meta name="description"
+        content="Définitions des termes clés de la finance blockchain : DvP, Atomic Swap, ERC-3643, ZK-Proof.">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f3f4f6;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-gold: #f59e0b;
+            --border: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: white;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .term-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: 0.2s;
+        }
+
+        .term-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .term-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .term-def {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 50px;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book"></i> Glossaire</h1>
+            <p style="color:var(--text-muted)">Terminologie technique & financière standardisée.</p>
+        </header>
+
+        <input type="text" class="search-box" placeholder="Rechercher un terme (ex: DvP, Smart Contract...)"
+            onkeyup="filterTerms(this.value)">
+
+        <div id="terms-list">
+            <div class="term-card" data-term="atomic swap">
+                <div class="term-title">Atomic Swap</div>
+                <div class="term-def">Échange simultané de deux actifs sur la blockchain sans risque de contrepartie. Si
+                    une partie échoue, la transaction entière est annulée.</div>
+            </div>
+
+            <div class="term-card" data-term="dvp delivery versus payment">
+                <div class="term-title">DvP (Delivery vs Payment)</div>
+                <div class="term-def">Mécanisme de règlement où le transfert de titres (livraison) ne se produit que si
+                    le paiement (cash) est confirmé, éliminant le risque principal.</div>
+            </div>
+
+            <div class="term-card" data-term="erc-3643 t-rex">
+                <div class="term-title">ERC-3643 (T-REX)</div>
+                <div class="term-def">Standard de tokenisation pour les actifs régulés (RWA). Il intègre un système
+                    d'identité on-chain (ONCHID) pour valider l'éligibilité des détenteurs en temps réel.</div>
+            </div>
+
+            <div class="term-card" data-term="gas fees">
+                <div class="term-title">Gas Fees</div>
+                <div class="term-def">Frais de transaction payés aux validateurs pour exécuter des calculs sur le réseau
+                    (ex: Ethereum). Coût variable selon la congestion.</div>
+            </div>
+
+            <div class="term-card" data-term="oracle">
+                <div class="term-title">Oracle</div>
+                <div class="term-def">Pont de données permettant aux Smart Contracts d'accéder à des informations
+                    off-chain (prix d'actifs, météo, résultats sportifs) de manière sécurisée (ex: Chainlink).</div>
+            </div>
+
+            <div class="term-card" data-term="pos proof of stake">
+                <div class="term-title">PoS (Proof of Stake)</div>
+                <div class="term-def">Mécanisme de consensus où les validateurs bloquent des fonds (Stake) pour
+                    sécuriser le réseau, remplaçant le minage énergivore (PoW).</div>
+            </div>
+
+            <div class="term-card" data-term="smart contract">
+                <div class="term-title">Smart Contract</div>
+                <div class="term-def">Programme informatique auto-exécutable déployé sur la blockchain qui applique
+                    automatiquement les termes d'un accord lorsque les conditions sont remplies.</div>
+            </div>
+
+            <div class="term-card" data-term="tps transactions per second">
+                <div class="term-title">TPS</div>
+                <div class="term-def">Mesure de la capacité d'un réseau à traiter des transactions. Bitcoin ~7 TPS,
+                    Ethereum ~15 TPS, Solana ~65,000 TPS.</div>
+            </div>
+
+            <div class="term-card" data-term="zk-rollup zero knowledge">
+                <div class="term-title">ZK-Rollup</div>
+                <div class="term-def">Solution de seconde couche (L2) qui regroupe des centaines de transactions en une
+                    seule preuve cryptographique (Zero-Knowledge Proof) pour réduire les coûts et augmenter la vitesse.
+                </div>
+            </div>
+        </div>
+
+        <center>
+            <a href="index.html" class="back-btn">Retour au Hub</a>
+        </center>
+    </div>
+
+    <script>
+        function filterTerms(val) {
+            const term = val.toLowerCase();
+            const cards = document.querySelectorAll('.term-card');
+            cards.forEach(card => {
+                if (card.getAttribute('data-term').includes(term)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
