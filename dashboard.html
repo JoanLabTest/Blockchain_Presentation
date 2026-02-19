@@ -53,8 +53,10 @@
             color: var(--text-main);
             font-family: 'Urbanist', sans-serif;
             min-height: 100vh;
-            display: flex;
-            overflow: hidden;
+            /* Allow native scroll */
+            overflow-x: hidden;
+            display: block;
+            /* Remove flex on body */
         }
 
         /* --- SIDEBAR --- */
@@ -66,7 +68,10 @@
             padding: 30px;
             display: flex;
             flex-direction: column;
-            position: relative;
+            position: fixed;
+            /* Fixed position */
+            top: 0;
+            left: 0;
             z-index: 100;
         }
 
@@ -161,10 +166,11 @@
 
         /* --- MAIN CONTENT --- */
         .main-content {
-            flex-grow: 1;
+            margin-left: 280px;
+            /* Sidebar offset */
             padding: 30px;
-            overflow-y: auto;
             background: radial-gradient(circle at top right, #1e1b4b 0%, #020617 40%);
+            min-height: 100vh;
         }
 
         .header {
