@@ -236,7 +236,9 @@
             const user = await SessionManager.init();
 
             // ACCESS CONTROL (PHASE 32)
-            if (!user || user.role !== 'Head of Digital') {
+            const isSuperDev = localStorage.getItem('is_super_dev') === 'true';
+
+            if (!isSuperDev && (!user || user.role !== 'Head of Digital')) {
                 alert('Accès Refusé. Cette zone est réservée au Head of Digital.');
                 window.location.href = 'dashboard.html';
                 return;
@@ -286,6 +288,7 @@
 
         });
     </script>
+    <script src="utils/dev_mode_shared.js"></script>
 </body>
 
 </html>
