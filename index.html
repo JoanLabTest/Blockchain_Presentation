@@ -951,6 +951,15 @@
             easing: 'ease-out-cubic',
             once: true
         });
+
+        // PWA SERVICE WORKER REGISTRATION (Phase 30)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('✅ PWA Service Worker Registered (Index)'))
+                    .catch(err => console.log('❌ PWA Registration Failed', err));
+            });
+        }
     </script>
 </body>
 

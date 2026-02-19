@@ -9,6 +9,9 @@
 
     <!-- METADATA & FAVICON -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2091/2091665.png" type="image/png">
+
+    <!-- PWA (Phase 30) -->
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#020617">
     <meta property="og:title" content="Certification DCM Digital - Expert & Head Of">
     <meta property="og:description"
@@ -1541,6 +1544,16 @@
                 // Hide diploma after print (timeout)
                 setTimeout(() => { dip.style.display = 'none'; }, 1000);
             }, 500);
+        }
+    </script>
+    <!-- PWA SERVICE WORKER REGISTRATION (Phase 30) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('✅ PWA Service Worker Registered (Quiz)'))
+                    .catch(err => console.log('❌ PWA Registration Failed', err));
+            });
         }
     </script>
 </body>

@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- PWA (Phase 30) -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#020617">
     <title>DCM Intelligence - Cockpit</title>
 
     <!-- FONTS -->
@@ -13,6 +16,10 @@
 
     <!-- ICONS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- PWA (Phase 30) -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#020617">
 
     <!-- ANIMATIONS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -695,36 +702,14 @@
             }
         }
     </script>
-    <!-- SAAS LOGIC -->
+    <!-- PWA REGISTRATION (Phase 30) -->
     <script>
-        // --- REPORT GENERATION ---
-        function generateReport() {
-            if (SessionManager.checkAccess('REPORT_EXPORT')) {
-                // Open Report Window
-                const win = window.open('report.html', '_blank', 'width=1000,height=1200');
-                if (!win) alert("Veuillez autoriser les popups pour générer le rapport.");
-            }
-        }
-
-        // --- MANAGER MODE ---
-        function toggleManagerMode() {
-            const isManager = document.getElementById('managerToggle').checked;
-
-            if (isManager) {
-                if (!SessionManager.checkAccess('MANAGER_VIEW')) {
-                    // Revert Toggle if access denied
-                    document.getElementById('managerToggle').checked = false;
-                    return;
-                }
-
-                // SWITCH TO TEAM DATA
-                DashboardEngine.switchToTeamView();
-                SessionManager.showToast('👥', 'Mode Manager Actif', 'Affichage des données consolidées de l\'équipe.');
-            } else {
-                // SWITCH TO PERSONAL DATA
-                DashboardEngine.switchToPersonalView();
-                SessionManager.showToast('👤', 'Mode Personnel', 'Retour à vos performances individuelles.');
-            }
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('✅ PWA Service Worker Registered (Dashboard)'))
+                    .catch(err => console.log('❌ PWA Registration Failed', err));
+            });
         }
     </script>
 </body>
