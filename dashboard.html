@@ -361,8 +361,8 @@
                         Ligne</span></div>
             </div>
             <div style="display:flex; gap:10px;">
-                <button
-                    style="background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:10px 15px; border-radius:8px; font-weight:600; cursor:pointer;">
+                <button onclick="refreshDashboard(this)"
+                    style="background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:10px 15px; border-radius:8px; font-weight:600; cursor:pointer; transition:0.3s;">
                     <i class="fas fa-sync-alt"></i>
                 </button>
                 <button
@@ -401,7 +401,8 @@
                     </div>
                 </div>
                 <div class="metric-sub">Moyenne des tests</div>
-                <button class="btn-small" style="margin-top:auto;">Reprendre le test</button>
+                <button class="btn-small" style="margin-top:auto;" onclick="window.location.href='quiz.html'">Reprendre
+                    le test</button>
             </div>
 
             <!-- 3. COVERAGE -->
@@ -703,6 +704,18 @@
                                 }
                             }
                         });
+                    }
+
+                    function refreshDashboard(btn) {
+                        const icon = btn.querySelector('i');
+                        icon.classList.add('fa-spin');
+
+                        // Simulate data fetch
+                        loadDashboardData();
+
+                        setTimeout(() => {
+                            icon.classList.remove('fa-spin');
+                        }, 800);
                     }
 
                     window.logout = function () {
