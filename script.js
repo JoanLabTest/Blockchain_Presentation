@@ -372,7 +372,7 @@ async function simulateConnection(provider) {
                 "Authentication required. Please sign to prove ownership."
             </div>
         </div>`;
-    
+
     await wait(2000);
 
     // STEP 3: Success
@@ -384,7 +384,7 @@ async function simulateConnection(provider) {
             </div>
              <div style="font-size:12px; color:#64748b; margin-left:24px;">Session Token Generated.</div>
         </div>`;
-    
+
     await wait(1000);
 
     // Generate random address like 0x71C...9A2
@@ -395,12 +395,26 @@ async function simulateConnection(provider) {
     localStorage.setItem('dcm_wallet_address', randomAddr);
     localStorage.setItem('dcm_wallet_provider', provider);
 
+    // --- INTEGRATION WITH DASHBOARD 2.0 SESSION MANAGER ---
+    // Create a session based on the wallet
+    const walletProfile = {
+        name: `WalletUser ${randomAddr.substring(0, 6)}`,
+        role: "DeFi Trader", // Specific Role for Wallet Users
+        jurisdiction: "On-Chain",
+        impactScore: 85,
+        walletAddress: randomAddr
+    };
+    localStorage.setItem('dcm_auth_token', `wallet-token-${randomAddr}`);
+    localStorage.setItem('dcm_user_profile', JSON.stringify(walletProfile));
+
     // Update UI
     updateWalletUI(randomAddr);
 
     // Close modal after short delay
     setTimeout(() => {
         closeWalletModal();
+        // Optional: Notify user they can now access the dashboard
+        // alert("Wallet Connected! You can now access the Dashboard.");
     }, 1000);
 }
 

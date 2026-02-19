@@ -15,8 +15,11 @@
     <!-- AUTO-REDIRECT IF LOGGED IN -->
     <script>
         (function () {
-            const session = localStorage.getItem('dcm_user_session');
-            if (session === 'authenticated' || session === 'admin' || session === 'demo') {
+            // Updated for Phase 26+ Architecture
+            const token = localStorage.getItem('dcm_auth_token');
+            const profile = localStorage.getItem('dcm_user_profile');
+
+            if (token && profile) {
                 console.log("Session active. Redirection vers le Dashboard...");
                 window.location.href = 'dashboard.html';
             }
@@ -28,6 +31,7 @@
     <script src="config.js?v=3"></script>
 
     <style>
+        /* [Styles remain unchanged] */
         :root {
             --bg-dark: #020617;
             --accent-cyan: #06b6d4;
@@ -288,7 +292,6 @@
             text-decoration: underline;
         }
 
-        /* Helper */
         .hidden {
             display: none;
         }
@@ -483,8 +486,17 @@
             // --- DEV MODE BACKDOOR (Restored) ---
             if (!isSignup && (password === 'admin123' || password === 'dcm2026')) {
                 setTimeout(() => {
-                    localStorage.setItem('dcm_user_session', 'admin');
-                    localStorage.setItem('devMode', 'enabled'); // Legacy support
+                    // Inject Session for Dashboard 2.0
+                    const profile = {
+                        name: "Admin Dev",
+                        email: email,
+                        role: "Risk Manager", // Default Role
+                        jurisdiction: "Global",
+                        impactScore: 100
+                    };
+                    localStorage.setItem('dcm_auth_token', 'dev-mode-token');
+                    localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
+
                     showMessage("🔓 Mode Développeur Activé ! Redirection...", "success");
                     setTimeout(() => window.location.href = "dashboard.html", 1000);
                 }, 800);
@@ -513,13 +525,27 @@
 
                     // Check if session was created immediately (Auto Confirm enabled)
                     if (data.session) {
+                        // Build Profile
+                        const user = data.user;
+                        const profile = {
+                            id: user.id,
+                            name: user.user_metadata.full_name || email.split('@')[0],
+                            email: user.email,
+                            role: "Analyste",
+                            jurisdiction: "EU (France)"
+                        };
+
+                        // Set Session
+                        localStorage.setItem('dcm_auth_token', data.session.access_token);
+                        localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
+
                         showMessage("Compte créé et connecté ! Redirection...", "success");
                         setTimeout(() => {
                             window.location.href = "dashboard.html";
                         }, 1500);
                     } else {
                         // Email confirmation required
-                        showMessage("Compte créé ! 📩 Veuillez vérifier vos emails pour valider votre inscription (regardez aussi les spams).", "success");
+                        showMessage("Compte créé ! 📩 Veuillez vérifier vos emails.", "success");
                         form.reset();
                     }
 
@@ -532,44 +558,41 @@
 
                     if (error) throw error;
 
-                    // CACHE USER NAME
-                    if (data.user && data.user.user_metadata) {
-                        const fullName = data.user.user_metadata.full_name || data.user.email.split('@')[0];
-                        localStorage.setItem('dcm_user_name', fullName);
-                        localStorage.setItem('dcm_user_session', 'authenticated'); // Standard session
+                    // CACHE USER NAME & SESSION (Dashboard 2.0)
+                    if (data.session) {
+                        const user = data.user;
+                        const fullName = user.user_metadata.full_name || user.email.split('@')[0];
+
+                        const profile = {
+                            id: user.id,
+                            name: fullName,
+                            email: user.email,
+                            role: "Analyste", // Default role
+                            jurisdiction: "EU (France)"
+                        };
+
+                        localStorage.setItem('dcm_auth_token', data.session.access_token);
+                        localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
                     }
 
                     showMessage("Connexion réussie ! Redirection...", "success");
 
                     // REDIRECT
                     setTimeout(() => {
-                        // Check if there was a redirected page
-                        const redirectUrl = sessionStorage.getItem('redirect_after_login');
-                        if (redirectUrl) {
-                            sessionStorage.removeItem('redirect_after_login');
-                            window.location.href = redirectUrl;
-                        } else {
-                            window.location.href = "dashboard.html";
-                        }
+                        window.location.href = "dashboard.html";
                     }, 1000);
                 }
             } catch (err) {
                 console.error("Auth Error:", err);
                 let msg = err.message;
-
-                // Translate common errors
                 if (msg.includes("Invalid login credentials")) msg = "Email ou mot de passe incorrect.";
-                if (msg.includes("User already registered")) msg = "Cet email est déjà utilisé. Essayez de vous connecter.";
-                if (msg.includes("Password should be")) msg = "Le mot de passe est trop court (6 caractères min).";
-                if (msg.includes("Rate limit")) msg = "Trop de tentatives. Veuillez patienter un peu.";
-
                 showMessage(msg, "error");
             } finally {
                 setLoading(false);
             }
         });
 
-        // HELPERS
+        // HELPERS [Unchanged]
         function setLoading(loading) {
             submitBtn.disabled = loading;
             if (loading) {
@@ -591,10 +614,20 @@
             messageDiv.style.display = 'block';
         }
 
-        // GUEST MODE
+        // GUEST MODE (Updated for Dashboard 2.0)
         window.enterGuestMode = function () {
-            localStorage.setItem("dcm_user_session", "demo");
-            window.location.href = "dashboard.html";
+            // Create Mock Session
+            const guestProfile = {
+                name: "Invité",
+                role: "Visiteur",
+                jurisdiction: "Global",
+                impactScore: 50
+            };
+            localStorage.setItem('dcm_auth_token', 'guest-token-123');
+            localStorage.setItem('dcm_user_profile', JSON.stringify(guestProfile));
+
+            showMessage("Mode Invité activé. Redirection...", "success");
+            setTimeout(() => window.location.href = "dashboard.html", 800);
         }
 
         // RESET PASSWORD UI
