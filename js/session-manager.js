@@ -9,7 +9,8 @@ export const SessionManager = {
     KEYS: {
         AUTH_TOKEN: 'dcm_auth_token',
         USER_PROFILE: 'dcm_user_profile',
-        SESSION_START: 'dcm_session_start'
+        SESSION_START: 'dcm_session_start',
+        PREMIUM_USER: 'dcm_premium_user'
     },
 
     // --- INITIALIZATION ---
@@ -188,6 +189,51 @@ export const SessionManager = {
             toast.style.transition = 'all 0.5s';
             setTimeout(() => toast.remove(), 500);
         }, 8000);
+    },
+
+    // --- ACCESS CONTROL (Phase 29) ---
+    checkAccess: (feature) => {
+        const profile = JSON.parse(localStorage.getItem(SessionManager.KEYS.USER_PROFILE) || '{}');
+        const role = profile.role || 'Guest';
+
+        // Define Rules
+        const RULES = {
+            'REPORT_EXPORT': ['Risk Manager', 'Head of Digital', 'Compliance Officer'],
+            'LEGAL_MATRIX_FULL': ['Compliance Officer', 'Head of Digital'],
+            'MANAGER_VIEW': ['Head of Digital']
+        };
+
+        const allowedRoles = RULES[feature] || [];
+
+        // Check if user has role
+        if (!allowedRoles.includes(role) && role !== 'Head of Digital') { // Head of Digital is SuperAdmin
+            SessionManager.showPaywall(feature);
+            return false;
+        }
+        return true;
+    },
+
+    showPaywall: (feature) => {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(2, 6, 23, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10000;
+        `;
+        modal.innerHTML = `
+            <div style="background: #1e293b; padding: 40px; border-radius: 20px; text-align: center; border: 1px solid #e2e8f0; max-width: 500px; box-shadow: 0 0 50px rgba(59,130,246,0.3);">
+                <i class="fas fa-lock" style="font-size: 50px; color: #f59e0b; margin-bottom: 20px;"></i>
+                <h2 style="color:white; margin-bottom:10px;">Fonctionnalité Premium</h2>
+                <p style="color:#94a3b8; margin-bottom:20px;">L'accès à <strong>${feature}</strong> est réservé aux comptes Institutionnels Pro.</p>
+                <div style="display:flex; justify-content:center; gap:10px;">
+                    <button onclick="this.closest('div').parentElement.parentElement.remove()" style="padding:10px 20px; background:transparent; border:1px solid #64748b; color:white; border-radius:8px; cursor:pointer;">Fermer</button>
+                    <button onclick="alert('Contact Sales: sales@dcm-digital.com')" style="padding:10px 20px; background:#3b82f6; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Mettre à niveau</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
     }
 };
 

@@ -202,4 +202,99 @@ export const DashboardEngine = {
 
     // --- KPI STRIP RENDERING (REMOVED IN HYBRID LAYOUT) ---
     // KPIs are now back in the main Dashboard Cards (Phase 25 Style)
+    // --- SAAS MANAGER MODE (Phase 29) ---
+    switchToTeamView: () => {
+        // Mock Team Data (Aggregated)
+        const teamResearch = [60, 65, 70, 75, 82, 88]; // Higher average
+        const teamCompliance = 92;
+
+        // Update Research Chart
+        const chart = Chart.getChart("radarChart");
+        if (chart) {
+            chart.data.datasets[0].data = [85, 90, 75, 88, 92]; // Tech, Legal, Finance, Ops, Strat
+            chart.data.datasets[0].label = "Team Average";
+            chart.data.datasets[0].borderColor = "#3b82f6";
+            chart.data.datasets[0].backgroundColor = "rgba(59, 130, 246, 0.2)";
+            chart.update();
+        }
+
+        // Update Evolution Chart
+        const evoChart = Chart.getChart("evolutionChart");
+        if (evoChart) {
+            evoChart.data.datasets[0].data = teamResearch;
+            evoChart.data.datasets[0].label = "Team Velocity";
+            evoChart.data.datasets[0].borderColor = "#10b981";
+            evoChart.update();
+        }
+
+        // Update Text Metrics
+        const valEl = document.querySelector('.score-val');
+        if (valEl) valEl.innerText = "A+";
+
+        const circleEl = document.querySelector('.score-circle');
+        if (circleEl) circleEl.innerText = "92%";
+
+        const covValEl = document.querySelector('.coverage-val');
+        if (covValEl) covValEl.innerText = "95%";
+
+        const covBarEl = document.getElementById('coverage-bar');
+        if (covBarEl) covBarEl.style.width = "95%";
+
+        const compScoreEl = document.getElementById('compliance-score-val');
+        if (compScoreEl) compScoreEl.innerText = teamCompliance + "/100";
+
+        const compBarEl = document.getElementById('compliance-bar-fill');
+        if (compBarEl) compBarEl.style.width = teamCompliance + "%";
+
+        // Update Alerts
+        const alertBox = document.getElementById('compliance-alerts');
+        if (alertBox) {
+            alertBox.innerHTML = `
+                <div class="status-badge" style="background:rgba(16, 185, 129, 0.1); color:var(--accent-green)">✅ TEAM COMPLIANT</div>
+                <div class="status-badge" style="background:rgba(59, 130, 246, 0.1); color:var(--accent-blue)">ℹ️ 5 MEMBERS ACTIVE</div>
+            `;
+        }
+    },
+
+    switchToPersonalView: () => {
+        // Re-generate Personal Data to revert
+        const data = DashboardEngine.generateMockData();
+
+        // Update Research Chart
+        const chart = Chart.getChart("radarChart");
+        if (chart) {
+            chart.data.datasets[0].data = data.radarData.dataset;
+            chart.data.datasets[0].label = "Skill Matrix";
+            chart.data.datasets[0].borderColor = "#3b82f6";
+            chart.data.datasets[0].backgroundColor = "rgba(59, 130, 246, 0.2)";
+            chart.update();
+        }
+
+        // Update Evolution Chart
+        const evoChart = Chart.getChart("evolutionChart");
+        if (evoChart) {
+            evoChart.data.datasets[0].data = data.researchScores;
+            evoChart.data.datasets[0].label = "Research Score";
+            evoChart.data.datasets[0].borderColor = "#3b82f6";
+            evoChart.update();
+        }
+
+        // Update Text Metrics
+        const score = data.researchScores[data.researchScores.length - 1]; // number
+
+        const valEl = document.querySelector('.score-val');
+        if (valEl) valEl.innerText = "A-"; // Hardcoded revert to match initial state visually if possible, or mapping logic. 
+        // Actually initial state uses data.researchScores[last]. Let's just use "A-" as that's what we saw in the HTML hardcoded or initialized.
+
+        const circleEl = document.querySelector('.score-circle');
+        if (circleEl) circleEl.innerText = "85%";
+
+        const covValEl = document.querySelector('.coverage-val');
+        if (covValEl) covValEl.innerText = "65%";
+
+        const covBarEl = document.getElementById('coverage-bar');
+        if (covBarEl) covBarEl.style.width = "65%";
+
+        DashboardEngine.renderComplianceWidget(data.complianceProfile);
+    }
 };

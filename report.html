@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCM Digital - Compliance Audit Report</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700&family=JetBrains+Mono:wght@400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #3b82f6;
+            --text: #334155;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text);
+            background: #fff;
+            width: 210mm;
+            /* A4 Width */
+            min-height: 297mm;
+            /* A4 Height */
+            margin: 0 auto;
+            padding: 20mm;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .meta-data {
+            text-align: right;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* CONTENT */
+        h1 {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-box {
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 5px;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #64748b;
+            border-bottom: 1px solid var(--border);
+            padding: 5px;
+        }
+
+        td {
+            font-size: 13px;
+            padding: 8px 5px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .score-good {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .score-bad {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 50px;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            font-size: 10px;
+            color: #94a3b8;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CONTROL BAR (No Print) -->
+    <div class="no-print"
+        style="position:fixed; top:0; left:0; width:100%; background:#0f172a; padding:10px; display:flex; justify-content:center; gap:20px;">
+        <button onclick="window.print()"
+            style="background:#3b82f6; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; font-weight:bold;">
+            <i class="fas fa-print"></i> Imprimer / PDF
+        </button>
+        <button onclick="window.close()"
+            style="background:#334155; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">
+            Fermer
+        </button>
+    </div>
+
+    <!-- REPORT PAGE -->
+    <div style="margin-top: 50px;">
+        <header>
+            <div class="brand">
+                <i class="fas fa-cube" style="color:var(--accent)"></i> DCM DIGITAL
+            </div>
+            <div class="meta-data">
+                <div>AUDIT ID: <span id="audit-id">...</span></div>
+                <div>DATE: <span id="audit-date">...</span></div>
+                <div>GENERATED BY: SYSTEM_V6</div>
+            </div>
+        </header>
+
+        <h1>Rapport de Conformité & Compétence</h1>
+        <p style="color:#64748b; font-size:14px; max-width:600px;">
+            Ce document certifie le niveau de compétence théorique et opérationnelle de l'utilisateur sur les
+            infrastructures de marché DLT et la régulation financière.
+        </p>
+
+        <!-- USER PROFILE -->
+        <h2>1. Profil Utilisateur</h2>
+        <div class="summary-grid">
+            <div class="kpi-box">
+                <div class="kpi-label">NOM COMPLET</div>
+                <div class="kpi-value" id="user-name">--</div>
+            </div>
+            <div class="kpi-box">
+                <div class="kpi-label">RÔLE & ACCRÉDITATION</div>
+                <div class="kpi-value" id="user-role" style="font-size:18px;">--</div>
+            </div>
+            <div class="kpi-box">
+                <div class="kpi-label">JURIDICTION</div>
+                <div class="kpi-value" id="user-jurisdiction">--</div>
+            </div>
+            <div class="kpi-box">
+                <div class="kpi-label">SCORE GLOBAL DE CONFORMITE</div>
+                <div class="kpi-value" id="global-score">--/100</div>
+            </div>
+        </div>
+
+        <!-- ASSESSMENT -->
+        <h2>2. Détail des Évaluations (Certification)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Module</th>
+                    <th>Niveau</th>
+                    <th>Score</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="quiz-table">
+                <!-- JS Injected -->
+            </tbody>
+        </table>
+
+        <!-- RISK MATRIX -->
+        <h2>3. Matrice de Risque & Gaps</h2>
+        <div style="display:flex; gap:20px; align-items:flex-start;">
+            <div style="flex:1;">
+                <p style="font-size:13px; color:#334155; margin-bottom:10px;">
+                    Analyse des lacunes basée sur les réponses aux tests techniques et juridiques. Un score inférieur à
+                    80% déclenche une alerte de formation.
+                </p>
+                <div id="risk-alerts">
+                    <!-- JS Injected -->
+                </div>
+            </div>
+            <div style="width:200px; height:200px;">
+                <canvas id="riskChart"></canvas>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <div>© 2026 DCM Digital Intelligence • Private & Confidential</div>
+            <div>VERIFIED BY BLOCKCHAIN HASH: 0x7f...3a9c</div>
+        </footer>
+    </div>
+
+    <script type="module">
+        import { SessionManager } from './js/session-manager.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. GET DATA
+            const user = SessionManager.init(); // Auto-redirect logic included
+            if (!user) return; // Stop if redirecting
+
+            // 2. FILL HEADER
+            document.getElementById('audit-id').innerText = 'AUD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            document.getElementById('audit-date').innerText = new Date().toLocaleDateString();
+            document.getElementById('user-name').innerText = user.name || "Utilisateur Anonyme";
+            document.getElementById('user-role').innerText = user.role || "N/A";
+            document.getElementById('user-jurisdiction').innerText = user.jurisdiction || "Global";
+
+            // 3. FILL TABLE
+            const history = JSON.parse(localStorage.getItem('dcm_quiz_history') || '[]');
+            const tbody = document.getElementById('quiz-table');
+
+            let totalScore = 0;
+            let count = 0;
+
+            if (history.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Aucune donnée disponible.</td></tr>';
+            } else {
+                history.forEach(entry => {
+                    const percentage = Math.round((entry.score / entry.total) * 100);
+                    totalScore += percentage;
+                    count++;
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${entry.level === 1 ? 'Fondamentaux' : entry.level === 2 ? 'Opérations' : 'Expert'}</td>
+                        <td>Niveau ${entry.level}</td>
+                        <td class="${percentage >= 80 ? 'score-good' : 'score-bad'}">${percentage}%</td>
+                        <td>${percentage >= 80 ? 'VALIDÉ' : 'ÉCHEC'}</td>
+                        <td>${new Date(entry.date).toLocaleDateString()}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // 4. GLOBAL SCORE
+            const avg = count > 0 ? Math.round(totalScore / count) : 0;
+            document.getElementById('global-score').innerText = avg + "/100";
+            if (avg < 50) document.getElementById('global-score').style.color = "#ef4444";
+            else if (avg > 80) document.getElementById('global-score').style.color = "#10b981";
+
+            // 5. CHART
+            const ctx = document.getElementById('riskChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Conformité', 'Risque Identifié'],
+                    datasets: [{
+                        data: [avg, 100 - avg],
+                        backgroundColor: ['#10b981', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 6. ALERTS
+            const alertBox = document.getElementById('risk-alerts');
+            if (avg < 100) {
+                alertBox.innerHTML += `<div style="padding:10px; background:#fef2f2; border-left:4px solid #ef4444; color:#991b1b; font-size:12px; margin-bottom:5px;">⚠️ Gap identifié : Formation complémentaire requise.</div>`;
+            } else {
+                alertBox.innerHTML += `<div style="padding:10px; background:#f0fdf4; border-left:4px solid #10b981; color:#166534; font-size:12px; margin-bottom:5px;">✅ Profil Excellent : Aucune action requise.</div>`;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -412,6 +412,50 @@
             <li><a href="quiz.html" class="nav-item"><i class="fas fa-graduation-cap"></i> Quiz & Tests</a></li>
             <li><a href="legal-matrix.html" class="nav-item"><i class="fas fa-balance-scale"></i> Legal Matrix</a></li>
             <li><a href="yield-mechanics.html" class="nav-item"><i class="fas fa-flask"></i> Laboratoire Yield</a></li>
+
+            <!-- SAAS FEATURES (Phase 29) -->
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <div
+                    style="font-size: 10px; text-transform: uppercase; color: #64748b; margin-bottom: 10px; letter-spacing: 1px; padding-left:15px;">
+                    Espace Pro</div>
+
+                <li onclick="generateReport()" class="nav-item" style="cursor:pointer; color: var(--accent-blue);">
+                    <i class="fas fa-file-pdf"></i> Générer Rapport
+                </li>
+
+                <div
+                    style="margin-top: 15px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px;">
+                    <span style="font-size: 12px; color: #94a3b8;">Manager Mode</span>
+                    <label class="switch" style="position: relative; display: inline-block; width: 34px; height: 20px;">
+                        <input type="checkbox" id="managerToggle" onchange="toggleManagerMode()"
+                            style="opacity: 0; width: 0; height: 0;">
+                        <span class="slider round"
+                            style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;"></span>
+                        <style>
+                            .switch input:checked+.slider {
+                                background-color: #2196F3;
+                            }
+
+                            .switch input:checked+.slider:before {
+                                transform: translateX(14px);
+                            }
+
+                            .slider:before {
+                                position: absolute;
+                                content: "";
+                                height: 14px;
+                                width: 14px;
+                                left: 3px;
+                                bottom: 3px;
+                                background-color: white;
+                                transition: .4s;
+                                border-radius: 50%;
+                            }
+                        </style>
+                    </label>
+                </div>
+            </div>
+
             <li style="margin-top:auto;">
                 <a href="#" class="nav-item" style="color:var(--accent-red)" onclick="SessionManager.logout()">
                     <i class="fas fa-sign-out-alt"></i> Déconnexion
@@ -618,6 +662,70 @@
             const score = data.researchScores ? data.researchScores[data.researchScores.length - 1] : "A";
             document.querySelector('.score-val').innerText = score;
         });
+    </script>
+    <!-- SAAS LOGIC -->
+    <script>
+        // --- REPORT GENERATION ---
+        function generateReport() {
+            if (SessionManager.checkAccess('REPORT_EXPORT')) {
+                // Open Report Window
+                const win = window.open('report.html', '_blank', 'width=1000,height=1200');
+                if (!win) alert("Veuillez autoriser les popups pour générer le rapport.");
+            }
+        }
+
+        // --- MANAGER MODE ---
+        function toggleManagerMode() {
+            const isManager = document.getElementById('managerToggle').checked;
+
+            if (isManager) {
+                if (!SessionManager.checkAccess('MANAGER_VIEW')) {
+                    // Revert Toggle if access denied
+                    document.getElementById('managerToggle').checked = false;
+                    return;
+                }
+
+                // SWITCH TO TEAM DATA
+                DashboardEngine.switchToTeamView();
+                SessionManager.showToast('👥', 'Mode Manager Actif', 'Affichage des données consolidées de l\'équipe.');
+            } else {
+                // SWITCH TO PERSONAL DATA
+                DashboardEngine.switchToPersonalView();
+                SessionManager.showToast('👤', 'Mode Personnel', 'Retour à vos performances individuelles.');
+            }
+        }
+    </script>
+    <!-- SAAS LOGIC -->
+    <script>
+        // --- REPORT GENERATION ---
+        function generateReport() {
+            if (SessionManager.checkAccess('REPORT_EXPORT')) {
+                // Open Report Window
+                const win = window.open('report.html', '_blank', 'width=1000,height=1200');
+                if (!win) alert("Veuillez autoriser les popups pour générer le rapport.");
+            }
+        }
+
+        // --- MANAGER MODE ---
+        function toggleManagerMode() {
+            const isManager = document.getElementById('managerToggle').checked;
+
+            if (isManager) {
+                if (!SessionManager.checkAccess('MANAGER_VIEW')) {
+                    // Revert Toggle if access denied
+                    document.getElementById('managerToggle').checked = false;
+                    return;
+                }
+
+                // SWITCH TO TEAM DATA
+                DashboardEngine.switchToTeamView();
+                SessionManager.showToast('👥', 'Mode Manager Actif', 'Affichage des données consolidées de l\'équipe.');
+            } else {
+                // SWITCH TO PERSONAL DATA
+                DashboardEngine.switchToPersonalView();
+                SessionManager.showToast('👤', 'Mode Personnel', 'Retour à vos performances individuelles.');
+            }
+        }
     </script>
 </body>
 
