@@ -34,7 +34,23 @@ export const DashboardEngine = {
             alerts: ['Verify CASP License', 'T+1 Settlement Check']
         };
 
-        return { simulations, evolutionLabels, researchScores, quizScores, radarData, complianceProfile };
+        // 5. User Activity Timeline (NEW)
+        const timeline = [
+            { date: 'Today', time: '10:42 AM', action: 'Simulation Run', detail: 'High Yield ETH Strategy' },
+            { date: 'Yesterday', time: '15:30 PM', action: 'Quiz Completed', detail: 'Level 2: Smart Contracts' },
+            { date: '17 Feb', time: '09:15 AM', action: 'Login', detail: 'New Device (MacBook Pro)' },
+            { date: '15 Feb', time: '14:20 PM', action: 'Export', detail: 'Weekly_Risk_Report.pdf' }
+        ];
+
+        // 6. Audit System Status (NEW)
+        const systemStatus = {
+            lastSync: 'Just now',
+            dataVersion: 'v2.4.1',
+            securityLevel: 'High (AES-256)',
+            nextBackup: 'in 2 hours'
+        };
+
+        return { simulations, evolutionLabels, researchScores, quizScores, radarData, complianceProfile, timeline, systemStatus };
     },
 
     // --- CHART RENDERING ---
@@ -167,5 +183,39 @@ export const DashboardEngine = {
                 </div>
             `).join('');
         }
+    },
+
+    // --- TIMELINE RENDERING (NEW) ---
+    renderTimeline: (timelineEvents) => {
+        const container = document.getElementById('activity-timeline');
+        if (!container) return;
+
+        container.innerHTML = timelineEvents.map(event => `
+            <div class="timeline-item" style="padding:10px 0; border-left:2px solid var(--border); padding-left:15px; position:relative;">
+                <div style="position:absolute; left:-6px; top:15px; width:10px; height:10px; background:var(--accent-blue); border-radius:50%;"></div>
+                <div style="font-size:11px; color:var(--text-muted);">${event.date} • ${event.time}</div>
+                <div style="font-weight:600; color:white; margin-top:2px;">${event.action}</div>
+                <div style="font-size:12px; color:var(--text-secondary);">${event.detail}</div>
+            </div>
+        `).join('');
+    },
+
+    // --- KPI STRIP RENDERING (NEW) ---
+    renderKPIs: (data) => {
+        const kpiContainer = document.getElementById('kpi-strip');
+        if (!kpiContainer) return;
+
+        // Calculate aggregates
+        const currentScore = data.researchScores[data.researchScores.length - 1];
+        const activeSims = data.simulations.length;
+        const complianceStatus = data.complianceProfile.impactScore < 50 ? 'Compliant' : 'Review Needed';
+        const quizAvg = Math.round(data.quizScores.reduce((a, b) => a + b, 0) / data.quizScores.length);
+
+        kpiContainer.innerHTML = `
+            <div class="kpi-tag"><span class="label">Research Score</span> <span class="val">${currentScore}</span></div>
+            <div class="kpi-tag"><span class="label">Simulations</span> <span class="val">${activeSims}</span></div>
+            <div class="kpi-tag"><span class="label">Quiz Avg</span> <span class="val">${quizAvg}%</span></div>
+            <div class="kpi-tag"><span class="label">Compliance</span> <span class="val" style="color:var(--accent-green)">${complianceStatus}</span></div>
+        `;
     }
 };

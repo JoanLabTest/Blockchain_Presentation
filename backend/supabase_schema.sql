@@ -90,3 +90,47 @@ create policy "Users can insert own activity" on public.activity_logs
   for insert with check (auth.uid() = user_id);
 
 -- (Repeat RLS patterns for other tables...)
+
+-- 6. SYSTEM AUDIT LOGS (Security & Compliance)
+-- Immutable log of all critical system actions
+create table public.audit_logs (
+    id uuid default uuid_generate_v4() primary key,
+    user_id uuid references public.profiles(id),
+    action text not null, -- 'LOGIN', 'EXPORT_DATA', 'SIMULATION_RUN'
+    details jsonb,
+    ip_address text,
+    user_agent text,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- 7. GDPR REQUESTS (Data Rights)
+-- Tracks user requests for data export or deletion
+create table public.gdpr_requests (
+    id uuid default uuid_generate_v4() primary key,
+    user_id uuid references public.profiles(id) not null,
+    request_type text check (request_type in ('export', 'delete')),
+    status text default 'pending', -- 'pending', 'processing', 'completed'
+    requested_at timestamp with time zone default timezone('utc'::text, now()) not null,
+    completed_at timestamp with time zone
+);
+
+-- RLS for Audit & GDPR
+alter table public.audit_logs enable row level security;
+alter table public.gdpr_requests enable row level security;
+
+-- Users can view their own audit logs
+create policy "Users can view own audit logs" on public.audit_logs
+  for select using (auth.uid() = user_id);
+
+-- Users can insert GDPR requests
+create policy "Users can insert GDPR requests" on public.gdpr_requests
+  for insert with check (auth.uid() = user_id);
+
+-- Only Admins can view/process GDPR requests
+create policy "Admins can view all GDPR requests" on public.gdpr_requests
+  for select using (
+    exists (
+      select 1 from public.profiles
+      where profiles.id = auth.uid() and profiles.role = 'admin'
+    )
+  );
