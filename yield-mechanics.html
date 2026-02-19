@@ -161,6 +161,63 @@
             border-color: white;
         }
 
+        /* SIDEBAR NAVIGATION */
+        .sidebar {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            width: 240px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            z-index: 100;
+            /* Fix overlap */
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            font-size: 14px;
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            border-left-color: var(--accent-green);
+        }
+
+        /* CONTENT WRAPPER */
+        .content-wrapper {
+            margin-left: 280px;
+            /* Space for sidebar */
+            padding: 20px;
+            max-width: 1000px;
+            /* Prevent stretching */
+        }
+
+        .tech-section {
+            margin-bottom: 80px;
+            padding-top: 20px;
+        }
+
         /* SIDE TOC (Added for V1 navigation) */
         .toc-sidebar {
             position: fixed;
@@ -786,6 +843,9 @@
     </div>
     </div>
 
+    <!-- TOAST ELEMENT -->
+    <div id="toast"><i class="fas fa-check-circle"></i> Scénario sauvegardé avec succès !</div>
+
     <!-- LOGIC -->
     <script type="module">
         import { simEngine } from './js/simulation.js';
@@ -794,31 +854,44 @@
         const ethInput = document.getElementById('ethAmount');
         const durationInput = document.getElementById('duration');
         const apyDisplay = document.getElementById('apyVal');
-        const rewardDisplay = document.getElementById('rewardVal'); // Assuming this exists or we use APY
 
         function calculate() {
-            // Mock Calc
             let eth = parseFloat(ethInput.value);
-            let apy = 3.2 + (Math.random() * 0.5); // Mock fluctuation
+            let apy = 3.2 + (Math.random() * 0.5);
             apyDisplay.innerText = apy.toFixed(1) + "%";
         }
 
-        // Listeners
         ethInput.addEventListener('input', calculate);
         durationInput.addEventListener('input', calculate);
 
+        // TOAST FUNCTION
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            toast.className = "show";
+            setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
         // SAVE HANDLER
         document.getElementById('btnSaveSim').addEventListener('click', () => {
-            const name = prompt("Nom du scénario :", "Validation Node #" + Math.floor(Math.random() * 1000));
-            if (name) {
-                simEngine.save(
-                    'YIELD',
-                    name,
-                    { eth: ethInput.value, duration: durationInput.value },
-                    { apy: apyDisplay.innerText }
-                );
-                alert("✅ Scénario sauvegardé dans votre Dashboard !");
-            }
+            // Simple visual feedback before prompt
+            const btn = document.getElementById('btnSaveSim');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ...';
+
+            setTimeout(() => {
+                const name = prompt("Nom du scénario :", "Validation Node #" + Math.floor(Math.random() * 1000));
+                if (name) {
+                    simEngine.save(
+                        'YIELD',
+                        name,
+                        { eth: ethInput.value, duration: durationInput.value },
+                        { apy: apyDisplay.innerText }
+                    );
+                    showToast("Scénario sauvegardé dans votre Dashboard !");
+                }
+                btn.innerHTML = originalText;
+            }, 100);
         });
     </script>
     <!-- 2. STAKING MECHANICS -->
