@@ -267,25 +267,7 @@
 
 <body>
 
-    <!-- AUTH OVERLAY (Initial State) -->
-    <div id="auth-overlay">
-        <div class="login-box">
-            <div style="font-size:40px; margin-bottom:10px;">🏛️</div>
-            <h2 style="color:white; margin-bottom:10px;">DCM Intelligence</h2>
-            <p style="color:var(--text-muted); margin-bottom:30px; font-size:14px;">
-                Accès réservé aux investisseurs institutionnels.<br>Connectez-vous pour accéder aux simulations.
-            </p>
 
-            <input type="email" id="email" placeholder="Email professionnel"
-                style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:#020617; color:white; margin-bottom:10px;">
-            <input type="password" id="password" placeholder="Mot de passe"
-                style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:#020617; color:white;">
-
-            <button class="btn-primary" onclick="handleLogin()">CONNEXION SÉCURISÉE</button>
-            <p style="color:var(--text-muted); font-size:12px; margin-top:20px;">Ou continuer en <a href="#"
-                    onclick="mockLogin()" style="color:var(--accent-blue);">Mode Démo (Invité)</a></p>
-        </div>
-    </div>
 
     <!-- SIDEBAR -->
     <nav class="sidebar">
@@ -470,36 +452,80 @@
                 const simList = document.getElementById('sim-list');
                 if (simulations.length > 0) {
                     simList.innerHTML = '';
-                    simulations.forEach(sim => {
-                        simList.innerHTML += `
+                    // --- AUTH CHECK ---
+                    const session = localStorage.getItem('dcm_user_session');
+                    if (!session) {
+                        window.location.href = 'login.html';
+                    }
+
+                    // --- DASHBOARD INITIALIZATION ---
+                    document.addEventListener('DOMContentLoaded', () => {
+                        // Updates based on session type (Demo vs Pro)
+                        if (session === 'demo') {
+                            document.getElementById('user-name').innerText = 'Invité Démo';
+                            document.getElementById('user-name').nextElementSibling.innerText = 'Mode Lecture';
+                        }
+                        loadDashboardData();
+                    });
+
+                    function loadDashboardData() {
+                        // 1. Score
+                        const score = localStorage.getItem('dcm_research_score') || 0;
+                        const scoreCircle = document.querySelector('.score-circle');
+                        if (scoreCircle) scoreCircle.innerText = score;
+
+                        // 2. Data
+                        const history = JSON.parse(localStorage.getItem('dcm_research_data')) || {};
+                        const pagesVisited = Object.keys(history).length;
+                        const totalSites = 10;
+                        const coverage = Math.min(100, Math.round((pagesVisited / totalSites) * 100));
+
+                        document.querySelector('.metric-val').innerText = `${coverage}%`;
+                        document.querySelector('.metric-sub').innerText = `${pagesVisited} pages analysées`;
+
+                        // Fix for Coverage Bar selector
+                        const covBar = document.getElementById('coverage-bar');
+                        if (covBar) covBar.style.width = `${coverage}%`;
+
+                        // 3. Simulations
+                        const simulations = JSON.parse(localStorage.getItem('dcm_simulations')) || [];
+                        const simCount = document.getElementById('sim-count');
+                        if (simCount) simCount.innerText = simulations.length;
+
+                        const simList = document.getElementById('sim-list');
+                        if (simList && simulations.length > 0) {
+                            simList.innerHTML = '';
+                            simulations.forEach(sim => {
+                                simList.innerHTML += `
                     <li style="margin-bottom:8px; border-bottom:1px solid #1e293b; padding-bottom:5px;">
                         <i class="fas fa-check" style="color:var(--accent-gold); width:15px;"></i> 
                         <strong style="color:white;">${sim.name}</strong><br>
                         <span style="font-size:11px;">${sim.type} • ${new Date(sim.timestamp).toLocaleDateString()}</span>
                     </li>`;
-                    });
-                }
+                            });
+                        }
 
-                // 4. Activity List
-                const activityList = document.querySelector('.activity-list');
-            }
-        }
+                        // 4. Activity List
+                        const activityList = document.querySelector('.activity-list');
+                        if (activityList && pagesVisited > 0) {
+                            activityList.innerHTML = '';
+                            Object.entries(history).slice(0, 3).forEach(([page, data]) => {
+                                activityList.innerHTML += `
+                    <div class="activity-item">
+                        <div class="act-icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="act-content">
+                            <strong>Visite : ${page}</strong>
+                            <span>${new Date(data.last_visit).toLocaleTimeString()} • ${data.max_scroll}% lu</span>
+                        </div>
+                    </div>`;
+                            });
+                        }
+                    }
 
-        window.mockLogin = function () {
-            document.getElementById('auth-overlay').style.display = 'none';
-            // Save state
-            localStorage.setItem('dcm_user_session', 'active');
-        }
-
-        window.logout = function () {
-            localStorage.removeItem('dcm_user_session');
-            location.reload();
-        }
-
-        // Check Session
-        if (localStorage.getItem('dcm_user_session') === 'active') {
-            document.getElementById('auth-overlay').style.display = 'none';
-        }
+                    window.logout = function () {
+                        localStorage.removeItem('dcm_user_session');
+                        window.location.href = 'index.html';
+                    }
     </script>
 </body>
 
