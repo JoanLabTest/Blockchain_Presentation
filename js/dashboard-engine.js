@@ -200,22 +200,6 @@ export const DashboardEngine = {
         `).join('');
     },
 
-    // --- KPI STRIP RENDERING (NEW) ---
-    renderKPIs: (data) => {
-        const kpiContainer = document.getElementById('kpi-strip');
-        if (!kpiContainer) return;
-
-        // Calculate aggregates
-        const currentScore = data.researchScores[data.researchScores.length - 1];
-        const activeSims = data.simulations.length;
-        const complianceStatus = data.complianceProfile.impactScore < 50 ? 'Compliant' : 'Review Needed';
-        const quizAvg = Math.round(data.quizScores.reduce((a, b) => a + b, 0) / data.quizScores.length);
-
-        kpiContainer.innerHTML = `
-            <div class="kpi-tag"><span class="label">Research Score</span> <span class="val">${currentScore}</span></div>
-            <div class="kpi-tag"><span class="label">Simulations</span> <span class="val">${activeSims}</span></div>
-            <div class="kpi-tag"><span class="label">Quiz Avg</span> <span class="val">${quizAvg}%</span></div>
-            <div class="kpi-tag"><span class="label">Compliance</span> <span class="val" style="color:var(--accent-green)">${complianceStatus}</span></div>
-        `;
-    }
+    // --- KPI STRIP RENDERING (REMOVED IN HYBRID LAYOUT) ---
+    // KPIs are now back in the main Dashboard Cards (Phase 25 Style)
 };

@@ -10,71 +10,25 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --sidebar-width: 260px;
-            --header-height: 80px;
-            --card-radius: 12px;
-            --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --accent-green: #10b981;
-            --accent-gold: #f59e0b;
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
-        }
+        /* --- HYBRID OVERRIDES --- */
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* --- LAYOUT 2.0 --- */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--bg-card);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            z-index: 10;
-        }
-
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        /* --- DASHBOARD HEADER --- */
+        /* Phase 26 Header Styles */
         .top-bar {
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(10px);
             padding: 20px 30px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--border-color, #334155);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 20;
-        }
-
-        .user-context {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            margin-top: -10px;
+            /* Offset default padding */
         }
 
         .user-context h1 {
-            font-size: 24px;
+            font-size: 22px;
             margin: 0;
             background: linear-gradient(90deg, #fff, #94a3b8);
             -webkit-background-clip: text;
@@ -82,381 +36,272 @@
         }
 
         .user-meta {
-            font-size: 12px;
-            color: var(--text-muted);
+            font-size: 13px;
+            color: #94a3b8;
             margin-top: 5px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
         }
 
-        .kpi-strip {
-            display: flex;
-            gap: 15px;
-            background: rgba(30, 41, 59, 0.5);
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
+        .user-meta i {
+            color: var(--accent-blue, #3b82f6);
         }
 
-        .kpi-tag {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: var(--text-muted);
-            border-right: 1px solid var(--border);
-            padding-right: 15px;
-        }
-
-        .kpi-tag:last-child {
-            border-right: none;
-            padding-right: 0;
-        }
-
-        .kpi-tag .val {
-            color: white;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* --- GRID SYSTEM --- */
-        .content-scroll {
-            padding: 30px;
+        /* Ensure Phase 25 Grid works well */
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            /* 3 Columns */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
+            margin-bottom: 20px;
         }
 
-        .grid-col-1 {
-            grid-column: span 1;
+        .card {
+            background: #1e293b;
+            /* Darker card background from Phase 26 */
+            border: 1px solid #334155;
         }
 
-        .grid-col-2 {
+        .span-2 {
             grid-column: span 2;
         }
 
-        .grid-col-3 {
-            grid-column: span 3;
+        @media (max-width: 1024px) {
+            .span-2 {
+                grid-column: span 1;
+            }
         }
 
-        /* --- WIDGET CARDS --- */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--card-radius);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .card:hover {
-            border-color: var(--accent-blue);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .card-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* --- TIMELINE WIDGET --- */
-        #activity-timeline {
-            margin-top: 10px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .timeline-item {
-            transition: background 0.2s;
-        }
-
-        .timeline-item:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        /* --- BUTTONS --- */
-        .btn-action {
-            width: 100%;
-            padding: 10px;
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-        }
-
-        .btn-action:hover {
-            background: var(--accent-blue);
-            color: white;
-            border-color: var(--accent-blue);
-        }
-
-        .btn-logout {
+        /* Logout Button Style */
+        .btn-logout-header {
             background: rgba(239, 68, 68, 0.1);
             color: #ef4444;
-            border-color: rgba(239, 68, 68, 0.2);
-            justify-content: center;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
             font-weight: 600;
-            margin-top: auto;
         }
 
-        .btn-logout:hover {
+        .btn-logout-header:hover {
             background: #ef4444;
             color: white;
-        }
-
-        /* --- UTILS --- */
-        .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .badge-success {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-        }
-
-        .badge-info {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3b82f6;
-        }
-
-        .badge-warn {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-        }
-
-        .saas-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        .saas-table th {
-            text-align: left;
-            color: var(--text-muted);
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .saas-table td {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #e2e8f0;
-        }
-
-        .saas-table tr:last-child td {
-            border-bottom: none;
         }
     </style>
 </head>
 
 <body>
+    <div class="container">
+        <!-- SIDEBAR (Standard Phase 25/Global) -->
+        <aside class="sidebar">
+            <div class="logo">DCM Digital</div>
+            <nav>
+                <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Accueil</a>
+                <a href="#" class="nav-item active"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="legal-matrix.html" class="nav-item"><i class="fas fa-balance-scale"></i> Legal Matrix</a>
+                <a href="quiz.html" class="nav-item"><i class="fas fa-graduation-cap"></i> Quiz</a>
+                <a href="yield-mechanics.html" class="nav-item"><i class="fas fa-flask"></i> Laboratoire</a>
+            </nav>
+        </aside>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div
-            style="font-size:20px; font-weight:900; color:white; margin-bottom:40px; display:flex; align-items:center; gap:10px;">
-            <div
-                style="width:30px; height:30px; background:linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius:8px;">
-            </div>
-            DCM INTEL.
-        </div>
+        <!-- MAIN CONTENT (Hybrid) -->
+        <main class="main-content" style="padding: 20px;">
 
-        <nav style="flex:1; display:flex; flex-direction:column; gap:5px;">
-            <a href="#" class="btn-action" style="background:var(--accent-blue); color:white; border:none;"><i
-                    class="fas fa-th-large"></i> Cockpit</a>
-            <a href="quiz.html" class="btn-action"><i class="fas fa-graduation-cap"></i> Training</a>
-            <a href="yield-mechanics.html" class="btn-action"><i class="fas fa-flask"></i> Lab / Sim</a>
-            <a href="#" class="btn-action"><i class="fas fa-file-contract"></i> Reports</a>
-        </nav>
-
-        <div style="margin-top:auto; padding-top:20px; border-top:1px solid var(--border);">
-            <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">SESSION SECURE</div>
-            <button id="logoutBtn" class="btn-action btn-logout"><i class="fas fa-sign-out-alt"></i> DISCONNECT</button>
-        </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-        <!-- HEADER -->
-        <header class="top-bar">
-            <div class="user-context">
-                <h1 id="user-greeting">Welcome back, ...</h1>
-                <div class="user-meta">
-                    <span id="user-role"><i class="fas fa-user-shield"></i> ...</span>
-                    <span style="opacity:0.3">|</span>
-                    <span id="user-jurisdiction"><i class="fas fa-globe-europe"></i> ...</span>
-                    <span style="opacity:0.3">|</span>
-                    <span id="last-login"><i class="fas fa-clock"></i> ...</span>
+            <!-- HEADER (Phase 26 Style) -->
+            <header class="top-bar">
+                <div class="user-context">
+                    <h1 id="user-greeting">Welcome back...</h1>
+                    <div class="user-meta">
+                        <span id="user-role"><i class="fas fa-user-shield"></i> ...</span>
+                        <span style="opacity:0.3">|</span>
+                        <span id="user-jurisdiction"><i class="fas fa-globe-europe"></i> ...</span>
+                        <span style="opacity:0.3">|</span>
+                        <a href="#" style="color:var(--text-muted); text-decoration:none;"
+                            onclick="SessionManager.logout()">
+                            <i class="fas fa-sign-out-alt" style="color:#ef4444;"></i> Logout
+                        </a>
+                    </div>
                 </div>
-            </div>
 
-            <!-- KPI STRIP -->
-            <div id="kpi-strip" class="kpi-strip">
-                <!-- Injected via JS -->
-                <div class="kpi-tag">Loading Metrics...</div>
-            </div>
-        </header>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="window.location.reload()" class="btn-secondary"
+                        style="height:40px; width:40px; display:flex; align-items:center; justify-content:center;">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="btn-primary" style="display:flex; align-items:center; gap:8px;">
+                        <i class="fas fa-file-pdf"></i> Brief
+                    </button>
+                </div>
+            </header>
 
-        <div class="content-scroll">
-
-            <!-- ROW 1: PRIMARY METRICS -->
-            <div class="card grid-col-2">
-                <div class="card-header">
-                    <span class="card-title">Research Maturity Matrix</span>
-                    <span class="badge badge-info">Evaluation</span>
-                </div>
-                <div style="flex:1; min-height:200px;">
-                    <canvas id="radarChart"></canvas>
-                </div>
-            </div>
-
-            <div class="card grid-col-1">
-                <div class="card-header">
-                    <span class="card-title">Activity Timeline</span>
-                    <span class="badge badge-warn">Live Feed</span>
-                </div>
-                <div id="activity-timeline">
-                    <!-- Injected via JS -->
-                </div>
-            </div>
-
-            <!-- ROW 2: EVOLUTION & COMPLIANCE -->
-            <div class="card grid-col-2">
-                <div class="card-header">
-                    <span class="card-title">Learning Curve (30 Days)</span>
-                    <select class="btn-action" style="width:auto; padding:5px 10px; height:auto;">
-                        <option>Last 30 Days</option>
-                        <option>YTD</option>
-                    </select>
-                </div>
-                <div style="height:250px;">
-                    <canvas id="evolutionChart"></canvas>
-                </div>
-            </div>
-
-            <div class="card grid-col-1">
-                <div class="card-header">
-                    <span class="card-title">Compliance Profile</span>
-                    <span class="badge badge-success">Active</span>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:20px;">
-                    <div style="text-align:center;">
-                        <div style="font-size:32px; font-weight:800; color:var(--accent-gold);"
-                            id="compliance-score-val">--</div>
-                        <div style="font-size:12px; color:var(--text-muted);">Friction Score (MiCA)</div>
-                        <div
-                            style="width:100%; height:6px; background:var(--bg-dark); border-radius:3px; margin-top:10px;">
-                            <div id="compliance-bar-fill"
-                                style="width:0%; height:100%; background:var(--accent-gold); border-radius:3px; transition:width 1s;">
-                            </div>
+            <!-- ROW 1: VITAL SIGNS (Phase 25 Content) -->
+            <div class="dashboard-grid">
+                <!-- 1. SCORE -->
+                <div class="card">
+                    <div class="card-title">Research Maturity</div>
+                    <div class="kpi-row">
+                        <div class="metric-val score-val">--</div>
+                        <div style="text-align:right;">
+                            <span class="badge badge-info">INSTITUTIONNEL</span>
                         </div>
                     </div>
-                    <div id="compliance-alerts">
-                        <!-- Injected -->
+                    <!-- RADAR CHART -->
+                    <div style="height:120px; width:100%; margin-top:10px;">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 2. QUIZ KPI -->
+                <div class="card">
+                    <div class="card-title">Performance Tests</div>
+                    <div class="kpi-row">
+                        <div class="metric-val">A-</div>
+                        <div class="score-circle" style="width:40px; height:40px; border-width:4px; font-size:10px;">85%
+                        </div>
+                    </div>
+                    <div class="metric-sub">Sur 4 modules validés</div>
+                    <button class="btn-small" style="margin-top:auto;" onclick="window.location.href='quiz.html'">
+                        <i class="fas fa-graduation-cap"></i> Continuer
+                    </button>
+                </div>
+
+                <!-- 3. COVERAGE -->
+                <div class="card">
+                    <div class="card-title">Couverture R & D</div>
+                    <div class="metric-val coverage-val">65%</div>
+                    <div class="metric-sub">Explorez "Yield Mechanics"</div>
+                    <div style="width:100%; height:4px; background:#334155; border-radius:2px; margin-top:10px;">
+                        <div id="coverage-bar" style="width:65%; height:100%; background:var(--accent-green);"></div>
+                    </div>
+                    <div style="margin-top:auto; font-size:11px; color:#94a3b8;">
+                        <i class="fas fa-lightbulb" style="color:#f59e0b"></i> Gap: Smart Contracts
+                    </div>
+                </div>
+
+                <!-- 4. TIMELINE (Moved from Phase 26 Widget to Card) -->
+                <div class="card">
+                    <div class="card-title">Live Activity</div>
+                    <div id="activity-timeline" style="max-height:140px; overflow-y:auto; margin-top:10px;">
+                        <!-- Injected via JS -->
                     </div>
                 </div>
             </div>
 
-            <!-- ROW 3: SIMULATION TABLE -->
-            <div class="card grid-col-3">
-                <div class="card-header">
-                    <span class="card-title">Simulation Laboratory History</span>
-                    <button class="btn-action" style="width:auto; padding:5px 15px; height:auto; font-size:11px;">View
-                        Full Log</button>
+            <!-- ROW 2: DEEP INTELLIGENCE (Phase 25 Content) -->
+            <div class="dashboard-grid">
+                <!-- EVOLUTION CHART -->
+                <div class="card span-2">
+                    <div class="card-header" style="justify-content:space-between; display:flex;">
+                        <span class="card-title">Dynamique d'Apprentissage</span>
+                        <select style="background:transparent; border:none; color:#94a3b8; font-size:12px;">
+                            <option>30 derniers jours</option>
+                        </select>
+                    </div>
+                    <div style="height:250px; width:100%;">
+                        <canvas id="evolutionChart"></canvas>
+                    </div>
                 </div>
-                <table class="saas-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Scenario Name</th>
-                            <th>Type</th>
-                            <th>Result</th>
-                            <th>Quick Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sim-table-body">
-                        <!-- Injected -->
-                    </tbody>
-                </table>
+
+                <!-- COMPLIANCE PROFILE -->
+                <div class="card span-2">
+                    <div class="card-header" style="justify-content:space-between; display:flex;">
+                        <span class="card-title">Profil Conformité (MiCA)</span>
+                        <span class="badge badge-success"><i class="fas fa-shield-alt"></i> READY</span>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <div style="font-size:40px;">🇪🇺</div>
+                            <div>
+                                <div style="font-weight:bold; color:white;">Union Européenne</div>
+                                <div style="font-size:12px; color:#94a3b8;">Juridiction Primaire</div>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:11px; color:#94a3b8;">Friction Réglementaire</div>
+                            <div style="font-size:18px; font-weight:bold; color:#f59e0b;" id="compliance-score-val">
+                                --/100</div>
+                        </div>
+                    </div>
+
+                    <!-- Friction Bar -->
+                    <div style="width:100%; height:6px; background:#334155; border-radius:3px; margin-bottom:15px;">
+                        <div id="compliance-bar-fill" style="width:0%; height:100%; background:#f59e0b;"></div>
+                    </div>
+
+                    <div id="compliance-alerts">
+                        <!-- Dynamic Alerts -->
+                    </div>
+                </div>
             </div>
 
-            <!-- ROW 4: DATA RIGHTS (FOOTER) -->
-            <div class="card grid-col-3"
-                style="flex-direction:row; align-items:center; justify-content:space-between; padding:15px 30px; background:rgba(255,255,255,0.02); border-style:dashed;">
-                <div style="font-size:12px; color:var(--text-muted);">
-                    <strong>Data Privacy & Rights:</strong> You control your data. All analytics are anonymized under
-                    GDPR compliance.
+            <!-- ROW 3: DATA LOGS -->
+            <div class="dashboard-grid">
+                <!-- SIMULATION HISTORY -->
+                <div class="card span-2">
+                    <div class="card-header" style="display:flex; justify-content:space-between;">
+                        <span class="card-title">Historique des Simulations</span>
+                    </div>
+                    <table class="saas-table" style="width:100%; margin-top:15px; border-collapse:collapse;">
+                        <thead>
+                            <tr style="text-align:left; color:#94a3b8; border-bottom:1px solid #334155;">
+                                <th style="padding:10px;">Date</th>
+                                <th>Scénario</th>
+                                <th>Type</th>
+                                <th>Résultat</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sim-table-body">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
                 </div>
-                <div style="display:flex; gap:15px;">
-                    <button class="btn-action" style="width:auto; height:36px;"><i class="fas fa-download"></i> Export
-                        My Data</button>
-                    <button class="btn-action"
-                        style="width:auto; height:36px; border-color:var(--accent-red); color:var(--accent-red);"><i
-                            class="fas fa-trash"></i> Delete Account</button>
+
+                <!-- GDPR FOOTER CARD -->
+                <div class="card span-2" style="flex-direction:row; align-items:center; justify-content:space-between;">
+                    <div style="font-size:12px; color:#94a3b8;">
+                        <strong>Data Privacy:</strong> Vos données sont sécurisées.
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-small"><i class="fas fa-download"></i> Export</button>
+                    </div>
                 </div>
             </div>
 
-        </div>
-    </main>
+        </main>
+    </div>
 
-    <!-- LOGIC MODULES -->
+    <!-- LOGIC -->
     <script type="module">
         import { SessionManager } from './js/session-manager.js';
         import { DashboardEngine } from './js/dashboard-engine.js';
 
+        // Expose Logout to global scope for the onclick event
+        window.SessionManager = SessionManager;
+
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. SECURE SESSION CHECK
+            // 1. Session Check
             const user = SessionManager.init();
 
-            // 2. LOAD USER CONTEXT (If Valid)
+            // 2. Populate Header (Phase 26 Style)
             if (user) {
                 document.getElementById('user-greeting').innerText = `Welcome back, ${user.name}`;
                 document.getElementById('user-role').innerHTML = `<i class="fas fa-user-shield"></i> ${user.role}`;
                 document.getElementById('user-jurisdiction').innerHTML = `<i class="fas fa-globe-europe"></i> ${user.jurisdiction}`;
-                document.getElementById('last-login').innerHTML = `<i class="fas fa-clock"></i> Last: Today`;
-
-                // 3. LOAD DATA & CHARTS
-                const data = DashboardEngine.generateMockData();
-
-                DashboardEngine.initCharts(data);
-                DashboardEngine.renderSimulationTable(data.simulations);
-                DashboardEngine.renderComplianceWidget(data.complianceProfile);
-                DashboardEngine.renderTimeline(data.timeline);
-                DashboardEngine.renderKPIs(data);
             }
 
-            // 4. WIRE LOGOUT
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-                SessionManager.logout();
-            });
+            // 3. Generate & Render Data (Phase 25/26 Engine)
+            const data = DashboardEngine.generateMockData();
+
+            DashboardEngine.initCharts(data);
+            DashboardEngine.renderSimulationTable(data.simulations);
+            DashboardEngine.renderComplianceWidget(data.complianceProfile);
+            DashboardEngine.renderTimeline(data.timeline); // Using common Timeline renderer
+
+            // Update Score Text
+            document.querySelector('.score-val').innerText = data.researchScores[data.researchScores.length - 1];
         });
     </script>
 </body>
