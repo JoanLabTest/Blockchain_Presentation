@@ -356,84 +356,86 @@
     <main class="main-content">
         <header>
             <div>
-                <h1>Dashboard de Recherche</h1>
-                <div class="date">Dernière mise à jour : Temps Réel • <span style="color:var(--accent-green)">● En
-                        Ligne</span></div>
+                <h1>Intelligence Cockpit</h1>
+                <div class="date">Dernière synchronisation : <span id="last-sync">...</span> • <span
+                        style="color:var(--accent-green)">● Live Logic</span></div>
             </div>
             <div style="display:flex; gap:10px;">
-                <button onclick="refreshDashboard(this)"
-                    style="background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:10px 15px; border-radius:8px; font-weight:600; cursor:pointer; transition:0.3s;">
+                <button onclick="window.location.reload()"
+                    style="background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:10px 15px; border-radius:8px; font-weight:600; cursor:pointer; transition:0.3s; height: 42px;">
                     <i class="fas fa-sync-alt"></i>
                 </button>
                 <button
-                    style="background:var(--bg-card); border:1px solid var(--border); color:white; padding:10px 15px; border-radius:8px; font-weight:600; cursor:pointer;">
-                    <i class="fas fa-file-pdf" style="color:var(--accent-purple)"></i> Exporter (PDF)
+                    style="background:var(--bg-card); border:1px solid var(--border); color:white; padding:10px 15px; border-radius:8px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-file-pdf" style="color:var(--accent-purple)"></i> Exporter Brief
                 </button>
             </div>
         </header>
 
-        <!-- ROW 1: KPI CARDS -->
+        <!-- ROW 1: VITAL SIGNS -->
         <div class="dashboard-grid">
-            <!-- 1. SCORE -->
+            <!-- 1. COMPOSITE SCORE -->
             <div class="card">
-                <div class="card-title">Research Maturity</div>
+                <div class="card-title">Maturité (Composite)</div>
                 <div class="kpi-row">
-                    <div class="metric-val score-val">72</div>
+                    <div class="metric-val score-val">78</div>
                     <div style="text-align:right;">
-                        <span class="badge badge-info">AVANCÉ</span>
+                        <span class="badge badge-info">INSTITUTIONNEL</span>
                     </div>
                 </div>
-                <div class="metric-sub">Top 15% des utilisateurs</div>
-                <div style="height:60px; margin-top:auto; position:relative;">
-                    <!-- Mini sparkline canvas would go here, using CSS for now -->
-                    <div style="position:absolute; bottom:0; padding:10px; font-size:11px; color:var(--text-muted);">
-                        <i class="fas fa-arrow-up" style="color:var(--accent-green)"></i> +12pts cette semaine
-                    </div>
+                <!-- RADAR CHART CONTAINER -->
+                <div style="height:120px; width:100%; margin-top:10px;">
+                    <canvas id="radarChart"></canvas>
                 </div>
             </div>
 
-            <!-- 2. QUIZ KPI (New) -->
+            <!-- 2. QUIZ KPI -->
             <div class="card">
-                <div class="card-title">Quiz Performance</div>
+                <div class="card-title">Performance Tests</div>
                 <div class="kpi-row">
-                    <div class="metric-val">B+</div>
+                    <div class="metric-val">A-</div>
                     <div class="score-circle" style="width:40px; height:40px; border-width:4px; font-size:10px;">85%
                     </div>
                 </div>
-                <div class="metric-sub">Moyenne des tests</div>
-                <button class="btn-small" style="margin-top:auto;" onclick="window.location.href='quiz.html'">Reprendre
-                    le test</button>
+                <div class="metric-sub">Sur 4 modules validés</div>
+                <button class="btn-small" style="margin-top:auto;" onclick="window.location.href='quiz.html'">
+                    <i class="fas fa-graduation-cap"></i> Continuer
+                </button>
             </div>
 
             <!-- 3. COVERAGE -->
             <div class="card">
-                <div class="card-title">Couverture Globale</div>
-                <div class="metric-val coverage-val">42%</div>
-                <div class="metric-sub">4/10 Modules Validés</div>
+                <div class="card-title">Couverture R & D</div>
+                <div class="metric-val coverage-val">65%</div>
+                <div class="metric-sub">Explorez "Yield Mechanics"</div>
                 <div style="width:100%; height:4px; background:#334155; border-radius:2px; margin-top:10px;">
-                    <div id="coverage-bar" style="width:42%; height:100%; background:var(--accent-green);"></div>
+                    <div id="coverage-bar" style="width:65%; height:100%; background:var(--accent-green);"></div>
                 </div>
                 <div style="margin-top:auto; font-size:11px; color:var(--text-muted);">
-                    Last: Smart Contracts
+                    <i class="fas fa-lightbulb" style="color:var(--accent-gold)"></i> Gap: Smart Contracts
                 </div>
             </div>
 
             <!-- 4. ACTIVE SIMS -->
             <div class="card">
-                <div class="card-title">Simulations</div>
-                <div class="metric-val" id="sim-count">0</div>
-                <div class="metric-sub">Scénarios actifs</div>
+                <div class="card-title">Laboratoire</div>
+                <div class="metric-val" id="sim-count">5</div>
+                <div class="metric-sub">Simulations Actives</div>
+                <div style="margin-top:15px; display:flex; gap:5px;">
+                    <span class="badge badge-warn">DeFi</span>
+                    <span class="badge badge-info">RWA</span>
+                </div>
                 <button class="btn-small" style="margin-top:auto;"
                     onclick="window.location.href='yield-mechanics.html'">Nouveau Scénario</button>
             </div>
         </div>
 
-        <!-- ROW 2: DEEP DIVE (Chart + Compliance) -->
+        <!-- ROW 2: DEEP INTELLIGENCE -->
         <div class="dashboard-grid">
             <!-- EVOLUTION CHART -->
             <div class="card span-2">
                 <div class="card-header">
-                    <span class="card-title">Évolution & Activité</span>
+                    <span class="card-title">Dynamique d'Apprentissage</span>
                     <select style="background:transparent; border:none; color:var(--text-muted); font-size:12px;">
                         <option>30 derniers jours</option>
                     </select>
@@ -443,46 +445,47 @@
                 </div>
             </div>
 
-            <!-- COMPLIANCE PROFILE -->
+            <!-- COMPLIANCE PROFILE (New Widget) -->
             <div class="card span-2">
                 <div class="card-header">
-                    <span class="card-title">Profil Conformité</span>
-                    <span class="badge badge-success"><i class="fas fa-check"></i> MiCA READY</span>
+                    <span class="card-title">Profil Conformité (MiCA)</span>
+                    <span class="badge badge-success"><i class="fas fa-shield-alt"></i> READY</span>
                 </div>
 
-                <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;">
-                    <div style="font-size:40px;">🇪🇺</div>
-                    <div>
-                        <div style="font-weight:bold; color:white;">Juridiction : Union Européenne</div>
-                        <div style="font-size:12px; color:var(--text-muted);">Règlementation principale : MiCA / DLT
-                            Pilot Regime</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <div style="font-size:40px;">🇪🇺</div>
+                        <div>
+                            <div style="font-weight:bold; color:white;">Union Européenne</div>
+                            <div style="font-size:12px; color:var(--text-muted);">Juridiction Primaire</div>
+                        </div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:11px; color:var(--text-muted);">Friction Réglementaire</div>
+                        <div style="font-size:18px; font-weight:bold; color:var(--accent-gold);"
+                            id="compliance-score-val">--/100</div>
                     </div>
                 </div>
 
-                <table class="saas-table">
-                    <tr>
-                        <td>KYC/AML Status</td>
-                        <td style="text-align:right;"><span class="badge badge-success">VALIDÉ</span></td>
-                    </tr>
-                    <tr>
-                        <td>Investor Class</td>
-                        <td style="text-align:right;">Professionnel</td>
-                    </tr>
-                    <tr>
-                        <td>Risk Tolerance</td>
-                        <td style="text-align:right;">Aggressive</td>
-                    </tr>
-                </table>
+                <!-- Friction Bar -->
+                <div style="width:100%; height:6px; background:#334155; border-radius:3px; margin-bottom:15px;">
+                    <div id="compliance-bar-fill" style="width:0%; height:100%; background:var(--accent-gold);"></div>
+                </div>
+
+                <div id="compliance-alerts">
+                    <!-- Dynamic Alerts -->
+                </div>
 
                 <div
                     style="margin-top:auto; background:rgba(59,130,246,0.1); padding:10px; border-radius:8px; font-size:12px; border-left:3px solid var(--accent-blue);">
-                    <i class="fas fa-info-circle"></i> <strong>Conseil :</strong> Vérifiez l'impact de T+1 Settlement
-                    sur vos positions US.
+                    <i class="fas fa-info-circle"></i> <strong>Conseil :</strong> Consultez la <a
+                        href="legal-matrix.html" style="color:var(--accent-blue)">Legal Matrix</a> pour optimiser votre
+                    fiscalité.
                 </div>
             </div>
         </div>
 
-        <!-- ROW 3: DETAILED TABLES -->
+        <!-- ROW 3: DATA LOGS -->
         <div class="dashboard-grid">
             <!-- SIMULATION HISTORY -->
             <div class="card span-2">
@@ -501,18 +504,19 @@
                         </tr>
                     </thead>
                     <tbody id="sim-table-body">
-                        <!-- Dynamic Content -->
+                        <!-- Dynamic Content from Engine -->
                         <tr>
-                            <td colspan="5" style="text-align:center; color:#64748b; padding:20px;">Chargement...</td>
+                            <td colspan="5" style="text-align:center; color:#64748b; padding:20px;">Chargement de
+                                l'Intelligence...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- RECENT BRIEFS -->
+            <!-- EXECUTIVE BRIEFS -->
             <div class="card span-2">
                 <div class="card-header">
-                    <span class="card-title">Derniers Rapports (PDF)</span>
+                    <span class="card-title">Rapports & Synthèses</span>
                 </div>
                 <div class="activity-list">
                     <div class="activity-item">
@@ -520,15 +524,6 @@
                         <div class="act-content">
                             <strong>Weekly Yield Report</strong>
                             <span>Généré le 18 Fév • 2.4 MB</span>
-                        </div>
-                        <i class="fas fa-download"
-                            style="color:var(--text-muted); margin-left:auto; cursor:pointer;"></i>
-                    </div>
-                    <div class="activity-item">
-                        <div class="act-icon"><i class="fas fa-file-pdf" style="color:var(--accent-red)"></i></div>
-                        <div class="act-content">
-                            <strong>Risk Assessment: Luna 2.0</strong>
-                            <span>Généré le 15 Fév • 1.1 MB</span>
                         </div>
                         <i class="fas fa-download"
                             style="color:var(--text-muted); margin-left:auto; cursor:pointer;"></i>
@@ -543,195 +538,55 @@
                         <i class="fas fa-download"
                             style="color:var(--text-muted); margin-left:auto; cursor:pointer;"></i>
                     </div>
+                    <!-- Empty State / More items -->
+                    <div
+                        style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border); text-align:center; font-size:12px; color:var(--text-muted);">
+                        Générez un nouveau rapport depuis le header.
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- LOGIC -->
+    <!-- INTELLIGENCE LOGIC -->
     <script type="module">
-        import { supabase } from './js/supabase-client.js';
+        import { DashboardEngine } from './js/dashboard-engine.js';
 
-        window.handleLogin = async function () {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        // --- GLOBAL FUNCTIONS ---
+        window.logout = function () {
+            localStorage.removeItem('dcm_user_session');
+            localStorage.removeItem('dcm_user_name');
+            window.location.href = 'index.html';
+        }
 
-            // For now, simpler mock login with Supabase later
-            // But if user clicks Mock:
-            console.log("Login clicked");
-            function loadDashboardData() {
-                // 1. Score
-                const score = localStorage.getItem('dcm_research_score') || 0;
-                document.querySelector('.score-circle').innerText = score;
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Session Check
+            const session = localStorage.getItem('dcm_user_session');
+            const userName = localStorage.getItem('dcm_user_name');
 
-                // 2. Data
-                const history = JSON.parse(localStorage.getItem('dcm_research_data')) || {};
-                const pagesVisited = Object.keys(history).length;
-                const totalSites = 10;
-                const coverage = Math.min(100, Math.round((pagesVisited / totalSites) * 100));
-
-                document.querySelector('.metric-val').innerText = `${coverage}%`;
-                document.querySelector('.metric-sub').innerText = `${pagesVisited} pages analysées`;
-                // Assuming 'coverage-bar' is an ID for the div that needs its width set
-                // If it's a class, it should be document.querySelector('.coverage-bar').style.width
-                // Based on the HTML, it's a div with inline style, so we need to add an ID or target it differently.
-                // For now, I'll assume an ID 'coverage-bar' will be added to the div:
-                // <div style="width:100%; height:6px; background:#334155; border-radius:3px; margin-top:15px; overflow:hidden;">
-                //     <div id="coverage-bar" style="width:42%; height:100%; background:var(--accent-green);"></div>
-                // </div>
-                // Since the original HTML has `div style="width:42%; height:100%; background:var(--accent-green);"></div>`
-                // and no ID, I'll target the inner div of the coverage bar.
-                // Let's assume the user will add an ID or I need to find a more robust selector.
-                // For now, I'll use a more specific selector to avoid modifying the HTML directly.
-                document.querySelector('.card:nth-child(2) > div:nth-child(4) > div').style.width = `${coverage}%`;
-
-
-                // 3. Simulations (NEW)
-                const simulations = JSON.parse(localStorage.getItem('dcm_simulations')) || [];
-                document.getElementById('sim-count').innerText = simulations.length;
-
-                const simList = document.getElementById('sim-list');
-                if (simulations.length > 0) {
-                    simList.innerHTML = '';
-                    // --- AUTH CHECK ---
-                    const session = localStorage.getItem('dcm_user_session');
-                    if (!session) {
-                        window.location.href = 'login.html';
-                    }
-
-                    // --- DASHBOARD INITIALIZATION ---
-                    document.addEventListener('DOMContentLoaded', () => {
-                        // Auth & Profile Logic
-                        if (session === 'demo') {
-                            document.getElementById('user-name').innerText = 'Invité Démo';
-                            document.getElementById('user-name').nextElementSibling.innerText = 'Mode Lecture';
-                        } else if (session === 'admin') {
-                            document.getElementById('user-name').innerText = 'Super Admin';
-                            document.getElementById('user-name').nextElementSibling.innerText = 'Full Access + Dev Mode';
-                            document.querySelector('.avatar').style.background = 'linear-gradient(135deg, #ef4444, #f59e0b)';
-                            document.querySelector('.avatar').innerText = 'DEV';
-                        }
-
-                        loadDashboardData();
-                        initEvolutionChart();
-                    });
-
-                    function loadDashboardData() {
-                        // 1. Score & Coverage
-                        const score = localStorage.getItem('dcm_research_score') || 0;
-                        document.querySelector('.score-val').innerText = score;
-
-                        const history = JSON.parse(localStorage.getItem('dcm_research_data')) || {};
-                        const pagesVisited = Object.keys(history).length;
-                        const totalSites = 10;
-                        const coverage = Math.min(100, Math.round((pagesVisited / totalSites) * 100));
-
-                        document.querySelector('.coverage-val').innerText = `${coverage}%`;
-                        const covBar = document.getElementById('coverage-bar');
-                        if (covBar) covBar.style.width = `${coverage}%`;
-
-                        // 3. Simulations Table
-                        const simulations = JSON.parse(localStorage.getItem('dcm_simulations')) || [];
-                        const simCount = document.getElementById('sim-count');
-                        if (simCount) simCount.innerText = simulations.length;
-
-                        const simTableBody = document.getElementById('sim-table-body');
-                        if (simulations.length > 0) {
-                            simTableBody.innerHTML = '';
-                            simulations.forEach(sim => {
-                                // Determine result display
-                                let resultDisplay = sim.results.apy || sim.results.total || "-";
-
-                                simTableBody.innerHTML += `
-                                <tr>
-                                    <td>${new Date(sim.timestamp).toLocaleDateString()}</td>
-                                    <td style="font-weight:bold; color:white;">${sim.name}</td>
-                                    <td><span class="badge badge-info">${sim.type}</span></td>
-                                    <td style="color:var(--accent-green)">${resultDisplay}</td>
-                                    <td>
-                                        <button class="btn-small"><i class="fas fa-play"></i></button>
-                                        <button class="btn-small"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>`;
-                            });
-                        } else {
-                            simTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#64748b;">Aucune simulation enregistrée. Lancez un scénario !</td></tr>';
-                        }
-                    }
-
-                    function initEvolutionChart() {
-                        const ctx = document.getElementById('evolutionChart').getContext('2d');
-
-                        // Mock Data for "Evolution" (Research Score over time)
-                        // In a real app, this would come from a history log in Supabase
-                        const data = {
-                            labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
-                            datasets: [{
-                                label: 'Maturité Recherche',
-                                data: [15, 30, 45, 72], // Ending at current score 72
-                                borderColor: '#3b82f6',
-                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                                tension: 0.4,
-                                fill: true
-                            }, {
-                                label: 'Compliance Score',
-                                data: [50, 60, 80, 85],
-                                borderColor: '#10b981',
-                                borderDash: [5, 5],
-                                tension: 0.4,
-                                fill: false
-                            }]
-                        };
-
-                        new Chart(ctx, {
-                            type: 'line',
-                            data: data,
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: { labels: { color: '#94a3b8' } }
-                                },
-                                scales: {
-                                    y: {
-                                        grid: { color: '#1e293b' },
-                                        ticks: { color: '#94a3b8' }
-                                    },
-                                    x: {
-                                        grid: { display: false },
-                                        ticks: { color: '#94a3b8' }
-                                    }
-                                }
-                            }
-                        });
-                    }
-
-                    function refreshDashboard(btn) {
-                        const icon = btn.querySelector('i');
-                        icon.classList.add('fa-spin');
-
-                        // Simulate data fetch
-                        loadDashboardData();
-
-                        setTimeout(() => {
-                            icon.classList.remove('fa-spin');
-                        }, 800);
-                    }
-
-                }
-            }); // End DOMContentLoaded
-
-            // --- GLOBAL FUNCTIONS ---
-            window.logout = function () {
-                console.log("Déconnexion en cours...");
-                localStorage.removeItem('dcm_user_session');
-                localStorage.removeItem('dcm_user_name');
-                // Clear Supabase if used
-                localStorage.removeItem('sb-access-token');
-                localStorage.removeItem('sb-refresh-token');
-
-                window.location.href = 'index.html';
+            if (userName) {
+                document.getElementById('user-name').innerText = userName;
+                document.querySelector('.avatar').innerText = userName.substring(0, 2).toUpperCase();
             }
+
+            // 2. Set Last Sync Time
+            const now = new Date();
+            document.getElementById('last-sync').innerText = now.toLocaleTimeString();
+
+            // 3. GENERATE MOCK DATA
+            const data = DashboardEngine.generateMockData();
+
+            // 4. INITIALIZE CHARTS
+            DashboardEngine.initCharts(data);
+
+            // 5. RENDER TABLES & WIDGETS
+            DashboardEngine.renderSimulationTable(data.simulations);
+            DashboardEngine.renderComplianceWidget(data.complianceProfile);
+
+            // Update top Metrics
+            // (Using mocked scores from Engine)
+            document.querySelector('.score-val').innerText = data.researchScores[data.researchScores.length - 1]; // Last score
+        });
     </script>
 </body>
 
