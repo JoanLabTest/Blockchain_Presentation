@@ -1436,6 +1436,22 @@
             }
         });
     </script>
+    <!-- AOS FIX -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({ duration: 800, once: true, offset: 50 });
+        });
+        setTimeout(function () {
+            const hiddenElements = document.querySelectorAll('[data-aos]');
+            hiddenElements.forEach(el => {
+                if (getComputedStyle(el).opacity === '0') {
+                    el.style.opacity = '1';
+                    el.style.visibility = 'visible';
+                }
+            });
+        }, 500);
+    </script>
 </body>
 
 </html>

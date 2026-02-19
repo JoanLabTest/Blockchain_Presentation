@@ -868,15 +868,16 @@
     <button id="scrollToTop" class="scroll-to-top" title="Retour en haut">
         <i class="fas fa-chevron-up"></i>
     </button>
-    
+
     <style>
         /* FIX: Raise Scroll Top & Controls to avoid overlap with Dev Access (Bottom Right) */
         .scroll-to-top {
-            bottom: 80px !important; 
+            bottom: 80px !important;
         }
+
         /* If there are other floating elements like chatbots, raise them too */
         .intercom-lightweight-app-launcher {
-             bottom: 80px !important;
+            bottom: 80px !important;
         }
     </style>
 
@@ -917,8 +918,27 @@
 
     <!-- SCRIPTS -->
     <script src="search-engine.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Robust Initialization
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 50
+            });
+        });
+        // SAFETY FAILSAFE
+        setTimeout(function () {
+            document.querySelectorAll('[data-aos]').forEach(el => {
+                if (getComputedStyle(el).opacity === '0') {
+                    el.style.opacity = '1';
+                    el.style.visibility = 'visible';
+                }
+            });
+        }, 500);
+    </script>
     <script src="hub-particles.js"></script> <!-- NEW PARTICLES & TILT SCRIPT -->
 
     <!-- Shared Dev Mode -->
