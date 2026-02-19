@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="styles-footer.css">
 
     <!-- STYLES -->
-    <link rel="stylesheet" href="styles-footer.css">
 
     <style>
         :root {
@@ -271,6 +270,7 @@
             text-align: center;
             display: flex;
             flex-direction: column;
+        }
     </style>
 </head>
 
@@ -505,32 +505,37 @@
                 </div>
             </div>
 
-            let color = "var(--accent-green)";
-            let desc = "Standard KYC.";
+            <script>
+                function calculateFriction() {
+                    const type = document.getElementById('calc-type').value;
+                    const region = document.getElementById('calc-region').value;
+                    let score = "LOW";
+                    let color = "var(--accent-green)";
+                    let desc = "Standard KYC.";
 
-            // Logic
-            if (region === 'us') {
-            score = "HIGH";
-            color = "var(--accent-orange)";
-            desc = "Req: Reg D/S Filing. Accredited Checks.";
-            } else if (region === 'offshore') {
-            score = "EXTREME";
-            color = "#ef4444";
-            desc = "Enhanced Due Diligence (EDD) Required.";
-            }
+                    // Logic
+                    if (region === 'us') {
+                        score = "HIGH";
+                        color = "var(--accent-orange)";
+                        desc = "Req: Reg D/S Filing. Accredited Checks.";
+                    } else if (region === 'offshore') {
+                        score = "EXTREME";
+                        color = "#ef4444";
+                        desc = "Enhanced Due Diligence (EDD) Required.";
+                    }
 
-            if (type === 'inst' && region === 'eu') {
-            score = "NONE";
-            color = "var(--accent-blue)";
-            desc = "MiCA Passporting. Instant Onboarding.";
-            }
+                    if (type === 'inst' && region === 'eu') {
+                        score = "NONE";
+                        color = "var(--accent-blue)";
+                        desc = "MiCA Passporting. Instant Onboarding.";
+                    }
 
-            // Update UI
-            const scoreEl = document.getElementById('friction-score');
-            scoreEl.innerText = score;
-            scoreEl.style.color = color;
-            document.getElementById('friction-desc').innerText = desc;
-            }
+                    // Update UI
+                    const scoreEl = document.getElementById('friction-score');
+                    scoreEl.innerText = score;
+                    scoreEl.style.color = color;
+                    document.getElementById('friction-desc').innerText = desc;
+                }
             </script>
             <!-- JSON-LD Structured Data (Comparative Legal Matrix) -->
             <script type="application/ld+json">
@@ -629,6 +634,12 @@
                     </div>
                 </div>
             </footer>
+
+            <!-- SCROLL TO TOP -->
+            <button id="scrollToTop" class="scroll-to-top" title="Retour en haut">
+                <i class="fas fa-chevron-up"></i>
+            </button>
+            <script src="js/scroll-top.js"></script>
 
             <script src="citation.js"></script>
 </body>
