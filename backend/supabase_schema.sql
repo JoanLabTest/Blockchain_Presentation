@@ -1,12 +1,12 @@
 -- SUPABASE SCHEMA: DCM DIGITAL INTELLIGENCE DASHBOARD
--- Version: 2.0
+-- Version: 2.1 (Idempotent)
 -- Author: Joan Lyczak (Risk Manager)
 
 -- Enable UUID extension
 create extension if not exists "uuid-ossp";
 
 -- 1. USERS TABLE (Extends Supabase Auth)
-create table public.profiles (
+create table if not exists public.profiles (
   id uuid references auth.users not null primary key,
   email text,
   full_name text,
@@ -17,7 +17,7 @@ create table public.profiles (
 );
 
 -- 2. USER ACTIVITY LOGS (Tracking research behavior)
-create table public.activity_logs (
+create table if not exists public.activity_logs (
   id uuid default uuid_generate_v4() primary key,
   user_id uuid references public.profiles(id) not null,
   page_url text not null,
@@ -28,7 +28,7 @@ create table public.activity_logs (
 );
 
 -- 3. QUIZ RESULTS (Progress Tracking)
-create table public.quiz_results (
+create table if not exists public.quiz_results (
   id uuid default uuid_generate_v4() primary key,
   user_id uuid references public.profiles(id) not null,
   quiz_type text not null, -- 'beginner', 'intermediate', 'expert'
@@ -40,7 +40,7 @@ create table public.quiz_results (
 
 -- 4. SIMULATION HISTORY (Financial Scenarios)
 -- Stores the parameters and results of user simulations (Yield, Risk, etc.)
-create table public.simulations (
+create table if not exists public.simulations (
   id uuid default uuid_generate_v4() primary key,
   user_id uuid references public.profiles(id) not null,
   scenario_name text not null,
@@ -53,7 +53,7 @@ create table public.simulations (
 
 -- 5. RESEARCH MATURITY SNAPSHOTS (Evolution Chart Data)
 -- Daily or Weekly snapshots of the user's composite score
-create table public.research_scores (
+create table if not exists public.research_scores (
   id uuid default uuid_generate_v4() primary key,
   user_id uuid references public.profiles(id) not null,
   total_score integer not null,
@@ -74,18 +74,22 @@ alter table public.simulations enable row level security;
 alter table public.research_scores enable row level security;
 
 -- Policy: Users can view their own profile
+drop policy if exists "Users can view own profile" on public.profiles;
 create policy "Users can view own profile" on public.profiles
   for select using (auth.uid() = id);
 
 -- Policy: Users can update their own profile
+drop policy if exists "Users can update own profile" on public.profiles;
 create policy "Users can update own profile" on public.profiles
   for update using (auth.uid() = id);
 
 -- Policy: Users can view their own activity
+drop policy if exists "Users can view own activity" on public.activity_logs;
 create policy "Users can view own activity" on public.activity_logs
   for select using (auth.uid() = user_id);
 
 -- Policy: Users can insert their own activity
+drop policy if exists "Users can insert own activity" on public.activity_logs;
 create policy "Users can insert own activity" on public.activity_logs
   for insert with check (auth.uid() = user_id);
 
@@ -93,7 +97,7 @@ create policy "Users can insert own activity" on public.activity_logs
 
 -- 6. SYSTEM AUDIT LOGS (Security & Compliance)
 -- Immutable log of all critical system actions
-create table public.audit_logs (
+create table if not exists public.audit_logs (
     id uuid default uuid_generate_v4() primary key,
     user_id uuid references public.profiles(id),
     action text not null, -- 'LOGIN', 'EXPORT_DATA', 'SIMULATION_RUN'
@@ -105,7 +109,7 @@ create table public.audit_logs (
 
 -- 7. GDPR REQUESTS (Data Rights)
 -- Tracks user requests for data export or deletion
-create table public.gdpr_requests (
+create table if not exists public.gdpr_requests (
     id uuid default uuid_generate_v4() primary key,
     user_id uuid references public.profiles(id) not null,
     request_type text check (request_type in ('export', 'delete')),
@@ -119,14 +123,17 @@ alter table public.audit_logs enable row level security;
 alter table public.gdpr_requests enable row level security;
 
 -- Users can view their own audit logs
+drop policy if exists "Users can view own audit logs" on public.audit_logs;
 create policy "Users can view own audit logs" on public.audit_logs
   for select using (auth.uid() = user_id);
 
 -- Users can insert GDPR requests
+drop policy if exists "Users can insert GDPR requests" on public.gdpr_requests;
 create policy "Users can insert GDPR requests" on public.gdpr_requests
   for insert with check (auth.uid() = user_id);
 
 -- Only Admins can view/process GDPR requests
+drop policy if exists "Admins can view all GDPR requests" on public.gdpr_requests;
 create policy "Admins can view all GDPR requests" on public.gdpr_requests
   for select using (
     exists (

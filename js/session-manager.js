@@ -87,6 +87,32 @@ export const SessionManager = {
     },
 
     // =============================================
+    //  SIGNUP — Delegates to Supabase Auth
+    // =============================================
+    signup: async (email, password, firstName, lastName) => {
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    first_name: firstName,
+                    last_name: lastName,
+                    full_name: `${firstName} ${lastName}`
+                }
+            }
+        });
+        if (error) throw error;
+
+        // If auto-confirm is enabled, we get a session immediately
+        if (data.session) {
+            const profile = await SessionManager._buildProfile(data.user, data.session.access_token);
+            return { profile, requireVerification: false };
+        }
+
+        return { profile: null, requireVerification: true };
+    },
+
+    // =============================================
     //  LOGOUT — Clears Supabase session + local cache
     // =============================================
     logout: async () => {

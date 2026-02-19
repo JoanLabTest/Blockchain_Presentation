@@ -107,7 +107,7 @@ CREATE OR REPLACE VIEW public.admin_stats AS
 SELECT
   COUNT(DISTINCT p.id) AS total_users,
   COUNT(DISTINCT CASE WHEN p.subscription_tier != 'free' THEN p.id END) AS premium_users,
-  AVG(q.score_percent)::integer AS avg_quiz_score,
+  0 AS avg_quiz_score, -- Temporarily disabled due to score_percent column issues
   COUNT(q.id) AS total_quiz_attempts,
   COUNT(DISTINCT s.id) AS total_simulations
 FROM public.profiles p

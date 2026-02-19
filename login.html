@@ -399,14 +399,14 @@
     </div>
 
     <!-- AUTH LOGIC -->
-    <script>
-        // INIT SUPABASE
-        const { createClient } = supabase;
+    <script type="module">
+        import { SessionManager } from './js/session-manager.js';
+        import { supabase } from './js/supabase-client.js';
+
         // Looking for config...
         if (typeof DCM_CONFIG === 'undefined') {
             document.body.innerHTML = "<h2 style='color:white;text-align:center;'>Erreur: config.js non chargé</h2>";
         }
-        const supabaseClient = createClient(DCM_CONFIG.supabaseUrl, DCM_CONFIG.supabaseKey);
 
         // STATE
         let isSignup = false;
@@ -492,6 +492,7 @@
                         email: email,
                         role: "Risk Manager", // Default Role
                         jurisdiction: "Global",
+                        subscription_tier: "institutional",
                         impactScore: 100
                     };
                     localStorage.setItem('dcm_auth_token', 'dev-mode-token');
@@ -509,75 +510,23 @@
                     const firstname = firstnameInput.value.trim();
                     const lastname = lastnameInput.value.trim();
 
-                    const { data, error } = await supabaseClient.auth.signUp({
-                        email: email,
-                        password: password,
-                        options: {
-                            data: {
-                                first_name: firstname,
-                                last_name: lastname,
-                                full_name: `${firstname} ${lastname}`
-                            }
-                        }
-                    });
+                    const result = await SessionManager.signup(email, password, firstname, lastname);
 
-                    if (error) throw error;
-
-                    // Check if session was created immediately (Auto Confirm enabled)
-                    if (data.session) {
-                        // Build Profile
-                        const user = data.user;
-                        const profile = {
-                            id: user.id,
-                            name: user.user_metadata.full_name || email.split('@')[0],
-                            email: user.email,
-                            role: "Analyste",
-                            jurisdiction: "EU (France)"
-                        };
-
-                        // Set Session
-                        localStorage.setItem('dcm_auth_token', data.session.access_token);
-                        localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
-
+                    if (!result.requireVerification) {
                         showMessage("Compte créé et connecté ! Redirection...", "success");
                         setTimeout(() => {
                             window.location.href = "dashboard.html";
                         }, 1500);
                     } else {
-                        // Email confirmation required
                         showMessage("Compte créé ! 📩 Veuillez vérifier vos emails.", "success");
                         form.reset();
                     }
 
                 } else {
                     // --- SIGN IN ---
-                    const { data, error } = await supabaseClient.auth.signInWithPassword({
-                        email: email,
-                        password: password,
-                    });
-
-                    if (error) throw error;
-
-                    // CACHE USER NAME & SESSION (Dashboard 2.0)
-                    if (data.session) {
-                        const user = data.user;
-                        const fullName = user.user_metadata.full_name || user.email.split('@')[0];
-
-                        const profile = {
-                            id: user.id,
-                            name: fullName,
-                            email: user.email,
-                            role: "Analyste", // Default role
-                            jurisdiction: "EU (France)"
-                        };
-
-                        localStorage.setItem('dcm_auth_token', data.session.access_token);
-                        localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
-                    }
-
+                    await SessionManager.login(email, password);
                     showMessage("Connexion réussie ! Redirection...", "success");
 
-                    // REDIRECT
                     setTimeout(() => {
                         window.location.href = "dashboard.html";
                     }, 1000);
@@ -614,13 +563,14 @@
             messageDiv.style.display = 'block';
         }
 
-        // GUEST MODE (Updated for Dashboard 2.0)
+        // GUEST MODE (Updated for Dashboard 3.0)
         window.enterGuestMode = function () {
             // Create Mock Session
             const guestProfile = {
                 name: "Invité",
                 role: "Visiteur",
                 jurisdiction: "Global",
+                subscription_tier: 'free',
                 impactScore: 50
             };
             localStorage.setItem('dcm_auth_token', 'guest-token-123');
@@ -648,7 +598,7 @@
             if (!email) return alert("Veuillez entrer un email.");
 
             try {
-                const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                const { error } = await supabase.auth.resetPasswordForEmail(email, {
                     redirectTo: window.location.origin + '/update-password.html',
                 });
                 if (error) throw error;
