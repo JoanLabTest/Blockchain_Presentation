@@ -767,489 +767,530 @@
                     <div style="text-align:right; font-size:12px; color:var(--text-muted); margin-top:5px;">
                         Gain dû à la composition : <span id="apyDiff" style="color:var(--accent-green)">+0.52%</span>
                     </div>
+                    <div class="res-label">APY Estimé (Net)</div>
+                    <div class="res-val" id="apyVal">3.4%</div>
+                </div>
 
-                    <div class="chart-container">
-                        <canvas id="apyChart"></canvas>
-                    </div>
+                <!-- SAVE BUTTON (SaaS Feature) -->
+                <button id="btnSaveSim"
+                    style="width:100%; margin-top:20px; background:var(--bg-card); border:1px solid var(--accent-gold); color:var(--accent-gold); padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; transition:0.2s;">
+                    <i class="fas fa-save"></i> SAUVEGARDER SCÉNARIO
+                </button>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="apyChart"></canvas>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- LOGIC -->
+    <script type="module">
+        import { simEngine } from './js/simulation.js';
+
+        // Calculator Logic (Simplified for Demo)
+        const ethInput = document.getElementById('ethAmount');
+        const durationInput = document.getElementById('duration');
+        const apyDisplay = document.getElementById('apyVal');
+        const rewardDisplay = document.getElementById('rewardVal'); // Assuming this exists or we use APY
+
+        function calculate() {
+            // Mock Calc
+            let eth = parseFloat(ethInput.value);
+            let apy = 3.2 + (Math.random() * 0.5); // Mock fluctuation
+            apyDisplay.innerText = apy.toFixed(1) + "%";
+        }
+
+        // Listeners
+        ethInput.addEventListener('input', calculate);
+        durationInput.addEventListener('input', calculate);
+
+        // SAVE HANDLER
+        document.getElementById('btnSaveSim').addEventListener('click', () => {
+            const name = prompt("Nom du scénario :", "Validation Node #" + Math.floor(Math.random() * 1000));
+            if (name) {
+                simEngine.save(
+                    'YIELD',
+                    name,
+                    { eth: ethInput.value, duration: durationInput.value },
+                    { apy: apyDisplay.innerText }
+                );
+                alert("✅ Scénario sauvegardé dans votre Dashboard !");
+            }
+        });
+    </script>
+    <!-- 2. STAKING MECHANICS -->
+    <div id="section-2" class="section-box" data-aos="fade-up">
+        <h2>2. Mécanismes de Staking (PoS)</h2>
+        <p>Le Staking est le mécanisme par lequel les validateurs engagent du capital (ETH, SOL, etc.) pour
+            sécuriser un réseau Proof-of-Stake. Contrairement au Mining (PoW) qui nécessite de l'énergie, le Staking
+            nécessite un engagement de capital.</p>
+
+        <div class="grid-3" style="margin-top:30px;">
+            <div class="card">
+                <i class="fa-solid fa-server"
+                    style="font-size:30px; color:var(--accent-purple); margin-bottom:15px;"></i>
+                <h3>Validation</h3>
+                <p style="font-size:14px;">Les validateurs bloquent du capital (ex: 32 ETH) pour proposer et
+                    attester des blocs. C'est une caution ou "Skin in the game".</p>
+                <div style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
+                    <strong>Rôle :</strong> Sécuriser le Réseau
+                </div>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-coins" style="font-size:30px; color:var(--accent-gold); margin-bottom:15px;"></i>
+                <h3>Récompenses</h3>
+                <p style="font-size:14px;">En échange d'un travail honnête, les validateurs reçoivent des
+                    récompenses protocolaires (Inflation) et des frais de transaction.</p>
+                <div style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
+                    <strong>Incitation :</strong> Rendement (~3-5%)
+                </div>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-gavel" style="font-size:30px; color:var(--accent-red); margin-bottom:15px;"></i>
+                <h3>Slashing</h3>
+                <p style="font-size:14px;">Un mécanisme de pénalité. Si un validateur agit malicieusement (ex:
+                    double signature) ou est hors ligne, une partie de sa mise est brûlée.</p>
+                <div style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
+                    <strong>Risque :</strong> Perte de Capital
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. YIELD SOURCES -->
+    <div id="section-3" class="section-box" data-aos="fade-up">
+        <h2>3. Sources de Rendement</h2>
+        <p>Tous les rendements ne se valent pas. Comprendre la source est critique pour l'analyse de durabilité.</p>
+
+        <div class="grid-3">
+            <div class="card" style="border-top:3px solid var(--accent-blue);">
+                <h3>1. Émission (Rewards)</h3>
+                <p style="font-size:14px;">Inflation monétaire au niveau du protocole. De nouveaux jetons sont créés
+                    pour payer les validateurs.</p>
+                <ul style="font-size:13px; margin-top:10px;">
+                    <li><strong>Durabilité :</strong> Faible (Dilutif)</li>
+                    <li><strong>Note :</strong> Le rendement réel dépend du taux de burn vs émission.</li>
+                </ul>
+            </div>
+            <div class="card" style="border-top:3px solid var(--accent-green);">
+                <h3>2. Exécution (Frais)</h3>
+                <p style="font-size:14px;">Frais de priorité payés par les utilisateurs pour inclure leurs
+                    transactions dans un bloc.</p>
+                <ul style="font-size:13px; margin-top:10px;">
+                    <li><strong>Durabilité :</strong> Élevée (Demande Organique)</li>
+                    <li><strong>Moteur :</strong> Activité/usage du réseau.</li>
+                </ul>
+            </div>
+            <div class="card" style="border-top:3px solid var(--accent-purple);">
+                <h3>3. MEV (Boost)</h3>
+                <p style="font-size:14px;"><strong>Maximal Extractable Value.</strong> Profit supplémentaire tiré du
+                    réordonnancement des transactions (arbitrage, liquidations).</p>
+                <ul style="font-size:13px; margin-top:10px;">
+                    <li><strong>Durabilité :</strong> Variable</li>
+                    <li><strong>Potentiel :</strong> Pics élevés lors de volatilité.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. RISK FRAMEWORK -->
+    <div id="section-4" class="section-box" data-aos="fade-up">
+        <h2>4. Cadre de Risques (5 Points)</h2>
+        <p>Évaluation institutionnelle des risques de staking au-delà de la simple volatilité de marché.</p>
+
+        <div class="risk-matrix-grid">
+            <!-- Header Row -->
+            <div class="rm-header"></div>
+            <div class="rm-header" style="background:#22c55e20; color:var(--accent-green)">IMPACT FAIBLE</div>
+            <div class="rm-header" style="background:#eab30820; color:var(--accent-gold)">IMPACT MOYEN</div>
+            <div class="rm-header" style="background:#ef444420; color:var(--accent-red)">IMPACT CRITIQUE</div>
+
+            <!-- Axis Labels -->
+            <div class="rm-axis-y">PROBABILITÉ</div>
+
+            <!-- Row 1: ÉLEVÉE -->
+            <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
+                FRÉQUENT</div>
+            <div class="rm-cell">
+                <div class="risk-point rp-low" title="Fluctuations mineures du rendement">Yield Compression</div>
+            </div>
+            <div class="rm-cell">
+                <div class="risk-point rp-med" title="Volatilité prix > rendement">Volatilité Marché</div>
+            </div>
+            <div class="rm-cell">
+                <!-- Vide -->
+            </div>
+
+            <!-- Row 2: MOYENNE -->
+            <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
+                OCCASIONNEL</div>
+            <div class="rm-cell">
+                <!-- Vide -->
+            </div>
+            <div class="rm-cell">
+                <div class="risk-point rp-med" title="Délai de déblocage">Illiquidité (21j)</div>
+            </div>
+            <div class="rm-cell">
+                <div class="risk-point rp-high" title="Pénalité mineure de slashing">Slashing (Downtime)</div>
+            </div>
+
+            <!-- Row 3: RARE -->
+            <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">RARE
+            </div>
+            <div class="rm-cell">
+                <!-- Vide -->
+            </div>
+            <div class="rm-cell">
+                <div class="risk-point rp-high" title="Depeg Stablecoin/LST">Validateur Malicieux</div>
+            </div>
+            <div class="rm-cell" style="background:rgba(239,68,68,0.05)">
+                <div class="risk-point rp-high" title="Echec complet du protocole ou Hack">Smart Contract Exploit
                 </div>
             </div>
         </div>
 
-        <!-- 2. STAKING MECHANICS -->
-        <div id="section-2" class="section-box" data-aos="fade-up">
-            <h2>2. Mécanismes de Staking (PoS)</h2>
-            <p>Le Staking est le mécanisme par lequel les validateurs engagent du capital (ETH, SOL, etc.) pour
-                sécuriser un réseau Proof-of-Stake. Contrairement au Mining (PoW) qui nécessite de l'énergie, le Staking
-                nécessite un engagement de capital.</p>
+        <div style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:10px;">
+            <i class="fa-solid fa-arrows-up-down-left-right"></i> Survolez les risques pour voir les détails.
+        </div>
+    </div>
 
-            <div class="grid-3" style="margin-top:30px;">
-                <div class="card">
-                    <i class="fa-solid fa-server"
-                        style="font-size:30px; color:var(--accent-purple); margin-bottom:15px;"></i>
-                    <h3>Validation</h3>
-                    <p style="font-size:14px;">Les validateurs bloquent du capital (ex: 32 ETH) pour proposer et
-                        attester des blocs. C'est une caution ou "Skin in the game".</p>
+    <!-- 5. DEFI ILLUSIONS -->
+    <div id="section-5" class="section-box" data-aos="fade-up">
+        <h2>5. Illusions de Rendement DeFi</h2>
+        <div class="callout callout-warn">
+            <i class="fa-solid fa-triangle-exclamation" style="color:var(--accent-gold)"></i>
+            <div>
+                <strong>Le Piège du "Haut Rendement" :</strong> Si un rendement provient d'émissions de jetons
+                plutôt que de revenus, il est probablement insoutenable.
+                Toujours demander : <em>"D'où vient l'argent ?"</em>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div>
+                <h3>🚩 Drapeaux Rouges</h3>
+                <ul style="margin-top:15px;">
+                    <li><strong>APY > 20% sur Stablecoins :</strong> Indique souvent un levier élevé ou une
+                        mécanique de Ponzi (ex: Anchor Protocol).</li>
+                    <li><strong>Rendement en "Jetons de Gouvernance" :</strong> Vous êtes payé dans un actif volatil
+                        qui subit une pression vendeuse constante.</li>
+                    <li><strong>Bonus de Verrouillage :</strong> "Bloquez 4 ans pour 4x le rendement" résulte
+                        souvent en une valeur nulle au déblocage.</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Étude de Cas : Anchor Protocol (UST)</h3>
+                <div class="card" style="padding:20px; border-left:4px solid var(--accent-red);">
+                    <div style="font-weight:bold; margin-bottom:5px;">Rendement Promis : 20% Fixe</div>
+                    <div style="font-size:14px; color:var(--text-muted); margin-bottom:10px;">Source : Subventions
+                        VC & Réflexivité Ponzi</div>
+                    <div style="font-weight:bold; color:var(--accent-red);">Résultat : Effondrement de 40Md$ en Mai
+                        2022</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. COMPARATIVE ANALYSIS -->
+    <div id="section-6" class="section-box" data-aos="fade-up">
+        <h2>6. Analyse Comparative</h2>
+        <p>Comparaison du Staking Crypto Natif face aux autres stratégies de rendement numérique.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Stratégie</th>
+                    <th>APY Typique</th>
+                    <th>Profil de Risque</th>
+                    <th>Source de Rendement</th>
+                    <th>Risque Réglementaire</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Staking (ETH)</strong></td>
+                    <td>3.0% - 4.5%</td>
+                    <td><span class="risk-tag r-yellow">MOYEN</span></td>
+                    <td>Fonction du Protocole</td>
+                    <td>Moyen (Sécurité ?)</td>
+                </tr>
+                <tr>
+                    <td><strong>Prêts (Aave)</strong></td>
+                    <td>2.0% - 10.0%</td>
+                    <td><span class="risk-tag r-yellow">MOYEN</span></td>
+                    <td>Intérêts Emprunteurs (Variable)</td>
+                    <td>Faible (Logiciel)</td>
+                </tr>
+                <tr>
+                    <td><strong>RWA (Bons du Trésor)</strong></td>
+                    <td>4.5% - 5.5%</td>
+                    <td><span class="risk-tag r-green">FAIBLE</span></td>
+                    <td>Dette Gouv. US</td>
+                    <td>Élevé (Full KYC)</td>
+                </tr>
+                <tr>
+                    <td><strong>Prêts CeFi</strong></td>
+                    <td>4% - 12%</td>
+                    <td><span class="risk-tag r-red">ÉLEVÉ</span></td>
+                    <td>Réhypothécation / Trading</td>
+                    <td>Critique (Faillite)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 7. INSTITUTIONAL PERSPECTIVE -->
+    <div id="section-7" class="section-box" data-aos="fade-up">
+        <h2>7. Perspective Institutionnelle</h2>
+        <div class="grid-2">
+            <div>
+                <h3>Score de Durabilité du Rendement</h3>
+                <p>Les institutions quantifient la qualité du rendement via le ratio Revenus de Frais (Organique)
+                    sur Émission Totale (Inflation).</p>
+                <div class="formula-box" style="font-size:14px;">$$ Score = \frac{Frais}{Récompenses} \times 100 $$
+                </div>
+                <p style="font-size:14px;"><em>Ethereum score régulièrement >60%, tandis que la plupart des alt-L1
+                        scorent <5%, dépendant entièrement de l'inflation.</em>
+                </p>
+            </div>
+            <div>
+                <h3>Vue Réglementaire (US vs UE)</h3>
+                <div class="card" style="padding:20px;">
+                    <ul style="margin:0; padding-left:15px; font-size:14px;">
+                        <li><strong>🇺🇸 USA (SEC) :</strong> Le Staking-as-a-Service est souvent vu comme un
+                            contrat d'investissement (Security). Le staking auto-gardé est plus sûr.</li>
+                        <li style="margin-top:10px;"><strong>🇪🇺 UE (MiCA) :</strong> Cadre plus clair. Le staking
+                            est généralement reconnu comme un service technique, distinct des produits financiers.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. REAL YIELD SIMULATOR -->
+    <div id="section-8" class="section-box" data-aos="fade-up">
+        <h2>8. Simulateur de "Rendement Réel"</h2>
+        <div class="grid-2">
+            <div>
+                <h3>Le Piège du Rendement</h3>
+                <p>Un APY élevé ne signifie rien si l'actif sous-jacent se déprécie. Ce simulateur calcule votre
+                    **Position Nette** en Fiat, en tenant compte de la volatilité des prix.</p>
+
+                <h4 style="margin-top:20px; color:white;">Scénarios :</h4>
+                <ul style="font-size:14px; margin-top:10px;">
+                    <li><strong>Bon :</strong> 5% Rendement + 10% Hausse Prix = <span
+                            style="color:var(--accent-green)">+15.5% Retour Réel</span></li>
+                    <li><strong>Mauvais :</strong> 20% Rendement - 30% Chute Prix = <span
+                            style="color:var(--accent-red)">-16.0% Retour Réel</span></li>
+                </ul>
+
+                <div class="callout callout-inst" style="margin-top:40px;">
+                    <i class="fa-solid fa-lightbulb" style="color:var(--accent-green)"></i>
+                    <div>
+                        <strong>Conseil Pro :</strong> Le staking crée un "coussin". Un rendement de 5% permet à
+                        l'actif de chuter de 4.7% tout en maintenant le seuil de rentabilité.
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALCULATOR 2 -->
+            <div class="calc-box" style="border-top-color: var(--accent-red);">
+                <h3>📉 Stress Test de Rendement Réel</h3>
+
+                <div class="input-group">
+                    <label>Investissement Principal ($)</label>
+                    <input type="number" id="principal" value="100000" class="calc-input" oninput="calcRealYield()">
+                </div>
+
+                <div class="input-group">
+                    <label>APY de Staking (%)</label>
+                    <input type="number" id="apy" value="8" class="calc-input" oninput="calcRealYield()">
+                </div>
+
+                <div class="input-group">
+                    <label>Durée d'Investissement (Années)</label>
+                    <input type="range" id="duration" min="1" max="10" value="1"
+                        style="margin-bottom:10px; accent-color:var(--text-muted);" oninput="calcRealYield()">
                     <div
-                        style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
-                        <strong>Rôle :</strong> Sécuriser le Réseau
+                        style="font-family:'JetBrains Mono'; font-size:12px; text-align:right; color:var(--text-muted);">
+                        <span id="durationVal">1</span> Ans
                     </div>
                 </div>
-                <div class="card">
-                    <i class="fa-solid fa-coins"
-                        style="font-size:30px; color:var(--accent-gold); margin-bottom:15px;"></i>
-                    <h3>Récompenses</h3>
-                    <p style="font-size:14px;">En échange d'un travail honnête, les validateurs reçoivent des
-                        récompenses protocolaires (Inflation) et des frais de transaction.</p>
-                    <div
-                        style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
-                        <strong>Incitation :</strong> Rendement (~3-5%)
-                    </div>
+
+                <div class="input-group">
+                    <label>Variation Prix du Jeton (%)</label>
+                    <input type="range" id="priceChange" min="-50" max="50" value="-20"
+                        style="width:100%; accent-color:var(--accent-red); margin-bottom:10px;"
+                        oninput="calcRealYield()">
+                    <div style="text-align:right; font-family:'JetBrains Mono'; color:white; font-size:14px;"
+                        id="priceVal">-20%</div>
                 </div>
-                <div class="card">
-                    <i class="fa-solid fa-gavel"
-                        style="font-size:30px; color:var(--accent-red); margin-bottom:15px;"></i>
-                    <h3>Slashing</h3>
-                    <p style="font-size:14px;">Un mécanisme de pénalité. Si un validateur agit malicieusement (ex:
-                        double signature) ou est hors ligne, une partie de sa mise est brûlée.</p>
-                    <div
-                        style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
-                        <strong>Risque :</strong> Perte de Capital
-                    </div>
+
+                <div class="calc-result">
+                    <span>Valeur du Portefeuille</span>
+                    <span class="res-val" id="finalValue">$ 86,400</span>
+                </div>
+
+                <div
+                    style="display:flex; justify-content:space-between; font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222;">
+                    <div style="color:var(--text-muted);">Gain Nominal : <span id="nominalGain"
+                            style="color:white;">+8000 Jetons</span></div>
+                    <div style="color:var(--text-muted);">P&L Net : <span id="netPnl"
+                            style="color:var(--accent-red)">-13.60%</span></div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="yieldChart"></canvas>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- 3. YIELD SOURCES -->
-        <div id="section-3" class="section-box" data-aos="fade-up">
-            <h2>3. Sources de Rendement</h2>
-            <p>Tous les rendements ne se valent pas. Comprendre la source est critique pour l'analyse de durabilité.</p>
+    <!-- 9. ADVANCED ANALYTICS -->
+    <div id="section-9" class="section-box" data-aos="fade-up" style="border:none;">
+        <h2>9. Analytique Avancée</h2>
 
-            <div class="grid-3">
-                <div class="card" style="border-top:3px solid var(--accent-blue);">
-                    <h3>1. Émission (Rewards)</h3>
-                    <p style="font-size:14px;">Inflation monétaire au niveau du protocole. De nouveaux jetons sont créés
-                        pour payer les validateurs.</p>
-                    <ul style="font-size:13px; margin-top:10px;">
-                        <li><strong>Durabilité :</strong> Faible (Dilutif)</li>
-                        <li><strong>Note :</strong> Le rendement réel dépend du taux de burn vs émission.</li>
-                    </ul>
-                </div>
-                <div class="card" style="border-top:3px solid var(--accent-green);">
-                    <h3>2. Exécution (Frais)</h3>
-                    <p style="font-size:14px;">Frais de priorité payés par les utilisateurs pour inclure leurs
-                        transactions dans un bloc.</p>
-                    <ul style="font-size:13px; margin-top:10px;">
-                        <li><strong>Durabilité :</strong> Élevée (Demande Organique)</li>
-                        <li><strong>Moteur :</strong> Activité/usage du réseau.</li>
-                    </ul>
-                </div>
-                <div class="card" style="border-top:3px solid var(--accent-purple);">
-                    <h3>3. MEV (Boost)</h3>
-                    <p style="font-size:14px;"><strong>Maximal Extractable Value.</strong> Profit supplémentaire tiré du
-                        réordonnancement des transactions (arbitrage, liquidations).</p>
-                    <ul style="font-size:13px; margin-top:10px;">
-                        <li><strong>Durabilité :</strong> Variable</li>
-                        <li><strong>Potentiel :</strong> Pics élevés lors de volatilité.</li>
-                    </ul>
-                </div>
+        <h3>A. Modèle de Stress Test Staking</h3>
+        <p>Projections de Rendement Réel sous divers scénarios "Black Swan".</p>
+        <table class="data-table" style="margin-bottom:40px;">
+            <thead>
+                <tr>
+                    <th>Scénario</th>
+                    <th>Impact APY</th>
+                    <th>Impact Prix</th>
+                    <th>Résultat (Rendement Réel)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Scénario de Base</strong></td>
+                    <td>5.0%</td>
+                    <td>0%</td>
+                    <td><span style="color:var(--accent-green)">+5.00%</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Événement de Slashing (Mineur)</strong></td>
+                    <td>5.0%</td>
+                    <td>0%</td>
+                    <td><span style="color:var(--accent-gold)">-1.00% (Perte Capital)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Bear Market (-50%)</strong></td>
+                    <td>5.0%</td>
+                    <td>-50%</td>
+                    <td><span style="color:var(--accent-red)">-47.5%</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Congestion Réseau</strong></td>
+                    <td>8.5%</td>
+                    <td>+10%</td>
+                    <td><span style="color:var(--accent-green)">+19.3%</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>B. Matrice de Corrélation</h3>
+        <p>Corrélation du rendement de staking avec les actifs macro traditionnels (Données Hypothétiques).</p>
+        <div class="corr-matrix-container">
+            <div class="corr-matrix">
+                <!-- Headers -->
+                <div class="corr-cell corr-header">Actif</div>
+                <div class="corr-cell corr-header">S&P 500</div>
+                <div class="corr-cell corr-header">Nasdaq</div>
+                <div class="corr-cell corr-header">Or</div>
+                <div class="corr-cell corr-header">US 10Y</div>
+                <div class="corr-cell corr-header">BTC</div>
+
+                <!-- Row 1: ETH Staking Yield -->
+                <div class="corr-cell corr-header" style="text-align:left;">Rendement ETH</div>
+                <div class="corr-cell corr-val">0.15</div>
+                <div class="corr-cell corr-val">0.22</div>
+                <div class="corr-cell corr-val">0.05</div>
+                <div class="corr-cell corr-val">-0.10</div>
+                <div class="corr-cell corr-val" style="color:var(--accent-green)">0.85</div>
+
+                <!-- Row 2: RWA Yield -->
+                <div class="corr-cell corr-header" style="text-align:left;">Rendement RWA</div>
+                <div class="corr-cell corr-val">0.10</div>
+                <div class="corr-cell corr-val">0.05</div>
+                <div class="corr-cell corr-val">-0.15</div>
+                <div class="corr-cell corr-val" style="color:var(--accent-green)">0.98</div>
+                <div class="corr-cell corr-val">0.02</div>
+
+                <!-- Row 3: DeFi Lending -->
+                <div class="corr-cell corr-header" style="text-align:left;">Taux DeFi</div>
+                <div class="corr-cell corr-val">0.45</div>
+                <div class="corr-cell corr-val">0.50</div>
+                <div class="corr-cell corr-val">0.12</div>
+                <div class="corr-cell corr-val">0.30</div>
+                <div class="corr-cell corr-val">0.90</div>
             </div>
         </div>
 
-        <!-- 4. RISK FRAMEWORK -->
-        <div id="section-4" class="section-box" data-aos="fade-up">
-            <h2>4. Cadre de Risques (5 Points)</h2>
-            <p>Évaluation institutionnelle des risques de staking au-delà de la simple volatilité de marché.</p>
-
-            <div class="risk-matrix-grid">
-                <!-- Header Row -->
-                <div class="rm-header"></div>
-                <div class="rm-header" style="background:#22c55e20; color:var(--accent-green)">IMPACT FAIBLE</div>
-                <div class="rm-header" style="background:#eab30820; color:var(--accent-gold)">IMPACT MOYEN</div>
-                <div class="rm-header" style="background:#ef444420; color:var(--accent-red)">IMPACT CRITIQUE</div>
-
-                <!-- Axis Labels -->
-                <div class="rm-axis-y">PROBABILITÉ</div>
-
-                <!-- Row 1: ÉLEVÉE -->
-                <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
-                    FRÉQUENT</div>
-                <div class="rm-cell">
-                    <div class="risk-point rp-low" title="Fluctuations mineures du rendement">Yield Compression</div>
-                </div>
-                <div class="rm-cell">
-                    <div class="risk-point rp-med" title="Volatilité prix > rendement">Volatilité Marché</div>
-                </div>
-                <div class="rm-cell">
-                    <!-- Vide -->
-                </div>
-
-                <!-- Row 2: MOYENNE -->
-                <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
-                    OCCASIONNEL</div>
-                <div class="rm-cell">
-                    <!-- Vide -->
-                </div>
-                <div class="rm-cell">
-                    <div class="risk-point rp-med" title="Délai de déblocage">Illiquidité (21j)</div>
-                </div>
-                <div class="rm-cell">
-                    <div class="risk-point rp-high" title="Pénalité mineure de slashing">Slashing (Downtime)</div>
-                </div>
-
-                <!-- Row 3: RARE -->
-                <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">RARE
-                </div>
-                <div class="rm-cell">
-                    <!-- Vide -->
-                </div>
-                <div class="rm-cell">
-                    <div class="risk-point rp-high" title="Depeg Stablecoin/LST">Validateur Malicieux</div>
-                </div>
-                <div class="rm-cell" style="background:rgba(239,68,68,0.05)">
-                    <div class="risk-point rp-high" title="Echec complet du protocole ou Hack">Smart Contract Exploit
-                    </div>
-                </div>
-            </div>
-
-            <div style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:10px;">
-                <i class="fa-solid fa-arrows-up-down-left-right"></i> Survolez les risques pour voir les détails.
+        <div class="callout callout-inst" style="background:#0f172a; margin-top:30px;">
+            <i class="fa-solid fa-layer-group" style="color:var(--accent-purple)"></i>
+            <div>
+                <strong>Construction de Portefeuille :</strong>
+                Le Staking Natif offre un "Taux sans risque crypto-natif", mais porte un risque de volatilité de
+                type Actions comparé aux RWA (Bons du Trésor Tokénisés) qui offrent une stabilité décorrélée.
             </div>
         </div>
+    </div>
 
-        <!-- 5. DEFI ILLUSIONS -->
-        <div id="section-5" class="section-box" data-aos="fade-up">
-            <h2>5. Illusions de Rendement DeFi</h2>
-            <div class="callout callout-warn">
-                <i class="fa-solid fa-triangle-exclamation" style="color:var(--accent-gold)"></i>
-                <div>
-                    <strong>Le Piège du "Haut Rendement" :</strong> Si un rendement provient d'émissions de jetons
-                    plutôt que de revenus, il est probablement insoutenable.
-                    Toujours demander : <em>"D'où vient l'argent ?"</em>
-                </div>
-            </div>
+    <!-- 10. FISCALITY & COMPLIANCE -->
+    <div id="section-10" class="section-box" data-aos="fade-up" style="border:none;">
+        <h2>10. Fiscalité & Conformité (Focus France/EU)</h2>
+        <div class="grid-2">
+            <div>
+                <h3><i class="fa-solid fa-scale-balanced" style="color:var(--accent-blue)"></i> Régime Fiscal</h3>
+                <p>Traitement des revenus de staking pour les résidents fiscaux français et sociétés.</p>
 
-            <div class="grid-2">
-                <div>
-                    <h3>🚩 Drapeaux Rouges</h3>
-                    <ul style="margin-top:15px;">
-                        <li><strong>APY > 20% sur Stablecoins :</strong> Indique souvent un levier élevé ou une
-                            mécanique de Ponzi (ex: Anchor Protocol).</li>
-                        <li><strong>Rendement en "Jetons de Gouvernance" :</strong> Vous êtes payé dans un actif volatil
-                            qui subit une pression vendeuse constante.</li>
-                        <li><strong>Bonus de Verrouillage :</strong> "Bloquez 4 ans pour 4x le rendement" résulte
-                            souvent en une valeur nulle au déblocage.</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Étude de Cas : Anchor Protocol (UST)</h3>
-                    <div class="card" style="padding:20px; border-left:4px solid var(--accent-red);">
-                        <div style="font-weight:bold; margin-bottom:5px;">Rendement Promis : 20% Fixe</div>
-                        <div style="font-size:14px; color:var(--text-muted); margin-bottom:10px;">Source : Subventions
-                            VC & Réflexivité Ponzi</div>
-                        <div style="font-weight:bold; color:var(--accent-red);">Résultat : Effondrement de 40Md$ en Mai
-                            2022</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 6. COMPARATIVE ANALYSIS -->
-        <div id="section-6" class="section-box" data-aos="fade-up">
-            <h2>6. Analyse Comparative</h2>
-            <p>Comparaison du Staking Crypto Natif face aux autres stratégies de rendement numérique.</p>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Stratégie</th>
-                        <th>APY Typique</th>
-                        <th>Profil de Risque</th>
-                        <th>Source de Rendement</th>
-                        <th>Risque Réglementaire</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Staking (ETH)</strong></td>
-                        <td>3.0% - 4.5%</td>
-                        <td><span class="risk-tag r-yellow">MOYEN</span></td>
-                        <td>Fonction du Protocole</td>
-                        <td>Moyen (Sécurité ?)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Prêts (Aave)</strong></td>
-                        <td>2.0% - 10.0%</td>
-                        <td><span class="risk-tag r-yellow">MOYEN</span></td>
-                        <td>Intérêts Emprunteurs (Variable)</td>
-                        <td>Faible (Logiciel)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>RWA (Bons du Trésor)</strong></td>
-                        <td>4.5% - 5.5%</td>
-                        <td><span class="risk-tag r-green">FAIBLE</span></td>
-                        <td>Dette Gouv. US</td>
-                        <td>Élevé (Full KYC)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Prêts CeFi</strong></td>
-                        <td>4% - 12%</td>
-                        <td><span class="risk-tag r-red">ÉLEVÉ</span></td>
-                        <td>Réhypothécation / Trading</td>
-                        <td>Critique (Faillite)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- 7. INSTITUTIONAL PERSPECTIVE -->
-        <div id="section-7" class="section-box" data-aos="fade-up">
-            <h2>7. Perspective Institutionnelle</h2>
-            <div class="grid-2">
-                <div>
-                    <h3>Score de Durabilité du Rendement</h3>
-                    <p>Les institutions quantifient la qualité du rendement via le ratio Revenus de Frais (Organique)
-                        sur Émission Totale (Inflation).</p>
-                    <div class="formula-box" style="font-size:14px;">$$ Score = \frac{Frais}{Récompenses} \times 100 $$
-                    </div>
-                    <p style="font-size:14px;"><em>Ethereum score régulièrement >60%, tandis que la plupart des alt-L1
-                            scorent <5%, dépendant entièrement de l'inflation.</em>
-                    </p>
-                </div>
-                <div>
-                    <h3>Vue Réglementaire (US vs UE)</h3>
-                    <div class="card" style="padding:20px;">
-                        <ul style="margin:0; padding-left:15px; font-size:14px;">
-                            <li><strong>🇺🇸 USA (SEC) :</strong> Le Staking-as-a-Service est souvent vu comme un
-                                contrat d'investissement (Security). Le staking auto-gardé est plus sûr.</li>
-                            <li style="margin-top:10px;"><strong>🇪🇺 UE (MiCA) :</strong> Cadre plus clair. Le staking
-                                est généralement reconnu comme un service technique, distinct des produits financiers.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 8. REAL YIELD SIMULATOR -->
-        <div id="section-8" class="section-box" data-aos="fade-up">
-            <h2>8. Simulateur de "Rendement Réel"</h2>
-            <div class="grid-2">
-                <div>
-                    <h3>Le Piège du Rendement</h3>
-                    <p>Un APY élevé ne signifie rien si l'actif sous-jacent se déprécie. Ce simulateur calcule votre
-                        **Position Nette** en Fiat, en tenant compte de la volatilité des prix.</p>
-
-                    <h4 style="margin-top:20px; color:white;">Scénarios :</h4>
+                <div class="card" style="margin-bottom:20px;">
+                    <h4>Personnes Physiques (Retail)</h4>
                     <ul style="font-size:14px; margin-top:10px;">
-                        <li><strong>Bon :</strong> 5% Rendement + 10% Hausse Prix = <span
-                                style="color:var(--accent-green)">+15.5% Retour Réel</span></li>
-                        <li><strong>Mauvais :</strong> 20% Rendement - 30% Chute Prix = <span
-                                style="color:var(--accent-red)">-16.0% Retour Réel</span></li>
+                        <li><strong>Flat Tax (PFU) :</strong> 30% sur les plus-values lors de la conversion en Fiat.
+                        </li>
+                        <li><strong>Transactions Crypto-Crypto :</strong> Neutralisées (pas d'imposition tant que ça
+                            reste en crypto).</li>
                     </ul>
-
-                    <div class="callout callout-inst" style="margin-top:40px;">
-                        <i class="fa-solid fa-lightbulb" style="color:var(--accent-green)"></i>
-                        <div>
-                            <strong>Conseil Pro :</strong> Le staking crée un "coussin". Un rendement de 5% permet à
-                            l'actif de chuter de 4.7% tout en maintenant le seuil de rentabilité.
-                        </div>
-                    </div>
                 </div>
 
-                <!-- CALCULATOR 2 -->
-                <div class="calc-box" style="border-top-color: var(--accent-red);">
-                    <h3>📉 Stress Test de Rendement Réel</h3>
-
-                    <div class="input-group">
-                        <label>Investissement Principal ($)</label>
-                        <input type="number" id="principal" value="100000" class="calc-input" oninput="calcRealYield()">
-                    </div>
-
-                    <div class="input-group">
-                        <label>APY de Staking (%)</label>
-                        <input type="number" id="apy" value="8" class="calc-input" oninput="calcRealYield()">
-                    </div>
-
-                    <div class="input-group">
-                        <label>Durée d'Investissement (Années)</label>
-                        <input type="range" id="duration" min="1" max="10" value="1"
-                            style="margin-bottom:10px; accent-color:var(--text-muted);" oninput="calcRealYield()">
-                        <div
-                            style="font-family:'JetBrains Mono'; font-size:12px; text-align:right; color:var(--text-muted);">
-                            <span id="durationVal">1</span> Ans
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Variation Prix du Jeton (%)</label>
-                        <input type="range" id="priceChange" min="-50" max="50" value="-20"
-                            style="width:100%; accent-color:var(--accent-red); margin-bottom:10px;"
-                            oninput="calcRealYield()">
-                        <div style="text-align:right; font-family:'JetBrains Mono'; color:white; font-size:14px;"
-                            id="priceVal">-20%</div>
-                    </div>
-
-                    <div class="calc-result">
-                        <span>Valeur du Portefeuille</span>
-                        <span class="res-val" id="finalValue">$ 86,400</span>
-                    </div>
-
-                    <div
-                        style="display:flex; justify-content:space-between; font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222;">
-                        <div style="color:var(--text-muted);">Gain Nominal : <span id="nominalGain"
-                                style="color:white;">+8000 Jetons</span></div>
-                        <div style="color:var(--text-muted);">P&L Net : <span id="netPnl"
-                                style="color:var(--accent-red)">-13.60%</span></div>
-                    </div>
-
-                    <div class="chart-container">
-                        <canvas id="yieldChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 9. ADVANCED ANALYTICS -->
-        <div id="section-9" class="section-box" data-aos="fade-up" style="border:none;">
-            <h2>9. Analytique Avancée</h2>
-
-            <h3>A. Modèle de Stress Test Staking</h3>
-            <p>Projections de Rendement Réel sous divers scénarios "Black Swan".</p>
-            <table class="data-table" style="margin-bottom:40px;">
-                <thead>
-                    <tr>
-                        <th>Scénario</th>
-                        <th>Impact APY</th>
-                        <th>Impact Prix</th>
-                        <th>Résultat (Rendement Réel)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Scénario de Base</strong></td>
-                        <td>5.0%</td>
-                        <td>0%</td>
-                        <td><span style="color:var(--accent-green)">+5.00%</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Événement de Slashing (Mineur)</strong></td>
-                        <td>5.0%</td>
-                        <td>0%</td>
-                        <td><span style="color:var(--accent-gold)">-1.00% (Perte Capital)</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Bear Market (-50%)</strong></td>
-                        <td>5.0%</td>
-                        <td>-50%</td>
-                        <td><span style="color:var(--accent-red)">-47.5%</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Congestion Réseau</strong></td>
-                        <td>8.5%</td>
-                        <td>+10%</td>
-                        <td><span style="color:var(--accent-green)">+19.3%</span></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>B. Matrice de Corrélation</h3>
-            <p>Corrélation du rendement de staking avec les actifs macro traditionnels (Données Hypothétiques).</p>
-            <div class="corr-matrix-container">
-                <div class="corr-matrix">
-                    <!-- Headers -->
-                    <div class="corr-cell corr-header">Actif</div>
-                    <div class="corr-cell corr-header">S&P 500</div>
-                    <div class="corr-cell corr-header">Nasdaq</div>
-                    <div class="corr-cell corr-header">Or</div>
-                    <div class="corr-cell corr-header">US 10Y</div>
-                    <div class="corr-cell corr-header">BTC</div>
-
-                    <!-- Row 1: ETH Staking Yield -->
-                    <div class="corr-cell corr-header" style="text-align:left;">Rendement ETH</div>
-                    <div class="corr-cell corr-val">0.15</div>
-                    <div class="corr-cell corr-val">0.22</div>
-                    <div class="corr-cell corr-val">0.05</div>
-                    <div class="corr-cell corr-val">-0.10</div>
-                    <div class="corr-cell corr-val" style="color:var(--accent-green)">0.85</div>
-
-                    <!-- Row 2: RWA Yield -->
-                    <div class="corr-cell corr-header" style="text-align:left;">Rendement RWA</div>
-                    <div class="corr-cell corr-val">0.10</div>
-                    <div class="corr-cell corr-val">0.05</div>
-                    <div class="corr-cell corr-val">-0.15</div>
-                    <div class="corr-cell corr-val" style="color:var(--accent-green)">0.98</div>
-                    <div class="corr-cell corr-val">0.02</div>
-
-                    <!-- Row 3: DeFi Lending -->
-                    <div class="corr-cell corr-header" style="text-align:left;">Taux DeFi</div>
-                    <div class="corr-cell corr-val">0.45</div>
-                    <div class="corr-cell corr-val">0.50</div>
-                    <div class="corr-cell corr-val">0.12</div>
-                    <div class="corr-cell corr-val">0.30</div>
-                    <div class="corr-cell corr-val">0.90</div>
-                </div>
-            </div>
-
-            <div class="callout callout-inst" style="background:#0f172a; margin-top:30px;">
-                <i class="fa-solid fa-layer-group" style="color:var(--accent-purple)"></i>
-                <div>
-                    <strong>Construction de Portefeuille :</strong>
-                    Le Staking Natif offre un "Taux sans risque crypto-natif", mais porte un risque de volatilité de
-                    type Actions comparé aux RWA (Bons du Trésor Tokénisés) qui offrent une stabilité décorrélée.
-                </div>
-            </div>
-        </div>
-
-        <!-- 10. FISCALITY & COMPLIANCE -->
-        <div id="section-10" class="section-box" data-aos="fade-up" style="border:none;">
-            <h2>10. Fiscalité & Conformité (Focus France/EU)</h2>
-            <div class="grid-2">
-                <div>
-                    <h3><i class="fa-solid fa-scale-balanced" style="color:var(--accent-blue)"></i> Régime Fiscal</h3>
-                    <p>Traitement des revenus de staking pour les résidents fiscaux français et sociétés.</p>
-
-                    <div class="card" style="margin-bottom:20px;">
-                        <h4>Personnes Physiques (Retail)</h4>
-                        <ul style="font-size:14px; margin-top:10px;">
-                            <li><strong>Flat Tax (PFU) :</strong> 30% sur les plus-values lors de la conversion en Fiat.
-                            </li>
-                            <li><strong>Transactions Crypto-Crypto :</strong> Neutralisées (pas d'imposition tant que ça
-                                reste en crypto).</li>
-                        </ul>
-                    </div>
-
-                    <div class="card" style="border-left:4px solid var(--accent-purple);">
-                        <h4>Sociétés (IS)</h4>
-                        <ul style="font-size:14px; margin-top:10px;">
-                            <li><strong>Impôt sur les Sociétés :</strong> 15% (PME) ou 25%.</li>
-                            <li><strong>Latence :</strong> Les gains doivent être comptabilisés à la valeur de marché au
-                                moment de la réception (Mark-to-Market), même sans conversion.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div>
-                    <h3><i class="fa-solid fa-passport" style="color:var(--accent-green)"></i> Statut Réglementaire</h3>
-                    <div class="callout callout-inst">
-                        <div>
-                            <strong>MiCA (Markets in Crypto-Assets) :</strong>
-                            L'UE établit un cadre clair. Les services de Staking peuvent être fournis par des CASP
-                            (Crypto-Asset Service Providers) agréés.
-                        </div>
-                    </div>
-
-                    <h3>Documentation Requise (Audit)</h3>
-                    <ul style="font-size:14px;">
-                        <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Preuve de
-                                Délégation :</strong> Transaction on-chain vers le validateur.</li>
-                        <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Relevé de
-                                Récompenses :</strong> Export CSV quotidien des rewards reçus.</li>
-                        <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Valorisation
-                                :</strong> Prix du token au jour de chaque reward.</li>
+                <div class="card" style="border-left:4px solid var(--accent-purple);">
+                    <h4>Sociétés (IS)</h4>
+                    <ul style="font-size:14px; margin-top:10px;">
+                        <li><strong>Impôt sur les Sociétés :</strong> 15% (PME) ou 25%.</li>
+                        <li><strong>Latence :</strong> Les gains doivent être comptabilisés à la valeur de marché au
+                            moment de la réception (Mark-to-Market), même sans conversion.</li>
                     </ul>
                 </div>
             </div>
+
+            <div>
+                <h3><i class="fa-solid fa-passport" style="color:var(--accent-green)"></i> Statut Réglementaire</h3>
+                <div class="callout callout-inst">
+                    <div>
+                        <strong>MiCA (Markets in Crypto-Assets) :</strong>
+                        L'UE établit un cadre clair. Les services de Staking peuvent être fournis par des CASP
+                        (Crypto-Asset Service Providers) agréés.
+                    </div>
+                </div>
+
+                <h3>Documentation Requise (Audit)</h3>
+                <ul style="font-size:14px;">
+                    <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Preuve de
+                            Délégation :</strong> Transaction on-chain vers le validateur.</li>
+                    <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Relevé de
+                            Récompenses :</strong> Export CSV quotidien des rewards reçus.</li>
+                    <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Valorisation
+                            :</strong> Prix du token au jour de chaque reward.</li>
+                </ul>
+            </div>
         </div>
+    </div>
 
     </div>
 

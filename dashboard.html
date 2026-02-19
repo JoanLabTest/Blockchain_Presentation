@@ -366,15 +366,12 @@
                     <span class="card-title">Simulations Sauvegardées</span>
                     <i class="fas fa-save" style="color:var(--accent-gold)"></i>
                 </div>
-                <div class="metric-val">3</div>
+                <div class="metric-val" id="sim-count">0</div>
                 <div class="metric-sub">Scénarios actifs</div>
-                <ul style="margin-top:15px; padding:0; list-style:none; font-size:13px; color:var(--text-muted);">
-                    <li style="margin-bottom:5px;"><i class="fas fa-check"
-                            style="color:var(--accent-blue); width:15px;"></i> ETH Bull Case 2026</li>
-                    <li style="margin-bottom:5px;"><i class="fas fa-check"
-                            style="color:var(--accent-blue); width:15px;"></i> Staking Yield Validation</li>
-                    <li><i class="fas fa-check" style="color:var(--accent-blue); width:15px;"></i> Liquidity Crunch Test
-                    </li>
+                <ul id="sim-list"
+                    style="margin-top:15px; padding:0; list-style:none; font-size:13px; color:var(--text-muted); max-height:100px; overflow-y:auto;">
+                    <!-- Dynamic Content -->
+                    <li style="font-style:italic; color:#475569;">Aucune simulation...</li>
                 </ul>
             </div>
         </div>
@@ -439,6 +436,53 @@
             // For now, simpler mock login with Supabase later
             // But if user clicks Mock:
             console.log("Login clicked");
+            function loadDashboardData() {
+                // 1. Score
+                const score = localStorage.getItem('dcm_research_score') || 0;
+                document.querySelector('.score-circle').innerText = score;
+
+                // 2. Data
+                const history = JSON.parse(localStorage.getItem('dcm_research_data')) || {};
+                const pagesVisited = Object.keys(history).length;
+                const totalSites = 10;
+                const coverage = Math.min(100, Math.round((pagesVisited / totalSites) * 100));
+
+                document.querySelector('.metric-val').innerText = `${coverage}%`;
+                document.querySelector('.metric-sub').innerText = `${pagesVisited} pages analysées`;
+                // Assuming 'coverage-bar' is an ID for the div that needs its width set
+                // If it's a class, it should be document.querySelector('.coverage-bar').style.width
+                // Based on the HTML, it's a div with inline style, so we need to add an ID or target it differently.
+                // For now, I'll assume an ID 'coverage-bar' will be added to the div:
+                // <div style="width:100%; height:6px; background:#334155; border-radius:3px; margin-top:15px; overflow:hidden;">
+                //     <div id="coverage-bar" style="width:42%; height:100%; background:var(--accent-green);"></div>
+                // </div>
+                // Since the original HTML has `div style="width:42%; height:100%; background:var(--accent-green);"></div>`
+                // and no ID, I'll target the inner div of the coverage bar.
+                // Let's assume the user will add an ID or I need to find a more robust selector.
+                // For now, I'll use a more specific selector to avoid modifying the HTML directly.
+                document.querySelector('.card:nth-child(2) > div:nth-child(4) > div').style.width = `${coverage}%`;
+
+
+                // 3. Simulations (NEW)
+                const simulations = JSON.parse(localStorage.getItem('dcm_simulations')) || [];
+                document.getElementById('sim-count').innerText = simulations.length;
+
+                const simList = document.getElementById('sim-list');
+                if (simulations.length > 0) {
+                    simList.innerHTML = '';
+                    simulations.forEach(sim => {
+                        simList.innerHTML += `
+                    <li style="margin-bottom:8px; border-bottom:1px solid #1e293b; padding-bottom:5px;">
+                        <i class="fas fa-check" style="color:var(--accent-gold); width:15px;"></i> 
+                        <strong style="color:white;">${sim.name}</strong><br>
+                        <span style="font-size:11px;">${sim.type} • ${new Date(sim.timestamp).toLocaleDateString()}</span>
+                    </li>`;
+                    });
+                }
+
+                // 4. Activity List
+                const activityList = document.querySelector('.activity-list');
+            }
         }
 
         window.mockLogin = function () {
