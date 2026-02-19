@@ -157,6 +157,11 @@ export const SessionManager = {
         const seconds = localHistory[path] || 0;
         if (seconds < 10) return; // Don't bother syncing < 10s
 
+        // --- PHASE 32: ANALYTICS ENGINE INTEGRATION ---
+        if (typeof AnalyticsEngine !== 'undefined') {
+            AnalyticsEngine.trackPageTime(path, seconds);
+        }
+
         await supabase.from('activity_logs').upsert({
             user_id: session.user.id,
             page_url: path,
@@ -264,7 +269,14 @@ export const SessionManager = {
         const hasRoleAccess = allowedRoles.includes(role) || role === 'Head of Digital';
         const hasTierAccess = allowedTiers.length === 0 || allowedTiers.includes(tier);
 
-        if (!hasRoleAccess && !hasTierAccess) {
+        const isGranted = hasRoleAccess || hasTierAccess;
+
+        // --- PHASE 32 TRACKING ---
+        if (typeof AnalyticsEngine !== 'undefined') {
+            AnalyticsEngine.trackFeatureAccess(feature, isGranted);
+        }
+
+        if (!isGranted) {
             SessionManager.showPaywall(feature);
             return false;
         }

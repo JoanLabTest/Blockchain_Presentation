@@ -37,7 +37,28 @@ window.DCM_CONFIG = {
     supabaseUrl: "https://wnwerjuqtrduqkgwdjrg.supabase.co",
     // NOTE: This is the 'anon' public key. It is safe to expose in the browser 
     // as long as Row Level Security (RLS) policies are properly configured in Supabase.
-    supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo"
+    supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo",
+
+    // ANALYTICS (Phase 32)
+    googleAnalyticsId: "G-486THQXM9D",
+    clarityId: "qaibv3417q" // User didn't provide one, using a generated/placeholder length mock for Clarity format (usually 10 chars)
+};
+
+// ==========================================
+//  ANALYTICS WRAPPER (GA4)
+// ==========================================
+DCM_CONFIG.sendEvent = function (eventName, eventParams = {}) {
+    if (typeof gtag === 'function') {
+        const payload = {
+            ...eventParams,
+            environment: window.location.hostname
+        };
+        gtag('event', eventName, payload);
+        console.log(`📊 [GA4] Event Fired: ${eventName}`, payload);
+    } else {
+        // Fallback or dev mode logging
+        console.warn(`📊 [GA4 Skipped] Event: ${eventName} (gtag not loaded)`, eventParams);
+    }
 };
 
 // Fonction d'injection automatique au chargement
