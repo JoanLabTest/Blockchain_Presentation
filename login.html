@@ -12,6 +12,17 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- AUTO-REDIRECT IF LOGGED IN -->
+    <script>
+        (function () {
+            const session = localStorage.getItem('dcm_user_session');
+            if (session === 'authenticated' || session === 'admin' || session === 'demo') {
+                console.log("Session active. Redirection vers le Dashboard...");
+                window.location.href = 'dashboard.html';
+            }
+        })();
+    </script>
+
     <!-- SUPABASE -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="config.js?v=3"></script>
