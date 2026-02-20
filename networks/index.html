@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <link rel="alternate" hreflang="fr"
+        href="https://joanlabtest.github.io/Blockchain_Presentation/networks/index.html">
+    <link rel="alternate" hreflang="x-default"
+        href="https://joanlabtest.github.io/Blockchain_Presentation/networks/index.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Networks | Institutional Architecture Analysis</title>
+
+    <meta name="description"
+        content="Portail institutionnel d'analyse comparative des architectures blockchain Layer 1. Explorez en profondeur Bitcoin, Ethereum, Solana, et BNB Smart Chain avec nos simulateurs financiers.">
+    <meta name="keywords"
+        content="Blockchain Networks, L1 Comparison, Bitcoin architecture, Ethereum PoS, Solana throughput, BNB Smart Chain, Crypto Research">
+
+    <!-- OPEN GRAPH -->
+    <meta property="og:title" content="Blockchain Networks | Research OS">
+    <meta property="og:description"
+        content="Analyse comparative, métriques en temps réel et simulateurs de Tokenomics pour les principales Blockchains publiques.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://joanlabtest.github.io/Blockchain_Presentation/networks/">
+    <meta property="og:image" content="https://joanlabtest.github.io/Blockchain_Presentation/assets/preview-hero.webp">
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- ANIMATIONS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- UNIFIED FOOTER -->
+    <link rel="stylesheet" href="../styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --bg-card: #080808;
+            --text-main: #f3f4f6;
+            --text-muted: #888888;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --btc-orange: #F7931A;
+            --eth-purple: #627EEA;
+            --sol-green: #14F195;
+            --bnb-yellow: #F3BA2F;
+            --border: #222;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 18px;
+            color: white;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        /* LAYOUT */
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 0;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section {
+            padding: 80px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            color: white;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--text-muted);
+        }
+
+        /* UI CARDS */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 60px 0;
+        }
+
+        .network-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: 3px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Color accents */
+        .card-btc {
+            border-top-color: var(--btc-orange);
+        }
+
+        .card-eth {
+            border-top-color: var(--eth-purple);
+        }
+
+        .card-sol {
+            border-top-color: var(--sol-green);
+        }
+
+        .card-bnb {
+            border-top-color: var(--bnb-yellow);
+        }
+
+        .network-card:hover {
+            transform: translateY(-5px);
+            border-color: #444;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .network-card h3 {
+            font-size: 24px;
+            color: white;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .network-card p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 20px;
+            min-height: 42px;
+        }
+
+        .net-specs {
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .net-spec-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #222;
+            font-size: 13px;
+        }
+
+        .net-spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .net-spec-label {
+            color: #666;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .net-spec-val {
+            font-family: 'JetBrains Mono';
+            color: #ccc;
+        }
+
+        .explore-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            background: #111;
+            color: white;
+            text-decoration: none;
+            border: 1px solid #333;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .card-btc .explore-btn:hover {
+            background: var(--btc-orange);
+            color: black;
+            border-color: var(--btc-orange);
+        }
+
+        .card-eth .explore-btn:hover {
+            background: var(--eth-purple);
+            color: white;
+            border-color: var(--eth-purple);
+        }
+
+        .card-sol .explore-btn:hover {
+            background: var(--sol-green);
+            color: black;
+            border-color: var(--sol-green);
+        }
+
+        .card-bnb .explore-btn:hover {
+            background: var(--bnb-yellow);
+            color: black;
+            border-color: var(--bnb-yellow);
+        }
+
+        /* SNAPSHOT TABLE */
+        .snapshot-section {
+            margin: 80px 0;
+            background: #050505;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .snapshot-header {
+            padding: 25px 30px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .snapshot-header h2 {
+            margin: 0;
+            font-size: 22px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .snap-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .snap-table th {
+            padding: 18px 30px;
+            background: #0a0a0a;
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #222;
+        }
+
+        .snap-table td {
+            padding: 20px 30px;
+            border-bottom: 1px solid #1a1a1a;
+            color: #bbb;
+            font-size: 15px;
+            vertical-align: middle;
+        }
+
+        .snap-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .snap-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge-mono {
+            font-family: 'JetBrains Mono';
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+            border: 1px solid #333;
+        }
+
+        .badge-green {
+            color: var(--accent-green);
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .badge-blue {
+            color: var(--accent-blue);
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        @media (max-width: 1024px) {
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+
+            .snap-table th,
+            .snap-table td {
+                padding: 15px;
+            }
+
+            .snapshot-section {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="particles-js"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-solid fa-network-wired"></i> NETWORK <span
+                style="color:#666; margin-left:5px; font-weight:400;">HUB</span>
+        </div>
+        <a href="../index.html" class="back-btn" aria-label="Retour"><i class="fa-solid fa-arrow-left"></i> RETOUR AU
+            HUB</a>
+    </nav>
+
+    <div class="container" role="main">
+
+        <!-- INTRO -->
+        <div class="hero-section" data-aos="fade-up">
+            <span class="badge-mono" style="margin-bottom: 20px; display: inline-block;">L1 ARCHITECTURES</span>
+            <h1>Public Blockchain Architectures</h1>
+            <p class="hero-subtitle">
+                Analyse comparative de l'infrastructure financière décentralisée. Identifiez les compromis techniques
+                (Trilemme de Scalabilité), les modèles monétaires et les vecteurs de risques entre les architectures
+                Proof of Work et Proof of Stake de La Couche 1.
+            </p>
+        </div>
+
+        <!-- HUB CARDS -->
+        <div class="grid-4">
+
+            <!-- BITCOIN -->
+            <div class="network-card card-btc" data-aos="fade-up" data-aos-delay="0">
+                <h3><i class="fa-brands fa-btc" style="color: var(--btc-orange);"></i> Bitcoin</h3>
+                <p>Digital Gold & Settlement Layer</p>
+
+                <div class="net-specs">
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Consensus</span>
+                        <span class="net-spec-val">Proof of Work</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Throughput</span>
+                        <span class="net-spec-val">~7 TPS</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Tokenomics</span>
+                        <span class="net-spec-val">21M Cap / Deflationary</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Use Case</span>
+                        <span class="net-spec-val">Store of Value</span>
+                    </div>
+                </div>
+
+                <a href="bitcoin.html" class="explore-btn" aria-label="Explore Bitcoin">Explore Network <i
+                        class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i></a>
+            </div>
+
+            <!-- ETHEREUM -->
+            <div class="network-card card-eth" data-aos="fade-up" data-aos-delay="100">
+                <h3><i class="fa-brands fa-ethereum" style="color: var(--eth-purple);"></i> Ethereum</h3>
+                <p>The Global Settlement Engine</p>
+
+                <div class="net-specs">
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Consensus</span>
+                        <span class="net-spec-val">Proof of Stake</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Throughput</span>
+                        <span class="net-spec-val">~15-30 TPS</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Tokenomics</span>
+                        <span class="net-spec-val">EIP-1559 Burn</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Use Case</span>
+                        <span class="net-spec-val">Smart Contracts (DeFi)</span>
+                    </div>
+                </div>
+
+                <a href="ethereum.html" class="explore-btn" aria-label="Explore Ethereum">Explore Network <i
+                        class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i></a>
+            </div>
+
+            <!-- SOLANA -->
+            <div class="network-card card-sol" data-aos="fade-up" data-aos-delay="200">
+                <h3><i class="fa-solid fa-bolt" style="color: var(--sol-green);"></i> Solana</h3>
+                <p>High-Frequency State Machine</p>
+
+                <div class="net-specs">
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Consensus</span>
+                        <span class="net-spec-val">PoH + PoS</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Throughput</span>
+                        <span class="net-spec-val">65,000+ TPS</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Tokenomics</span>
+                        <span class="net-spec-val">Inflationary Schedule</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Use Case</span>
+                        <span class="net-spec-val">High-Speed dApps / Trading</span>
+                    </div>
+                </div>
+
+                <a href="solana.html" class="explore-btn" aria-label="Explore Solana">Explore Network <i
+                        class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i></a>
+            </div>
+
+            <!-- BNB -->
+            <div class="network-card card-bnb" data-aos="fade-up" data-aos-delay="300">
+                <h3><i class="fa-solid fa-cube" style="color: var(--bnb-yellow);"></i> BNB Chain</h3>
+                <p>Exchange-Backed Ecosystem</p>
+
+                <div class="net-specs">
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Consensus</span>
+                        <span class="net-spec-val">PoSA (21 Vals)</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Throughput</span>
+                        <span class="net-spec-val">~100+ TPS</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Tokenomics</span>
+                        <span class="net-spec-val">Auto-Burn System</span>
+                    </div>
+                    <div class="net-spec-item">
+                        <span class="net-spec-label">Use Case</span>
+                        <span class="net-spec-val">Retail DeFi / Gaming</span>
+                    </div>
+                </div>
+
+                <a href="bnb.html" class="explore-btn" aria-label="Explore BNB Chain">Explore Network <i
+                        class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i></a>
+            </div>
+
+        </div>
+
+        <!-- COMPARATIVE SNAPSHOT -->
+        <div class="snapshot-section" data-aos="fade-up">
+            <div class="snapshot-header">
+                <h2><i class="fa-solid fa-table"></i> Comparative Snapshot</h2>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="snap-table">
+                    <thead>
+                        <tr>
+                            <th>Network</th>
+                            <th>Consensus</th>
+                            <th>Avg. TPS / Finality</th>
+                            <th>Monetary Policy</th>
+                            <th>Smart Contracts</th>
+                            <th>Decentralization</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: white;"><i class="fa-brands fa-btc"
+                                        style="color: var(--btc-orange); margin-right: 8px;"></i> Bitcoin</strong></td>
+                            <td><span class="badge-mono">Proof of Work</span></td>
+                            <td>7 TPS / ~60 mins</td>
+                            <td><span class="badge-mono badge-blue">Absolute Scarcity (21M)</span></td>
+                            <td><span style="color: #666;">Limited (Script/Taproot)</span></td>
+                            <td><span class="badge-mono badge-green">High (Node Count)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: white;"><i class="fa-brands fa-ethereum"
+                                        style="color: var(--eth-purple); margin-right: 8px;"></i> Ethereum</strong></td>
+                            <td><span class="badge-mono">Proof of Stake</span></td>
+                            <td>15-30 TPS / ~12 mins</td>
+                            <td><span class="badge-mono badge-green">Ultrasound (Burn > Issuance)</span></td>
+                            <td><strong style="color: white;">Turing Complete (EVM)</strong></td>
+                            <td><span class="badge-mono badge-green">High (Validators > 1M)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: white;"><i class="fa-solid fa-bolt"
+                                        style="color: var(--sol-green); margin-right: 8px;"></i> Solana</strong></td>
+                            <td><span class="badge-mono">PoH + PoS</span></td>
+                            <td><strong style="color: white;">65,000 TPS / ~0.4s</strong></td>
+                            <td><span class="badge-mono badge-orange">Inflationary (Yield/Staking)</span></td>
+                            <td><strong style="color: white;">Turing Complete (Sealevel)</strong></td>
+                            <td><span class="badge-mono badge-orange">Medium (High HW Req)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: white;"><i class="fa-solid fa-cube"
+                                        style="color: var(--bnb-yellow); margin-right: 8px;"></i> BNB Chain</strong>
+                            </td>
+                            <td><span class="badge-mono">PoSA</span></td>
+                            <td>~100 TPS / ~3s</td>
+                            <td><span class="badge-mono badge-blue">Deflationary (Quarterly Burns)</span></td>
+                            <td><strong style="color: white;">Turing Complete (EVM)</strong></td>
+                            <td><span class="badge-mono">Low (21 Validators)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN FOOTER INJECTION POINT -->
+    <div id="footer-container"></div>
+    <script src="../js/config.js"></script>
+    <script defer src="../js/session-manager.js"></script>
+    <script>
+        fetch('../components/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+
+                // Fix relative paths for footer images in /networks folder
+                const footerImgs = document.querySelectorAll('#footer-container img');
+                footerImgs.forEach(img => {
+                    const src = img.getAttribute('src');
+                    if (src && !src.startsWith('http') && !src.startsWith('assets/')) {
+                        img.setAttribute('src', '../' + src);
+                    } else if (src && src.startsWith('assets/')) {
+                        img.setAttribute('src', '../' + src);
+                    }
+                });
+
+                // Fix links
+                const footerLinks = document.querySelectorAll('#footer-container a');
+                footerLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto')) {
+                        link.setAttribute('href', '../' + href);
+                    }
+                });
+            });
+    </script>
+
+    <!-- UI Interactions -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Particles -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="../hub-particles.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>

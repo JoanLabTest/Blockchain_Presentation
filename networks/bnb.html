@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <link rel="alternate" hreflang="fr" href="https://joanlabtest.github.io/Blockchain_Presentation/networks/bnb.html">
+    <link rel="alternate" hreflang="x-default"
+        href="https://joanlabtest.github.io/Blockchain_Presentation/networks/bnb.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNB Smart Chain (BSC) | Corporate Blockchains</title>
+
+    <meta name="description"
+        content="Analyse de BNB Smart Chain : Consensus PoSA (21 validateurs), incompatibilité et centralisation, utilité du token et scalabilité EVM.">
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- ANIMATIONS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- UNIFIED FOOTER -->
+    <link rel="stylesheet" href="../styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --bg-card: #080808;
+            --text-main: #f3f4f6;
+            --text-muted: #888888;
+            --bnb-yellow: #F3BA2F;
+            --border: #222;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 18px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 100px auto 0;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        h1 {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-section h2 {
+            font-size: 32px;
+            color: white;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content-section p {
+            font-size: 17px;
+            color: #a3a3a3;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .metric-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 2px solid var(--bnb-yellow);
+        }
+
+        .metric-val {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            font-family: 'JetBrains Mono';
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .engine-box {
+            background: #0b0b0b;
+            border: 1px solid #333;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .engine-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: var(--bnb-yellow);
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 10px;
+        }
+
+        .simulation-input {
+            width: 100%;
+            background: #111;
+            border: 1px solid #444;
+            color: white;
+            padding: 15px;
+            font-family: 'JetBrains Mono';
+            font-size: 18px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .simulation-input:focus {
+            border-color: var(--bnb-yellow);
+        }
+
+        .simulation-result {
+            font-size: 24px;
+            font-family: 'JetBrains Mono';
+            color: white;
+            font-weight: bold;
+        }
+
+        .feature-box {
+            background: rgba(243, 186, 47, 0.05);
+            border-left: 3px solid var(--bnb-yellow);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .feature-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .feature-box p {
+            margin-bottom: 0;
+            font-size: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="particles-js"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-solid fa-cube" style="color: var(--bnb-yellow);"></i> BNB CHAIN
+        </div>
+        <a href="index.html" class="back-btn" aria-label="Retour"><i class="fa-solid fa-arrow-left"></i> NETWORK HUB</a>
+    </nav>
+
+    <div class="container" role="main">
+
+        <!-- 1. OVERVIEW -->
+        <div class="hero" data-aos="fade-up">
+            <h1>L'Écosystème Corporate</h1>
+            <p>Déployée initialement par Binance, BNB Smart Chain est une architecture EVM-compatible visant les
+                micro-transactions via des compromis assumés sur la décentralisation.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 50px;">
+                <div class="metric-card">
+                    <div class="metric-val">2020</div>
+                    <div class="metric-label">Génèse</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val">21</div>
+                    <div class="metric-label">Validateurs Actifs</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val">~3s</div>
+                    <div class="metric-label">Block Time</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val">~100+</div>
+                    <div class="metric-label">TPS</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- THE COMPARATIVE ENGINE -->
+        <div class="content-section grid-2" data-aos="fade-up">
+            <div>
+                <h2><i class="fa-solid fa-satellite-dish" style="color: var(--bnb-yellow);"></i> Profil Réseau</h2>
+                <p>BSC (construite comme un fork modifié d'Ethereum) garde la totale compatibilité avec les contrats
+                    intelligents <strong>EVM</strong>. Les développeurs peuvent porter leurs DApps d'Ethereum à BSC en
+                    quelques clics.</p>
+                <div class="feature-box">
+                    <h4>Trilemme de Scalabilité (Centralisation)</h4>
+                    <p>Pour offrir des blocs plus rapides et plus grands, la BSC limite sévèrement le nombre de noeuds
+                        autorisés à valider le réseau (exactement 21 à tout instant), sacrifiant la composante de
+                        distribution.</p>
+                </div>
+            </div>
+            <div class="engine-box">
+                <div class="engine-title">Institutional Radar : BNB Chain</div>
+                <div style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. CONSENSUS & 5. CENTRALISATION ANALYSIS -->
+        <div class="content-section" data-aos="fade-up">
+            <h2><i class="fa-solid fa-landmark"></i> Consensus (PoSA) & Gouvernance</h2>
+            <p>La BSC fonctionne sous un mécanisme de consensus unique appelé <strong>Proof of Staked Authority
+                    (PoSA)</strong>.</p>
+
+            <div class="grid-2">
+                <div class="feature-box">
+                    <h4>Proof of Staked Authority</h4>
+                    <p>Ce modèle combine l'enchère de capital (Staking) et la réputation (Authority). Seuls les 21
+                        entités/noeuds détenant (ou déléguant) le plus de BNB sont autorisés à forger les blocs. Ce
+                        comité restreint tourne toutes les 24 heures.</p>
+                </div>
+                <div class="feature-box">
+                    <h4>Spectre de Centralisation</h4>
+                    <p>Bien que publique, la chaine subit l'influence gravitationnelle de l'écosystème Binance. La
+                        sélection des validateurs, les modifications protocolaires et la récupération lors de hacks (ex:
+                        arrêt de la chaîne fin 2022) prouvent un contrôle unilatéral tacite.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. TOKEN UTILITY & SIMULATION -->
+        <div class="content-section grid-2" data-aos="fade-up">
+            <div>
+                <h2><i class="fa-solid fa-fire"></i> Tokenomics & Auto-Burn</h2>
+                <p>Le jeton BNB (Binance Coin) capte l'intégralité de la proposition de valeur du réseau, agissant à la
+                    fois comme carburant (Gas) et comme droit de vote.</p>
+                <div class="feature-box">
+                    <h4>Auto-Burn System</h4>
+                    <p>Pour réguler l'offre, Binance brûle une proportion massive de BNB chaque trimestre basée sur la
+                        formule Auto-Burn (calculée selon le prix du BNB et le nombre de blocs générés), visant à
+                        réduire l'offre totale sous les 100 Millions de BNB.</p>
+                </div>
+            </div>
+
+            <div class="engine-box">
+                <div class="engine-title">Simulateur : Validator Weight (Centralisation Index)</div>
+                <label style="color: #888; font-size: 13px; display: block; margin-bottom: 10px;">Estimer le degré de
+                    contrôle basé sur la concentration du Top 5 des Validateurs</label>
+                <input type="range" id="validatorInput" class="simulation-input" min="30" max="95" value="65"
+                    aria-label="Ajuster la concentration (%)">
+                <div style="font-family: 'JetBrains Mono'; color: #ccc; margin-bottom: 15px;">% du Staking global
+                    possédé par le Top 5 : <span id="validatorDisplay" style="color:var(--bnb-yellow);">65%</span></div>
+
+                <div
+                    style="display: flex; justify-content: space-between; border-top: 1px dotted #333; padding-top: 15px; margin-top: 15px;">
+                    <div style="color: #888; font-size: 12px;">Résistance à la Censure :</div>
+                    <div id="centralizationResult" class="simulation-result">...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RISK LAYER -->
+        <div class="content-section" data-aos="fade-up" style="border-bottom: none;">
+            <div class="grid-2">
+                <div>
+                    <h2><i class="fa-solid fa-triangle-exclamation"></i> Risques & Conformité</h2>
+                    <p>L'extrême proximité avec la maison-mère Binance représente un double tranchant : elle garantit
+                        une immense liquidité et des utilisateurs intégrés, mais pose un risque réglementaire critique
+                        au niveau global.</p>
+                </div>
+                <div class="engine-box" style="margin-top: 0;">
+                    <div class="engine-title">Risk Matrix Heatmap</div>
+                    <div id="riskHeatmap"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ / CERTIFICATION -->
+        <div class="content-section" data-aos="fade-up" id="quiz-container">
+            <!-- Injected by NetworkEngine -->
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer-container"></div>
+    <script src="../js/config.js"></script>
+    <script defer src="../js/session-manager.js"></script>
+
+    <!-- ENGINE & CHART -->
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="../js/network-engine.js"></script>
+
+    <script>
+        fetch('../components/footer.html').then(response => response.text()).then(data => {
+            document.getElementById('footer-container').innerHTML = data;
+            const footerImgs = document.querySelectorAll('#footer-container img');
+            footerImgs.forEach(img => { const src = img.getAttribute('src'); if (src && !src.startsWith('http') && !src.startsWith('assets/')) { img.setAttribute('src', '../' + src); } });
+            const footerLinks = document.querySelectorAll('#footer-container a');
+            footerLinks.forEach(link => { const href = link.getAttribute('href'); if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto')) { link.setAttribute('href', '../' + href); } });
+        });
+
+        window.addEventListener('load', () => {
+            // 1. Radar Chart : Order = [Security, Decentralization, Throughput, Hardness, Eco Depth]
+            NetworkEngine.initComparativeRadar('radarChart', 'BNB Chain', [6, 2, 7, 8, 8], '#F3BA2F');
+
+            // 2. Risk Heatmap
+            NetworkEngine.initRiskHeatmap('riskHeatmap', {
+                'Regulatory': 'High', // Strongly correlated to Binance CEX regulations
+                'Technical': 'Low', // Classic EVM fork, well-tested via Geth
+                'Monetary': 'Low', // Aggressive burn mechanics protect asset price
+                'Governance': 'High' // Extreme centralization risk (21 nodes, Binance influence)
+            });
+
+            // 3. Centralization Logic Simulator
+            const valInput = document.getElementById('validatorInput');
+            const valDisplay = document.getElementById('validatorDisplay');
+            const validateSimulation = (percent) => {
+                valDisplay.innerText = percent + '%';
+                if (percent > 66) return `<span style="color:#ef4444;">Critique (Collusion Possible)</span>`;
+                if (percent > 50) return `<span style="color:#f59e0b;">Faible (Vulnérable)</span>`;
+                return `<span style="color:#10b981;">Modérée (Réseau Stable)</span>`;
+            };
+            NetworkEngine.setupSimulator('validatorInput', 'centralizationResult', validateSimulation);
+
+            // 4. Quiz
+            NetworkEngine.initQuiz('quiz-container',
+                "Sur la BNB Smart Chain, combien de validateurs sont autorisés à forger des blocs au sein du consensus Proof of Staked Authority (PoSA) à un instant T ?",
+                [
+                    "Illimité, tout le monde peut miner.",
+                    "Exactement 21 validateurs.",
+                    "Autant que d'utilisateurs possédant 32 BNB.",
+                    "1 seul, l'entité Binance."
+                ],
+                1
+            );
+        });
+    </script>
+
+    <!-- UI -->
+    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script defer src="../hub-particles.js"></script>
+    <script>window.addEventListener('load', () => AOS.init({ duration: 800, once: true }));</script>
+
+</body>
+
+</html>
