@@ -639,6 +639,11 @@
                 <button aria-label="Bouton" class="btn-primary" onclick="generateReport()" title="Export PDF Brief">
                     <i class="fas fa-file-pdf"></i> PDF
                 </button>
+                <button aria-label="Certificat" class="btn-primary" onclick="openDiploma()"
+                    title="Obtenir mon Certificat"
+                    style="background: linear-gradient(135deg, #c9a84c, #f0c060); color:#08090d;">
+                    <i class="fas fa-graduation-cap"></i> Certificat
+                </button>
             </div>
         </header>
 
@@ -923,6 +928,14 @@
                 // Open Report Window
                 const win = window.open('report.html', '_blank', 'width=1000,height=1200');
                 if (!win) alert("Veuillez autoriser les popups pour générer le rapport.");
+            }
+        }
+
+        // --- DIPLOMA (Phase 53) ---
+        function openDiploma() {
+            if (SessionManager.checkAccess('REPORT_EXPORT')) {
+                const win = window.open('diploma.html', '_blank', 'width=1000,height=900');
+                if (!win) alert("Veuillez autoriser les popups pour afficher le certificat.");
             }
         }
 

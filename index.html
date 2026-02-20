@@ -983,11 +983,13 @@
     <link rel="stylesheet" href="styles/dev_mode.css">
 
     <script>
-        window.addEventListener('load', function() { AOS.init({
-            duration: 800,
-            easing: 'ease-out-cubic',
-            once: true
-        }); });
+        window.addEventListener('load', function () {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true
+            });
+        });
 
         // PWA SERVICE WORKER REGISTRATION (Phase 30)
         if ('serviceWorker' in navigator) {
@@ -998,6 +1000,152 @@
             });
         }
     </script>
+    <!-- ===== LEAD GEN MODAL (Phase 53) ===== -->
+    <div id="lead-modal" style="
+        display:none; position:fixed; inset:0; z-index:9999;
+        background:rgba(0,0,0,0.75); backdrop-filter:blur(4px);
+        align-items:center; justify-content:center;
+    ">
+        <div style="
+            background: linear-gradient(160deg,#0d0f17 0%,#111520 100%);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 16px;
+            padding: 50px 44px;
+            max-width: 480px;
+            width: 92%;
+            position: relative;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            animation: slideUp 0.35s ease;
+        ">
+            <button onclick="closeLead()" style="
+                position:absolute; top:16px; right:18px;
+                background:none; border:none; color:#555; font-size:20px; cursor:pointer;
+            ">&#10005;</button>
+
+            <!-- icon -->
+            <div style="text-align:center; margin-bottom:22px;">
+                <div style="
+                    width:60px; height:60px; border-radius:50%;
+                    background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3);
+                    display:inline-flex; align-items:center; justify-content:center;
+                    font-size:24px; color:#c9a84c;
+                ">&#x1F4DA;</div>
+            </div>
+
+            <h2 style="text-align:center; color:white; font-size:22px; font-weight:700; margin-bottom:8px;">
+                Guide Expert Offert
+            </h2>
+            <p style="text-align:center; color:#888; font-size:13px; line-height:1.6; margin-bottom:28px;">
+                Recevez gratuitement le <strong style="color:#c9a84c;">Guide Stratégique Digital Bonds & MiCA
+                    2026</strong>
+                — 40 pages, usage professionnel.
+            </p>
+
+            <form id="lead-form" style="display:flex; flex-direction:column; gap:12px;">
+                <input id="lead-name" type="text" placeholder="Prénom" required style="
+                    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+                    border-radius:8px; padding:13px 16px; color:white; font-size:14px;
+                    outline:none; transition:border-color 0.2s;
+                " onfocus="this.style.borderColor='rgba(201,168,76,0.5)'"
+                    onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+                <input id="lead-email" type="email" placeholder="Email professionnel" required style="
+                    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+                    border-radius:8px; padding:13px 16px; color:white; font-size:14px;
+                    outline:none; transition:border-color 0.2s;
+                " onfocus="this.style.borderColor='rgba(201,168,76,0.5)'"
+                    onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+                <button type="submit" style="
+                    background: linear-gradient(135deg, #c9a84c, #f0c060);
+                    color:#08090d; border:none; border-radius:8px;
+                    padding:14px; font-weight:700; font-size:15px;
+                    cursor:pointer; transition:opacity 0.2s; margin-top:4px;
+                " onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+                    Recevoir le Guide &rarr;
+                </button>
+            </form>
+
+            <p id="lead-msg"
+                style="display:none; text-align:center; color:#10b981; margin-top:16px; font-size:13px; font-weight:600;">
+                ✅ Merci ! Le guide vous sera envoyé sous 24h.
+            </p>
+            <p style="text-align:center; color:#444; font-size:10px; margin-top:16px;">
+                Aucun spam. Désabonnement en 1 clic.
+            </p>
+        </div>
+    </div>
+
+    <style>
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <script>
+        (function () {
+            // Only show once per device
+            if (localStorage.getItem('dcm_lead_captured')) return;
+
+            var shown = false;
+
+            function showLead() {
+                if (shown) return;
+                shown = true;
+                var modal = document.getElementById('lead-modal');
+                modal.style.display = 'flex';
+            }
+
+            function closeLead() {
+                document.getElementById('lead-modal').style.display = 'none';
+            }
+
+            window.closeLead = closeLead;
+
+            // Trigger 1: timer (30s)
+            setTimeout(showLead, 30000);
+
+            // Trigger 2: exit intent (mouse leaves top of viewport)
+            document.addEventListener('mouseleave', function (e) {
+                if (e.clientY < 10) showLead();
+            });
+
+            // Handle form submission via Formspree
+            document.getElementById('lead-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                var name = document.getElementById('lead-name').value.trim();
+                var email = document.getElementById('lead-email').value.trim();
+                if (!name || !email) return;
+
+                // Formspree endpoint (free, no backend)
+                fetch('https://formspree.io/f/xwpogena', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ name: name, email: email, source: 'DCM Lead Modal' })
+                }).then(function (r) {
+                    // Show success regardless of API response (graceful)
+                    document.getElementById('lead-form').style.display = 'none';
+                    document.getElementById('lead-msg').style.display = 'block';
+                    localStorage.setItem('dcm_lead_captured', '1');
+                    localStorage.setItem('dcm_lead_email', email);
+                    setTimeout(closeLead, 3000);
+                }).catch(function () {
+                    // Fail gracefully — still mark as captured
+                    document.getElementById('lead-form').style.display = 'none';
+                    document.getElementById('lead-msg').style.display = 'block';
+                    localStorage.setItem('dcm_lead_captured', '1');
+                    setTimeout(closeLead, 3000);
+                });
+            });
+        })();
+    </script>
 </body>
+
 
 </html>
