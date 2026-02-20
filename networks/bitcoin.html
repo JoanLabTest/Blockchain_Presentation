@@ -255,6 +255,27 @@
             }
         }
     </style>
+
+    <!-- JSON-LD SCHEMA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Bitcoin (BTC) | Architecture & Tokenomics pour les Institutionnels",
+      "description": "Analyse académique de Bitcoin : Architecture UTXO, Preuve de Travail (PoW), mécanique du Halving, Lightning Network et vecteurs de risques (Mining Pools).",
+      "keywords": ["Bitcoin", "BTC", "PoW", "Halving", "Lightning Network", "UTXO", "Store of Value"],
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Digital | Research OS"
+      },
+      "datePublished": "2026-02-20",
+      "dateModified": "2026-02-20",
+      "publisher": {
+        "@type": "Organization",
+        "name": "DCM Digital"
+      }
+    }
+    </script>
 </head>
 
 <body>
@@ -302,11 +323,16 @@
                 <h2><i class="fa-solid fa-satellite-dish" style="color: var(--btc-orange);"></i> Profil Réseau</h2>
                 <p>Bitcoin privilégie intentionnellement la <strong>Résistance à la censure</strong> et
                     <strong>l'Immuabilité</strong> monétaire au détriment de la vitesse de traitement (Throughput) et de
-                    l'expressivité des contrats intelligents (Turing Incomplet).</p>
+                    l'expressivité des contrats intelligents (Turing Incomplet).
+                </p>
                 <div class="feature-box">
-                    <h4>Trilemme de Scalabilité</h4>
-                    <p>Bitcoin choisit la Décentralisation Max et la Sécurité Max, sacrifiant la Scalabilité sur la
-                        chaine principale (L1), déportant les micropaiements sur le réseau Lightning (L2).</p>
+                    <h4>Trilemme de Scalabilité & Layer 2</h4>
+                    <p>Bitcoin choisit la Décentralisation Max et la Sécurité Max, sacrifiant la Scalabilité (7 TPS) sur
+                        la
+                        chaine principale (L1). Pour pallier ce problème, les transactions haute fréquence et
+                        micro-paiements sont déportés sur
+                        le <strong>Lightning Network (L2)</strong>, qui utilise des canaux de paiement P2P pour une
+                        scalabilité quasi-infinie sans encombrer la blockchain globale.</p>
                 </div>
             </div>
             <div class="engine-box">
@@ -387,13 +413,23 @@
         <!-- 5. GOVERNANCE & 6. RISK LAYER -->
         <div class="content-section grid-2" id="risk" data-aos="fade-up">
             <div>
-                <h2><i class="fa-solid fa-gavel"></i> Gouvernance & Risques</h2>
+                <h2><i class="fa-solid fa-gavel"></i> Gouvernance & Risques (BIPs)</h2>
                 <p>La gouvernance de Bitcoin est extra-protocolaire. Les décisions nécessitent un consensus social fort
-                    entre les développeurs (Core), les mineurs et les noeuds économiques via les BIPs (Bitcoin
-                    Improvement Proposals).</p>
-                <p>Ces dynamiques rendent Bitcoin extrêmement lent à muter (Rigidité Systémique), ce qui est perçu comme
+                    entre les développeurs (Core Devs), les mineurs et les noeuds (Nodes) via les propositions formelles
+                    <strong>BIPs (Bitcoin
+                        Improvement Proposals)</strong>.</p>
+                <p>Ces dynamiques rendent Bitcoin extrêmement lent à muter, ce qui est perçu comme
                     <strong>un défaut pour l'innovation logicielle</strong> mais comme <strong>une vertu absolue pour
-                        une couche monétaire globale</strong>.</p>
+                        la résilience d'une couche monétaire</strong>.
+                </p>
+                <div class="feature-box"
+                    style="margin-top:20px; background: rgba(239, 68, 68, 0.05); border-left-color: #ef4444;">
+                    <h4 style="color:#ef4444;">Centralisation du Hashrate</h4>
+                    <p>Bien que les Nœuds valident le consensus, l'industrie du minage est polarisée. Par exemple, à
+                        date, les 2 plus grandes Mining Pools (Foundry USA & AntPool) contrôlent parfois plus de 50% du
+                        Hashrate mondial, créant un vecteur potentiel (bien que théorique) de collusion ou de censure
+                        réglementaire.</p>
+                </div>
             </div>
             <div class="engine-box">
                 <div class="engine-title">Risk Matrix Heatmap</div>
@@ -402,6 +438,24 @@
         </div>
 
         <!-- QUIZ / CERTIFICATION -->
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="content-section" data-aos="fade-up" style="border-top: 1px dashed #333;">
+            <div class="feature-box"
+                style="background: rgba(247, 147, 26, 0.05); border-left: 3px solid var(--btc-orange);">
+                <h4><i class="fa-solid fa-book" style="color: var(--btc-orange);"></i> Références & Académie</h4>
+                <ul style="color: #ccc; font-size: 14px; padding-left: 20px; line-height: 1.8; margin-top: 10px;">
+                    <li>Nakamoto, S. (2008). <i>Bitcoin: A Peer-to-Peer Electronic Cash System</i>. (<a
+                            href="https://bitcoin.org/bitcoin.pdf" target="_blank"
+                            style="color: var(--btc-orange);">Whitepaper</a>)</li>
+                    <li>Poon, J., & Dryja, T. (2016). <i>The Bitcoin Lightning Network: Scalable Off-Chain Instant
+                            Payments</i>.</li>
+                    <li>Github Repo: <a href="https://github.com/bitcoin/bips" target="_blank"
+                            style="color: var(--btc-orange);">Bitcoin Improvement Proposals (BIPs)</a></li>
+                </ul>
+            </div>
+        </div>
+
         <div class="content-section" data-aos="fade-up" id="quiz-container">
             <!-- Injected by NetworkEngine -->
         </div>
@@ -434,10 +488,10 @@
 
             // 2. Risk Heatmap
             NetworkEngine.initRiskHeatmap('riskHeatmap', {
-                'Regulatory': 'Low',
-                'Technical': 'Low',
-                'Monetary': 'High', // High volatility risk in short term, though supply is hard
-                'Governance': 'Low'
+                'Regulatory': 'Medium', // Energy concerns / Mining pool KYC
+                'Technical': 'Low', // Extremely ossified protocol
+                'Monetary': 'High', // High volatility risk compared to fiat, but supply is deterministically secure
+                'Governance': 'Medium' // Tension between Core Devs and Hashpower dominance
             });
 
             // 3. Halving Simulator Logic (144 blocks/day * Reward)
@@ -464,7 +518,7 @@
 
     <!-- UI -->
     <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
     <script defer src="../hub-particles.js"></script>
     <script>window.addEventListener('load', () => AOS.init({ duration: 800, once: true }));</script>
 </body>

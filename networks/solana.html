@@ -250,6 +250,27 @@
             }
         }
     </style>
+
+    <!-- JSON-LD SCHEMA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Solana (SOL) | Analyse de la Haute Fréquence Blockchain",
+      "description": "Étude technique de Solana : Proof of History (PoH), parallélisme Sealevel, tokenomics inflationnistes et risques de centralisation matérielle.",
+      "keywords": ["Solana", "SOL", "PoH", "Sealevel", "High Frequency", "TPS", "DeFi"],
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Digital | Research OS"
+      },
+      "datePublished": "2026-02-20",
+      "dateModified": "2026-02-20",
+      "publisher": {
+        "@type": "Organization",
+        "name": "DCM Digital"
+      }
+    }
+    </script>
 </head>
 
 <body>
@@ -374,15 +395,21 @@
         <!-- 5. STRENGTHS & 6. RISK LAYER -->
         <div class="content-section grid-2" data-aos="fade-up">
             <div>
-                <h2><i class="fa-solid fa-triangle-exclamation"></i> Vulnérabilités & Downtimes</h2>
-                <p>La haute vélocité du réseau génère des instabilités systémiques connues historiquement.</p>
+                <h2><i class="fa-solid fa-triangle-exclamation"></i> Vulnérabilités & Écosystème</h2>
+                <p>La haute vélocité du réseau génère des instabilités systémiques connues historiquement et centralise
+                    mécaniquement l'infrastructure.</p>
                 <ul style="color: #888; font-size: 15px; padding-left: 20px; line-height: 1.8;">
-                    <li><strong>Downtimes du Réseau :</strong> Par le passé, des volumes massifs de bots ont causé des
-                        épuisements de mémoire sur les validateurs, causant l'arrêt total (outage) de la production de
-                        blocs pendant plusieurs heures.</li>
-                    <li><strong>Coûts de Validation :</strong> Exécuter un noeud Solana coûte considérablement cher
-                        (serveurs GPU/CPU Enterprise, bande passante), centralisant *de facto* le rôle de vérificateur
-                        institutionnel.</li>
+                    <li><strong>Downtimes du Réseau (Outages) :</strong> Par le passé, des volumes massifs de bots (ex:
+                        lors de mints NFT) ont causé un épuisement de mémoire sur les validateurs, forçant l'arrêt total
+                        de la production de blocs nécessitant un redémarrage manuel coordonné sur GitHub/Discord par les
+                        opérateurs.</li>
+                    <li><strong>Concentration Géographique (AWS/Hetzner) :</strong> Exiger des serveurs surpuissants
+                        pousse les opérateurs vers des centres de données professionnels (AWS, Hetzner, Equinix). Le
+                        coefficient de Nakamoto peut sembler correct mathématiquement, mais géographiquement, une panne
+                        cloud majeure pourrait censurer Solana.</li>
+                    <li><strong>L'impact DeFi & Jito MEV :</strong> L'arrivée du client validateur Jito a structuré un
+                        marché de MEV "hors chaîne" massif sur Solana, drainant de la valeur des traders retail tout en
+                        boostant le rendement (Yield) des stakers.</li>
                 </ul>
             </div>
             <div class="engine-box">
@@ -392,6 +419,25 @@
         </div>
 
         <!-- QUIZ / CERTIFICATION -->
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="content-section" data-aos="fade-up" style="border-top: 1px dashed #333;">
+            <div class="feature-box"
+                style="background: rgba(20, 241, 149, 0.05); border-left: 3px solid var(--sol-green);">
+                <h4><i class="fa-solid fa-book" style="color: var(--sol-green);"></i> Références & Académie</h4>
+                <ul style="color: #ccc; font-size: 14px; padding-left: 20px; line-height: 1.8; margin-top: 10px;">
+                    <li>Yakovenko, A. (2017). <i>Solana: A new architecture for a high performance blockchain
+                            v0.8.13</i>. (<a href="https://solana.com/solana-whitepaper.pdf" target="_blank"
+                            style="color: var(--sol-green);">Whitepaper</a>)</li>
+                    <li>Solana Docs. <i>Sealevel - Parallel Smart Contracts Processing</i>. (<a
+                            href="https://docs.solana.com/implemented-proposals/sealevel" target="_blank"
+                            style="color: var(--sol-green);">Docs</a>)</li>
+                    <li>Network Metrics & Explorer: <a href="https://explorer.solana.com/" target="_blank"
+                            style="color: var(--sol-green);">Solana Foundation Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+
         <div class="content-section" data-aos="fade-up" id="quiz-container">
             <!-- Injected by NetworkEngine -->
         </div>
@@ -423,9 +469,9 @@
             // 2. Risk Heatmap
             NetworkEngine.initRiskHeatmap('riskHeatmap', {
                 'Regulatory': 'High', // Deemed security in many lawsuits (though FTX passed)
-                'Technical': 'High', // Historical outages
-                'Monetary': 'Medium', // Inflationary
-                'Governance': 'Low' // Strong central foundation steering performance
+                'Technical': 'High', // Historical outages & hardware demands
+                'Monetary': 'Medium', // Inflationary baseline masked by high activity burn
+                'Governance': 'High' // Concentration hardware / Datacenters
             });
 
             // 3. Staking Real Yield Simulator
@@ -465,7 +511,7 @@
 
     <!-- UI -->
     <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
     <script defer src="../hub-particles.js"></script>
     <script>window.addEventListener('load', () => AOS.init({ duration: 800, once: true }));</script>
 
