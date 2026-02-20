@@ -51,15 +51,19 @@ export const SessionManager = {
     // =============================================
     _buildProfile: async (user, accessToken) => {
         // Try to fetch extended profile from public.profiles table
-        const { data: profileData } = await supabase
+        const { data: profileData, error } = await supabase
             .from('profiles')
-            .select('full_name, role, jurisdiction, subscription_tier')
+            .select('*')
             .eq('id', user.id)
             .single();
 
+        if (error) {
+            console.error("Supabase Profile Fetch Error:", error.message);
+        }
+
         const profile = {
             id: user.id,
-            name: profileData?.full_name || user.user_metadata?.full_name || user.email.split('@')[0],
+            name: profileData?.full_name || profileData?.username || user.user_metadata?.full_name || user.email.split('@')[0],
             email: user.email,
             role: profileData?.role || 'Analyste',
             jurisdiction: profileData?.jurisdiction || 'EU (France)',
@@ -265,11 +269,20 @@ export const SessionManager = {
         const allowedRoles = RULES[feature] || [];
         const allowedTiers = TIER_RULES[feature] || [];
 
-        // Allow if role matches OR tier matches OR is Head of Digital (superadmin)
-        const hasRoleAccess = allowedRoles.includes(role) || role === 'Head of Digital';
-        const hasTierAccess = allowedTiers.length === 0 || allowedTiers.includes(tier);
+        let isGranted = false;
 
-        const isGranted = hasRoleAccess || hasTierAccess;
+        // Admin bypasses everything
+        if (role === 'Head of Digital') {
+            isGranted = true;
+        }
+        // 1. Check Role-based access
+        else if (allowedRoles.includes(role)) {
+            isGranted = true;
+        }
+        // 2. Check Tier-based access (only if feature has premium tier restrictions)
+        else if (allowedTiers.length > 0 && allowedTiers.includes(tier)) {
+            isGranted = true;
+        }
 
         // --- PHASE 32 TRACKING ---
         if (typeof AnalyticsEngine !== 'undefined') {
