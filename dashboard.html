@@ -222,6 +222,94 @@
             min-height: 100vh;
         }
 
+        /* --- LIVE MARKET TICKER (Phase 52) --- */
+        #market-ticker {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin-bottom: 28px;
+            gap: 12px;
+            overflow: hidden;
+        }
+
+        .ticker-coins {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 14px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            white-space: nowrap;
+        }
+
+        .ticker-icon {
+            font-size: 14px;
+            color: #f0c040;
+        }
+
+        .ticker-symbol {
+            font-size: 12px;
+            color: #888;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .ticker-price {
+            font-size: 13px;
+            color: #e2e8f0;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .ticker-change {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .ticker-sep {
+            color: #333;
+            padding: 0 4px;
+        }
+
+        .ticker-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .ticker-live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: blink 1.6s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.2;
+            }
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -532,6 +620,12 @@
     <!-- MAIN CONTENT -->
     <main class="main-content">
 
+        <!-- LIVE MARKET TICKER (Phase 52) -->
+        <div id="market-ticker">
+            <span style="color:#555;font-size:12px;"><i class="fas fa-circle-notch fa-spin"></i> Chargement des
+                prix...</span>
+        </div>
+
         <!-- HEADER -->
         <header class="header" data-aos="fade-down">
             <div class="page-title">
@@ -712,6 +806,7 @@
     <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module">
         import { SessionManager } from './js/session-manager.js';
+        import { MarketTicker } from './js/market-ticker.js';
         import { DashboardEngine } from './js/dashboard-engine.js';
 
         // Initialize AOS
@@ -811,6 +906,9 @@
             DashboardEngine.renderComplianceWidget(data.complianceProfile);
             DashboardEngine.renderTimeline(data.timeline);
             DashboardEngine.renderRiskWidget(data.riskProfile);
+
+            // 5b. Live Market Ticker (Phase 52)
+            MarketTicker.initTicker();
 
             // 6. Update KPI Text
             const scoreVal = document.querySelector('.score-val');

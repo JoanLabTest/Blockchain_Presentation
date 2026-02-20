@@ -378,6 +378,8 @@
                     <canvas id="radarChart"></canvas>
                 </div>
             </div>
+            <!-- Live Stats (Phase 52) -->
+            <div id="live-stats-btc"></div>
         </div>
 
         <!-- 2. ARCHITECTURE TECHNIQUE -->
@@ -523,6 +525,9 @@
         window.addEventListener('load', () => {
             // 1. Radar Chart : Order = [Security, Decentralization, Throughput, Hardness, Eco Depth]
             NetworkEngine.initComparativeRadar('radarChart', 'Bitcoin', [10, 9, 2, 10, 4], '#F7931A');
+
+            // Live Market Stats (Phase 52)
+            NetworkEngine.fetchLiveStats('live-stats-btc', 'BTC');
 
             // 2. Risk Heatmap
             NetworkEngine.initRiskHeatmap('riskHeatmap', {

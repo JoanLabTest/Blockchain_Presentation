@@ -171,7 +171,80 @@ const NetworkEngine = {
             resultDiv.style.color = '#ef4444';
             resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Incorrect. Review the architecture section above.';
         }
-    }
+    },
+    /**
+     * Fetch live market stats from the market-data Edge Function (Phase 52)
+     * and populate a Live Stats panel inside containerId.
+     * @param {string} containerId - DOM id of the target container
+     * @param {string} symbol - 'BTC' | 'ETH' | 'SOL' | 'BNB'
+     */
+    fetchLiveStats: async function (containerId, symbol) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const MARKET_DATA_URL = 'https://wnwerjuqtrduqkgwdjrg.supabase.co/functions/v1/market-data';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo';
+
+        const formatPrice = (val) => {
+            if (!val) return '--';
+            if (val >= 10000) return val.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
+            if (val >= 100) return val.toLocaleString('fr-FR', { maximumFractionDigits: 1 });
+            return val.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        };
+
+        const formatLarge = (val) => {
+            if (!val) return '--';
+            if (val >= 1e12) return `${(val / 1e12).toFixed(2)}T`;
+            if (val >= 1e9) return `${(val / 1e9).toFixed(1)}B`;
+            if (val >= 1e6) return `${(val / 1e6).toFixed(0)}M`;
+            return val.toLocaleString('fr-FR');
+        };
+
+        // Loading skeleton
+        container.innerHTML = `
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin:20px 0;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#10b981;animation:blink 1.5s infinite;display:inline-block;"></span>
+                    <span style="color:#10b981;font-weight:700;font-size:13px;letter-spacing:1px;">LIVE MARKET DATA</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;" id="${containerId}-grid">
+                    <div style="color:#555;font-size:12px;">Chargement...</div>
+                </div>
+            </div>
+        `;
+
+        try {
+            const res = await fetch(MARKET_DATA_URL, {
+                headers: { 'apikey': ANON_KEY, 'Authorization': `Bearer ${ANON_KEY}` }
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            const coin = data.coins?.[symbol];
+
+            if (!coin) throw new Error('Coin not found');
+
+            const change = coin.change24h?.toFixed(2) ?? null;
+            const positive = change !== null && parseFloat(change) >= 0;
+            const changeColor = positive ? '#10b981' : '#ef4444';
+            const arrow = positive ? '&#9650;' : '&#9660;';
+
+            const statBox = (label, value, highlight = false) =>
+                `<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:14px;">
+                    <div style="color:#666;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">${label}</div>
+                    <div style="color:${highlight || '#e2e8f0'};font-weight:700;font-size:16px;font-family:'JetBrains Mono',monospace;">${value}</div>
+                </div>`;
+
+            document.getElementById(`${containerId}-grid`).innerHTML =
+                statBox('Prix EUR', `&euro;${formatPrice(coin.priceEur)}`, '#f0c040') +
+                statBox('24h Change', change !== null ? `${arrow} ${Math.abs(change)}%` : '--', changeColor) +
+                statBox('Market Cap', `&euro;${formatLarge(coin.marketCapEur)}`) +
+                statBox('Volume 24h', `&euro;${formatLarge(coin.volume24hEur)}`);
+
+        } catch (err) {
+            document.getElementById(`${containerId}-grid`).innerHTML =
+                `<span style="color:#555;font-size:12px;">Donnees live indisponibles</span>`;
+        }
+    },
 };
 
 window.NetworkEngine = NetworkEngine;

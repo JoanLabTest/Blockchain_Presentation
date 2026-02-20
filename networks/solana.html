@@ -369,6 +369,8 @@
                     <canvas id="radarChart"></canvas>
                 </div>
             </div>
+            <!-- Live Stats (Phase 52) -->
+            <div id="live-stats-sol"></div>
         </div>
 
         <!-- 2. CONSENSUS & 3. ARCHITECTURE -->
@@ -502,6 +504,9 @@
         window.addEventListener('load', () => {
             // 1. Radar Chart : Order = [Security, Decentralization, Throughput, Hardness, Eco Depth]
             NetworkEngine.initComparativeRadar('radarChart', 'Solana', [7, 4, 10, 4, 8], '#14F195');
+
+            // Live Market Stats (Phase 52)
+            NetworkEngine.fetchLiveStats('live-stats-sol', 'SOL');
 
             // 2. Risk Heatmap
             NetworkEngine.initRiskHeatmap('riskHeatmap', {

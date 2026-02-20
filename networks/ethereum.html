@@ -372,6 +372,8 @@
                     <canvas id="radarChart"></canvas>
                 </div>
             </div>
+            <!-- Live Stats (Phase 52) -->
+            <div id="live-stats-eth"></div>
         </div>
 
         <!-- 2. CONSENSUS & 3. EVM -->
@@ -500,6 +502,9 @@
         window.addEventListener('load', () => {
             // 1. Radar Chart : Order = [Security, Decentralization, Throughput, Hardness, Eco Depth]
             NetworkEngine.initComparativeRadar('radarChart', 'Ethereum', [9, 8, 3, 9, 10], '#627EEA');
+
+            // Live Market Stats (Phase 52)
+            NetworkEngine.fetchLiveStats('live-stats-eth', 'ETH');
 
             // 2. Risk Heatmap
             NetworkEngine.initRiskHeatmap('riskHeatmap', {
