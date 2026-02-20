@@ -536,7 +536,16 @@
             } catch (err) {
                 console.error("Auth Error:", err);
                 let msg = err.message;
-                if (msg.includes("Invalid login credentials")) msg = "Email ou mot de passe incorrect.";
+
+                // --- PHASE 48: ADVANCED AUTH ERROR HANDLING ---
+                if (msg.includes("Invalid login credentials")) {
+                    msg = "Email ou mot de passe incorrect.";
+                } else if (msg.includes("Email not confirmed")) {
+                    msg = "Veuillez cliquer sur le lien envoyé par email pour vérifier votre compte avant de vous connecter.";
+                } else if (msg.includes("rate limit") || msg.includes("Too many requests")) {
+                    msg = "Trop de tentatives de connexion. Veuillez réessayer dans quelques minutes (Sécurité anti brute-force).";
+                }
+
                 showMessage(msg, "error");
             } finally {
                 setLoading(false);

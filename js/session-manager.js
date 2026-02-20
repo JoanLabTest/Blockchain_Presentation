@@ -13,7 +13,11 @@ export const SessionManager = {
         AUTH_TOKEN: 'dcm_auth_token',
         USER_PROFILE: 'dcm_user_profile',
         SESSION_START: 'dcm_session_start',
+        LAST_ACTIVITY: 'dcm_last_activity'
     },
+
+    // Config: 30 minutes in milliseconds
+    SESSION_TIMEOUT_MS: 30 * 60 * 1000,
 
     // =============================================
     //  INITIALIZATION — Check Supabase session
@@ -43,6 +47,10 @@ export const SessionManager = {
         // Real Supabase session exists — build & cache profile
         const user = session.user;
         const profile = await SessionManager._buildProfile(user, session.access_token);
+
+        // --- PHASE 48: SESSION TIMEOUT INIT ---
+        SessionManager._initActivityTracker();
+
         return profile;
     },
 
@@ -136,7 +144,7 @@ export const SessionManager = {
     },
 
     // =============================================
-    //  UTILS
+    //  UTILS & SESSION TIMEOUT (PHASE 48)
     // =============================================
     getCurrentUser: () => {
         const profile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
@@ -149,6 +157,28 @@ export const SessionManager = {
         return Math.floor((Date.now() - parseInt(start)) / 60000);
     },
 
+    _initActivityTracker: () => {
+        // Track mouse/keyboard as 'activity'
+        const updateActivity = () => localStorage.setItem(SessionManager.KEYS.LAST_ACTIVITY, Date.now().toString());
+        window.addEventListener('mousemove', updateActivity, { once: true, capture: true }); // throttle via occasional reset
+        window.addEventListener('keydown', updateActivity, { once: true, capture: true });
+
+        // Reset listeners every 5 mins to avoid spam
+        setInterval(() => {
+            window.addEventListener('mousemove', updateActivity, { once: true, capture: true });
+            window.addEventListener('keydown', updateActivity, { once: true, capture: true });
+        }, 300000);
+
+        // Security loop check every 1 minute
+        setInterval(() => {
+            const lastActivity = parseInt(localStorage.getItem(SessionManager.KEYS.LAST_ACTIVITY) || Date.now().toString());
+            if (Date.now() - lastActivity > SessionManager.SESSION_TIMEOUT_MS) {
+                console.warn('🔒 Session Timeout reached (30 min inactivity). Logging out.');
+                alert("Session expirée pour inactivité. Veuillez vous reconnecter.");
+                SessionManager.logout();
+            }
+        }, 60000);
+    },
     // =============================================
     //  DATA SYNC — Write activity to Supabase
     // =============================================
@@ -298,22 +328,47 @@ export const SessionManager = {
     },
 
     showPaywall: (feature) => {
+        const featureNames = {
+            'REPORT_EXPORT': 'Exportation PDF & CSV institutionnelle',
+            'LEGAL_MATRIX_FULL': 'Module de Conformité MiCA Complet',
+            'AI_ADVANCED': 'Analyse prédictive IA et Modélisation',
+            'MANAGER_VIEW': 'Vue Manager Équipe et Logs Audit'
+        };
+        const displayName = featureNames[feature] || 'cette fonctionnalité experte';
+
+        const modalId = 'premium-upgrade-modal';
+        if (document.getElementById(modalId)) return;
+
         const modal = document.createElement('div');
+        modal.id = modalId;
         modal.style.cssText = `
             position:fixed;top:0;left:0;width:100%;height:100%;
-            background:rgba(2,6,23,0.9);backdrop-filter:blur(10px);
-            display:flex;justify-content:center;align-items:center;z-index:10000;
+            background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);
+            display:flex;justify-content:center;align-items:center;z-index:999999;
         `;
         modal.innerHTML = `
-            <div style="background:#1e293b;padding:40px;border-radius:20px;text-align:center;border:1px solid #334155;max-width:500px;box-shadow:0 0 50px rgba(59,130,246,0.3);">
-                <i class="fas fa-lock" style="font-size:50px;color:#f59e0b;margin-bottom:20px;"></i>
-                <h2 style="color:white;margin-bottom:10px">Fonctionnalité Premium</h2>
-                <p style="color:#94a3b8;margin-bottom:20px">L'accès à <strong>${feature}</strong> est réservé aux comptes Pro & Institutional.</p>
-                <div style="display:flex;justify-content:center;gap:10px">
-                    <button onclick="this.closest('div').parentElement.parentElement.remove()" style="padding:10px 20px;background:transparent;border:1px solid #64748b;color:white;border-radius:8px;cursor:pointer">Fermer</button>
-                    <a href="pricing.html" style="padding:10px 20px;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:bold;text-decoration:none;display:inline-flex;align-items:center">Mettre à niveau →</a>
+            <div style="background:#0a0a0a;padding:40px;border-radius:24px;text-align:center;border:1px solid #333;max-width:450px;box-shadow:0 25px 50px rgba(0,0,0,0.5), 0 0 40px rgba(139, 92, 246, 0.2);position:relative;animation:modalPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+                <button onclick="this.closest('#${modalId}').remove()" style="position:absolute;top:15px;right:20px;background:none;border:none;color:#666;font-size:24px;cursor:pointer;transition:0.2s;">×</button>
+                
+                <div style="width:70px;height:70px;border-radius:50%;background:rgba(139, 92, 246, 0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                    <i class="fas fa-crown" style="font-size:30px;color:var(--accent-purple);"></i>
+                </div>
+                
+                <h2 style="color:white;margin-bottom:12px;font-size:24px;font-weight:800;">Accès Limité</h2>
+                <p style="color:#a1a1aa;margin-bottom:30px;font-size:15px;line-height:1.5;">Vous utilisez actuellement l'édition <strong style="color:white">Analyst Free</strong>. Débloquez <strong>${displayName}</strong> et les données temps réel avec le plan Pro.</p>
+                
+                <div style="display:flex;flex-direction:column;gap:15px">
+                    <button onclick="window.location.href='pricing.html'" style="padding:14px;background:var(--accent-purple);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:700;font-size:16px;box-shadow:0 10px 20px rgba(139, 92, 246, 0.3);transition:transform 0.2s;">
+                        Voir les abonnements Pro 🚀
+                    </button>
+                    <button onclick="this.closest('#${modalId}').remove()" style="padding:14px;background:transparent;border:1px solid #333;color:#888;border-radius:12px;cursor:pointer;font-weight:600;transition:0.2s;">
+                        Continuer en mode gratuit
+                    </button>
                 </div>
             </div>
+            <style>
+                @keyframes modalPop { 0% { opacity:0; transform:scale(0.95) translateY(10px); } 100% { opacity:1; transform:scale(1) translateY(0); } }
+            </style>
         `;
         document.body.appendChild(modal);
     }
