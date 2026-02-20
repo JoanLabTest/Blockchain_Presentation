@@ -304,8 +304,43 @@
         let currentUser = null;
 
         document.addEventListener('DOMContentLoaded', async () => {
+            // Toast on cancellation
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('upgrade') === 'cancelled') {
+                SessionManager.showToast('ℹ️', 'Paiement Annulé', 'Vous pouvez réessayer quand vous serez prêt.');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
             // Init session manager to grab the user ID
             currentUser = await SessionManager.init();
+
+            if (currentUser) {
+                const tier = currentUser.subscription_tier || 'free';
+
+                if (tier === 'pro') {
+                    const proBtn = document.querySelector('.pricing-card.popular .checkout-btn');
+                    if (proBtn) {
+                        proBtn.innerHTML = '<i class="fas fa-check"></i> Mon forfait actuel';
+                        proBtn.onclick = () => window.location.href = 'dashboard.html';
+                        proBtn.style.background = '#10b981';
+                        proBtn.style.borderColor = '#10b981';
+                    }
+                } else if (tier === 'institutional') {
+                    const instBtn = document.querySelector('.pricing-card.inst .checkout-btn');
+                    if (instBtn) {
+                        instBtn.innerHTML = '<i class="fas fa-check"></i> Mon forfait actuel';
+                        instBtn.onclick = () => window.location.href = 'dashboard.html';
+                        instBtn.style.background = '#10b981';
+                    }
+                    const proBtn = document.querySelector('.pricing-card.popular .checkout-btn');
+                    if (proBtn) {
+                        proBtn.innerHTML = 'Inclus dans votre forfait';
+                        proBtn.onclick = () => window.location.href = 'dashboard.html';
+                        proBtn.style.background = '#475569';
+                        proBtn.style.borderColor = '#475569';
+                    }
+                }
+            }
         });
 
         window.startCheckout = async function (plan) {
