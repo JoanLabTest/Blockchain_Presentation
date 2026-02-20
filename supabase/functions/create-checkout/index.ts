@@ -37,15 +37,17 @@ serve(async (req) => {
             throw new Error("Plan invalide");
         }
 
-        // Get origin and referer to construct proper return URLs dynamically (vital for GitHub Pages)
+        // Handle dynamic origin for return URLs (handle both localhost and deployed GitHub pages URL)
         const requestOrigin = req.headers.get('origin') || "http://localhost:3000";
         const referer = req.headers.get('referer');
 
-        let basePath = requestOrigin;
+        // Base fallback specifically for GitHub pages structure since referer can be flaky
+        let basePath = requestOrigin.includes('github.io')
+            ? "https://joanlabtest.github.io/Blockchain_Presentation"
+            : requestOrigin;
 
-        // If referer is available, it provides the exact path (e.g., https://user.github.io/repo/pricing.html)
-        if (referer) {
-            // Remove the filename (e.g., pricing.html) to get the base directory URL
+        // If referer is strictly present and matches pattern, override it with referer logic
+        if (referer && referer.includes('.html')) {
             basePath = referer.substring(0, referer.lastIndexOf('/'));
         }
 
