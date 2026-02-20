@@ -82,7 +82,7 @@ END $$;
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
-  INSERT INTO public.profiles (id, email, full_name, role, jurisdiction, subscription_tier)
+  INSERT INTO public.profiles (id, email, username, role, jurisdiction, subscription_tier)
   VALUES (
     new.id,
     new.email,
