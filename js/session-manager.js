@@ -271,8 +271,9 @@ export const SessionManager = {
 
         let isGranted = false;
 
-        // Admin bypasses everything
-        if (role === 'Head of Digital') {
+        // Admin or Dev Mode bypasses everything
+        const isDevModeActive = typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true';
+        if (role === 'Head of Digital' || isDevModeActive) {
             isGranted = true;
         }
         // 1. Check Role-based access
