@@ -52,7 +52,7 @@ serve(async (req) => {
                 const { error } = await supabaseAdmin
                     .from('profiles')
                     .update({ subscription_tier: plan })
-                    .eq('user_id', userId);
+                    .eq('id', userId);
 
                 if (error) {
                     console.error("Error updating profile in Supabase:", error);
