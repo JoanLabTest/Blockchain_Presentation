@@ -687,17 +687,31 @@
         document.addEventListener('DOMContentLoaded', async () => {
             // Check for upgrade success flag to force refresh profile
             const urlParams = new URLSearchParams(window.location.search);
+            let isUpgradeRoute = false;
+
             if (urlParams.get('upgrade') === 'success') {
-                localStorage.removeItem('userProfile'); // Force refresh from DB
-                SessionManager.showToast('✨', 'Abonnement Activé', 'Bienvenue dans votre nouvel espace premium !');
-                // Clean URL to prevent infinite refreshes
+                isUpgradeRoute = true;
+                localStorage.removeItem(SessionManager.KEYS?.USER_PROFILE || 'dcm_user_profile');
+                SessionManager.showToast('✨', 'Abonnement Activé', 'Configuration de votre espace premium en cours...');
                 window.history.replaceState({}, document.title, window.location.pathname);
-                // Optional: Give the webhook a tiny bit of time (1s) to finish DB update before fetching
-                await new Promise(r => setTimeout(r, 1000));
             }
 
             // 1. Session Check (async — real Supabase JWT)
-            const user = await SessionManager.init();
+            let user = await SessionManager.init();
+
+            // 1.5 Polling if we just upgraded (webhook can take 2-4 seconds)
+            if (isUpgradeRoute && user) {
+                let attempts = 0;
+                while (user.subscription_tier === 'free' && attempts < 5) {
+                    console.log(`Polling for premium tier... (Attempt ${attempts + 1})`);
+                    await new Promise(r => setTimeout(r, 1500)); // wait 1.5s
+                    user = await SessionManager.init(); // re-fetch profile
+                    attempts++;
+                }
+                if (user.subscription_tier !== 'free') {
+                    SessionManager.showToast('✅', 'Succès', 'Votre abonnement est maintenant actif !');
+                }
+            }
 
             // 2. Populate Header
             if (user) {
