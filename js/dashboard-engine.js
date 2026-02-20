@@ -169,7 +169,19 @@ const Adapters = {
             const d = new Date(h.snapshot_date);
             return `${d.toLocaleString('fr', { month: 'short' })} ${d.getDate()}`;
         });
-        const researchScores = history.map(h => h.total_score);
+
+        // --- PHASE 49: Research Maturity Logic ---
+        // Dynamically compute 'Learning Velocity' based on score jumps
+        const researchScores = history.map((h, i, arr) => {
+            let baseScore = h.total_score;
+            if (i > 0) {
+                // Reward consistent progress
+                const diff = h.total_score - arr[i - 1].total_score;
+                if (diff > 0) baseScore += (diff * 0.1);
+            }
+            return Math.min(100, Math.round(baseScore));
+        });
+
         const last = history[history.length - 1];
         const radarData = last ? {
             labels: ['Technology', 'Legal', 'Risk Mgmt', 'Engagement'],
@@ -177,6 +189,49 @@ const Adapters = {
         } : null;
 
         return { labels, researchScores, radarData };
+    },
+
+    // --- PHASE 49: ALGORITHMIC RISK ENGINE ---
+    calculateRiskIndex: (sims, scores) => {
+        let riskScore = 50;
+        let alerts = [];
+
+        // Factor 1: Quiz Scores (Risk Mgmt knowledge)
+        const riskKnowledge = scores?.radarData ? scores.radarData.dataset[2] : 50; // Index 2 is 'Risk Mgmt'
+        if (riskKnowledge < 60) {
+            riskScore += 20;
+            alerts.push({ text: 'Compétence technique (Risque) détectée comme faible', type: 'critical' });
+        } else if (riskKnowledge > 80) {
+            riskScore -= 15;
+            alerts.push({ text: 'Maîtrise théorique du risque validée', type: 'optimal' });
+        }
+
+        // Factor 2: Simulation History
+        if (sims && sims.length > 0) {
+            const criticalSims = sims.filter(s => s.status === 'critical').length;
+            const optimalSims = sims.filter(s => s.status === 'optimal').length;
+
+            if (criticalSims > 0) {
+                riskScore += (criticalSims * 10);
+                alerts.push({ text: `${criticalSims} simulation(s) à haut risque identifiée(s)`, type: 'warning' });
+            }
+            if (optimalSims > 0) {
+                riskScore -= (optimalSims * 5);
+            }
+        } else {
+            alerts.push({ text: 'Aucune donnée de yield simulée (Visibilité faible)', type: 'warning' });
+        }
+
+        // Final Constraints
+        riskScore = Math.max(0, Math.min(100, riskScore));
+
+        let tier, color, label;
+        if (riskScore < 30) { tier = 'Low'; color = 'var(--accent-green)'; label = 'Stratégie Conservatrice'; }
+        else if (riskScore < 60) { tier = 'Medium'; color = 'var(--accent-gold)'; label = 'Exposition Modérée'; }
+        else if (riskScore < 80) { tier = 'High'; color = 'var(--accent-red)'; label = 'Volatilité & Smart Contracts'; }
+        else { tier = 'Critical'; color = '#ef4444'; label = 'Surexposition Danger'; }
+
+        return { score: riskScore, tier, color, label, alerts };
     },
 
     adaptSimulations: (sims) => {
@@ -215,11 +270,13 @@ export const DashboardEngine = {
 
     // --- PRIMARY: Try Supabase, fallback to mock ---
     loadData: async () => {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = window.supabase ? await window.supabase.auth.getSession() : { data: {} };
 
         if (!session) {
             console.info('ℹ️ No Supabase session — using mock data (offline/demo mode)');
-            return { source: 'mock', ...MockData.generate() };
+            const mock = MockData.generate();
+            const riskAdapted = Adapters.calculateRiskIndex(mock.simulations, mock);
+            return { source: 'mock', ...mock, riskProfile: riskAdapted };
         }
 
         const userId = session.user.id;
@@ -240,17 +297,23 @@ export const DashboardEngine = {
         const simsAdapted = Adapters.adaptSimulations(simulations);
         const logsAdapted = Adapters.adaptActivityLogs(activityLogs);
 
+        // --- PHASE 49: Algorithmic Logic Execution ---
+        const finalSims = simsAdapted || mock.simulations;
+        const finalScores = { radarData: scoreAdapted.radarData || mock.radarData };
+        const riskAdapted = Adapters.calculateRiskIndex(finalSims, finalScores);
+
         return {
             source: 'supabase',
             userId,
-            simulations: simsAdapted || mock.simulations,
+            simulations: finalSims,
             evolutionLabels: scoreAdapted.labels.length > 0 ? scoreAdapted.labels : mock.evolutionLabels,
             researchScores: scoreAdapted.researchScores.length > 0 ? scoreAdapted.researchScores : mock.researchScores,
             quizScores: quizAdapted.quizScores.length > 1 ? quizAdapted.quizScores : mock.quizScores,
             lastGrade: quizAdapted.lastGrade || 'A-',
             radarData: scoreAdapted.radarData || mock.radarData,
             complianceProfile: mock.complianceProfile,
-            timeline: logsAdapted || mock.timeline
+            timeline: logsAdapted || mock.timeline,
+            riskProfile: riskAdapted
         };
     },
 
@@ -375,6 +438,35 @@ export const DashboardEngine = {
         }
     },
 
+    // --- PHASE 49: DYNAMIC RISK WIDGET ---
+    renderRiskWidget: (riskData) => {
+        if (!riskData) return;
+
+        const cardEl = document.getElementById('risk-card');
+        const circleEl = document.getElementById('risk-score-circle');
+        const labelEl = document.getElementById('risk-score-label');
+        const alertsEl = document.getElementById('risk-alerts');
+
+        if (circleEl) {
+            circleEl.innerText = riskData.tier;
+            circleEl.style.borderColor = riskData.color;
+            circleEl.style.color = riskData.color;
+        }
+        if (cardEl) {
+            cardEl.style.borderTopColor = riskData.color;
+        }
+        if (labelEl) {
+            labelEl.innerText = riskData.label;
+        }
+        if (alertsEl) {
+            alertsEl.innerHTML = riskData.alerts.map(a =>
+                `<div style="font-size:11px; margin-top:5px; padding:6px 8px; border-radius:6px; background:rgba(255,255,255,0.05); color:${a.type === 'critical' ? '#ef4444' : a.type === 'warning' ? '#f59e0b' : '#10b981'}">
+                    <i class="fas fa-${a.type === 'critical' ? 'radiation' : a.type === 'warning' ? 'exclamation-circle' : 'check-circle'}"></i> ${a.text}
+                </div>`
+            ).join('');
+        }
+    },
+
     renderTimeline: (events) => {
         const container = document.getElementById('activity-timeline');
         if (!container) return;
@@ -408,6 +500,9 @@ export const DashboardEngine = {
         const data = await DashboardEngine.loadData();
         DashboardEngine.initCharts(data);
         DashboardEngine.renderComplianceWidget(data.complianceProfile);
+        DashboardEngine.renderRiskWidget(data.riskProfile);
+        DashboardEngine.renderTimeline(data.timeline);
+        DashboardEngine.renderSimulationTable(data.simulations);
     },
 
     // --- PUBLIC API for external modules ---
