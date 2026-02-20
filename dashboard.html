@@ -685,6 +685,17 @@
         };
 
         document.addEventListener('DOMContentLoaded', async () => {
+            // Check for upgrade success flag to force refresh profile
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('upgrade') === 'success') {
+                localStorage.removeItem('userProfile'); // Force refresh from DB
+                SessionManager.showToast('✨', 'Abonnement Activé', 'Bienvenue dans votre nouvel espace premium !');
+                // Clean URL to prevent infinite refreshes
+                window.history.replaceState({}, document.title, window.location.pathname);
+                // Optional: Give the webhook a tiny bit of time (1s) to finish DB update before fetching
+                await new Promise(r => setTimeout(r, 1000));
+            }
+
             // 1. Session Check (async — real Supabase JWT)
             const user = await SessionManager.init();
 
