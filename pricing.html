@@ -519,8 +519,8 @@
                 <li class="feature-item"><i class="fa-solid fa-check"></i> Score Compliance (MiCA) Live</li>
                 <li class="feature-item"><i class="fa-solid fa-check"></i> Certification & Quiz Profiling</li>
             </ul>
-            <!-- Placeholder for Stripe Checkout flow -->
-            <button class="btn btn-primary" onclick="alert('Redirection vers Stripe Checkout...')">Start 14-Day Free
+            <!-- Stripe Checkout flow -->
+            <button id="btn-pro" class="btn btn-primary" onclick="initiateCheckout('pro')">Start 14-Day Free
                 Trial</button>
         </div>
 
@@ -708,25 +708,121 @@
 
     <!-- SCRIPTS -->
     <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        // AOS Init Fix
+    <script type="module">
+        import { SessionManager } from './js/session-manager.js';
+
+        const SUPABASE_URL = 'https://wnwerjuqtrduqkgwdjrg.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo';
+
+        // AOS Init
         window.addEventListener('load', function () { AOS.init({ duration: 800, once: true }); });
 
-        // Pricing Toggle Logic
+        // --- BILLING TOGGLE ---
+        let currentBillingCycle = 'monthly';
         function toggleBilling() {
             const isYearly = document.getElementById('billing-switch').checked;
-            const pricePro = document.getElementById('price-pro');
+            currentBillingCycle = isYearly ? 'yearly' : 'monthly';
 
+            const pricePro = document.getElementById('price-pro');
             document.getElementById('label-monthly').classList.toggle('active', !isYearly);
             document.getElementById('label-yearly').classList.toggle('active', isYearly);
 
-            if (isYearly) {
-                // 49 EUR * 12 = 588 EUR. Discount 20% = 470 EUR / yr = ~39 EUR / mo
-                pricePro.innerHTML = '€39<span>/mo</span>';
-            } else {
-                pricePro.innerHTML = '€49<span>/mo</span>';
+            pricePro.innerHTML = isYearly ? '€39<span>/mo</span>' : '€49<span>/mo</span>';
+        }
+        window.toggleBilling = toggleBilling;
+
+        // --- STRIPE CHECKOUT ---
+        async function initiateCheckout(plan) {
+            const btn = document.getElementById(`btn-${plan}`);
+            if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirection...';
+
+            try {
+                const user = await SessionManager.init();
+                if (!user) {
+                    alert('Veuillez vous connecter avant de souscrire à un abonnement.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/create-checkout`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    },
+                    body: JSON.stringify({
+                        plan: plan,
+                        userId: user.id,
+                        billing: currentBillingCycle,
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error(data.error || 'Erreur inconnue lors de la création de la session.');
+                }
+            } catch (err) {
+                console.error('Checkout error:', err);
+                alert(`Erreur : ${err.message}`);
+                if (btn) btn.innerHTML = 'Start 14-Day Free Trial';
             }
         }
+        window.initiateCheckout = initiateCheckout;
+
+        // --- STRIPE CUSTOMER PORTAL (Manage Subscription) ---
+        async function manageSubscription() {
+            const btn = document.getElementById('btn-manage');
+            if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Ouverture...';
+
+            try {
+                const user = await SessionManager.init();
+                if (!user) return;
+
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/manage-subscription`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    },
+                    body: JSON.stringify({ userId: user.id }),
+                });
+
+                const data = await response.json();
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error(data.error || 'Impossible d\'ouvrir le portail d\'abonnement.');
+                }
+            } catch (err) {
+                console.error('Portal error:', err);
+                alert(`Erreur : ${err.message}`);
+                if (btn) btn.innerHTML = '⚙️ Gérer mon Abonnement';
+            }
+        }
+        window.manageSubscription = manageSubscription;
+
+        // --- DYNAMIC SESSION UI ---
+        window.addEventListener('load', async () => {
+            const user = await SessionManager.init();
+            if (!user) return;
+
+            const tier = user.subscription_tier || 'free';
+
+            if (tier === 'pro' || tier === 'institutional') {
+                // Replace Pro CTA with a portal link
+                const btn = document.getElementById('btn-pro');
+                if (btn) {
+                    btn.outerHTML = `<button id="btn-manage" class="btn btn-primary" onclick="manageSubscription()" style="background:rgba(16,185,129,0.15);border:1px solid #10b981;color:#10b981;">
+                        ⚙️ Gérer mon Abonnement
+                    </button>`;
+                }
+            }
+        });
     </script>
 </body>
 

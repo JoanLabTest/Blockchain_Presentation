@@ -18,21 +18,26 @@ serve(async (req) => {
     }
 
     try {
-        const { plan, userId } = await req.json();
+        const { plan, userId, billing } = await req.json();
 
         if (!userId) {
             throw new Error('User ID is required');
         }
 
+        const isYearly = billing === 'yearly';
+
         let priceAmount = 0;
         let productName = "";
+        let interval: 'month' | 'year' = isYearly ? 'year' : 'month';
 
         if (plan === 'pro') {
-            priceAmount = 2900; // 29€ in cents
-            productName = "DCM Pro Access (Mensuel)";
+            // Monthly: 49€, Yearly: 470€ (20% off 588€)
+            priceAmount = isYearly ? 47000 : 4900;
+            productName = `DCM Pro Access (${isYearly ? 'Annuel' : 'Mensuel'})`;
         } else if (plan === 'institutional') {
-            priceAmount = 9900; // 99€ in cents
-            productName = "DCM Institutional Access (Mensuel)";
+            // Monthly: 99€, Yearly: 950€ (20% off)
+            priceAmount = isYearly ? 95000 : 9900;
+            productName = `DCM Institutional Access (${isYearly ? 'Annuel' : 'Mensuel'})`;
         } else {
             throw new Error("Plan invalide");
         }
@@ -62,7 +67,7 @@ serve(async (req) => {
                         },
                         unit_amount: priceAmount,
                         recurring: {
-                            interval: 'month',
+                            interval: interval,
                         },
                     },
                     quantity: 1,
@@ -74,6 +79,7 @@ serve(async (req) => {
             metadata: {
                 user_id: userId,
                 plan: plan,
+                billing: isYearly ? 'yearly' : 'monthly',
             }
         });
 

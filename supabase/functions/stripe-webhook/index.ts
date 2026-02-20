@@ -39,19 +39,19 @@ serve(async (req) => {
             const session = event.data.object;
             const userId = session.metadata?.user_id;
             const plan = session.metadata?.plan;
+            const stripeCustomerId = session.customer as string;
 
             if (userId && plan) {
-                // Initialize Supabase admin client to bypass RLS for updating the profile
                 const supabaseUrl = Deno.env.get('SUPABASE_URL') as string;
-                // Important: Use SERVICE ROLE KEY to update profiles via backend.
-                // Do NOT use anon key. Make sure SUPABASE_SERVICE_ROLE_KEY is injected by Supabase Edge.
                 const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') as string;
-
                 const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
 
                 const { error } = await supabaseAdmin
                     .from('profiles')
-                    .update({ subscription_tier: plan })
+                    .update({
+                        subscription_tier: plan,
+                        stripe_customer_id: stripeCustomerId,
+                    })
                     .eq('id', userId);
 
                 if (error) {
@@ -59,10 +59,32 @@ serve(async (req) => {
                     return new Response("Database error", { status: 500 });
                 }
 
-                console.log(`Successfully upgraded User [${userId}] to plan [${plan}]`);
+                console.log(`✅ Upgraded User [${userId}] to [${plan}]. Stripe Customer: ${stripeCustomerId}`);
             } else {
                 console.warn("Checkout session missing metadata user_id or plan");
             }
+        }
+
+        // Handle subscription cancellation — downgrade user to free
+        if (event.type === 'customer.subscription.deleted') {
+            const subscription = event.data.object;
+            const stripeCustomerId = subscription.customer as string;
+
+            const supabaseUrl = Deno.env.get('SUPABASE_URL') as string;
+            const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') as string;
+            const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
+
+            const { error } = await supabaseAdmin
+                .from('profiles')
+                .update({ subscription_tier: 'free' })
+                .eq('stripe_customer_id', stripeCustomerId);
+
+            if (error) {
+                console.error("Error downgrading profile:", error);
+                return new Response("Database error", { status: 500 });
+            }
+
+            console.log(`🔒 Subscription cancelled for Stripe Customer: ${stripeCustomerId}. Downgraded to free.`);
         }
 
         return new Response(JSON.stringify({ received: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
