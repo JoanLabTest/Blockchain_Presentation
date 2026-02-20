@@ -37,8 +37,17 @@ serve(async (req) => {
             throw new Error("Plan invalide");
         }
 
-        // Get origin from request to configure return URLs dynamically
-        const origin = req.headers.get('origin') || "http://localhost:3000";
+        // Get origin and referer to construct proper return URLs dynamically (vital for GitHub Pages)
+        const requestOrigin = req.headers.get('origin') || "http://localhost:3000";
+        const referer = req.headers.get('referer');
+
+        let basePath = requestOrigin;
+
+        // If referer is available, it provides the exact path (e.g., https://user.github.io/repo/pricing.html)
+        if (referer) {
+            // Remove the filename (e.g., pricing.html) to get the base directory URL
+            basePath = referer.substring(0, referer.lastIndexOf('/'));
+        }
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -58,8 +67,8 @@ serve(async (req) => {
                 },
             ],
             mode: 'subscription',
-            success_url: `${origin}/dashboard.html?upgrade=success`,
-            cancel_url: `${origin}/pricing.html?upgrade=cancelled`,
+            success_url: `${basePath}/dashboard.html?upgrade=success`,
+            cancel_url: `${basePath}/pricing.html?upgrade=cancelled`,
             metadata: {
                 user_id: userId,
                 plan: plan,
