@@ -691,7 +691,7 @@
             <i class="fa-solid fa-graduation-cap" style="color: var(--accent-gold);"></i> CERTIFICATION <span
                 style="color:var(--accent-gold)">DCM</span>
         </div>
-        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Retour au Cours</a>
+        <a aria-label="Retour" href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Retour au Cours</a>
     </nav>
 
     <div class="quiz-wrapper">
@@ -762,7 +762,7 @@
             </div>
 
             <div class="footer-secret" style="position: fixed; bottom: 20px; right: 20px; z-index: 100;">
-                <button class="secret-btn" onclick="openPasswordModal()"
+                <button aria-label="Bouton" class="secret-btn" onclick="openPasswordModal()"
                     style="background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; transition: all 0.3s;">
                     <i class="fas fa-terminal"></i> Dev Mode
                 </button>
@@ -793,7 +793,7 @@
                     <p id="feedbackText" style="margin-top: 5px; color: var(--text-muted); font-size: 15px;"></p>
                 </div>
 
-                <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Question Suivante <i
+                <button aria-label="Bouton" class="next-btn" id="nextBtn" onclick="nextQuestion()">Question Suivante <i
                         class="fa-solid fa-arrow-right"></i></button>
             </div>
 
@@ -899,17 +899,17 @@
             </h3>
             <p style="font-size:12px; color:var(--text-muted);">Saisissez le code d'accès Head Of.</p>
             <input type="password" id="secretPass" class="modal-input" placeholder="Mot de passe">
-            <button onclick="checkPassword()"
+            <button aria-label="Bouton" onclick="checkPassword()"
                 style="width:100%; padding: 10px; background: var(--accent-gold); border:none; border-radius:8px; font-weight:bold; cursor:pointer; color: #000;">DÉVERROUILLÉ</button>
 
             <div style="margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px;">
-                <button onclick="resetProgress()"
+                <button aria-label="Bouton" onclick="resetProgress()"
                     style="width:100%; padding: 8px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; border-radius: 8px; font-size: 12px; cursor: pointer;">
                     <i class="fas fa-trash"></i> Réinitialiser la progression
                 </button>
             </div>
 
-            <button onclick="closePasswordModal()"
+            <button aria-label="Bouton" onclick="closePasswordModal()"
                 style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
         </div>
     </div>
@@ -922,10 +922,10 @@
             <p style="font-size:12px; color:var(--text-muted);">Entrez le nom complet qui figurera sur le certificat
                 officiel.</p>
             <input type="text" id="diplomaName" class="modal-input" placeholder="Prénom Nom (ex: Jean Dupont)">
-            <button onclick="generateFinalDiploma()"
+            <button aria-label="Bouton" onclick="generateFinalDiploma()"
                 style="width:100%; padding: 10px; background: var(--accent-blue); color: white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GÉNÉRER
                 LE PDF</button>
-            <button onclick="closeDiplomaModal()"
+            <button aria-label="Bouton" onclick="closeDiplomaModal()"
                 style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
         </div>
     </div>
@@ -966,10 +966,10 @@
             <p style="font-size:12px; color:var(--text-muted);">Entrez le nom complet qui figurera sur le certificat
                 officiel.</p>
             <input type="text" id="diplomaName" class="modal-input" placeholder="Prénom Nom (ex: Jean Dupont)">
-            <button onclick="generateFinalDiploma()"
+            <button aria-label="Bouton" onclick="generateFinalDiploma()"
                 style="width:100%; padding: 10px; background: var(--accent-blue); color: white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GÉNÉRER
                 LE PDF</button>
-            <button onclick="closeDiplomaModal()"
+            <button aria-label="Bouton" onclick="closeDiplomaModal()"
                 style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
         </div>
     </div>
@@ -1349,12 +1349,12 @@
             finalScoreEl.innerText = percentage + "%";
 
             // Common Restart
-            const restartBtn = `<button onclick="location.reload()" style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Retour au Centre</button>`;
+            const restartBtn = `<button aria-label="Bouton" onclick="location.reload()" style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Retour au Centre</button>`;
 
             let rank = "Échec";
             let color = "#ef4444";
             let msg = "Il faut 80% pour valider ce grade.";
-            let actionBtn = `<button onclick="startLevel(${currentLevel})" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
+            let actionBtn = `<button aria-label="Bouton" onclick="startLevel(${currentLevel})" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
 
             // --- RANKED LOGIC ---
 
@@ -1364,8 +1364,8 @@
                 color = "#cd7f32"; // Bronze
                 msg = "Fondamentaux validés. Le niveau Opérationnel est débloqué.";
                 localStorage.setItem('quiz_metal_1', 'bronze');
-                actionBtn = `<button onclick="startLevel(2)" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Argent</button>
-        <button onclick="openDiplomaModal()" style="padding: 15px 30px; background: #cd7f32; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Mon Certificat 🥉</button>`;
+                actionBtn = `<button aria-label="Bouton" onclick="startLevel(2)" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Argent</button>
+        <button aria-label="Bouton" onclick="openDiplomaModal()" style="padding: 15px 30px; background: #cd7f32; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Mon Certificat 🥉</button>`;
             }
             // LEVEL 2 -> SILVER
             else if (currentLevel === 2 && passed) {
@@ -1373,8 +1373,8 @@
                 color = "#c0c0c0"; // Silver
                 msg = "Opérations maîtrisées. Accès au niveau Stratégique.";
                 localStorage.setItem('quiz_metal_2', 'silver');
-                actionBtn = `<button onclick="startLevel(3)" style="padding: 15px 30px; background: var(--accent-purple); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Or</button>
-        <button onclick="openDiplomaModal()" style="padding: 15px 30px; background: #c0c0c0; color: #000; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Mon Certificat 🥈</button>`;
+                actionBtn = `<button aria-label="Bouton" onclick="startLevel(3)" style="padding: 15px 30px; background: var(--accent-purple); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Or</button>
+        <button aria-label="Bouton" onclick="openDiplomaModal()" style="padding: 15px 30px; background: #c0c0c0; color: #000; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Mon Certificat 🥈</button>`;
             }
             // LEVEL 3 -> GOLD
             else if (currentLevel === 3 && passed) {
@@ -1387,10 +1387,10 @@
                 if (percentage >= 90) {
                     msg += " SCORE ÉLITE DÉTECTÉ. Accès Head Of autorisé.";
                     localStorage.setItem('quiz_lvl4_unlocked', 'true');
-                    actionBtn = `<button onclick="startLevel(4)" style="padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #B8860B); color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px; box-shadow: 0 0 20px #FFD700;">ENTRER DANS LA MATRICE</button>`;
+                    actionBtn = `<button aria-label="Bouton" onclick="startLevel(4)" style="padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #B8860B); color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px; box-shadow: 0 0 20px #FFD700;">ENTRER DANS LA MATRICE</button>`;
                 } else {
                     actionBtn = `<a href="index.html" style="padding: 15px 30px; background: var(--accent-gold); color: white; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px;">Retour au QG</a>
-            <button onclick="openDiplomaModal()" style="padding: 15px 30px; background: #ffd700; color: #000; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Mon Certificat 🥇</button>`;
+            <button aria-label="Bouton" onclick="openDiplomaModal()" style="padding: 15px 30px; background: #ffd700; color: #000; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Mon Certificat 🥇</button>`;
                 }
             }
             // LEVEL 4 -> HEAD OF RANKING
@@ -1424,7 +1424,7 @@
                     rank = "ÉCHEC CRITIQUE 💀";
                     color = "#ef4444";
                     msg = "Le niveau Head Of ne pardonne pas les approximations (<65%).";
-                    actionBtn = `<button onclick="startLevel(4)" style="padding: 15px 30px; background: #FFD700; color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
+                    actionBtn = `<button aria-label="Bouton" onclick="startLevel(4)" style="padding: 15px 30px; background: #FFD700; color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
                 }
 
                 if (percentage >= 65) {
@@ -1437,7 +1437,7 @@
             finalScoreEl.style.borderColor = (color === "transparent") ? "#FFD700" : color;
             finalMsgEl.innerText = msg;
 
-            const aiDebriefBtn = `<button onclick="generateAISummary()" style="padding: 15px 30px; background: rgba(102, 126, 234, 0.2); color: #667eea; border: 1px solid #667eea; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;"><i class="fas fa-brain"></i> Débriefing IA</button>`;
+            const aiDebriefBtn = `<button aria-label="Bouton" onclick="generateAISummary()" style="padding: 15px 30px; background: rgba(102, 126, 234, 0.2); color: #667eea; border: 1px solid #667eea; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;"><i class="fas fa-brain"></i> Débriefing IA</button>`;
 
             btnContainer.innerHTML = restartBtn + actionBtn + aiDebriefBtn;
 
