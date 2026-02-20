@@ -48,14 +48,17 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "DCM Intelligence Cockpit",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR"
+      "@type": "ProfilePage",
+      "name": "DCM Intelligence Dashboard",
+      "description": "User personalized dashboard featuring research maturity, performance analytics, and compliance tracking.",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "Utilisateur DCM",
+        "interactionStatistic": {
+          "@type": "InteractionCounter",
+          "interactionType": "https://schema.org/ReadAction",
+          "userInteractionCount": 14
+        }
       }
     }
     </script>
@@ -516,7 +519,9 @@
                 class="avatar" alt="User">
             <div>
                 <div style="font-size:14px; font-weight:700;">Joan Lyczak</div>
-                <div style="font-size:11px; color:var(--text-muted);">Institutional Access</div>
+                <div style="font-size:11px; color:var(--text-muted); display:flex; gap:5px; margin-top:2px;">
+                    <span id="user-tier-badge"></span>
+                </div>
             </div>
         </div>
     </aside>
@@ -531,15 +536,12 @@
                 <p>Suivi de progression et conformité réglementaire.</p>
             </div>
             <div class="actions">
-                <div id="data-source-badge" style="display:flex;align-items:center"></div>
-                <div id="user-tier-badge" style="display:flex;align-items:center;margin-right:10px;"></div>
-                <div class="user-meta">
-                    <span id="user-role"><i class="fas fa-user-shield"></i> ...</span>
-                    <span>|</span>
-                    <span id="user-jurisdiction"><i class="fas fa-globe-europe"></i> ...</span>
-                </div>
-                <button aria-label="Bouton" class="btn-primary" onclick="generateReport()"><i class="fas fa-file-pdf"></i> Export
-                    Brief</button>
+                <button class="btn-glass" onclick="alert('Export CSV en cours...')" title="Export Raw Data">
+                    <i class="fas fa-file-csv"></i> CSV
+                </button>
+                <button aria-label="Bouton" class="btn-primary" onclick="generateReport()" title="Export PDF Brief">
+                    <i class="fas fa-file-pdf"></i> PDF
+                </button>
             </div>
         </header>
 
@@ -569,7 +571,8 @@
                         <div class="metric-sub">4 Modules validés</div>
                     </div>
                 </div>
-                <button aria-label="Bouton" class="btn-glass" style="margin-top:auto; width:100%; justify-content:center;"
+                <button aria-label="Bouton" class="btn-glass"
+                    style="margin-top:auto; width:100%; justify-content:center;"
                     onclick="window.location.href='quiz.html'">
                     <i class="fas fa-play"></i> Continuer
                 </button>
@@ -618,45 +621,64 @@
             </div>
 
             <!-- COMPLIANCE PROFILE -->
-            <div class="card span-2">
+            <div class="card span-1">
                 <div class="card-header">
-                    <div class="card-title"><i class="fas fa-shield-alt"></i> Profil Conformité (MiCA)</div>
-                    <span class="status-badge"
-                        style="background:rgba(16, 185, 129, 0.1); color:var(--accent-green)">READY</span>
+                    <div class="card-title"><i class="fas fa-shield-alt"></i> Compliance (MiCA)</div>
                 </div>
 
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
-                    <div style="display:flex; align-items:center; gap:20px;">
-                        <div style="font-size:48px;">🇪🇺</div>
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div style="font-size:32px;">🇪🇺</div>
                         <div>
-                            <div style="font-weight:700; color:white;">Union Européenne</div>
-                            <div class="metric-sub">Juridiction Primaire</div>
+                            <div style="font-weight:700; color:white; font-size:13px;">Zone Euro</div>
                         </div>
                     </div>
-                    <div style="text-align:right;">
-                        <div class="metric-sub">Friction Réglementaire</div>
-                        <div style="font-size:24px; font-weight:700; color:var(--accent-gold);"
-                            id="compliance-score-val">--/100</div>
+                </div>
+
+                <div style="margin-bottom:15px; text-align:center;">
+                    <div style="font-size:32px; font-weight:700; color:var(--accent-gold);" id="compliance-score-val">--
                     </div>
+                    <div class="metric-sub" style="justify-content:center;">Friction Réglementaire</div>
                 </div>
 
                 <div
-                    style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; margin-bottom:20px;">
+                    style="width:100%; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; margin-bottom:15px;">
                     <div id="compliance-bar-fill"
-                        style="width:0%; height:100%; background:var(--accent-gold); border-radius:4px;"></div>
+                        style="width:0%; height:100%; background:var(--accent-gold); border-radius:3px;"></div>
                 </div>
 
-                <div id="compliance-alerts" style="display:flex; gap:10px; flex-wrap:wrap;">
+                <div id="compliance-alerts" style="display:flex; flex-direction:column; gap:5px;">
                     <!-- JS Injected Alerts -->
                 </div>
             </div>
+
+            <!-- RISK EXPOSURE INDEX -->
+            <div class="card span-1" style="border-top: 3px solid var(--accent-red);">
+                <div class="card-header">
+                    <div class="card-title"><i class="fas fa-exclamation-triangle"></i> Risk Exposure</div>
+                </div>
+                <div
+                    style="display:flex; align-items:center; justify-content:center; flex-grow:1; flex-direction:column;">
+                    <div class="score-circle"
+                        style="width:80px; height:80px; font-size:20px; border-color:var(--accent-red); margin-bottom:15px;">
+                        High</div>
+                    <div style="font-size:12px; color:var(--text-muted); text-align:center;">Volatilité & Smart
+                        Contracts</div>
+                </div>
+                <button class="btn-glass" style="margin-top:top; width:100%; justify-content:center;"
+                    onclick="window.location.href='flux-comparison.html'">
+                    Gérer le collatéral
+                </button>
+            </div>
+
         </div>
 
         <!-- SIMULATION HISTORY -->
         <div class="card span-4" data-aos="fade-up" data-aos-delay="200">
             <div class="card-header">
                 <div class="card-title"><i class="fas fa-list"></i> Historique des Simulations</div>
-                <button aria-label="Bouton" class="btn-glass" style="font-size:11px; padding:5px 10px;">View Full Logs</button>
+                <button aria-label="Bouton" class="btn-glass" style="font-size:11px; padding:5px 10px;">View Full
+                    Logs</button>
             </div>
             <table style="width:100%;">
                 <thead>
@@ -683,7 +705,7 @@
         import { DashboardEngine } from './js/dashboard-engine.js';
 
         // Initialize AOS
-        window.addEventListener('load', function() { AOS.init({ duration: 800, once: true }); });
+        window.addEventListener('load', function () { AOS.init({ duration: 800, once: true }); });
 
         // Make SessionManager global for HTML onclick events
         window.SessionManager = SessionManager;

@@ -2,396 +2,728 @@
 <html lang="fr">
 
 <head>
-    <link rel="alternate" hreflang="fr" href="https://joanlabtest.github.io/Blockchain_Presentation/pricing.html">
-    <link rel="alternate" hreflang="x-default" href="https://joanlabtest.github.io/Blockchain_Presentation/pricing.html">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCM Intelligence - Offres & Tarifs</title>
+    <title>DCM Digital Hub | Pricing & Plans</title>
+
+    <!-- SEO & Metadata -->
+    <meta name="description"
+        content="Découvrez nos abonnements Pro et Enterprise. Débloquez les analyses avancées, la génération de rapports personnalisés et les simulations on-chain RWA.">
+    <meta name="robots" content="index, follow">
+
+    <!-- JSON-LD Structured Data (Product/Offer) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "DCM Digital Hub Subscription",
+      "description": "Subscription plans for institutional blockchain research and intelligence.",
+      "brand": {
+        "@type": "Brand",
+        "name": "DCM Digital"
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Pro Plan",
+          "price": "49.00",
+          "priceCurrency": "EUR",
+          "priceValidUntil": "2027-12-31",
+          "url": "https://joanlabtest.github.io/Blockchain_Presentation/pricing.html",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "Enterprise Plan",
+          "price": "999.00",
+          "priceCurrency": "EUR",
+          "priceValidUntil": "2027-12-31",
+          "url": "https://joanlabtest.github.io/Blockchain_Presentation/pricing.html",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    }
+    </script>
 
     <!-- FONTS -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800;900&family=Outfit:wght@500;700&display=swap"
         rel="stylesheet">
-
-    <!-- ICONS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles/main.css">
+    <!-- Institutional Footer Styles CSS -->
+    <link rel="stylesheet" href="styles-footer.css">
 
     <style>
         :root {
-            --bg-dark: #020617;
-            --bg-card: rgba(15, 23, 42, 0.6);
-            --border: rgba(148, 163, 184, 0.1);
+            --bg-dark: #000000;
+            --bg-card: #0a0a0a;
+            --text-main: #f3f4f6;
+            --text-muted: #888888;
+            --accent-green: #10b981;
             --accent-blue: #3b82f6;
             --accent-purple: #8b5cf6;
             --accent-gold: #f59e0b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --border: #222;
         }
 
         body {
             background-color: var(--bg-dark);
-            color: var(--text-main);
             font-family: 'Urbanist', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 80px 20px;
-            background: radial-gradient(circle at top right, #1e1b4b 0%, #020617 40%);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
-            max-width: 600px;
-        }
-
-        .header h1 {
-            font-size: 42px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-        }
-
-        .header p {
-            color: var(--text-muted);
-            font-size: 18px;
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
             line-height: 1.6;
         }
 
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 30px;
-            max-width: 1100px;
-            width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            .pricing-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .pricing-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .pricing-card.popular {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: 15px;
-            right: -30px;
-            background: var(--accent-blue);
-            color: white;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 5px 30px;
-            transform: rotate(45deg);
-            text-transform: uppercase;
-        }
-
-        .plan-name {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--text-muted);
-        }
-
-        .popular .plan-name {
-            color: var(--accent-blue);
-        }
-
-        .plan-price {
-            font-size: 48px;
-            font-weight: 800;
-            font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 5px;
-            color: white;
-        }
-
-        .plan-period {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
-        .plan-features {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 40px 0;
-            flex-grow: 1;
-        }
-
-        .plan-features li {
-            font-size: 15px;
-            color: #cbd5e1;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-            line-height: 1.4;
-        }
-
-        .plan-features li i {
-            color: #10b981;
-            margin-top: 3px;
-            margin-right: 12px;
-            font-size: 14px;
-        }
-
-        .plan-features li.disabled {
-            color: #475569;
-        }
-
-        .plan-features li.disabled i {
-            color: #475569;
-        }
-
-        .checkout-btn {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-        }
-
-        .checkout-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .popular .checkout-btn {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-        }
-
-        .popular .checkout-btn:hover {
-            background: #2563eb;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-        }
-
-        .inst .plan-name {
-            color: var(--accent-gold);
-        }
-
-        .inst .checkout-btn {
-            background: linear-gradient(135deg, var(--accent-gold), #b45309);
-            border: none;
-        }
-
-        #loadingOverlay {
+        /* NAVBAR */
+        .navbar {
             position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        /* HERO PRICING */
+        .pricing-hero {
+            padding: 140px 20px 60px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #000 60%);
+        }
+
+        h1 {
+            font-size: 50px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* TOGGLE SWITCH */
+        .billing-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .billing-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #888;
+            transition: 0.3s;
+        }
+
+        .billing-label.active {
+            color: white;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(2, 6, 23, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid #555;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .save-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        /* PRICING CARDS */
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .pricing-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pricing-card {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 40px 30px;
+            position: relative;
+            transition: all 0.3s;
+            display: flex;
             flex-direction: column;
-            z-index: 1000;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--accent-purple);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
+            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-purple);
             color: white;
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .tier-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .popular .tier-name {
+            color: var(--accent-purple);
+        }
+
+        .tier-price {
+            font-size: 48px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .tier-price span {
+            font-size: 16px;
+            color: #888;
+            font-weight: 400;
+            font-family: 'Urbanist', sans-serif;
+        }
+
+        .tier-desc {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            min-height: 42px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 40px;
+            flex-grow: 1;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .feature-item i {
+            color: var(--accent-green);
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        .feature-item.missing {
+            color: #555;
+        }
+
+        .feature-item.missing i {
+            color: #333;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #444;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: black;
+        }
+
+        .btn-primary {
+            background: var(--accent-purple);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #7c3aed;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* FEATURE MATRIX */
+        .matrix-section {
+            max-width: 1000px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .matrix-section h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .matrix-table th {
+            text-align: left;
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            color: white;
+            font-size: 18px;
+            width: 25%;
+        }
+
+        .matrix-table th:first-child {
+            width: 40%;
+            color: #888;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .matrix-table td {
+            padding: 20px;
+            border-bottom: 1px solid #222;
+            text-align: left;
+        }
+
+        .matrix-table td:first-child {
+            font-weight: 600;
+            color: #ddd;
+        }
+
+        .matrix-table td i.check {
+            color: var(--accent-green);
+            font-size: 18px;
+        }
+
+        .matrix-table td i.cross {
+            color: #333;
+            font-size: 18px;
+        }
+
+        .matrix-table th.highlight {
+            background: rgba(139, 92, 246, 0.05);
+            color: var(--accent-purple);
+        }
+
+        .matrix-table td.highlight {
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        /* SOCIAL PROOF / FAQ */
+        .social-proof {
+            text-align: center;
+            margin-bottom: 100px;
+            opacity: 0.6;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logos i {
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+
+        .logos i:hover {
+            opacity: 1;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="header">
-        <h1>Passez à la Vitesse Supérieure</h1>
-        <p>Débloquez le plein potentiel de l'intelligence artificielle et des rapports analytiques exclusifs.
-            Sélectionnez le plan qui correspond à vos ambitions.</p>
-    </div>
+    <nav class="navbar">
+        <div style="font-weight: 800; font-size: 18px; color: white;">
+            <i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM <span
+                style="color:var(--text-muted); font-weight:400;">DIGITAL</span>
+        </div>
+        <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> RETOUR DASHBOARD</a>
+    </nav>
 
-    <div class="pricing-grid">
+    <section class="pricing-hero">
+        <span
+            style="color:var(--accent-gold); font-weight:800; font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-bottom:15px; display:inline-block;">Plans
+            & Tarification</span>
+        <h1>Investissez dans l'Intelligence RWA</h1>
+        <p class="subtitle">Accédez à notre plateforme d'analyse on-chain, aux moteurs de simulation institutionnels et
+            à une matrice de conformité automatisée.</p>
 
-        <!-- FREE PLAN -->
+        <div class="billing-toggle">
+            <span class="billing-label active" id="label-monthly">Mensuel</span>
+            <label class="switch">
+                <input type="checkbox" id="billing-switch" onchange="toggleBilling()">
+                <span class="slider"></span>
+            </label>
+            <span class="billing-label" id="label-yearly">Annuel <span class="save-badge">Économisez 20%</span></span>
+        </div>
+    </section>
+
+    <!-- 3 TIERS CARDS -->
+    <div class="pricing-container" data-aos="fade-up">
+
+        <!-- FREE TIER -->
         <div class="pricing-card">
-            <div class="plan-name">Fondateur</div>
-            <div class="plan-price">0€</div>
-            <div class="plan-period">Accès limité à vie</div>
+            <div class="tier-name">Analyst Free</div>
+            <div class="tier-price">€0<span>/mo</span></div>
+            <div class="tier-desc">L'essentiel pour découvrir la tokenisation et l'écosystème blockchain.</div>
 
-            <ul class="plan-features">
-                <li><i class="fas fa-check"></i> Accès Niveaux 1 & 2 du Quiz</li>
-                <li><i class="fas fa-check"></i> Dashboard basique</li>
-                <li><i class="fas fa-check"></i> Certification Bronze & Argent</li>
-                <li class="disabled"><i class="fas fa-times"></i> Rapports PDF exclusifs</li>
-                <li class="disabled"><i class="fas fa-times"></i> IA Professeur Dédiée</li>
-                <li class="disabled"><i class="fas fa-times"></i> Matrice Légale (MiCA/Régime Pilote)</li>
-                <li class="disabled"><i class="fas fa-times"></i> Vue Administrateur (Analytique)</li>
+            <ul class="feature-list">
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Accès au Hub Central</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Documentation basique</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Comparateur de flux (Lecture)</li>
+                <li class="feature-item missing"><i class="fa-solid fa-xmark"></i> Dashboard personnalisé</li>
+                <li class="feature-item missing"><i class="fa-solid fa-xmark"></i> Export PDF/CSV</li>
+                <li class="feature-item missing"><i class="fa-solid fa-xmark"></i> Simulation Yield</li>
             </ul>
-
-            <button aria-label="Bouton" class="checkout-btn" onclick="window.location.href='dashboard.html'">Mon Hub Actuel</button>
+            <a href="index.html" class="btn btn-outline">Current Plan</a>
         </div>
 
-        <!-- PRO PLAN -->
+        <!-- PRO TIER -->
         <div class="pricing-card popular">
-            <div class="popular-badge">Populaire</div>
-            <div class="plan-name">Pro</div>
-            <div class="plan-price">29€</div>
-            <div class="plan-period">par mois, annulable à tout moment</div>
+            <div class="popular-badge">Most Popular</div>
+            <div class="tier-name">Professional</div>
+            <div class="tier-price" id="price-pro">€49<span>/mo</span></div>
+            <div class="tier-desc">Pour les experts métiers nécessitant des outils de décision et de conformité.</div>
 
-            <ul class="plan-features">
-                <li><i class="fas fa-check"></i> <b>Tout le contenu Gratuit</b></li>
-                <li><i class="fas fa-check"></i> Accès Niveau 3 (Or) du Quiz</li>
-                <li><i class="fas fa-check"></i> Rapports d'Intelligence PDF</li>
-                <li><i class="fas fa-check"></i> Matrice Légale complète</li>
-                <li><i class="fas fa-check"></i> Support IA Professeur Basique</li>
-                <li class="disabled"><i class="fas fa-times"></i> Accès au mode Head of Digital</li>
-                <li class="disabled"><i class="fas fa-times"></i> Vue Administrateur Avancée</li>
+            <ul class="feature-list">
+                <li class="feature-item"><i class="fa-solid fa-check"></i> TOUT LE PLAN FREE +</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Dashboard Analytique Complet</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Simulateur Yield Mechanics (V2)</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Export PDF & Rapports CSV</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Score Compliance (MiCA) Live</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Certification & Quiz Profiling</li>
             </ul>
-
-            <button aria-label="Bouton" class="checkout-btn" onclick="startCheckout('pro')"><i class="fas fa-bolt"></i> Devenir Pro</button>
+            <!-- Placeholder for Stripe Checkout flow -->
+            <button class="btn btn-primary" onclick="alert('Redirection vers Stripe Checkout...')">Start 14-Day Free
+                Trial</button>
         </div>
 
-        <!-- INSTITUTIONAL PLAN -->
-        <div class="pricing-card inst">
-            <div class="plan-name">Institutionnel</div>
-            <div class="plan-price">99€</div>
-            <div class="plan-period">par mois, usage en trading room</div>
+        <!-- ENTERPRISE TIER -->
+        <div class="pricing-card">
+            <div class="tier-name">Enterprise</div>
+            <div class="tier-price">Sur Mesure</div>
+            <div class="tier-desc">Architecture multi-utilisateurs et API on-chain pour institutions financières.</div>
 
-            <ul class="plan-features">
-                <li><i class="fas fa-check"></i> <b>Toutes les exclusivités Pro</b></li>
-                <li><i class="fas fa-check"></i> Déblocage du Niveau 4 (Head of Digital)</li>
-                <li><i class="fas fa-check"></i> Vue Administrateur & Analytiques Globaux</li>
-                <li><i class="fas fa-check"></i> Intelligence Artificielle Avancée (Complexité +)</li>
-                <li><i class="fas fa-check"></i> Données temps réel & API Data</li>
-                <li><i class="fas fa-check"></i> Support Prioritaire 24/7</li>
+            <ul class="feature-list">
+                <li class="feature-item"><i class="fa-solid fa-check"></i> TOUT LE PLAN PRO +</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Audit Smart Contracts privatif</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Accès API Données & Modèles</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Mode "Manager / Team View"</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> SLA 99.9% & SSO (SAML)</li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> Custom Legal Scoring Matrix</li>
             </ul>
-
-            <button aria-label="Bouton" class="checkout-btn" onclick="startCheckout('institutional')"><i class="fas fa-crown"></i>
-                Déverrouillage Total</button>
+            <a href="mailto:contact@dcm-digital.com" class="btn btn-outline"
+                style="border-color:var(--accent-gold); color:var(--accent-gold)">Contact Sales</a>
         </div>
 
     </div>
 
-    <div id="loadingOverlay">
-        <i class="fas fa-spinner fa-spin" style="font-size: 40px; color: #3b82f6; margin-bottom: 20px;"></i>
-        <h3 style="margin: 0; font-family: 'JetBrains Mono';">Connexion sécurisée à Stripe...</h3>
+    <!-- SOCIAL PROOF -->
+    <div class="social-proof" data-aos="fade-in">
+        <p style="font-size:14px; text-transform:uppercase; letter-spacing:2px; font-weight:700;">Trusted by Innovative
+            Teams</p>
+        <div class="logos">
+            <i class="fab fa-ethereum"></i>
+            <i class="fab fa-aws"></i>
+            <i class="fab fa-stripe"></i>
+            <i class="fas fa-university"></i>
+        </div>
     </div>
+
+    <!-- DETAILED FEATURE MATRIX -->
+    <section class="matrix-section" data-aos="fade-up">
+        <h2>Comparaison des Fonctionnalités</h2>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Fonctionnalités Clés</th>
+                    <th>Free</th>
+                    <th class="highlight">Pro</th>
+                    <th>Enterprise</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Données Marché & RWA</td>
+                    <td>Journalier</td>
+                    <td class="highlight">Temps Réel</td>
+                    <td>API Dédiée</td>
+                </tr>
+                <tr>
+                    <td>Simulateur On-Chain</td>
+                    <td><i class="fa-solid fa-xmark cross"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-check check"></i> (Illimité)</td>
+                    <td>Custom Scenarios</td>
+                </tr>
+                <tr>
+                    <td>Export PDF / Compliance Briefs</td>
+                    <td><i class="fa-solid fa-xmark cross"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-check check"></i></td>
+                    <td>Marque Blanche</td>
+                </tr>
+                <tr>
+                    <td>Vue Manager (Gestion Équipe)</td>
+                    <td><i class="fa-solid fa-xmark cross"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-xmark cross"></i></td>
+                    <td><i class="fa-solid fa-check check"></i></td>
+                </tr>
+                <tr>
+                    <td>Support Client</td>
+                    <td>Communauté</td>
+                    <td class="highlight">Email (24h)</td>
+                    <td>Account Manager Dédié</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SUPER FOOTER INJECTION -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- 0. BRAND -->
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                    <p>Plateforme d’analyse dédiée à la tokenisation des actifs financiers et aux infrastructures
+                        blockchain publiques et institutionnelles.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.linkedin.com/in/joan-lyczak/" class="social-btn"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/JoanLabTest/Blockchain_Presentation" class="social-btn"><i
+                                class="fab fa-github"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- 1. PRODUIT -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Produit</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Hub Central</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="simple.html">Academy</a></li>
+                        <li><a href="guide.html">Guide Expert</a></li>
+                        <li><a href="yield-mechanics.html">Simulation Engine</a></li>
+                        <li><a href="quiz.html">Certification</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+
+                <!-- 2. RESEARCH -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research</h4>
+                    <ul class="footer-links">
+                        <li><a href="rwa.html">RWA & DeFi</a></li>
+                        <li><a href="yield-mechanics.html">Yield Mechanics</a></li>
+                        <li><a href="web3.html">Web3 Infrastructure</a></li>
+                        <li><a href="ai-finance.html">AI & Finance</a></li>
+                        <li><a href="governance.html">Governance</a></li>
+                        <li><a href="legal-matrix.html">Global Matrix</a></li>
+                        <li><a href="networks/index.html">Blockchain Networks</a></li>
+                    </ul>
+                </div>
+
+                <!-- 3. INFRASTRUCTURE -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                        Infrastructure</h4>
+                    <ul class="footer-links">
+                        <li><a href="lifecycle.html">Cycle de Vie</a></li>
+                        <li><a href="flux-comparison.html">Comparateur Flux</a></li>
+                        <li><a href="legal_pilot.html">Régime Pilote (UE)</a></li>
+                        <li><a href="sandbox.html">Sandbox</a></li>
+                        <li><a href="#">SWIAT</a></li>
+                        <li><a href="#">Canton Network</a></li>
+                    </ul>
+                </div>
+
+                <!-- 4. CORPORATE -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Corporate
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="methodology.html">Méthodologie</a></li>
+                        <li><a href="guide.html">Documentation</a></li>
+                        <li><a href="index-simple.html">Site Corporate</a></li>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- 5. LEGAL -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-shield-alt" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Legal
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="mentions-legales.html">Mentions Légales</a></li>
+                        <li><a href="privacy.html">Politique de Confidentialité</a></li>
+                        <li><a href="cgu.html">Conditions d'Utilisation</a></li>
+                        <li><a href="cookies.html">Politique Cookies</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                        <li><a href="sitemap.xml">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px;">
+                <strong>Disclaimer :</strong> Plateforme de démonstration éducative. Aucun conseil financier.
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                © 2026 DCM Digital • Version 4.2.1
+            </div>
+            <div class="legal-links">
+                <a href="#">Support IT</a>
+                <a href="#">Documentation API</a>
+            </div>
+        </div>
+    </footer>
 
     <!-- SCRIPTS -->
-    <script src="config.js"></script>
-    <script type="module">
-        import { SessionManager } from './js/session-manager.js';
+    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // AOS Init Fix
+        window.addEventListener('load', function () { AOS.init({ duration: 800, once: true }); });
 
-        let currentUser = null;
+        // Pricing Toggle Logic
+        function toggleBilling() {
+            const isYearly = document.getElementById('billing-switch').checked;
+            const pricePro = document.getElementById('price-pro');
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Toast on cancellation
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('upgrade') === 'cancelled') {
-                SessionManager.showToast('ℹ️', 'Paiement Annulé', 'Vous pouvez réessayer quand vous serez prêt.');
-                window.history.replaceState({}, document.title, window.location.pathname);
+            document.getElementById('label-monthly').classList.toggle('active', !isYearly);
+            document.getElementById('label-yearly').classList.toggle('active', isYearly);
+
+            if (isYearly) {
+                // 49 EUR * 12 = 588 EUR. Discount 20% = 470 EUR / yr = ~39 EUR / mo
+                pricePro.innerHTML = '€39<span>/mo</span>';
+            } else {
+                pricePro.innerHTML = '€49<span>/mo</span>';
             }
-
-            // Init session manager to grab the user ID
-            currentUser = await SessionManager.init();
-
-            if (currentUser) {
-                const tier = currentUser.subscription_tier || 'free';
-
-                if (tier === 'pro') {
-                    const proBtn = document.querySelector('.pricing-card.popular .checkout-btn');
-                    if (proBtn) {
-                        proBtn.innerHTML = '<i class="fas fa-check"></i> Mon forfait actuel';
-                        proBtn.onclick = () => window.location.href = 'dashboard.html';
-                        proBtn.style.background = '#10b981';
-                        proBtn.style.borderColor = '#10b981';
-                    }
-                } else if (tier === 'institutional') {
-                    const instBtn = document.querySelector('.pricing-card.inst .checkout-btn');
-                    if (instBtn) {
-                        instBtn.innerHTML = '<i class="fas fa-check"></i> Mon forfait actuel';
-                        instBtn.onclick = () => window.location.href = 'dashboard.html';
-                        instBtn.style.background = '#10b981';
-                    }
-                    const proBtn = document.querySelector('.pricing-card.popular .checkout-btn');
-                    if (proBtn) {
-                        proBtn.innerHTML = 'Inclus dans votre forfait';
-                        proBtn.onclick = () => window.location.href = 'dashboard.html';
-                        proBtn.style.background = '#475569';
-                        proBtn.style.borderColor = '#475569';
-                    }
-                }
-            }
-        });
-
-        window.startCheckout = async function (plan) {
-            if (!currentUser) {
-                alert("Vous devez être connecté pour souscrire à un abonnement.");
-                window.location.href = "login.html";
-                return;
-            }
-
-            document.getElementById('loadingOverlay').style.display = 'flex';
-
-            try {
-                // Determine Supabase Edge Function Base URL based on config
-                // Example logic to format the URL depending on full URL provided or project reference
-                let functionUrl = "https://wnwerjuqtrduqkgwdjrg.supabase.co/functions/v1/create-checkout";
-
-                // Fetch to backend Edge Function
-                const response = await fetch(functionUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${window.DCM_CONFIG.supabaseKey}` // Using anon key for API call permissions
-                    },
-                    body: JSON.stringify({
-                        plan: plan,
-                        userId: currentUser.id
-                    })
-                });
-
-                if (!response.ok) {
-                    const errText = await response.text();
-                    throw new Error(errText);
-                }
-
-                const data = await response.json();
-
-                // Redirect securely to the hosted Stripe Checkout Page
-                if (data.url) {
-                    window.location.href = data.url;
-                } else {
-                    throw new Error("URL de paiement non reçue.");
-                }
-
-            } catch (err) {
-                console.error("Payment initiation failed:", err);
-                alert("Erreur lors de l'initialisation du paiement: " + err.message);
-                document.getElementById('loadingOverlay').style.display = 'none';
-            }
-        };
+        }
     </script>
 </body>
 
