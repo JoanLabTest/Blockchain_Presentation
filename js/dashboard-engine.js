@@ -480,13 +480,16 @@ export const DashboardEngine = {
         `).join('');
     },
 
-    // --- SAAS MANAGER MODE (Phase 29 — unchanged) ---
+    // --- SAAS MANAGER MODE (Phase 50) ---
     switchToTeamView: () => {
+        // 1. Radar & Evolution Charts (Mocked Aggregation)
         const chart = Chart.getChart('radarChart');
         if (chart) { chart.data.datasets[0].data = [85, 90, 75, 88]; chart.data.datasets[0].label = 'Team Average'; chart.update(); }
         const evoChart = Chart.getChart('evolutionChart');
         if (evoChart) { evoChart.data.datasets[0].data = [60, 65, 70, 75, 82, 88, 92]; evoChart.data.datasets[0].label = 'Team Velocity'; evoChart.update(); }
         const el = document.querySelector('.score-val'); if (el) el.innerText = 'A+';
+
+        // 2. Compliance Widget
         const covEl = document.querySelector('.coverage-val'); if (covEl) covEl.innerText = '95%';
         const covBar = document.getElementById('coverage-bar'); if (covBar) covBar.style.width = '95%';
         const compBar = document.getElementById('compliance-bar-fill'); if (compBar) compBar.style.width = '92%';
@@ -494,9 +497,53 @@ export const DashboardEngine = {
         const alerts = document.getElementById('compliance-alerts');
         if (alerts) alerts.innerHTML = `<div class="status-badge" style="background:rgba(16,185,129,0.1);color:#10b981">✅ TEAM COMPLIANT</div>
             <div class="status-badge" style="background:rgba(59,130,246,0.1);color:#3b82f6">ℹ️ 5 MEMBERS ACTIVE</div>`;
+
+        // 3. Team Risk Engine (Phase 50)
+        DashboardEngine.renderRiskWidget({
+            tier: 'Medium', color: 'var(--accent-gold)', label: 'Exposition Équipe Modérée',
+            alerts: [
+                { text: '1 collaborateur(s) surexposé(s) au risque DeFi', type: 'warning' },
+                { text: 'Couverture globale MiCA stable', type: 'optimal' }
+            ]
+        });
+
+        // 4. Team Title & Headers Morphing (Phase 50)
+        const tableTitle = document.getElementById('sim-table-title');
+        if (tableTitle) tableTitle.innerHTML = '<i class="fas fa-users-cog"></i> Audit Logs (Équipe)';
+        const colScenario = document.getElementById('col-scenario');
+        if (colScenario) colScenario.innerText = 'Collaborateur';
+        const colType = document.getElementById('col-type');
+        if (colType) colType.innerText = 'Action Auditée';
+
+        // 5. Team Audit Logs Injection (Phase 50)
+        const tbody = document.getElementById('sim-table-body');
+        if (tbody) {
+            tbody.innerHTML = `
+                <tr><td style="color:#94a3b8">Aujourd'hui</td><td style="font-weight:600;color:white">Alice Dupont</td><td><span class="status-badge" style="background:rgba(59,130,246,0.1);color:#3b82f6">Simulation Exécutée</span></td><td style="color:#f59e0b">High Yield ETH</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
+                <tr><td style="color:#94a3b8">Hier</td><td style="font-weight:600;color:white">Marc Leroy</td><td><span class="status-badge" style="background:rgba(16,185,129,0.1);color:#10b981">Quiz Validé</span></td><td style="color:#10b981">Note: A-</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
+                <tr><td style="color:#94a3b8">Mardi</td><td style="font-weight:600;color:white">Sophie Martin</td><td><span class="status-badge" style="background:rgba(239,68,68,0.1);color:#ef4444">Alerte Conformité</span></td><td style="color:#ef4444">Friction MiCA</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
+                <tr><td style="color:#94a3b8">Lundi</td><td style="font-weight:600;color:white">Marc Leroy</td><td><span class="status-badge" style="background:rgba(148,163,184,0.1);color:#94a3b8">Rapport Exporté</span></td><td style="color:white">Weekly_Brief.pdf</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
+            `;
+        }
+
+        // 6. Team Timeline Timeline (Phase 50)
+        DashboardEngine.renderTimeline([
+            { date: 'Today', time: '11:05', action: 'Alice Dupont - Login', detail: 'Paris, FR' },
+            { date: 'Today', time: '09:30', action: 'Système', detail: 'Consolidation des risques journalière terminée' },
+            { date: 'Yesterday', time: '16:45', action: 'Marc Leroy - Logout', detail: 'Session: 4h 12m' }
+        ]);
     },
 
     switchToPersonalView: async () => {
+        // Restore DOM Titles and Headers (Phase 50)
+        const tableTitle = document.getElementById('sim-table-title');
+        if (tableTitle) tableTitle.innerHTML = '<i class="fas fa-list"></i> Historique des Simulations';
+        const colScenario = document.getElementById('col-scenario');
+        if (colScenario) colScenario.innerText = 'Scénario';
+        const colType = document.getElementById('col-type');
+        if (colType) colType.innerText = 'Type';
+
+        // Reload Personal Profile
         const data = await DashboardEngine.loadData();
         DashboardEngine.initCharts(data);
         DashboardEngine.renderComplianceWidget(data.complianceProfile);
