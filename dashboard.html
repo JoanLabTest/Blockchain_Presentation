@@ -508,12 +508,13 @@
             </div>
             <div class="actions">
                 <div id="data-source-badge" style="display:flex;align-items:center"></div>
+                <div id="user-tier-badge" style="display:flex;align-items:center;margin-right:10px;"></div>
                 <div class="user-meta">
                     <span id="user-role"><i class="fas fa-user-shield"></i> ...</span>
                     <span>|</span>
                     <span id="user-jurisdiction"><i class="fas fa-globe-europe"></i> ...</span>
                 </div>
-                <button class="btn-primary" onclick="window.print()"><i class="fas fa-file-pdf"></i> Export
+                <button class="btn-primary" onclick="generateReport()"><i class="fas fa-file-pdf"></i> Export
                     Brief</button>
             </div>
         </header>
@@ -692,6 +693,22 @@
                 document.getElementById('user-greeting').innerText = `Welcome back, ${user.name}`;
                 document.getElementById('user-role').innerHTML = `<i class="fas fa-user-shield"></i> ${user.role}`;
                 document.getElementById('user-jurisdiction').innerHTML = `<i class="fas fa-globe-europe"></i> ${user.jurisdiction}`;
+
+                // Subscription Tier Logic (Phase 34)
+                const tierEl = document.getElementById('user-tier-badge');
+                if (tierEl) {
+                    const tier = user.subscription_tier || 'free';
+                    let tierHtml = '';
+                    if (tier === 'institutional') {
+                        tierHtml = `<span style="background:linear-gradient(135deg, #f59e0b, #b45309);color:white;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;box-shadow:0 0 10px rgba(245, 158, 11, 0.4);"><i class="fas fa-crown"></i> INSTITUTIONAL</span>`;
+                    } else if (tier === 'pro') {
+                        tierHtml = `<span style="background:rgba(59, 130, 246, 0.15);color:#3b82f6;border:1px solid #3b82f6;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;"><i class="fas fa-bolt"></i> PRO</span>`;
+                    } else {
+                        tierHtml = `<span style="background:rgba(148, 163, 184, 0.1);color:#94a3b8;border:1px solid #475569;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;">FREE</span>`;
+                        tierHtml += `<a href="pricing.html" style="margin-left:10px;font-size:12px;color:#3b82f6;text-decoration:none;font-weight:bold;">Upgrade <i class="fas fa-arrow-right"></i></a>`;
+                    }
+                    tierEl.innerHTML = tierHtml;
+                }
             }
 
             // 3. Load Real Data (Supabase → fallback mock)

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCM Intelligence - Offres & Tarifs</title>
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles/main.css">
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: rgba(15, 23, 42, 0.6);
+            --border: rgba(148, 163, 184, 0.1);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-gold: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Urbanist', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 20px;
+            background: radial-gradient(circle at top right, #1e1b4b 0%, #020617 40%);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--accent-blue);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            text-transform: uppercase;
+        }
+
+        .plan-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+        }
+
+        .popular .plan-name {
+            color: var(--accent-blue);
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .plan-period {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 40px 0;
+            flex-grow: 1;
+        }
+
+        .plan-features li {
+            font-size: 15px;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            line-height: 1.4;
+        }
+
+        .plan-features li i {
+            color: #10b981;
+            margin-top: 3px;
+            margin-right: 12px;
+            font-size: 14px;
+        }
+
+        .plan-features li.disabled {
+            color: #475569;
+        }
+
+        .plan-features li.disabled i {
+            color: #475569;
+        }
+
+        .checkout-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .checkout-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .popular .checkout-btn {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .popular .checkout-btn:hover {
+            background: #2563eb;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+
+        .inst .plan-name {
+            color: var(--accent-gold);
+        }
+
+        .inst .checkout-btn {
+            background: linear-gradient(135deg, var(--accent-gold), #b45309);
+            border: none;
+        }
+
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 6, 23, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Passez à la Vitesse Supérieure</h1>
+        <p>Débloquez le plein potentiel de l'intelligence artificielle et des rapports analytiques exclusifs.
+            Sélectionnez le plan qui correspond à vos ambitions.</p>
+    </div>
+
+    <div class="pricing-grid">
+
+        <!-- FREE PLAN -->
+        <div class="pricing-card">
+            <div class="plan-name">Fondateur</div>
+            <div class="plan-price">0€</div>
+            <div class="plan-period">Accès limité à vie</div>
+
+            <ul class="plan-features">
+                <li><i class="fas fa-check"></i> Accès Niveaux 1 & 2 du Quiz</li>
+                <li><i class="fas fa-check"></i> Dashboard basique</li>
+                <li><i class="fas fa-check"></i> Certification Bronze & Argent</li>
+                <li class="disabled"><i class="fas fa-times"></i> Rapports PDF exclusifs</li>
+                <li class="disabled"><i class="fas fa-times"></i> IA Professeur Dédiée</li>
+                <li class="disabled"><i class="fas fa-times"></i> Matrice Légale (MiCA/Régime Pilote)</li>
+                <li class="disabled"><i class="fas fa-times"></i> Vue Administrateur (Analytique)</li>
+            </ul>
+
+            <button class="checkout-btn" onclick="window.location.href='dashboard.html'">Mon Hub Actuel</button>
+        </div>
+
+        <!-- PRO PLAN -->
+        <div class="pricing-card popular">
+            <div class="popular-badge">Populaire</div>
+            <div class="plan-name">Pro</div>
+            <div class="plan-price">29€</div>
+            <div class="plan-period">par mois, annulable à tout moment</div>
+
+            <ul class="plan-features">
+                <li><i class="fas fa-check"></i> <b>Tout le contenu Gratuit</b></li>
+                <li><i class="fas fa-check"></i> Accès Niveau 3 (Or) du Quiz</li>
+                <li><i class="fas fa-check"></i> Rapports d'Intelligence PDF</li>
+                <li><i class="fas fa-check"></i> Matrice Légale complète</li>
+                <li><i class="fas fa-check"></i> Support IA Professeur Basique</li>
+                <li class="disabled"><i class="fas fa-times"></i> Accès au mode Head of Digital</li>
+                <li class="disabled"><i class="fas fa-times"></i> Vue Administrateur Avancée</li>
+            </ul>
+
+            <button class="checkout-btn" onclick="startCheckout('pro')"><i class="fas fa-bolt"></i> Devenir Pro</button>
+        </div>
+
+        <!-- INSTITUTIONAL PLAN -->
+        <div class="pricing-card inst">
+            <div class="plan-name">Institutionnel</div>
+            <div class="plan-price">99€</div>
+            <div class="plan-period">par mois, usage en trading room</div>
+
+            <ul class="plan-features">
+                <li><i class="fas fa-check"></i> <b>Toutes les exclusivités Pro</b></li>
+                <li><i class="fas fa-check"></i> Déblocage du Niveau 4 (Head of Digital)</li>
+                <li><i class="fas fa-check"></i> Vue Administrateur & Analytiques Globaux</li>
+                <li><i class="fas fa-check"></i> Intelligence Artificielle Avancée (Complexité +)</li>
+                <li><i class="fas fa-check"></i> Données temps réel & API Data</li>
+                <li><i class="fas fa-check"></i> Support Prioritaire 24/7</li>
+            </ul>
+
+            <button class="checkout-btn" onclick="startCheckout('institutional')"><i class="fas fa-crown"></i>
+                Déverrouillage Total</button>
+        </div>
+
+    </div>
+
+    <div id="loadingOverlay">
+        <i class="fas fa-spinner fa-spin" style="font-size: 40px; color: #3b82f6; margin-bottom: 20px;"></i>
+        <h3 style="margin: 0; font-family: 'JetBrains Mono';">Connexion sécurisée à Stripe...</h3>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="config.js"></script>
+    <script type="module">
+        import { SessionManager } from './js/session-manager.js';
+
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Init session manager to grab the user ID
+            currentUser = await SessionManager.init();
+        });
+
+        window.startCheckout = async function (plan) {
+            if (!currentUser) {
+                alert("Vous devez être connecté pour souscrire à un abonnement.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            document.getElementById('loadingOverlay').style.display = 'flex';
+
+            try {
+                // Determine Supabase Edge Function Base URL based on config
+                // Example logic to format the URL depending on full URL provided or project reference
+                let functionUrl = "https://wnwerjuqtrduqkgwdjrg.supabase.co/functions/v1/create-checkout";
+
+                // Fetch to backend Edge Function
+                const response = await fetch(functionUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${window.DCM_CONFIG.supabaseKey}` // Using anon key for API call permissions
+                    },
+                    body: JSON.stringify({
+                        plan: plan,
+                        userId: currentUser.id
+                    })
+                });
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(errText);
+                }
+
+                const data = await response.json();
+
+                // Redirect securely to the hosted Stripe Checkout Page
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error("URL de paiement non reçue.");
+                }
+
+            } catch (err) {
+                console.error("Payment initiation failed:", err);
+                alert("Erreur lors de l'initialisation du paiement: " + err.message);
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+        };
+    </script>
+</body>
+
+</html>
