@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- ANIMATIONS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- 3D COIN STYLES -->
+    <link rel="stylesheet" href="../styles-3d-coin.css">
     <!-- UNIFIED FOOTER -->
     <link rel="stylesheet" href="../styles-footer.css">
 
@@ -280,7 +282,7 @@
 
 <body>
 
-    <canvas id="hubCanvas"></canvas>
+    <div id="particles-js"></div>
 
     <nav class="navbar">
         <div class="nav-logo">
@@ -293,6 +295,41 @@
 
         <!-- 1. OVERVIEW -->
         <div class="hero" data-aos="fade-up">
+
+            <!-- 3D COIN -->
+            <div class="coin-scene" style="--coin-color: var(--btc-orange);">
+                <div class="coin-wrapper">
+                    <!-- Front Face -->
+                    <div class="coin-face coin-front">
+                        <i class="fa-brands fa-btc"></i>
+                    </div>
+                    <!-- Back Face -->
+                    <div class="coin-face coin-back">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+                    <!-- 3D Edges -->
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                    <div class="coin-edge"></div>
+                </div>
+            </div>
+
             <h1>L'Étalon Monétaire</h1>
             <p>Bitcoin est le premier réseau public de transfert de valeur sans tiers de confiance, conçu nativement
                 pour la rareté absolue et la résistance à la censure.</p>
@@ -417,7 +454,8 @@
                 <p>La gouvernance de Bitcoin est extra-protocolaire. Les décisions nécessitent un consensus social fort
                     entre les développeurs (Core Devs), les mineurs et les noeuds (Nodes) via les propositions formelles
                     <strong>BIPs (Bitcoin
-                        Improvement Proposals)</strong>.</p>
+                        Improvement Proposals)</strong>.
+                </p>
                 <p>Ces dynamiques rendent Bitcoin extrêmement lent à muter, ce qui est perçu comme
                     <strong>un défaut pour l'innovation logicielle</strong> mais comme <strong>une vertu absolue pour
                         la résilience d'une couche monétaire</strong>.
@@ -517,9 +555,47 @@
     </script>
 
     <!-- UI -->
-    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <script defer src="../hub-particles.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#627EEA", "#14F195", "#9945FF"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#444444",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
+                    "push": { "particles_nb": 4 }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
     <script>window.addEventListener('load', () => AOS.init({ duration: 800, once: true }));</script>
 </body>
 
