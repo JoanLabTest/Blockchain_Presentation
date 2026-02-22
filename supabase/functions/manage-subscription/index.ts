@@ -37,7 +37,7 @@ serve(async (req) => {
             .single();
 
         if (error || !profile?.stripe_customer_id) {
-            throw new Error("Aucun abonnement actif trouvé pour cet utilisateur.");
+            throw new Error("No active subscription found for this user.");
         }
 
         // Determine return URL

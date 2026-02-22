@@ -140,6 +140,130 @@
             border-radius: 10px;
         }
 
+        /* --- SEARCH BAR (Phase 56) --- */
+        .header-search {
+            position: relative;
+            flex-grow: 1;
+            max-width: 350px;
+            margin: 0 30px 0 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 15px 10px 40px;
+            color: white;
+            font-size: 14px;
+            font-family: 'Urbanist', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .header-search-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .header-search-icon {
+            position: absolute;
+            left: 15px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .search-results-dash {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border-highlight);
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 2000;
+        }
+
+        .search-results-dash.active {
+            display: flex;
+        }
+
+        .search-item-dash {
+            padding: 12px 15px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-item-dash:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: white;
+        }
+
+        .search-item-dash i {
+            color: var(--accent-blue);
+        }
+
+        /* --- TOOLTIPS (Phase 58) --- */
+        .tooltip-trigger {
+            cursor: help;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-left: 8px;
+            transition: color 0.2s;
+            display: inline-block;
+        }
+
+        .tooltip-trigger:hover {
+            color: var(--accent-blue);
+        }
+
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 15px;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid var(--border-highlight);
+            color: white;
+            font-size: 12px;
+            line-height: 1.4;
+            border-radius: 8px;
+            width: 250px;
+            text-align: left;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 3000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            pointer-events: none;
+            white-space: normal;
+        }
+
+        [data-tooltip]:hover::before {
+            opacity: 1;
+            visibility: visible;
+            bottom: 140%;
+        }
+
         .brand {
             display: flex;
             align-items: center;
@@ -612,6 +736,19 @@
                 </div>
             </div>
 
+            <!-- WHITE LABEL MODE (Phase 59) -->
+            <div class="nav-section">
+                <div class="nav-item">
+                    <i class="fas fa-signature"></i> White Label <span
+                        style="font-size:9px; background:var(--accent-blue); padding:1px 4px; border-radius:3px; margin-left:5px;">PRO</span>
+                    <label class="switch" style="margin-left:auto;">
+                        <input type="checkbox" id="whiteLabelToggle"
+                            onchange="DashboardEngine.toggleWhiteLabel(this.checked)">
+                        <span class="slider-round"></span>
+                    </label>
+                </div>
+            </div>
+
             <li style="margin-top:auto;">
                 <a href="pricing.html" class="nav-item" style="color:#f59e0b">
                     <i class="fas fa-crown"></i> Abonnement & Tarifs
@@ -624,14 +761,17 @@
             </li>
         </ul>
 
-        <div class="user-profile">
-            <img loading="lazy" src="https://ui-avatars.com/api/?name=Joan+Lyczak&background=0D8ABC&color=fff"
-                class="avatar" alt="User">
-            <div>
-                <div style="font-size:14px; font-weight:700;">Joan Lyczak</div>
-                <div style="font-size:11px; color:var(--text-muted); display:flex; gap:5px; margin-top:2px;">
-                    <span id="user-tier-badge"></span>
+        <div class="user-block" style="position:relative;">
+            <div class="avatar-container" style="position:relative; width:45px; height:45px;">
+                <img loading="lazy" src="https://ui-avatars.com/api/?name=Joan+Lyczak&background=0D8ABC&color=fff"
+                    class="avatar" alt="User" style="width:100%; height:100%; border-radius:50%;">
+                <div id="badge-dock" style="position:absolute; bottom:-5px; right:-10px; display:flex; gap:2px;">
+                    <!-- JS Injected Badges -->
                 </div>
+            </div>
+            <div class="user-info">
+                <div id="user-greeting" style="font-weight:700; color:white; font-size:14px;">User</div>
+                <div id="user-tier-badge"></div>
             </div>
         </div>
     </aside>
@@ -651,6 +791,15 @@
                 <h1 id="user-greeting">Welcome back...</h1>
                 <p>Suivi de progression et conformité réglementaire.</p>
             </div>
+
+            <!-- GLOBAL SEARCH BAR (Phase 56) -->
+            <div class="header-search">
+                <i class="fas fa-search header-search-icon"></i>
+                <input type="text" class="header-search-input" placeholder="Search research, docs, risks..."
+                    id="dashSearchInput">
+                <div class="search-results-dash" id="dashSearchResults"></div>
+            </div>
+
             <div class="actions">
                 <button class="btn-glass" onclick="alert('Export CSV en cours...')" title="Export Raw Data">
                     <i class="fas fa-file-csv"></i> CSV
@@ -671,7 +820,21 @@
 
             <!-- 1. RESEARCH MATURITY -->
             <div class="card" style="border-top: 3px solid var(--accent-purple);">
-                <div class="card-title"><i class="fas fa-brain"></i> Research Maturity</div>
+                <div class="card-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div class="card-title">
+                        <i class="fas fa-brain"></i> Research Maturity
+                        <span class="tooltip-trigger"
+                            data-tooltip="Score combinant vos lectures, vos quiz et vos simulations. Un score > 80 indique un niveau expert."><i
+                                class="fas fa-question-circle"></i></span>
+                    </div>
+                    <select id="benchmarkSelector" onchange="DashboardEngine.updateBenchmark(this.value)"
+                        style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-muted); font-size:10px; padding:2px 5px; border-radius:4px;">
+                        <option value="none">SANS BENCHMARK</option>
+                        <option value="tier1">TIER 1 BANKS</option>
+                        <option value="crypto">CRYPTO NATIVES</option>
+                        <option value="consultants">CONSULTANTS</option>
+                    </select>
+                </div>
                 <div class="metric-val score-val">--</div>
                 <div class="metric-sub"><span class="status-badge"
                         style="background:rgba(168, 85, 247, 0.1); color:var(--accent-purple)">INSTITUTIONNEL</span>
@@ -681,9 +844,29 @@
                 </div>
             </div>
 
+            <!-- 7. RISK EXPOSURE -->
+            <div class="card" style="border-top: 3px solid var(--accent-red);">
+                <div class="card-title">
+                    <i class="fas fa-biohazard"></i> Risk Exposure (Live)
+                    <span class="tooltip-trigger"
+                        data-tooltip="Analyse prédictive du risque de contrepartie et de la volatilité on-chain."><i
+                            class="fas fa-question-circle"></i></span>
+                </div>
+                <!-- Dynamic Recommendation Placeholder -->
+                <div id="riskRecommendation"
+                    style="margin-top:15px; padding:12px; background:rgba(239, 44, 44, 0.05); border: 1px solid rgba(239, 44, 44, 0.1); border-radius:8px; font-size:12px; color:var(--text-muted); min-height:60px;">
+                    <i class="fas fa-robot"></i> Analyse en cours...
+                </div>
+            </div>
+
             <!-- 2. QUIZ PERFORMANCE -->
             <div class="card" style="border-top: 3px solid var(--accent-gold);">
-                <div class="card-title"><i class="fas fa-trophy"></i> Quiz Performance</div>
+                <div class="card-title">
+                    <i class="fas fa-trophy"></i> Quiz Performance
+                    <span class="tooltip-trigger"
+                        data-tooltip="Moyenne pondérée de vos résultats aux examens thématiques (MiCA, DeFi, RWA)."><i
+                            class="fas fa-question-circle"></i></span>
+                </div>
                 <div style="display:flex; align-items:center; gap:20px; margin-top:10px;">
                     <div class="score-circle"
                         style="width:60px; height:60px; font-size:16px; border-color:var(--accent-gold);">85%</div>
@@ -700,8 +883,13 @@
             </div>
 
             <!-- 3. COVERAGE R&D -->
-            <div class="card" style="border-top: 3px solid var(--accent-green);">
-                <div class="card-title"><i class="fas fa-layer-group"></i> Couverture R&D</div>
+            <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+                <div class="card-title">
+                    <i class="fas fa-microscope"></i> Couverture R&D
+                    <span class="tooltip-trigger"
+                        data-tooltip="Pourcentage des protocoles majeurs analysés par rapport à l'indice DCM Global 100."><i
+                            class="fas fa-question-circle"></i></span>
+                </div>
                 <div class="metric-val coverage-val">65%</div>
                 <div
                     style="width:100%; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; margin:10px 0;">
@@ -714,9 +902,14 @@
                 </div>
             </div>
 
-            <!-- 4. LIVE ACTIVITY -->
-            <div class="card" style="border-top: 3px solid var(--accent-blue);">
-                <div class="card-title"><i class="fas fa-history"></i> Live Activity</div>
+            <!-- 4. LIVE ACTIVITY (Phase 52) -->
+            <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+                <div class="card-title">
+                    <i class="fas fa-satellite-dish"></i> Live Activity
+                    <span class="tooltip-trigger"
+                        data-tooltip="Flux en temps réel des transactions institutionnelles détectées sur les réseaux compatibles (Polygon, Mainnet)."><i
+                            class="fas fa-question-circle"></i></span>
+                </div>
                 <div id="activity-timeline"
                     style="margin-top:15px; overflow-y:auto; max-height:150px; padding-right:5px;">
                     <!-- JS Injected -->
@@ -727,10 +920,15 @@
         <!-- DEEP DIVE SECTION -->
         <div class="dash-grid" data-aos="fade-up" data-aos-delay="100">
 
-            <!-- EVOLUTION CHART -->
-            <div class="card span-2">
+            <!-- 5. DYNAMIQUE D'APPRENTISSAGE -->
+            <div class="card" style="border-top: 3px solid var(--accent-purple);">
                 <div class="card-header">
-                    <div class="card-title"><i class="fas fa-chart-line"></i> Dynamique d'Apprentissage</div>
+                    <div class="card-title">
+                        <i class="fas fa-chart-line"></i> Dynamique d'Apprentissage
+                        <span class="tooltip-trigger"
+                            data-tooltip="Historique de votre 'Learning Velocity'. Des pics de progression indiquent une maîtrise rapide des nouveaux concepts."><i
+                                class="fas fa-question-circle"></i></span>
+                    </div>
                     <select
                         style="background:transparent; border:1px solid var(--border); color:white; padding:5px 10px; border-radius:5px;">
                         <option>30 derniers jours</option>
@@ -741,10 +939,15 @@
                 </div>
             </div>
 
-            <!-- COMPLIANCE PROFILE -->
-            <div class="card span-1">
+            <!-- 6. COMPLIANCE (MiCA) -->
+            <div class="card" style="border-top: 3px solid var(--accent-blue);">
                 <div class="card-header">
-                    <div class="card-title"><i class="fas fa-shield-alt"></i> Compliance (MiCA)</div>
+                    <div class="card-title">
+                        <i class="fas fa-scale-balanced"></i> Compliance (MiCA)
+                        <span class="tooltip-trigger"
+                            data-tooltip="Score de conformité basé sur les standards européens MiCA. Crucial pour les projets visant le marché institutionnel."><i
+                                class="fas fa-question-circle"></i></span>
+                    </div>
                 </div>
 
                 <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
@@ -827,21 +1030,36 @@
     </main>
 
     <!-- SCRIPTS -->
-    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 600,
+            once: true,
+            disable: 'mobile'
+        });
+    </script>
     <script type="module">
         import { SessionManager } from './js/session-manager.js';
         import { MarketTicker } from './js/market-ticker.js';
         import { DashboardEngine } from './js/dashboard-engine.js';
+        import { DashboardTour } from './js/dashboard-tour.js';
 
         // Initialize AOS
-        window.addEventListener('load', function () { AOS.init({ duration: 800, once: true }); });
+        // window.addEventListener('load', function () { AOS.init({ duration: 800, once: true }); });
 
         // Make SessionManager global for HTML onclick events
         window.SessionManager = SessionManager;
+        window.DashboardEngine = DashboardEngine; // Added for tour access
         window.generateReport = function () {
             if (SessionManager.checkAccess('REPORT_EXPORT')) {
                 const win = window.open('report.html', '_blank', 'width=1000,height=1200');
                 if (!win) alert('Veuillez autoriser les popups pour générer le rapport.');
+            }
+        };
+        window.openDiploma = function () {
+            if (SessionManager.checkAccess('REPORT_EXPORT')) {
+                const win = window.open('diploma.html', '_blank', 'width=1000,height=900');
+                if (!win) alert('Veuillez autoriser les popups pour afficher le certificat.');
             }
         };
         window.toggleManagerMode = function () {
@@ -930,6 +1148,7 @@
             DashboardEngine.renderComplianceWidget(data.complianceProfile);
             DashboardEngine.renderTimeline(data.timeline);
             DashboardEngine.renderRiskWidget(data.riskProfile);
+            DashboardEngine.renderBadges();
 
             // 5b. Live Market Ticker (Phase 52)
             MarketTicker.initTicker();
@@ -937,47 +1156,12 @@
             // 6. Update KPI Text
             const scoreVal = document.querySelector('.score-val');
             if (scoreVal) scoreVal.innerText = data.lastGrade || 'A-';
+
+            // 7. INITIALIZE TOUR (Phase 60)
+            if (DashboardTour) {
+                DashboardTour.init();
+            }
         });
-    </script>
-    <!-- SAAS LOGIC -->
-    <script>
-        // --- REPORT GENERATION ---
-        function generateReport() {
-            if (SessionManager.checkAccess('REPORT_EXPORT')) {
-                // Open Report Window
-                const win = window.open('report.html', '_blank', 'width=1000,height=1200');
-                if (!win) alert("Veuillez autoriser les popups pour générer le rapport.");
-            }
-        }
-
-        // --- DIPLOMA (Phase 53) ---
-        function openDiploma() {
-            if (SessionManager.checkAccess('REPORT_EXPORT')) {
-                const win = window.open('diploma.html', '_blank', 'width=1000,height=900');
-                if (!win) alert("Veuillez autoriser les popups pour afficher le certificat.");
-            }
-        }
-
-        // --- MANAGER MODE ---
-        function toggleManagerMode() {
-            const isManager = document.getElementById('managerToggle').checked;
-
-            if (isManager) {
-                if (!SessionManager.checkAccess('MANAGER_VIEW')) {
-                    // Revert Toggle if access denied
-                    document.getElementById('managerToggle').checked = false;
-                    return;
-                }
-
-                // SWITCH TO TEAM DATA
-                DashboardEngine.switchToTeamView();
-                SessionManager.showToast('👥', 'Mode Manager Actif', 'Affichage des données consolidées de l\'équipe.');
-            } else {
-                // SWITCH TO PERSONAL DATA
-                DashboardEngine.switchToPersonalView();
-                SessionManager.showToast('👤', 'Mode Personnel', 'Retour à vos performances individuelles.');
-            }
-        }
     </script>
     <!-- PWA REGISTRATION (Phase 30) -->
     <script>
@@ -988,6 +1172,49 @@
                     .catch(err => console.log('❌ PWA Registration Failed', err));
             });
         }
+    </script>
+    <!-- SEARCH ENGINE LOGIC (Phase 56) -->
+    <script>
+        const dashSearchInput = document.getElementById('dashSearchInput');
+        const dashSearchResults = document.getElementById('dashSearchResults');
+
+        const dashModules = [
+            { name: 'MiCA Compliance', link: 'legal_pilot.html', icon: 'fa-scale-balanced' },
+            { name: 'Yield Mechanics', link: 'yield-mechanics.html', icon: 'fa-coins' },
+            { name: 'ROI Modeling', link: 'flux-comparison.html', icon: 'fa-calculator' },
+            { name: 'Smart Contracts Audit', link: 'smart-contracts.html', icon: 'fa-code' },
+            { name: 'BlackRock BUIDL Case', link: 'buidl.html', icon: 'fa-briefcase' },
+            { name: 'RWA Infrastructure', link: 'rwa.html', icon: 'fa-building' },
+            { name: 'Certification Center', link: 'quiz.html', icon: 'fa-award' },
+            { name: 'Developer Sandbox', link: 'sandbox.html', icon: 'fa-terminal' }
+        ];
+
+        dashSearchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            if (val.length < 2) {
+                dashSearchResults.classList.remove('active');
+                return;
+            }
+
+            const filtered = dashModules.filter(m => m.name.toLowerCase().includes(val));
+            if (filtered.length > 0) {
+                dashSearchResults.innerHTML = filtered.map(m => `
+                    <a href="${m.link}" class="search-item-dash">
+                        <i class="fas ${m.icon}"></i>
+                        <span>${m.name}</span>
+                    </a>
+                `).join('');
+                dashSearchResults.classList.add('active');
+            } else {
+                dashSearchResults.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dashSearchInput.contains(e.target) && !dashSearchResults.contains(e.target)) {
+                dashSearchResults.classList.remove('active');
+            }
+        });
     </script>
 </body>
 

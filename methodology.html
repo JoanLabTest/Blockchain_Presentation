@@ -2,385 +2,163 @@
 <html lang="fr">
 
 <head>
-    <link rel="alternate" hreflang="fr" href="https://joanlabtest.github.io/Blockchain_Presentation/methodology.html">
-    <link rel="alternate" hreflang="x-default" href="https://joanlabtest.github.io/Blockchain_Presentation/methodology.html">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Méthodologie & Données | DCM Digital Hub</title>
-
-    <!-- SEO -->
+    <title>DCM Digital | Méthodologie & Scoring</title>
     <meta name="description"
-        content="Documentation technique et méthodologique du DCM Digital Hub. Sources de données, algorithmes de recherche et modèles financiers.">
-    <meta name="robots" content="noindex, follow"> <!-- Internal use / Professional reference -->
+        content="Transparence et rigueur. Découvrez comment nos algorithmes évaluent le risque et la maturité des actifs numériques.">
 
-    <!-- FONTS -->
+    <!-- Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-navigation.css">
     <link rel="stylesheet" href="styles-footer.css">
 
     <style>
-        :root {
-            --bg-dark: #0f172a;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --accent-blue: #3b82f6;
-            --border: #334155;
-            --code-bg: #1e293b;
-        }
-
         body {
-            background-color: var(--bg-dark);
+            background-color: #020617;
             font-family: 'Inter', sans-serif;
-            color: var(--text-main);
-            margin: 0;
-            line-height: 1.7;
+            color: white;
+            overflow-x: hidden;
         }
 
-        /* HEADER */
-        .method-header {
-            padding: 100px 20px 60px;
-            background: linear-gradient(to bottom, #1e293b, #0f172a);
-            border-bottom: 1px solid var(--border);
+        .meth-hero {
+            padding: 140px 20px 80px 20px;
             text-align: center;
+            background: radial-gradient(circle at top, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
         }
 
-        h1 {
-            font-family: 'Urbanist', sans-serif;
-            font-size: 42px;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* CONTENT */
-        .container {
-            max-width: 800px;
+        .content-container {
+            max-width: 900px;
             margin: 0 auto;
             padding: 60px 20px;
-        }
-
-        section {
-            margin-bottom: 60px;
+            line-height: 1.8;
+            color: #cbd5e1;
         }
 
         h2 {
-            font-family: 'Urbanist', sans-serif;
-            font-size: 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
             color: white;
-            border-left: 4px solid var(--accent-blue);
-            padding-left: 15px;
-            margin-bottom: 25px;
-        }
-
-        h3 {
-            font-size: 18px;
-            color: #cbd5e1;
-            margin-top: 30px;
-            margin-bottom: 10px;
-        }
-
-        p,
-        li {
-            color: var(--text-muted);
-            font-size: 15px;
-        }
-
-        ul {
+            margin: 50px 0 25px 0;
+            border-left: 4px solid #3b82f6;
             padding-left: 20px;
         }
 
-        li {
-            margin-bottom: 8px;
+        .disclaimer-box {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 60px 0;
+            color: #f87171;
         }
 
-        /* CODE BLOCKS */
-        .code-block {
-            background: var(--code-bg);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            overflow-x: auto;
-            margin: 20px 0;
-            color: #e2e8f0;
+        .algo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
         }
 
-        .equation {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 20px;
-            text-align: center;
-            font-family: 'Times New Roman', serif;
-            font-style: italic;
-            font-size: 18px;
-            border-radius: 8px;
-            margin: 20px 0;
+        .algo-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 16px;
         }
 
-        /* NAVBAR */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 60px;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 40px;
-            z-index: 1000;
-        }
-
-        .back-link {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 14px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .back-link:hover {
-            color: white;
+        .algo-card h4 {
+            color: #3b82f6;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body>
-
-    <nav class="navbar">
-        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Retour au Hub</a>
+    <nav class="navbar-pro">
+        <div class="nav-logo" style="cursor:pointer;" onclick="window.location.href='index.html'">
+            <i class="fas fa-microscope"></i> DCM <span style="color:#3b82f6">METHODOLOGY</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" style="color:white; text-decoration:none; margin-right:20px;">Accueil</a>
+            <a href="security.html" style="color:white; text-decoration:none;">Sécurité</a>
+        </div>
     </nav>
 
-    <header class="method-header">
-        <h1>Méthodologie de Recherche</h1>
-        <p class="subtitle">Documentation technique des modèles, sources de données et algorithmes utilisés sur cette
-            plateforme.</p>
-    </header>
+    <div class="meth-hero">
+        <h1 style="font-family:'Outfit'; font-size:56px; font-weight:800; margin-bottom:20px;">Science des <span
+                style="color:#3b82f6">Données</span></h1>
+        <p style="color:#94a3b8; font-size:20px; max-width:800px; margin: 0 auto;">
+            Comprendre les piliers du scoring de Decision Intelligence de DCM Digital.
+        </p>
+    </div>
 
-    <div class="container" role="main">
+    <div class="content-container">
+        <div class="disclaimer-box" data-aos="fade-up">
+            <h3 style="margin-bottom:15px;"><i class="fas fa-exclamation-triangle"></i> Disclaimer Légal Important</h3>
+            <p>
+                DCM Digital est une plateforme de recherche et de simulation. Les scores, analyses et visualisations
+                fournis ne constituent en aucun cas un conseil en investissement, un conseil financier, juridique ou
+                fiscal. L'utilisateur assume l'entière responsabilité des décisions prises sur la base de ces
+                informations.
+            </p>
+        </div>
 
-        <!-- 1. DATA SOURCES -->
-        <section id="sources">
-            <h2>1. Sources de Données</h2>
-            <p>DCM Digital Hub agrège des données provenant de sources primaires et secondaires pour garantir
-                l'exactitude des analyses.</p>
+        <h2 data-aos="fade-up">Les 4 Piliers du Scoring</h2>
+        <p data-aos="fade-up">
+            Nos algorithmes agrègent plus de 200 variables en temps réel pour produire un score de maturité cohérent :
+        </p>
 
-            <h3>Flux de Marché (Market Data)</h3>
-            <ul>
-                <li><strong>Prix Actifs (Crypto/Fiats) :</strong> CoinGecko API (Pro Plan) & Chainlink Price Feeds
-                    (On-chain Oracle).</li>
-                <li><strong>Rendements Staking :</strong> Beacon Chain Direct Data (Ethereum) & Validator Performance
-                    Indices.</li>
-                <li><strong>Risk Free Rate :</strong> US Treasury 10Y Yield (Bloomberg / FRED Data).</li>
-            </ul>
-
-            <h3>Données On-Chain</h3>
-            <ul>
-                <li><strong>Token Standards :</strong> ERC-3643 Association & EIP Repository.</li>
-                <li><strong>Transaction Volume :</strong> Etherscan & Dune Analytics Public Dashboards.</li>
-            </ul>
-        </section>
-
-        <!-- 2. SEARCH ALGORITHM -->
-        <section id="search-logic">
-            <h2>2. Algorithme de Recherche (Search 4.0)</h2>
-            <p>Le moteur de recherche interne n'utilise pas de base de données SQL classique mais un index inversé
-                vectoriel généré statiquement.</p>
-
-            <h3>Calcul du Score de Pertinence</h3>
-            <p>Le classement des résultats est déterminé par un algorithme TF-IDF pondéré par le contexte :</p>
-
-            <div class="equation">
-                Score = (TF × IDF) × (Field_Weight) × (Context_Boost)
+        <div class="algo-grid">
+            <div class="algo-card" data-aos="fade-up">
+                <h4><i class="fas fa-code"></i> Technique</h4>
+                <p style="font-size:14px;">Audit des Smart Contracts, décentralisation de l'infrastructure, robustesse
+                    du protocole et historique des failles.</p>
             </div>
-
-            <div class="code-block">
-                // PONDÉRATION DES CHAMPS (Field_Weight)
-                const WEIGHTS = {
-                title: 10, // Correspondance exacte dans le titre
-                h2: 5, // Sous-titre
-                keywords: 8, // Mots-clés méta
-                content: 1 // Corps du texte
-                };
+            <div class="algo-card" data-aos="fade-up" data-aos-delay="100">
+                <h4><i class="fas fa-gavel"></i> Juridique</h4>
+                <p style="font-size:14px;">Conformité au cadre MiCA, juridiction de l'émetteur, KYC/AML natif et droits
+                    des détenteurs de tokens.</p>
             </div>
-            <p>Un "Context Boost" de x1.5 est appliqué si le terme recherché appartient à la même catégorie sémantique
-                que la page en cours de lecture (ex: Recherche "Yield" depuis la page "Validator Economics").</p>
-        </section>
-
-        <!-- 3. FINANCIAL MODELS -->
-        <section id="models">
-            <h2>3. Modèles Financiers</h2>
-
-            <h3>Calcul du ROI Validateur</h3>
-            <p>Le simulateur présent sur <code>pos-economics.html</code> utilise la formule suivante pour estimer le
-                rendement net :</p>
-
-            <div class="equation">
-                ROI_Net = [ (Stake × APY_Gross) - OpEx_Yearly ] / Stake
+            <div class="algo-card" data-aos="fade-up" data-aos-delay="200">
+                <h4><i class="fas fa-chart-line"></i> Marché</h4>
+                <p style="font-size:14px;">Liquidité secondaire, volume on-chain, profondeur du carnet d'ordres (si
+                    applicable) et volatilité relative.</p>
             </div>
-
-            <h3>Courbe de Dilution du Rendement</h3>
-            <p>La projection de baisse du rendement (Yield Decay) suit une courbe logarithmique inverse basée sur le
-                taux d'émission du protocole Ethereum (Issuance Curve) :</p>
-            <div class="code-block">
-                Yield(y) = c / sqrt(Total_Staked)
-                // Où 'c' est une constante définie par le protocole pour cibler une inflation spécifique.
-            </div>
-        </section>
-
-        <!-- 4. LIMITATIONS -->
-        <section id="limitations">
-            <h2>4. Limitations & Avertissements</h2>
-            <p>Afin de garantir une transparence totale ("Institutional Grade"), nous listons ici les limites connues de
-                nos modèles :</p>
-
-            <ul>
-                <li><strong>Latence des Données :</strong> Les prix affichés peuvent avoir un décalage de 60 secondes
-                    par rapport au marché spot (API Caching).</li>
-                <li><strong>Risques "Cygne Noir" :</strong> Les simulations de Stress Test (ex: Depeg) s'arrêtent à une
-                    déviation de -50%. Elles ne modélisent pas un effondrement total de l'infrastructure (L1 liveness
-                    failure).</li>
-                <li><strong>Fiscalité :</strong> Les calculs de ROI sont "Bruts de fiscalité". Aucune hypothèse fiscale
-                    (Flat Tax, IS) n'est intégrée.</li>
-            </ul>
-        </section>
-
-        <!-- SUPER FOOTER -->
-        <footer class="super-footer">
-        <div class="footer-content">
-            <div class="footer-grid">
-                <!-- 0. BRAND -->
-                <div class="footer-brand">
-                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
-                    <p>Plateforme d’analyse dédiée à la tokenisation des actifs financiers et aux infrastructures blockchain publiques et institutionnelles.</p>
-                    <div class="footer-socials">
-                        <a href="https://www.linkedin.com/in/joan-lyczak/" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://github.com/JoanLabTest/Blockchain_Presentation" class="social-btn"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <!-- 1. PRODUIT -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Produit</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Hub Central</a></li>
-                        <li><a href="sandbox.html">Dashboard</a></li>
-                        <li><a href="simple.html">Academy</a></li>
-                        <li><a href="guide.html">Guide Expert</a></li>
-                        <li><a href="yield-mechanics.html">Simulation Engine</a></li>
-                        <li><a href="quiz.html">Certification</a></li>
-                        <li><a href="#">Pricing</a></li>
-                    </ul>
-                </div>
-
-                <!-- 2. RESEARCH -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research</h4>
-                    <ul class="footer-links">
-                        <li><a href="rwa.html">RWA & DeFi</a></li>
-                        <li><a href="yield-mechanics.html">Yield Mechanics</a></li>
-                        <li><a href="web3.html">Web3 Infrastructure</a></li>
-                        <li><a href="ai-finance.html">AI & Finance</a></li>
-                        <li><a href="governance.html">Governance</a></li>
-                        <li><a href="legal-matrix.html">Global Matrix</a></li>
-                        <li><a href="networks/index.html">Blockchain Networks</a></li>
-                    </ul>
-                </div>
-
-                <!-- 3. INFRASTRUCTURE -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Infrastructure</h4>
-                    <ul class="footer-links">
-                        <li><a href="lifecycle.html">Cycle de Vie</a></li>
-                        <li><a href="flux-comparison.html">Comparateur Flux</a></li>
-                        <li><a href="legal_pilot.html">Régime Pilote (UE)</a></li>
-                        <li><a href="sandbox.html">Sandbox</a></li>
-                        <li><a href="#">SWIAT</a></li>
-                        <li><a href="#">Canton Network</a></li>
-                    </ul>
-                </div>
-
-                <!-- 4. CORPORATE -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Corporate</h4>
-                    <ul class="footer-links">
-                        <li><a href="methodology.html">Méthodologie</a></li>
-                        <li><a href="guide.html">Documentation</a></li>
-                        <li><a href="index-simple.html">Site Corporate</a></li>
-                        <li><a href="#">À propos</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-
-                <!-- 5. LEGAL -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-shield-alt" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Legal</h4>
-                    <ul class="footer-links">
-                        <li><a href="mentions-legales.html">Mentions Légales</a></li>
-                        <li><a href="privacy.html">Politique de Confidentialité</a></li>
-                        <li><a href="cgu.html">Conditions d'Utilisation</a></li>
-                        <li><a href="cookies.html">Politique Cookies</a></li>
-                        <li><a href="disclaimer.html">Disclaimer</a></li>
-                        <li><a href="sitemap.xml">Sitemap</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px;">
-                <strong>Disclaimer :</strong> Plateforme de démonstration éducative. Aucun conseil financier.
+            <div class="algo-card" data-aos="fade-up" data-aos-delay="300">
+                <h4><i class="fas fa-leaf"></i> ESG & Data</h4>
+                <p style="font-size:14px;">Consommation énergétique du réseau, transparence de la gouvernance et impact
+                    social des actifs tokenisés.</p>
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <div class="copyright">
-                © 2026 DCM Digital • Version 4.2.1
-            </div>
-            <div class="legal-links">
-                <a href="#">Support IT</a>
-                <a href="#">Documentation API</a>
-            </div>
-        </div>
-    </footer>
+        <h2 data-aos="fade-up">Sources de Données</h2>
+        <p data-aos="fade-up">
+            DCM Digital s'appuie sur un mix hybride de sources pour garantir la fiabilité :
+        </p>
+        <ul style="margin: 20px 0; padding-left: 20px;" data-aos="fade-up">
+            <li><strong>On-chain :</strong> Flux directs via nœuds RPC (Ethereum, Polygon, Base).</li>
+            <li><strong>Off-chain :</strong> API institutionnelles (Yahoo Finance, Bloomberg Open Data).</li>
+            <li><strong>Research :</strong> Base de données propriétaire mise à jour par nos analystes.</li>
+        </ul>
 
-        <!-- SCROLL TO TOP -->
-        <button aria-label="Bouton" id="scrollToTop" class="scroll-to-top" title="Retour en haut">
-            <i class="fas fa-chevron-up"></i>
-        </button>
-        <script src="js/scroll-top.js"></script>
+        <h2 data-aos="fade-up">Fréquence de Mise à Jour</h2>
+        <p data-aos="fade-up">
+            Les prix de marché sont mis à jour toutes les 60 secondes (avec proxy CORS). Les scores de conformité et de
+            risque sont réévalués hebdomadairement ou lors d'événements majeurs (hard forks, changements
+            réglementaires).
+        </p>
+    </div>
 
-        <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <script>
-            // Robust Initialization
-            document.addEventListener('DOMContentLoaded', function () {
-                AOS.init({
-                    duration: 800,
-                    once: true,
-                    offset: 50 // Trigger sooner
-                });
-            });
-
-            // SAFETY FAILSAFE: Force visibility if AOS fails or lags
-            // This prevents the "Black Screen" issue
-            setTimeout(function () {
-                const hiddenElements = document.querySelectorAll('[data-aos]');
-                hiddenElements.forEach(el => {
-                    if (getComputedStyle(el).opacity === '0') {
-                        el.style.opacity = '1';
-                        el.style.visibility = 'visible';
-                    }
-                });
-            }, 500); // .5s max wait
-        </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
 </body>
 
 </html>

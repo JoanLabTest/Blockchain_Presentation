@@ -193,45 +193,21 @@ const Adapters = {
 
     // --- PHASE 49: ALGORITHMIC RISK ENGINE ---
     calculateRiskIndex: (sims, scores) => {
-        let riskScore = 50;
-        let alerts = [];
-
-        // Factor 1: Quiz Scores (Risk Mgmt knowledge)
-        const riskKnowledge = scores?.radarData ? scores.radarData.dataset[2] : 50; // Index 2 is 'Risk Mgmt'
-        if (riskKnowledge < 60) {
-            riskScore += 20;
-            alerts.push({ text: 'Compétence technique (Risque) détectée comme faible', type: 'critical' });
-        } else if (riskKnowledge > 80) {
-            riskScore -= 15;
-            alerts.push({ text: 'Maîtrise théorique du risque validée', type: 'optimal' });
+        let base = 50;
+        if (sims && sims.length > 0) base -= (sims.length * 2);
+        const radar = scores.radarData;
+        if (radar) {
+            const avg = radar.dataset.reduce((a, b) => a + b, 0) / radar.dataset.length;
+            base -= (avg * 0.2);
         }
+        return Math.max(5, Math.min(95, Math.round(base)));
+    },
 
-        // Factor 2: Simulation History
-        if (sims && sims.length > 0) {
-            const criticalSims = sims.filter(s => s.status === 'critical').length;
-            const optimalSims = sims.filter(s => s.status === 'optimal').length;
-
-            if (criticalSims > 0) {
-                riskScore += (criticalSims * 10);
-                alerts.push({ text: `${criticalSims} simulation(s) à haut risque identifiée(s)`, type: 'warning' });
-            }
-            if (optimalSims > 0) {
-                riskScore -= (optimalSims * 5);
-            }
-        } else {
-            alerts.push({ text: 'Aucune donnée de yield simulée (Visibilité faible)', type: 'warning' });
-        }
-
-        // Final Constraints
-        riskScore = Math.max(0, Math.min(100, riskScore));
-
-        let tier, color, label;
-        if (riskScore < 30) { tier = 'Low'; color = 'var(--accent-green)'; label = 'Stratégie Conservatrice'; }
-        else if (riskScore < 60) { tier = 'Medium'; color = 'var(--accent-gold)'; label = 'Exposition Modérée'; }
-        else if (riskScore < 80) { tier = 'High'; color = 'var(--accent-red)'; label = 'Volatilité & Smart Contracts'; }
-        else { tier = 'Critical'; color = '#ef4444'; label = 'Surexposition Danger'; }
-
-        return { score: riskScore, tier, color, label, alerts };
+    getRiskAdvice: (riskIndex) => {
+        if (riskIndex < 20) return "Risque faible. Profil optimal pour l'exploration de nouveaux protocoles RWA.";
+        if (riskIndex < 50) return "Risque modéré. Surveillez la volatilité on-chain et diversifiez vos simulations.";
+        if (riskIndex < 80) return "Risque élevé. Réduisez l'exposition sur les Smart Contracts non-audités.";
+        return "Alerte Critique : Exposition maximale. Revoyez vos paramètres de conformité MiCA immédiatement.";
     },
 
     adaptSimulations: (sims) => {
@@ -317,8 +293,39 @@ export const DashboardEngine = {
         };
     },
 
-    // --- KEPT for backward compat with old dashboard.html script ---
-    generateMockData: () => MockData.generate(),
+    // --- BENCHMARK DATA (Phase 58) ---
+    benchmarks: {
+        tier1: [85, 90, 88, 80],
+        crypto: [95, 60, 92, 98],
+        consultants: [75, 95, 80, 85]
+    },
+
+    radarChartInstance: null,
+
+    updateBenchmark: (type) => {
+        if (!DashboardEngine.radarChartInstance) return;
+
+        const datasets = DashboardEngine.radarChartInstance.data.datasets;
+
+        // Remove existing benchmark dataset if any
+        if (datasets.length > 1) {
+            datasets.pop();
+        }
+
+        if (type !== 'none' && DashboardEngine.benchmarks[type]) {
+            datasets.push({
+                label: `Benchmark: ${type.toUpperCase()}`,
+                data: DashboardEngine.benchmarks[type],
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                borderColor: '#10b981',
+                borderDash: [5, 5],
+                pointBackgroundColor: '#10b981',
+                pointBorderColor: '#fff'
+            });
+        }
+
+        DashboardEngine.radarChartInstance.update();
+    },
 
     // ============================================================
     //  CHART RENDERING (unchanged API, upgraded colors)
@@ -327,7 +334,7 @@ export const DashboardEngine = {
         // RADAR CHART
         const ctxRadar = document.getElementById('radarChart');
         if (ctxRadar) {
-            new Chart(ctxRadar.getContext('2d'), {
+            DashboardEngine.radarChartInstance = new Chart(ctxRadar.getContext('2d'), {
                 type: 'radar',
                 data: {
                     labels: data.radarData.labels,
@@ -404,6 +411,24 @@ export const DashboardEngine = {
                     }
                 }
             });
+        }
+    },
+
+    // --- MODE SWITCHERS ---
+    toggleManagerMode: (active) => {
+        const body = document.body;
+        if (active) body.classList.add('manager-active');
+        else body.classList.remove('manager-active');
+    },
+
+    toggleWhiteLabel: (active) => {
+        const logo = document.querySelector('.brand h2');
+        if (active) {
+            logo.innerHTML = '<i class="fas fa-briefcase"></i> ADVISOR <span style="color:var(--accent-blue)">WORKSPACE</span>';
+            document.title = "DCM Advisory Workspace";
+        } else {
+            logo.innerHTML = '<i class="fas fa-cube"></i> DCM <span style="color:var(--accent-blue)">DIGITAL</span>';
+            document.title = "DCM Intelligence - Cockpit";
         }
     },
 
@@ -550,6 +575,23 @@ export const DashboardEngine = {
         DashboardEngine.renderRiskWidget(data.riskProfile);
         DashboardEngine.renderTimeline(data.timeline);
         DashboardEngine.renderSimulationTable(data.simulations);
+    },
+
+    renderBadges: () => {
+        const dock = document.getElementById('badge-dock');
+        if (!dock) return;
+
+        const badges = [
+            { key: 'quiz_metal_1', icon: '🥉', color: '#cd7f32', title: 'Bronze: Fundamentals' },
+            { key: 'quiz_metal_2', icon: '🥈', color: '#c0c0c0', title: 'Silver: Advanced' },
+            { key: 'quiz_metal_3', icon: '🥇', color: '#ffd700', title: 'Gold: Expert' },
+            { key: 'quiz_rank_4', icon: '🌈', color: '#3b82f6', title: 'Iridescent: Head Of' }
+        ];
+
+        dock.innerHTML = badges
+            .filter(b => localStorage.getItem(b.key))
+            .map(b => `<span title="${b.title}" style="font-size:14px; background:rgba(0,0,0,0.5); border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; border:1px solid ${b.color}; cursor:help;">${b.icon}</span>`)
+            .join('');
     },
 
     // --- PUBLIC API for external modules ---
