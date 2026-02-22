@@ -5,8 +5,8 @@
  */
 
 (function () {
-    // 1. Force HTTPS (Critical for SaaS)
-    if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+    // 1. Force HTTPS (Critical for SaaS) - Skip for local testing
+    if (location.protocol !== 'https:' && location.protocol !== 'file:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
         console.warn("🔐 Insecure connection detected. Redirecting to HTTPS...");
         location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
     }

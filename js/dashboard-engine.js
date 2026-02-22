@@ -5,6 +5,7 @@
  */
 
 import { supabase } from './supabase-client.js';
+import { ScoringEngine } from './core/scoring-engine.js';
 
 // ============================================================
 //  SUPABASE DATA LAYER
@@ -191,16 +192,11 @@ const Adapters = {
         return { labels, researchScores, radarData };
     },
 
-    // --- PHASE 49: ALGORITHMIC RISK ENGINE ---
+    // --- PHASE 72: DELEGATED TO CORE SCORING ENGINE ---
     calculateRiskIndex: (sims, scores) => {
-        let base = 50;
-        if (sims && sims.length > 0) base -= (sims.length * 2);
         const radar = scores.radarData;
-        if (radar) {
-            const avg = radar.dataset.reduce((a, b) => a + b, 0) / radar.dataset.length;
-            base -= (avg * 0.2);
-        }
-        return Math.max(5, Math.min(95, Math.round(base)));
+        const avg = radar ? radar.dataset.reduce((a, b) => a + b, 0) / radar.dataset.length : 0;
+        return ScoringEngine.calculateRiskIndex(sims, avg);
     },
 
     getRiskAdvice: (riskIndex) => {
@@ -323,6 +319,16 @@ export const DashboardEngine = {
         const finalSims = simsAdapted || mock.simulations;
         const finalScores = { radarData: scoreAdapted.radarData || mock.radarData };
         const riskAdapted = Adapters.calculateRiskIndex(finalSims, finalScores);
+
+        // --- PHASE 74: GROWTH ENGINE INSTRUMENTATION ---
+        if (window.GrowthEngine) {
+            finalSims.forEach(() => {
+                const trigger = window.GrowthEngine.recordAction('simulations');
+                if (trigger && window.showUpgradeModal) {
+                    setTimeout(() => window.showUpgradeModal(trigger), 2000); // Delayed prompt for better UX
+                }
+            });
+        }
 
         return {
             source: 'supabase',
