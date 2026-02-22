@@ -51,8 +51,23 @@ export const NavigationManager = {
         `).join('');
 
         // 3. Render Premium/SaaS Section
+        const headers = {
+            student: '🎓 Academy Mode',
+            pro: '💼 Professional Toolbox',
+            enterprise: '🏛️ Institutional Cockpit'
+        };
+        const activeHeader = headers[segment] || 'Espace SaaS';
+
         html += `<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <div style="font-size: 10px; text-transform: uppercase; color: #64748b; margin-bottom: 10px; letter-spacing: 1px; padding-left:15px;">Espace SaaS</div>`;
+            <div style="font-size: 10px; text-transform: uppercase; color: #64748b; margin-bottom: 10px; letter-spacing: 1px; padding-left:15px;">${activeHeader}</div>`;
+
+        // 3b. Add Pro-specific links if segment is pro
+        if (segment === 'pro') {
+            html += `
+                <li><a href="flux-comparison.html" class="nav-item"><i class="fas fa-calculator"></i> ROI Calculator</a></li>
+                <li><a href="dashboard.html?segment=pro&tab=benchmarks" class="nav-item"><i class="fas fa-ranking-star"></i> Benchmarking</a></li>
+            `;
+        }
 
         html += NavigationManager.PREMIUM_ACTIONS.map(item => {
             const isEnabled = checkFeature(segment, item.feature);

@@ -1219,8 +1219,16 @@
                     pro: '🛠️ Professional Toolbox: Audit, Benchmarks et Rapports.',
                     enterprise: '🏛️ Institutional Grade: Gouvernance, Risk et SLA.'
                 };
+                const bcLabels = {
+                    student: 'Academy',
+                    pro: 'Pro Toolbox',
+                    enterprise: 'Institutional Cockpit'
+                };
                 brandingEl.innerText = brands[segment] || brandingEl.innerText;
-                if (bcSegment) bcSegment.innerText = segment.toUpperCase();
+
+                const bcRoot = document.getElementById('bc-root') || { innerText: '' };
+                bcRoot.innerText = 'DCM Intelligence';
+                if (bcSegment) bcSegment.innerText = bcLabels[segment] || segment.toUpperCase();
             }
 
             // 3. Logical Gating for Nav Items
@@ -1308,8 +1316,8 @@
             const segment = SegmentManager.detectSegment();
             console.log(`🚀 SaaS Mode Active: ${segment.toUpperCase()}`);
 
-            // Initialize Audit View if applicable
-            if (segment === 'enterprise' || segment === 'pro') {
+            // Initialize Audit View if applicable (Gated to Enterprise for Phase 77 audit fix)
+            if (segment === 'enterprise') {
                 const instSection = document.getElementById('institutional-section');
                 if (instSection) instSection.style.display = 'block';
                 AuditLogger.renderAuditTrail('audit-trail-container', segment);
