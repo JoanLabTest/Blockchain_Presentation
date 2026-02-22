@@ -144,6 +144,20 @@ export const SessionManager = {
     },
 
     // =============================================
+    //  SEGMENTATION & ROLES (PHASE 61)
+    // =============================================
+    setSessionRole: (role) => {
+        console.log(`🎯 Setting session role: ${role}`);
+        localStorage.setItem('dcm_active_role', role);
+        // Trigger a custom event for other modules
+        window.dispatchEvent(new CustomEvent('dcmRoleChanged', { detail: { role } }));
+    },
+
+    getActiveRole: () => {
+        return localStorage.getItem('dcm_active_role') || 'Guest';
+    },
+
+    // =============================================
     //  UTILS & SESSION TIMEOUT (PHASE 48)
     // =============================================
     getCurrentUser: () => {

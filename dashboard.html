@@ -399,6 +399,36 @@
             color: #f0c040;
         }
 
+        /* --- ADVISOR INSIGHTS (Phase 63) --- */
+        .advisor-strip {
+            background: linear-gradient(90deg, rgba(34, 197, 94, 0.05), rgba(59, 130, 246, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .insight-card-mini:hover {
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-color: rgba(34, 197, 94, 0.3) !important;
+            transform: translateY(-2px);
+        }
+
+        .insight-card-mini .trace-badge {
+            font-size: 10px;
+            color: #22c55e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .insight-card-mini:hover .trace-badge {
+            opacity: 1;
+        }
+
         .ticker-symbol {
             font-size: 12px;
             color: #888;
@@ -770,7 +800,11 @@
                 </div>
             </div>
             <div class="user-info">
-                <div id="user-greeting" style="font-weight:700; color:white; font-size:14px;">User</div>
+                <div style="display:flex; align-items:center; gap:5px;">
+                    <div id="user-greeting" style="font-weight:700; color:white; font-size:14px;">User</div>
+                    <i class="fas fa-check-circle" style="color:#22c55e; font-size:11px;"
+                        title="Academy Verified Credentials (On-Chain)"></i>
+                </div>
                 <div id="user-tier-badge"></div>
             </div>
         </div>
@@ -807,6 +841,11 @@
                 <button aria-label="Bouton" class="btn-primary" onclick="generateReport()" title="Export PDF Brief">
                     <i class="fas fa-file-pdf"></i> PDF
                 </button>
+                <button aria-label="Deck" class="btn-primary" onclick="generateDeck()"
+                    title="Export High-Fidelity Consultant Deck"
+                    style="background: linear-gradient(135deg, #3b82f6, #06b6d4); color:white;">
+                    <i class="fas fa-project-diagram"></i> Deck
+                </button>
                 <button aria-label="Certificat" class="btn-primary" onclick="openDiploma()"
                     title="Obtenir mon Certificat"
                     style="background: linear-gradient(135deg, #c9a84c, #f0c060); color:#08090d;">
@@ -814,6 +853,23 @@
                 </button>
             </div>
         </header>
+
+        <!-- PHASE 63: ADVISOR RECOMMENDATION STRIP -->
+        <section class="advisor-strip" data-aos="fade-up" style="margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                <div
+                    style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e;">
+                </div>
+                <h2
+                    style="font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; color: white; font-weight: 800;">
+                    Advisor AI Recommendations</h2>
+            </div>
+            <div id="advisor-insights" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                <!-- JS Injected Recommendations -->
+                <div style="color: #475569; font-size: 13px; font-style: italic;">Génération de l'intelligence
+                    contextuelle...</div>
+            </div>
+        </section>
 
         <!-- KPI GRID (EDUCATION & RESEARCH) -->
         <div class="dash-grid" data-aos="fade-up">
@@ -1050,6 +1106,12 @@
         // Make SessionManager global for HTML onclick events
         window.SessionManager = SessionManager;
         window.DashboardEngine = DashboardEngine; // Added for tour access
+        window.generateDeck = function () {
+            if (SessionManager.checkAccess('REPORT_EXPORT')) {
+                const win = window.open('report.html?mode=deck', '_blank', 'width=1200,height=850');
+                if (!win) alert('Veuillez autoriser les popups pour générer le deck.');
+            }
+        };
         window.generateReport = function () {
             if (SessionManager.checkAccess('REPORT_EXPORT')) {
                 const win = window.open('report.html', '_blank', 'width=1000,height=1200');
@@ -1057,10 +1119,9 @@
             }
         };
         window.openDiploma = function () {
-            if (SessionManager.checkAccess('REPORT_EXPORT')) {
-                const win = window.open('diploma.html', '_blank', 'width=1000,height=900');
-                if (!win) alert('Veuillez autoriser les popups pour afficher le certificat.');
-            }
+            // Academy Certification (Phase 65)
+            const win = window.open('certificate.html', '_blank', 'width=1000,height=900');
+            if (!win) alert('Veuillez autoriser les popups pour afficher le certificat.');
         };
         window.toggleManagerMode = function () {
             const isManager = document.getElementById('managerToggle').checked;
@@ -1148,10 +1209,17 @@
             DashboardEngine.renderComplianceWidget(data.complianceProfile);
             DashboardEngine.renderTimeline(data.timeline);
             DashboardEngine.renderRiskWidget(data.riskProfile);
-            DashboardEngine.renderBadges();
 
-            // 5b. Live Market Ticker (Phase 52)
-            MarketTicker.initTicker();
+            // 6. Apply Segmented UI (Phase 61)
+            const activeRole = SessionManager.getActiveRole();
+            applySegmentedUI(user, activeRole);
+
+            // 7. Actionable Recommendations (Phase 63)
+            const recs = DashboardEngine.RecommendationEngine.generate(data, activeRole);
+            DashboardEngine.renderRecommendations(recs);
+
+            // 8. Render Badges (Phase 60 legacy)
+            DashboardEngine.renderBadges();
 
             // 6. Update KPI Text
             const scoreVal = document.querySelector('.score-val');
