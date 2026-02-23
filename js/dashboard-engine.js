@@ -653,6 +653,89 @@ export const DashboardEngine = {
         }
     },
 
+    // --- AI RISK COPILOT (Phase 119) ---
+    toggleCopilot: () => {
+        const drawer = document.getElementById('ai-copilot-drawer');
+        if (!drawer) return;
+
+        const isClosed = drawer.style.right === '-450px' || drawer.style.right === '';
+        drawer.style.right = isClosed ? '0px' : '-450px';
+    },
+
+    askCopilot: (type) => {
+        const chat = document.getElementById('copilot-chat');
+        const prompts = document.getElementById('copilot-prompts');
+        if (!chat) return;
+
+        // Context Awareness - Getting data from the dashboard
+        const riskScoreStr = document.getElementById('risk-score-circle')?.innerText || 'High';
+        const scenario = document.getElementById('stress-scenario')?.value || 'N/A';
+        const variance = document.getElementById('res-variance')?.innerText || 'N/A';
+
+        let userMsg = '';
+        let aiMsg = '';
+
+        if (type === 'explain') {
+            userMsg = "Explain why the score dropped under liquidity shock.";
+            aiMsg = `<strong>Synthèse d'Investissement:</strong> Le modèle (DCM-Risk v2) indique une dégradation sous choc de liquidité (-70%) due principalement à l'illiquidité inhérente des actifs sous-jacents (RWA) couplée à un retrait massif simulé. La variance de sensibilité (${variance}) confirme que le buffer de collatéral est insuffisant pour absorber ce scénario extrême sans impacter la notation globale (${riskScoreStr}).`;
+        } else if (type === 'summarize') {
+            userMsg = "Summarize the regulatory freeze impact in 3 points.";
+            aiMsg = `<strong>Impact MiCA Regulatory Freeze :</strong><br><br>• <strong>Blocage des Émissions:</strong> Interruption totale des nouvelles tranches de Digital Covered Bonds.<br>• <strong>Pénalité de Capital:</strong> Application immédiate du <em>haircut</em> réglementaire, réduisant le ratio de couverture de 14%.<br>• <strong>Maintien du Yield:</strong> Le mécanisme de smart contract protège les coupons existants à court terme (Horizon: 45 jours).`;
+        } else if (type === 'draft') {
+            userMsg = "Draft a paragraph for the Risk Committee.";
+            aiMsg = `<strong>[Draft - Risk Committee]</strong><br><br>Dans le cadre de notre suivi d'exposition aux actifs tokenisés, le stress test actuel révèle un profil de risque <em>${riskScoreStr}</em>. Bien que les smart contracts assurent une gestion automatisée des covenants de marge, la simulation d'un ${scenario.replace('_', ' ').toLowerCase()} indique une vulnérabilité résiduelle. Nous recommandons une révision à la hausse du buffer de liquidité de sécurité de 50 bps pour anticiper ces frictions réglementaires et de marché de manière proactive.`;
+        }
+
+        // Hide prompt buttons after a choice
+        if (prompts) prompts.style.display = 'none';
+
+        // Add user message
+        const userDiv = document.createElement('div');
+        userDiv.style.alignSelf = 'flex-end';
+        userDiv.style.background = 'rgba(255,255,255,0.05)';
+        userDiv.style.padding = '12px 15px';
+        userDiv.style.borderRadius = '12px 12px 0 12px';
+        userDiv.style.color = 'var(--text-muted)';
+        userDiv.innerHTML = `<i class="fas fa-user" style="margin-right:5px; font-size:10px;"></i> ${userMsg}`;
+        chat.appendChild(userDiv);
+
+        // Simulate AI thinking
+        const thinkDiv = document.createElement('div');
+        thinkDiv.style.alignSelf = 'flex-start';
+        thinkDiv.style.color = 'var(--accent-blue)';
+        thinkDiv.style.fontSize = '11px';
+        thinkDiv.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Analyse des KPIs du cockpit en cours...`;
+        chat.appendChild(thinkDiv);
+
+        // Scroll to bottom
+        chat.scrollTop = chat.scrollHeight;
+
+        // AI Response with delay
+        setTimeout(() => {
+            thinkDiv.remove();
+
+            const aiDiv = document.createElement('div');
+            aiDiv.style.alignSelf = 'flex-start';
+            aiDiv.style.background = 'rgba(168, 85, 247, 0.1)';
+            aiDiv.style.border = '1px solid rgba(168, 85, 247, 0.2)';
+            aiDiv.style.padding = '15px';
+            aiDiv.style.borderRadius = '12px 12px 12px 0';
+            aiDiv.style.color = 'white';
+            aiDiv.style.width = '90%';
+            aiDiv.innerHTML = `<div style="font-weight:700; color:var(--accent-purple); margin-bottom:8px;"><i class="fas fa-robot"></i> DCM Copilot Insight</div>${aiMsg}`;
+
+            chat.appendChild(aiDiv);
+            chat.scrollTop = chat.scrollHeight;
+
+            // Bring back prompts after a short delay for next questions
+            setTimeout(() => {
+                if (prompts) prompts.style.display = 'flex';
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+
+        }, 1200);
+    },
+
     // --- MODE SWITCHERS ---
     toggleManagerMode: (active) => {
         const body = document.body;

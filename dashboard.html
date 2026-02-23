@@ -1082,6 +1082,13 @@
                         <!-- JS Injected Alerts -->
                     </div>
                 </div>
+                <div id="copilot-btn-container" style="display:none; width:100%;">
+                    <button class="btn-glass"
+                        style="margin-top:auto; width:100%; justify-content:center; background:rgba(59, 130, 246, 0.1); border-color:var(--accent-blue); color:var(--accent-blue); margin-bottom: 10px;"
+                        onclick="DashboardEngine.toggleCopilot()">
+                        <i class="fas fa-robot"></i> Ask AI Copilot
+                    </button>
+                </div>
                 <button class="btn-glass" style="margin-top:auto; width:100%; justify-content:center;"
                     onclick="window.location.href='flux-comparison.html'">
                     Gérer le collatéral
@@ -1146,7 +1153,7 @@
                     style="background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:12px; padding:20px;">
                     <div
                         style="color:var(--text-muted); font-size:12px; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px;">
-                        Simulations Exécutées</div>
+                        Stress Tests Exécutés</div>
                     <div style="font-size:32px; font-weight:800; color:white; font-family:'Outfit', sans-serif;">1,284
                     </div>
                     <div style="font-size:11px; color:var(--accent-green); margin-top:5px;"><i class="fas fa-bolt"></i>
@@ -1168,12 +1175,30 @@
 
             <!-- TEAMS & CERTIFICATION TABLE -->
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h3 style="font-size:16px; font-weight:700;"><i class="fas fa-users"
-                        style="margin-right:8px; color:var(--accent-blue);"></i> État des Accréditations (Team)</h3>
-                <button class="btn-glass" style="font-size:12px; padding:6px 14px;"
-                    onclick="alert('Exportation LMS au format CSV en préparation...')">
-                    <i class="fas fa-file-csv" style="margin-right:5px;"></i> Export LMS
-                </button>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <h3 style="font-size:16px; font-weight:700;"><i class="fas fa-users"
+                            style="margin-right:8px; color:var(--accent-blue);"></i> État des Accréditations (Team)</h3>
+                    <select
+                        style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-main); font-size:12px; padding:4px 10px; border-radius:6px; outline:none;">
+                        <option value="all">Tous les départements</option>
+                        <option value="risk">Risk Mgt</option>
+                        <option value="compliance">Compliance</option>
+                        <option value="trading">Trading</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <select
+                        style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-main); font-size:12px; padding:4px 10px; border-radius:6px; outline:none;"
+                        onchange="if(this.value) alert('Exportation: ' + this.options[this.selectedIndex].text)">
+                        <option value="">Exporter un Snapshot...</option>
+                        <option value="jan">Snapshot Mensuel (Janv 2026)</option>
+                        <option value="q4">Snapshot Trimestriel (Q4 2025)</option>
+                    </select>
+                    <button class="btn-glass" style="font-size:12px; padding:6px 14px;"
+                        onclick="alert('Exportation LMS au format CSV en préparation...')">
+                        <i class="fas fa-file-csv" style="margin-right:5px;"></i> Export LMS
+                    </button>
+                </div>
             </div>
 
             <div
@@ -1419,6 +1444,51 @@
                             <i class="fas fa-anchor"></i> NOTARIZE HEAD (PHASE 84)
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI RISK COPILOT DRAWER (Phase 119) -->
+        <div id="ai-copilot-drawer" class="card"
+            style="position:fixed; top:0; right:-450px; width:400px; height:100vh; z-index:2000; border-radius:0; border-left:1px solid var(--border); background:rgba(2, 6, 23, 0.98); backdrop-filter:blur(20px); display:flex; flex-direction:column; transition:right 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow:-10px 0 30px rgba(0,0,0,0.5);">
+            <div class="card-header"
+                style="border-bottom:1px solid rgba(255,255,255,0.05); padding:20px; min-height: 80px;">
+                <div class="card-title">
+                    <i class="fas fa-robot" style="color:var(--accent-blue);"></i> DCM Risk Copilot
+                </div>
+                <button onclick="DashboardEngine.toggleCopilot()"
+                    style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:16px; margin-left:auto;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+
+            <div id="copilot-chat"
+                style="flex-grow:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:15px; font-size:13px; line-height:1.5;">
+                <div
+                    style="background:rgba(59, 130, 246, 0.1); border:1px solid rgba(59, 130, 246, 0.3); padding:15px; border-radius:12px; color:white;">
+                    <div style="font-weight:700; color:var(--accent-blue); margin-bottom:5px;"><i
+                            class="fas fa-bolt"></i> System Ready</div>
+                    Je suis le DCM Risk Copilot. Je suis connecté aux données de vos modèles de stress test actuels.
+                    Comment puis-je vous aider pour le prochain comité ?
+                </div>
+            </div>
+
+            <div style="padding:20px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(0,0,0,0.2);">
+                <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:15px;" id="copilot-prompts">
+                    <button class="btn-glass" style="font-size:11px; padding:10px; justify-content:flex-start;"
+                        onclick="DashboardEngine.askCopilot('explain')"><i class="fas fa-search-chart"
+                            style="color:var(--accent-purple); width:20px; text-align:center;"></i> Expliquer la chute
+                        du score sous choc de liquidité</button>
+                    <button class="btn-glass" style="font-size:11px; padding:10px; justify-content:flex-start;"
+                        onclick="DashboardEngine.askCopilot('summarize')"><i class="fas fa-list-ul"
+                            style="color:var(--accent-cyan); width:20px; text-align:center;"></i> Résumer l'impact du
+                        Regulatory Freeze en 3 points</button>
+                    <button class="btn-glass" style="font-size:11px; padding:10px; justify-content:flex-start;"
+                        onclick="DashboardEngine.askCopilot('draft')"><i class="fas fa-pen-nib"
+                            style="color:var(--accent-gold); width:20px; text-align:center;"></i> Rédiger un paragraphe
+                        pour le Risk Committee</button>
+                </div>
+                <div style="font-size:10px; color:#64748b; text-align:center;">
+                    <i class="fas fa-shield-halved"></i> Modèle restreint aux données du cockpit (Zero Hallucination)
                 </div>
             </div>
         </div>
