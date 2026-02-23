@@ -25,6 +25,7 @@ export const NavigationManager = {
             icon: 'fa-gavel',
             links: [
                 { id: 'nav-mica', name: 'Simulateur MiCA', link: 'mica-simulator.html', icon: 'fa-scale-balanced' },
+                { id: 'nav-validation', name: 'Model Validation', link: 'dashboard.html?tab=validation', icon: 'fa-microscope', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-audit', name: 'Audit Trails', link: 'dashboard.html?tab=audit', icon: 'fa-fingerprint', feature: 'AUDIT_VIEW' },
                 { id: 'nav-reports', name: 'Rapports Certifiés', link: 'dashboard.html?tab=reports', icon: 'fa-file-signature', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-org', name: 'Paramètres Org', link: 'org-settings.html', icon: 'fa-users-gear', feature: 'ORG_MANAGEMENT' },

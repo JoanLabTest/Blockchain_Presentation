@@ -6,6 +6,7 @@
 
 import { supabase } from './supabase-client.js';
 import { ScoringEngine } from './core/scoring-engine.js';
+import { BacktestingEngine } from './core/backtesting-engine.js';
 
 // ============================================================
 //  SUPABASE DATA LAYER
@@ -538,16 +539,56 @@ export const DashboardEngine = {
     handleTabSwitching: (tab) => {
         const simSection = document.getElementById('simulations-section');
         const reportSection = document.getElementById('reports-section');
+        const validationSection = document.getElementById('validation-section');
         const bcModule = document.getElementById('bc-module');
 
+        // Hide all gated institutional sections by default
+        if (simSection) simSection.style.display = 'none';
+        if (reportSection) reportSection.style.display = 'none';
+        if (validationSection) validationSection.style.display = 'none';
+
         if (tab === 'reports' && reportSection) {
-            if (simSection) simSection.style.display = 'none';
             reportSection.style.display = 'block';
             if (bcModule) bcModule.innerText = 'RAPPORTS';
+        } else if (tab === 'validation' && validationSection) {
+            validationSection.style.display = 'block';
+            if (bcModule) bcModule.innerText = 'VALIDATION';
         } else {
+            // Default: Show Simulations
             if (simSection) simSection.style.display = 'block';
-            if (reportSection) reportSection.style.display = 'none';
+            if (bcModule) bcModule.innerText = 'COCKPIT';
         }
+    },
+
+    runStressTest: async () => {
+        const scenario = document.getElementById('stress-scenario').value;
+        const placeholder = document.getElementById('stress-results-placeholder');
+        const resultsCard = document.getElementById('stress-results-card');
+
+        placeholder.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:40px; margin-bottom:15px;"></i><p>Simulation du stress en cours...</p>';
+
+        // Mock asset metrics for the test
+        const mockMetrics = {
+            liquidity: 85,
+            legalScore: 90,
+            collateralization: 80
+        };
+
+        const result = BacktestingEngine.runSensitivityAudit(mockMetrics, scenario);
+
+        setTimeout(() => {
+            placeholder.style.display = 'none';
+            resultsCard.style.display = 'block';
+
+            document.getElementById('res-baseline').innerText = Math.round(result.baseline);
+            document.getElementById('res-shocked').innerText = Math.round(result.shocked);
+            document.getElementById('res-variance').innerText = result.variance;
+
+            // Log the test in the audit trail if available
+            if (window.AuditLogger) {
+                window.AuditLogger.log('STRESS_TEST', { scenario, variance: result.variance });
+            }
+        }, 1500);
     },
 
     generateReport: async (type) => {
