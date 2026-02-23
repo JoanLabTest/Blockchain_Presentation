@@ -278,12 +278,70 @@
             line-height: 1.5;
         }
 
-        /* UNIVERSE GRID */
+        /* HUB SECTIONS (Phase 88/89) */
+        .hub-section {
+            margin-bottom: 100px;
+            padding: 50px 40px;
+            border-radius: 40px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .hub-section:hover {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border-color: var(--pillar-color);
+            box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.8),
+                0 0 40px -10px var(--pillar-color);
+        }
+
+        .hub-section::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--pillar-color) 0%, transparent 70%);
+            opacity: 0.1;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+
+        .hub-section-header {
+            margin-bottom: 40px;
+            border-left: 4px solid var(--pillar-color, #3b82f6);
+            padding-left: 20px;
+        }
+
+        .pillar-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(to right, #fff, var(--pillar-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pillar-subtitle {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        /* UNIVERSE GRID OVERRIDE */
         .universe-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 80px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 0;
+            /* Handled by section margin */
         }
 
         .universe-card {
@@ -633,241 +691,179 @@
     </div>
     </section>
 
-    <!-- UNIVERSE GRID -->
-    <div class="universe-grid">
+    <!-- 1. CORE INTELLIGENCE -->
+    <section class="hub-section" style="--pillar-color: #10b981;" data-aos="fade-up">
+        <div class="hub-section-header">
+            <h2 class="pillar-title">Core Intelligence</h2>
+            <p class="pillar-subtitle">Moteurs de décision, modélisation de risque et analyse on-chain.</p>
+        </div>
+        <div class="universe-grid">
+            <!-- RISK & YIELD MODELS -->
+            <a href="pos-economics.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Risk & Yield Models</div>
+                <div class="card-desc">Modélisation économique, ROI des validateurs et matrices de risques financiers.
+                </div>
+            </a>
+            <!-- YIELD MECHANICS -->
+            <a href="yield-mechanics.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(132, 204, 22, 0.1); color: #84cc16;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Yield & Staking</div>
+                <div class="card-desc">Analyse des rendements : APR vs APY et stratégies de liquidité institutionnelle.
+                </div>
+            </a>
+            <!-- AI & FINANCE -->
+            <a href="ai-finance.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">AI & Finance</div>
+                <div class="card-desc">Intelligence Cognitive appliquée : Prédiction et Analyse de Risques.</div>
+            </a>
+            <!-- BUIDL CASE -->
+            <a href="buidl.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                    <i class="fas fa-search-dollar"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">BlackRock BUIDL</div>
+                <div class="card-desc">Case Study : Analyse du premier fonds tokenisé de BlackRock.</div>
+            </a>
+        </div>
+    </section>
 
-        <!-- 1. ACADEMY -->
-        <a href="simple.html" class="universe-card" data-aos="fade-up" data-aos-delay="0">
-            <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Academy</div>
-            <div class="card-desc">
-                L'essentiel pour débuter. Comprendre le vocabulaire, le cycle de vie et les concepts clés en 5
-                minutes.
-            </div>
-        </a>
+    <!-- 2. GOVERNANCE & COMPLIANCE -->
+    <section class="hub-section" style="--pillar-color: #3b82f6;" data-aos="fade-up">
+        <div class="hub-section-header">
+            <h2 class="pillar-title">Governance & Compliance</h2>
+            <h3 class="pillar-subtitle">Cadres réglementaires, sécurité et immuabilité.</h3>
+        </div>
+        <div class="universe-grid">
+            <a href="legal_pilot.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
+                    <i class="fas fa-scale-balanced"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Régime Pilote UE</div>
+                <div class="card-desc">Cadre réglementaire européen et exemptions CSD/DLT.</div>
+            </a>
+            <a href="governance.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Governance HQ</div>
+                <div class="card-desc">Contrôle On-Chain, Multisig 3/5 et Simulations de Vote DAO.</div>
+            </a>
+            <a href="legal-matrix.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Global Legal Matrix</div>
+                <div class="card-desc">Comparateur International : MiCA vs SEC vs VARA vs MAS.</div>
+            </a>
+            <a href="security.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Security Center</div>
+                <div class="card-desc">Infrastructure, Chiffrement AES-256 et Audit Trail.</div>
+            </a>
+        </div>
+    </section>
 
-        <!-- FEATURE GRID (SEMANTIC CODING) -->
-        <!-- 2. CADRE LÉGAL & MICA -->
-        <a href="legal_pilot.html" class="universe-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
-                <i class="fas fa-scale-balanced"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Cadre Légal & MiCA</div>
-            <div class="card-desc">
-                Analyse du Régime Pilote DLT et de la conformité réglementaire européenne.
-            </div>
-        </a>
+    <!-- 3. PROFESSIONAL TOOLKIT -->
+    <section class="hub-section" style="--pillar-color: #ec4899;" data-aos="fade-up">
+        <div class="hub-section-header">
+            <h2 class="pillar-title">Professional Toolkit</h2>
+            <p class="pillar-subtitle">Outils d'exécution et infrastructure technique.</p>
+        </div>
+        <div class="universe-grid">
+            <a href="sandbox.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Developer Sandbox</div>
+                <div class="card-desc">Testez vos Smart Contracts et simulez des transactions.</div>
+            </a>
+            <a href="smart-contracts.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Architecture RWA</div>
+                <div class="card-desc">Deep Dive sur les Smart Contracts (ERC-3643) et l'infra de tokenisation.</div>
+            </a>
+            <a href="flux-comparison.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(236, 72, 153, 0.1); color: #ec4899;">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Flux & Opérations</div>
+                <div class="card-desc">Comparatif visuel : Circuit Traditionnel (T+2) vs Circuit Digital (T+0).</div>
+            </a>
+            <a href="lifecycle.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(236, 72, 153, 0.1); color: #ec4899;">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Cycle de Vie</div>
+                <div class="card-desc">Suivez le flux d'une émission tokenisée étape par étape.</div>
+            </a>
+        </div>
+    </section>
 
-        <!-- 3. GOVERNANCE HQ -->
-        <a href="governance.html" class="universe-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
-                <i class="fas fa-shield-alt"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Governance HQ</div>
-            <div class="card-desc">
-                Contrôle On-Chain, Multisig 3/5 et Simulations de Vote DAO.
-            </div>
-        </a>
-
-        <!-- 4. GLOBAL LEGAL MATRIX -->
-        <a href="legal-matrix.html" class="universe-card" data-aos="fade-up" data-aos-delay="300">
-            <div class="card-icon" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
-                <i class="fas fa-globe"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Global Legal Matrix</div>
-            <div class="card-desc">
-                Comparateur International : MiCA vs SEC vs VARA vs MAS.
-            </div>
-        </a>
-
-        <!-- 5. ARCHITECTURE RWA -->
-        <a href="smart-contracts.html" class="universe-card" data-aos="fade-up" data-aos-delay="400">
-            <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
-                <i class="fas fa-code"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Architecture RWA</div>
-            <div class="card-desc">
-                Deep Dive sur les Smart Contracts (ERC-3643) et l'infrastructure de tokenisation.
-            </div>
-        </a>
-
-        <!-- 6. RISK & YIELD MODELS -->
-        <a href="pos-economics.html" class="universe-card" data-aos="fade-up" data-aos-delay="500">
-            <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
-                <i class="fas fa-chart-pie"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Risk & Yield Models</div>
-            <div class="card-desc">
-                Modélisation économique, ROI des validateurs et matrices de risques financiers.
-            </div>
-        </a>
-        <!-- 2. THE GUIDE (PRO) -->
-        <a href="guide.html" class="universe-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
-                <i class="fas fa-book"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Le Guide Expert</div>
-            <div class="card-desc">
-                La ressource complète (23 sections). Infrastructure, Régulation, Cas Pratiques et FAQ
-                Stratégique.
-            </div>
-        </a>
-
-        <!-- 3. BLOCKCHAIN NETWORKS -->
-        <a href="networks/index.html" class="universe-card" data-aos="fade-up" data-aos-delay="150">
-            <div class="card-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
-                <i class="fa-solid fa-network-wired"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Blockchain Networks</div>
-            <div class="card-desc">
-                Analyse comparative institutionnelle des architectures (Bitcoin, Ethereum, Solana, BNB).
-            </div>
-        </a>
-
-        <!-- 4. RWA & DEFI -->
-        <a href="rwa.html" class="universe-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
-                <i class="fas fa-layer-group"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">RWA & DeFi</div>
-            <div class="card-desc">
-                La nouvelle frontière : Tokenisation d'actifs réels, Liquidité Programmable et Protocoles
-                Institutionnels.
-            </div>
-        </a>
-
-        <!-- YIELD MECHANICS -->
-        <a href="yield-mechanics.html" class="universe-card" data-aos="fade-up" data-aos-delay="250">
-            <div class="card-icon" style="background: rgba(132, 204, 22, 0.1); color: #84cc16;">
-                <i class="fas fa-chart-line"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Yield & Staking</div>
-            <div class="card-desc">
-                Analyse des rendements : APR vs APY, Staking Ethereum et stratégies de liquidité institutionnelle.
-            </div>
-        </a>
-
-        <!-- 4. WEB3 BANKING -->
-        <a href="web3.html" class="universe-card" data-aos="fade-up" data-aos-delay="300">
-            <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
-                <i class="fas fa-code-branch"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Web3 Infrastructure</div>
-            <div class="card-desc">
-                Architecture technique : Wallets, Smart Contracts, et interopérabilité des réseaux bancaires.
-            </div>
-        </a>
-
-        <!-- 5. FLUX OPS -->
-        <a href="flux-comparison.html" class="universe-card" data-aos="fade-up" data-aos-delay="400">
-            <div class="card-icon" style="background: rgba(236, 72, 153, 0.1); color: #ec4899;">
-                <i class="fas fa-exchange-alt"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Flux & Opérations</div>
-            <div class="card-desc">
-                Comparatif visuel : Circuit Traditionnel (T+2) vs Circuit Digital (T+0). Les gains d'efficacité.
-            </div>
-        </a>
-
-        <!-- 6. CERTIFICATION -->
-        <a href="quiz.html" class="universe-card" data-aos="fade-up" data-aos-delay="500">
-            <div class="card-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
-                <i class="fas fa-award"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Quiz Certification</div>
-            <div class="card-desc">
-                Testez vos connaissances et validez votre maîtrise du sujet avec le test final (Jusqu'à 45
-                questions).
-            </div>
-        </a>
-
-        <!-- 7. CYCLE DE VIE (NEW) -->
-        <a href="lifecycle.html" class="universe-card" data-aos="fade-up" data-aos-delay="600">
-            <div class="card-icon" style="background: rgba(236, 72, 153, 0.1); color: #ec4899;">
-                <i class="fas fa-project-diagram"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Cycle de Vie</div>
-            <div class="card-desc">
-                Dashboard Opérationnel : Suivez le flux d'une émission tokenisée étape par étape (Timeline).
-            </div>
-        </a>
-
-        <!-- 8. RÉGIME PILOTE (NEW) -->
-        <a href="legal_pilot.html" class="universe-card" data-aos="fade-up" data-aos-delay="700">
-            <div class="card-icon" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
-                <i class="fas fa-scale-balanced"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Régime Pilote</div>
-            <div class="card-desc">
-                Sandbox UE : Exemptions CSD, DLT TSS et nouveau cadre réglementaire européen.
-            </div>
-        </a>
-
-        <!-- 9. SANDBOX (NEW) -->
-        <a href="sandbox.html" class="universe-card" data-aos="fade-up" data-aos-delay="800">
-            <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
-                <i class="fas fa-terminal"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">Sandbox</div>
-            <div class="card-desc">
-                Environnement technique isolé pour tester vos Smart Contracts et simuler des transactions.
-            </div>
-        </a>
-
-        <!-- 10. AI & FINANCE (NEW) -->
-        <a href="ai-finance.html" class="universe-card" data-aos="fade-up" data-aos-delay="900">
-            <div class="card-icon" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
-                <i class="fas fa-brain"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">AI & Finance</div>
-            <div class="card-desc">
-                Intelligence Cognitive appliquée à la blockchain : Prédiction, Analyse de Risques et Automatisation.
-            </div>
-        </a>
-        <!-- 11. DCM DIGITAL (NEW) -->
-        <a href="index-simple.html" class="universe-card" data-aos="fade-up" data-aos-delay="1000">
-            <div class="card-icon" style="background: rgba(255, 255, 255, 0.1); color: #ffffff;">
-                <i class="fas fa-globe"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">DCM Digital</div>
-            <div class="card-desc">
-                Site Corporate : Présentation institutionnelle, Équipe et Vision Stratégique.
-            </div>
-        </a>
-
-        <!-- 12. BUIDL RESEARCH (NEW) -->
-        <a href="buidl.html" class="universe-card" data-aos="fade-up" data-aos-delay="1100">
-            <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
-                <i class="fas fa-search-dollar"></i>
-            </div>
-            <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="card-title">BlackRock BUIDL</div>
-            <div class="card-desc">
-                Case Study Institutionnel : Analyse approfondie du premier fonds tokenisé de BlackRock ($560M AUM).
-            </div>
-        </a>
-
-    </div>
+    <!-- 4. LEARNING & ACADEMIC -->
+    <section class="hub-section" style="--pillar-color: #f59e0b;" data-aos="fade-up">
+        <div class="hub-section-header">
+            <h2 class="pillar-title">Learning & Certification</h2>
+            <p class="pillar-subtitle">Parcours pédagogiques et validation des compétences.</p>
+        </div>
+        <div class="universe-grid">
+            <a href="simple.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Academy</div>
+                <div class="card-desc">L'essentiel pour débuter. Cycle de vie et concepts clés en 5 minutes.</div>
+            </a>
+            <a href="guide.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Le Guide Expert</div>
+                <div class="card-desc">La ressource complète : Infrastructure, Régulation, Cas Pratiques.</div>
+            </a>
+            <a href="quiz.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Quiz Certification</div>
+                <div class="card-desc">Validez votre maîtrise du sujet avec le test final de 45 questions.</div>
+            </a>
+            <a href="networks/index.html" class="universe-card">
+                <div class="card-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                    <i class="fa-solid fa-network-wired"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Blockchain Networks</div>
+                <div class="card-desc">Analyse comparative des architectures L1 (BTC, ETH, SOL).</div>
+            </a>
+        </div>
+    </section>
 
     <!-- PERSONA NAVIGATION -->
     <div
