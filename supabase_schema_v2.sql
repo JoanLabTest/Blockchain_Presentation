@@ -63,7 +63,29 @@ CREATE TABLE IF NOT EXISTS public.exports (
 );
 
 -- =========================================================
--- SECURITY: ROW LEVEL SECURITY (RLS)
+-- COMPLIANCE: GDPR CASCADING DELETION (Phase 83)
+-- =========================================================
+
+CREATE OR REPLACE FUNCTION public.delete_user_data(target_user_id uuid)
+RETURNS void AS $$
+BEGIN
+  -- Delete PII and linked data
+  DELETE FROM public.simulations WHERE user_id = target_user_id;
+  DELETE FROM public.exports WHERE user_id = target_user_id;
+  DELETE FROM public.quiz_results WHERE user_id = target_user_id;
+  
+  -- Logic should usually keep audit logs for compliance but anonymize PII
+  UPDATE public.audit_logs 
+  SET user_id = NULL, metadata = metadata || '{"gdpr_anonymized": true}' 
+  WHERE user_id = target_user_id;
+
+  -- Finally delete profile
+  DELETE FROM public.profiles WHERE id = target_user_id;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- =========================================================
+-- SECURITY: ROW LEVEL SECURITY (RLS) - HARDENED
 -- =========================================================
 
 ALTER TABLE public.organizations ENABLE ROW LEVEL SECURITY;
@@ -72,21 +94,25 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.benchmarks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.exports ENABLE ROW LEVEL SECURITY;
 
+-- Deny all by default (Enterprise standard)
+-- (Implicit if no policies match, but explicit policies follow)
+
 -- Profiles: Users see their own profile, Admins see their Org members
-CREATE POLICY "Users can view own profile" ON public.profiles FOR SELECT USING (auth.uid() = id);
-CREATE POLICY "Admins can view org members" ON public.profiles FOR SELECT USING (
+CREATE POLICY "Profiles: view own" ON public.profiles FOR SELECT USING (auth.uid() = id);
+CREATE POLICY "Profiles: admin org view" ON public.profiles FOR SELECT USING (
   EXISTS (
     SELECT 1 FROM public.profiles p 
     WHERE p.id = auth.uid() AND p.role = 'Admin' AND p.org_id = profiles.org_id
   )
 );
 
--- Simulations: Isolated by User or Org
-CREATE POLICY "Users can manage own simulations" ON public.simulations 
+-- Simulations: Strict Org Isolation (Hardened)
+CREATE POLICY "Simulations: personal access" ON public.simulations 
   FOR ALL USING (auth.uid() = user_id);
 
-CREATE POLICY "Org members can view org simulations" ON public.simulations 
+CREATE POLICY "Simulations: org view" ON public.simulations 
   FOR SELECT USING (
+    org_id IS NOT NULL AND
     EXISTS (
       SELECT 1 FROM public.profiles p 
       WHERE p.id = auth.uid() AND p.org_id = simulations.org_id
@@ -94,11 +120,12 @@ CREATE POLICY "Org members can view org simulations" ON public.simulations
   );
 
 -- Audit Logs: Restricted (Enterprise standard)
-CREATE POLICY "Users can view own audit logs" ON public.audit_logs 
+CREATE POLICY "Audit: personal view" ON public.audit_logs 
   FOR SELECT USING (auth.uid() = user_id);
 
-CREATE POLICY "Org Admins can view org audit logs" ON public.audit_logs 
+CREATE POLICY "Audit: org admin view" ON public.audit_logs 
   FOR SELECT USING (
+    org_id IS NOT NULL AND
     EXISTS (
       SELECT 1 FROM public.profiles p 
       WHERE p.id = auth.uid() AND p.role = 'Admin' AND p.org_id = audit_logs.org_id

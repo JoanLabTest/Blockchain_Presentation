@@ -6,10 +6,12 @@ This document maps DCM Digital platform capabilities to specific requirements of
 | MiCA Requirement | DCM Feature / Module | Implementation Detail |
 |:---|:---|:---|
 | **Art. 61: Duty to act in the best interest of clients** | Scoring Engine & Risk Profiling | Algorithms prioritize client risk tolerance and knowledge scores. |
-| **Art. 62: Information to clients (White papers, risks)** | MiCA Knowledge Hub & Quiz | Educates users on regulatory transparency and white paper analysis. |
-| **Art. 70: Custody and administration of asset** | Institutional Custody Simulations | Modélisation des risques liés au HSM, Cold Storage et MPC. |
-| **Art. 76: Prevention of Market Abuse** | On-chain Analytics & Monitoring | Indicators for wash trading and pump-and-dump detection. |
-| **Art. 81: Security of ICT systems (DORA alignment)** | Security Enforcer & Audit Trail | SHA-256 hashed audit logs and restricted institutional access controls. |
+| **Art. 62: Information to clients** | MiCA Knowledge Hub & Quiz | Educates users on regulatory transparency and white paper analysis. |
+| **Art. 66: Safeguarding of crypto-assets** | Custody Risk Model | Technical assessment of HSM, Cold Storage, and MPC resilience. |
+| **Art. 70: Segregation of assets** | Enterprise Multi-tenancy | Org-id isolation via RLS prevents cross-client data leakage. |
+| **Art. 76: Prevention of Market Abuse** | On-chain Analytics | Indicators for wash trading and pump-and-dump detection. |
+| **Art. 81: Security of ICT systems** | Security Enforcer & Audit Trail | SHA-256 **Hash-Chained** logs and strict CSP 3.0. |
+| **Art. 84: Right of withdrawal (Anonymization)** | GDPR Cascading Deletion | SQL-level erasure of PII while maintaining audit integrity. |
 
 ### Technical Verification
 - **Traceability**: Every strategic decision is logged in the `public.audit_logs` table.

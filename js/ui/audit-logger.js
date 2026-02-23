@@ -3,20 +3,31 @@ import { supabase } from '../supabase-client.js';
 export const AuditLogger = {
 
     /**
-     * Generates a SHA-256 hash for an audit entry.
+     * Generates a SHA-256 hash for an audit entry, optionally chaining it.
      */
-    _generateHash: async (data) => {
-        const msgBuffer = new TextEncoder().encode(JSON.stringify(data));
+    _generateHash: async (data, prevHash = null) => {
+        const payload = { ...data };
+        if (prevHash) payload.prev_hash = prevHash;
+
+        const msgBuffer = new TextEncoder().encode(JSON.stringify(payload));
         const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     },
 
     log: async (action, userRole, details = {}) => {
         const { data: { session } } = await supabase.auth.getSession();
         const userId = session?.user?.id;
-        const orgId = localStorage.getItem('dcm_org_id'); // To be populated by SessionManager
+        const orgId = localStorage.getItem('dcm_org_id');
+
+        // Fetch Last Hash for Chaining (Phase 83)
+        const { data: lastLogs } = await supabase
+            .from('audit_logs')
+            .select('node_hash')
+            .order('timestamp', { ascending: false })
+            .limit(1);
+
+        const prevHash = lastLogs && lastLogs.length > 0 ? lastLogs[0].node_hash : 'GENESIS';
 
         const entry = {
             timestamp: new Date().toISOString(),
@@ -24,11 +35,12 @@ export const AuditLogger = {
             user_id: userId,
             org_id: orgId,
             metadata: { ...details, role: userRole },
-            severity: details.severity || 'INFO'
+            severity: details.severity || 'INFO',
+            prev_hash: prevHash
         };
 
-        // Generate Integrity Hash (Phase 79)
-        entry.node_hash = await AuditLogger._generateHash(entry);
+        // Generate Chained Integrity Hash
+        entry.node_hash = await AuditLogger._generateHash(entry, prevHash);
 
         const { data, error } = await supabase
             .from('audit_logs')

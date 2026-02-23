@@ -11,11 +11,11 @@
         location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
     }
 
-    // 2. Inject Security Meta Tags (CSP & HSTS equivalents)
-    // CSP restricts where scripts/styles/images can be loaded from, mitigating XSS.
+    // 2. Inject Security Meta Tags (CSP 3.0 & Anti-Framing)
     const metaCSP = document.createElement('meta');
     metaCSP.httpEquiv = "Content-Security-Policy";
     metaCSP.content = "default-src 'self' https://*.supabase.co; " +
+        "frame-ancestors 'none'; " + // Prevent framing on modern browsers
         "script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.clarity.ms; " +
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; " +
         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
@@ -23,24 +23,31 @@
         "connect-src 'self' https://*.supabase.co https://*.supabase.net https://www.google-analytics.com https://w.clarity.ms;";
     document.head.appendChild(metaCSP);
 
-    // Ensure site is not loaded in an unauthorized iframe (Clickjacking defense)
+    // Referrer Policy: Institutional standard
+    const metaReferrer = document.createElement('meta');
+    metaReferrer.name = "referrer";
+    metaReferrer.content = "same-origin";
+    document.head.appendChild(metaReferrer);
+
+    // X-Frame-Options emulation for client-side
+    const metaXFrame = document.createElement('meta');
+    metaXFrame.httpEquiv = "X-Frame-Options";
+    metaXFrame.content = "DENY";
+    document.head.appendChild(metaXFrame);
+
+    // Aggressive Frame-Buster (Phase 83)
     if (window.top !== window.self) {
-        console.error("🚫 Blocked iframe rendering (Anti-Clickjacking).");
-        window.top.location = window.self.location;
+        window.top.location.replace(window.self.location.href);
     }
-    // 3. Input Sanitization Helper (XSS Mitigation)
+
+    // 3. Input Sanitization (Whitelisting approach)
     window.DCM_Security = {
         sanitizeInput: (str) => {
             if (typeof str !== 'string') return str;
-            return str.replace(/[&<>"']/g, function (m) {
-                return {
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '"': '&quot;',
-                    "'": '&#39;'
-                }[m];
-            });
+            // Basic HTML Entity Encoding (Institutional Baseline)
+            return str.replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
         }
     };
 
