@@ -16,7 +16,7 @@ export const NavigationManager = {
             links: [
                 { id: 'nav-dash', name: 'Dashboard', link: 'dashboard.html', icon: 'fa-chart-pie', active: true },
                 { id: 'nav-rwa', name: 'RWA Vertical', link: 'rwa-analytics.html', icon: 'fa-layer-group', feature: 'ORG_MANAGEMENT' },
-                { id: 'nav-risk', name: 'Risk Engine', link: 'dashboard.html?tab=risk', icon: 'fa-shield-virus' },
+                { id: 'nav-risk', name: 'Risk Engine', link: 'dashboard.html#risk-card', icon: 'fa-shield-virus' },
                 { id: 'nav-yield', name: 'Yield Lab', link: 'yield-mechanics.html', icon: 'fa-flask-vial' }
             ]
         },

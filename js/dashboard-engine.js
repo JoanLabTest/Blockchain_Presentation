@@ -542,7 +542,7 @@ export const DashboardEngine = {
         const validationSection = document.getElementById('validation-section');
         const bcModule = document.getElementById('bc-module');
 
-        // Hide all gated institutional sections by default
+        // Default visible state resetting
         if (simSection) simSection.style.display = 'none';
         if (reportSection) reportSection.style.display = 'none';
         if (validationSection) validationSection.style.display = 'none';
@@ -554,9 +554,9 @@ export const DashboardEngine = {
             validationSection.style.display = 'block';
             if (bcModule) bcModule.innerText = 'VALIDATION';
         } else {
-            // Default: Show Simulations
+            // Default: Show Simulations (+ Risk Card since it is naturally embedded)
             if (simSection) simSection.style.display = 'block';
-            if (bcModule) bcModule.innerText = 'COCKPIT';
+            if (bcModule) bcModule.innerText = window.location.hash.includes('risk-card') ? 'RISK ENGINE' : 'COCKPIT';
         }
     },
 
