@@ -21,26 +21,40 @@ const AuthManager = (() => {
         }
 
         // 3. Check Session
+        const { data: { session } } = await supabaseClient.auth.getSession();
 
-        // DEV MODE BYPASS (Only if explicitly activated via SATOSHI password)
-        if (typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true') {
-            console.warn("AuthManager: 🚧 SUPER DEV MODE ACTIVE - Simulating Super Dev User");
+        let isSuperDev = (typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true');
+
+        // MASTER ACCOUNT BYPASS
+        if (session && session.user && session.user.email === 'joanlyczak@gmail.com') {
+            isSuperDev = true;
+        }
+
+        // DEV MODE / MASTER BYPASS
+        if (isSuperDev) {
+            console.warn("AuthManager: 🚧 SUPER DEV MODE / MASTER ACTIVE - Simulating Full Access");
             currentUser = {
-                id: 'super-dev-id',
-                email: 'superdev@dcm-hub.com',
+                id: session?.user?.id || 'super-dev-id',
+                email: session?.user?.email || 'superdev@dcm-hub.com',
                 role: 'admin',
+                app_metadata: { role: 'admin' },
                 user_metadata: {
-                    first_name: "Super",
-                    last_name: "Dev",
+                    first_name: session?.user?.user_metadata?.first_name || "Super",
+                    last_name: session?.user?.user_metadata?.last_name || "Dev",
                     full_access: true,
                     levels_unlocked: true,
-                    certificates_ready: true
+                    certificates_ready: true,
+                    role: 'admin'
                 }
             };
+
+            // Force localStorage state so the UI (TenantManager, SegmentManager) fully unlocks
+            localStorage.setItem('dcm_user_role', 'ADMIN');
+            localStorage.setItem('dcm_active_role', 'enterprise');
+
             // Mock getSessionToken for agents
-            AuthManager.getSessionToken = async () => "mock-dev-token";
+            AuthManager.getSessionToken = async () => session ? session.access_token : "mock-dev-token";
         } else {
-            const { data: { session } } = await supabaseClient.auth.getSession();
             currentUser = session?.user || null;
 
             // Standard getSessionToken
