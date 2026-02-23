@@ -25,48 +25,120 @@
     <link rel="stylesheet" href="styles-footer.css">
 
     <style>
+        :root {
+            --pillar-color: #3b82f6;
+            --tech-color: #10b981;
+            --legal-color: #3b82f6;
+            --market-color: #ec4899;
+            --esg-color: #f59e0b;
+        }
+
         body {
             background-color: #020617;
             font-family: 'Inter', sans-serif;
-            color: white;
+            color: #cbd5e1;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         .meth-hero {
-            padding: 140px 20px 80px 20px;
+            padding: 160px 20px 100px 20px;
             text-align: center;
-            background: radial-gradient(circle at top, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle at top, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+        }
+
+        /* 2-COLUMN LAYOUT FOR TOC */
+        .meth-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 100px 40px;
+        }
+
+        /* STICKY TOC */
+        .meth-toc {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            padding: 30px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .toc-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .toc-link {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+            padding-left: 10px;
+            border-left: 2px solid transparent;
+        }
+
+        .toc-link:hover,
+        .toc-link.active {
+            color: #3b82f6;
+            border-left-color: #3b82f6;
         }
 
         .content-container {
             max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 20px;
             line-height: 1.8;
-            color: #cbd5e1;
         }
 
         h2 {
             font-family: 'Outfit', sans-serif;
-            font-size: 32px;
+            font-size: 36px;
             color: white;
-            margin: 50px 0 25px 0;
-            border-left: 4px solid #3b82f6;
-            padding-left: 20px;
+            margin: 80px 0 30px 0;
+            scroll-margin-top: 120px;
         }
 
-        .disclaimer-box {
-            background: rgba(239, 68, 68, 0.05);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 60px 0;
-            color: #f87171;
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            color: white;
+            margin: 40px 0 20px 0;
         }
 
+        /* FORMULA BOX */
+        .formula-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .math-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            color: #60a5fa;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* ALGO GRID */
         .algo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin: 40px 0;
         }
@@ -76,11 +148,71 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 25px;
             border-radius: 16px;
+            transition: transform 0.3s;
+        }
+
+        .algo-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--card-color);
         }
 
         .algo-card h4 {
-            color: #3b82f6;
-            margin-bottom: 10px;
+            color: var(--card-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .weight-badge {
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: #94a3b8;
+        }
+
+        /* CASE STUDY TABLE */
+        .case-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            font-size: 14px;
+            background: rgba(15, 23, 42, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .case-table th,
+        .case-table td {
+            text-align: left;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .case-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-weight: 700;
+        }
+
+        .status-ok {
+            color: #10b981;
+        }
+
+        .status-warn {
+            color: #f59e0b;
+        }
+
+        @media (max-width: 992px) {
+            .meth-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .meth-toc {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -97,69 +229,182 @@
     </nav>
 
     <div class="meth-hero">
-        <h1 style="font-family:'Outfit'; font-size:56px; font-weight:800; margin-bottom:20px;">Science des <span
-                style="color:#3b82f6">Données</span></h1>
-        <p style="color:#94a3b8; font-size:20px; max-width:800px; margin: 0 auto;">
-            Comprendre les piliers du scoring de Decision Intelligence de DCM Digital.
+        <h1 style="font-family:'Outfit'; font-size:64px; font-weight:800; margin-bottom:20px;">Rigueur <span
+                style="color:#3b82f6">Analytique</span></h1>
+        <p style="color:#94a3b8; font-size:22px; max-width:800px; margin: 0 auto;">
+            Cadre méthodologique et algorithmique de la plateforme DCM Digital.
         </p>
     </div>
 
-    <div class="content-container">
-        <div class="disclaimer-box" data-aos="fade-up">
-            <h3 style="margin-bottom:15px;"><i class="fas fa-exclamation-triangle"></i> Disclaimer Légal Important</h3>
-            <p>
-                DCM Digital est une plateforme de recherche et de simulation. Les scores, analyses et visualisations
-                fournis ne constituent en aucun cas un conseil en investissement, un conseil financier, juridique ou
-                fiscal. L'utilisateur assume l'entière responsabilité des décisions prises sur la base de ces
-                informations.
-            </p>
-        </div>
+    <div class="meth-layout">
+        <!-- SOMMAIRE -->
+        <aside class="meth-toc">
+            <div class="toc-title">Sommaire</div>
+            <a href="#disclaimer" class="toc-link">Avertissement Légal</a>
+            <a href="#algo" class="toc-link">Algorithme DCM Score</a>
+            <a href="#piliers" class="toc-link">Dimensions d'analyse</a>
+            <a href="#sources" class="toc-link">Gestion de la donnée</a>
+            <a href="#cases" class="toc-link">Études de Cas</a>
+            <a href="#validity" class="toc-link">Validité & Limites</a>
+        </aside>
 
-        <h2 data-aos="fade-up">Les 4 Piliers du Scoring</h2>
-        <p data-aos="fade-up">
-            Nos algorithmes agrègent plus de 200 variables en temps réel pour produire un score de maturité cohérent :
-        </p>
+        <!-- CONTENU -->
+        <main class="content-container">
+            <section id="disclaimer">
+                <div class="disclaimer-box" data-aos="fade-up">
+                    <h3 style="margin-top:0;"><i class="fas fa-exclamation-triangle"></i> Note aux Institutionnels</h3>
+                    <p>
+                        DCM Digital est une plateforme Decision Intelligence. Les scores générés par nos algorithmes
+                        sont
+                        des indicateurs de maturité relative et de résilience technique. Ils ne constituent pas des
+                        conseils
+                        financiers, juridiques ou bancaires.
+                    </p>
+                </div>
+            </section>
 
-        <div class="algo-grid">
-            <div class="algo-card" data-aos="fade-up">
-                <h4><i class="fas fa-code"></i> Technique</h4>
-                <p style="font-size:14px;">Audit des Smart Contracts, décentralisation de l'infrastructure, robustesse
-                    du protocole et historique des failles.</p>
-            </div>
-            <div class="algo-card" data-aos="fade-up" data-aos-delay="100">
-                <h4><i class="fas fa-gavel"></i> Juridique</h4>
-                <p style="font-size:14px;">Conformité au cadre MiCA, juridiction de l'émetteur, KYC/AML natif et droits
-                    des détenteurs de tokens.</p>
-            </div>
-            <div class="algo-card" data-aos="fade-up" data-aos-delay="200">
-                <h4><i class="fas fa-chart-line"></i> Marché</h4>
-                <p style="font-size:14px;">Liquidité secondaire, volume on-chain, profondeur du carnet d'ordres (si
-                    applicable) et volatilité relative.</p>
-            </div>
-            <div class="algo-card" data-aos="fade-up" data-aos-delay="300">
-                <h4><i class="fas fa-leaf"></i> ESG & Data</h4>
-                <p style="font-size:14px;">Consommation énergétique du réseau, transparence de la gouvernance et impact
-                    social des actifs tokenisés.</p>
-            </div>
-        </div>
+            <section id="algo" data-aos="fade-up">
+                <h2>L'Algorithme DCM Score V2</h2>
+                <p>
+                    Le <strong>Decision Maturity Score</strong> est calculé via une agrégation multicritères pondérée.
+                    Chaque indicateur brut est normalisé sur une échelle de 0 à 100 via un algorithme de
+                    <em>Min-Max Scaling</em> pour assurer la comparabilité inter-projets.
+                </p>
 
-        <h2 data-aos="fade-up">Sources de Données</h2>
-        <p data-aos="fade-up">
-            DCM Digital s'appuie sur un mix hybride de sources pour garantir la fiabilité :
-        </p>
-        <ul style="margin: 20px 0; padding-left: 20px;" data-aos="fade-up">
-            <li><strong>On-chain :</strong> Flux directs via nœuds RPC (Ethereum, Polygon, Base).</li>
-            <li><strong>Off-chain :</strong> API institutionnelles (Yahoo Finance, Bloomberg Open Data).</li>
-            <li><strong>Research :</strong> Base de données propriétaire mise à jour par nos analystes.</li>
-        </ul>
+                <div class="formula-box">
+                    <span class="math-text">Score<sub>DCM</sub> = (30% × T) + (30% × J) + (20% × M) + (20% × E)</span>
+                    <p style="font-size:14px; color:#64748b;">Où T=Technique, J=Juridique, M=Marché, E=ESG</p>
+                </div>
 
-        <h2 data-aos="fade-up">Fréquence de Mise à Jour</h2>
-        <p data-aos="fade-up">
-            Les prix de marché sont mis à jour toutes les 60 secondes (avec proxy CORS). Les scores de conformité et de
-            risque sont réévalués hebdomadairement ou lors d'événements majeurs (hard forks, changements
-            réglementaires).
-        </p>
+                <h3>Processus de Normalisation</h3>
+                <p>
+                    Pour éviter les biais statistiques, nous appliquons une fonction sigma sur les variables de volume
+                    et de volatilité, transformant les données brutes hétérogènes en un indice de confiance linéaire.
+                </p>
+            </section>
+
+            <section id="piliers" data-aos="fade-up">
+                <h2>Dimensions d'Analyse Stratégique</h2>
+                <div class="algo-grid">
+                    <div class="algo-card" style="--card-color: #10b981;">
+                        <h4><i class="fas fa-code"></i> Technique <span class="weight-badge">30%</span></h4>
+                        <p style="font-size:13px;">Complexité du code, audits CertiK/OpenZeppelin, décentralisation des
+                            séquenceurs et immuabilité.</p>
+                    </div>
+                    <div class="algo-card" style="--card-color: #3b82f6;">
+                        <h4><i class="fas fa-gavel"></i> Juridique <span class="weight-badge">30%</span></h4>
+                        <p style="font-size:13px;">Compatibilité MiCA Articles 12-14, conformité GDPR des logs et
+                            structures de transfert légal.</p>
+                    </div>
+                    <div class="algo-card" style="--card-color: #ec4899;">
+                        <h4><i class="fas fa-chart-line"></i> Marché <span class="weight-badge">20%</span></h4>
+                        <p style="font-size:13px;">Profondeur de liquidité sur DEX/CEX, volume on-chain et stabilité du
+                            peg (pour RWAs stables).</p>
+                    </div>
+                    <div class="algo-card" style="--card-color: #f59e0b;">
+                        <h4><i class="fas fa-leaf"></i> ESG <span class="weight-badge">20%</span></h4>
+                        <p style="font-size:13px;">Consommation KWh/Tx, diversité des validateurs et alignement avec les
+                            standards de reporting extra-financier.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sources" data-aos="fade-up">
+                <h2>Architecture de Données</h2>
+                <p>
+                    L'intégrité de l'analyse repose sur le croisement de trois vecteurs d'information :
+                </p>
+                <div style="background: rgba(15, 23, 42, 0.4); border-radius: 16px; padding: 30px; margin-top: 25px;">
+                    <ul style="margin:0; padding-left: 20px;">
+                        <li style="margin-bottom:15px;">
+                            <strong style="color:white;">Flux Temps-Réel (60s) :</strong> Agrégateurs de spreads et de
+                            volumes via APIs REST institutionnelles.
+                        </li>
+                        <li style="margin-bottom:15px;">
+                            <strong style="color:white;">Moteur On-Chain :</strong> Analyse heuristique des smart
+                            contracts (Ethereum, Polygon, Base VM).
+                        </li>
+                        <li>
+                            <strong style="color:white;">Base Stratégique :</strong> Données qualitatives auditées par
+                            nos experts (validité des licences CASP).
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="cases" data-aos="fade-up">
+                <h2>Études de Cas Comparatives</h2>
+                <table class="case-table">
+                    <thead>
+                        <tr>
+                            <th>Projet</th>
+                            <th>Score DCM</th>
+                            <th>Facteur Clé</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Digital Bond Tier-1</strong></td>
+                            <td><span class="status-ok">88/100</span></td>
+                            <td>Conformité MiCA totale</td>
+                            <td><span class="status-ok">Investment Grade</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>RWA Emergent</strong></td>
+                            <td><span class="status-warn">62/100</span></td>
+                            <td>Liquidité secondaire limitée</td>
+                            <td><span class="status-warn">Moderate Risk</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Synthetics Offshore</strong></td>
+                            <td><span style="color:#ef4444">42/100</span></td>
+                            <td>Incertitude Juridique</td>
+                            <td><span style="color:#ef4444">High Risk</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="validity" data-aos="fade-up">
+                <h2>Validité & Limites de la Méthode</h2>
+                <p>
+                    Malgré une rigueur statistique maximale, toute modélisation comporte des limites :
+                </p>
+                <ul style="padding-left: 20px; font-size: 14px;">
+                    <li><strong>Latence Réglementaire :</strong> Les scores juridiques peuvent varier après un
+                        changement législatif soudain.</li>
+                    <li><strong>Volatilité :</strong> Les métriques de marché sont volatiles par nature.</li>
+                    <li><strong>Corrélation :</strong> Une faille technique (T) impacte souvent directement la liquidité
+                        (M).</li>
+                </ul>
+
+                <h3 style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; margin-top: 60px;">
+                    Bibliographie & Standards</h3>
+                <div style="font-size: 13px; color: #64748b;">
+                    [1] Règlement (UE) 2023/1114 sur les marchés de crypto-actifs (MiCA).<br>
+                    [2] EBA/ESMA - Guidelines on internal governance for CASPs.<br>
+                    [3] MIT DL Lab - Blockchain Security Scoring Framework.
+                </div>
+            </section>
+        </main>
     </div>
+
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Méthodologie de Scoring Decision Intelligence DCM Digital",
+      "description": "Explication scientifique de l'algorithme de scoring DCM : Technique, Juridique, Marché et ESG pour la finance tokenisée.",
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Digital"
+      },
+      "datePublished": "2026-02-23",
+      "keywords": ["blockchain scoring", "decision intelligence", "MiCA", "RWA analysis", "DCM Score"]
+    }
+    </script>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>AOS.init({ duration: 800, once: true });</script>
