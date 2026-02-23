@@ -532,7 +532,25 @@ export const DashboardEngine = {
 
         // Feature: Custom Tab Labels in Breadcrumb
         window.addEventListener('hashchange', () => {
-            if (bcModule) bcModule.innerText = window.location.hash.replace('#', '').toUpperCase() || 'Cockpit';
+            const hash = window.location.hash.replace('#', '').toUpperCase();
+            if (bcModule && hash) bcModule.innerText = hash;
+        });
+
+        // Intercept sidebar tab clicks to prevent full page reload
+        document.addEventListener('click', (e) => {
+            const navLink = e.target.closest('a.nav-item');
+            if (navLink && navLink.hasAttribute('data-tab')) {
+                const tabId = navLink.getAttribute('data-tab');
+                if (tabId && window.location.pathname.endsWith('dashboard.html')) {
+                    e.preventDefault();
+                    window.history.pushState({}, '', '?tab=' + tabId);
+                    DashboardEngine.handleTabSwitching(tabId);
+
+                    // Update active state in sidebar
+                    document.querySelectorAll('a.nav-item').forEach(n => n.classList.remove('active'));
+                    navLink.classList.add('active');
+                }
+            }
         });
     },
 
