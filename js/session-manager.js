@@ -80,6 +80,18 @@ export const SessionManager = {
             lastLogin: new Date().toISOString()
         };
 
+        // 🚧 SUPER DEV / MASTER OVERRIDE 🚧
+        if (user.email === 'joanlyczak@gmail.com' || localStorage.getItem('is_super_dev') === 'true') {
+            console.warn("SessionManager: 🚧 MASTER ACCESS ACTIVATED - Forcing ADMIN Role and Enterprise Tier");
+            profile.role = 'ADMIN';
+            profile.subscription_tier = 'enterprise';
+            profile.org_id = 'dcm-master-org'; // Virtual org for master access
+
+            // Immediately sync with legacy systems
+            localStorage.setItem('dcm_user_role', 'ADMIN');
+            localStorage.setItem('dcm_active_role', 'enterprise');
+        }
+
         // Cache locally for offline fallback
         localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, accessToken);
         localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(profile));
@@ -324,7 +336,8 @@ export const SessionManager = {
 
         // 1. System Admin / Super Dev Bypass
         const isSuperDev = typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true';
-        if (isSuperDev || role === 'Head of Digital') {
+        const isMaster = profile.email === 'joanlyczak@gmail.com' || role.toUpperCase() === 'ADMIN' || role === 'Head of Digital';
+        if (isSuperDev || isMaster) {
             isGranted = true;
         }
         // 2. Role & Tier Check

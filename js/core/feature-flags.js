@@ -48,6 +48,11 @@ export const FeatureMatrix = {
  * @param {string} feature - feature key
  */
 export const checkFeature = (segment, feature) => {
+    // 🚧 SUPER DEV / MASTER OVERRIDE 🚧
+    if (localStorage.getItem('dcm_user_role') === 'ADMIN') {
+        return true;
+    }
+
     if (!FeatureMatrix[segment]) return false;
 
     // Growth Engine Tracking (Phase 74)
