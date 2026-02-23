@@ -74,6 +74,7 @@ export const SessionManager = {
             name: profileData?.full_name || profileData?.username || user.user_metadata?.full_name || user.email.split('@')[0],
             email: user.email,
             role: profileData?.role || 'Analyste',
+            org_id: profileData?.org_id || null,
             jurisdiction: profileData?.jurisdiction || 'EU (France)',
             subscription_tier: profileData?.subscription_tier || 'free',
             lastLogin: new Date().toISOString()
@@ -83,6 +84,7 @@ export const SessionManager = {
         localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, accessToken);
         localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(profile));
         localStorage.setItem(SessionManager.KEYS.SESSION_START, Date.now());
+        if (profile.org_id) localStorage.setItem('dcm_org_id', profile.org_id);
 
         return profile;
     },
@@ -137,6 +139,8 @@ export const SessionManager = {
         localStorage.removeItem(SessionManager.KEYS.AUTH_TOKEN);
         localStorage.removeItem(SessionManager.KEYS.USER_PROFILE);
         localStorage.removeItem(SessionManager.KEYS.SESSION_START);
+        localStorage.removeItem('dcm_org_id');
+        localStorage.removeItem('dcm_active_role');
         sessionStorage.clear();
 
         // 3. Redirect
@@ -290,65 +294,64 @@ export const SessionManager = {
     },
 
     // =============================================
-    //  ACCESS CONTROL (Phase 29 — upgraded for tiers)
+    //  RBAC (Phase 80)
     // =============================================
-    checkAccess: (feature) => {
+    checkAccess: (permission) => {
         const profile = SessionManager.getCurrentUser() || {};
-        const role = profile.role || 'Guest';
+        const role = profile.role || 'Viewer'; // Default to Viewer for institutional safety
         const tier = profile.subscription_tier || 'free';
 
-        const RULES = {
-            'REPORT_EXPORT': ['Risk Manager', 'Head of Digital', 'Compliance Officer'],
-            'LEGAL_MATRIX_FULL': ['Compliance Officer', 'Head of Digital'],
-            'MANAGER_VIEW': ['Head of Digital']
+        /**
+         * Institutional Permission Matrix
+         * Maps permissions to required roles and tiers.
+         */
+        const PERMISSION_MATRIX = {
+            'REPORT_EXPORT': { roles: ['Admin', 'Analyst'], tiers: ['pro', 'enterprise'] },
+            'AUDIT_VIEW': { roles: ['Admin'], tiers: ['enterprise'] },
+            'BENCHMARK_DETAIL': { roles: ['Admin', 'Analyst'], tiers: ['pro', 'enterprise'] },
+            'USER_MANAGEMENT': { roles: ['Admin'], tiers: ['enterprise'] },
+            'RISK_MODEL_EDIT': { roles: ['Admin'], tiers: ['enterprise'] },
+            'BASIC_DASHBOARD': { roles: ['Admin', 'Analyst', 'Viewer'], tiers: ['free', 'pro', 'enterprise'] }
         };
 
-        // Subscription tier check (Phase 34 ready)
-        const TIER_RULES = {
-            'REPORT_EXPORT': ['pro', 'institutional'],
-            'LEGAL_MATRIX_FULL': ['pro', 'institutional'],
-            'AI_ADVANCED': ['institutional']
-        };
-
-        const allowedRoles = RULES[feature] || [];
-        const allowedTiers = TIER_RULES[feature] || [];
+        const rule = PERMISSION_MATRIX[permission];
+        if (!rule) {
+            console.warn(`⚠️ Unknown permission requested: ${permission}. Defaulting to DENY.`);
+            return false;
+        }
 
         let isGranted = false;
 
-        // Admin or Dev Mode bypasses everything
-        const isDevModeActive = typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true';
-        if (role === 'Head of Digital' || isDevModeActive) {
+        // 1. System Admin / Super Dev Bypass
+        const isSuperDev = typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true';
+        if (isSuperDev || role === 'Head of Digital') {
             isGranted = true;
         }
-        // 1. Check Role-based access
-        else if (allowedRoles.includes(role)) {
-            isGranted = true;
-        }
-        // 2. Check Tier-based access (only if feature has premium tier restrictions)
-        else if (allowedTiers.length > 0 && allowedTiers.includes(tier)) {
+        // 2. Role & Tier Check
+        else if (rule.roles.includes(role) && rule.tiers.includes(tier)) {
             isGranted = true;
         }
 
-        // --- PHASE 32 TRACKING ---
-        if (typeof AnalyticsEngine !== 'undefined') {
-            AnalyticsEngine.trackFeatureAccess(feature, isGranted);
+        // --- Institutional Logging (Phase 80) ---
+        if (!isGranted && window.AuditLogger) {
+            window.AuditLogger.log('UNAUTHORIZED_ACCESS_ATTEMPT', role, { permission });
         }
 
         if (!isGranted) {
-            SessionManager.showPaywall(feature);
+            SessionManager.showPaywall(permission, role);
             return false;
         }
         return true;
     },
 
-    showPaywall: (feature) => {
-        const featureNames = {
-            'REPORT_EXPORT': 'Exportation PDF & CSV institutionnelle',
-            'LEGAL_MATRIX_FULL': 'Module de Conformité MiCA Complet',
-            'AI_ADVANCED': 'Analyse prédictive IA et Modélisation',
-            'MANAGER_VIEW': 'Vue Manager Équipe et Logs Audit'
+    showPaywall: (permission, currentRole) => {
+        const messages = {
+            'REPORT_EXPORT': 'Exportation PDF institutionnelle (Droits Analyst+ requis).',
+            'AUDIT_VIEW': 'Accès aux Logs d\'Audit (Droits Admin requis).',
+            'USER_MANAGEMENT': 'Gestion des accès (Droits Admin requis).',
+            'RISK_MODEL_EDIT': 'Modification du modèle de risque (Droits Admin requis).'
         };
-        const displayName = featureNames[feature] || 'cette fonctionnalité experte';
+        const displayName = messages[permission] || 'cette fonctionnalité experte';
 
         const modalId = 'premium-upgrade-modal';
         if (document.getElementById(modalId)) return;

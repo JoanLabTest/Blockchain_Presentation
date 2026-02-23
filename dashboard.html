@@ -14,6 +14,8 @@
 
     <!-- SECURITY ENFORCER (Phase 48) -->
     <script src="js/security-enforcer.js"></script>
+    <script type="module" src="js/error-monitor.js"></script>
+    <script src="js/config.js"></script>
 
     <!-- FONTS -->
     <link
@@ -1157,17 +1159,17 @@
                 if (!win) alert('Veuillez autoriser les popups pour générer le deck.');
             }
         };
-        window.generateReport = function () {
+        window.generateReport = async function () {
             if (SessionManager.checkAccess('REPORT_EXPORT')) {
                 // Track Growth (Phase 74)
                 if (window.GrowthEngine) {
                     const trigger = window.GrowthEngine.recordAction('reportsGenerated');
                     if (trigger) window.showUpgradeModal(trigger);
                 }
-                // Log Audit (Phase 75)
+                // Log Audit (Phase 75/79)
                 if (window.AuditLogger) {
-                    window.AuditLogger.log('REPORT_GENERATED', SessionManager.getActiveRole(), { type: 'PDF_AUDIT' });
-                    window.AuditLogger.renderAuditTrail('audit-trail-container', SessionManager.getActiveRole());
+                    await window.AuditLogger.log('REPORT_GENERATED', SessionManager.getActiveRole(), { type: 'PDF_AUDIT' });
+                    await window.AuditLogger.renderAuditTrail('audit-trail-container', SessionManager.getActiveRole());
                 }
                 const win = window.open('report.html', '_blank', 'width=1000,height=1200');
                 if (!win) alert('Veuillez autoriser les popups pour générer le rapport.');
@@ -1204,7 +1206,7 @@
             // 1. Theme Tags
             document.body.setAttribute('data-segment', segment);
 
-            // Log Audit (Phase 75)
+            // Log Audit (Phase 75/79)
             if (window.AuditLogger) {
                 window.AuditLogger.log('SEGMENT_UI_APPLIED', segment, { userAgent: navigator.userAgent });
                 window.AuditLogger.renderAuditTrail('audit-trail-container', segment);

@@ -52,7 +52,7 @@ const SupabaseData = {
     getSimulations: async (userId) => {
         const { data, error } = await supabase
             .from('simulations')
-            .select('id, scenario_name, simulation_type, results, created_at, is_favorite')
+            .select('id, scenario_name, input_data, results, created_at')
             .eq('user_id', userId)
             .order('created_at', { ascending: false })
             .limit(10);
@@ -96,22 +96,23 @@ const SupabaseData = {
     },
 
     /**
-     * Write simulation result to Supabase.
+     * Write simulation result to Supabase (Phase 79).
      */
-    saveSimulation: async (userId, scenarioName, simType, parameters, results) => {
+    saveSimulation: async (userId, orgId, name, type, inputData, results) => {
         const { data, error } = await supabase
             .from('simulations')
             .insert([{
                 user_id: userId,
-                scenario_name: scenarioName,
-                simulation_type: simType,
-                parameters: parameters,
-                results: results
-            }]);
+                org_id: orgId,
+                scenario_name: name,
+                input_data: inputData,
+                results: results,
+                score_delta: 5
+            }])
+            .select();
 
-        if (error) { console.error('❌ Simulation save error:', error); return false; }
-        console.log('✅ Simulation saved to Supabase');
-        return true;
+        if (error) { console.error('❌ Simulation save error:', error); return null; }
+        return data[0];
     }
 };
 
@@ -298,13 +299,21 @@ export const DashboardEngine = {
         }
 
         const userId = session.user.id;
-        console.log(`📡 Loading real data for user: ${userId}`);
+        const profile = await SessionManager.init();
+        const orgId = profile?.org_id;
+        const isEnterprise = profile?.subscription_tier === 'enterprise';
 
-        // Parallel fetch all data
+        console.log(`📡 Loading real data for user: ${userId} [Org: ${orgId}]`);
+
+        // Parallel fetch all data with Org Isolation for Enterprise
+        const fetchSims = isEnterprise && orgId
+            ? supabase.from('simulations').select('*').eq('org_id', orgId)
+            : SupabaseData.getSimulations(userId);
+
         const [quizResults, scoreHistory, simulations, activityLogs] = await Promise.all([
             SupabaseData.getQuizResults(userId),
             SupabaseData.getScoreHistory(userId),
-            SupabaseData.getSimulations(userId),
+            fetchSims,
             SupabaseData.getActivityLogs(userId)
         ]);
 
