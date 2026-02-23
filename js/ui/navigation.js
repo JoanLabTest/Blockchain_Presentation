@@ -15,6 +15,7 @@ export const NavigationManager = {
             icon: 'fa-brain',
             links: [
                 { id: 'nav-dash', name: 'Dashboard', link: 'dashboard.html', icon: 'fa-chart-pie', active: true },
+                { id: 'nav-rwa', name: 'RWA Vertical', link: 'rwa-analytics.html', icon: 'fa-layer-group', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-risk', name: 'Risk Engine', link: 'dashboard.html?tab=risk', icon: 'fa-shield-virus' },
                 { id: 'nav-yield', name: 'Yield Lab', link: 'yield-mechanics.html', icon: 'fa-flask-vial' }
             ]
@@ -25,6 +26,8 @@ export const NavigationManager = {
             links: [
                 { id: 'nav-mica', name: 'Simulateur MiCA', link: 'mica-simulator.html', icon: 'fa-scale-balanced' },
                 { id: 'nav-audit', name: 'Audit Trails', link: 'dashboard.html?tab=audit', icon: 'fa-fingerprint', feature: 'AUDIT_VIEW' },
+                { id: 'nav-reports', name: 'Rapports Certifiés', link: 'dashboard.html?tab=reports', icon: 'fa-file-signature', feature: 'ORG_MANAGEMENT' },
+                { id: 'nav-org', name: 'Paramètres Org', link: 'org-settings.html', icon: 'fa-users-gear', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-security', name: 'Security Center', link: 'security.html', icon: 'fa-lock' }
             ]
         },
@@ -34,6 +37,7 @@ export const NavigationManager = {
             links: [
                 { id: 'nav-roi', name: 'ROI Calculator', link: 'flux-comparison.html', icon: 'fa-calculator' },
                 { id: 'nav-sandbox', name: 'Dev Sandbox', link: 'sandbox.html', icon: 'fa-terminal' },
+                { id: 'nav-workflows', name: 'Workflows', link: 'workflow-center.html', icon: 'fa-bolt', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-compare', name: 'Market Benchmarks', link: 'comparateur.html', icon: 'fa-code-compare' }
             ]
         },

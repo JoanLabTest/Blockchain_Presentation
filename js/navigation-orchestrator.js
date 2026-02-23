@@ -15,6 +15,11 @@ export const NavigationOrchestrator = {
     init: () => {
         console.log('🧭 Navigation Orchestrator initialized.');
 
+        // Initialize Multi-tenancy (Phase 106)
+        if (window.TenantManager) {
+            window.TenantManager.init();
+        }
+
         const params = NavigationOrchestrator.getQueryParams();
 
         // 1. Handle Segment Handoff
@@ -58,7 +63,8 @@ export const NavigationOrchestrator = {
     handleSegmentTransition: (segment) => {
         if (!NavigationOrchestrator.SEGMENTS.includes(segment)) return;
 
-        console.log(`🎯 Routing Triggered: Segment [${segment.toUpperCase()}]`);
+        const org = window.TenantManager ? window.TenantManager.getActiveOrg() : { id: 'N/A' };
+        console.log(`🎯 Routing Triggered: Segment [${segment.toUpperCase()}] | Organization [${org.id}]`);
 
         // Update SessionManager (if available globally) or LocalStorage
         if (window.SessionManager) {

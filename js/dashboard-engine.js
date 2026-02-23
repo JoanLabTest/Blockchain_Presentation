@@ -300,8 +300,9 @@ export const DashboardEngine = {
 
         const userId = session.user.id;
         const profile = await SessionManager.init();
-        const orgId = profile?.org_id;
-        const isEnterprise = profile?.subscription_tier === 'enterprise';
+        const activeOrg = window.TenantManager ? window.TenantManager.getActiveOrg() : null;
+        const orgId = activeOrg ? activeOrg.id : profile?.org_id;
+        const isEnterprise = profile?.subscription_tier === 'enterprise' || activeOrg?.tier === 'Enterprise';
 
         console.log(`📡 Loading real data for user: ${userId} [Org: ${orgId}]`);
 
@@ -502,8 +503,6 @@ export const DashboardEngine = {
         const bcModule = document.getElementById('bc-module');
         const greeting = document.getElementById('user-greeting');
 
-        if (bcRole) bcRole.innerText = segment.toUpperCase();
-
         if (greeting) {
             const segmentGreetings = {
                 student: 'Prêt pour votre prochaine certification ?',
@@ -513,10 +512,57 @@ export const DashboardEngine = {
             greeting.innerText = segmentGreetings[segment] || greeting.innerText;
         }
 
+        // --- TENANT INDICATOR (Phase 106) ---
+        const tenantIndicator = document.getElementById('tenant-indicator');
+        const activeOrgName = document.getElementById('active-org-name');
+        if (tenantIndicator && activeOrgName && segment === 'enterprise' && window.TenantManager) {
+            const org = window.TenantManager.getActiveOrg();
+            activeOrgName.innerText = org.name;
+            tenantIndicator.style.display = 'flex';
+
+            // Auto-switch to Team View for Enterprise
+            DashboardEngine.switchToTeamView();
+        }
+
+        // --- TAB SWITCHING (Phase 108) ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+        DashboardEngine.handleTabSwitching(tab);
+
         // Feature: Custom Tab Labels in Breadcrumb
         window.addEventListener('hashchange', () => {
             if (bcModule) bcModule.innerText = window.location.hash.replace('#', '').toUpperCase() || 'Cockpit';
         });
+    },
+
+    handleTabSwitching: (tab) => {
+        const simSection = document.getElementById('simulations-section');
+        const reportSection = document.getElementById('reports-section');
+        const bcModule = document.getElementById('bc-module');
+
+        if (tab === 'reports' && reportSection) {
+            if (simSection) simSection.style.display = 'none';
+            reportSection.style.display = 'block';
+            if (bcModule) bcModule.innerText = 'RAPPORTS';
+        } else {
+            if (simSection) simSection.style.display = 'block';
+            if (reportSection) reportSection.style.display = 'none';
+        }
+    },
+
+    generateReport: async (type) => {
+        if (!window.ReportEngine) return;
+
+        const profile = await SessionManager.init();
+        const activeOrg = window.TenantManager ? window.TenantManager.getActiveOrg() : null;
+        const orgId = activeOrg ? activeOrg.id : profile?.org_id;
+
+        if (type === 'bundle') {
+            const bundle = await window.ReportEngine.generateRegulatorBundle(orgId);
+            window.ReportEngine.exportToPDF(bundle);
+        } else {
+            alert('Export JSON en cours de préparation...');
+        }
     },
 
     // --- MODE SWITCHERS ---

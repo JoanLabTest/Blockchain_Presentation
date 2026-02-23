@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Workflow Center | DCM Digital</title>
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-gold: #f59e0b;
+            --accent-green: #10b981;
+            --border: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR (Simplified) */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .side-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .side-link:hover,
+        .side-link.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+        }
+
+        /* MAIN */
+        .main-content {
+            flex-grow: 1;
+            padding: 60px 80px;
+            max-width: 1200px;
+        }
+
+        .hero {
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 700px;
+        }
+
+        /* WORKFLOW GRID */
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 25px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.02);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* STATUS BADGES */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .status-paused {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-gold);
+        }
+
+        /* ACTION AREA */
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: white;
+            color: var(--bg-dark);
+        }
+
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: #334155;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .toggle.active {
+            background: var(--accent-blue);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: 0.3s;
+        }
+
+        .toggle.active::after {
+            left: 23px;
+        }
+
+        /* LOGS PANEL */
+        .logs-panel {
+            margin-top: 50px;
+            background: #020617;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .log-entry {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .log-time {
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .log-msg {
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div style="font-weight: 800; font-size: 20px; color: white; margin-bottom: 40px;">
+            <i class="fas fa-microchip" style="color:var(--accent-blue)"></i> DCM <span
+                style="font-weight:400; color:var(--text-muted)">FLOW</span>
+        </div>
+        <a href="dashboard.html" class="side-link"><i class="fas fa-chart-pie"></i> Retour au Cockpit</a>
+        <a href="org-settings.html" class="side-link"><i class="fas fa-users-gear"></i> Paramètres Team</a>
+        <a href="#" class="side-link active"><i class="fas fa-bolt"></i> Workflow Automation</a>
+        <a href="pricing.html" class="side-link"><i class="fas fa-credit-card"></i> Facturation</a>
+    </aside>
+
+    <main class="main-content">
+        <header class="hero">
+            <h1>Workflow Center</h1>
+            <p>Automatisez la surveillance de vos modèles DCM et planifiez vos audits institutionnels sans intervention
+                manuelle.</p>
+        </header>
+
+        <div class="workflow-grid">
+
+            <!-- MODEL SENSITIVITY ALERT -->
+            <div class="card">
+                <div class="status status-active"><i class="fas fa-circle" style="font-size:7px;"></i> Actif</div>
+                <div class="card-icon"><i class="fas fa-bell"></i></div>
+                <div class="card-title">Model Sensitivity Alert</div>
+                <div class="card-desc">
+                    Déclenche une alerte si le score d'un protocole surveillé varie de plus de <strong>15%</strong> en
+                    moins de 24h. Aligne les équipes Risk immédiatement.
+                </div>
+                <div class="card-actions">
+                    <button class="btn">Éditer les seuils</button>
+                    <div class="toggle active"></div>
+                </div>
+            </div>
+
+            <!-- QUARTERLY METHODOLOGY CHECKUP -->
+            <div class="card">
+                <div class="status status-active"><i class="fas fa-circle" style="font-size:7px;"></i> Actif</div>
+                <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="card-title">Quarterly Reg-Review</div>
+                <div class="card-desc">
+                    Génère automatiquement un rapport de conformité Bâle III / DORA chaque trimestre pour le département
+                    Compliance.
+                </div>
+                <div class="card-actions">
+                    <button class="btn">Configurer PDF</button>
+                    <div class="toggle active"></div>
+                </div>
+            </div>
+
+            <!-- AUDIT TRAIL SYNC -->
+            <div class="card">
+                <div class="status status-paused"><i class="fas fa-pause-circle"></i> Suspendu</div>
+                <div class="card-icon"><i class="fas fa-cloud-arrow-up" style="color:var(--accent-gold)"></i></div>
+                <div class="card-title">Cloud Archive Sync</div>
+                <div class="card-desc">
+                    Exportation miroir de tous les logs SHA-256 vers votre instance Azure/AWS souveraine pour preuve de
+                    stockage hors-site.
+                </div>
+                <div class="card-actions">
+                    <button class="btn">Paramètres API</button>
+                    <div class="toggle"></div>
+                </div>
+            </div>
+
+            <!-- NEW WORKFLOW PLACEHOLDER -->
+            <div class="card"
+                style="border: 2px dashed var(--border); display:flex; flex-direction:column; justify-content:center; align-items:center; opacity:0.6; cursor:pointer;"
+                onclick="alert('Module de création bientôt disponible')">
+                <i class="fas fa-plus-circle" style="font-size:32px; margin-bottom:10px; color:var(--text-muted)"></i>
+                <div style="font-weight:700; color:var(--text-muted)">Nouveau Workflow</div>
+            </div>
+
+        </div>
+
+        <section class="logs-panel">
+            <div
+                style="font-size:14px; font-weight:800; color:white; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">
+                <i class="fas fa-terminal"></i> Workflow Activity Logs
+            </div>
+            <div class="log-entry"><span class="log-time">10:24:15</span> <span class="log-msg">[ID:7742] Model
+                    Sensitivity check completed for ETH-Lido. No variance detected.</span></div>
+            <div class="log-entry"><span class="log-time">09:00:00</span> <span class="log-msg">[ID:9921] Quarterly
+                    Reg-Review (Q1 2026) generated and sent to compliance@global-asset.com.</span></div>
+            <div class="log-entry" style="color:var(--accent-gold)"><span class="log-time">08:15:33</span> <span
+                    class="log-msg">[WARNING] Cloud Archive Sync failed: Identity Provider timeout. Retrying in
+                    5m...</span></div>
+            <div class="log-entry"><span class="log-time">00:01:42</span> <span class="log-msg">[SYSTEM] Daily weighting
+                    drift analysis completed. Model stability index: 0.998.</span></div>
+        </section>
+    </main>
+
+    <script>
+        document.querySelectorAll('.toggle').forEach(t => {
+            t.onclick = function () {
+                this.classList.toggle('active');
+            }
+        });
+    </script>
+</body>
+
+</html>
