@@ -1668,18 +1668,18 @@
     <!-- HERO / BANDEAU PEDAGOGIQUE (Phase 111) -->
     <header class="academy-header" data-aos="fade-down">
         <div class="header-content">
-            <div class="academy-badge" data-aos="zoom-in" data-aos-delay="200">LEARN & CERTIFY</div>
-            <h1 class="academy-title">Académie Blockchain</h1>
+            <div class="academy-badge" data-aos="zoom-in" data-aos-delay="200">INSTITUTIONAL ACCREDITATION</div>
+            <h1 class="academy-title">Master Digital Finance. <br>Unlock Your Career.</h1>
             <p class="academy-subtitle">
-                Devenez acteur du Web3 : maîtrisez les fondamentaux, validez vos compétences et obtenez votre
-                certification DCM Digital.
+                The only blockchain certification designed specifically for Risk, Compliance, and Finance Professionals.
+                Understand Tokenization, validate your skills, and unlock the DCM Pro Dashboard.
             </p>
             <div class="academy-buttons">
                 <a href="#learning-path" class="btn btn-primary academy-cta pulse-glow">
-                    <i class="fas fa-play"></i> Commencer l’apprentissage
+                    <i class="fas fa-play"></i> Démarrer la Certification (Gratuit)
                 </a>
-                <a href="#quiz-overview" class="btn btn-secondary academy-cta">
-                    <i class="fas fa-award"></i> Voir les quiz
+                <a href="dashboard.html?segment=pro" class="btn btn-secondary academy-cta">
+                    <i class="fas fa-briefcase"></i> Connexion Pro
                 </a>
             </div>
 
@@ -3193,6 +3193,62 @@ if (date === "2026-03-01" && balance >= 1000) {
 
     <!-- ACADEMY GUIDE (Phase 111) -->
     <script type="module" src="js/ui/academy-guide.js"></script>
+    <!-- INTERACTIVE PROGRESS TRACKER (Phase 115) -->
+    <div id="academyProgressWidget"
+        style="position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--accent-purple); padding: 20px; border-radius: 16px; box-shadow: 0 10px 40px rgba(168, 85, 247, 0.2); z-index: 1000; display: none; backdrop-filter: blur(10px); width: 280px; font-family: 'Inter', sans-serif;">
+        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <strong style="color: white; font-size: 14px;"><i class="fas fa-award" style="color:var(--accent-gold)"></i>
+                Certification Status</strong>
+            <span id="apwPercent" style="font-weight: 800; color: var(--accent-purple); font-size: 16px;">0%</span>
+        </div>
+        <div
+            style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 15px;">
+            <div id="apwFill"
+                style="height: 100%; background: linear-gradient(90deg, #3b82f6, #a855f7); width: 0%; transition: width 1s;">
+            </div>
+        </div>
+        <div id="apwText" style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">
+            Complétez les modules pour débloquer votre accès institutionnel.
+        </div>
+        <a id="apwButton" href="quiz.html" class="btn btn-primary"
+            style="width:100%; display:block; text-align:center; padding: 10px; font-size: 13px; text-decoration:none;">
+            Passer l'Examen
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let progress = 0;
+            const m1 = localStorage.getItem('quiz_metal_1');
+            const m2 = localStorage.getItem('quiz_metal_2');
+            const m3 = localStorage.getItem('quiz_metal_3');
+
+            if (m1) progress += 33;
+            if (m2) progress += 33;
+            if (m3) progress += 34;
+
+            if (progress > 0) {
+                const widget = document.getElementById('academyProgressWidget');
+                const fill = document.getElementById('apwFill');
+                const percent = document.getElementById('apwPercent');
+                const text = document.getElementById('apwText');
+                const btn = document.getElementById('apwButton');
+
+                widget.style.display = 'block';
+                setTimeout(() => { fill.style.width = progress + '%'; }, 500);
+                percent.innerText = progress + '%';
+
+                if (progress === 100) {
+                    text.innerText = "Félicitations ! Vous êtes certifié. Débloquez votre poste de pilotage.";
+                    btn.href = "dashboard.html?segment=pro";
+                    btn.innerHTML = "<i class='fas fa-briefcase'></i> Accéder au Hub Pro";
+                    btn.style.background = "var(--accent-green)";
+                } else {
+                    text.innerText = `Encore ${100 - progress}% pour débloquer la suite logicielle Pro.`;
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
