@@ -1,112 +1,126 @@
 /**
- * NAVIGATION MANAGER - v1.0
- * Dynamically renders the sidebar based on user segment and feature flags.
+ * NAVIGATION MANAGER - v2.0 (Phase 96)
+ * Dynamically renders the sidebar based on the 4-Pillar Institutional Architecture.
+ * Supports: Core, Governance, Toolkit, Academic.
  */
 
 import { checkFeature } from '../core/feature-flags.js';
 
 export const NavigationManager = {
 
-    // Core Links (Available to all)
-    CORE_LINKS: [
-        { id: 'nav-home', name: 'Accueil Hub', link: 'index.html', icon: 'fa-home' },
-        { id: 'nav-dash', name: 'Dashboard', link: 'dashboard.html', icon: 'fa-chart-line', active: true },
-    ],
-
-    // Specialized Modules
-    MODULE_LINKS: [
-        { id: 'nav-review', name: 'Review & Time', link: 'quiz-review.html', icon: 'fa-history' },
-        { id: 'nav-quiz', name: 'Quiz & Tests', link: 'quiz.html', icon: 'fa-graduation-cap' },
-        { id: 'nav-legal', name: 'Legal Matrix', link: 'legal-matrix.html', icon: 'fa-balance-scale' },
-        { id: 'nav-mica', name: 'Simulateur MiCA', link: 'mica-simulator.html', icon: 'fa-shield-halved' },
-        { id: 'nav-compare', name: 'Comparateur', link: 'comparateur.html', icon: 'fa-code-compare' },
-        { id: 'nav-yield', name: 'Laboratoire Yield', link: 'yield-mechanics.html', icon: 'fa-flask' },
-    ],
-
-    // Premium/SaaS Actions
-    PREMIUM_ACTIONS: [
-        { id: 'nav-report', name: 'Générer Rapport', action: 'generateReport()', icon: 'fa-file-pdf', feature: 'REPORT_EXPORT' },
-        { id: 'nav-manager', name: 'Manager Mode', type: 'toggle', feature: 'MANAGER_VIEW', toggleId: 'managerToggle', onchange: 'toggleManagerMode()' },
-        { id: 'nav-whitelabel', name: 'White Label', type: 'toggle', feature: 'whiteLabel', toggleId: 'whiteLabelToggle', premiumLabel: 'PRO', onchange: 'DashboardEngine.toggleWhiteLabel(this.checked)' }
-    ],
+    // --- PILLAR DEFINITIONS ---
+    PILLARS: {
+        CORE: {
+            name: 'Core Intelligence',
+            icon: 'fa-brain',
+            links: [
+                { id: 'nav-dash', name: 'Dashboard', link: 'dashboard.html', icon: 'fa-chart-pie', active: true },
+                { id: 'nav-risk', name: 'Risk Engine', link: 'dashboard.html?tab=risk', icon: 'fa-shield-virus' },
+                { id: 'nav-yield', name: 'Yield Lab', link: 'yield-mechanics.html', icon: 'fa-flask-vial' }
+            ]
+        },
+        GOVERNANCE: {
+            name: 'Governance & Trust',
+            icon: 'fa-gavel',
+            links: [
+                { id: 'nav-mica', name: 'Simulateur MiCA', link: 'mica-simulator.html', icon: 'fa-scale-balanced' },
+                { id: 'nav-audit', name: 'Audit Trails', link: 'dashboard.html?tab=audit', icon: 'fa-fingerprint', feature: 'AUDIT_VIEW' },
+                { id: 'nav-security', name: 'Security Center', link: 'security.html', icon: 'fa-lock' }
+            ]
+        },
+        TOOLKIT: {
+            name: 'Professional Toolkit',
+            icon: 'fa-toolbox',
+            links: [
+                { id: 'nav-roi', name: 'ROI Calculator', link: 'flux-comparison.html', icon: 'fa-calculator' },
+                { id: 'nav-sandbox', name: 'Dev Sandbox', link: 'sandbox.html', icon: 'fa-terminal' },
+                { id: 'nav-compare', name: 'Market Benchmarks', link: 'comparateur.html', icon: 'fa-code-compare' }
+            ]
+        },
+        ACADEMIC: {
+            name: 'Academy & Certification',
+            icon: 'fa-graduation-cap',
+            links: [
+                { id: 'nav-academy', name: 'Learning Path', link: 'students.html', icon: 'fa-book-open' },
+                { id: 'nav-quiz', name: 'Examen Certifiant', link: 'quiz.html', icon: 'fa-award' },
+                { id: 'nav-review', name: 'Mon Historique', link: 'quiz-review.html', icon: 'fa-clock-rotate-left' }
+            ]
+        }
+    },
 
     /**
      * Renders the sidebar into the target element.
-     * @param {string} segment 
-     * @param {HTMLElement} target 
      */
     renderSidebar: (segment, target) => {
         if (!target) return;
 
-        let html = '';
-
-        // 1. Render Core Links
-        html += NavigationManager.CORE_LINKS.map(item => `
-            <li><a href="${item.link}" class="nav-item ${item.active ? 'active' : ''}"><i class="fas ${item.icon}"></i> ${item.name}</a></li>
-        `).join('');
-
-        // 2. Render Module Links
-        html += NavigationManager.MODULE_LINKS.map(item => `
-            <li><a href="${item.link}" class="nav-item"><i class="fas ${item.icon}"></i> ${item.name}</a></li>
-        `).join('');
-
-        // 3. Render Premium/SaaS Section
-        const headers = {
-            student: '🎓 Academy Mode',
-            pro: '💼 Professional Toolbox',
-            enterprise: '🏛️ Institutional Cockpit'
+        const hubAnchors = {
+            student: '#learning',
+            pro: '#toolkit',
+            enterprise: '#governance',
+            Guest: '#core'
         };
-        const activeHeader = headers[segment] || 'Espace SaaS';
+        const anchor = hubAnchors[segment] || '';
 
-        html += `<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <div style="font-size: 10px; text-transform: uppercase; color: #64748b; margin-bottom: 10px; letter-spacing: 1px; padding-left:15px;">${activeHeader}</div>`;
+        let html = `
+            <li><a href="index.html${anchor}" class="nav-item"><i class="fas fa-home"></i> Retour au Hub</a></li>
+        `;
 
-        // 3b. Add Pro-specific links if segment is pro
-        if (segment === 'pro') {
+        // Determine which pillars to show/prioritize based on segment
+        const segmentConfigs = {
+            student: ['ACADEMIC', 'CORE'],
+            pro: ['TOOLKIT', 'CORE', 'GOVERNANCE'],
+            enterprise: ['GOVERNANCE', 'CORE', 'TOOLKIT'],
+            Guest: ['CORE', 'ACADEMIC']
+        };
+
+        const activePillars = segmentConfigs[segment] || ['CORE', 'ACADEMIC'];
+
+        activePillars.forEach(pillarKey => {
+            const pillar = NavigationManager.PILLARS[pillarKey];
+
             html += `
-                <li><a href="flux-comparison.html" class="nav-item"><i class="fas fa-calculator"></i> ROI Calculator</a></li>
-                <li><a href="dashboard.html?segment=pro&tab=benchmarks" class="nav-item"><i class="fas fa-ranking-star"></i> Benchmarking</a></li>
+                <div class="nav-section-header" style="margin-top: 25px; padding: 0 15px; font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px;">
+                    <i class="fas ${pillar.icon}" style="margin-right: 8px; opacity: 0.5;"></i> ${pillar.name}
+                </div>
             `;
-        }
 
-        html += NavigationManager.PREMIUM_ACTIONS.map(item => {
-            const isEnabled = checkFeature(segment, item.feature);
-            const style = isEnabled ? '' : 'opacity:0.5; filter:grayscale(1); pointer-events:none;';
-            const title = isEnabled ? '' : 'title="Passer au plan PRO pour débloquer"';
+            pillar.links.forEach(item => {
+                // Feature Gating
+                const isEnabled = !item.feature || checkFeature(segment, item.feature);
+                const style = isEnabled ? '' : 'opacity:0.4; filter:grayscale(1); cursor:not-allowed;';
+                const title = isEnabled ? '' : 'title="Module réservé au plan supérieur"';
 
-            if (item.type === 'toggle') {
-                return `
-                    <div class="nav-item" style="${style}" ${title}>
-                        <i class="fas fa-toggle-on"></i> ${item.name} ${item.premiumLabel ? `<span style="font-size:9px; background:var(--accent-blue); padding:1px 4px; border-radius:3px; margin-left:5px;">${item.premiumLabel}</span>` : ''}
-                        <label class="switch" style="margin-left:auto; width:34px; height:20px;">
-                            <input type="checkbox" id="${item.toggleId}" onchange="${item.onchange}" ${!isEnabled ? 'disabled' : ''}>
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                `;
-            } else {
-                return `
-                    <li onclick="${item.action}" class="nav-item" style="cursor:pointer; color: var(--accent-blue); ${style}" ${title}>
-                        <i class="fas ${item.icon}"></i> ${item.name}
+                html += `
+                    <li>
+                        <a href="${isEnabled ? item.link : '#'}" 
+                           class="nav-item ${item.active ? 'active' : ''}" 
+                           style="${style}" 
+                           ${title}
+                           ${item.id ? `id="${item.id}"` : ''}
+                           data-tab="${item.link.includes('?tab=') ? item.link.split('tab=')[1] : ''}">
+                            <i class="fas ${item.icon}"></i> ${item.name}
+                            ${!isEnabled ? '<i class="fas fa-lock" style="margin-left:auto; font-size:10px;"></i>' : ''}
+                        </a>
                     </li>
                 `;
-            }
-        }).join('');
+            });
+        });
 
-        html += `</div>`;
-
-        // 4. Footer Links
+        // Add Footer Logic (Logout, Settings)
         html += `
-            <li style="margin-top:auto;">
-                <a href="pricing.html" class="nav-item" style="color:#f59e0b">
-                    <i class="fas fa-crown"></i> Abonnement & Tarifs
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-item" style="color:var(--accent-red)" onclick="SessionManager.logout()">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
-                </a>
-            </li>
+            <div style="margin-top:auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+                <li>
+                    <a href="pricing.html" class="nav-item" style="color:var(--accent-gold)">
+                        <i class="fas fa-crown"></i> UPGRADE PLAN
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-item" style="color:var(--accent-red)" onclick="SessionManager.logout()">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </a>
+                </li>
+            </div>
         `;
 
         target.innerHTML = html;

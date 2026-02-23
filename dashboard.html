@@ -16,6 +16,7 @@
     <script src="js/security-enforcer.js"></script>
     <script type="module" src="js/error-monitor.js"></script>
     <script src="js/config.js"></script>
+    <script type="module" src="js/navigation-orchestrator.js"></script>
 
     <!-- FONTS -->
     <link
@@ -121,10 +122,25 @@
             color: var(--text-main);
             font-family: 'Urbanist', sans-serif;
             min-height: 100vh;
-            /* Allow native scroll */
             overflow-x: hidden;
             display: block;
-            /* Remove flex on body */
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+        }
+
+        .main-content.tab-switching {
+            opacity: 0.5;
+            transform: translateY(10px);
         }
 
         /* --- SIDEBAR --- */
@@ -824,7 +840,7 @@
                 <div class="breadcrumbs" id="dash-breadcrumbs">
                     <a href="index.html">DCM Digital</a>
                     <i class="fas fa-chevron-right"></i>
-                    <span class="breadcrumb-segment" id="bc-segment">Segment</span>
+                    <span class="breadcrumb-segment" id="bc-role">Segment</span>
                     <i class="fas fa-chevron-right"></i>
                     <span id="bc-module">Cockpit</span>
                 </div>
@@ -922,7 +938,7 @@
             </div>
 
             <!-- 2. QUIZ PERFORMANCE -->
-            <div class="card" style="border-top: 3px solid var(--accent-gold);">
+            <div id="quiz-card" class="card" style="border-top: 3px solid var(--accent-gold);">
                 <div class="card-title">
                     <i class="fas fa-trophy"></i> Quiz Performance
                     <span class="tooltip-trigger"
@@ -945,7 +961,7 @@
             </div>
 
             <!-- 3. COVERAGE R&D -->
-            <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+            <div id="coverage-card" class="card" style="border-top: 3px solid var(--accent-cyan);">
                 <div class="card-title">
                     <i class="fas fa-microscope"></i> Couverture R&D
                     <span class="tooltip-trigger"
@@ -983,7 +999,7 @@
         <div class="dash-grid" data-aos="fade-up" data-aos-delay="100">
 
             <!-- 5. DYNAMIQUE D'APPRENTISSAGE -->
-            <div class="card" style="border-top: 3px solid var(--accent-purple);">
+            <div id="learning-velocity-card" class="card" style="border-top: 3px solid var(--accent-purple);">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fas fa-chart-line"></i> Dynamique d'Apprentissage
@@ -1334,6 +1350,7 @@
             window.AuditLogger = AuditLogger;
 
             const segment = SegmentManager.detectSegment();
+            document.body.setAttribute('data-segment', segment);
             console.log(`🚀 SaaS Mode Active: ${segment.toUpperCase()}`);
 
             // Initialize Audit View if applicable (Gated to Enterprise for Phase 77 audit fix)
@@ -1345,6 +1362,12 @@
 
             // Render Sidebar (Phase 73)
             NavigationManager.renderSidebar(segment, document.getElementById('side-nav-menu'));
+
+            // Sync Module Visibility (Phase 96)
+            DashboardEngine.applyRoleVisibility(segment);
+
+            // Trigger Body Fade-in (Phase 98)
+            document.body.classList.add('loaded');
 
             // 1. Session Check (async — real Supabase JWT)
             let user = await SessionManager.init();

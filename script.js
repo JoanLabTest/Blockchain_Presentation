@@ -244,18 +244,22 @@ window.addEventListener('scroll', function () {
     const documentHeight = document.documentElement.scrollHeight;
 
     // Bouton "Remonter" : visible après 300px de scroll
-    if (scrollPosition > 300) {
-        scrollToTopBtn.classList.add('visible');
-    } else {
-        scrollToTopBtn.classList.remove('visible');
+    if (scrollToTopBtn) {
+        if (scrollPosition > 300) {
+            scrollToTopBtn.classList.add('visible');
+        } else {
+            scrollToTopBtn.classList.remove('visible');
+        }
     }
 
     // Bouton "Descendre" : visible seulement en haut de page
     // Masqué si on est à plus de 300px du haut OU proche du bas
-    if (scrollPosition < 300 && (documentHeight - scrollPosition - windowHeight) > 500) {
-        scrollToBottomBtn.classList.add('visible');
-    } else {
-        scrollToBottomBtn.classList.remove('visible');
+    if (scrollToBottomBtn) {
+        if (scrollPosition < 300 && (documentHeight - scrollPosition - windowHeight) > 500) {
+            scrollToBottomBtn.classList.add('visible');
+        } else {
+            scrollToBottomBtn.classList.remove('visible');
+        }
     }
 });
 

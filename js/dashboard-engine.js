@@ -475,6 +475,50 @@ export const DashboardEngine = {
         }
     },
 
+    /**
+     * MODULE VISIBILITY (Phase 96)
+     * Shows/hides sections based on segment.
+     */
+    applyRoleVisibility: (segment) => {
+        const CONFIG = {
+            student: ['quiz-card', 'evolutionChart', 'radarChart', 'activity-timeline'],
+            pro: ['quiz-card', 'evolutionChart', 'radarChart', 'risk-card', 'compliance-bar-fill', 'coverage-card'],
+            enterprise: ['quiz-card', 'evolutionChart', 'radarChart', 'risk-card', 'compliance-bar-fill', 'coverage-card', 'institutional-section']
+        };
+
+        const activeModules = CONFIG[segment] || CONFIG.student;
+
+        // Modules to potentially hide
+        const ALL_GATED = ['institutional-section', 'risk-card', 'quiz-card', 'coverage-card', 'learning-velocity-card'];
+
+        ALL_GATED.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.style.display = activeModules.includes(id) ? 'flex' : 'none';
+        });
+
+        // Update Breadcrumb (Phase 99)
+        const bcRole = document.getElementById('bc-role');
+        const bcModule = document.getElementById('bc-module');
+        const greeting = document.getElementById('user-greeting');
+
+        if (bcRole) bcRole.innerText = segment.toUpperCase();
+
+        if (greeting) {
+            const segmentGreetings = {
+                student: 'Prêt pour votre prochaine certification ?',
+                pro: 'Analyse de performance & ROI active.',
+                enterprise: 'Institutional Governance Cockpit'
+            };
+            greeting.innerText = segmentGreetings[segment] || greeting.innerText;
+        }
+
+        // Feature: Custom Tab Labels in Breadcrumb
+        window.addEventListener('hashchange', () => {
+            if (bcModule) bcModule.innerText = window.location.hash.replace('#', '').toUpperCase() || 'Cockpit';
+        });
+    },
+
     // --- MODE SWITCHERS ---
     toggleManagerMode: (active) => {
         const body = document.body;

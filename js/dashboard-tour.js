@@ -3,7 +3,7 @@
  * Interactive guided tour for new users.
  */
 
-const DashboardTour = {
+export const DashboardTour = {
     enterpriseSteps: [
         {
             target: '#audit-trail-container',

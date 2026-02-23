@@ -644,8 +644,8 @@
             <!-- RADICAL SEGMENT GATES (Phase 61) -->
             <div class="radical-gates" data-aos="fade-up" data-aos-delay="200">
                 <!-- STUDENTS -->
-                <a href="students.html" class="radical-gate-card" style="--gate-color: #f59e0b;"
-                    onclick="setPersona('Student')">
+                <a href="dashboard.html?segment=student" class="radical-gate-card" style="--gate-color: #a855f7;"
+                    onclick="setPersona('student')">
                     <div class="gate-icon-large"><i class="fas fa-graduation-cap"></i></div>
                     <h2 class="gate-title-massive">Academy</h2>
                     <p class="gate-desc-premium">
@@ -656,8 +656,8 @@
                 </a>
 
                 <!-- CONSULTANTS -->
-                <a href="pro.html" class="radical-gate-card" style="--gate-color: #10b981;"
-                    onclick="setPersona('Consultant')">
+                <a href="dashboard.html?segment=pro" class="radical-gate-card" style="--gate-color: #10b981;"
+                    onclick="setPersona('pro')">
                     <div class="gate-icon-large"><i class="fas fa-briefcase"></i></div>
                     <h2 class="gate-title-massive">Advisory</h2>
                     <p class="gate-desc-premium">
@@ -668,8 +668,8 @@
                 </a>
 
                 <!-- INSTITUTIONS -->
-                <a href="enterprise.html" class="radical-gate-card" style="--gate-color: #3b82f6;"
-                    onclick="setPersona('Institution')">
+                <a href="dashboard.html?segment=enterprise" class="radical-gate-card" style="--gate-color: #3b82f6;"
+                    onclick="setPersona('enterprise')">
                     <div class="gate-icon-large"><i class="fas fa-building-columns"></i></div>
                     <h2 class="gate-title-massive">Enterprise</h2>
                     <p class="gate-desc-premium">
@@ -684,22 +684,33 @@
                 import { SessionManager } from './js/session-manager.js';
                 window.setPersona = (role) => {
                     SessionManager.setSessionRole(role);
-                    // The href on <a> will handle redirect, 
-                    // but we might want to wait a bit if we had async logic.
                 };
+
+                // Highlight active persona on load (Phase 98)
+                window.addEventListener('load', () => {
+                    const activeRole = localStorage.getItem('dcm_active_role');
+                    if (activeRole) {
+                        const btn = document.querySelector(`.radical-gate-card[onclick*="'${activeRole}'"]`);
+                        if (btn) {
+                            btn.style.borderColor = 'var(--gate-color)';
+                            btn.style.background = 'rgba(255,255,255,0.05)';
+                            btn.style.boxShadow = '0 0 30px rgba(255,255,255,0.1)';
+                        }
+                    }
+                });
             </script>
     </div>
     </section>
 
     <!-- 1. CORE INTELLIGENCE -->
-    <section class="hub-section" style="--pillar-color: #10b981;" data-aos="fade-up">
+    <section id="core" class="hub-section" style="--pillar-color: #10b981;" data-aos="fade-up">
         <div class="hub-section-header">
             <h2 class="pillar-title">Core Intelligence</h2>
             <p class="pillar-subtitle">Moteurs de décision, modélisation de risque et analyse on-chain.</p>
         </div>
         <div class="universe-grid">
             <!-- RISK & YIELD MODELS -->
-            <a href="pos-economics.html" class="universe-card">
+            <a href="dashboard.html?segment=pro&tab=risk" class="universe-card">
                 <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
                     <i class="fas fa-chart-pie"></i>
                 </div>
@@ -740,7 +751,7 @@
     </section>
 
     <!-- 2. GOVERNANCE & COMPLIANCE -->
-    <section class="hub-section" style="--pillar-color: #3b82f6;" data-aos="fade-up">
+    <section id="governance" class="hub-section" style="--pillar-color: #3b82f6;" data-aos="fade-up">
         <div class="hub-section-header">
             <h2 class="pillar-title">Governance & Compliance</h2>
             <h3 class="pillar-subtitle">Cadres réglementaires, sécurité et immuabilité.</h3>
@@ -754,7 +765,7 @@
                 <div class="card-title">Régime Pilote UE</div>
                 <div class="card-desc">Cadre réglementaire européen et exemptions CSD/DLT.</div>
             </a>
-            <a href="governance.html" class="universe-card">
+            <a href="dashboard.html?segment=enterprise&tab=audit" class="universe-card">
                 <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
                     <i class="fas fa-shield-alt"></i>
                 </div>
@@ -782,7 +793,7 @@
     </section>
 
     <!-- 3. PROFESSIONAL TOOLKIT -->
-    <section class="hub-section" style="--pillar-color: #ec4899;" data-aos="fade-up">
+    <section id="toolkit" class="hub-section" style="--pillar-color: #ec4899;" data-aos="fade-up">
         <div class="hub-section-header">
             <h2 class="pillar-title">Professional Toolkit</h2>
             <p class="pillar-subtitle">Outils d'exécution et infrastructure technique.</p>
@@ -824,7 +835,7 @@
     </section>
 
     <!-- 4. LEARNING & ACADEMIC -->
-    <section class="hub-section" style="--pillar-color: #f59e0b;" data-aos="fade-up">
+    <section id="learning" class="hub-section" style="--pillar-color: #f59e0b;" data-aos="fade-up">
         <div class="hub-section-header">
             <h2 class="pillar-title">Learning & Certification</h2>
             <p class="pillar-subtitle">Parcours pédagogiques et validation des compétences.</p>
@@ -846,7 +857,7 @@
                 <div class="card-title">Le Guide Expert</div>
                 <div class="card-desc">La ressource complète : Infrastructure, Régulation, Cas Pratiques.</div>
             </a>
-            <a href="quiz.html" class="universe-card">
+            <a href="dashboard.html?segment=student&tab=quiz" class="universe-card">
                 <div class="card-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
                     <i class="fas fa-award"></i>
                 </div>
@@ -871,16 +882,16 @@
         ACCÈS RAPIDE PAR PROFIL
     </div>
     <div class="persona-bar" data-aos="fade-up" data-aos-delay="600">
-        <a href="simple.html" class="persona-btn">
+        <a href="dashboard.html?segment=student" class="persona-btn">
             <i class="fas fa-user-graduate"></i> Je débute (Étudiant / Junior)
         </a>
-        <a href="rwa.html" class="persona-btn">
+        <a href="dashboard.html?segment=pro" class="persona-btn">
             <i class="fas fa-user-tie"></i> Je suis Front-Office / Sales
         </a>
-        <a href="web3.html" class="persona-btn">
+        <a href="dashboard.html?segment=pro&tab=benchmarks" class="persona-btn">
             <i class="fas fa-laptop-code"></i> Je suis IT / Tech
         </a>
-        <a href="guide.html#compliance" class="persona-btn">
+        <a href="dashboard.html?segment=enterprise&tab=audit" class="persona-btn">
             <i class="fas fa-scale-balanced"></i> Je suis Legal / Compliance
         </a>
     </div>
