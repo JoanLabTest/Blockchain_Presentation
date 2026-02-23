@@ -14,14 +14,65 @@ export const TenantManager = {
         tier: 'Enterprise'
     },
 
+    // --- RBAC: ROLE-BASED ACCESS CONTROL (Phase 113) ---
+    ROLES: {
+        ADMIN: 'ADMIN',
+        RISK_OFFICER: 'RISK_OFFICER',
+        ANALYST: 'ANALYST',
+        VIEWER: 'VIEWER'
+    },
+
+    PERMISSIONS: {
+        ADMIN: ['manage_org', 'manage_users', 'view_audit_trail', 'generate_reports', 'run_simulations', 'view_dashboards'],
+        RISK_OFFICER: ['view_audit_trail', 'generate_reports', 'run_simulations', 'view_dashboards', 'manage_risk_policies'],
+        ANALYST: ['run_simulations', 'view_dashboards', 'generate_reports'],
+        VIEWER: ['view_dashboards']
+    },
+
     /**
-     * INIT: Loads the active organization context
+     * INIT: Loads the active organization context and user role
      */
     init: () => {
         const storedOrg = localStorage.getItem('dcm_active_org');
         if (!storedOrg) {
             TenantManager.setActiveOrg(TenantManager.DEFAULT_ORG);
         }
+
+        const storedRole = localStorage.getItem('dcm_user_role');
+        if (!storedRole) {
+            TenantManager.setUserRole(TenantManager.ROLES.ADMIN); // Default for demo
+        }
+    },
+
+    /**
+     * RBAC: Get Current User Role
+     */
+    getUserRole: () => {
+        return localStorage.getItem('dcm_user_role') || TenantManager.ROLES.VIEWER;
+    },
+
+    /**
+     * RBAC: Set Current User Role (for demo switching)
+     */
+    setUserRole: (role) => {
+        if (TenantManager.ROLES[role]) {
+            localStorage.setItem('dcm_user_role', role);
+            console.log(`🔐 RBAC: User role set to [${role}]`);
+            window.dispatchEvent(new CustomEvent('role-changed', { detail: role }));
+        }
+    },
+
+    /**
+     * RBAC: Check if current user has permission for an action
+     */
+    hasPermission: (action) => {
+        const role = TenantManager.getUserRole();
+        const perms = TenantManager.PERMISSIONS[role] || [];
+        const hasPerm = perms.includes(action);
+        if (!hasPerm) {
+            console.warn(`⛔ RBAC Denied: Role [${role}] attempted action [${action}]`);
+        }
+        return hasPerm;
     },
 
     /**
@@ -63,6 +114,31 @@ export const TenantManager = {
         const org = TenantManager.getActiveOrg();
         // Mock SHA-256 for demo psychology
         return `tenant_proof_${org.id.split('-')[0].toLowerCase()}_8b4e2f`;
+    },
+
+    /**
+     * Enforce RBAC on UI elements marked with data-permission attribute
+     */
+    enforceUI: () => {
+        const elements = document.querySelectorAll('[data-permission]');
+        elements.forEach(el => {
+            const requiredAction = el.getAttribute('data-permission');
+            if (!TenantManager.hasPermission(requiredAction)) {
+                el.style.opacity = '0.3';
+                el.style.pointerEvents = 'none';
+                el.title = "Accès refusé : Privilèges insuffisants";
+                // Optionally add a lock icon
+                if (!el.querySelector('.rbac-lock')) {
+                    el.innerHTML += ' <i class="fas fa-lock rbac-lock" style="font-size:10px; margin-left:5px;"></i>';
+                }
+            } else {
+                el.style.opacity = '1';
+                el.style.pointerEvents = 'auto';
+                el.title = "";
+                const lock = el.querySelector('.rbac-lock');
+                if (lock) lock.remove();
+            }
+        });
     }
 };
 

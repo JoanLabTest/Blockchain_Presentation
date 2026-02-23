@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Audit Trail | DCM Digital</title>
+    <!-- Same CSS as dashboard for consistency -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .badge {
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--accent-purple);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .input-glass {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .audit-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .audit-table th,
+        .audit-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .audit-table th {
+            color: var(--text-muted);
+            font-weight: 600;
+            background: rgba(15, 23, 42, 0.8);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .audit-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent-green);
+        }
+
+        .action-cell {
+            font-weight: 600;
+        }
+
+        .crypto-proof {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .crypto-proof i {
+            color: var(--accent-purple);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="title">
+            <i class="fas fa-list-check" style="color:var(--accent-purple)"></i>
+            Audit Trail Explorer
+            <span class="badge">ISAE 3000 READY</span>
+        </div>
+        <div>
+            <button class="btn-glass" onclick="window.location.href='dashboard.html'"><i class="fas fa-arrow-left"></i>
+                Retour Cockpit</button>
+            <button class="btn-glass" style="background:var(--accent-blue);"><i class="fas fa-file-csv"></i> Exporter
+                CSV</button>
+        </div>
+    </div>
+
+    <div class="controls">
+        <input type="text" class="input-glass" placeholder="🔍 Rechercher User, Action, Hash..." style="width: 300px;">
+        <select class="input-glass">
+            <option>Toutes les Actions</option>
+            <option>Simulations (Stress Test)</option>
+            <option>Exports de Données</option>
+            <option>Modifications Droits (RBAC)</option>
+        </select>
+        <select class="input-glass">
+            <option>Sélectionnez un Rôle</option>
+            <option>Admin</option>
+            <option>Risk Officer</option>
+        </select>
+    </div>
+
+    <table class="audit-table">
+        <thead>
+            <tr>
+                <th>Timestamp (UTC)</th>
+                <th>Utilisateur (Rôle)</th>
+                <th>Action</th>
+                <th>Détails</th>
+                <th>Cryptographic Proof (SHA-256)</th>
+            </tr>
+        </thead>
+        <tbody id="audit-table-body">
+            <!-- JS Injected -->
+        </tbody>
+    </table>
+
+    <script type="module">
+        import { AuditLogger } from './js/core/audit-logger.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tbody = document.getElementById('audit-table-body');
+            const logs = AuditLogger.getLogs(); // Get logs from localStorage
+
+            if (logs.length === 0) {
+                // Generate some mock logs if empty
+                const mockLogs = [
+                    { timestamp: new Date().toISOString(), user: 'Alice Dupont (RISK_OFFICER)', action: 'STRESS_TEST_RUN', details: 'Scenario: LIQUIDITY_SHOCK, Variance: -70.2%', hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' },
+                    { timestamp: new Date(Date.now() - 3600000).toISOString(), user: 'Marc Leroy (ADMIN)', action: 'RBAC_ROLE_CHANGE', details: 'User: J.Doe changed to ANALYST', hash: '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92' },
+                    { timestamp: new Date(Date.now() - 7200000).toISOString(), user: 'Sophie Martin (ANALYST)', action: 'REPORT_EXPORT', details: 'Type: Compliance Bundle PDF', hash: 'c5dae3d82d5d6d3cbd3c3c4d5e6f7a8ba3b8d1b60b3b4b1a9c1a1a2b3c4d5e6f' }
+                ];
+
+                tbody.innerHTML = mockLogs.map(log => `
+                    <tr>
+                        <td class="code-font">${new Date(log.timestamp).toISOString().replace('T', ' ').substring(0, 19)}</td>
+                        <td>${log.user}</td>
+                        <td class="action-cell">${log.action}</td>
+                        <td style="color:var(--text-muted)">${log.details}</td>
+                        <td>
+                            <div class="crypto-proof">
+                                <i class="fas fa-link"></i> <span class="code-font">${log.hash.substring(0, 16)}...${log.hash.substring(56)}</span>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                tbody.innerHTML = logs.map(log => `
+                    <tr>
+                        <td class="code-font">${new Date(log.timestamp).toISOString().replace('T', ' ').substring(0, 19)}</td>
+                        <td>${log.userId || 'System'}</td>
+                        <td class="action-cell">${log.action}</td>
+                        <td style="color:var(--text-muted)">${JSON.stringify(log.details)}</td>
+                        <td>
+                            <div class="crypto-proof">
+                                <i class="fas fa-link"></i> <span class="code-font">${log.hash.substring(0, 16)}...${log.hash.substring(56)}</span>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        });
+    </script>
+</body>
+
+</html>
