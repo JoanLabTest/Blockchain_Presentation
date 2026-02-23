@@ -659,6 +659,32 @@ export const DashboardEngine = {
         if (type === 'bundle') {
             const bundle = await window.ReportEngine.generateRegulatorBundle(orgId);
             window.ReportEngine.exportToPDF(bundle);
+        } else if (type === 'audit') {
+            // Phase 122: Mock MRM Audit Export
+            const logs = window.AuditLogger ? AuditLogger.getLogs() : [];
+            const header = "DCM DIGITAL - INSTITUTIONAL MRM AUDIT EXPORT\n" +
+                "Classification: CONFIDENTIAL\n" +
+                "Timestamp: " + new Date().toISOString() + "\n" +
+                "Signature Validation: SUCCESS\n" +
+                "----------------------------------------------------\n\n";
+
+            const formattedLogs = logs.map(l => {
+                if (l.action === 'AI_COPILOT_GENERATION') {
+                    return `[${new Date(l.timestamp).toISOString()}] USER: ${l.details.user}\nACTION: ${l.action} (${l.details.prompt_type.toUpperCase()})\nSCENARIO_STATE: ${l.details.base_scenario}\nENGINE_REF: ${l.details.version}\nCRYPTOGRAPHIC_HASH: ${l.details.output_hash}\n----------------------------------------------------`;
+                }
+                return `[${new Date(l.timestamp).toISOString()}] ACTION: ${l.action}\nDETAILS: ${JSON.stringify(l.details)}\n----------------------------------------------------`;
+            }).join('\n');
+
+            const content = header + (formattedLogs || "No audit traces generated in this session yet.");
+            const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", `mrm_audit_trace_${new Date().getTime()}.txt`);
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+
+            SessionManager.showToast('🛡️', 'Export MRM Terminé', 'Archive d\'audit générée avec succès (TXT).');
         } else {
             const logs = window.AuditLogger ? AuditLogger.getLogs() : [];
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logs, null, 2));
