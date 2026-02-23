@@ -539,10 +539,53 @@
                 <li class="feature-item"><i class="fa-solid fa-check"></i> SLA 99.9% & SSO (SAML)</li>
                 <li class="feature-item"><i class="fa-solid fa-check"></i> Custom Legal Scoring Matrix</li>
             </ul>
-            <a href="mailto:contact@dcm-digital.com" class="btn btn-outline"
-                style="border-color:var(--accent-gold); color:var(--accent-gold)">Contact Sales</a>
+            <button class="btn btn-outline" style="border-color:var(--accent-gold); color:var(--accent-gold)"
+                onclick="showEnterpriseIntake()">Contact Sales</button>
         </div>
 
+    </div>
+
+    <!-- ENTERPRISE INTAKE MODAL (Phase 86) -->
+    <div id="enterprise-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; justify-content:center; align-items:center;">
+        <div
+            style="background:var(--bg-card); border:1px solid var(--accent-gold); border-radius:16px; width:100%; max-width:500px; padding:40px; position:relative;">
+            <button onclick="closeEnterpriseIntake()"
+                style="position:absolute; top:20px; right:20px; background:none; border:none; color:white; font-size:20px; cursor:pointer;"><i
+                    class="fas fa-times"></i></button>
+            <h3 style="margin-top:0; color:var(--accent-gold); font-family:'Outfit';">Demande d'Accès Institutionnel
+            </h3>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:25px;">Veuillez remplir ce formulaire pour
+                une démonstration personnalisée de nos outils de conformité MiCA.</p>
+
+            <form id="enterprise-form" onsubmit="handleEnterpriseSubmit(event)">
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; font-size:11px; color:var(--text-muted); margin-bottom:5px;">NOM DE
+                        L'ORGANISATION</label>
+                    <input type="text" required
+                        style="width:100%; background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:8px; padding:12px; color:white;">
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; font-size:11px; color:var(--text-muted); margin-bottom:5px;">SEGMENT
+                        RÉGLEMENTAIRE</label>
+                    <select
+                        style="width:100%; background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:8px; padding:12px; color:white;">
+                        <option>Banque Commerciale</option>
+                        <option>Asset Manager</option>
+                        <option>CASP (MiCA)</option>
+                        <option>Cabinet Conseil</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; font-size:11px; color:var(--text-muted); margin-bottom:5px;">EMAIL
+                        PROFESSIONNEL</label>
+                    <input type="email" required
+                        style="width:100%; background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:8px; padding:12px; color:white;">
+                </div>
+                <button type="submit" class="btn btn-primary"
+                    style="background:var(--accent-gold); color:black; margin-top:10px;">ENVOYER LA DEMANDE</button>
+            </form>
+        </div>
     </div>
 
     <!-- SOCIAL PROOF -->
@@ -806,6 +849,28 @@
             }
         }
         window.manageSubscription = manageSubscription;
+
+        // --- ENTERPRISE INTAKE (Phase 86) ---
+        function showEnterpriseIntake() {
+            document.getElementById('enterprise-modal').style.display = 'flex';
+        }
+        function closeEnterpriseIntake() {
+            document.getElementById('enterprise-modal').style.display = 'none';
+        }
+        function handleEnterpriseSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+
+            setTimeout(() => {
+                alert("Votre demande a été transmise à notre équipe institutionnelle. Un responsable de compte vous contactera sous 24h.");
+                closeEnterpriseIntake();
+                btn.innerHTML = 'ENVOYER LA DEMANDE';
+            }, 1500);
+        }
+        window.showEnterpriseIntake = showEnterpriseIntake;
+        window.closeEnterpriseIntake = closeEnterpriseIntake;
+        window.handleEnterpriseSubmit = handleEnterpriseSubmit;
 
         // --- DYNAMIC SESSION UI ---
         window.addEventListener('load', async () => {

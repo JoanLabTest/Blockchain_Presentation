@@ -87,12 +87,22 @@ export const AuditLogger = {
         if (!container) return;
 
         const logs = await AuditLogger.getLogs(segment);
+        const integrity = await AuditLogger.verifyIntegrity(); // Check chain integrity
+
         if (!logs || logs.length === 0) {
             container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted); font-style:italic;">Aucune activité enregistrée.</div>';
             return;
         }
 
-        container.innerHTML = logs.map(log => `
+        const integrityHTML = integrity.valid
+            ? `<div style="padding:10px; background:rgba(16,185,129,0.1); color:#10b981; border-radius:8px; font-size:11px; margin-bottom:15px; display:flex; align-items:center;">
+                 <i class="fas fa-link" style="margin-right:8px;"></i> INTEGRITÉ VÉRIFIÉE (TÉMOIN CRYPTOGRAPHIQUE ACTIF)
+               </div>`
+            : `<div style="padding:10px; background:rgba(239,68,68,0.1); color:#ef4444; border-radius:8px; font-size:11px; margin-bottom:15px; display:flex; align-items:center;">
+                 <i class="fas fa-exclamation-triangle" style="margin-right:8px;"></i> RUPTURE D'INTÉGRITÉ DÉTECTÉE (LOGS ALTÉRÉS)
+               </div>`;
+
+        container.innerHTML = integrityHTML + logs.map(log => `
             <div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid var(--border-highlight); font-size:12px;">
                 <div style="max-width: 70%;">
                     <span style="color:var(--text-muted); font-family:monospace; margin-right:8px;">[${log.timestamp.split('T')[1].split('.')[0]}]</span>
@@ -113,7 +123,7 @@ export const AuditLogger = {
             `Generated: ${new Date().toLocaleString()}\n` +
             `Segment: ${segment.toUpperCase()}\n` +
             `--------------------------------------------------\n\n` +
-            logs.map(log => `[${log.timestamp}] ${log.action}\n  - ID: ${log.id}\n  - HASH: ${log.node_hash}\n  - Role: ${log.role}`).join('\n\n');
+            logs.map(log => `[${log.timestamp}] ${log.action}\n  - ID: ${log.id}\n  - PREV HASH: ${log.prev_hash}\n  - NODE HASH: ${log.node_hash}\n  - Role: ${log.role}`).join('\n\n');
 
         const blob = new Blob([content], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
@@ -124,5 +134,79 @@ export const AuditLogger = {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+    },
+
+    /**
+     * Verifies the integrity of the audit log chain.
+     */
+    verifyIntegrity: async () => {
+        console.log("🛡️ Starting Audit Log Integrity Verification...");
+        const { data: logs, error } = await supabase
+            .from('audit_logs')
+            .select('*')
+            .order('timestamp', { ascending: true }); // Check chronologically
+
+        if (error) return { valid: false, error: error.message };
+        if (!logs || logs.length === 0) return { valid: true, count: 0 };
+
+        let isValid = true;
+        let breakIndex = -1;
+
+        for (let i = 0; i < logs.length; i++) {
+            const current = logs[i];
+            const prevHash = i === 0 ? 'GENESIS' : logs[i - 1].node_hash;
+
+            // Re-calculate hash to compare
+            const payload = {
+                timestamp: current.timestamp,
+                action: current.action,
+                user_id: current.user_id,
+                org_id: current.org_id,
+                metadata: current.metadata,
+                severity: current.severity,
+                prev_hash: current.prev_hash
+            };
+
+            const recalculated = await AuditLogger._generateHash(payload, current.prev_hash);
+
+            if (recalculated !== current.node_hash || current.prev_hash !== prevHash) {
+                console.error(`🚨 INTEGRITY BREACH DETECTED at entry ${current.id}`);
+                isValid = false;
+                breakIndex = i;
+                break;
+            }
+        }
+
+        return {
+            valid: isValid,
+            count: logs.length,
+            breakId: breakIndex !== -1 ? logs[breakIndex].id : null
+        };
+    },
+
+    /**
+     * Simulates Notarization (Phase 84)
+     * Anchors the current state to a "trusted external hub" by creating a signature of the head.
+     */
+    notarizeChain: async () => {
+        console.log("⚓ Initiating Digital Notarization...");
+        const { data: lastLogs } = await supabase
+            .from('audit_logs')
+            .select('node_hash')
+            .order('timestamp', { ascending: false })
+            .limit(1);
+
+        if (!lastLogs || lastLogs.length === 0) return;
+
+        const headHash = lastLogs[0].node_hash;
+
+        // Log the notarization event
+        await AuditLogger.log('EXTERNAL_NOTARIZATION', 'SYSTEM', {
+            notary_hub: "DCM_TRUST_ANCHOR_V1",
+            anchored_hash: headHash,
+            signature_mock: `SIG-${Math.random().toString(36).substring(2, 12).toUpperCase()}`
+        });
+
+        alert(`📦 État notarisé avec succès !\nHash ancré : ${headHash.substring(0, 16)}...`);
     }
 };

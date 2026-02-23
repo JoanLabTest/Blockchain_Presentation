@@ -1125,6 +1125,11 @@
                             onclick="AuditLogger.exportTransparencyReport(SegmentManager.detectSegment())">
                             <i class="fas fa-download"></i> EXPORT TRANSPARENCY REPORT
                         </button>
+                        <button class="btn-glass"
+                            style="width:100%; font-size:11px; border-color:var(--accent-cyan); color:var(--accent-cyan);"
+                            onclick="AuditLogger.notarizeChain()">
+                            <i class="fas fa-anchor"></i> NOTARIZE HEAD (PHASE 84)
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1149,6 +1154,19 @@
 
         // Initialize AOS
         // window.addEventListener('load', function () { AOS.init({ duration: 800, once: true }); });
+
+        // Add Enterprise Demo Trigger (Phase 86)
+        window.addEventListener('load', () => {
+            const controls = document.querySelector('.dashboard-controls');
+            if (controls) {
+                const demoBtn = document.createElement('button');
+                demoBtn.className = 'btn-glass';
+                demoBtn.style.cssText = 'font-size:10px; border-color:var(--accent-cyan); color:var(--accent-cyan); margin-left:10px;';
+                demoBtn.innerHTML = '<i class="fas fa-play"></i> ENTERPRISE DEMO';
+                demoBtn.onclick = () => DashboardTour.startEnterpriseDemo();
+                controls.appendChild(demoBtn);
+            }
+        });
 
         // Make SessionManager global for HTML onclick events
         window.SessionManager = SessionManager;

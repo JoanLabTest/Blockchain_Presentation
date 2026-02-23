@@ -4,39 +4,35 @@
  */
 
 const DashboardTour = {
-    steps: [
+    enterpriseSteps: [
         {
-            target: '#dashSearchInput',
-            title: '🔍 Recherche Intelligente',
-            content: 'Trouvez instantanément des modules MiCA, des simulateurs ou des rapports de recherche.',
-            position: 'bottom'
+            target: '#audit-trail-container',
+            title: '🔗 Intégrité Cryptographique',
+            content: 'Démontrez à vos régulateurs que vos logs sont immuables. Chaque action est chaînée par hash SHA-256.',
+            position: 'top'
         },
         {
-            target: '#radarChart',
-            title: '📊 Skill Matrix',
-            content: 'Visualisez votre expertise en Temps Réel. Votre score évolue avec vos quiz et simulations.',
-            position: 'right'
+            target: 'button[onclick*="exportTransparencyReport"]',
+            title: '📜 Rapport de Transparence',
+            content: 'Générez en un clic un dossier d\'audit prêt pour le régulateur (MiCA Art. 81).',
+            position: 'top'
         },
         {
-            target: '#benchmarkSelector',
-            title: '🏆 Benchmarking Pro',
-            content: 'Comparez votre niveau avec les standards "Tier 1 Banks" ou "Crypto Natives".',
-            position: 'left'
-        },
-        {
-            target: '#riskRecommendation',
-            title: '🤖 Assistant de Risque',
-            content: 'Recevez des recommandations dynamiques basées sur l\'exposition de votre portefeuille.',
+            target: 'button[onclick*="notarizeChain"]',
+            title: '⚓ Ancrage Externe',
+            content: 'Notarisez l\'état du système vers un hub externe pour une preuve de non-répudiation absolue.',
             position: 'top'
         },
         {
             target: '#managerToggle',
-            title: '🏢 Vue Équipe',
-            content: 'Basculez en mode Manager pour superviser la conformité de vos collaborateurs.',
+            title: '🏢 Gouvernance Multi-Org',
+            content: 'Isolez strictement les données de vos différentes filiales grâce à notre architecture RLS.',
             position: 'left'
         }
     ],
+
     currentStep: 0,
+    isEnterpriseMode: false,
 
     init: function () {
         if (localStorage.getItem('dcm_tour_completed')) return;
@@ -49,6 +45,14 @@ const DashboardTour = {
 
     start: function () {
         this.currentStep = 0;
+        this.isEnterpriseMode = false;
+        this.createOverlay();
+        this.showStep();
+    },
+
+    startEnterpriseDemo: function () {
+        this.currentStep = 0;
+        this.isEnterpriseMode = true;
         this.createOverlay();
         this.showStep();
     },
@@ -73,7 +77,7 @@ const DashboardTour = {
             position: fixed;
             z-index: 9999;
             background: #1e293b;
-            border: 1px solid #3b82f6;
+            border: 1px solid ${this.isEnterpriseMode ? 'var(--accent-cyan)' : '#3b82f6'};
             border-radius: 12px;
             padding: 20px;
             width: 300px;
@@ -83,11 +87,14 @@ const DashboardTour = {
         `;
 
         card.innerHTML = `
-            <h4 id="tour-title" style="margin:0 0 10px 0; color:#3b82f6; font-size:16px;"></h4>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h4 id="tour-title" style="margin:0; color:${this.isEnterpriseMode ? 'var(--accent-cyan)' : '#3b82f6'}; font-size:16px;"></h4>
+                ${this.isEnterpriseMode ? '<span style="font-size:10px; background:rgba(0,255,255,0.1); color:var(--accent-cyan); padding:2px 6px; border-radius:4px;">ENTERPRISE</span>' : ''}
+            </div>
             <p id="tour-content" style="margin:0 0 20px 0; font-size:14px; color:#94a3b8; line-height:1.5;"></p>
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <button id="tour-skip" style="background:none; border:none; color:#64748b; font-size:12px; cursor:pointer;">Passer</button>
-                <button id="tour-next" style="background:#3b82f6; border:none; color:white; padding:8px 16px; border-radius:6px; font-weight:700; cursor:pointer;">Suivant</button>
+                <button id="tour-next" style="background:${this.isEnterpriseMode ? 'var(--accent-cyan)' : '#3b82f6'}; border:none; color:black; padding:8px 16px; border-radius:6px; font-weight:700; cursor:pointer;">Suivant</button>
             </div>
         `;
 
@@ -99,7 +106,8 @@ const DashboardTour = {
     },
 
     showStep: function () {
-        const step = this.steps[this.currentStep];
+        const stepList = this.isEnterpriseMode ? this.enterpriseSteps : this.steps;
+        const step = stepList[this.currentStep];
         const target = document.querySelector(step.target);
 
         if (!target) {
@@ -133,7 +141,8 @@ const DashboardTour = {
         let top = rect.bottom + 20;
         let left = rect.left + (rect.width / 2) - 150;
 
-        if (step.position === 'top') top = rect.top - 180;
+        if (step.position === 'top') top = rect.top - 200;
+        if (step.position === 'bottom') top = rect.bottom + 20;
         if (step.position === 'left') {
             top = rect.top;
             left = rect.left - 320;
@@ -156,7 +165,8 @@ const DashboardTour = {
 
     next: function () {
         this.currentStep++;
-        if (this.currentStep >= this.steps.length) {
+        const stepList = this.isEnterpriseMode ? this.enterpriseSteps : this.steps;
+        if (this.currentStep >= stepList.length) {
             this.end();
         } else {
             this.showStep();

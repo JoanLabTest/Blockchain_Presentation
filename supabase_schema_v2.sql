@@ -68,15 +68,22 @@ CREATE TABLE IF NOT EXISTS public.exports (
 
 CREATE OR REPLACE FUNCTION public.delete_user_data(target_user_id uuid)
 RETURNS void AS $$
+DECLARE
+  anon_id text;
 BEGIN
+  -- Generate a persistent but anonymous ID for log continuity (Phase 84)
+  -- Use a salt if possible, otherwise a simple hash of the UUID
+  anon_id := encode(digest(target_user_id::text || 'DCM_SALT_PHASE_84', 'sha256'), 'hex');
+
   -- Delete PII and linked data
   DELETE FROM public.simulations WHERE user_id = target_user_id;
   DELETE FROM public.exports WHERE user_id = target_user_id;
   DELETE FROM public.quiz_results WHERE user_id = target_user_id;
   
-  -- Logic should usually keep audit logs for compliance but anonymize PII
+  -- Logic should keep audit logs for compliance but anonymize PII
   UPDATE public.audit_logs 
-  SET user_id = NULL, metadata = metadata || '{"gdpr_anonymized": true}' 
+  SET user_id = NULL, 
+      metadata = metadata || jsonb_build_object('gdpr_anonymized', true, 'anon_trace_id', anon_id)
   WHERE user_id = target_user_id;
 
   -- Finally delete profile
