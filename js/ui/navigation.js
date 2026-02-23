@@ -24,6 +24,7 @@ export const NavigationManager = {
             name: 'Governance & Trust',
             icon: 'fa-gavel',
             links: [
+                { id: 'nav-admin', name: 'Corporate Admin', link: 'dashboard.html?tab=admin', icon: 'fa-building-user', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-mica', name: 'Simulateur MiCA', link: 'mica-simulator.html', icon: 'fa-scale-balanced' },
                 { id: 'nav-validation', name: 'Model Validation', link: 'dashboard.html?tab=validation', icon: 'fa-microscope', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-audit', name: 'Audit Trails', link: 'audit-trail.html', icon: 'fa-fingerprint', feature: 'AUDIT_VIEW' },

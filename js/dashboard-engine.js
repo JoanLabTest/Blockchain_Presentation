@@ -558,6 +558,7 @@ export const DashboardEngine = {
         const simSection = document.getElementById('simulations-section');
         const reportSection = document.getElementById('reports-section');
         const validationSection = document.getElementById('validation-section');
+        const adminSection = document.getElementById('admin-section');
         const bcModule = document.getElementById('bc-module');
 
         const topCards = [
@@ -569,8 +570,9 @@ export const DashboardEngine = {
         if (simSection) simSection.style.display = 'none';
         if (reportSection) reportSection.style.display = 'none';
         if (validationSection) validationSection.style.display = 'none';
+        if (adminSection) adminSection.style.display = 'none';
 
-        if (tab === 'reports' || tab === 'validation') {
+        if (tab === 'reports' || tab === 'validation' || tab === 'admin') {
             topCards.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
@@ -581,6 +583,9 @@ export const DashboardEngine = {
             } else if (tab === 'validation' && validationSection) {
                 validationSection.style.display = 'block';
                 if (bcModule) bcModule.innerText = 'VALIDATION';
+            } else if (tab === 'admin' && adminSection) {
+                adminSection.style.display = 'block';
+                if (bcModule) bcModule.innerText = 'CORPORATE ADMIN';
             }
         } else {
             // Default: Show Simulations (+ existing cards)
