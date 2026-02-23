@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>European Institutional Use Cases | ECB DLT Trials</title>
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- ANIMATIONS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: rgba(15, 23, 42, 0.6);
+            --bg-glass: rgba(30, 41, 59, 0.4);
+            --border: rgba(148, 163, 184, 0.1);
+            --border-highlight: rgba(59, 130, 246, 0.5);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #a855f7;
+            --accent-gold: #f59e0b;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at top right, #050a1f, var(--bg-dark));
+            color: var(--text-main);
+            font-family: 'Urbanist', sans-serif;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Nav */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 60px 0 80px;
+        }
+
+        .badge-premium {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid var(--accent-purple);
+            border-radius: 20px;
+            color: var(--accent-purple);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        /* KPIs */
+        .kpi-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+        }
+
+        .kpi-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .kpi-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 5px;
+        }
+
+        .kpi-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Tombstones */
+        .section-title {
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tombstone-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 100px;
+        }
+
+        .tombstone-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s;
+        }
+
+        .tombstone-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .tombstone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .bank-logo {
+            font-size: 24px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .deal-date {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0,0,0,0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .deal-amount {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .deal-type {
+            font-size: 14px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .deal-details {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .deal-details li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .deal-details i {
+            color: var(--accent-purple);
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        /* Infrastructure */
+        .infra-section {
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 100px 0;
+            margin-bottom: 100px;
+        }
+
+        .infra-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .infra-box {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-highlight);
+            border-radius: 16px;
+            padding: 30px;
+            width: 40%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .infra-box h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .infra-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .infra-connection {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .infra-badge {
+            background: var(--bg-dark);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            z-index: 3;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+            /* Tooltip container */
+            position: relative;
+            cursor: help;
+        }
+
+        /* Tooltip implementation */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            border-bottom: 1px dotted var(--text-muted);
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--bg-card);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--accent-blue);
+            font-size: 12px;
+            font-family: 'Urbanist', sans-serif;
+            font-weight: normal;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .tooltip:hover .tooltiptext, .infra-badge:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Operational Model */
+        .op-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .role-card {
+            background: rgba(255,255,255,0.01);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .role-icon {
+            font-size: 24px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .role-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: white;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav data-aos="fade-down">
+            <a href="index.html" class="logo">
+                <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #3b82f6, #a855f7); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-cube" style="color: white; font-size: 18px;"></i>
+                </div>
+                DCM DIGITAL
+            </a>
+            <div class="nav-links">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="governance-os.html">Governance OS</a>
+                <a href="compare-settlement.html">T+2 vs T+0 <i class="fas fa-arrow-right" style="font-size:10px; margin-left:4px;"></i></a>
+            </div>
+        </nav>
+
+        <section class="hero" data-aos="fade-up">
+            <div class="badge-premium"><i class="fas fa-globe-europe"></i> ECB DLT Settlement Trials</div>
+            <h1>European Institutional<br>Use Cases</h1>
+            <p>Digital bonds are no longer isolated pilots. The Eurosystem has integrated commercial DLT platforms with central bank money for wholesale settlement. DCM is the governance layer overseeing this new reality.</p>
+        </section>
+
+        <!-- KPIs -->
+        <div class="kpi-row" data-aos="fade-up" data-aos-delay="100">
+            <div class="kpi-card">
+                <div class="kpi-value">€450m+</div>
+                <div class="kpi-label">Issued Volume</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" style="color:var(--accent-purple);">T+0</div>
+                <div class="kpi-label">Settlement Speed</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" style="color:var(--accent-gold);"><i class="fas fa-landmark"></i></div>
+                <div class="kpi-label">Central Bank Money</div>
+            </div>
+        </div>
+
+        <!-- Tombstones -->
+        <h2 class="section-title" data-aos="fade-up">Live DLT Transactions</h2>
+        <div class="tombstone-grid">
+            <!-- Natixis -->
+            <div class="tombstone-card" data-aos="fade-up">
+                <div class="tombstone-header">
+                    <div class="bank-logo"><i class="fas fa-building-columns"></i> Natixis Pfand.</div>
+                    <div class="deal-date">AUG 2024</div>
+                </div>
+                <div class="deal-amount">€100m</div>
+                <div class="deal-type">Digital Covered Registered Bond</div>
+                <ul class="deal-details">
+                    <li><i class="fas fa-check"></i> On-chain Registry integration</li>
+                    <li><i class="fas fa-file-contract"></i> Trustee Certificate uploaded on-chain</li>
+                    <li><i class="fas fa-bolt"></i> Synchronized payments via DLT</li>
+                </ul>
+            </div>
+
+            <!-- Siemens -->
+            <div class="tombstone-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="tombstone-header">
+                    <div class="bank-logo"><i class="fas fa-industry"></i> Siemens AG</div>
+                    <div class="deal-date">SEP 2024</div>
+                </div>
+                <div class="deal-amount">€300m</div>
+                <div class="deal-type">Digital Bearer Bond (1y Mat.)</div>
+                <ul class="deal-details">
+                    <li><i class="fas fa-landmark"></i> Executed within ECB Trials</li>
+                    <li><i class="fas fa-link"></i> Settled via Trigger Solution</li>
+                    <li><i class="fas fa-bolt"></i> True T+0 asset/cash synchronization</li>
+                </ul>
+            </div>
+
+            <!-- DekaBank -->
+            <div class="tombstone-card" data-aos="fade-up" data-aos-delay="200" style="border-color: rgba(59, 130, 246, 0.4); box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);">
+                <div class="tombstone-header">
+                    <div class="bank-logo"><i class="fas fa-university"></i> DekaBank</div>
+                    <div class="deal-date">NOV 2025</div>
+                </div>
+                <div class="deal-amount">€50m</div>
+                <div class="deal-type">Digital Covered Bearer Bond (2y)</div>
+                <ul class="deal-details">
+                    <li><i class="fas fa-shield-halved"></i> Cover pool validation proven</li>
+                    <li><i class="fas fa-file-contract"></i> Trustee certification document on-chain</li>
+                    <li><i class="fas fa-eye"></i> Strategic validation for DCM intelligence layer</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Infrastructure -->
+        <div class="infra-section">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 50px;">
+                    <h2 class="section-title" style="margin-bottom:20px;">Synchronized Architecture</h2>
+                    <p style="color: var(--text-muted); font-size: 18px; max-width:800px; margin: 0 auto;">Transitioning from traditional Free of Payment (FoP) to <span class="tooltip" style="color:white; font-weight:600;">Delivery Versus Payment (DvP)<span class="tooltiptext">Simultaneous exchange of assets and cash. Eliminates principal risk.</span></span>, connecting commercial DLTs networks directly to the central bank's RTGS systems.</p>
+                </div>
+
+                <div class="infra-diagram" data-aos="zoom-in">
+                    <div class="infra-box">
+                        <div class="infra-icon" style="color: var(--accent-blue);"><i class="fas fa-network-wired"></i></div>
+                        <h3>Asset Layer</h3>
+                        <p style="font-size: 14px; color: var(--text-muted);">
+                            <span class="tooltip" style="color:var(--accent-blue);">SWIAT Network<span class="tooltiptext">A secure, regulatory-compliant blockchain network built for the financial industry.</span></span> (DLT)<br>
+                            Tokenized Bonds & Registry
+                        </p>
+                    </div>
+
+                    <div class="infra-connection">
+                        <div class="infra-badge">
+                            <i class="fas fa-lock"></i> DvP Settlement
+                            <span class="tooltiptext">Algorithmic guarantee: the asset is only transferred if the cash pulse is confirmed off-chain, and vice-versa.</span>
+                        </div>
+                    </div>
+
+                    <div class="infra-box">
+                        <div class="infra-icon" style="color: var(--accent-gold);"><i class="fas fa-building-columns"></i></div>
+                        <h3>Cash Layer</h3>
+                        <p style="font-size: 14px; color: var(--text-muted);">
+                            <span class="tooltip" style="color:var(--accent-gold);">Trigger Solution<span class="tooltiptext">Deutsche Bundesbank's system connecting DLT platforms to the traditional TARGET2 payment system.</span></span><br>
+                            Central Bank Money (Bundesbank)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Operational Setup -->
+        <div class="container" style="margin-bottom: 100px;">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 class="section-title" style="margin-bottom:20px;">Operational Setup (eWpG)</h2>
+                <p style="color: var(--text-muted); font-size: 18px; max-width:800px; margin: 0 auto;">Institutional tokenization does not eliminate essential roles; it reconfigures them around a shared, cryptographically secure DLT registry under the <span class="tooltip" style="color:white; font-weight:600;">eWpG<span class="tooltiptext">German Electronic Securities Act (elektronisches Wertpapiergesetz), establishing the legal framework for digital bonds.</span></span> framework.</p>
+            </div>
+
+            <div class="op-grid" data-aos="fade-up">
+                <div class="role-card">
+                    <div class="role-icon"><i class="fas fa-industry"></i></div>
+                    <div class="role-name">Issuer</div>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon"><i class="fas fa-book"></i></div>
+                    <div class="role-name">Registrar (eWpG)</div>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon"><i class="fas fa-server"></i></div>
+                    <div class="role-name">Tenant Node Op.</div>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon"><i class="fas fa-diagram-project"></i></div>
+                    <div class="role-name">SWIAT Network Coord.</div>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon"><i class="fas fa-vault"></i></div>
+                    <div class="role-name">Custodian</div>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon"><i class="fas fa-users-viewfinder"></i></div>
+                    <div class="role-name">Lead Manager / Synd.</div>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon"><i class="fas fa-money-bill-transfer"></i></div>
+                    <div class="role-name">Paying Agent</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <strong>Institutional Disclaimer:</strong> Information provided on this page is for demonstrative and informational purposes only regarding the European infrastructure landscape. It does not constitute an offer of investment, financial advice, or a binding recommendation. Historical transactions (Natixis, Siemens, DekaBank) are public knowledge as part of the ECB Wholesale CBDC Settlement Trials. DCM Digital Intelligence is an independent governance layer software provider and is not formally affiliated with the transactions depicted above unless explicitly stated. Data is compiled from public institutional releases.
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 DCM Digital Intelligence. European MRM Standards Compliant.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+</body>
+</html>
