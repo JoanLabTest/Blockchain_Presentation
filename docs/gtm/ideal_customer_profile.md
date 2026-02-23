@@ -1,33 +1,31 @@
-# Ideal Customer Profile (ICP) Definition
-**Status**: Formal Strategy Document (Phase 114)
-**Focus**: European Regulated Asset Managers
+# Ideal Customer Profile (ICP)
+*Document d'Alignement GTM - DCM Digital Phase 114*
 
-## 1. Demographic & Firmographic
-- **Company Type**: Mid-to-Large Tier Asset Manager (AUM €10B - €150B) or Private Bank.
-- **Location**: Prime: France, Switzerland, Germany, Luxembourg.
-- **Regulatory Environment**: Subsumed by MiCA, DORA, and local AMF/BaFin guidelines.
+L'ICP n'est pas "les banques" ou "les acteurs crypto". Il est unique et exclusif pour le Distribution Sprint des 90 prochains jours.
 
-## 2. Trigger Events
-Why do they need DCM now?
-- **Trigger A**: They are launching their first "Digital Asset Sleeve" in an existing fund.
-- **Trigger B**: Chief Risk Officer (CRO) failed an internal audit regarding their due diligence on a Yield Strategy.
-- **Trigger C**: They just acquired a smaller crypto-native fund and need to consolidate reporting.
+---
 
-## 3. The Buyer Personas
-### The Champion: "Head of Digital Assets" or "Innovation Lead"
-- **Pains**: Has conviction in crypto but cannot get budget/approval from the Risk Committee. Spends hours manually collecting fragmented data to justify positions.
-- **DCM Value**: Provides them the "institutional weapon" to get a "Yes" from the board.
+## The Target: Tier-2 European Asset Manager
 
-### The Economic Buyer: "Chief Risk Officer" (CRO) or "Head of Compliance"
-- **Pains**: Terrified of brand reputation damage from a smart contract hack or regulatory fine. Does not trust "crypto tools". Needs audit trails.
-- **DCM Value**: The `ReportEngine` (Board Ready PDFs) and the `AuditLogger` (Cryptographic Continuity). DCM acts as an insurance policy.
+### 1. Démographie de l'Entreprise
+*   **AUM (Assets Under Management) :** €10B – €50B (Mid-tier).
+*   **Localisation :** Union Européenne (priorité France, Allemagne, Luxembourg, Suisse).
+*   **Statut Réglementaire :** Régulé par l'autorité nationale (AMF, BaFin, CSSF) et directement impacté par MiCA et DORA.
+*   **Maturité Numérique :** Possède une équipe "Innovation" ou "Digital Assets" (parfois 1-3 personnes) chargée de formuler une stratégie blockchain, mais freinée par le département des Risques.
 
-## 4. The Anti-ICP (Who we do NOT sell to)
-- Retail traders (DCM is not a trading terminal).
-- Crypto-native Degen Funds (They don't care about MiCA or Board Reports; they only care about APY).
-- Tier-1 Mega Banks (JPM, Goldman) - *Wait until post-Series A. Sales cycles are >24 months and require brutal customization.*
+### 2. Le Persona Acheteur (Buyer Champion)
+*   **Titre :** Chief Risk Officer (CRO) ou Head of Digital Assets / Innovation.
+*   **Background :** Finance traditionnelle quantitative, conformité réglementaire. Peu ou pas de background de développeur Solidity. Parle en termes de "Capital Requirements", "Stress Test", et "Liquidity Buffers".
+*   **Pain Points Actuels :**
+    *   *Le Comité :* Il veut lancer un fonds d'actifs tokenisés (RWA) mais le niveau de documentation manuelle exigé par son Board ou ses LPs est insoutenable.
+    *   *La Conformité :* La date butoir de MiCA approche et les audits de Smart Contracts (PDF statiques) ne suffisent plus à prouver une "gestion continue des risques" (Continuous Oversight).
+    *   *Outils Inadaptés :* Les outils actuels vendent de la donnée on-chain brute, or le CRO a besoin d'une évaluation mathématique modélisée (scoring, VAR).
 
-## 5. Sales Motion: The "Validation Pilot"
-We do not sell SaaS initially. We sell the **€15k Validation Pilot (90 Days)**.
-- **Goal**: Hook the CRO. Provide 3 custom stress-test scenarios on their current watchlist.
-- **Outcome**: Conversion to the €60k Annual Core License.
+### 3. Le Message d'Accroche (Elevator Pitch)
+*"Vous avez l'équipe pour lancer vos RWA, mais vous n'avez pas l'infrastructure de gouvernance pour le justifier devant votre Risk Committee. DCM Digital n'est pas un outil de data. C'est une Governance Intelligence Infrastructure qui automatise la documentation, le stress testing, et consolide votre piste d'audit cryptographique pour un lancement de fonds 40% plus rapide et 100% défendable."*
+
+### 4. Le Processus de Vente Dédicacé (Go-To-Market)
+1.  **Entrée :** Contact ciblé LinkedIn ou recommandation. "Comment gérez-vous actuellement la documentation des risques MiCA pour vos tokenized sleeves ?"
+2.  **Workshop (Démo) :** Pas une démo de logiciel SaaS. Une "Simulation de Comité des Risques" utilisant la plateforme DCM.
+3.  **Validation Pilot (90 jours) :** Proposition d'un projet "bac à sable" d'une valeur de €10k à €15k pour auditer une stratégie existante ou en projet, validant le Framework DCM avec *leurs* données devant *leur* Risk Committee.
+4.  **Conversion :** Suite au succès du pilote, signature de la licence annuelle Enterprise "Base License" (€60k).
