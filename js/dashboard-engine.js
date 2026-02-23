@@ -622,11 +622,31 @@ export const DashboardEngine = {
             document.getElementById('res-shocked').innerText = Math.round(result.shocked);
             document.getElementById('res-variance').innerText = result.variance;
 
+            // Phase 121: Proactive Signal Flag
+            const drop = result.baseline - result.shocked;
+            if (drop >= 15) {
+                DashboardEngine.triggerCopilotSignal("Unusual deviation detected in regulatory buffer. Generate summary?");
+            }
+
             // Log the test in the audit trail if available
             if (window.AuditLogger) {
                 window.AuditLogger.log('STRESS_TEST', { scenario, variance: result.variance });
             }
         }, 1500);
+    },
+
+    triggerCopilotSignal: (message) => {
+        const btnContainer = document.getElementById('copilot-btn-container');
+        if (btnContainer) {
+            btnContainer.style.display = 'block';
+            const btn = btnContainer.querySelector('button');
+            if (btn) {
+                btn.style.animation = 'pulse 2s infinite';
+                btn.style.boxShadow = '0 0 15px rgba(244, 63, 94, 0.5)';
+                btn.style.border = '1px solid #f43f5e';
+                btn.innerHTML = `<i class="fas fa-exclamation-triangle" style="color:#f43f5e;"></i> Signal: ${message}`;
+            }
+        }
     },
 
     generateReport: async (type) => {
@@ -677,14 +697,24 @@ export const DashboardEngine = {
 
         if (type === 'explain') {
             userMsg = "Explain why the score dropped under liquidity shock.";
-            aiMsg = `<strong>Synthèse d'Investissement:</strong> Le modèle (DCM-Risk v2) indique une dégradation sous choc de liquidité (-70%) due principalement à l'illiquidité inhérente des actifs sous-jacents (RWA) couplée à un retrait massif simulé. La variance de sensibilité (${variance}) confirme que le buffer de collatéral est insuffisant pour absorber ce scénario extrême sans impacter la notation globale (${riskScoreStr}).`;
+            aiMsg = `<strong>Synthèse d'Investissement:</strong> Le modèle (DCM-Risk v2) indique une dégradation sous choc de liquidité (-70%) due principalement à l'illiquidité inhérente des actifs sous-jacents (RWA) couplée à un retrait massif simulé. La variance de sensibilité indique que le buffer de collatéral est sous pression pour absorber ce scénario extrême sans impacter la notation globale (${riskScoreStr}).`;
         } else if (type === 'summarize') {
             userMsg = "Summarize the regulatory freeze impact in 3 points.";
             aiMsg = `<strong>Impact MiCA Regulatory Freeze :</strong><br><br>• <strong>Blocage des Émissions:</strong> Interruption totale des nouvelles tranches de Digital Covered Bonds.<br>• <strong>Pénalité de Capital:</strong> Application immédiate du <em>haircut</em> réglementaire, réduisant le ratio de couverture de 14%.<br>• <strong>Maintien du Yield:</strong> Le mécanisme de smart contract protège les coupons existants à court terme (Horizon: 45 jours).`;
         } else if (type === 'draft') {
             userMsg = "Draft a paragraph for the Risk Committee.";
-            aiMsg = `<strong>[Draft - Risk Committee]</strong><br><br>Dans le cadre de notre suivi d'exposition aux actifs tokenisés, le stress test actuel révèle un profil de risque <em>${riskScoreStr}</em>. Bien que les smart contracts assurent une gestion automatisée des covenants de marge, la simulation d'un ${scenario.replace('_', ' ').toLowerCase()} indique une vulnérabilité résiduelle. Nous recommandons une révision à la hausse du buffer de liquidité de sécurité de 50 bps pour anticiper ces frictions réglementaires et de marché de manière proactive.`;
+            aiMsg = `<strong>[Draft - Risk Committee]</strong><br><br>Dans le cadre de notre suivi d'exposition aux actifs tokenisés, le stress test actuel révèle un profil de risque <em>${riskScoreStr}</em>. Bien que les smart contracts assurent une gestion automatisée des covenants de marge, la simulation d'un ${scenario.replace('_', ' ').toLowerCase()} indique une vulnérabilité résiduelle. Une révision du buffer de liquidité de sécurité pourrait être envisagée pour anticiper ces frictions réglementaires et de marché de manière proactive.`;
+        } else if (type === 'comparative') {
+            userMsg = "Compare the impact with the baseline.";
+            const numVariance = parseFloat(variance) || 0;
+            aiMsg = `<strong>Comparative Insight:</strong><br><br>Comparé à la baseline dynamique (Score: ${document.getElementById('res-baseline')?.innerText || 'N/A'}), la sensibilité du modèle a augmenté de ${Math.abs(numVariance)}% sous le scénario ${scenario}. L'écart de trajectoire justifie une surveillance accrue du collatéral de rang 1.`;
+        } else if (type === 'comex') {
+            userMsg = "COMEX 60-sec Brief.";
+            aiMsg = `<strong>COMEX 60-SEC BRIEF</strong><br><br><strong>KEY SIGNAL:</strong><br>Déviation négative détectée (${variance}) sous scénario ${scenario}. Résilience globale: ${riskScoreStr}.<br><br><strong>IMPACT:</strong><br>Pression sur le ratio de couverture (LCR estimé -12%). Les covenants DeFi restent intacts à CT.<br><br><strong>POTENTIAL ACTION (NON-BINDING):</strong><br>Évaluer un collatéral additionnel liquide (Bonds souverains) pour restaurer le buffer cible de 110%.`;
         }
+
+        // Add PRUDENT DISCLAIMER (Phase 120)
+        aiMsg += `<div style="margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.1); font-size:9.5px; color:rgba(255,255,255,0.4); font-family:'JetBrains Mono', monospace;">[Generated analytical summary based on scenario outputs. Not a binding investment or liquidity recommendation.]</div>`;
 
         // Hide prompt buttons after a choice
         if (prompts) prompts.style.display = 'none';
@@ -710,6 +740,18 @@ export const DashboardEngine = {
         // Scroll to bottom
         chat.scrollTop = chat.scrollHeight;
 
+        // Reset button styling if triggered proactively
+        const btnContainer = document.getElementById('copilot-btn-container');
+        if (btnContainer) {
+            const btn = btnContainer.querySelector('button');
+            if (btn && btn.style.animation) {
+                btn.style.animation = '';
+                btn.style.boxShadow = '';
+                btn.style.border = '';
+                btn.innerHTML = `<i class="fas fa-robot"></i> Ask AI Copilot`;
+            }
+        }
+
         // AI Response with delay
         setTimeout(() => {
             thinkDiv.remove();
@@ -726,6 +768,20 @@ export const DashboardEngine = {
 
             chat.appendChild(aiDiv);
             chat.scrollTop = chat.scrollHeight;
+
+            // Phase 120: AI Audit Logging
+            if (window.AuditLogger) {
+                const activeUser = SessionManager.profile?.name || 'Unknown User';
+                // Pseudo-hash for auditability
+                const shaHash = Array.from(aiMsg).reduce((hash, char) => 0 | (31 * hash + char.charCodeAt(0)), 0).toString(16).padEnd(64, '0').toUpperCase().substring(0, 64);
+                window.AuditLogger.log('AI_COPILOT_GENERATION', {
+                    user: activeUser,
+                    prompt_type: type,
+                    base_scenario: scenario,
+                    version: 'Copilot v1.2 / Engine v3.1',
+                    output_hash: `SHA256:${shaHash}`
+                });
+            }
 
             // Bring back prompts after a short delay for next questions
             setTimeout(() => {
