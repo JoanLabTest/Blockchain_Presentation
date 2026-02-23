@@ -68,7 +68,7 @@ export const NavigationManager = {
         const anchor = hubAnchors[segment] || '';
 
         let html = `
-            <li><a href="index.html${anchor}" class="nav-item"><i class="fas fa-home"></i> Retour au Hub</a></li>
+            <li><a href="index.html" class="nav-item"><i class="fas fa-home"></i> Retour au Hub</a></li>
         `;
 
         // Determine which pillars to show/prioritize based on segment

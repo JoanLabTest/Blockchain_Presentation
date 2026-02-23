@@ -542,19 +542,34 @@ export const DashboardEngine = {
         const validationSection = document.getElementById('validation-section');
         const bcModule = document.getElementById('bc-module');
 
+        const topCards = [
+            'advisor-insights', 'quiz-card', 'coverage-card', 'activity-timeline',
+            'learning-velocity-card', 'main-chart-card', 'risk-card'
+        ];
+
         // Default visible state resetting
         if (simSection) simSection.style.display = 'none';
         if (reportSection) reportSection.style.display = 'none';
         if (validationSection) validationSection.style.display = 'none';
 
-        if (tab === 'reports' && reportSection) {
-            reportSection.style.display = 'block';
-            if (bcModule) bcModule.innerText = 'RAPPORTS';
-        } else if (tab === 'validation' && validationSection) {
-            validationSection.style.display = 'block';
-            if (bcModule) bcModule.innerText = 'VALIDATION';
+        if (tab === 'reports' || tab === 'validation') {
+            topCards.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+            if (tab === 'reports' && reportSection) {
+                reportSection.style.display = 'block';
+                if (bcModule) bcModule.innerText = 'RAPPORTS';
+            } else if (tab === 'validation' && validationSection) {
+                validationSection.style.display = 'block';
+                if (bcModule) bcModule.innerText = 'VALIDATION';
+            }
         } else {
-            // Default: Show Simulations (+ Risk Card since it is naturally embedded)
+            // Default: Show Simulations (+ existing cards)
+            topCards.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = '';
+            });
             if (simSection) simSection.style.display = 'block';
             if (bcModule) bcModule.innerText = window.location.hash.includes('risk-card') ? 'RISK ENGINE' : 'COCKPIT';
         }
@@ -602,7 +617,16 @@ export const DashboardEngine = {
             const bundle = await window.ReportEngine.generateRegulatorBundle(orgId);
             window.ReportEngine.exportToPDF(bundle);
         } else {
-            alert('Export JSON en cours de préparation...');
+            const logs = window.AuditLogger ? AuditLogger.getLogs() : [];
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logs, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "dcm_audit_export.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+
+            SessionManager.showToast('📥', 'Export Terminé', 'Votre archive JSON a été téléchargée avec succès.');
         }
     },
 
