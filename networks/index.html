@@ -460,6 +460,12 @@
       }
     }
     </script>
+
+    <!-- MERMAID -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
 </head>
 
 <body>
@@ -757,6 +763,100 @@
 
         </div>
 
+        <!-- SECTION C -->
+        <div class="section-divider" data-aos="fade-up" style="margin-top: 100px;">
+            <span class="section-badge" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;">Section C</span>
+            <h2>Digital Money & Settlement Layers</h2>
+        </div>
+
+        <div class="inst-intro" data-aos="fade-up" style="border-left-color: #a855f7;">
+            <strong>Executive Summary :</strong> Les Stablecoins (USDT, USDC) ne sont pas de simples "cryptos", mais une
+            infrastructure de règlement mondiale (Liquidity Bridge Layer) opérant au-dessus des couches publiques,
+            essentielle pour les flux institutionnels transfrontaliers (Off-CBDC).
+        </div>
+
+        <div class="grid-4" style="grid-template-columns: 1fr;">
+            <!-- STABLECOINS -->
+            <div class="network-card card-institutional" style="border-top-color: #a855f7;" data-aos="fade-up">
+                <h3><i class="fas fa-coins" style="color: #c084fc;"></i> Stablecoin Infrastructure (USDT vs USDC)</h3>
+                <p>Analyse structurelle des principales monnaies numériques privées fiat-backed. Architecture,
+                    modélisation des risques (Depeg, Liquidity Run) et mécaniques de flux (Mint, Burn, Yield).</p>
+
+                <div class="net-specs" style="display: flex; gap: 40px; margin-bottom: 30px;">
+                    <div style="flex: 1;">
+                        <div class="net-spec-item">
+                            <span class="net-spec-label">Category</span>
+                            <span class="net-spec-val">Fiat-Backed Digital IOUs</span>
+                        </div>
+                        <div class="net-spec-item">
+                            <span class="net-spec-label">Key Players</span>
+                            <span class="net-spec-val">Tether (USDT), Circle (USDC)</span>
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="net-spec-item">
+                            <span class="net-spec-label">Systemic Role</span>
+                            <span class="net-spec-val">Global Liquidity Routing</span>
+                        </div>
+                        <div class="net-spec-item">
+                            <span class="net-spec-label">Governance</span>
+                            <span class="net-spec-val">Centralized Issuer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="stablecoins.html" class="explore-btn" aria-label="Explore Stablecoins">Deep-Dive Architecture &
+                    Risk <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i></a>
+            </div>
+        </div>
+
+        <!-- MONETARY HIERARCHY -->
+        <div class="network-card"
+            style="margin-top: 40px; border-top-color: #3b82f6; background: rgba(15, 23, 42, 0.5);" data-aos="fade-up">
+            <h3 style="color: white; margin-bottom: 20px;"><i class="fas fa-sitemap" style="color: #3b82f6;"></i>
+                Cartographie de la Hiérarchie Monétaire</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">
+                Le système financier numérique ne se limite pas aux blockchains publiques. Il se structure en couches
+                superposées <i>(Layering)</i>, de la monnaie de banque centrale garantissant le règlement final,
+                jusqu'aux actifs symbolisés (DLT) gérés par notre Risk Engine.
+            </p>
+            <div
+                style="background: rgba(0, 0, 0, 0.4); border-radius: 12px; padding: 20px; overflow-x: auto; text-align: center;">
+                <div class="mermaid">
+                    graph TD
+                    %% Nodes
+                    CBDC["Layer 1 : Central Bank Money (wCBDC / Trigger)"]
+                    BankDep["Layer 2 : Commercial Bank Money (Deposit Tokens)"]
+                    Stable["Layer 3 : Stablecoin Liquidity (USDT/USDC)"]
+                    DLT["Layer 4 : DLT Asset Layer (Tokenized Bonds / Equities)"]
+                    Risk["Governance OS / Risk Engine"]
+
+                    %% Styling
+                    classDef cbdc fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#fff;
+                    classDef bank fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff;
+                    classDef stable fill:#4c1d95,stroke:#a855f7,stroke-width:2px,color:#fff;
+                    classDef dlt fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#fff;
+                    classDef risk fill:#082f49,stroke:#0ea5e9,stroke-width:2px,color:#fff,stroke-dasharray: 5 5;
+
+                    class CBDC cbdc;
+                    class BankDep bank;
+                    class Stable stable;
+                    class DLT dlt;
+                    class Risk risk;
+
+                    %% Connections
+                    CBDC -->|Wholesale Settlement| BankDep
+                    BankDep -->|Wholesale/Retail Bridging| Stable
+                    Stable -->|Atomic Settlement / DvP| DLT
+                    CBDC -.->|Direct Settlement (Experimental)| DLT
+
+                    DLT -->|Data Telemetry / Audit Trail| Risk
+                    Stable -->|Reserves & Depeg Monitoring| Risk
+                    BankDep -->|Counterparty Risk| Risk
+                </div>
+            </div>
+        </div>
+
         <!-- COMPARATIVE SNAPSHOT -->
         <div class="section-divider" data-aos="fade-up" style="margin-top: 100px;">
             <span class="section-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">Analytics</span>
@@ -960,6 +1060,71 @@
             </div>
         </div>
 
+        <!-- GLOBAL SETTLEMENT MATRIX -->
+        <div class="section-divider" data-aos="fade-up" style="margin-top: 100px;">
+            <span class="section-badge" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">Integration</span>
+            <h2>Global Institutional Settlement Matrix</h2>
+        </div>
+
+        <div class="snapshot-section" data-aos="fade-up">
+            <div class="snapshot-header"
+                style="background: linear-gradient(135deg, #0f172a 0%, #020617 100%); border-bottom: 2px solid #3b82f6;">
+                <h2><i class="fa-solid fa-building-columns" style="color:#3b82f6;"></i> Settlement Architecture
+                    Comparison</h2>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="snap-table">
+                    <thead>
+                        <tr>
+                            <th>Infrastructure</th>
+                            <th>Form of Money</th>
+                            <th>Counterparty Risk</th>
+                            <th>Network Openness</th>
+                            <th>Primary Use Case (Institutions)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: white;"><i class="fa-solid fa-building-columns"
+                                        style="color: #60a5fa; margin-right: 8px;"></i> SWIAT</strong></td>
+                            <td><span class="badge-mono">Commercial Bank Money</span></td>
+                            <td><span class="badge-mono badge-blue">Regulated Banks</span></td>
+                            <td><span class="badge-mono" style="color:#ef4444; border-color:#ef444455;">Private /
+                                    Permissioned</span></td>
+                            <td><strong style="color: white;">Tokenized Bonds / Funds (EU)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: white;"><i class="fa-solid fa-network-wired"
+                                        style="color: #60a5fa; margin-right: 8px;"></i> Canton Network</strong></td>
+                            <td><span class="badge-mono">Commercial Bank Money</span></td>
+                            <td><span class="badge-mono badge-blue">Federated Institutions</span></td>
+                            <td><span class="badge-mono" style="color:#ef4444; border-color:#ef444455;">Private /
+                                    Interoperable</span></td>
+                            <td><strong style="color: white;">Repo Markets / Capital Mkts</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: white;"><i class="fas fa-coins"
+                                        style="color: #a855f7; margin-right: 8px;"></i> Stablecoins (USDC/USDT)</strong>
+                            </td>
+                            <td><span class="badge-mono">Private E-Money (IOU)</span></td>
+                            <td><span class="badge-mono badge-orange">Centralized Issuer</span></td>
+                            <td><span class="badge-mono badge-green">Public / Permissionless</span></td>
+                            <td><strong style="color: white;">Cross-Border Liquidity Bridge</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: white;"><i class="fa-solid fa-landmark"
+                                        style="color: #10b981; margin-right: 8px;"></i> wCBDC (Trigger)</strong></td>
+                            <td><span class="badge-mono">Central Bank Money</span></td>
+                            <td><span class="badge-mono badge-green">Zero (Risk-Free)</span></td>
+                            <td><span class="badge-mono" style="color:#ef4444; border-color:#ef444455;">Private /
+                                    Restricted</span></td>
+                            <td><strong style="color: white;">Wholesale Interbank Settlement</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- RADAR CHART SECTION -->
         <div class="section-divider" data-aos="fade-up" style="margin-top: 100px;">
             <span class="section-badge" style="background: rgba(139, 92, 246, 0.2); color: #a78bfa;">Visual
@@ -1060,7 +1225,7 @@
 
     <script src="../hub-particles.js"></script>
     <script>
-        window.addEventListener('load', function() { AOS.init({ duration: 800, once: true }); });
+        window.addEventListener('load', function () { AOS.init({ duration: 800, once: true }); });
     </script>
 </body>
 

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stablecoin Settlement Infrastructure | DCM Digital</title>
+
+    <!-- SEO & JSON-LD -->
+    <meta name="description"
+        content="Analyse structurelle des stablecoins (USDT vs USDC) en tant qu'infrastructure de règlement institutionnelle.">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Stablecoins as Settlement Infrastructure",
+      "description": "Analyse structurelle des deux principales monnaies numériques privées utilisées comme couche de règlement mondiale.",
+      "datePublished": "2026-02-24",
+      "author": {
+          "@type": "Organization",
+          "name": "DCM Digital"
+      },
+      "about": "Digital Money Infrastructure",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Financial Institutions"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://joanlabtest.github.io/Blockchain_Presentation/networks/stablecoins.html"
+      }
+    }
+    </script>
+
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- ANIMATIONS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- MERMAID -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: rgba(15, 23, 42, 0.6);
+            --bg-glass: rgba(30, 41, 59, 0.4);
+            --border: rgba(148, 163, 184, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-gold: #f59e0b;
+            --accent-cyan: #06b6d4;
+            --accent-red: #ef4444;
+            --accent-green: #22c55e;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at top left, #050b14, var(--bg-dark));
+            color: var(--text-main);
+            font-family: 'Urbanist', sans-serif;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Nav */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 60px 0 80px;
+        }
+
+        .badge-premium {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--accent-blue);
+            border-radius: 20px;
+            color: var(--accent-blue);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 54px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        /* Grid Framework */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .card h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .list-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-items li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .list-items li i {
+            margin-top: 4px;
+            font-size: 14px;
+        }
+
+        /* Table / Matrix */
+        .matrix-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 80px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .alert-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--accent-red);
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 0 10px 10px 0;
+            font-size: 15px;
+        }
+
+        /* Diagrams */
+        .diagram-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .diagram-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        /* Fee Mechanics */
+        .fee-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .fee-card {
+            background: rgba(30, 41, 59, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .fee-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border);
+            margin: 60px 0;
+        }
+
+        /* SUPER FOOTER */
+        .super-footer {
+            background: var(--bg-dark);
+            border-top: 1px solid var(--border);
+            padding: 80px 0 20px;
+            margin-top: 100px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 14px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- NAVIGATION -->
+        <nav data-aos="fade-down">
+            <a href="../index.html" class="logo">
+                <div
+                    style="width: 36px; height: 36px; background: linear-gradient(135deg, #3b82f6, #a855f7); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-shield-halved" style="color: white; font-size: 18px;"></i>
+                </div>
+                GOVERNANCE OS
+            </a>
+            <div class="nav-links">
+                <a href="../governance-os-landing.html">Main OS</a>
+                <a href="index.html">Networks</a>
+                <a href="../mrm-hub.html">MRM Hub</a>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <section class="hero" data-aos="fade-up">
+            <div class="badge-premium"><i class="fas fa-coins"></i> Liquidity Bridge Layer</div>
+            <h1>Stablecoins as<br>Settlement Infrastructure</h1>
+            <p>Analyse structurelle d'USDT et USDC. Au-delà des liquidités crypto, ces IOUs numériques agissent comme
+                une infrastructure de règlement mondiale pour les flux institutionnels transfrontaliers (Off-CBDC).</p>
+        </section>
+
+        <!-- ARCHITECTURE & GOVERNANCE: USDT vs USDC -->
+        <div class="grid-2" data-aos="fade-up">
+            <!-- USDT Card -->
+            <div class="card" style="border-top: 4px solid var(--accent-green);">
+                <h2><i class="fa-brands fa-ethereum" style="color: var(--accent-green);"></i> USDT (Tether)</h2>
+                <p>Émis par Tether Limited (offshore), USDT est l'actif dominant en termes de liquidité mondiale. Bien
+                    qu'omniprésent dans les flux d'échanges émergents, son profil de risque suscite des réserves
+                    institutionnelles.</p>
+                <ul class="list-items">
+                    <li><i class="fas fa-building-columns" style="color: var(--accent-green);"></i>
+                        <strong>Réserves:</strong> Mix de T-Bills, Commercial Papers, prêts garantis, Bitcoin et Or.
+                        Manque perçu de transparence stricte (attestations vs audits complets).</li>
+                    <li><i class="fas fa-network-wired" style="color: var(--accent-green);"></i>
+                        <strong>Déploiement:</strong> Multichain (Ethereum, Tron, Solana). Fort ancrage sur Tron pour
+                        les règlements cross-border B2B émergents.</li>
+                    <li><i class="fas fa-triangle-exclamation" style="color: var(--accent-green);"></i> <strong>Risque
+                            Institutionnel:</strong> Incertitude réglementaire et risque de contrepartie (Centralized
+                        Issuer).</li>
+                </ul>
+            </div>
+
+            <!-- USDC Card -->
+            <div class="card" style="border-top: 4px solid var(--accent-blue);">
+                <h2><i class="fa-brands fa-ethereum" style="color: var(--accent-blue);"></i> USDC (Circle)</h2>
+                <p>Émis par Circle, une entité régulée aux États-Unis. USDC a été conçu spécifiquement comme un pont de
+                    liquidité compliant, interfaçant directement avec le système bancaire américain (BNY Mellon,
+                    BlackRock).</p>
+                <ul class="list-items">
+                    <li><i class="fas fa-vault" style="color: var(--accent-blue);"></i> <strong>Réserves:</strong>
+                        Adossement exclusif à du cash (USD) et des Treasuries américains (T-Bills) à court terme.
+                        Transparence on-chain élevée.</li>
+                    <li><i class="fas fa-scale-balanced" style="color: var(--accent-blue);"></i>
+                        <strong>Compliance:</strong> Capacité éprouvée de blacklisting direct d'adresses sous sanctions
+                        (OFAC).</li>
+                    <li><i class="fas fa-handshake" style="color: var(--accent-blue);"></i> <strong>Risque
+                            Institutionnel:</strong> Adoption forte par les acteurs DeFi institutionnels, mais reste une
+                        autorité centralisée (Centralized Issuer).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COMPARATIVE MATRIX -->
+        <div class="matrix-container" data-aos="fade-up">
+            <h2 style="margin-top: 0; margin-bottom: 20px; font-size: 24px;">Matrice Structurale de Règlements</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caractéristique</th>
+                        <th>USDT (Tether)</th>
+                        <th>USDC (Circle)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Émetteur & Juridiction</strong></td>
+                        <td>Tether Limited (Offshore / BVI)</td>
+                        <td>Circle Internet Financial (US Regulated)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Qualité des Réserves</strong></td>
+                        <td>Modérée (T-bills, Crypto, Prêts, Or)</td>
+                        <td>Haute (Cash USD, T-bills à très court terme)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Audit & Transparence</strong></td>
+                        <td>Attestations trimestrielles (BDO Italia)</td>
+                        <td>Audits mensuels stricts (Deloitte), Reserve Fund SEC</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Adoption Institutionnelle</strong></td>
+                        <td>Émergente (plutôt Retail / Flux Off-shore)</td>
+                        <td>Très Forte (DeFi Institutionnelle, BNY Mellon, BlackRock)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Capacité de Blacklisting (Gel)</strong></td>
+                        <td>Oui (Smart Contract Function)</td>
+                        <td>Oui (Smart Contract Function - OFAC Compliant)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert-box">
+                <strong><i class="fas fa-exclamation-circle"></i> Insight Governance OS :</strong> Les stablecoins
+                fiat-backed ne sont <strong>pas</strong> des monnaies décentralisées. Ce sont des <strong>IOUs digitaux
+                    (Reconnaissances de Dette)</strong> gérés par des smart contracts. Le risque de contrepartie repose
+                entièrement sur l'émetteur centralisé.
+            </div>
+        </div>
+
+        <!-- TOKEN BURN MECHANICS -->
+        <div class="diagram-container" data-aos="zoom-in">
+            <h2 class="diagram-title">Mécanique de Contraction Monétaire (Mint / Burn)</h2>
+            <p style="color: var(--text-muted); max-width: 800px; margin: 0 auto 30px;">
+                Contrairement aux blockchains L1 où l'émission (block reward) est algorithmique, le pilotage de la
+                <em>supply</em> d'un stablecoin fiat repose sur l'autorité discrétionnaire de l'émetteur, en fonction
+                des apports ou retraits de liquidités fiat.
+            </p>
+
+            <div class="mermaid">
+                sequenceDiagram
+                autonumber
+                actor Institution
+                participant Circle as Circle (USDC Issuer)
+                participant Treasury as Reserve Bank (T-Bills)
+                participant Blockchain as Ethereum/Solana
+
+                Note over Institution, Blockchain: Scénario d'Émission (MINT)
+                Institution->>Circle: Virement Fiat USD (Wire Transfer)
+                Circle->>Treasury: Achat de T-Bills / Dépôt Bancaire
+                Circle->>Blockchain: Appel Smart Contract [Mint USDC]
+                Blockchain-->>Institution: Crédit des jetons USDC au wallet
+
+                Note over Institution, Blockchain: Scénario de Rachat (BURN)
+                Institution->>Circle: Demande de retrait & Renvoi de jetons
+                Circle->>Blockchain: Appel Smart Contract [Burn USDC]
+                Blockchain-->>Blockchain: Destruction des jetons (Supply Contraction)
+                Circle->>Treasury: Liquidation de T-Bills
+                Circle-->>Institution: Virement Fiat USD sur compte bancaire
+            </div>
+        </div>
+
+        <!-- FEE MECHANICS -->
+        <h2 style="font-size: 32px; margin-bottom: 40px; text-align: center;" data-aos="fade-up">Modélisation des Flux
+            Financiers (Fee Mechanics)</h2>
+        <div class="fee-grid" data-aos="fade-up">
+            <div class="fee-card">
+                <i class="fas fa-gas-pump fee-icon" style="color: var(--accent-purple);"></i>
+                <h3 style="margin-bottom: 10px;">A. Network Gas Fees</h3>
+                <p style="color: var(--text-muted); font-size: 14px;">Payées en jeton natif (ETH, SOL, TRX) pour chaque
+                    transfert USDC/USDT. Ces frais vont directement aux <strong>Validateurs / Mineurs</strong> du réseau
+                    sous-jacent.</p>
+            </div>
+            <div class="fee-card">
+                <i class="fas fa-money-bill-transfer fee-icon" style="color: var(--accent-blue);"></i>
+                <h3 style="margin-bottom: 10px;">B. Issuer Fees</h3>
+                <p style="color: var(--text-muted); font-size: 14px;">Frais discrétionnaires prélevés par Circle/Tether
+                    lors du processus direct de <strong>Mint</strong> (création) ou de <strong>Redemption</strong>
+                    (rachat fiat).</p>
+            </div>
+            <div class="fee-card" style="border-color: rgba(245, 158, 11, 0.4);">
+                <i class="fas fa-piggy-bank fee-icon" style="color: var(--accent-gold);"></i>
+                <h3 style="margin-bottom: 10px;">C. Yield sur Réserves</h3>
+                <p style="color: var(--text-muted); font-size: 14px;">Les intérêts générés par les T-Bills en réserve
+                    (5%+) ne sont <strong>pas</strong> distribués aux détenteurs d'USDC. Ils constituent le
+                    <strong>chiffre d'affaires exclusif de l'émetteur</strong>.</p>
+            </div>
+        </div>
+
+        <!-- RISK ENGINE DIMENSION -->
+        <div class="card" style="border-left: 4px solid var(--accent-cyan); text-align: center;" data-aos="fade-up">
+            <h2 style="justify-content: center; margin-bottom: 15px;"><i class="fas fa-shield-virus"
+                    style="color: var(--accent-cyan);"></i> Couche de Modélisation des Risques (Risk Engine)</h2>
+            <p style="max-width: 800px; margin: 0 auto 20px;">
+                Dans l'environnement institutionnel DCM Digital, la détention de stablecoins déclenche une modélisation
+                dynamique via notre Risk Engine.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <span
+                    style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); padding: 5px 15px; border-radius: 20px; font-size: 14px;">Depeg
+                    Scenarios</span>
+                <span
+                    style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); padding: 5px 15px; border-radius: 20px; font-size: 14px;">Liquidity
+                    Shock / Bank Run</span>
+                <span
+                    style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); padding: 5px 15px; border-radius: 20px; font-size: 14px;">Regulatory
+                    Freeze (OFAC)</span>
+                <span
+                    style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); padding: 5px 15px; border-radius: 20px; font-size: 14px;">Duration
+                    Mismatch des Réserves</span>
+            </div>
+            <br>
+            <a href="stablecoin-risk.html" class="logo"
+                style="justify-content: center; font-size: 16px; color: var(--accent-blue);">
+                Accéder au Simulateur de Risque Stablecoin <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- SUPER FOOTER -->
+    <footer class="super-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand" style="grid-column: span 2;">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                    <p>Plateforme d’analyse dédiée à la tokenisation des actifs financiers et aux infrastructures
+                        blockchain institutionnelles.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Produit</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Hub Central</a></li>
+                        <li><a href="../dashboard.html">Risk Engine</a></li>
+                        <li><a href="../pricing-institutional.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Gouvernance</h4>
+                    <ul class="footer-links">
+                        <li><a href="../governance-os-landing.html">Main OS</a></li>
+                        <li><a href="../mrm-hub.html">MRM Hub</a></li>
+                        <li><a href="../data-architecture.html">Data Architecture</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Réseaux</h4>
+                    <ul class="footer-links">
+                        <li><a href="stablecoins.html">Stablecoins</a></li>
+                        <li><a href="swiat.html">SWIAT</a></li>
+                        <li><a href="canton.html">Canton Network</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                style="padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between;">
+                <span>© 2026 DCM Digital • Version 4.3.0</span>
+                <a href="../privacy.html" style="color: var(--text-muted); text-decoration: none;">Confidentialité</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>
