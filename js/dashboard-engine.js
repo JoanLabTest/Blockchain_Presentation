@@ -7,6 +7,7 @@
 import { supabase } from './supabase-client.js';
 import { ScoringEngine } from './core/scoring-engine.js';
 import { BacktestingEngine } from './core/backtesting-engine.js';
+import { StressTestingEngine } from './core/stress-testing-engine.js';
 
 // ============================================================
 //  SUPABASE DATA LAYER
@@ -241,6 +242,46 @@ const Adapters = {
 // ============================================================
 
 export const DashboardEngine = {
+
+    /**
+     * Institutional Stress Test Trigger (Phase 127)
+     */
+    runInstitutionalStressTest: async (network) => {
+        const activeUser = SessionManager.profile || { id: 'demo-user', org_id: 'dcm-demo' };
+
+        // Paramètres de base (Bonds Tokenisés)
+        const params = {
+            currentPrice: 100,
+            volatility: network === 'swiat' ? 0.12 : 0.08, // Low vol for institutional assets
+            drift: 0.04,
+            network: network
+        };
+
+        const result = StressTestingEngine.runStressTest(params.currentPrice, params);
+
+        // Save to Supabase
+        const saved = await SupabaseData.saveSimulation(
+            activeUser.id,
+            activeUser.org_id,
+            `Stress Test: ${network.toUpperCase()} Infra`,
+            'Institutional',
+            params,
+            {
+                summary: `VaR 95%: ${result.metrics.var95.toFixed(2)}%`,
+                risk_level: result.metrics.var95 > 10 ? 'high' : 'medium',
+                infra_risk: result.metrics.infraRiskScore,
+                is_institutional: true
+            }
+        );
+
+        if (saved) {
+            SessionManager.showToast('🛡️', 'Stress Test Terminé', `Simulation d'infrastructure ${network.toUpperCase()} validée.`);
+            // Refresh UI
+            const data = await DashboardEngine.loadData();
+            DashboardEngine.renderSimulationTable(data.simulations);
+            DashboardEngine.renderRiskWidget(data.riskProfile);
+        }
+    },
 
     // ============================================================
     //  PHASE 63: ADVISOR RECOMMENDATION ENGINE

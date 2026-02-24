@@ -31,6 +31,10 @@ export const ScoringEngine = {
             const highRiskCount = simulations.filter(s => s.status === 'critical').length;
             risk += (highRiskCount * 10);
             risk -= (simulations.length * 2);
+
+            // Infrastructure Factor (Phase 127)
+            const infraRisks = simulations.reduce((sum, s) => sum + (s.infraRiskScore || 0), 0);
+            risk += (infraRisks / simulations.length);
         }
 
         // Knowledge impact (higher knowledge = lower risk)
