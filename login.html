@@ -1,25 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="fr">
-
 <head>
-    <link rel="alternate" hreflang="fr" href="https://joanlabtest.github.io/Blockchain_Presentation/login.html">
-    <link rel="alternate" hreflang="x-default" href="https://joanlabtest.github.io/Blockchain_Presentation/login.html">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - Blockchain Academy</title>
-
-    <!-- Institutional Security (Phase 82) -->
-    <script src="js/security-enforcer.js"></script>
-    <script type="module" src="js/error-monitor.js"></script>
-
-    <!-- FONTS -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- AUTO-REDIRECT IF LOGGED IN -->
-    <script>
+<link href="https://joanlabtest.github.io/Blockchain_Presentation/login.html" hreflang="fr" rel="alternate"/>
+<link href="https://joanlabtest.github.io/Blockchain_Presentation/login.html" hreflang="x-default" rel="alternate"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connexion - Blockchain Academy</title>
+<!-- Institutional Security (Phase 82) -->
+<script src="js/security-enforcer.js"></script>
+<script src="js/error-monitor.js" type="module"></script>
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<!-- AUTO-REDIRECT IF LOGGED IN -->
+<script>
         (function () {
             // Updated for Phase 26+ Architecture
             const token = localStorage.getItem('dcm_auth_token');
@@ -31,12 +26,10 @@
             }
         })();
     </script>
-
-    <!-- SUPABASE -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script src="config.js?v=3"></script>
-
-    <style>
+<!-- SUPABASE -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="config.js?v=3"></script>
+<style>
         /* [Styles remain unchanged] */
         :root {
             --bg-dark: #020617;
@@ -303,110 +296,97 @@
             display: none;
         }
     </style>
-</head>
-
+<meta content="Explore the login module of the DCM Digital Governance OS." name="description"/><link href="https://dcm-digital.com/login.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Connexion - Blockchain Academy",
+  "description": "Explore the login module of the DCM Digital Governance OS.",
+  "url": "https://dcm-digital.com/login.html"
+}</script></head>
 <body>
-
-    <!-- Background -->
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-
-    <div class="login-card">
-        <div class="logo-area">
-            <i class="fas fa-cube"></i>
-            <h1>Blockchain Academy</h1>
-            <p>Espace Membre Sécurisé</p>
-        </div>
-
-        <div class="auth-tabs">
-            <button aria-label="Bouton" class="tab-btn active" id="tab-login">Connexion</button>
-            <button aria-label="Bouton" class="tab-btn" id="tab-signup">Inscription</button>
-        </div>
-
-        <form id="auth-form">
-            <!-- Prénom et Nom (visible uniquement en mode inscription) -->
-            <div class="input-group" id="firstname-group" style="display: none;">
-                <label>Prénom</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="firstname" placeholder="Jean">
-                </div>
-            </div>
-
-            <div class="input-group" id="lastname-group" style="display: none;">
-                <label>Nom</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="lastname" placeholder="Dupont">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>Email Professionnel</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" id="email" placeholder="nom@entreprise.com" required>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <div style="display:flex; justify-content:space-between;">
-                    <label>Mot de passe</label>
-                    <a href="#" onclick="showResetPassword()"
-                        style="font-size:12px; color:var(--accent-blue); text-decoration:none;">Oublié ?</a>
-                </div>
-                <div class="input-wrapper">
-                    <i class="fas fa-key"></i>
-                    <input type="password" id="password" placeholder="••••••••" required minlength="6">
-                </div>
-            </div>
-
-            <div class="input-group" id="confirm-password-group" style="display: none;">
-                <label>Confirmer le mot de passe</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-check-circle"></i>
-                    <input type="password" id="confirm-password" placeholder="••••••••">
-                </div>
-            </div>
-
-            <button aria-label="Bouton" type="submit" class="submit-btn" id="submit-btn">
-                <span id="btn-text">Se connecter</span>
-                <i class="fas fa-arrow-right"></i>
-            </button>
-
-            <button aria-label="Bouton" type="button" class="submit-btn" onclick="enterGuestMode()"
-                style="background:transparent; border:1px solid var(--glass-border); margin-top:15px; color:var(--text-muted);">
-                <span>Mode Invité (Démo)</span>
-            </button>
-        </form>
-
-        <div id="auth-message"></div>
-
-        <!-- RESET PASSWORD MODAL (Hidden by default) -->
-        <div id="reset-modal" style="display:none; text-align:center; margin-top:20px;">
-            <h3 style="font-size:16px; margin-bottom:10px;">Réinitialisation</h3>
-            <p style="font-size:13px; color:#94a3b8; margin-bottom:15px;">Entrez votre email pour recevoir un lien de
+<!-- Background -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="login-card">
+<div class="logo-area">
+<i class="fas fa-cube"></i>
+<h1>Blockchain Academy</h1>
+<p>Espace Membre Sécurisé</p>
+</div>
+<div class="auth-tabs">
+<button aria-label="Bouton" class="tab-btn active" id="tab-login">Connexion</button>
+<button aria-label="Bouton" class="tab-btn" id="tab-signup">Inscription</button>
+</div>
+<form id="auth-form">
+<!-- Prénom et Nom (visible uniquement en mode inscription) -->
+<div class="input-group" id="firstname-group" style="display: none;">
+<label>Prénom</label>
+<div class="input-wrapper">
+<i class="fas fa-user"></i>
+<input id="firstname" placeholder="Jean" type="text"/>
+</div>
+</div>
+<div class="input-group" id="lastname-group" style="display: none;">
+<label>Nom</label>
+<div class="input-wrapper">
+<i class="fas fa-user"></i>
+<input id="lastname" placeholder="Dupont" type="text"/>
+</div>
+</div>
+<div class="input-group">
+<label>Email Professionnel</label>
+<div class="input-wrapper">
+<i class="fas fa-envelope"></i>
+<input id="email" placeholder="nom@entreprise.com" required="" type="email"/>
+</div>
+</div>
+<div class="input-group">
+<div style="display:flex; justify-content:space-between;">
+<label>Mot de passe</label>
+<a href="#" onclick="showResetPassword()" style="font-size:12px; color:var(--accent-blue); text-decoration:none;">Oublié ?</a>
+</div>
+<div class="input-wrapper">
+<i class="fas fa-key"></i>
+<input id="password" minlength="6" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<div class="input-group" id="confirm-password-group" style="display: none;">
+<label>Confirmer le mot de passe</label>
+<div class="input-wrapper">
+<i class="fas fa-check-circle"></i>
+<input id="confirm-password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<button aria-label="Bouton" class="submit-btn" id="submit-btn" type="submit">
+<span id="btn-text">Se connecter</span>
+<i class="fas fa-arrow-right"></i>
+</button>
+<button aria-label="Bouton" class="submit-btn" onclick="enterGuestMode()" style="background:transparent; border:1px solid var(--glass-border); margin-top:15px; color:var(--text-muted);" type="button">
+<span>Mode Invité (Démo)</span>
+</button>
+</form>
+<div id="auth-message"></div>
+<!-- RESET PASSWORD MODAL (Hidden by default) -->
+<div id="reset-modal" style="display:none; text-align:center; margin-top:20px;">
+<h3 style="font-size:16px; margin-bottom:10px;">Réinitialisation</h3>
+<p style="font-size:13px; color:#94a3b8; margin-bottom:15px;">Entrez votre email pour recevoir un lien de
                 réinitialisation.</p>
-            <input type="email" id="reset-email" placeholder="votre@email.com"
-                style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--glass-border); background:rgba(30,41,59,0.5); color:white; margin-bottom:10px;">
-            <button aria-label="Bouton" onclick="handleReset()"
-                style="width:100%; padding:10px; background:var(--accent-cyan); border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer;">Envoyer
+<input id="reset-email" placeholder="votre@email.com" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--glass-border); background:rgba(30,41,59,0.5); color:white; margin-bottom:10px;" type="email"/>
+<button aria-label="Bouton" onclick="handleReset()" style="width:100%; padding:10px; background:var(--accent-cyan); border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer;">Envoyer
                 le lien</button>
-            <div style="margin-top:10px;">
-                <a href="#" onclick="hideResetPassword()" style="font-size:12px; color:#94a3b8;">Annuler</a>
-            </div>
-        </div>
-
-        <div class="card-footer">
-            <p>Protégé par Supabase Auth</p>
-            <div style="margin-top: 10px;">
-                <a href="index.html">← Retour à l'accueil</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- AUTH LOGIC -->
-    <script type="module">
+<div style="margin-top:10px;">
+<a href="#" onclick="hideResetPassword()" style="font-size:12px; color:#94a3b8;">Annuler</a>
+</div>
+</div>
+<div class="card-footer">
+<p>Protégé par Supabase Auth</p>
+<div style="margin-top: 10px;">
+<a href="index.html">← Retour à l'accueil</a>
+</div>
+</div>
+</div>
+<!-- AUTH LOGIC -->
+<script type="module">
         import { SessionManager } from './js/session-manager.js';
         import { supabase } from './js/supabase-client.js';
 
@@ -626,5 +606,4 @@
         }
     </script>
 </body>
-
 </html>

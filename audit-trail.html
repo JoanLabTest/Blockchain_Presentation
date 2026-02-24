@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html lang="fr">
 
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Audit Trail | DCM Digital</title>
-    <!-- Same CSS as dashboard for consistency -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enterprise Audit Trail | DCM Digital</title>
+<!-- Same CSS as dashboard for consistency -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<style>
         :root {
             --bg-dark: #0f172a;
             --bg-card: rgba(30, 41, 59, 0.7);
@@ -140,55 +138,53 @@
             color: var(--accent-purple);
         }
     </style>
-</head>
-
+<meta content="Explore the audit trail module of the DCM Digital Governance OS." name="description"/><link href="https://dcm-digital.com/audit-trail.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Enterprise Audit Trail | DCM Digital",
+  "description": "Explore the audit trail module of the DCM Digital Governance OS.",
+  "url": "https://dcm-digital.com/audit-trail.html"
+}</script></head>
 <body>
-
-    <div class="header">
-        <div class="title">
-            <i class="fas fa-list-check" style="color:var(--accent-purple)"></i>
+<div class="header">
+<div class="title">
+<i class="fas fa-list-check" style="color:var(--accent-purple)"></i>
             Audit Trail Explorer
             <span class="badge">ISAE 3000 READY</span>
-        </div>
-        <div>
-            <button class="btn-glass" onclick="window.location.href='dashboard.html'"><i class="fas fa-arrow-left"></i>
+</div>
+<div>
+<button class="btn-glass" onclick="window.location.href='dashboard.html'"><i class="fas fa-arrow-left"></i>
                 Retour Cockpit</button>
-            <button class="btn-glass" id="verify-integrity-btn" onclick="verifyLogIntegrity()"
-                style="background:rgba(168, 85, 247, 0.2); color:var(--accent-purple); border-color:var(--accent-purple);"><i
-                    class="fas fa-shield-halved"></i> Vérifier Intégrité</button>
-            <button class="btn-glass" onclick="exportLogsCSV()" style="background:var(--accent-blue);"><i
-                    class="fas fa-file-csv"></i> Exporter
+<button class="btn-glass" id="verify-integrity-btn" onclick="verifyLogIntegrity()" style="background:rgba(168, 85, 247, 0.2); color:var(--accent-purple); border-color:var(--accent-purple);"><i class="fas fa-shield-halved"></i> Vérifier Intégrité</button>
+<button class="btn-glass" onclick="exportLogsCSV()" style="background:var(--accent-blue);"><i class="fas fa-file-csv"></i> Exporter
                 CSV</button>
-        </div>
-    </div>
-
-    <div class="controls">
-        <input type="text" id="searchInput" class="input-glass" placeholder="🔍 Rechercher User, Action, Hash..."
-            style="width: 300px;" onkeyup="filterLogs()">
-        <select class="input-glass">
-            <option>Toutes les Actions</option>
-            <option>Simulations (Stress Test)</option>
-            <option>Exports de Données</option>
-            <option>Modifications Droits (RBAC)</option>
-        </select>
-        <select class="input-glass">
-            <option>Sélectionnez un Rôle</option>
-            <option>Admin</option>
-            <option>Risk Officer</option>
-        </select>
-    </div>
-
-    <table class="audit-table">
-        <thead>
-            <tr>
-                <th>Timestamp (UTC)</th>
-                <th>Utilisateur (Rôle)</th>
-                <th>Action</th>
-                <th>Détails</th>
-                <th>Cryptographic Proof (SHA-256)</th>
-            </tr>
-        </thead>
-        <script type="module">
+</div>
+</div>
+<div class="controls">
+<input class="input-glass" id="searchInput" onkeyup="filterLogs()" placeholder="🔍 Rechercher User, Action, Hash..." style="width: 300px;" type="text"/>
+<select class="input-glass">
+<option>Toutes les Actions</option>
+<option>Simulations (Stress Test)</option>
+<option>Exports de Données</option>
+<option>Modifications Droits (RBAC)</option>
+</select>
+<select class="input-glass">
+<option>Sélectionnez un Rôle</option>
+<option>Admin</option>
+<option>Risk Officer</option>
+</select>
+</div>
+<table class="audit-table">
+<thead>
+<tr>
+<th>Timestamp (UTC)</th>
+<th>Utilisateur (Rôle)</th>
+<th>Action</th>
+<th>Détails</th>
+<th>Cryptographic Proof (SHA-256)</th>
+</tr>
+</thead>
+<script type="module">
             import { AuditLogger } from './js/core/audit-logger.js';
 
             let currentLogs = [];
@@ -274,6 +270,5 @@
                 }, 1500);
             };
         </script>
-</body>
-
+</table></body>
 </html>
