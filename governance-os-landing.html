@@ -49,6 +49,10 @@
             --accent-red: #ef4444;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -58,12 +62,15 @@
             min-height: 100vh;
             line-height: 1.6;
             overflow-x: hidden;
+            width: 100%;
         }
 
         .container {
             max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
             padding: 0 20px;
+            overflow: hidden;
         }
 
         /* NAVIGATION */
@@ -74,6 +81,8 @@
             padding: 30px 0;
             border-bottom: 1px solid var(--border);
             margin-bottom: 60px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .logo {
@@ -104,6 +113,7 @@
             text-align: center;
             padding: 80px 0 100px;
             position: relative;
+            overflow: hidden;
         }
 
         .hero::before {
@@ -112,10 +122,12 @@
             top: -100px;
             left: 50%;
             transform: translateX(-50%);
-            width: 600px;
+            width: 100%;
+            max-width: 600px;
             height: 600px;
             background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
             z-index: -1;
+            pointer-events: none;
         }
 
         .badge-premium {
@@ -154,6 +166,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .btn-primary {
@@ -212,7 +225,7 @@
 
         .pillar-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
         }
 
@@ -294,7 +307,7 @@
 
         .footer-grid {
             display: grid;
-            grid-template-columns: 2fr repeat(5, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 40px;
             margin-bottom: 60px;
         }
@@ -329,9 +342,21 @@
         }
 
         /* RESPONSIVE */
+    </style>
+    <style>
         @media (max-width: 992px) {
             .hero h1 {
-                font-size: 48px;
+                font-size: 32px;
+                word-wrap: break-word;
+            }
+
+            .nav-links {
+                display: none !important;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
             }
 
             .mrm-focus {
@@ -351,7 +376,7 @@
 
     <div class="container">
         <!-- NAVIGATION -->
-        <nav data-aos="fade-down">
+        <nav>
             <a href="index.html" class="logo">
                 <div
                     style="width: 36px; height: 36px; background: linear-gradient(135deg, #3b82f6, #a855f7); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
@@ -362,7 +387,7 @@
             <div class="nav-links">
                 <a href="governance-os.html">Architecture</a>
                 <a href="mrm-hub.html">MRM Hub</a>
-                <a href="networks/index.html">Networks</a>
+                <a href="networks/swiat.html">Networks</a>
                 <a href="dashboard.html">Risk Engine</a>
             </div>
         </nav>
@@ -445,7 +470,7 @@
         </section>
 
         <!-- NETWORKS CONNECTION -->
-        <section style="text-align: center; padding: 80px 0;">
+        <section id="networks" style="text-align: center; padding: 80px 0;">
             <h2 style="font-size: 36px; margin-bottom: 40px;">Connectivité Native aux Réseaux DLT</h2>
             <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
                 <a href="networks/swiat.html" style="text-decoration: none; width: 200px;">
@@ -496,6 +521,7 @@
                 <div class="footer-col">
                     <h4>Réseaux</h4>
                     <ul class="footer-links">
+                        <li><a href="governance-os-landing.html#networks">Overview</a></li>
                         <li><a href="networks/swiat.html">SWIAT</a></li>
                         <li><a href="networks/canton.html">Canton Network</a></li>
                         <li><a href="ecb-dlt-trials.html">ECB Trials</a></li>
