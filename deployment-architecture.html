@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Architecture - DCM Digital</title>
+    <meta name="description"
+        content="Architecture de déploiement institutionnel de DCM Digital : intégration API, hébergement VPC, et authentification SSO pour une sécurité de niveau bancaire.">
+
+    <!-- SEO & JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Institutional Deployment Architecture",
+      "description": "Integration and security architecture for Tier-1 banking environments.",
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Digital"
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --surface-dark: #0f172a;
+            --surface-hover: #1e293b;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --warning-orange: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Nav & Footer overrides */
+        .hub-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .deployment-hero {
+            padding: 160px 5% 80px;
+            background: radial-gradient(circle at top, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
+            text-align: center;
+        }
+
+        /* ARCHITECTURE DIAGRAM */
+        .arch-container {
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .arch-layer {
+            background: var(--surface-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            text-align: left;
+        }
+
+        .arch-layer::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: var(--accent-cyan);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .arch-connector {
+            height: 30px;
+            width: 2px;
+            background: var(--border-color);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .arch-connector::after {
+            content: '▼';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--border-color);
+            font-size: 12px;
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 15px;
+        }
+
+        .layer-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-cyan);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+
+        .layer-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .layer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .component-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .component-box:hover {
+            border-color: rgba(6, 182, 212, 0.3);
+            background: rgba(6, 182, 212, 0.02);
+            transform: translateY(-2px);
+        }
+
+        .component-title {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .component-title i {
+            margin-right: 8px;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+        }
+
+        .component-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* SECURITY GUARANTEES */
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .security-badge {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .security-badge i {
+            font-size: 2rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .security-badge h4 {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            .layer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .security-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="hub-nav p-4 flex justify-between items-center transition-all duration-300">
+        <div class="flex items-center space-x-3">
+            <a href="index.html" class="flex items-center space-x-2 text-white hover:text-cyan-400 transition-colors">
+                <i class="fas fa-server text-xl text-cyan-500"></i>
+                <span class="font-bold text-lg tracking-wide hidden sm:inline">DCM DIGITAL</span>
+                <span
+                    class="text-xs text-slate-400 ml-2 py-0.5 px-2 bg-slate-800 rounded-full border border-slate-700">Arch</span>
+            </a>
+        </div>
+        <div class="flex items-center space-x-6 text-sm font-medium">
+            <a href="governance-os-landing.html" class="text-slate-300 hover:text-white transition-colors"><i
+                    class="fas fa-arrow-left mr-2"></i>Retour OS</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="deployment-hero">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1.5 rounded-full border border-cyan-800 bg-cyan-900/30 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-6"
+                data-aos="fade-down">
+                CISO / CIO Ready
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight" data-aos="fade-up"
+                data-aos-delay="100">
+                Institutional Deployment Architecture.
+            </h1>
+            <p class="text-lg text-slate-400 mb-8 max-w-3xl mx-auto font-light" data-aos="fade-up" data-aos-delay="200">
+                Une intégration "Zero-Friction" conçue pour les Systèmes d'Information bancaires.
+                Hébergement souverain, connexion aux Legacy Systems, et sécurité des données By-Design.
+            </p>
+        </div>
+    </section>
+
+    <!-- THE STACK -->
+    <section class="arch-container">
+
+        <!-- LAYER 1: DATA INGESTION -->
+        <div class="arch-layer" data-aos="fade-up">
+            <div class="layer-header">
+                <div class="layer-icon"><i class="fas fa-network-wired"></i></div>
+                <div class="layer-title">Couche 1 : Ingestion Sécurisée (Sources)</div>
+            </div>
+            <div class="layer-grid">
+                <div class="component-box">
+                    <div class="component-title"><i class="fas fa-link"></i> DLT Nodes Connectivity</div>
+                    <div class="component-desc">Connexion directe ou via API Gateway aux nœuds validateurs
+                        institutionnels (SWIAT, Canton Network) avec authentification mutuelle (mTLS).</div>
+                </div>
+                <div class="component-box">
+                    <div class="component-title"><i class="fas fa-database"></i> Legacy Core Banking</div>
+                    <div class="component-desc">Ingestion des référentiels internes (Murex, Summit) via SFTP sécurisé ou
+                        API REST chiffrée pour réconcilier l'Off-chain et le On-chain.</div>
+                </div>
+                <div class="component-box">
+                    <div class="component-title"><i class="fas fa-chart-line"></i> Market Data Feeds</div>
+                    <div class="component-desc">Intégration des oracles (Chainlink) et flux financiers traditionnels
+                        (Bloomberg B-PIPE) pour le pricer et le stress testing.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="arch-connector" data-aos="fade-in"></div>
+
+        <!-- LAYER 2: CORE ENGINE -->
+        <div class="arch-layer" style="border-color: var(--accent-cyan);" data-aos="fade-up">
+            <div class="layer-header">
+                <div class="layer-icon" style="background:var(--accent-cyan); color:white;"><i
+                        class="fas fa-microchip"></i></div>
+                <div class="layer-title" style="color:var(--accent-cyan);">Couche 2 : Le Moteur DCM (Gov OS)</div>
+            </div>
+            <p class="text-slate-300 text-sm mb-6 pb-6 border-b border-slate-800">
+                <strong>Hosting Models :</strong> SaaS Dédié (Single-Tenant) sur AWS/Azure EU, ou déploiement On-Premise
+                (Private Cloud/VPC)
+                via conteneurisation Kubernetes pour un contrôle total des données Ligne 1.
+            </p>
+            <div class="layer-grid">
+                <div class="component-box">
+                    <div class="component-title"><i class="fas fa-brain"></i> Deterministic Engine</div>
+                    <div class="component-desc">Traitement temps réel des positions, calcul des sensibilités, et
+                        génération des métriques de liquidité (Stress Scenarios).</div>
+                </div>
+                <div class="component-box">
+                    <div class="component-title"><i class="fas fa-robot"></i> AI Validated Copilot</div>
+                    <div class="component-desc">Large Language Model (LLM) privé, entraîné uniquement sur la
+                        documentation institutionnelle, sans fuite de prompt externe.</div>
+                </div>
+                <div class="component-box">
+                    <div class="component-title"><i class="fas fa-archive"></i> Immutable Audit Base</div>
+                    <div class="component-desc">Stockage WORM (Write Once, Read Many) des logs de décision et des états
+                        cryptographiques pour satisfaire SR 11-7 et DORA.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="arch-connector" data-aos="fade-in"></div>
+
+        <!-- LAYER 3: DISTRIBUTION -->
+        <div class="arch-layer" data-aos="fade-up">
+            <div class="layer-header">
+                <div class="layer-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div class="layer-title">Couche 3 : Distribution & Pilotage</div>
+            </div>
+            <div class="layer-grid">
+                <div class="component-box">
+                    <div class="component-title"><i class="fas fa-desktop"></i> Front-End MRM Hub</div>
+                    <div class="component-desc">Interface Web Dashboard (React/Vue) sécurisée, accessible via le portail
+                        interne de la banque pour les équipes Compliance et Risk.</div>
+                </div>
+                <div class="component-box">
+                    <div class="component-title"><i class="fas fa-plug"></i> BI Connectors</div>
+                    <div class="component-desc">Webhooks et connecteurs natifs pour injecter les "Risk Scores" DCM
+                        directement dans les Tableaux de Bord exécutifs (Tableau, PowerBI).</div>
+                </div>
+                <div class="component-box">
+                    <div class="component-title"><i class="fas fa-file-export"></i> Regulatory Reporting</div>
+                    <div class="component-desc">Génération automatisée des rapports DORA/Bâle III aux formats standards
+                        de place (XML, CSV) pour les régulateurs européens.</div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- SECURITY GUARANTEES -->
+    <section>
+        <div class="text-center mb-10" data-aos="fade-up">
+            <h2 class="text-2xl font-bold text-white">Enterprise-Grade Security By Design</h2>
+        </div>
+        <div class="security-grid">
+            <div class="security-badge" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-key"></i>
+                <h4>SSO & RBAC</h4>
+                <p class="text-xs text-slate-400 mt-2">Intégration SAML 2.0 / OAuth2 (Azure AD) avec contrôle d'accès
+                    granulaire.</p>
+            </div>
+            <div class="security-badge" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-lock"></i>
+                <h4>End-to-End Encryption</h4>
+                <p class="text-xs text-slate-400 mt-2">AES-256 pour les données au repos (At Rest) et TLS 1.3 en
+                    transit.</p>
+            </div>
+            <div class="security-badge" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-server"></i>
+                <h4>Data Sovereignty</h4>
+                <p class="text-xs text-slate-400 mt-2">Hébergement 100% européen conforme au RGPD. Pas de transfert hors
+                    UE.</p>
+            </div>
+            <div class="security-badge" data-aos="fade-up" data-aos-delay="400">
+                <i class="fas fa-file-contract"></i>
+                <h4>SOC2 / ISO 27001 Ready</h4>
+                <p class="text-xs text-slate-400 mt-2">Architecture documentée pour validation accélérée par les
+                    auditeurs Ligne 3.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- UNIFIED SUPER FOOTER -->
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // Inject Unified Footer
+        fetch('components/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+</body>
+
+</html>
