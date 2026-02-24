@@ -268,6 +268,20 @@
             justify-content: center;
         }
 
+        .risk-warning-small {
+            font-size: 0.75rem;
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+        }
+
         .roi-display {
             font-size: 48px;
             font-weight: 800;
@@ -553,6 +567,11 @@
                                 style="font-size:12px; text-transform:uppercase; color:#64748b; letter-spacing:1px;">Projected
                                 APR</span>
                             <div id="projected-apr" style="font-size:36px; font-weight:800; color:white;">3.85%</div>
+                            <div class="risk-warning-small">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Les rendements projetés excluent les pénalités de slashing et la volatilité du jeton
+                                natif. Simulation théorique (Non garantie).
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -808,39 +827,41 @@
             document.getElementById('netResult').innerText = '$' + netReward.toLocaleString(undefined, { maximumFractionDigits: 0 });
             document.getElementById('netRoi').innerText = netRoi.toFixed(2) + '% Net ROI';
         }
-        // 1. Get Values
-        const staked = parseInt(document.getElementById('slider-staked').value); // Millions
-        const baseFactor = parseInt(document.getElementById('slider-reward').value);
-        const mevBoost = parseInt(document.getElementById('slider-mev').value); // Percent
 
-        // 2. Update Labels
-        document.getElementById('val-staked').innerText = staked + "M";
-        document.getElementById('val-reward').innerText = baseFactor;
-        document.getElementById('val-mev').innerText = "+" + mevBoost + "%";
+        function updateSensitivity() {
+            // 1. Get Values
+            const staked = parseInt(document.getElementById('slider-staked').value); // Millions
+            const baseFactor = parseInt(document.getElementById('slider-reward').value);
+            const mevBoost = parseInt(document.getElementById('slider-mev').value); // Percent
 
-        // 3. Calculate Base Yield (Simplified Formula mimicking Eth curve)
-        // Yield ~ c / sqrt(staked)
-        // Base Constant derived to match ~3.5% at 30M staked with factor 64
-        const k = 19.5; // Constant to calibrate
-        let baseYield = (k * Math.sqrt(baseFactor)) / Math.sqrt(staked);
+            // 2. Update Labels
+            document.getElementById('val-staked').innerText = staked + "M";
+            document.getElementById('val-reward').innerText = baseFactor;
+            document.getElementById('val-mev').innerText = "+" + mevBoost + "%";
 
-        // Apply MEV Boost
-        let finalYield = baseYield * (1 + (mevBoost / 100));
+            // 3. Calculate Base Yield (Simplified Formula mimicking Eth curve)
+            // Yield ~ c / sqrt(staked)
+            // Base Constant derived to match ~3.5% at 30M staked with factor 64
+            const k = 19.5; // Constant to calibrate
+            let baseYield = (k * Math.sqrt(baseFactor)) / Math.sqrt(staked);
 
-        // 4. Update Display
-        document.getElementById('projected-apr').innerText = finalYield.toFixed(2) + "%";
+            // Apply MEV Boost
+            let finalYield = baseYield * (1 + (mevBoost / 100));
 
-        // 5. Update Chart (Simulate decay over years)
-        const newData = [
-            finalYield,
-            finalYield * 0.92,
-            finalYield * 0.85,
-            finalYield * 0.80,
-            finalYield * 0.75
-        ];
+            // 4. Update Display
+            document.getElementById('projected-apr').innerText = finalYield.toFixed(2) + "%";
 
-        window.sensitivityChart.data.datasets[0].data = newData;
-        window.sensitivityChart.update();
+            // 5. Update Chart (Simulate decay over years)
+            const newData = [
+                finalYield,
+                finalYield * 0.92,
+                finalYield * 0.85,
+                finalYield * 0.80,
+                finalYield * 0.75
+            ];
+
+            window.sensitivityChart.data.datasets[0].data = newData;
+            window.sensitivityChart.update();
         }
 
         // --- SCROLL SPY ---
