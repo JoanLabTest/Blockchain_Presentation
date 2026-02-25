@@ -104,8 +104,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
             background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background 0.3s, border-bottom 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .reg-card.open .reg-header {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .reg-header:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .reg-title {
@@ -128,11 +138,25 @@
         }
 
         .reg-body {
+            display: none;
             padding: 30px;
+            background: var(--surface-dark);
+        }
+
+        .reg-card.open .reg-body {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
-            background: var(--surface-dark);
+        }
+
+        .chevron {
+            transition: transform 0.3s ease;
+            color: var(--text-muted);
+            margin-left: 15px;
+        }
+
+        .reg-card.open .chevron {
+            transform: rotate(180deg);
         }
 
         .req-box {
@@ -235,13 +259,16 @@
     <!-- REGULATORY MAP CARDS -->
     <section class="max-w-6xl mx-auto px-5 pb-20">
         <!-- 1. DORA -->
-        <div class="reg-card" data-aos="fade-up">
-            <div class="reg-header">
+        <div class="reg-card open" data-aos="fade-up">
+            <div class="reg-header" onclick="this.parentElement.classList.toggle('open')">
                 <div class="reg-title">
                     <div class="reg-acronym text-emerald-400">DORA</div>
                     <div class="reg-desc">Digital Operational Resilience Act (EU 2022/2554)</div>
                 </div>
-                <div class="text-xs bg-slate-800 px-3 py-1 rounded text-slate-300 border border-slate-700">ICT Risk
+                <div class="flex items-center">
+                    <div class="text-xs bg-slate-800 px-3 py-1 rounded text-slate-300 border border-slate-700">ICT Risk
+                    </div>
+                    <i class="fas fa-chevron-down chevron"></i>
                 </div>
             </div>
             <div class="reg-body">
@@ -269,13 +296,16 @@
         </div>
         <!-- 2. BASEL III / OP RISK -->
         <div class="reg-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="reg-header">
+            <div class="reg-header" onclick="this.parentElement.classList.toggle('open')">
                 <div class="reg-title">
                     <div class="reg-acronym text-blue-400">BASEL III</div>
                     <div class="reg-desc">Operational Risk Capital Calibration (BCBS 239)</div>
                 </div>
-                <div class="text-xs bg-slate-800 px-3 py-1 rounded text-slate-300 border border-slate-700">Capital
-                    Buffer</div>
+                <div class="flex items-center">
+                    <div class="text-xs bg-slate-800 px-3 py-1 rounded text-slate-300 border border-slate-700">Capital
+                        Buffer</div>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
             </div>
             <div class="reg-body">
                 <div class="req-box">
@@ -300,12 +330,15 @@
         </div>
         <!-- 3. SR 11-7 / TRIM -->
         <div class="reg-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="reg-header">
+            <div class="reg-header" onclick="this.parentElement.classList.toggle('open')">
                 <div class="reg-title">
                     <div class="reg-acronym text-purple-400">SR 11-7</div>
                     <div class="reg-desc">Supervisory Guidance on Model Risk Management (MRM)</div>
                 </div>
-                <div class="text-xs bg-slate-800 px-3 py-1 rounded text-slate-300 border border-slate-700">Model Gov
+                <div class="flex items-center">
+                    <div class="text-xs bg-slate-800 px-3 py-1 rounded text-slate-300 border border-slate-700">Model Gov
+                    </div>
+                    <i class="fas fa-chevron-down chevron"></i>
                 </div>
             </div>
             <div class="reg-body">
@@ -331,13 +364,16 @@
         </div>
         <!-- 4. ECB ICT -->
         <div class="reg-card" data-aos="fade-up" data-aos-delay="300">
-            <div class="reg-header">
+            <div class="reg-header" onclick="this.parentElement.classList.toggle('open')">
                 <div class="reg-title">
                     <div class="reg-acronym text-orange-400">ECB ICT</div>
                     <div class="reg-desc">ECB Guide on assessment of ICT and security risks</div>
                 </div>
-                <div class="text-xs bg-slate-800 px-3 py-1 rounded text-slate-300 border border-slate-700">Data
-                    Integrity</div>
+                <div class="flex items-center">
+                    <div class="text-xs bg-slate-800 px-3 py-1 rounded text-slate-300 border border-slate-700">Data
+                        Integrity</div>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
             </div>
             <div class="reg-body">
                 <div class="req-box">

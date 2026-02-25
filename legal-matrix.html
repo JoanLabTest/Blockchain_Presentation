@@ -374,6 +374,24 @@
 
             </section>
 
+            <!-- TERRITORY FILTERS -->
+            <div style="text-align:center; margin-bottom:20px;" data-aos="fade-up">
+                <span style="color:var(--text-muted); font-size:14px; margin-right:15px;"><i class="fas fa-filter"></i>
+                    Filtrer par Juridiction :</span>
+                <button class="filter-btn active" onclick="toggleColumn(2, this)"
+                    style="background:rgba(16, 185, 129, 0.2); border:1px solid var(--accent-green); color:var(--text-main); padding:6px 16px; border-radius:30px; font-weight:600; cursor:pointer; margin:0 5px; transition:all 0.3s;">EU
+                    (MiCA)</button>
+                <button class="filter-btn active" onclick="toggleColumn(3, this)"
+                    style="background:rgba(245, 158, 11, 0.2); border:1px solid var(--accent-orange); color:var(--text-main); padding:6px 16px; border-radius:30px; font-weight:600; cursor:pointer; margin:0 5px; transition:all 0.3s;">USA
+                    (SEC)</button>
+                <button class="filter-btn active" onclick="toggleColumn(4, this)"
+                    style="background:rgba(251, 191, 36, 0.2); border:1px solid var(--accent-gold); color:var(--text-main); padding:6px 16px; border-radius:30px; font-weight:600; cursor:pointer; margin:0 5px; transition:all 0.3s;">UAE
+                    (VARA)</button>
+                <button class="filter-btn active" onclick="toggleColumn(5, this)"
+                    style="background:rgba(59, 130, 246, 0.2); border:1px solid var(--accent-blue); color:var(--text-main); padding:6px 16px; border-radius:30px; font-weight:600; cursor:pointer; margin:0 5px; transition:all 0.3s;">SG
+                    (MAS)</button>
+            </div>
+
             <!-- MATRIX -->
             <div class="matrix-container" data-aos="fade-up">
                 <table class="matrix-table">
@@ -553,6 +571,27 @@
             </div>
 
             <script>
+                function toggleColumn(colIndex, btn) {
+                    const isActive = btn.classList.contains('active');
+                    if (isActive) {
+                        btn.classList.remove('active');
+                        btn.style.opacity = '0.4';
+                        btn.style.filter = 'grayscale(100%)';
+                    } else {
+                        btn.classList.add('active');
+                        btn.style.opacity = '1';
+                        btn.style.filter = 'none';
+                    }
+
+                    const table = document.querySelector('.matrix-table');
+                    const rows = table.rows;
+                    for (let i = 0; i < rows.length; i++) {
+                        if (rows[i].cells.length > colIndex - 1) {
+                            rows[i].cells[colIndex - 1].style.display = isActive ? 'none' : 'table-cell';
+                        }
+                    }
+                }
+
                 function calculateFriction() {
                     const type = document.getElementById('calc-type').value;
                     const region = document.getElementById('calc-region').value;
