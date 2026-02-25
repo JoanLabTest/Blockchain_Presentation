@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Status & Roadmap - DCM Digital</title>
+    <meta name="description"
+        content="Transparence sur la maturité de la plateforme DCM Digital : Prototype avancé, pilotes en cours et roadmap technique.">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="styles/main.css" rel="stylesheet" />
+    <link href="styles/components.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            line-height: 1.6;
+            background-image: radial-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .hub-nav {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        /* Status Header */
+        .status-header {
+            padding: 100px 20px 60px;
+            text-align: center;
+            background: radial-gradient(circle at top center, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
+        }
+
+        /* Timeline / Roadmap */
+        .roadmap-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border-left: 2px solid rgba(59, 130, 246, 0.3);
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 40px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -47px;
+            top: 30px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #3b82f6;
+            box-shadow: 0 0 10px #3b82f6;
+        }
+
+        .roadmap-item.completed {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .roadmap-item.completed::before {
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+        }
+
+        .roadmap-item.in-progress {
+            border-color: rgba(245, 158, 11, 0.3);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .roadmap-item.in-progress::before {
+            background: #f59e0b;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+
+        .roadmap-date {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 10px;
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .roadmap-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .roadmap-status {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        .status-completed {
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-progress {
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .status-future {
+            color: #a855f7;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .metric-card {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-val {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVIGATION -->
+    <nav class="hub-nav p-4 flex justify-between items-center transition-all duration-300">
+        <div class="flex items-center space-x-3">
+            <a href="index.html" class="flex items-center space-x-2 text-white hover:text-blue-400 transition-colors">
+                <i class="fas fa-cube text-xl text-blue-500"></i>
+                <span class="font-bold text-lg tracking-wide hidden sm:inline">DCM DIGITAL</span>
+                <span
+                    class="text-xs text-slate-400 ml-2 py-0.5 px-2 bg-slate-800 rounded-full border border-slate-700">Transparency</span>
+            </a>
+        </div>
+        <div class="flex items-center space-x-6 text-sm font-medium">
+            <a href="index.html" class="text-slate-300 hover:text-white transition-colors"><i
+                    class="fas fa-arrow-left mr-2"></i>Public Hub</a>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="status-header">
+        <div
+            class="inline-block px-4 py-1.5 rounded-full border border-blue-800 bg-blue-900/30 text-blue-400 text-xs font-bold uppercase tracking-wider mb-6">
+            Institutional Transparency Report
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight">
+            Current Status & Roadmap
+        </h1>
+        <p class="text-lg text-slate-400 max-w-2xl mx-auto font-light mb-10">
+            DCM Digital is currently operating as an <strong>Advanced Interactive Prototype</strong>. This page provides
+            Executive Sponsors and Series A Investors with a clear view of our true maturity, active pilots, and path to
+            enterprise-grade industrialization.
+        </p>
+
+        <div class="flex justify-center gap-4 max-w-3xl mx-auto mb-10">
+            <div class="metric-card flex-1">
+                <div class="metric-val">100%</div>
+                <div class="metric-label">Front-End Logic Built</div>
+            </div>
+            <div class="metric-card flex-1">
+                <div class="metric-val text-amber-500">Pilot</div>
+                <div class="metric-label">Current Stage</div>
+            </div>
+            <div class="metric-card flex-1">
+                <div class="metric-val text-purple-400">Q1 2027</div>
+                <div class="metric-label">Series A Target</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ROADMAP TIMELINE -->
+    <section class="max-w-5xl mx-auto px-5 pb-20">
+        <h2 class="text-2xl font-bold text-white mb-10 text-center"><i class="fas fa-route text-blue-500 mr-2"></i>
+            Product Roadmap to Enterprise Grade</h2>
+
+        <div class="roadmap-container">
+
+            <!-- PHASE 1: COMPLET -->
+            <div class="roadmap-item completed">
+                <div class="roadmap-date">Q1 - Q2 2026</div>
+                <h3 class="roadmap-title">
+                    Front-End Modeling & Value Proposition
+                    <span class="roadmap-status status-completed"><i class="fas fa-check mr-1"></i> Completed</span>
+                </h3>
+                <p class="text-slate-400 text-sm mb-4">
+                    Traduction mathématique des risques DLT (VaR, Liquidity, Operational Risk) en interfaces UI
+                    exploitables par les comités de direction.
+                </p>
+                <ul class="text-slate-300 text-sm list-disc pl-5">
+                    <li>Création du Governance OS Landing Page et du message "Risque Prudentiel".</li>
+                    <li>Simulateurs de Rendement (Yield Mechanics, PoS Economics) intégrant la friction réelle.</li>
+                    <li>Modèles de présentation pour levée de fonds (VC Data Room, Executives Briefs).</li>
+                </ul>
+            </div>
+
+            <!-- PHASE 2: IN PROGRESS -->
+            <div class="roadmap-item in-progress">
+                <div class="roadmap-date">Q3 - Q4 2026</div>
+                <h3 class="roadmap-title">
+                    Pilotes de Preuve de Concept (PoC)
+                    <span class="roadmap-status status-progress"><i class="fas fa-spinner fa-spin mr-1"></i>
+                        Active</span>
+                </h3>
+                <p class="text-slate-400 text-sm mb-4">
+                    Discussions préliminaires et tests statiques avec des institutions financières en Europe pour
+                    valider l'adéquation au marché (Product-Market Fit).
+                </p>
+                <ul class="text-slate-300 text-sm list-disc pl-5">
+                    <li>Sessions "CRO Walkthrough" pour valider la clarté exécutive.</li>
+                    <li>Tests du module "Data Certification" avec conformité documentaire.</li>
+                    <li>Validation du modèle économique SaaS (Land & Expand).</li>
+                </ul>
+            </div>
+
+            <!-- PHASE 3: FUTURE -->
+            <div class="roadmap-item">
+                <div class="roadmap-date">Q1 - Q2 2027</div>
+                <h3 class="roadmap-title">
+                    Backend Industrialization & Security
+                    <span class="roadmap-status status-future"><i class="fas fa-rocket mr-1"></i> Upcoming</span>
+                </h3>
+                <p class="text-slate-400 text-sm mb-4">
+                    Migration de la plateforme (actuellement Front-End Focus) vers une architecture "Enterprise-Grade"
+                    capable de supporter des due diligences techniques bancaires.
+                </p>
+                <ul class="text-slate-300 text-sm list-disc pl-5">
+                    <li><strong>Database Migration :</strong> Remplacement du stockage local par une infrastructure
+                        PostgreSQL / TimescaleDB pour les logs d'audit.</li>
+                    <li><strong>Real Security Auth :</strong> Implémentation d'un véritable Identity & Access Management
+                        (IAM / SAML 2.0 B2B) remplaçant les mots de passe front-end.</li>
+                    <li><strong>API Gateways :</strong> Connexions réelles aux réseaux (SWIAT, Canton) et flux de
+                        données en direct au lieu d'environnements Sandbox simulés.</li>
+                    <li><strong>DORA Compliance :</strong> Premier audit de sécurité externe.</li>
+                </ul>
+            </div>
+
+            <!-- PHASE 4: FUTURE -->
+            <div class="roadmap-item">
+                <div class="roadmap-date">H2 2027</div>
+                <h3 class="roadmap-title">
+                    Series A Raise & Production Rollout
+                    <span class="roadmap-status status-future"><i class="fas fa-chart-line mr-1"></i> Upcoming</span>
+                </h3>
+                <p class="text-slate-400 text-sm mb-4">
+                    Lancement commercial de la version de production 1.0 (Governance OS) au sein d'une banque partenaire
+                    "Tier-1". Levée de fonds Series A pour scaler l'équipe technique et commerciale.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER LINK BACK -->
+    <div class="text-center py-8 border-t border-slate-800 text-slate-500 text-sm">
+        <a href="index.html" class="hover:text-white transition-colors"><i class="fas fa-home mr-1"></i> Return to Main
+            Hub</a>
+    </div>
+
+</body>
+
+</html>
