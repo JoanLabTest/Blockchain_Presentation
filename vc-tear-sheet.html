@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Executive Tear Sheet | DCM Digital</title>
     <script>
-        // Simple client-side protection for demo purposes
-        if (sessionStorage.getItem('dcm_investor_auth') !== 'true') {
+        // Simple client-side protection for demo purposes. Bypassed if Dev Mode is active.
+        const isAuth = sessionStorage.getItem('dcm_investor_auth') === 'true';
+        const isDev = localStorage.getItem('dcm_dev_mode') === 'true';
+
+        if (!isAuth && !isDev) {
             window.location.href = 'investor-login.html';
         }
     </script>

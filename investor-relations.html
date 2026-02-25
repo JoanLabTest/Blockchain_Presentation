@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Investor Data Room - DCM Digital</title>
     <script>
-        // Simple client-side protection for demo purposes
-        if (sessionStorage.getItem('dcm_investor_auth') !== 'true') {
+        // Simple client-side protection for demo purposes. Bypassed if Dev Mode is active.
+        const isAuth = sessionStorage.getItem('dcm_investor_auth') === 'true';
+        const isDev = localStorage.getItem('dcm_dev_mode') === 'true';
+
+        if (!isAuth && !isDev) {
             window.location.href = 'investor-login.html';
         }
     </script>
@@ -111,7 +114,8 @@
                         Product, and Revenue Model.</p>
                 </div>
                 <div class="text-blue-400 text-sm font-semibold mt-4 border-t border-slate-700 pt-3">View Presentation
-                    <i class="fas fa-arrow-right ml-1"></i></div>
+                    <i class="fas fa-arrow-right ml-1"></i>
+                </div>
             </a>
 
             <!-- Asset 3 -->
