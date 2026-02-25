@@ -43,7 +43,7 @@ serve(async (req) => {
         // Determine return URL
         const requestOrigin = req.headers.get('origin') || "http://localhost:3000";
         const returnUrl = requestOrigin.includes('github.io')
-            ? "https://joanlabtest.github.io/Blockchain_Presentation/pricing.html"
+            ? "https://dcmcore.com/Blockchain_Presentation/pricing.html"
             : `${requestOrigin}/pricing.html`;
 
         // Create Stripe Customer Portal session

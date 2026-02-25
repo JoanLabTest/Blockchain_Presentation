@@ -48,7 +48,7 @@ serve(async (req) => {
 
         // Base fallback specifically for GitHub pages structure since referer can be flaky
         let basePath = requestOrigin.includes('github.io')
-            ? "https://joanlabtest.github.io/Blockchain_Presentation"
+            ? "https://dcmcore.com/Blockchain_Presentation"
             : requestOrigin;
 
         // If referer is strictly present and matches pattern, override it with referer logic

@@ -2,7 +2,7 @@
 
 > **Status** : 🏛️ Institutional Grade Audit Passed (Phase 11)  
 > **Version** : Search 4.0 "Deep Tech"  
-> **Deployment** : [Live Demo](https://joanlabtest.github.io/Blockchain_Presentation/)
+> **Deployment** : [Live Demo](https://dcmcore.com/Blockchain_Presentation/)
 
 ---
 
@@ -61,8 +61,8 @@ The platform is powered by a proprietary Python-based indexing engine that trans
 ---
 
 ## 🔗 Live Access
-*   **Research Terminal**: [Launch App](https://joanlabtest.github.io/Blockchain_Presentation/)
-*   **Lite Deck**: [Launch Lite](https://joanlabtest.github.io/Blockchain_Presentation/index-simple.html)
+*   **Research Terminal**: [Launch App](https://dcmcore.com/Blockchain_Presentation/)
+*   **Lite Deck**: [Launch Lite](https://dcmcore.com/Blockchain_Presentation/index-simple.html)
 
 ---
 *Built by Joan Lab - 2026*
