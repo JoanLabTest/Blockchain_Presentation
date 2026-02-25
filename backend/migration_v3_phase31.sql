@@ -94,7 +94,7 @@ BEGIN
   ON CONFLICT (id) DO NOTHING;
   RETURN new;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
 
 -- 8. Trigger: Fire on every new auth signup
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
@@ -103,7 +103,8 @@ CREATE TRIGGER on_auth_user_created
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
 
 -- 9. Admin view: Aggregated stats (for future admin.html — Phase 32)
-CREATE OR REPLACE VIEW public.admin_stats AS
+-- Using security_invoker to respect RLS (Postgres 15+)
+CREATE OR REPLACE VIEW public.admin_stats WITH (security_invoker = true) AS
 SELECT
   COUNT(DISTINCT p.id) AS total_users,
   COUNT(DISTINCT CASE WHEN p.subscription_tier != 'free' THEN p.id END) AS premium_users,

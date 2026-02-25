@@ -89,7 +89,7 @@ BEGIN
   -- Finally delete profile
   DELETE FROM public.profiles WHERE id = target_user_id;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
 
 -- =========================================================
 -- SECURITY: ROW LEVEL SECURITY (RLS) - HARDENED
