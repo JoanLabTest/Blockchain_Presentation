@@ -607,46 +607,375 @@
             <p class="hub-subtitle">
                 DCM permet aux banques de piloter le risque DLT comme un risque prudentiel mesurable.
             </p>
-            <!-- HOW IT WORKS IN 90 SECONDS (6 BLOCKS) -->
-            <section class="max-w-6xl mx-auto px-5 py-12" data-aos="fade-up">
-                <h2 class="text-3xl font-bold text-center text-white mb-8">How DCM Core Works in 90 Seconds</h2>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                    <div
-                        class="p-6 bg-slate-900/50 border border-slate-700/50 rounded-xl text-center hover:border-blue-500/50 transition-all">
-                        <i class="fas fa-file-import text-blue-400 text-2xl mb-4"></i>
-                        <h4 class="text-sm font-bold text-white mb-2">1. Ingestion Data</h4>
-                        <p class="text-xs text-slate-400">Capture des flux DLT (Canton, SWIAT, Public).</p>
+            <!-- HOW IT WORKS IN 90 SECONDS — PREMIUM PIPELINE -->
+            <section class="hiw-section" id="how-it-works">
+                <style>
+                    /* ===== HOW IT WORKS — PREMIUM PIPELINE ===== */
+                    .hiw-section {
+                        position: relative;
+                        padding: 80px 20px 60px;
+                        max-width: 1280px;
+                        margin: 0 auto;
+                        overflow: hidden;
+                    }
+
+                    .hiw-section::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 600px;
+                        height: 600px;
+                        background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+                        pointer-events: none;
+                        z-index: 0;
+                    }
+
+                    .hiw-header {
+                        text-align: center;
+                        margin-bottom: 16px;
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    .hiw-badge {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 6px 16px;
+                        background: rgba(59, 130, 246, 0.08);
+                        border: 1px solid rgba(59, 130, 246, 0.2);
+                        border-radius: 100px;
+                        font-size: 11px;
+                        font-weight: 600;
+                        color: #60a5fa;
+                        text-transform: uppercase;
+                        letter-spacing: 1.5px;
+                        margin-bottom: 20px;
+                    }
+
+                    .hiw-badge i {
+                        font-size: 10px;
+                        animation: hiw-pulse 2s ease-in-out infinite;
+                    }
+
+                    @keyframes hiw-pulse {
+
+                        0%,
+                        100% {
+                            opacity: 0.5;
+                        }
+
+                        50% {
+                            opacity: 1;
+                        }
+                    }
+
+                    .hiw-title {
+                        font-size: 32px;
+                        font-weight: 800;
+                        color: #f1f5f9;
+                        letter-spacing: -0.5px;
+                        margin: 0 0 10px;
+                    }
+
+                    .hiw-title span {
+                        background: linear-gradient(135deg, #60a5fa, #a78bfa);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    }
+
+                    .hiw-subtitle {
+                        font-size: 14px;
+                        color: #64748b;
+                        max-width: 520px;
+                        margin: 0 auto;
+                        line-height: 1.6;
+                    }
+
+                    /* Pipeline connector line (desktop) */
+                    .hiw-pipeline-track {
+                        position: relative;
+                        z-index: 1;
+                        margin-top: 40px;
+                    }
+
+                    .hiw-connector {
+                        display: none;
+                    }
+
+                    @media (min-width: 1024px) {
+                        .hiw-connector {
+                            display: block;
+                            position: absolute;
+                            top: 62px;
+                            left: 8%;
+                            right: 8%;
+                            height: 2px;
+                            background: linear-gradient(90deg,
+                                    rgba(59, 130, 246, 0.0),
+                                    rgba(59, 130, 246, 0.4) 15%,
+                                    rgba(168, 85, 247, 0.4) 50%,
+                                    rgba(16, 185, 129, 0.4) 85%,
+                                    rgba(16, 185, 129, 0.0));
+                            z-index: 0;
+                        }
+
+                        .hiw-connector::after {
+                            content: '';
+                            position: absolute;
+                            top: -1px;
+                            left: 0;
+                            width: 80px;
+                            height: 4px;
+                            background: linear-gradient(90deg, rgba(59, 130, 246, 0.8), rgba(168, 85, 247, 0.8));
+                            border-radius: 2px;
+                            animation: hiw-flow 3s ease-in-out infinite;
+                            box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+                        }
+
+                        @keyframes hiw-flow {
+                            0% {
+                                left: 0%;
+                                opacity: 0;
+                            }
+
+                            10% {
+                                opacity: 1;
+                            }
+
+                            90% {
+                                opacity: 1;
+                            }
+
+                            100% {
+                                left: calc(100% - 80px);
+                                opacity: 0;
+                            }
+                        }
+                    }
+
+                    /* Card grid */
+                    .hiw-grid {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 16px;
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    @media (min-width: 640px) {
+                        .hiw-grid {
+                            grid-template-columns: repeat(3, 1fr);
+                            gap: 18px;
+                        }
+                    }
+
+                    @media (min-width: 1024px) {
+                        .hiw-grid {
+                            grid-template-columns: repeat(6, 1fr);
+                            gap: 14px;
+                        }
+                    }
+
+                    /* Individual card */
+                    .hiw-card {
+                        position: relative;
+                        background: rgba(2, 6, 23, 0.6);
+                        border: 1px solid rgba(71, 85, 105, 0.3);
+                        border-radius: 16px;
+                        padding: 28px 16px 22px;
+                        text-align: center;
+                        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                        backdrop-filter: blur(12px);
+                        cursor: default;
+                        overflow: hidden;
+                    }
+
+                    .hiw-card::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        height: 3px;
+                        background: var(--hiw-accent);
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                    }
+
+                    .hiw-card:hover {
+                        transform: translateY(-6px);
+                        border-color: var(--hiw-accent);
+                        box-shadow:
+                            0 12px 40px rgba(0, 0, 0, 0.3),
+                            0 0 30px color-mix(in srgb, var(--hiw-accent) 15%, transparent);
+                    }
+
+                    .hiw-card:hover::before {
+                        opacity: 1;
+                    }
+
+                    .hiw-card:hover .hiw-icon-ring {
+                        border-color: var(--hiw-accent);
+                        box-shadow: 0 0 20px color-mix(in srgb, var(--hiw-accent) 25%, transparent);
+                    }
+
+                    .hiw-card:hover .hiw-step-num {
+                        color: var(--hiw-accent);
+                    }
+
+                    /* Step number */
+                    .hiw-step-num {
+                        position: absolute;
+                        top: 10px;
+                        right: 12px;
+                        font-size: 11px;
+                        font-weight: 700;
+                        color: #334155;
+                        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+                        transition: color 0.3s;
+                    }
+
+                    /* Icon ring */
+                    .hiw-icon-ring {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 14px;
+                        border: 1px solid rgba(71, 85, 105, 0.4);
+                        background: rgba(15, 23, 42, 0.8);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0 auto 14px;
+                        transition: all 0.4s;
+                    }
+
+                    .hiw-icon-ring i {
+                        font-size: 20px;
+                        color: var(--hiw-accent);
+                    }
+
+                    /* Text */
+                    .hiw-card-title {
+                        font-size: 13px;
+                        font-weight: 700;
+                        color: #e2e8f0;
+                        margin-bottom: 6px;
+                        letter-spacing: -0.2px;
+                    }
+
+                    .hiw-card-desc {
+                        font-size: 11px;
+                        color: #64748b;
+                        line-height: 1.5;
+                        margin: 0;
+                    }
+
+                    /* Bottom CTA */
+                    .hiw-cta-row {
+                        text-align: center;
+                        margin-top: 40px;
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    .hiw-cta-link {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 13px;
+                        font-weight: 600;
+                        color: #60a5fa;
+                        text-decoration: none;
+                        padding: 10px 24px;
+                        border: 1px solid rgba(59, 130, 246, 0.25);
+                        border-radius: 100px;
+                        transition: all 0.3s;
+                        background: rgba(59, 130, 246, 0.05);
+                    }
+
+                    .hiw-cta-link:hover {
+                        background: rgba(59, 130, 246, 0.12);
+                        border-color: rgba(59, 130, 246, 0.5);
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+                    }
+
+                    .hiw-cta-link i {
+                        font-size: 10px;
+                        transition: transform 0.3s;
+                    }
+
+                    .hiw-cta-link:hover i {
+                        transform: translateX(3px);
+                    }
+                </style>
+
+                <div class="hiw-header" data-aos="fade-up">
+                    <div class="hiw-badge">
+                        <i class="fas fa-circle"></i> Data Pipeline Architecture
                     </div>
-                    <div
-                        class="p-6 bg-slate-900/50 border border-slate-700/50 rounded-xl text-center hover:border-purple-500/50 transition-all">
-                        <i class="fas fa-sync-alt text-purple-400 text-2xl mb-4"></i>
-                        <h4 class="text-sm font-bold text-white mb-2">2. Normalisation</h4>
-                        <p class="text-xs text-slate-400">Traduction JSON en schémas financiers FIS.</p>
+                    <h2 class="hiw-title">How DCM Core Works <span>in 90 Seconds</span></h2>
+                    <p class="hiw-subtitle">Du flux DLT brut au rapport certifié pour le Board — 6 étapes, zéro
+                        intervention manuelle.</p>
+                </div>
+
+                <div class="hiw-pipeline-track">
+                    <div class="hiw-connector"></div>
+                    <div class="hiw-grid">
+
+                        <div class="hiw-card" style="--hiw-accent: #3b82f6;" data-aos="fade-up" data-aos-delay="0">
+                            <span class="hiw-step-num">01</span>
+                            <div class="hiw-icon-ring"><i class="fas fa-file-import"></i></div>
+                            <h4 class="hiw-card-title">Ingestion Data</h4>
+                            <p class="hiw-card-desc">Capture des flux DLT (Canton, SWIAT, Public).</p>
+                        </div>
+
+                        <div class="hiw-card" style="--hiw-accent: #8b5cf6;" data-aos="fade-up" data-aos-delay="80">
+                            <span class="hiw-step-num">02</span>
+                            <div class="hiw-icon-ring"><i class="fas fa-sync-alt"></i></div>
+                            <h4 class="hiw-card-title">Normalisation</h4>
+                            <p class="hiw-card-desc">Traduction JSON en schémas financiers FIS.</p>
+                        </div>
+
+                        <div class="hiw-card" style="--hiw-accent: #10b981;" data-aos="fade-up" data-aos-delay="160">
+                            <span class="hiw-step-num">03</span>
+                            <div class="hiw-icon-ring"><i class="fas fa-brain"></i></div>
+                            <h4 class="hiw-card-title">Risk Modelling</h4>
+                            <p class="hiw-card-desc">Benchmarks stochastiques & stress tests DLT.</p>
+                        </div>
+
+                        <div class="hiw-card" style="--hiw-accent: #f59e0b;" data-aos="fade-up" data-aos-delay="240">
+                            <span class="hiw-step-num">04</span>
+                            <div class="hiw-icon-ring"><i class="fas fa-gavel"></i></div>
+                            <h4 class="hiw-card-title">Reg Mapping</h4>
+                            <p class="hiw-card-desc">Alignement natif DORA, MiCA, Bâle III.</p>
+                        </div>
+
+                        <div class="hiw-card" style="--hiw-accent: #06b6d4;" data-aos="fade-up" data-aos-delay="320">
+                            <span class="hiw-step-num">05</span>
+                            <div class="hiw-icon-ring"><i class="fas fa-chart-pie"></i></div>
+                            <h4 class="hiw-card-title">Capital Impact</h4>
+                            <p class="hiw-card-desc">Calcul du ROI via optimisation RWA.</p>
+                        </div>
+
+                        <div class="hiw-card" style="--hiw-accent: #a855f7;" data-aos="fade-up" data-aos-delay="400">
+                            <span class="hiw-step-num">06</span>
+                            <div class="hiw-icon-ring"><i class="fas fa-file-export"></i></div>
+                            <h4 class="hiw-card-title">Board Export</h4>
+                            <p class="hiw-card-desc">Certif cryptographique & reporting L2.</p>
+                        </div>
+
                     </div>
-                    <div
-                        class="p-6 bg-slate-900/50 border border-slate-700/50 rounded-xl text-center hover:border-emerald-500/50 transition-all">
-                        <i class="fas fa-brain text-emerald-400 text-2xl mb-4"></i>
-                        <h4 class="text-sm font-bold text-white mb-2">3. Risk Modelling</h4>
-                        <p class="text-xs text-slate-400">Benchmarks stochastiques & stress tests DLT.</p>
-                    </div>
-                    <div
-                        class="p-6 bg-slate-900/50 border border-slate-700/50 rounded-xl text-center hover:border-orange-500/50 transition-all">
-                        <i class="fas fa-gavel text-orange-400 text-2xl mb-4"></i>
-                        <h4 class="text-sm font-bold text-white mb-2">4. Reg Mapping</h4>
-                        <p class="text-xs text-slate-400">Alignement natif DORA, MiCA, Bâle III.</p>
-                    </div>
-                    <div
-                        class="p-6 bg-slate-900/50 border border-slate-700/50 rounded-xl text-center hover:border-blue-400/50 transition-all">
-                        <i class="fas fa-chart-pie text-blue-400 text-2xl mb-4"></i>
-                        <h4 class="text-sm font-bold text-white mb-2">5. Capital Impact</h4>
-                        <p class="text-xs text-slate-400">Calcul du ROI via optimisation RWA.</p>
-                    </div>
-                    <div
-                        class="p-6 bg-slate-900/50 border border-slate-700/50 rounded-xl text-center hover:border-purple-400/50 transition-all">
-                        <i class="fas fa-file-export text-purple-400 text-2xl mb-4"></i>
-                        <h4 class="text-sm font-bold text-white mb-2">6. Board Export</h4>
-                        <p class="text-xs text-slate-400">Certif cryptographique & reporting L2.</p>
-                    </div>
+                </div>
+
+                <div class="hiw-cta-row" data-aos="fade-up" data-aos-delay="500">
+                    <a href="data-architecture.html" class="hiw-cta-link">
+                        Explorer l'Architecture Complète <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </section>
 
