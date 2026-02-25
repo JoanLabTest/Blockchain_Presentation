@@ -1584,8 +1584,9 @@
     </style>
     <script>
         (function () {
-            // Only show once per device
+            // Don't show if user already submitted OR dismissed this session
             if (localStorage.getItem('dcm_lead_captured')) return;
+            if (sessionStorage.getItem('dcm_lead_dismissed')) return;
 
             var shown = false;
 
@@ -1598,14 +1599,18 @@
 
             function closeLead() {
                 document.getElementById('lead-modal').style.display = 'none';
+                // Persist dismissal for the entire session — won't re-show
+                // until new browser session (tab close + reopen)
+                sessionStorage.setItem('dcm_lead_dismissed', '1');
             }
 
             window.closeLead = closeLead;
 
-            // Trigger 1: timer (30s)
-            setTimeout(showLead, 30000);
+            // Trigger 1: timer (45s — not aggressive)
+            setTimeout(showLead, 45000);
 
             // Trigger 2: exit intent (mouse leaves top of viewport)
+            // Only fires ONCE thanks to the `shown` flag
             document.addEventListener('mouseleave', function (e) {
                 if (e.clientY < 10) showLead();
             });
