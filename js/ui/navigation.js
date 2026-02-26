@@ -63,13 +63,18 @@ const NavigationManager = {
      * Renders the sidebar into the target element.
      */
     renderSidebar: (segment, target) => {
-        if (!target) return;
+        console.log(`🛠️ NavigationManager: Rendering sidebar for [${segment}]`, target);
+        if (!target) {
+            console.error('❌ NavigationManager: Target element not found!');
+            return;
+        }
 
         const hubAnchors = {
             student: '#learning',
             pro: '#toolkit',
             enterprise: '#governance',
-            Guest: '#core'
+            Guest: '#core',
+            guest: '#core'
         };
         const anchor = hubAnchors[segment] || '';
 
@@ -82,7 +87,8 @@ const NavigationManager = {
             student: ['ACADEMIC', 'CORE'],
             pro: ['TOOLKIT', 'CORE', 'GOVERNANCE'],
             enterprise: ['GOVERNANCE', 'CORE', 'TOOLKIT'],
-            Guest: ['CORE', 'ACADEMIC']
+            Guest: ['CORE', 'ACADEMIC'],
+            guest: ['CORE', 'ACADEMIC']
         };
 
         const activePillars = segmentConfigs[segment] || ['CORE', 'ACADEMIC'];

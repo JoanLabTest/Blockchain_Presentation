@@ -4,10 +4,10 @@
  * Refactors fragmented redirects into a cohesive "Gatekeeper" system.
  */
 
-export const NavigationOrchestrator = {
+const NavigationOrchestrator = {
 
     // --- APP ROUTES CONFIG ---
-    SEGMENTS: ['student', 'pro', 'enterprise', 'Guest'],
+    SEGMENTS: ['student', 'pro', 'enterprise', 'Guest', 'guest'],
 
     /**
      * INIT: Called on page load
@@ -15,21 +15,31 @@ export const NavigationOrchestrator = {
     init: () => {
         console.log('🧭 Navigation Orchestrator initialized.');
 
-        // Initialize Multi-tenancy (Phase 106)
-        if (window.TenantManager) {
-            window.TenantManager.init();
-        }
+        const run = () => {
+            // Initialize Multi-tenancy (Phase 106)
+            if (window.TenantManager) {
+                window.TenantManager.init();
+            }
 
-        const params = NavigationOrchestrator.getQueryParams();
+            const params = NavigationOrchestrator.getQueryParams();
 
-        // 1. Handle Segment Handoff
-        if (params.segment) {
-            NavigationOrchestrator.handleSegmentTransition(params.segment);
-        }
+            // Detect segment from URL or LocalStorage fallback
+            const savedRole = localStorage.getItem('dcm_active_role') || localStorage.getItem('dcm_segment') || 'Guest';
+            const activeSegment = params.segment || savedRole;
 
-        // 2. Handle Dashboard Deep Linking
-        if (window.location.pathname.includes('dashboard.html')) {
-            NavigationOrchestrator.applyDashboardState(params);
+            // 1. Handle Segment Handoff/Init
+            NavigationOrchestrator.handleSegmentTransition(activeSegment);
+
+            // 2. Handle Dashboard Deep Linking
+            if (window.location.pathname.includes('dashboard.html')) {
+                NavigationOrchestrator.applyDashboardState(params);
+            }
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', run);
+        } else {
+            run();
         }
 
         // 3. Listen for History Navigation (Phase 101)
@@ -61,28 +71,31 @@ export const NavigationOrchestrator = {
      * SEGMENT HANDOFF: Persists the persona role to SessionManager/LocalStorage
      */
     handleSegmentTransition: (segment) => {
-        if (!NavigationOrchestrator.SEGMENTS.includes(segment)) return;
+        // Normalize segment and check validity
+        const normalized = segment === 'guest' ? 'Guest' : segment;
+        if (!NavigationOrchestrator.SEGMENTS.includes(normalized)) return;
 
         const org = window.TenantManager ? window.TenantManager.getActiveOrg() : { id: 'N/A' };
-        console.log(`🎯 Routing Triggered: Segment [${segment.toUpperCase()}] | Organization [${org.id}]`);
+        console.log(`🎯 Routing Triggered: Segment [${normalized.toUpperCase()}] | Organization [${org.id}]`);
 
         // Update SessionManager (if available globally) or LocalStorage
         if (window.SessionManager) {
-            window.SessionManager.setSessionRole(segment);
+            window.SessionManager.setSessionRole(normalized);
         } else {
-            localStorage.setItem('dcm_active_role', segment);
+            localStorage.setItem('dcm_active_role', normalized);
         }
 
         // Apply visual theme immediately to <body> to prevent blink
-        document.body.setAttribute('data-segment', segment);
+        document.body.setAttribute('data-segment', normalized);
 
         // Sync Dashboard UI components (Phase 101)
         if (window.location.pathname.includes('dashboard.html')) {
-            if (window.NavigationManager) {
-                window.NavigationManager.renderSidebar(segment, document.getElementById('side-nav-menu'));
+            const sideMenu = document.getElementById('side-nav-menu');
+            if (window.NavigationManager && sideMenu) {
+                window.NavigationManager.renderSidebar(normalized, sideMenu);
             }
             if (window.DashboardEngine) {
-                window.DashboardEngine.applyRoleVisibility(segment);
+                window.DashboardEngine.applyRoleVisibility(normalized);
             }
         }
     },
