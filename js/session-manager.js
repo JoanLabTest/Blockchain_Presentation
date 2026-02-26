@@ -163,17 +163,30 @@ const SessionManager = {
         console.log('🔒 Terminating session (Supabase + LocalStorage)...');
 
         // 1. Sign out from Supabase
-        const sb = _supabase(); if (sb) await sb.auth.signOut();
+        try {
+            const sb = _supabase();
+            if (sb) await sb.auth.signOut();
+        } catch (e) {
+            console.warn('Supabase signout failed, continuing with cache clear:', e);
+        }
 
-        // 2. Clear all local caches
+        // 2. Clear all institutional caches
         localStorage.removeItem(SessionManager.KEYS.AUTH_TOKEN);
         localStorage.removeItem(SessionManager.KEYS.USER_PROFILE);
         localStorage.removeItem(SessionManager.KEYS.SESSION_START);
         localStorage.removeItem('dcm_org_id');
         localStorage.removeItem('dcm_active_role');
+
+        // 3. Clear Dev Overrides & Legacy Mapping
+        localStorage.removeItem('is_super_dev');
+        localStorage.removeItem('dcm_user_role');
+        localStorage.removeItem('dcm_segment');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userTier');
+
         sessionStorage.clear();
 
-        // 3. Redirect
+        // 4. Redirect
         window.location.href = 'index.html';
     },
 
