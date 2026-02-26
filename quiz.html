@@ -916,6 +916,41 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
+        .btn-cert {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #f59e0b, #b45309);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            font-family: 'Urbanist', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2);
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-cert:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(245, 158, 11, 0.4);
+            filter: brightness(1.1);
+        }
+
+        body.super-mode .btn-cert {
+            background: linear-gradient(135deg, #7c3aed, #4c1d95);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+            border-color: rgba(124, 58, 237, 0.4);
+        }
+
         /* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
         @media (max-width: 768px) {
             .quiz-nav {
@@ -1115,6 +1150,9 @@
             <div class="results-unlock-text" id="unlock-text"></div>
         </div>
         <div class="results-actions">
+            <button class="btn-cert" id="res-cert-btn" style="display:none;" onclick="QuizUI.downloadCertificate()">
+                <i class="fas fa-file-pdf"></i> Télécharger mon Certificat
+            </button>
             <button class="btn-primary" id="next-level-btn" style="display:none;" onclick="QuizUI.goToNextLevel()">
                 <i class="fas fa-arrow-up"></i> Niveau suivant
             </button>
@@ -1400,6 +1438,8 @@
                 // Unlock banner
                 const unlockBanner = document.getElementById('unlock-banner');
                 const nextLevelBtn = document.getElementById('next-level-btn');
+                const certBtn = document.getElementById('res-cert-btn');
+
                 if (results.passed && results.unlocked) {
                     unlockBanner.style.display = 'block';
                     document.getElementById('unlock-text').textContent = `${results.unlocked.name} est maintenant accessible.`;
@@ -1407,6 +1447,10 @@
                 } else {
                     unlockBanner.style.display = 'none';
                     nextLevelBtn.style.display = 'none';
+                }
+
+                if (certBtn) {
+                    certBtn.style.display = results.passed ? 'flex' : 'none';
                 }
 
                 // Confetti if passed
@@ -1427,6 +1471,13 @@
                 this._showSection('home-view');
                 this.renderLevelMap();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+
+            downloadCertificate() {
+                if (!this._results) return;
+                const userProfile = JSON.parse(localStorage.getItem('dcm_user_profile') || '{"name":"Utilisateur DCM"}');
+                const name = userProfile.name || 'Utilisateur DCM';
+                window.QuizCert.generate(name, this._currentLevelId, this._results.score);
             },
 
             // ─── SECTION MANAGEMENT ───────────────────────────────────────────────
@@ -1483,6 +1534,8 @@
             }
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/quiz-cert.js"></script>
     <script src="js/quiz-engine.js"></script>
     <script>initQuiz();</script>
 </body>
