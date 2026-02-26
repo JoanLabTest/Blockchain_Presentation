@@ -1,54 +1,35 @@
 <!DOCTYPE html>
-
 <html lang="fr">
+
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DCM Institutional Assessment | DCM Digital</title>
+    <meta name="description"
+        content="Évaluez votre expertise DLT institutionnelle à travers 5 niveaux de certification DCM Digital." />
+    <link rel="canonical" href="https://dcm-digital.com/quiz.html" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <!-- DEV MASTER UNLOCK -->
     <script src="js/dev-unlock.js"></script>
-<link href="https://dcmcore.com/quiz.html" hreflang="fr" rel="alternate"/>
-<link href="https://dcmcore.com/quiz.html" hreflang="x-default" rel="alternate"/>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<!-- Institutional Security (Phase 82) -->
-<script src="js/security-enforcer.js"></script>
-<script src="js/error-monitor.js" type="module"></script>
-<!-- METADATA & FAVICON -->
-<link href="https://cdn-icons-png.flaticon.com/512/2091/2091665.png" rel="icon" type="image/png"/>
-<!-- PWA (Phase 30) -->
-<link href="./manifest.json" rel="manifest"/>
-<meta content="#020617" name="theme-color"/>
-<meta content="Certification DCM Digital - Expert & Head Of" property="og:title"/>
-<meta content="Parcours de certification complet : Fondamentaux, Opérations, Stratégie et Niveau Secret." property="og:description"/>
-<title>Certification DCM Digital - Parcours Complet</title>
-<!-- SEO META TAGS -->
-<meta content="Testez vos connaissances en Blockchain & Finance : Quiz de certification DCM Digital Hub. Validez vos acquis sur la Tokenisation et la DeFi." name="description"/>
-<meta content="Quiz, Certification, Examen, Blockchain, Finance, Test, QCM" name="keywords"/>
-<meta content="website" property="og:type"/>
-<meta content="https://dcmcore.com/quiz.html" property="og:url"/>
-<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
-<link href="styles-footer.css" rel="stylesheet"/>
-<!-- DATA IMPORT -->
-<script src="quiz_data.js"></script>
-<script src="config.js"></script>
-<!-- SUPABASE INTEGRATION -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script src="utils/supabase_client.js"></script>
-<!-- AI PROFESSOR -->
-<script src="utils/ai_professor.js"></script>
-<style>
-        /* --- CONFIGURATION DESIGN --- */
+    <style>
         :root {
-            --bg-dark: #020617;
-            --bg-card: #1e293b;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-gold: #f59e0b;
-            --accent-red: #ef4444;
-            --accent-purple: #a855f7;
-            --border: #334155;
-            --head-of-gradient: linear-gradient(135deg, #FFD700, #B8860B);
+            --bg: #020617;
+            --bg-card: #0f172a;
+            --text: #f8fafc;
+            --muted: #64748b;
+            --border: #1e293b;
+            --green: #10b981;
+            --yellow: #eab308;
+            --orange: #f97316;
+            --red: #ef4444;
+            --indigo: #6366f1;
+            --purple: #7c3aed;
+            --cyan: #06b6d4;
+            --gold: #f59e0b;
         }
 
         * {
@@ -58,1643 +39,1378 @@
         }
 
         body {
-            background-color: var(--bg-dark);
+            background: var(--bg);
+            color: var(--text);
             font-family: 'Urbanist', sans-serif;
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* --- NAVIGATION --- */
-        .navbar {
-            height: 70px;
-            background: rgba(15, 23, 42, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        /* ─── NAV ─────────────────────────────────────────────────────────────────── */
+        .quiz-nav {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0 40px;
+            justify-content: space-between;
+            padding: 18px 40px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .nav-logo {
-            font-weight: 800;
-            font-size: 20px;
+        .quiz-nav-logo {
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+            text-decoration: none;
             color: white;
         }
 
-        .back-btn {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: bold;
+        .quiz-nav-logo span {
+            color: var(--cyan);
+        }
+
+        .quiz-nav-right {
             display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-badge {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #818cf8;
+        }
+
+        .nav-back {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-back:hover {
+            color: white;
+        }
+
+        /* ─── DEV BANNER ─────────────────────────────────────────────────────────── */
+        #dev-banner {
+            display: none;
+            background: rgba(251, 191, 36, 0.08);
+            border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+            padding: 8px 40px;
+            font-size: 12px;
+            color: #fbbf24;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* ─── HERO ────────────────────────────────────────────────────────────────── */
+        .quiz-hero {
+            text-align: center;
+            padding: 80px 40px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .quiz-hero-label {
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: 0.3s;
-        }
-
-        .back-btn:hover {
-            color: var(--accent-blue);
-        }
-
-        /* --- QUIZ CONTAINER --- */
-        .quiz-wrapper {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-        }
-
-        .quiz-card {
-            width: 100%;
-            max-width: 1200px;
-            background: var(--bg-card);
-            border-radius: 24px;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            position: relative;
-            min-height: 600px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* CERTIFICATION DASHBOARD (ACCUEIL) */
-        .certif-dashboard {
-            padding: 40px;
-            text-align: center;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .level-grid {
-            display: flex;
-            justify-content: space-between;
-            gap: 40px;
-            margin-top: 60px;
-            width: 100%;
-            position: relative;
-            padding: 0 20px;
-        }
-
-        /* Path Line Connector */
-        .level-grid::before {
-            content: "";
-            position: absolute;
-            top: 50px;
-            left: 10%;
-            right: 10%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue), var(--accent-purple));
-            z-index: 0;
-            opacity: 0.3;
-            border-radius: 2px;
-        }
-
-        .level-card {
-            background: rgba(15, 23, 42, 0.8);
-            border: 2px solid var(--border);
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.25);
             border-radius: 20px;
-            padding: 30px 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            flex: 1;
-            z-index: 1;
-            backdrop-filter: blur(10px);
+            padding: 6px 16px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #818cf8;
+            margin-bottom: 24px;
         }
 
-        .level-card:hover:not(.locked) {
-            border-color: var(--accent-blue);
-            transform: translateY(-5px);
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .level-card.locked {
-            opacity: 0.7;
-            cursor: not-allowed;
-            border-style: dashed;
-        }
-
-        .level-card.locked::after {
-            content: "\f023";
-            font-family: "Font Awesome 6 Free";
+        .quiz-hero h1 {
+            font-size: clamp(32px, 5vw, 56px);
             font-weight: 900;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 40px;
-            color: rgba(255, 255, 255, 0.1);
-            z-index: 2;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .level-card.head-of {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
-            border: 2px solid #FFD700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-            grid-column: span 3;
-            /* Corrected to span all columns */
-            margin-top: 20px;
-            display: none;
-            /* Hidden by default */
+        .quiz-hero p {
+            font-size: 17px;
+            color: var(--muted);
+            max-width: 580px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
         }
 
-        .level-card.head-of.visible {
+        .hero-stats {
             display: flex;
-            animation: fadeIn 1s;
-        }
-
-        .level-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            color: var(--text-muted);
-        }
-
-        .tag-status {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 10px;
-            font-weight: bold;
-            padding: 3px 8px;
-            border-radius: 20px;
-        }
-
-        .tag-open {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-        }
-
-        .tag-locked {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-
-        .tag-passed {
-            background: #10b981;
-            color: white;
-        }
-
-        .tag-head-of {
-            background: #FFD700;
-            color: black;
-            box-shadow: 0 0 10px #FFD700;
-        }
-
-        /* HEADER QUIZ */
-        .quiz-header {
-            padding: 30px 40px;
-            background: rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid var(--border);
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .progress-track {
-            width: 250px;
-            height: 8px;
-            background: var(--bg-dark);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
-            width: 0%;
-            transition: width 0.5s;
-        }
-
-        .category-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        /* CONTENT */
-        .quiz-content {
-            padding: 40px;
-            flex-grow: 1;
-            display: none;
-            flex-direction: column;
             justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
         }
 
-        h2 {
-            font-size: 24px;
-            margin-bottom: 30px;
-            line-height: 1.4;
+        .hero-stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .hero-stat-num {
+            font-size: 28px;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
             color: white;
         }
 
-        .options-grid {
+        .hero-stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ─── LEVEL MAP ──────────────────────────────────────────────────────────── */
+        #level-map {
+            padding: 20px 40px 80px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .level-map-title {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .levels-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
 
-        /* HEAD OF LAYOUT (4 cols x 2 rows or 2 cols x 4 rows) */
-        .options-grid.head-of-mode {
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .option-btn {
-            background: var(--bg-dark);
-            border: 2px solid var(--border);
-            padding: 20px;
-            border-radius: 12px;
-            color: var(--text-main);
-            text-align: left;
+        .level-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 26px;
             cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
         }
 
-        .option-btn:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-2px);
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--level-color);
+            opacity: 0.8;
         }
 
-        .option-btn.disabled {
+        .level-card:hover:not(.locked) {
+            border-color: var(--level-color);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-card.locked {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .level-card.completed::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, transparent 100%);
+            border-radius: 18px;
             pointer-events: none;
-            opacity: 0.7;
         }
 
-        /* FEEDBACK STATES */
-        .option-btn.correct {
-            border-color: var(--accent-green);
+        .level-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .level-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: color-mix(in srgb, var(--level-color) 15%, transparent);
+            border: 1px solid color-mix(in srgb, var(--level-color) 30%, transparent);
+            color: var(--level-color);
+        }
+
+        .level-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .badge-locked {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--muted);
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .badge-unlocked {
             background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-green);
+            color: var(--green);
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
-        .option-btn.wrong {
-            border-color: var(--accent-red);
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--accent-red);
+        .badge-completed {
+            background: rgba(251, 191, 36, 0.1);
+            color: var(--gold);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .badge-super {
+            background: rgba(124, 58, 237, 0.15);
+            color: #a78bfa;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+        }
+
+        .level-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .level-desc {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .level-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .level-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .level-score {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--level-color);
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid var(--level-color);
+            color: var(--level-color);
+            background: color-mix(in srgb, var(--level-color) 8%, transparent);
+            font-family: 'Urbanist', sans-serif;
+            transition: all 0.25s;
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .start-btn:hover:not(:disabled) {
+            background: color-mix(in srgb, var(--level-color) 18%, transparent);
+            transform: translateY(-1px);
+        }
+
+        .start-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .super-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(2, 6, 23, 0.8));
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        /* ─── QUIZ RUNNER ────────────────────────────────────────────────────────── */
+        #quiz-runner {
+            display: none;
+            min-height: 100vh;
+            background: var(--bg);
+            flex-direction: column;
+        }
+
+        .runner-header {
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .runner-level-name {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .runner-progress-wrap {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .runner-progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .runner-progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .runner-progress-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        .runner-exit {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: 'Urbanist', sans-serif;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .runner-exit:hover {
+            color: white;
+            border-color: white;
+        }
+
+        .runner-body {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 50px 24px;
+        }
+
+        .runner-card {
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .question-num {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 16px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .question-theme-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+
+        .question-text {
+            font-size: clamp(17px, 2.5vw, 22px);
+            font-weight: 700;
+            line-height: 1.5;
+            color: white;
+            margin-bottom: 32px;
+        }
+
+        .scenario-box {
+            background: rgba(99, 102, 241, 0.06);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-left: 3px solid var(--indigo);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #a5b4fc;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .choices-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .choice-btn {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #cbd5e1;
+            text-align: left;
+            font-size: 14px;
+            font-family: 'Urbanist', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            line-height: 1.4;
+        }
+
+        .choice-btn:hover:not(:disabled) {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .choice-letter {
+            min-width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+            font-family: 'JetBrains Mono', monospace;
+            transition: 0.2s;
+        }
+
+        .choice-btn.selected {
+            border-color: rgba(99, 102, 241, 0.5);
+            background: rgba(99, 102, 241, 0.08);
+            color: white;
+        }
+
+        .choice-btn.selected .choice-letter {
+            background: var(--indigo);
+            border-color: var(--indigo);
+            color: white;
+        }
+
+        .choice-btn.correct {
+            border-color: rgba(16, 185, 129, 0.5) !important;
+            background: rgba(16, 185, 129, 0.08) !important;
+            color: white !important;
+        }
+
+        .choice-btn.correct .choice-letter {
+            background: var(--green) !important;
+            border-color: var(--green) !important;
+            color: white !important;
+        }
+
+        .choice-btn.wrong {
+            border-color: rgba(239, 68, 68, 0.5) !important;
+            background: rgba(239, 68, 68, 0.08) !important;
+        }
+
+        .choice-btn.wrong .choice-letter {
+            background: var(--red) !important;
+            border-color: var(--red) !important;
+            color: white !important;
+        }
+
+        .choice-btn:disabled {
+            cursor: not-allowed;
         }
 
         .feedback-box {
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 12px;
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 4px solid var(--accent-blue);
             display: none;
-            animation: slideIn 0.3s;
+            margin-top: 20px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
-        .feedback-box.show {
-            display: block;
+        .feedback-box.correct-fb {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.25);
+            color: #6ee7b7;
         }
 
-        /* NEXT BUTTON */
-        .next-btn {
-            margin-top: 30px;
-            padding: 15px 40px;
-            background: var(--accent-blue);
+        .feedback-box.wrong-fb {
+            background: rgba(239, 68, 68, 0.06);
+            border-color: rgba(239, 68, 68, 0.25);
+            color: #fca5a5;
+        }
+
+        .feedback-icon {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+
+        .runner-next-btn {
+            display: none;
+            margin-top: 24px;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 16px;
-            align-self: flex-end;
-            display: none;
-        }
-
-        .next-btn:hover {
-            background: #2563eb;
-        }
-
-        /* RESULT SCREEN */
-        .result-screen {
-            text-align: center;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 40px;
-        }
-
-        .score-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid var(--accent-green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
             font-weight: 800;
-            color: white;
-            margin-bottom: 30px;
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        /* FOOTER & SECRET BUTTON */
-        .footer-secret {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            opacity: 0.7;
-            /* More visible for user */
-            transition: opacity 0.3s;
-        }
-
-        .footer-secret:hover {
-            opacity: 1;
-        }
-
-        .secret-btn {
-            background: none;
-            border: 1px solid var(--text-muted);
-            color: var(--text-muted);
-            padding: 5px 10px;
-            border-radius: 20px;
+            font-size: 15px;
             cursor: pointer;
-            font-size: 10px;
-        }
-
-        /* MODAL PASSWORD */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: var(--bg-card);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid var(--accent-gold);
-            text-align: center;
-            width: 300px;
-        }
-
-        .modal-input {
-            width: 100%;
-            padding: 10px;
-            margin: 15px 0;
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
-            color: white;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* RANKED BADGES & MEDALS */
-        .medal-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
-            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
-            display: none;
-            /* Hidden by default */
-            z-index: 10;
-        }
-
-        .medal-badge.visible {
-            display: block;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        /* IRIDESCENT LEGENDARY RANK */
-        @keyframes rainbow {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .rank-iridescent {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: rainbow 3s ease infinite;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-            font-size: 48px !important;
-        }
-
-        .rank-crimson {
-            color: #dc2626;
-            text-shadow: 0 0 15px #dc2626;
-        }
-
-        .rank-diamond {
-            color: #b9f2ff;
-            text-shadow: 0 0 15px #b9f2ff;
-        }
-
-        .rank-platinum {
-            color: #e2e8f0;
-            text-shadow: 0 0 10px #ffffff;
-        }
-
-        @keyframes popIn {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .level-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .options-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .level-card.head-of {
-                /* Reset span on mobile */
-                grid-column: span 1;
-            }
-        }
-
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            #final-diploma,
-            #final-diploma * {
-                visibility: visible;
-            }
-
-            #final-diploma {
-                display: flex !important;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 9999;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-        }
-
-        /* --- DIPLOMA STYLES --- */
-        #final-diploma {
-            display: none;
-            width: 100%;
-            height: 100vh;
-            background: #fff;
-            color: #1e293b;
-            font-family: 'Garamond', serif;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border: 20px solid #1e293b;
-            box-sizing: border-box;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 2000;
-        }
-
-        /* DYNAMIC THEMES */
-        #final-diploma.bronze {
-            border-color: #cd7f32;
-            background: radial-gradient(circle, rgba(205, 127, 50, 0.1) 0%, rgba(255, 255, 255, 1) 70%);
-        }
-
-        #final-diploma.silver {
-            border-color: #c0c0c0;
-            background: radial-gradient(circle, rgba(192, 192, 192, 0.1) 0%, rgba(255, 255, 255, 1) 70%);
-        }
-
-        #final-diploma.gold {
-            border-color: #ffd700;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, rgba(255, 255, 255, 1) 70%);
-        }
-
-        #final-diploma.iridescent {
-            border: 20px solid transparent;
-            border-image: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000) 1;
-            background: #fff;
-        }
-
-        .dip-header {
-            font-size: 60px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-        }
-
-        .dip-sub {
-            font-size: 24px;
-            color: #64748b;
-            margin-bottom: 40px;
-        }
-
-        .dip-name {
-            font-size: 50px;
-            font-family: 'Pinyon Script', cursive;
-            margin: 30px 0;
-            border-bottom: 2px solid #ccc;
-            display: inline-block;
-            padding: 0 50px;
-            position: relative;
-            z-index: 10;
-            color: #1e293b;
-            /* Default Dark Blue */
-            text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
-        }
-
-        .dip-rank {
-            font-size: 32px;
-            font-weight: bold;
-            margin-top: 20px;
-            text-transform: uppercase;
-        }
-
-        /* Missing Head Of Styles */
-        #final-diploma.platinum {
-            border-color: #e2e8f0;
-            color: #64748b;
-        }
-
-        #final-diploma.diamond {
-            border-color: #b9f2ff;
-            color: #3b82f6;
-        }
-
-        #final-diploma.crimson {
-            border-color: #dc2626;
-            color: #dc2626;
-        }
-
-        .dip-seal {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+            font-family: 'Urbanist', sans-serif;
+            transition: all 0.25s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
+            gap: 10px;
+        }
+
+        .runner-next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35);
+        }
+
+        /* ─── RESULTS SCREEN ─────────────────────────────────────────────────────── */
+        #results-screen {
+            display: none;
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 0 24px 80px;
+            text-align: center;
+        }
+
+        .results-score-ring {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .results-score-num {
+            font-size: 38px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .results-score-sub {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
+
+        .results-title {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .results-subtitle {
+            font-size: 15px;
+            color: var(--muted);
+            margin-bottom: 36px;
+            line-height: 1.6;
+        }
+
+        .results-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+        }
+
+        .results-stat {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 24px;
+            min-width: 120px;
+        }
+
+        .results-stat-num {
+            font-size: 24px;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .results-stat-label {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .theme-breakdown {
+            margin-bottom: 36px;
+            text-align: left;
+        }
+
+        .theme-breakdown-title {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .theme-row {
+            margin-bottom: 10px;
+        }
+
+        .theme-row-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .theme-bar {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .theme-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        .results-unlock-banner {
+            display: none;
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+
+        .results-unlock-title {
+            font-weight: 800;
+            color: var(--green);
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .results-unlock-text {
+            font-size: 13px;
+            color: #6ee7b7;
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            flex: 1;
+            min-width: 180px;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
-            margin-top: 50px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Urbanist', sans-serif;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35);
+        }
+
+        .btn-secondary {
+            padding: 14px 24px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Urbanist', sans-serif;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .quiz-nav {
+                padding: 14px 20px;
+            }
+
+            .quiz-hero {
+                padding: 50px 20px 40px;
+            }
+
+            #level-map {
+                padding: 20px 20px 60px;
+            }
+
+            .runner-header {
+                padding: 14px 20px;
+            }
+
+            .runner-body {
+                padding: 30px 16px;
+            }
+
+            .levels-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                gap: 24px;
+            }
+        }
+
+        /* ─── LOADING ─────────────────────────────────────────────────────────────── */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .loading-spinner {
+            font-size: 32px;
+            color: var(--indigo);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ─── CONFETTI ────────────────────────────────────────────────────────────── */
+        .confetti-piece {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
     </style>
-<!-- Import Pinyon Script for Diploma Signature feel -->
-<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet"/>
+</head>
+
 <body>
-<nav class="navbar">
-<div class="nav-logo">
-<i class="fa-solid fa-graduation-cap" style="color: var(--accent-gold);"></i> CERTIFICATION <span style="color:var(--accent-gold)">DCM</span>
-</div>
-<a aria-label="Retour" class="back-btn" href="index.html"><i class="fa-solid fa-arrow-left"></i> Retour au
-            Cours</a>
-</nav>
-<div class="quiz-wrapper">
-<div class="quiz-card">
-<!-- DASHBOARD DE CERTIFICATION (Ecran Accueil) -->
-<div class="certif-dashboard" id="certifDashboard">
-<i class="fas fa-certificate" style="font-size: 60px; color: var(--accent-gold); margin-bottom: 20px;"></i>
-<h1 style="font-size: 32px; color: white; margin-bottom: 10px;">Parcours de Certification</h1>
-<p style="color: var(--text-muted); max-width: 600px;">Validez vos compétences étape par étape. Chaque
-                    niveau nécessite 80% de réussite. Les questions sont aléatoires.</p>
-<div class="level-grid">
-<!-- NIVEAU 1 -->
-<div class="level-card active-level" onclick="startLevel(1)">
-<div class="medal-badge" id="medalLvl1">🥉</div>
-<div class="tag-status tag-open" id="tagLvl1">OUVERT</div>
-<i class="fas fa-layer-group level-icon" style="color: var(--accent-green);"></i>
-<h3 style="color:white; font-size: 18px; margin-bottom:10px;">Niveau 1 : Fondamentaux</h3>
-<p style="font-size:13px; color: var(--text-muted);">Concepts clés, Blockchain vs DB, Wallets,
-                            RWA Basics.</p>
-<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:15px 0; width:100%;"/>
-<span style="color: var(--accent-green); font-weight:bold; font-size:12px;">Objectif : BRONZE
-                            (80%)</span>
-</div>
-<!-- NIVEAU 2 -->
-<div class="level-card locked" id="cardLvl2" onclick="startLevel(2)">
-<div class="medal-badge" id="medalLvl2">🥈</div>
-<div class="tag-status tag-locked" id="tagLvl2">VERROUILLÉ 🔒</div>
-<i class="fas fa-cogs level-icon" style="color: var(--accent-blue);"></i>
-<h3 style="color:white; font-size: 18px; margin-bottom:10px;">Niveau 2 : Intermédiaire</h3>
-<p style="font-size:13px; color: var(--text-muted);">Flux, Opérations (T+0, DvP), Smart Asset
-                            Servicing.</p>
-<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:15px 0; width:100%;"/>
-<span style="color: var(--accent-blue); font-weight:bold; font-size:12px;">Objectif : ARGENT
-                            (80%)</span>
-</div>
-<!-- NIVEAU 3 -->
-<div class="level-card locked" id="cardLvl3" onclick="startLevel(3)">
-<div class="medal-badge" id="medalLvl3">🥇</div>
-<div class="tag-status tag-locked" id="tagLvl3">VERROUILLÉ 🔒</div>
-<i class="fas fa-chess-queen level-icon" style="color: var(--accent-purple);"></i>
-<h3 style="color:white; font-size: 18px; margin-bottom:10px;">Niveau 3 : Expert</h3>
-<p style="font-size:13px; color: var(--text-muted);">Stratégie, Régulation (MiCA), Risques
-                            Systémiques.</p>
-<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:15px 0; width:100%;"/>
-<span style="color: var(--accent-purple); font-weight:bold; font-size:12px;">Objectif : OR
-                            (80%)</span>
-</div>
-<!-- NIVEAU 4 : HEAD OF (HIDDEN) -->
-<div class="level-card locked head-of" id="cardLvl4" onclick="startLevel(4)">
-<div class="medal-badge" id="medalLvl4">🌈</div>
-<div class="tag-status tag-locked" id="tagLvl4">SÉCURISÉ</div>
-<i class="fas fa-crown level-icon" style="color: #FFD700;"></i>
-<h3 style="color:#FFD700; font-size: 18px; margin-bottom:10px;">NIVEAU MYSTÈRE : HEAD OF DIGITAL
-                        </h3>
-<p style="font-size:13px; color: #e2e8f0;">Défis architecturaux et régaliens. 8 Choix. Aucune
-                            pitié.</p>
-<hr style="border:0; border-top:1px solid rgba(255,215,0,0.3); margin:15px 0; width:100%;"/>
-<span style="color: #FFD700; font-weight:bold; font-size:12px;">Ranked Mode : Platinum ->
-                            Iridescent</span>
-</div>
-</div>
-</div>
-<div class="footer-secret" style="position: fixed; bottom: 20px; right: 20px; z-index: 100;">
-<button aria-label="Bouton" class="secret-btn" onclick="openPasswordModal()" style="background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; transition: all 0.3s;">
-<i class="fas fa-terminal"></i> Dev Mode
-                </button>
-</div>
-<!-- HEADER (Score & Progress) -->
-<div class="quiz-header" id="quizHeader">
-<div style="font-family: 'JetBrains Mono'; color: var(--accent-gold);">
-<span id="levelTitle">Niveau 1</span> • Question <span id="qCurrent">1</span>/<span id="qTotal">20</span>
-</div>
-<div class="progress-track">
-<div class="progress-fill" id="progressBar"></div>
-</div>
-</div>
-<!-- QUESTION SCREEN -->
-<div class="quiz-content" id="questionScreen">
-<div class="category-badge" id="categoryBadge"></div>
-<h2 id="questionText">Chargement...</h2>
-<div class="options-grid" id="optionsContainer">
-<!-- JS generated -->
-</div>
-<div class="feedback-box" id="feedback">
-<strong id="feedbackTitle">Explication :</strong>
-<p id="feedbackText" style="margin-top: 5px; color: var(--text-muted); font-size: 15px;"></p>
-</div>
-<button aria-label="Bouton" class="next-btn" id="nextBtn" onclick="nextQuestion()">Question Suivante <i class="fa-solid fa-arrow-right"></i></button>
-</div>
-<!-- RESULT SCREEN -->
-<div class="result-screen" id="resultScreen">
-<div class="score-circle" id="finalScore">0%</div>
-<h1 id="finalRank">Titre</h1>
-<p id="finalMessage" style="font-size: 18px; color: var(--text-muted); max-width: 600px; margin-bottom: 30px;"></p>
-<div id="resultButtons" style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
-<!-- Buttons injected by JS -->
-</div>
-</div>
-</div>
-</div>
-<!-- SUPER FOOTER -->
-<!-- PASSWORD MODAL -->
-<div class="modal" id="passwordModal">
-<div class="modal-content">
-<h3 style="color:var(--accent-gold); margin-bottom:10px;"><i class="fas fa-user-secret"></i> ACCÈS RESTREINT
-            </h3>
-<p style="font-size:12px; color:var(--text-muted);">Saisissez le code d'accès Head Of.</p>
-<input class="modal-input" id="secretPass" placeholder="Mot de passe" type="password"/>
-<button aria-label="Bouton" onclick="checkPassword()" style="width:100%; padding: 10px; background: var(--accent-gold); border:none; border-radius:8px; font-weight:bold; cursor:pointer; color: #000;">DÉVERROUILLÉ</button>
-<div style="margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px;">
-<button aria-label="Bouton" onclick="resetProgress()" style="width:100%; padding: 8px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; border-radius: 8px; font-size: 12px; cursor: pointer;">
-<i class="fas fa-trash"></i> Réinitialiser la progression
-                </button>
-</div>
-<button aria-label="Bouton" onclick="closePasswordModal()" style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
-</div>
-</div>
-<!-- DIPLOMA INPUT MODAL -->
-<div class="modal" id="diplomaInputModal">
-<div class="modal-content">
-<h3 style="color:var(--accent-blue); margin-bottom:10px;"><i class="fas fa-certificate"></i> ÉDITION DU
-                DIPLÔME</h3>
-<p style="font-size:12px; color:var(--text-muted);">Entrez le nom complet qui figurera sur le certificat
-                officiel.</p>
-<input class="modal-input" id="diplomaName" placeholder="Prénom Nom (ex: Jean Dupont)" type="text"/>
-<button aria-label="Bouton" onclick="generateFinalDiploma()" style="width:100%; padding: 10px; background: var(--accent-blue); color: white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GÉNÉRER
-                LE PDF</button>
-<button aria-label="Bouton" onclick="closeDiplomaModal()" style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
-</div>
-</div>
-<!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
-<div id="final-diploma">
-<div style="text-align: center;">
-<i class="fas fa-graduation-cap" style="font-size: 50px; color: #1e293b; margin-bottom: 20px;"></i>
-<div class="dip-header">CERTIFICAT D'EXCELLENCE</div>
-<div class="dip-sub">Ce document atteste que</div>
-<div class="dip-name" id="dipNameDisplay">Nom Prénom</div>
-<div class="dip-sub">a validé avec succès le parcours de certification</div>
-<h2 style="font-size: 36px; color: #1e293b; margin: 10px 0;">BLOCKCHAIN FOR CAPITAL MARKETS</h2>
-<div class="dip-rank" id="dipRankDisplay" style="color: #000;">GRADE OR</div>
-<div style="display: flex; justify-content: space-around; width: 80%; margin: 60px auto 0;">
-<div style="text-align: center;">
-<div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
-<strong>Joan Lyczak</strong><br/>Directeur Technique
+
+    <!-- NAV -->
+    <nav class="quiz-nav">
+        <a href="index.html" class="quiz-nav-logo">DCM <span>Digital</span></a>
+        <div class="quiz-nav-right">
+            <span class="nav-badge"><i class="fas fa-shield-halved"></i> Institutional Assessment</span>
+            <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- DEV BANNER -->
+    <div id="dev-banner">
+        🚧 DEV MODE ACTIF — Accès complet tous niveaux | joanlyczak@gmail.com / ADMIN / Enterprise
+    </div>
+
+    <!-- HERO -->
+    <section class="quiz-hero" id="home-view">
+        <div class="quiz-hero-label" data-aos="fade-down">
+            <i class="fas fa-certificate"></i>
+            DCM Institutional Assessment Program
+        </div>
+        <h1 data-aos="fade-up" data-aos-delay="100">Prouvez votre maîtrise<br />de la gouvernance DLT</h1>
+        <p data-aos="fade-up" data-aos-delay="150">
+            5 niveaux de certification progressifs, de l'analyse fondamentale au positioning stratégique.
+            Banque de 165 questions rotatives. Score 80% minimum requis par niveau.
+        </p>
+        <div class="hero-stats" data-aos="fade-up" data-aos-delay="200">
+            <div class="hero-stat-item">
+                <span class="hero-stat-num">5</span>
+                <span class="hero-stat-label">Niveaux</span>
+            </div>
+            <div class="hero-stat-item">
+                <span class="hero-stat-num">165</span>
+                <span class="hero-stat-label">Questions</span>
+            </div>
+            <div class="hero-stat-item">
+                <span class="hero-stat-num">80%</span>
+                <span class="hero-stat-label">Score requis</span>
+            </div>
+            <div class="hero-stat-item">
+                <span class="hero-stat-num">4</span>
+                <span class="hero-stat-label">Certifications</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEVEL MAP -->
+    <section id="level-map">
+        <div class="level-map-title">— Choisir un niveau —</div>
+        <div class="levels-grid" id="levels-container">
+            <!-- JS Rendered -->
+        </div>
+    </section>
+
+    <!-- QUIZ RUNNER -->
+    <div id="quiz-runner">
+        <div class="runner-header">
+            <div class="runner-level-name" id="runner-level-name">—</div>
+            <div class="runner-progress-wrap">
+                <div class="runner-progress-label">
+                    <span id="runner-q-label">Question 1/20</span>
+                    <span id="runner-score-live">Score: 0/0</span>
                 </div>
-<div class="dip-seal" id="dipSeal" style="background: #000;">
-<i class="fas fa-award"></i>
-</div>
-<div style="text-align: center;">
-<div style="border-bottom: 1px solid #000; width: 200px; margin-bottom: 10px;"></div>
-<strong id="dipDate">10/02/2026</strong><br/>Date de Validation
+                <div class="runner-progress-bar">
+                    <div class="runner-progress-fill" id="runner-progress-fill" style="width:0%"></div>
                 </div>
-</div>
-<!-- Verifiable Hash Placeholder (Phase 115) -->
-<div style="margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 20px; text-align: left; width: 80%; margin-left: auto; margin-right: auto; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #64748b; line-height: 1.5; display: flex; align-items: flex-start; gap: 20px;">
-<div style="flex-grow: 1;">
-<strong>CERTIFICATE ID:</strong> <span id="dipIdDisplay">Generating...</span><br/>
-<strong>SHA-256 VERIFICATION HASH:</strong> <span id="dipHashDisplay">Generating...</span>
-<div style="margin-top: 5px; font-style: italic;">To verify the authenticity of this certificate,
-                        please
-                        check the digital signature on dcm-digital.com/verify</div>
-</div>
-<div id="dipQRCode" style="width: 80px; height: 80px; background: #fff; border: 1px solid #e2e8f0; padding: 5px; border-radius: 8px;">
-<img id="dipQRImg" loading="lazy" src="" style="width: 100%; height: 100%; display: none;"/>
-</div>
-</div>
-</div>
-</div>
-<!-- DIPLOMA INPUT MODAL -->
-<div class="modal" id="diplomaInputModal">
-<div class="modal-content">
-<h3 style="color:var(--accent-blue); margin-bottom:10px;"><i class="fas fa-certificate"></i> ÉDITION DU
-                DIPLÔME</h3>
-<p style="font-size:12px; color:var(--text-muted);">Entrez le nom complet qui figurera sur le certificat
-                officiel.</p>
-<input class="modal-input" id="diplomaName" placeholder="Prénom Nom (ex: Jean Dupont)" type="text"/>
-<button aria-label="Bouton" onclick="generateFinalDiploma()" style="width:100%; padding: 10px; background: var(--accent-blue); color: white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GÉNÉRER
-                LE PDF</button>
-<button aria-label="Bouton" onclick="closeDiplomaModal()" style="width:100%; margin-top:10px; background: transparent; border:none; color:var(--text-muted); cursor:pointer;">Annuler</button>
-</div>
-</div>
-<script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "qaibv3417q");
-    </script>
-<!-- FINAL ANIMATED DIPLOMA TEMPLATE -->
-<!-- Duplicate diploma template removed -->
-<script type="module">
-        import { AnalyticsEngine } from './js/analytics-engine.js';
-        window.AnalyticsEngine = AnalyticsEngine;
-    </script>
-<script>
-        /* --- GAME LOGIC --- */
-        let currentLevel = 1;
-        let currentQuestions = [];
-        let currentQIndex = 0;
-        let score = 0;
-        let categoryScores = {};
+            </div>
+            <button class="runner-exit" onclick="QuizUI.exitToMap()">
+                <i class="fas fa-times"></i> Quitter
+            </button>
+        </div>
+        <div class="runner-body">
+            <div class="runner-card">
+                <div class="question-num" id="q-num">QUESTION 1 SUR 20</div>
+                <div id="q-theme-tag" class="question-theme-tag"></div>
+                <div id="q-scenario" class="scenario-box" style="display:none;"></div>
+                <div class="question-text" id="q-text"></div>
+                <div class="choices-grid" id="choices-container"></div>
+                <div class="feedback-box" id="feedback-box"></div>
+                <button class="runner-next-btn" id="next-btn" onclick="QuizUI.nextQuestion()">
+                    <span id="next-btn-label">Question suivante</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
-        // Fisher-Yates Shuffle
-        function shuffle(array) {
-            let currentIndex = array.length, randomIndex;
-            while (currentIndex != 0) {
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex--;
-                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-            }
-            return array;
-        }
+    <!-- RESULTS SCREEN -->
+    <div id="results-screen">
+        <div class="results-score-ring" id="results-ring">
+            <div class="results-score-num" id="results-score-num">0%</div>
+            <div class="results-score-sub" id="results-score-sub">Score</div>
+        </div>
+        <div class="results-title" id="results-title"></div>
+        <div class="results-subtitle" id="results-subtitle"></div>
+        <div class="results-stats">
+            <div class="results-stat">
+                <div class="results-stat-num" id="res-correct">—</div>
+                <div class="results-stat-label">Correctes</div>
+            </div>
+            <div class="results-stat">
+                <div class="results-stat-num" id="res-total">—</div>
+                <div class="results-stat-label">Questions</div>
+            </div>
+            <div class="results-stat">
+                <div class="results-stat-num" id="res-duration">—</div>
+                <div class="results-stat-label">Durée</div>
+            </div>
+        </div>
+        <div class="theme-breakdown" id="theme-breakdown-section">
+            <div class="theme-breakdown-title">Performance par thème</div>
+            <div id="theme-rows"></div>
+        </div>
+        <div class="results-unlock-banner" id="unlock-banner">
+            <div class="results-unlock-title"><i class="fas fa-unlock"></i> Niveau suivant déverrouillé !</div>
+            <div class="results-unlock-text" id="unlock-text"></div>
+        </div>
+        <div class="results-actions">
+            <button class="btn-primary" id="next-level-btn" style="display:none;" onclick="QuizUI.goToNextLevel()">
+                <i class="fas fa-arrow-up"></i> Niveau suivant
+            </button>
+            <button class="btn-primary" id="retry-btn" onclick="QuizUI.retryLevel()">
+                <i class="fas fa-rotate-right"></i> Réessayer
+            </button>
+            <button class="btn-secondary" onclick="QuizUI.exitToMap()">
+                <i class="fas fa-map"></i> Carte des niveaux
+            </button>
+        </div>
+    </div>
 
-        const ui = {
-            dashboard: document.getElementById('certifDashboard'),
-            quizHeader: document.getElementById('quizHeader'),
-            content: document.getElementById('questionScreen'),
-            result: document.getElementById('resultScreen'),
-            levelTitle: document.getElementById('levelTitle'),
-            qCurrent: document.getElementById('qCurrent'),
-            qTotal: document.getElementById('qTotal'),
-            questionText: document.getElementById('questionText'),
-            options: document.getElementById('optionsContainer'),
-            feedbackBox: document.getElementById('feedback'),
-            feedbackText: document.getElementById('feedbackText'),
-            nextBtn: document.getElementById('nextBtn'),
-            progressBar: document.getElementById('progressBar'),
-            diplomaBtn: document.getElementById('globalDiplomaBtn')
-        };
+    <!-- LOADING OVERLAY -->
+    <div class="loading-overlay" id="loading-overlay" style="display:none;">
+        <i class="fas fa-circle-notch loading-spinner"></i>
+    </div>
 
-        // --- PERSISTENCE & UNLOCKS ---
-        // --- PERSISTENCE & UNLOCKS ---
-        window.addEventListener('load', function () {
-            // DEMO SHORTCUT REMOVED - NOW REQUIRES PASSWORD "SATOSHI"
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 600, once: true });
 
-            const m1 = localStorage.getItem('quiz_metal_1');
-            const m2 = localStorage.getItem('quiz_metal_2');
-            const m3 = localStorage.getItem('quiz_metal_3');
-            const rank4 = localStorage.getItem('quiz_rank_4');
-            const lvl4 = localStorage.getItem('quiz_lvl4_unlocked') === 'true';
+        // ─── QuizUI — View Controller ────────────────────────────────────────────────
+        const QuizUI = {
 
-            if (m1) {
-                unlockUI('cardLvl2', 'tagLvl2');
-                showMedal('medalLvl1', '🥉');
-                markPassed('tagLvl1', 'BRONZE');
-            }
-            if (m2) {
-                unlockUI('cardLvl3', 'tagLvl3');
-                showMedal('medalLvl2', '🥈');
-                markPassed('tagLvl2', 'ARGENT');
-            }
-            if (m3) {
-                showMedal('medalLvl3', '🥇');
-                markPassed('tagLvl3', 'OR');
-            }
-            if (rank4) {
-                showMedal('medalLvl4', getRankIcon(rank4)); // Custom icon based on rank
-                markPassed('tagLvl4', rank4.toUpperCase());
-            }
+            _currentLevelId: null,
+            _results: null,
+            _liveCorrect: 0,
+            _liveTotal: 0,
 
-            if (lvl4) {
-                revealHeadOf();
-            }
-        });
+            LEVEL_INFO: {
+                1: { color: '#10b981', name: 'Foundations of DLT Risk', desc: 'MiCA, DORA, Tokenization, Basel crypto exposure.', audience: 'Analystes, Junior Consultants, VC Associates', questions: 30, session: 20 },
+                2: { color: '#eab308', name: 'Governance & Capital Impact', desc: "CET1, OpRisk, BCBS 239, MRM, Data Lineage.", audience: 'Risk Managers, Compliance Officers', questions: 30, session: 20 },
+                3: { color: '#f97316', name: 'Regulatory Mapping', desc: 'SR 11-7, DORA Art.11, BCBS 239, ICT 3rd-party risk.', audience: 'Legal & Regulatory Professionals', questions: 30, session: 20 },
+                4: { color: '#ef4444', name: 'Infrastructure & Deployment', desc: 'On-prem vs SaaS, IAM, SOC2, Audit hash, SLA governance.', audience: 'CTO, IT Risk Officers', questions: 30, session: 20 },
+                5: { color: '#6366f1', name: 'Strategic Positioning', desc: 'TAM, pricing, competitive moat, CBDC scenarios.', audience: 'VC, Strategy, Board Level', questions: 30, session: 20 },
+                super: { color: '#7c3aed', name: 'DCM Black Level', desc: 'Scénarios extrêmes. 8 choix par question. Réservé aux experts confirmés.', audience: 'Experts tous niveaux complétés', questions: 15, session: 15 }
+            },
 
-        // Make helper functions globally accessible if needed by other scripts
-        window.getRankIcon = function (rank) {
-            if (rank === 'Iridescent') return '🌈';
-            if (rank === 'Crimson') return '👹';
-            if (rank === 'Diamond') return '💎';
-            if (rank === 'Platinum') return '💿';
-            return '🎖️';
-        };
+            LEVEL_ICONS: {
+                1: 'fa-seedling', 2: 'fa-building-columns', 3: 'fa-scale-balanced',
+                4: 'fa-server', 5: 'fa-chess-king', super: 'fa-bolt'
+            },
 
-        window.showMedal = function (id, icon) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.innerText = icon;
-                if (icon === '🌈') el.style.fontSize = "40px"; // Bigger for final
-                el.classList.add('visible');
-            }
-        };
-
-        // KEYBOARD SHORTCUT: Press 'H' to open Password Modal
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'h' || event.key === 'H') {
-                openPasswordModal();
-            }
-        });
-
-        function checkGlobalExcellence() {
-            // Logic placeholder
-        }
-
-        window.unlockUI = function (cardId, tagId) {
-            const card = document.getElementById(cardId);
-            const tag = document.getElementById(tagId);
-            if (card) { card.classList.remove('locked'); card.classList.add('unlocked'); }
-            if (tag) { tag.classList.remove('tag-locked'); tag.classList.add('tag-open'); tag.innerText = "DÉVERROUILLÉ"; }
-        };
-
-        function markPassed(tagId, label) {
-            const tag = document.getElementById(tagId);
-            if (tag) {
-                tag.classList.remove('tag-open');
-                tag.classList.add('tag-passed');
-                tag.innerText = label || "VALIDÉ ✅";
-                if (label === 'IRIDESCENT') {
-                    tag.style.background = "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)";
-                    tag.style.animation = "rainbow 3s ease infinite";
-                    tag.style.backgroundSize = "200% 200%";
-                    tag.style.color = "white";
-                    tag.style.border = "1px solid white";
+            // ─── INIT ──────────────────────────────────────────────────────────────
+            init() {
+                // Dev banner
+                if (localStorage.getItem('is_super_dev') === 'true' || localStorage.getItem('dcm_user_role') === 'ADMIN') {
+                    document.getElementById('dev-banner').style.display = 'block';
                 }
-            }
-        }
+                this.renderLevelMap();
+            },
 
-        function revealHeadOf() {
-            const c = document.getElementById('cardLvl4');
-            const t = document.getElementById('tagLvl4');
-            c.classList.add('visible');
-            c.classList.remove('locked');
-            t.innerText = "ACCÈS AUTORISÉ";
-            t.classList.remove('tag-locked');
-            t.classList.add('tag-head-of');
-        }
+            // ─── RENDER LEVEL MAP ─────────────────────────────────────────────────
+            renderLevelMap() {
+                const engine = window.QuizEngine;
+                const container = document.getElementById('levels-container');
+                if (!container) return;
 
-        // --- PASSWORD SYSTEM ---
-        function openPasswordModal() { document.getElementById('passwordModal').style.display = 'flex'; }
-        function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; }
+                const levelIds = [1, 2, 3, 4, 5, 'super'];
+                const unlocks = engine ? engine.getUnlocks() : [1];
 
-        function checkPassword() {
-            const val = document.getElementById('secretPass').value;
-            if (val.toUpperCase() === "SATOSHI") {
-                // MASTER UNLOCK (DEV MODE)
-                localStorage.setItem('quiz_metal_1', 'bronze');
-                localStorage.setItem('quiz_metal_2', 'silver');
-                localStorage.setItem('quiz_metal_3', 'gold');
-                localStorage.setItem('quiz_lvl4_unlocked', 'true');
+                container.innerHTML = levelIds.map(id => {
+                    const info = this.LEVEL_INFO[id];
+                    const isSuper = id === 'super';
+                    const unlocked = engine ? engine.isLevelUnlocked(id) : (id === 1);
+                    const bestScore = engine ? engine.getBestScore(isSuper ? 'SL' : `L${id}`) : null;
+                    const completed = bestScore !== null && bestScore >= 80;
+                    const locked = !unlocked;
 
-                // Unlock Guide Badges too (Cross-page)
-                localStorage.setItem('badge_explorer', 'true');
-                localStorage.setItem('badge_listener', 'true');
-                localStorage.setItem('badge_strategist', 'true');
+                    const badgeHtml = isSuper
+                        ? `<span class="level-badge badge-super"><i class="fas fa-fire"></i> BLACK LEVEL</span>`
+                        : completed
+                            ? `<span class="level-badge badge-completed"><i class="fas fa-star"></i> Validé</span>`
+                            : unlocked
+                                ? `<span class="level-badge badge-unlocked"><i class="fas fa-circle"></i> Disponible</span>`
+                                : `<span class="level-badge badge-locked"><i class="fas fa-lock"></i> Verrouillé</span>`;
 
-                revealHeadOf();
-                closePasswordModal();
+                    const scoreHtml = bestScore
+                        ? `<div class="level-score" style="color:${info.color}"><i class="fas fa-trophy"></i> Meilleur: ${bestScore}%</div>`
+                        : `<div class="level-meta-item"><i class="fas fa-list"></i> ${info.session}/${info.questions} questions</div>`;
 
-                // Force Reload to apply all visual unlocks immediately
-                alert("🔓 DEV MODE ACTIVÉ : Tout est débloqué (Quiz, Médailles, Badges).");
-                location.reload();
-            } else {
-                alert("Accès refusé.");
-            }
-        }
+                    return `
+<div class="level-card ${locked ? 'locked' : ''} ${completed ? 'completed' : ''} ${isSuper ? 'super-card' : ''}"
+     style="--level-color: ${info.color};"
+     onclick="${locked ? '' : `QuizUI.startLevel('${id}')`}">
+    <div class="level-card-top">
+        <div class="level-icon"><i class="fas ${this.LEVEL_ICONS[id]}"></i></div>
+        ${badgeHtml}
+    </div>
+    <div class="level-name">${isSuper ? '<i class="fas fa-bolt"></i> ' : `Level ${id} — `}${info.name}</div>
+    <div class="level-desc">${info.desc}</div>
+    <div style="font-size:11px; color:${info.color}; font-weight:700; margin-bottom:12px; opacity:0.8;">
+        <i class="fas fa-user-tie"></i> ${info.audience}
+    </div>
+    <div class="level-meta">
+        ${scoreHtml}
+        <div class="level-meta-item"><i class="fas fa-crosshairs"></i> 80% requis</div>
+    </div>
+    <button class="start-btn" ${locked ? 'disabled' : ''} onclick="event.stopPropagation(); QuizUI.startLevel('${id}')">
+        ${locked ? '<i class="fas fa-lock"></i> Verrouillé' : `<i class="fas fa-play"></i> ${completed ? 'Rejouer' : 'Commencer'}`}
+    </button>
+</div>`;
+                }).join('');
+            },
 
-        function resetProgress() {
-            if (confirm("⚠️ Êtes-vous sûr de vouloir tout réinitialiser ? Cette action est irréversible.")) {
-                localStorage.clear();
-                alert("Progression réinitialisée.");
-                location.reload();
-            }
-        }
+            // ─── START LEVEL ──────────────────────────────────────────────────────
+            async startLevel(levelId) {
+                this._show('loading-overlay');
+                try {
+                    const engine = window.QuizEngine;
+                    if (!engine) throw new Error('QuizEngine not loaded');
 
-        // --- GAME SYSTEM ---
-        function startLevel(level) {
-            // Check Locks (Now based on Metals)
-            if (level === 2 && !localStorage.getItem('quiz_metal_1')) return;
-            if (level === 3 && !localStorage.getItem('quiz_metal_2')) return;
-            if (level === 4 && localStorage.getItem('quiz_lvl4_unlocked') !== 'true') return;
+                    const levelIdParsed = isNaN(levelId) ? levelId : parseInt(levelId);
+                    await engine.startSession(levelIdParsed);
 
-            currentLevel = level;
+                    this._currentLevelId = levelIdParsed;
+                    this._liveCorrect = 0;
+                    this._liveTotal = 0;
 
-            // --- PHASE 32 TRACKING ---
-            const levelTitles = { 1: "Niveau 1", 2: "Niveau 2", 3: "Niveau 3", 4: "HEAD OF DIGITAL" };
-            if (typeof AnalyticsEngine !== 'undefined') {
-                AnalyticsEngine.trackQuizStart(level, levelTitles[level]);
-            }
+                    const info = this.LEVEL_INFO[levelId];
+                    document.getElementById('runner-level-name').textContent = `Level ${isNaN(levelId) ? '★' : levelId} — ${info.name}`;
+                    document.getElementById('runner-progress-fill').style.background = info.color;
 
-            // LOAD & SHUFFLE DATA
-            // Clone to avoid modifying original
-            let pool = [];
-            if (level === 1) pool = [...QUIZ_DATA.level1];
-            else if (level === 2) pool = [...QUIZ_DATA.level2];
-            else if (level === 3) pool = [...QUIZ_DATA.level3];
-            else if (level === 4) pool = [...QUIZ_DATA.levelHeadOf];
-
-            // 1. Shuffle Questions
-            pool = shuffle(pool);
-
-            // 2. Select 20 (or 10 for Head Of)
-            const count = (level === 4) ? 10 : 20;
-            currentQuestions = pool.slice(0, count);
-
-            currentQIndex = 0;
-            currentQIndex = 0;
-            score = 0;
-            categoryScores = {}; // Reset Logic
-
-            // UI Switch
-            ui.dashboard.style.display = 'none';
-            ui.quizHeader.style.display = 'flex';
-            ui.content.style.display = 'flex';
-            ui.result.style.display = 'none';
-
-            const titles = { 1: "Niveau 1", 2: "Niveau 2", 3: "Niveau 3", 4: "HEAD OF DIGITAL" };
-            ui.levelTitle.innerText = titles[level];
-            ui.qTotal.innerText = count;
-
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const q = currentQuestions[currentQIndex];
-
-            // UI Updates
-            ui.qCurrent.innerText = currentQIndex + 1;
-            ui.progressBar.style.width = ((currentQIndex) / currentQuestions.length * 100) + "%";
-
-            const badge = document.getElementById('categoryBadge');
-            badge.innerText = q.category;
-            badge.style.background = (currentLevel === 4) ? "#FFD700" : "var(--accent-blue)";
-            badge.style.color = (currentLevel === 4) ? "black" : "white";
-
-            ui.questionText.innerText = q.q;
-            ui.options.innerHTML = "";
-
-            // HEAD OF LAYOUT
-            if (currentLevel === 4) ui.options.classList.add('head-of-mode');
-            else ui.options.classList.remove('head-of-mode');
-
-            ui.feedbackBox.classList.remove('show');
-            ui.nextBtn.style.display = "none";
-
-            // SHUFFLE OPTIONS
-            // Create array of indices [0, 1, 2, 3...]
-            let indices = Array.from({ length: q.options.length }, (_, i) => i);
-            indices = shuffle(indices);
-
-            // Render Buttons based on shuffled indices
-            // We need to track which shuffled button corresponds to the correct answer (q.a)
-            indices.forEach(originalIndex => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerText = q.options[originalIndex];
-                // Pass originalIndex to validation
-                btn.onclick = () => selectAnswer(originalIndex, btn, q.a);
-                ui.options.appendChild(btn);
-            });
-        }
-
-        function selectAnswer(selectedIndex, btn, correctIndex) {
-            const q = currentQuestions[currentQIndex];
-            const isCorrect = (selectedIndex === correctIndex);
-
-            // Disable all & Reveal Correct
-            const allBtns = document.querySelectorAll('.option-btn');
-            allBtns.forEach(b => {
-                b.classList.add('disabled');
-                // We need to find the button that has the correct text to highlight it green if user was wrong
-                if (b.innerText === q.options[correctIndex]) {
-                    if (!isCorrect) b.classList.add('correct'); // Show correct one
+                    this._hide('loading-overlay');
+                    this._showSection('quiz-runner');
+                    this._renderQuestion();
+                } catch (err) {
+                    this._hide('loading-overlay');
+                    console.error('Start error:', err);
+                    alert(`Impossible de charger ce niveau : ${err.message}`);
                 }
-            });
+            },
 
-            if (isCorrect) {
-                btn.classList.add('correct');
-                score++;
-            } else {
-                btn.classList.add('wrong');
-            }
+            // ─── RENDER QUESTION ──────────────────────────────────────────────────
+            _renderQuestion() {
+                const engine = window.QuizEngine;
+                const q = engine.getCurrentQuestion();
+                if (!q) { this._showResults(); return; }
 
-            // --- ADAPTIVE TRACKING ---
-            if (!categoryScores[q.category]) categoryScores[q.category] = { correct: 0, total: 0 };
-            categoryScores[q.category].total++;
-            if (isCorrect) categoryScores[q.category].correct++;
+                const total = q.total;
+                const idx = q.index + 1;
+                const info = this.LEVEL_INFO[this._currentLevelId] || this.LEVEL_INFO[1];
+                const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
-            // Feedback
-            ui.feedbackText.innerText = q.info;
-            ui.feedbackBox.classList.add('show');
-            ui.nextBtn.style.display = "block";
+                // Progress
+                document.getElementById('q-num').textContent = `QUESTION ${idx} SUR ${total}`;
+                document.getElementById('runner-q-label').textContent = `Question ${idx}/${total}`;
+                document.getElementById('runner-progress-fill').style.width = `${q.progress}%`;
+                document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}/${this._liveTotal}`;
 
-            // AI PROFESSOR TRIGGER (on wrong answer)
-            if (!isCorrect && window.AIProfessor) {
-                setTimeout(() => {
-                    if (confirm("❓ Voulez-vous une explication du Professeur IA ?")) {
-                        AIProfessor.explainQuestion(
-                            q.question,
-                            btn.innerText,
-                            q.options[correctIndex],
-                            q.info
-                        );
-                    }
-                }, 500);
-            }
+                // Theme tag
+                const themeEl = document.getElementById('q-theme-tag');
+                themeEl.textContent = q.theme || '';
+                themeEl.style.background = `color-mix(in srgb, ${info.color} 15%, transparent)`;
+                themeEl.style.color = info.color;
+                themeEl.style.border = `1px solid color-mix(in srgb, ${info.color} 30%, transparent)`;
 
-            // End Check
-            if (currentQIndex === currentQuestions.length - 1) {
-                ui.nextBtn.innerHTML = 'Voir Résultats <i class="fa-solid fa-trophy"></i>';
-                ui.nextBtn.onclick = showResults; // Calls new logic
-            } else {
-                ui.nextBtn.innerHTML = 'Question Suivante <i class="fa-solid fa-arrow-right"></i>';
-                ui.nextBtn.onclick = nextQuestion;
-            }
-        }
-
-        function nextQuestion() {
-            currentQIndex++;
-            loadQuestion();
-        }
-
-        function showResults() {
-            ui.quizHeader.style.display = 'none';
-            ui.content.style.display = 'none';
-            ui.result.style.display = 'flex';
-
-            const percentage = Math.round((score / currentQuestions.length) * 100);
-            const passed = percentage >= 80;
-
-            // LOG TO SUPABASE
-            if (window.QuizSync) {
-                // Pass percentage to calculate rank inside
-                QuizSync.saveResult(
-                    currentLevel,
-                    score,
-                    currentQuestions.length,
-                    passed,
-                    null // Rank is calculated in Sync logic or we pass it later
-                );
-            }
-
-            // --- PHASE 32 TRACKING ---
-            if (typeof AnalyticsEngine !== 'undefined') {
-                const titles = { 1: "Niveau 1", 2: "Niveau 2", 3: "Niveau 3", 4: "HEAD OF DIGITAL" };
-                AnalyticsEngine.trackQuizComplete(currentLevel, titles[currentLevel], percentage, passed);
-            }
-
-            const finalScoreEl = document.getElementById('finalScore');
-            const finalRankEl = document.getElementById('finalRank');
-            const finalMsgEl = document.getElementById('finalMessage');
-            const btnContainer = document.getElementById('resultButtons');
-
-            finalScoreEl.innerText = percentage + "%";
-
-            // Common Restart
-            const restartBtn = `<button aria-label="Bouton" onclick="location.reload()" style="padding: 15px 30px; background: transparent; border: 1px solid var(--text-muted); color: white; border-radius: 50px; cursor: pointer; font-weight: bold;">Retour au Centre</button>`;
-
-            let rank = "Échec";
-            let color = "#ef4444";
-            let msg = "Il faut 80% pour valider ce grade.";
-            let actionBtn = `<button aria-label="Bouton" onclick="startLevel(${currentLevel})" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
-
-            // SHARE BUTTON (LinkedIn)
-            const shareBtn = (passed) ? `<button onclick="shareOnLinkedIn('${percentage}')" style="padding: 15px 30px; background: #0a66c2; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;"><i class="fab fa-linkedin"></i> Partager</button>` : '';
-
-            // --- RANKED LOGIC ---
-
-            // LEVEL 1 -> BRONZE
-            if (currentLevel === 1 && passed) {
-                rank = "MÉDAILLE DE BRONZE 🥉";
-                color = "#cd7f32"; // Bronze
-                msg = "Fondamentaux validés. Le niveau Opérationnel est débloqué.";
-                localStorage.setItem('quiz_metal_1', 'bronze');
-                actionBtn = `<button aria-label="Bouton" onclick="startLevel(2)" style="padding: 15px 30px; background: var(--accent-blue); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Argent</button>
-        <button aria-label="Bouton" onclick="openDiplomaModal()" style="padding: 15px 30px; background: #cd7f32; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Mon Certificat 🥉</button>
-        <a href="dashboard.html?segment=pro" style="padding: 15px 30px; background: rgba(59, 130, 246, 0.2); color: white; border: 1px solid var(--accent-blue); border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px; display:inline-block;">Accéder au Hub Pro <i class="fas fa-arrow-right"></i></a>`;
-            }
-            // LEVEL 2 -> SILVER
-            else if (currentLevel === 2 && passed) {
-                rank = "MÉDAILLE D'ARGENT 🥈";
-                color = "#c0c0c0"; // Silver
-                msg = "Opérations maîtrisées. Accès au niveau Stratégique.";
-                localStorage.setItem('quiz_metal_2', 'silver');
-                actionBtn = `<button aria-label="Bouton" onclick="startLevel(3)" style="padding: 15px 30px; background: var(--accent-purple); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Niveau Or</button>
-        <button aria-label="Bouton" onclick="openDiplomaModal()" style="padding: 15px 30px; background: #c0c0c0; color: #000; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Mon Certificat 🥈</button>
-        <a href="dashboard.html?segment=pro" style="padding: 15px 30px; background: rgba(59, 130, 246, 0.2); color: white; border: 1px solid var(--accent-blue); border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px; display:inline-block;">Accéder au Hub Pro <i class="fas fa-arrow-right"></i></a>`;
-            }
-            // LEVEL 3 -> GOLD
-            else if (currentLevel === 3 && passed) {
-                rank = "MÉDAILLE D'OR 🥇";
-                color = "#ffd700"; // Gold
-                msg = "Niveau Expert validé.";
-                localStorage.setItem('quiz_metal_3', 'gold');
-
-                // UNLOCK HEAD OF IF > 90% (Original logic kept as bonus)
-                if (percentage >= 90) {
-                    msg += " SCORE ÉLITE DÉTECTÉ. Accès Head Of autorisé.";
-                    localStorage.setItem('quiz_lvl4_unlocked', 'true');
-                    actionBtn = `<button aria-label="Bouton" onclick="startLevel(4)" style="padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #B8860B); color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px; box-shadow: 0 0 20px #FFD700;">ENTRER DANS LA MATRICE</button>`;
+                // Scenario (super level)
+                const scenarioEl = document.getElementById('q-scenario');
+                if (q.scenario) {
+                    scenarioEl.style.display = 'block';
+                    scenarioEl.textContent = q.scenario;
                 } else {
-                    actionBtn = `<button aria-label="Bouton" onclick="openDiplomaModal()" style="padding: 15px 30px; background: #ffd700; color: #000; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Mon Certificat 🥇</button>
-                    <a href="dashboard.html?segment=pro" style="padding: 15px 30px; background: var(--accent-blue); color: white; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px; display:inline-block;"><i class="fas fa-unlock"></i> Unlock Dashboard Pro</a>`;
+                    scenarioEl.style.display = 'none';
                 }
-            }
-            // LEVEL 4 -> HEAD OF RANKING
-            else if (currentLevel === 4) {
-                // Determine Rank
-                if (percentage >= 95) {
-                    rank = "IRIDESCENT 🌈";
-                    color = "transparent"; // Calculated in CSS
-                    finalRankEl.className = "rank-iridescent"; // ADD CLASS
-                    msg = "LÉGENDAIRE. Vous avez terminé le jeu.";
-                    localStorage.setItem('quiz_rank_4', 'Iridescent');
-                } else if (percentage >= 85) {
-                    rank = "CRIMSON 👹";
-                    color = "#dc2626";
-                    finalRankEl.className = "rank-crimson";
-                    msg = "Un score monstrueux. Respect.";
-                    localStorage.setItem('quiz_rank_4', 'Crimson');
-                } else if (percentage >= 75) {
-                    rank = "DIAMOND 💎";
-                    color = "#b9f2ff";
-                    finalRankEl.className = "rank-diamond";
-                    msg = "Excellence opérationnelle.";
-                    localStorage.setItem('quiz_rank_4', 'Diamond');
-                } else if (percentage >= 65) {
-                    rank = "PLATINUM 💿";
-                    color = "#e2e8f0";
-                    finalRankEl.classList.add('rank-platinum');
-                    msg = "Solide, mais peut mieux faire.";
-                    localStorage.setItem('quiz_rank_4', 'Platinum');
+
+                // Question text
+                document.getElementById('q-text').textContent = q.question;
+
+                // Choices
+                const choicesEl = document.getElementById('choices-container');
+                choicesEl.innerHTML = q.choices.map((c, i) => `
+<button class="choice-btn" id="choice-${i}" onclick="QuizUI.selectChoice(${i})">
+    <span class="choice-letter">${letters[i]}</span>
+    <span>${c}</span>
+</button>`).join('');
+
+                // Reset feedback
+                const fb = document.getElementById('feedback-box');
+                fb.style.display = 'none';
+                fb.className = 'feedback-box';
+                document.getElementById('next-btn').style.display = 'none';
+            },
+
+            // ─── SELECT CHOICE ────────────────────────────────────────────────────
+            selectChoice(index) {
+                const engine = window.QuizEngine;
+                const result = engine.submitAnswer(index);
+                if (!result) return;
+
+                this._liveTotal++;
+                if (result.isCorrect) this._liveCorrect++;
+                document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}/${this._liveTotal}`;
+
+                // Disable all choices
+                document.querySelectorAll('.choice-btn').forEach(btn => btn.disabled = true);
+
+                // Highlight correct / wrong
+                document.getElementById(`choice-${index}`).classList.add(result.isCorrect ? 'correct' : 'wrong');
+                if (!result.isCorrect) {
+                    document.getElementById(`choice-${result.correctIndex}`)?.classList.add('correct');
+                }
+
+                // Feedback box
+                const fb = document.getElementById('feedback-box');
+                fb.style.display = 'block';
+                fb.className = `feedback-box ${result.isCorrect ? 'correct-fb' : 'wrong-fb'}`;
+                fb.innerHTML = `
+<span class="feedback-icon">${result.isCorrect ? '✅' : '❌'}</span>
+<strong>${result.isCorrect ? 'Correct !' : 'Incorrect.'}</strong>
+<span style="margin-left:4px; opacity:0.85;">${result.explanation}</span>`;
+
+                // Next button
+                const nextBtn = document.getElementById('next-btn');
+                nextBtn.style.display = 'flex';
+                const isLast = !result.hasMore;
+                document.getElementById('next-btn-label').textContent = isLast ? 'Voir les résultats' : 'Question suivante';
+            },
+
+            // ─── NEXT QUESTION ────────────────────────────────────────────────────
+            nextQuestion() {
+                const engine = window.QuizEngine;
+                const next = engine.getCurrentQuestion();
+                if (!next) {
+                    this._showResults();
                 } else {
-                    rank = "ÉCHEC CRITIQUE 💀";
-                    color = "#ef4444";
-                    msg = "Le niveau Head Of ne pardonne pas les approximations (<65%).";
-                    actionBtn = `<button aria-label="Bouton" onclick="startLevel(4)" style="padding: 15px 30px; background: #FFD700; color: black; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;">Réessayer</button>`;
+                    this._renderQuestion();
+                }
+            },
+
+            // ─── SHOW RESULTS ─────────────────────────────────────────────────────
+            _showResults() {
+                const engine = window.QuizEngine;
+                const results = engine.endSession();
+                this._results = results;
+                const info = this.LEVEL_INFO[this._currentLevelId] || this.LEVEL_INFO[1];
+
+                this._showSection('results-screen');
+
+                // Score ring
+                const ring = document.getElementById('results-ring');
+                ring.style.borderColor = results.passed ? '#10b981' : '#ef4444';
+                ring.style.color = results.passed ? '#10b981' : '#ef4444';
+                document.getElementById('results-score-num').textContent = `${results.score}%`;
+
+                // Title
+                document.getElementById('results-title').textContent = results.passed
+                    ? '🏆 Niveau validé !'
+                    : '💪 Résultat insuffisant';
+                document.getElementById('results-subtitle').textContent = results.passed
+                    ? `Score de ${results.score}% sur ${results.total} questions — niveau suivant débloqué.`
+                    : `Score de ${results.score}% — ${this.LEVEL_INFO[1] && engine.PASS_SCORE}% requis. Réessayez avec une nouvelle rotation de questions.`;
+
+                // Stats
+                document.getElementById('res-correct').textContent = `${results.correct}/${results.total}`;
+                document.getElementById('res-total').textContent = results.total;
+                const mins = Math.floor(results.duration / 60);
+                const secs = results.duration % 60;
+                document.getElementById('res-duration').textContent = `${mins}m${secs.toString().padStart(2, '0')}s`;
+
+                // Theme breakdown
+                const themeRows = document.getElementById('theme-rows');
+                themeRows.innerHTML = Object.entries(results.themes).map(([theme, data]) => {
+                    const pct = Math.round((data.correct / data.total) * 100);
+                    const color = pct >= 80 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
+                    return `
+<div class="theme-row">
+    <div class="theme-row-top">
+        <span>${theme}</span>
+        <span style="color:${color}; font-family:'JetBrains Mono',monospace;">${data.correct}/${data.total} (${pct}%)</span>
+    </div>
+    <div class="theme-bar"><div class="theme-bar-fill" style="width:${pct}%; background:${color};"></div></div>
+</div>`;
+                }).join('');
+
+                // Unlock banner
+                const unlockBanner = document.getElementById('unlock-banner');
+                const nextLevelBtn = document.getElementById('next-level-btn');
+                if (results.passed && results.unlocked) {
+                    unlockBanner.style.display = 'block';
+                    document.getElementById('unlock-text').textContent = `${results.unlocked.name} est maintenant accessible.`;
+                    nextLevelBtn.style.display = 'flex';
+                } else {
+                    unlockBanner.style.display = 'none';
+                    nextLevelBtn.style.display = 'none';
                 }
 
-                if (percentage >= 65) {
-                    actionBtn = `<a href="index.html" style="padding: 15px 30px; background: #FFD700; color: black; border-radius: 50px; text-decoration: none; font-weight: bold; margin-left:10px;">Retour Triomphal</a>`;
-                }
-            }
+                // Confetti if passed
+                if (results.passed) this._fireConfetti(info.color);
+            },
 
-            finalRankEl.innerText = rank;
-            if (color !== "transparent") finalRankEl.style.color = color;
-            finalScoreEl.style.borderColor = (color === "transparent") ? "#FFD700" : color;
-            finalMsgEl.innerText = msg;
+            // ─── ACTIONS ──────────────────────────────────────────────────────────
+            goToNextLevel() {
+                if (!this._results?.unlocked) return;
+                this.startLevel(this._results.unlocked.id);
+            },
 
-            const aiDebriefBtn = `<button aria-label="Bouton" onclick="generateAISummary()" style="padding: 15px 30px; background: rgba(102, 126, 234, 0.2); color: #667eea; border: 1px solid #667eea; border-radius: 50px; cursor: pointer; font-weight: bold; margin-left:10px;"><i class="fas fa-brain"></i> Débriefing IA</button>`;
+            retryLevel() {
+                this.startLevel(this._currentLevelId);
+            },
 
-            btnContainer.innerHTML = restartBtn + actionBtn + shareBtn + aiDebriefBtn;
+            exitToMap() {
+                this._showSection('home-view');
+                this.renderLevelMap();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
 
-            // --- ADAPTIVE RECOMMENDATION (Phase 28) ---
-            if (!passed) {
-                // Find worst category
-                let worstCat = null;
-                let worstScore = 100;
-
-                for (const [cat, stats] of Object.entries(categoryScores)) {
-                    const s = (stats.correct / stats.total) * 100;
-                    if (s < worstScore) {
-                        worstScore = s;
-                        worstCat = cat;
+            // ─── SECTION MANAGEMENT ───────────────────────────────────────────────
+            _showSection(sectionId) {
+                ['home-view', 'quiz-runner', 'results-screen'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    if (id === sectionId) {
+                        el.style.display = id === 'quiz-runner' ? 'flex' : 'block';
+                        if (id !== 'quiz-runner') window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        el.style.display = 'none';
                     }
-                }
-
-                if (worstCat) {
-                    let recommendation = { url: 'guide.html', name: 'Le Guide Expert' };
-
-                    // Logic Mapping
-                    const catLower = worstCat.toLowerCase();
-                    if (catLower.includes('fi') || catLower.includes('tech') || catLower.includes('infra') || catLower.includes('yield')) {
-                        recommendation = { url: 'yield-mechanics.html', name: 'Laboratoire Yield' };
-                    } else if (catLower.includes('reg') || catLower.includes('droit') || catLower.includes('legal') || catLower.includes('compliance')) {
-                        recommendation = { url: 'legal-matrix.html', name: 'Legal Matrix' };
-                    } else if (catLower.includes('rwa') || catLower.includes('token') || catLower.includes('collateral')) {
-                        recommendation = { url: 'rwa.html', name: 'RWA Deep Dive' };
-                    } else if (catLower.includes('ia')) {
-                        recommendation = { url: 'ai-finance.html', name: 'AI & Finance' };
-                    }
-
-                    // Create Card
-                    const recCard = document.createElement('div');
-                    recCard.style.cssText = `
-                        margin-top: 30px;
-                        padding: 20px;
-                        background: rgba(59, 130, 246, 0.1);
-                        border: 1px solid var(--accent-blue);
-                        border-radius: 12px;
-                        max-width: 500px;
-                        text-align: center;
-                        animation: slideIn 0.5s;
-                    `;
-                    recCard.innerHTML = `
-                        <div style="color:var(--accent-blue); font-weight:bold; margin-bottom:5px;">
-                            <i class="fas fa-robot"></i> ANALYSE IA
-                        </div>
-                        <p style="font-size:14px; color:var(--text-muted); margin-bottom:15px;">
-                            J'ai détecté des lacunes sur le thème <strong>${worstCat}</strong>.
-                        </p>
-                        <a href="${recommendation.url}" 
-                           style="display:inline-block; padding:10px 20px; background:var(--accent-blue); color:white; text-decoration:none; border-radius:30px; font-weight:bold; font-size:13px;">
-                           <i class="fas fa-book-reader"></i> Réviser : ${recommendation.name}
-                        </a>
-                    `;
-
-                    // Insert before buttons
-                    btnContainer.parentNode.insertBefore(recCard, btnContainer);
-                }
-            }
-        }
-
-        // --- DIPLOMA GENERATION LOGIC ---
-        function openDiplomaModal() { document.getElementById('diplomaInputModal').style.display = 'flex'; }
-        function closeDiplomaModal() { document.getElementById('diplomaInputModal').style.display = 'none'; }
-
-        async function generateFinalDiploma() {
-            const name = document.getElementById('diplomaName').value;
-            if (!name || name.trim() === "") { alert("Merci d'indiquer un nom."); return; }
-
-            const dipName = document.getElementById('dipNameDisplay');
-            dipName.innerText = name;
-            dipName.style.color = "#1e293b"; // Reset default
-
-            document.getElementById('dipDate').innerText = new Date().toLocaleDateString('fr-FR');
-
-            // DETERMINE HIGHEST RANK & STYLE
-            const r4 = localStorage.getItem('quiz_rank_4');
-            const m3 = localStorage.getItem('quiz_metal_3');
-            const m2 = localStorage.getItem('quiz_metal_2');
-            const m1 = localStorage.getItem('quiz_metal_1');
-
-            const dip = document.getElementById('final-diploma');
-            const seal = document.getElementById('dipSeal');
-            const rankTxt = document.getElementById('dipRankDisplay');
-
-            // Reset classes
-            dip.className = '';
-
-            let bestRank = "CERTIFIÉ";
-            let color = "#000";
-            let bgSeal = "#000";
-
-            if (r4) {
-                bestRank = "GRADE " + r4.toUpperCase();
-                if (r4 === 'Iridescent') { dip.classList.add('iridescent'); color = "#3b82f6"; bgSeal = "linear-gradient(45deg, #ff0000, #002bff)"; }
-                else if (r4 === 'Crimson') { dip.classList.add('crimson'); color = "#dc2626"; bgSeal = "#dc2626"; }
-                else if (r4 === 'Diamond') { dip.classList.add('diamond'); color = "#3b82f6"; bgSeal = "#3b82f6"; }
-                else if (r4 === 'Platinum') { dip.classList.add('platinum'); color = "#64748b"; bgSeal = "#64748b"; }
-            } else if (m3) {
-                dip.classList.add('gold');
-                bestRank = "NIVEAU EXPERT (OR)";
-                color = "#d97706"; bgSeal = "#d97706";
-            } else if (m2) {
-                dip.classList.add('silver');
-                bestRank = "NIVEAU AVANCÉ (ARGENT)";
-                color = "#64748b"; bgSeal = "#64748b";
-            } else if (m1) {
-                dip.classList.add('bronze');
-                bestRank = "NIVEAU FONDAMENTAL (BRONZE)";
-                color = "#b45309"; bgSeal = "#b45309";
-            }
-
-            rankTxt.innerText = bestRank;
-            rankTxt.style.color = color;
-            seal.style.background = bgSeal;
-
-            // --- PHASE 115: VERIFIABLE HASH GENERATION ---
-            const year = new Date().getFullYear();
-            const randomHex = Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0').toUpperCase();
-            const certId = `DCM-${year}-${randomHex}`;
-
-            // Build the payload string to hash
-            const payloadString = `DCM_CERT|NAME:${name}|RANK:${bestRank}|DATE:${new Date().toISOString()}|ID:${certId}`;
-
-            // SHA-256 Web Crypto Implementation
-            const encoder = new TextEncoder();
-            const data = encoder.encode(payloadString);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const certHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-            document.getElementById('dipIdDisplay').innerText = certId;
-            document.getElementById('dipHashDisplay').innerText = certHash;
-
-            // --- PHASE 117: QR CODE GENERATION ---
-            const qrImg = document.getElementById('dipQRImg');
-            const verifyUrl = `${window.location.origin}${window.location.pathname.replace('quiz.html', 'verify.html')}?id=${certId}`;
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verifyUrl)}`;
-            qrImg.style.display = 'block';
-
-            // Persist the certificate so that `dashboard.html` can read it
-            localStorage.setItem('dcm_cert_id', certId);
-            localStorage.setItem('dcm_cert_hash', certHash);
-            localStorage.setItem('dcm_cert_rank', bestRank);
-
-            // Hide Modal
-            closeDiplomaModal();
-
-            // WEBHOOK TRACKING
-            if (window.DCM_CONFIG && DCM_CONFIG.sendWebhook) {
-                DCM_CONFIG.sendWebhook({
-                    event: "DIPLOMA_GENERATED",
-                    name: name,
-                    rank: bestRank,
-                    certId: certId,
-                    hash: certHash,
-                    source: "QUIZ"
                 });
+            },
+
+            _show(id) { const el = document.getElementById(id); if (el) el.style.display = 'flex'; },
+            _hide(id) { const el = document.getElementById(id); if (el) el.style.display = 'none'; },
+
+            // ─── CONFETTI ─────────────────────────────────────────────────────────
+            _fireConfetti(baseColor = '#6366f1') {
+                const colors = [baseColor, '#fff', '#f59e0b', '#10b981', '#3b82f6'];
+                for (let i = 0; i < 60; i++) {
+                    const piece = document.createElement('div');
+                    piece.className = 'confetti-piece';
+                    piece.style.cssText = `
+                left: ${Math.random() * 100}%;
+                top: -10px;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                animation-duration: ${1.5 + Math.random() * 2}s;
+                animation-delay: ${Math.random() * 0.5}s;
+                transform: scale(${0.5 + Math.random()});
+            `;
+                    document.body.appendChild(piece);
+                    piece.addEventListener('animationend', () => piece.remove());
+                }
             }
+        };
 
-            // DELAY PRINT TO ENSURE RENDERING
-            setTimeout(() => {
-                window.print();
-                // Hide diploma after print (timeout)
-                setTimeout(() => { dip.style.display = 'none'; }, 1000);
-            }, 500);
-        }
-
-        window.shareOnLinkedIn = function (score) {
-            const url = encodeURIComponent('https://dcmcore.com/');
-            const text = encodeURIComponent(`🚀 Je viens de valider le Niveau ${currentLevel} de la Certification DCM Digital avec un score de ${score}% ! #Blockchain #DeFi #RWA #DCMDigital`);
-            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&summary=${text}`, '_blank', 'width=600,height=600');
-        }
+        // ─── LOAD QuizEngine via dynamic import ──────────────────────────────────────
+        (async () => {
+            try {
+                const mod = await import('./js/quiz-engine.js');
+                window.QuizEngine = mod.QuizEngine;
+                QuizUI.init();
+            } catch (err) {
+                console.warn('QuizEngine import failed:', err);
+                // Fallback: init UI without engine (shows locked state for all)
+                QuizUI.init();
+            }
+        })();
     </script>
-<!-- PWA SERVICE WORKER REGISTRATION (Phase 30) -->
-<script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(reg => console.log('✅ PWA Service Worker Registered (Quiz)'))
-                    .catch(err => console.log('❌ PWA Registration Failed', err));
-            });
-        }
-    </script>
-<!-- MAIN FOOTER -->
-<!-- MAIN FOOTER -->
-<footer class="super-footer">
-<div class="footer-content">
-<div class="footer-grid">
-<!-- 0. BRAND -->
-<div class="footer-brand">
-<h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
-<p>Plateforme d’analyse dédiée à la tokenisation des actifs financiers et aux infrastructures
-                    blockchain publiques et institutionnelles.</p>
-<div class="footer-socials">
-<a aria-label="LinkedIn" class="social-btn" href="https://www.linkedin.com/in/joan-lyczak/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-<a aria-label="GitHub" class="social-btn" href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank"><i class="fab fa-github"></i></a>
-<a aria-label="Twitter" class="social-btn" href="https://x.com/Joan_Lyczak" target="_blank"><i class="fab fa-x-twitter"></i></a>
-</div>
-</div>
-<!-- 1. PRODUIT -->
-<div class="footer-col">
-<h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Produit</h4>
-<ul class="footer-links">
-<li><a href="index.html">Hub Central</a></li>
-<li><a href="sandbox.html">Dashboard</a></li>
-<li><a href="simple.html">Academy</a></li>
-<li><a href="guide.html">Guide Expert</a></li>
-<li><a href="yield-mechanics.html">Simulation Engine</a></li>
-<li><a href="quiz.html">Certification</a></li>
-<li><a href="pricing-institutional.html">Pricing</a></li>
-</ul>
-</div>
-<!-- 2. RESEARCH -->
-<div class="footer-col">
-<h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research</h4>
-<ul class="footer-links">
-<li><a href="rwa.html">RWA & DeFi</a></li>
-<li><a href="yield-mechanics.html">Yield Mechanics</a></li>
-<li><a href="web3.html">Web3 Infrastructure</a></li>
-<li><a href="ai-finance.html">AI & Finance</a></li>
-<li><a href="institutional-problem-statement.html">Strategic Vision</a></li>
-<li><a href="competitive-landscape.html">Competitive Landscape</a></li>
-<li><a href="series-a-narrative.html">Series A Deck</a></li>
-<li><a href="governance-os-landing.html">Institutional Governance</a></li>
-<li><a href="mrm-hub.html">MRM Hub</a></li>
-<li><a href="data-certification.html">Data Trust Certif</a></li>
-<li><a href="case-study-tokenized-bond.html">Quantified Use Case</a></li>
-<li><a href="economic-model.html">Economic Model</a></li>
-<li><a href="regulatory-mapping.html">Regulatory Mapping</a></li>
-<li><a href="legal-matrix.html">Global Matrix</a></li>
-<li><a href="networks/index.html">Blockchain Networks</a></li>
-</ul>
-</div>
-<!-- 3. INFRASTRUCTURE -->
-<div class="footer-col">
-<h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
-                    Infrastructure</h4>
-<ul class="footer-links">
-<li><a href="lifecycle.html">Cycle de Vie</a></li>
-<li><a href="flux-comparison.html">Comparateur Flux</a></li>
-<li><a href="legal_pilot.html">Régime Pilote (UE)</a></li>
-<li><a href="sandbox.html">Sandbox</a></li>
-<li><a href="deployment-architecture.html">Deployment Arch</a></li>
-<li><a href="networks/swiat.html">SWIAT</a></li>
-<li><a href="networks/canton.html">Canton Network</a></li>
-</ul>
-</div>
-<!-- 4. CORPORATE -->
-<div class="footer-col">
-<h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Corporate
-                </h4>
-<ul class="footer-links">
-<li><a href="methodology.html">Méthodologie</a></li>
-<li><a href="guide.html">Documentation</a></li>
-<li><a href="index-simple.html">Site Corporate</a></li>
-<li><a href="about.html">À propos</a></li>
-<li><a href="mailto:contact@dcm-digital.com">Contact</a></li>
-</ul>
-</div>
-<!-- 5. LEGAL -->
-<div class="footer-col">
-<h4><i class="fas fa-shield-alt" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Legal
-                </h4>
-<ul class="footer-links">
-<li><a href="mentions-legales.html">Mentions Légales</a></li>
-<li><a href="privacy.html">Politique de Confidentialité</a></li>
-<li><a href="cgu.html">Conditions d'Utilisation</a></li>
-<li><a href="cookies.html">Politique Cookies</a></li>
-<li><a href="methodology.html#disclaimer">Disclaimer</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-disclaimer" style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto;">
-                <strong>Regulatory Transparency :</strong> DCM Digital quantifie les risques technologiques des infrastructures DLT. Nous ne fournissons aucun conseil juridique, de conformité ou d'investissement. Les données réglementaires (DORA, MiCA, Bâle III) sont utilisées comme références de modélisation systémique et nécessitent l'analyse indépendante de vos directions des risques. <a href="regulatory-transparency.html" style="color: #3b82f6; text-decoration: underline;">Consulter notre Cadre de Transparence</a>.
-            </div>
-        <div class="footer-bottom">
-<div class="footer-bottom-content" style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
-<div class="copyright">
-                © 2026 DCM Digital • Version 4.3.0
-            </div>
-<div class="legal-links">
-<a href="support-it.html">Support IT</a>
-<a href="api-docs.html">Documentation API</a>
-</div>
-</div>
-</div>
-</footer>
 </body>
-<!-- Shared Dev Mode (Replaces inline modal) -->
-<script src="utils/dev_mode_shared.js"></script>
-<link href="styles/dev_mode.css" rel="stylesheet"/>
-<script>
-    // ... (Existing quiz logic)
 
-    // DASHBOARD INITIALIZATION
-    document.addEventListener('DOMContentLoaded', () => {
-        // Check for existing progress
-        const m1 = localStorage.getItem('quiz_metal_1');
-        const m2 = localStorage.getItem('quiz_metal_2');
-        const m3 = localStorage.getItem('quiz_metal_3'); // Gold = Certified
-        const r4 = localStorage.getItem('quiz_rank_4');  // Head Of = Elite
-
-        // Show Certificate Button if at least Gold or Head Of
-        if (m3 || r4) {
-            const certBtn = document.getElementById('dashboardCertBtn');
-            if (certBtn) certBtn.style.display = 'flex';
-        }
-
-        // Unlock Cards Visuals
-        if (m1) {
-            const c2 = document.getElementById('cardLvl2');
-            const t2 = document.getElementById('tagLvl2');
-            if (c2 && t2) {
-                c2.classList.remove('locked');
-                t2.innerText = "DÉVERROUILLÉ";
-                t2.classList.remove('tag-locked');
-                t2.classList.add('tag-success');
-            }
-        }
-        if (m2) {
-            const c3 = document.getElementById('cardLvl3');
-            const t3 = document.getElementById('tagLvl3');
-            if (c3 && t3) {
-                c3.classList.remove('locked');
-                t3.innerText = "DÉVERROUILLÉ";
-                t3.classList.remove('tag-locked');
-                t3.classList.add('tag-success');
-            }
-        }
-        if (r4 || localStorage.getItem('quiz_lvl4_unlocked') === 'true') {
-            if (window.revealHeadOf) window.revealHeadOf();
-        }
-    });
-</script><link href="https://dcm-digital.com/quiz.html" rel="canonical"/><script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Certification DCM Digital - Parcours Complet",
-  "description": "Testez vos connaissances en Blockchain & Finance : Quiz de certification DCM Digital Hub. Validez vos acquis sur la Tokenisation et la DeFi.",
-  "url": "https://dcm-digital.com/quiz.html"
-}</script>    <script src="js/cookie-consent.js"></script>
-    <script src="js/cta-tracker.js"></script>
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-</head></html>
+</html>
