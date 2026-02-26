@@ -33,18 +33,27 @@
             console.log('Supabase login client initialized 🚀');
         })();
     </script>
-    <!-- AUTO-REDIRECT IF ALREADY AUTHENTICATED -->
+    <!-- AUTO-REDIRECT IF ALREADY AUTHENTICATED (with anti-flicker) -->
+    <style>
+        html {
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+    </style>
     <script>
         (async function () {
             try {
                 const { data: { session } } = await window._dcmSb.auth.getSession();
                 if (session && session.user) {
-                    console.log('Active Supabase session found. Redirecting to dashboard...');
-                    window.location.href = 'dashboard.html';
+                    // Redirect silently while page is still invisible
+                    window.location.replace('dashboard.html');
+                    return; // stay invisible during redirect
                 }
             } catch (e) {
                 console.warn('Session check failed on login page:', e);
             }
+            // No active session — reveal the login page with a smooth fade-in
+            document.documentElement.style.opacity = '1';
         })();
     </script>
     <style>
