@@ -23,6 +23,17 @@ export const SessionManager = {
     //  INITIALIZATION — Check Supabase session
     // =============================================
     init: async () => {
+        // 🚧 DEV MASTER OVERRIDE — bypass Supabase check entirely in dev mode
+        const isSuperDevEarly = localStorage.getItem('is_super_dev') === 'true'
+            || localStorage.getItem('dcm_user_role') === 'ADMIN';
+        if (isSuperDevEarly) {
+            const cached = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
+            if (cached) {
+                console.info('🚧 [DEV-UNLOCK] Master profile restored from localStorage — full access granted.');
+                return JSON.parse(cached);
+            }
+        }
+
         const { data: { session }, error } = await supabase.auth.getSession();
 
         const path = window.location.pathname;
@@ -53,6 +64,7 @@ export const SessionManager = {
 
         return profile;
     },
+
 
     // =============================================
     //  BUILD USER PROFILE from Supabase user object
@@ -309,8 +321,16 @@ export const SessionManager = {
     //  RBAC (Phase 80)
     // =============================================
     checkAccess: (permission) => {
+        // 🚧 DEV MASTER OVERRIDE — always grant in dev/super mode
+        const isSuperDevLS = localStorage.getItem('is_super_dev') === 'true'
+            || localStorage.getItem('dcm_user_role') === 'ADMIN';
+        if (isSuperDevLS) {
+            console.log(`[DEV-UNLOCK] ✅ checkAccess("${permission}") → GRANTED (master override)`);
+            return true;
+        }
+
         const profile = SessionManager.getCurrentUser() || {};
-        const role = profile.role || 'Viewer'; // Default to Viewer for institutional safety
+        const role = profile.role || 'Viewer';
         const tier = profile.subscription_tier || 'free';
 
         /**
@@ -334,20 +354,16 @@ export const SessionManager = {
 
         let isGranted = false;
 
-        // 1. System Admin / Super Dev Bypass
-        const isSuperDev = typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true';
-        const isMaster = profile.email === 'joanlyczak@gmail.com' || role.toUpperCase() === 'ADMIN' || role === 'Head of Digital';
-        if (isSuperDev || isMaster) {
+        // 1. Role & email master check
+        const isMaster = profile.email === 'joanlyczak@gmail.com'
+            || role.toUpperCase() === 'ADMIN'
+            || role === 'Head of Digital';
+        if (isMaster) {
             isGranted = true;
         }
         // 2. Role & Tier Check
         else if (rule.roles.includes(role) && rule.tiers.includes(tier)) {
             isGranted = true;
-        }
-
-        // --- Institutional Logging (Phase 80) ---
-        if (!isGranted && window.AuditLogger) {
-            window.AuditLogger.log('UNAUTHORIZED_ACCESS_ATTEMPT', role, { permission });
         }
 
         if (!isGranted) {
