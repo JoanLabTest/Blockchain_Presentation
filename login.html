@@ -16,16 +16,28 @@
         href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap"
         rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js"></script>
+    <!-- SUPABASE CDN (UMD build: assigns window.supabase directly) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="config.js?v=3"></script>
+    <!-- INIT SUPABASE CLIENT for this page -->
+    <script>
+        (function () {
+            const url = (window.DCM_CONFIG && window.DCM_CONFIG.supabaseUrl)
+                ? window.DCM_CONFIG.supabaseUrl
+                : 'https://wnwerjuqtrduqkgwdjrg.supabase.co';
+            const key = (window.DCM_CONFIG && window.DCM_CONFIG.supabaseKey)
+                ? window.DCM_CONFIG.supabaseKey
+                : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo';
+            // UMD exposes window.supabase.createClient
+            window._dcmSb = window.supabase.createClient(url, key);
+            console.log('Supabase login client initialized 🚀');
+        })();
+    </script>
     <!-- AUTO-REDIRECT IF ALREADY AUTHENTICATED -->
     <script>
         (async function () {
-            // Wait for supabase to be available
-            if (!window.supabase) return;
             try {
-                const { data: { session } } = await window.supabase.auth.getSession();
+                const { data: { session } } = await window._dcmSb.auth.getSession();
                 if (session && session.user) {
                     console.log('Active Supabase session found. Redirecting to dashboard...');
                     window.location.href = 'dashboard.html';
@@ -408,8 +420,8 @@
     </div>
     <!-- AUTH LOGIC -->
     <script>
-        // Ensure we always have a supabase reference
-        const _sb = () => window.supabase;
+        // Use the login-page Supabase client
+        const _sb = () => window._dcmSb;
 
         // STATE
         let isSignup = false;
@@ -430,39 +442,31 @@
         const tabLogin = document.getElementById('tab-login');
         const tabSignup = document.getElementById('tab-signup');
 
-        // TABS HANDLER
+        // TABS
         tabLogin.addEventListener('click', () => toggleMode(false));
         tabSignup.addEventListener('click', () => toggleMode(true));
 
         function toggleMode(signupMode) {
             isSignup = signupMode;
             if (isSignup) {
-                tabLogin.classList.remove('active');
-                tabSignup.classList.add('active');
+                tabLogin.classList.remove('active'); tabSignup.classList.add('active');
                 btnText.innerText = 'Créer un compte';
                 submitBtn.style.background = 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))';
-                firstnameGroup.style.display = 'block';
-                lastnameGroup.style.display = 'block';
+                firstnameGroup.style.display = 'block'; lastnameGroup.style.display = 'block';
                 confirmPasswordGroup.style.display = 'block';
-                firstnameInput.required = true;
-                lastnameInput.required = true;
-                confirmPasswordInput.required = true;
+                firstnameInput.required = true; lastnameInput.required = true; confirmPasswordInput.required = true;
             } else {
-                tabSignup.classList.remove('active');
-                tabLogin.classList.add('active');
+                tabSignup.classList.remove('active'); tabLogin.classList.add('active');
                 btnText.innerText = 'Se connecter';
                 submitBtn.style.background = 'linear-gradient(135deg, var(--accent-blue), var(--accent-cyan))';
-                firstnameGroup.style.display = 'none';
-                lastnameGroup.style.display = 'none';
+                firstnameGroup.style.display = 'none'; lastnameGroup.style.display = 'none';
                 confirmPasswordGroup.style.display = 'none';
-                firstnameInput.required = false;
-                lastnameInput.required = false;
-                confirmPasswordInput.required = false;
+                firstnameInput.required = false; lastnameInput.required = false; confirmPasswordInput.required = false;
             }
             showMessage('', '');
         }
 
-        // SUBMIT HANDLER
+        // SUBMIT
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = emailInput.value.trim();
@@ -470,69 +474,47 @@
             const confirmPassword = confirmPasswordInput.value;
 
             if (isSignup && password !== confirmPassword) {
-                showMessage('Les mots de passe ne correspondent pas.', 'error');
-                return;
+                showMessage('Les mots de passe ne correspondent pas.', 'error'); return;
             }
 
             const sb = _sb();
-            if (!sb) {
-                showMessage('Erreur : service d\'authentification indisponible.', 'error');
-                return;
-            }
+            if (!sb) { showMessage('Service d\'authentification indisponible.', 'error'); return; }
 
-            setLoading(true);
-            showMessage('', '');
+            setLoading(true); showMessage('', '');
 
             try {
                 if (isSignup) {
                     const firstname = firstnameInput.value.trim();
                     const lastname = lastnameInput.value.trim();
-
                     const { data, error } = await sb.auth.signUp({
-                        email,
-                        password,
-                        options: {
-                            data: {
-                                first_name: firstname,
-                                last_name: lastname,
-                                full_name: `${firstname} ${lastname}`
-                            }
-                        }
+                        email, password,
+                        options: { data: { first_name: firstname, last_name: lastname, full_name: `${firstname} ${lastname}` } }
                     });
                     if (error) throw error;
 
                     if (data.session) {
-                        // Auto-confirm enabled
                         localStorage.setItem('dcm_auth_token', data.session.access_token);
                         localStorage.setItem('dcm_user_profile', JSON.stringify({
                             id: data.user.id,
                             name: `${firstname} ${lastname}`.trim() || email.split('@')[0],
-                            email: data.user.email,
-                            role: 'Analyste',
-                            subscription_tier: 'free'
+                            email: data.user.email, role: 'Analyste', subscription_tier: 'free'
                         }));
                         showMessage('Compte créé ! Redirection...', 'success');
                         setTimeout(() => window.location.href = 'dashboard.html', 1200);
                     } else {
-                        showMessage('Compte créé ! 📩 Veuillez vérifier vos emails pour activer votre compte.', 'success');
+                        showMessage('Compte créé ! 📩 Vérifiez vos emails pour activer votre compte.', 'success');
                         form.reset();
                     }
-
                 } else {
-                    // SIGN IN via Supabase
                     const { data, error } = await sb.auth.signInWithPassword({ email, password });
                     if (error) throw error;
 
-                    // Cache profile for offline fallback
                     localStorage.setItem('dcm_auth_token', data.session.access_token);
                     localStorage.setItem('dcm_user_profile', JSON.stringify({
                         id: data.user.id,
                         name: data.user.user_metadata?.full_name || email.split('@')[0],
-                        email: data.user.email,
-                        role: 'Analyste',
-                        subscription_tier: 'free'
+                        email: data.user.email, role: 'Analyste', subscription_tier: 'free'
                     }));
-
                     showMessage('Connexion réussie ! Redirection...', 'success');
                     setTimeout(() => window.location.href = 'dashboard.html', 900);
                 }
@@ -548,34 +530,20 @@
             }
         });
 
-        // HELPERS
         function setLoading(loading) {
             submitBtn.disabled = loading;
-            if (loading) {
-                submitBtn.classList.add('loading');
-                btnText.innerText = 'Chargement...';
-            } else {
-                submitBtn.classList.remove('loading');
-                btnText.innerText = isSignup ? 'Créer un compte' : 'Se connecter';
-            }
+            if (loading) { submitBtn.classList.add('loading'); btnText.innerText = 'Chargement...'; }
+            else { submitBtn.classList.remove('loading'); btnText.innerText = isSignup ? 'Créer un compte' : 'Se connecter'; }
         }
 
         function showMessage(text, type) {
             if (!text) { messageDiv.style.display = 'none'; return; }
-            messageDiv.innerText = text;
-            messageDiv.className = type;
-            messageDiv.style.display = 'block';
+            messageDiv.innerText = text; messageDiv.className = type; messageDiv.style.display = 'block';
         }
 
         // GUEST MODE
         window.enterGuestMode = function () {
-            const guestProfile = {
-                name: 'Invité',
-                role: 'Visiteur',
-                jurisdiction: 'Global',
-                subscription_tier: 'free',
-                impactScore: 50
-            };
+            const guestProfile = { name: 'Invité', role: 'Visiteur', jurisdiction: 'Global', subscription_tier: 'free' };
             localStorage.setItem('dcm_auth_token', 'guest-token-' + Date.now());
             localStorage.setItem('dcm_user_profile', JSON.stringify(guestProfile));
             showMessage('Mode Invité activé. Redirection...', 'success');
@@ -596,19 +564,17 @@
         window.handleReset = async function () {
             const email = document.getElementById('reset-email').value;
             if (!email) return alert('Veuillez entrer un email.');
-            const sb = _sb();
             try {
-                const { error } = await sb.auth.resetPasswordForEmail(email, {
+                const { error } = await _sb().auth.resetPasswordForEmail(email, {
                     redirectTo: window.location.origin + '/update-password.html',
                 });
                 if (error) throw error;
                 alert('📧 Email de réinitialisation envoyé !');
                 hideResetPassword();
-            } catch (err) {
-                alert('Erreur: ' + err.message);
-            }
+            } catch (err) { alert('Erreur: ' + err.message); }
         };
     </script>
 </body>
 
 </html>
+```

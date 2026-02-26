@@ -16,5 +16,10 @@ if (typeof window !== 'undefined' && window.DCM_CONFIG) {
 
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
+// ⚡ EXPOSE GLOBALLY so non-module scripts can access window.supabase
+if (typeof window !== 'undefined') {
+    window.supabase = supabase;
+}
+
 // Console log for debug (will remove in prod)
 console.log("Supabase Client Initialized 🚀");
