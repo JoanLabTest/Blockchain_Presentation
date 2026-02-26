@@ -531,6 +531,96 @@ const DashboardEngine = {
                 }
             });
         }
+
+        // QUIZ ANALYTICS (Phase 7)
+        this.renderQuizAnalytics();
+    },
+
+    /**
+     * Render Quiz Analytics (Phase 7)
+     */
+    renderQuizAnalytics: function () {
+        if (!window.QuizAnalytics) return;
+
+        const stats = window.QuizAnalytics.getGlobalStats();
+        const themeStats = stats.themes;
+
+        // Populate Metrics
+        const total = stats.totalSessions;
+        const passed = stats.passedSessions;
+        const passRate = total > 0 ? Math.round((passed / total) * 100) : 0;
+        const avgScore = total > 0 ? Math.round(stats.avgScore) : 0;
+        const avgTime = total > 0 ? Math.round(stats.avgTimePerQuestion) : 0;
+
+        const elPassRate = document.getElementById('quiz-pass-rate');
+        const elAvgScore = document.getElementById('quiz-avg-score');
+        const elAvgTime = document.getElementById('quiz-avg-time');
+
+        if (elPassRate) elPassRate.innerText = `${passRate}%`;
+        if (elAvgScore) elAvgScore.innerText = `${avgScore}%`;
+        if (elAvgTime) elAvgTime.innerText = `${avgTime}s`;
+
+        // Pass/Fail Chart
+        const ctxPF = document.getElementById('quizPassFailChart');
+        if (ctxPF) {
+            new Chart(ctxPF.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Réussis', 'Échecs'],
+                    datasets: [{
+                        data: [passed, total - passed],
+                        backgroundColor: ['#10b981', '#334155'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } }
+                    }
+                }
+            });
+        }
+
+        // Theme Radar Chart
+        const ctxTheme = document.getElementById('quizThemeChart');
+        if (ctxTheme) {
+            const labels = Object.keys(themeStats);
+            const data = labels.map(l => Math.round((themeStats[l].correct / themeStats[l].total) * 100));
+
+            new Chart(ctxTheme.getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Précision %',
+                        data: data,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: '#3b82f6',
+                        pointBackgroundColor: '#3b82f6',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 100,
+                            beginAtZero: true,
+                            angleLines: { color: 'rgba(255,255,255,0.1)' },
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            pointLabels: { color: '#94a3b8', font: { size: 9 } },
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
     },
 
     /**

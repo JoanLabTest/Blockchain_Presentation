@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DCM Institutional Assessment | DCM Digital</title>
     <meta name="description"
-        content="Évaluez votre expertise DLT institutionnelle à travers 5 niveaux de certification DCM Digital." />
+        content="Évaluez votre expertise DLT institutionnelle à travers 5 niveaux de certification DCM Digital. Accès direct aux analyses Bloomberg et ECB." />
+    <meta property="og:title" content="DCM Institutional Assessment | Certification Blockchain" />
+    <meta property="og:description" content="Validez vos compétences sur les marchés financiers numériques." />
+    <meta property="og:type" content="website" />
     <link rel="canonical" href="https://dcm-digital.com/quiz.html" />
     <link
         href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
@@ -1006,6 +1009,112 @@
             }
         }
 
+        /* ─── FAST TRACK TOGGLE ─────────────────────────────────────────────────── */
+        .fast-track-toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .fast-track-label {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--muted);
+        }
+
+        .dcm-switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+        }
+
+        .dcm-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .dcm-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #1e293b;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .dcm-slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.dcm-slider {
+            background-color: var(--indigo);
+        }
+
+        input:checked+.dcm-slider:before {
+            transform: translateX(14px);
+        }
+
+        @media (max-width: 768px) {
+            .quiz-nav {
+                padding: 15px 20px;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            #level-map>div {
+                flex-direction: column !important;
+                gap: 15px;
+                align-items: center !important;
+            }
+
+            .question-text {
+                font-size: 18px;
+            }
+
+            .choices-grid {
+                gap: 10px;
+            }
+
+            .choice-btn {
+                padding: 12px 15px;
+                font-size: 13px;
+            }
+
+            /* Fast Track toggle mobile adaptation */
+            .fast-track-bar {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+                padding: 12px 16px;
+            }
+
+            .fast-track-label {
+                font-size: 12px;
+            }
+        }
+
         /* ─── CONFETTI ────────────────────────────────────────────────────────────── */
         .confetti-piece {
             position: fixed;
@@ -1080,7 +1189,19 @@
 
     <!-- LEVEL MAP -->
     <section id="level-map">
-        <div class="level-map-title">— Choisir un niveau —</div>
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 30px; padding: 0 20px;">
+            <div class="level-map-title" style="margin:0">— Choisir un niveau —</div>
+
+            <div class="fast-track-toggle-wrap">
+                <span class="fast-track-label">Mode Exécutif <i class="fas fa-bolt"
+                        style="color:var(--yellow)"></i></span>
+                <label class="dcm-switch">
+                    <input type="checkbox" id="fast-track-mode" onchange="QuizUI.toggleFastTrack(this.checked)">
+                    <span class="dcm-slider"></span>
+                </label>
+            </div>
+        </div>
         <div class="levels-grid" id="levels-container">
             <!-- JS Rendered -->
         </div>
@@ -1463,6 +1584,28 @@
                 this.startLevel(this._results.unlocked.id);
             },
 
+            init() {
+                console.log('🎮 Quiz UI Initializing...');
+                // Restore Fast Track preference
+                const fastTrackEnabled = localStorage.getItem('dcm_fast_track') === 'true';
+                const toggle = document.getElementById('fast-track-mode');
+                if (toggle) toggle.checked = fastTrackEnabled;
+                if (window.QuizEngine) window.QuizEngine.fastTrack = fastTrackEnabled;
+
+                this.renderLevelMap();
+                this._showSection('home-view');
+            },
+
+            toggleFastTrack(enabled) {
+                console.log(`⚡ Fast Track Mode: ${enabled ? 'ON' : 'OFF'}`);
+                localStorage.setItem('dcm_fast_track', enabled);
+                if (window.QuizEngine) window.QuizEngine.fastTrack = enabled;
+            },
+
+            renderLevelMap() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+
             retryLevel() {
                 this.startLevel(this._currentLevelId);
             },
@@ -1535,6 +1678,7 @@
         }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/quiz-analytics.js"></script>
     <script src="js/quiz-cert.js"></script>
     <script src="js/quiz-engine.js"></script>
     <script>initQuiz();</script>

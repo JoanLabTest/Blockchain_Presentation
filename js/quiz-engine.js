@@ -41,8 +41,11 @@ const QuizEngine = {
         currentIndex: 0,
         answers: [],
         sessionId: null,
-        startTime: null
+        startTime: null,
+        qStartTime: null
     },
+
+    fastTrack: false,
 
     // ─── DEV MODE ────────────────────────────────────────────────────────────
     isDevMode() {
@@ -647,7 +650,8 @@ const QuizEngine = {
             currentIndex: 0,
             answers: [],
             sessionId: `SID-${Date.now()}-L${levelId}`,
-            startTime: Date.now()
+            startTime: Date.now(),
+            qStartTime: Date.now()
         };
 
         return {
@@ -687,8 +691,22 @@ const QuizEngine = {
             theme: question.theme
         };
 
+        const duration = Math.round((Date.now() - this._state.qStartTime) / 1000);
+
         answers.push(answer);
         this._state.currentIndex++;
+        this._state.qStartTime = Date.now(); // Reset for next q
+
+        // Track Analytics
+        if (window.QuizAnalytics) {
+            window.QuizAnalytics.trackAttempt(
+                this._state.levelMeta.id,
+                currentIndex,
+                isCorrect,
+                duration,
+                question.theme || 'General'
+            );
+        }
 
         return {
             isCorrect,
@@ -754,6 +772,16 @@ const QuizEngine = {
         const history = JSON.parse(localStorage.getItem(this.KEYS.HISTORY) || '[]');
         history.unshift(session_record);
         localStorage.setItem(this.KEYS.HISTORY, JSON.stringify(history.slice(0, 50)));
+
+        // Track Analytics
+        if (window.QuizAnalytics) {
+            window.QuizAnalytics.trackSessionComplete(
+                currentLevel,
+                correct,
+                totalQuestions,
+                duration
+            );
+        }
 
         return {
             score: scorePercent,

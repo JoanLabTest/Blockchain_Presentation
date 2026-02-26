@@ -25,9 +25,9 @@
     <script src="js/core/scoring-engine.js"></script>
     <script src="js/core/stress-testing-engine.js"></script>
     <script src="js/session-manager.js"></script>
-    <script src="js/ui/onboarding-wizard.js"></script>
-    <script src="js/ui/navigation.js"></script>
+    <script src="js/quiz-analytics.js"></script>
     <script src="js/dashboard-engine.js"></script>
+    <script src="js/ui/navigation.js"></script>
     <script src="js/navigation-orchestrator.js"></script>
     <script src="js/dashboard-tour.js"></script>
     <!-- FONTS -->
@@ -1463,6 +1463,60 @@
                 </div>
             </div>
         </div>
+        <!-- 7.5 QUIZ PERFORMANCE ANALYTICS (Phase 7) -->
+        <div class="card span-4" data-aos="fade-up" id="quiz-analytics-section"
+            style="border-top: 3px solid var(--accent-blue);">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-brain"></i> Quiz Performance & Learning Analytics</div>
+                <div style="font-size:12px; color:var(--text-muted);">Analyse de la montée en compétences et maîtrise
+                    des thématiques.</div>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1.5fr; gap:25px; margin-top:20px;">
+                <!-- Summary Stats -->
+                <div class="card" style="background:rgba(255,255,255,0.01);">
+                    <h3
+                        style="font-size:13px; margin-bottom:15px; text-transform:uppercase; letter-spacing:1px; opacity:0.7;">
+                        Indicateurs Clés</h3>
+                    <div style="display:flex; flex-direction:column; gap:15px;" id="quiz-summary-metrics">
+                        <div class="metric">
+                            <span style="font-size:11px; opacity:0.6;">Taux de Réussite Global</span>
+                            <div style="font-size:22px; font-weight:800; color:var(--accent-green);"
+                                id="quiz-pass-rate">--%</div>
+                        </div>
+                        <div class="metric">
+                            <span style="font-size:11px; opacity:0.6;">Score Moyen</span>
+                            <div style="font-size:22px; font-weight:800;" id="quiz-avg-score">--%</div>
+                        </div>
+                        <div class="metric">
+                            <span style="font-size:11px; opacity:0.6;">Temps de Réflexion Avg.</span>
+                            <div style="font-size:22px; font-weight:800; color:var(--accent-blue);" id="quiz-avg-time">
+                                --s</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pass/Fail Chart -->
+                <div class="card"
+                    style="background:rgba(255,255,255,0.01); height:280px; display:flex; flex-direction:column;">
+                    <h3
+                        style="font-size:13px; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px; opacity:0.7;">
+                        Succès / Échecs</h3>
+                    <div style="flex:1; position:relative;">
+                        <canvas id="quizPassFailChart"></canvas>
+                    </div>
+                </div>
+                <!-- Theme Accuracy Radar -->
+                <div class="card"
+                    style="background:rgba(255,255,255,0.01); height:280px; display:flex; flex-direction:column;">
+                    <h3
+                        style="font-size:13px; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px; opacity:0.7;">
+                        Maîtrise par Thématique</h3>
+                    <div style="flex:1; position:relative;">
+                        <canvas id="quizThemeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 8. INSTITUTIONAL GOVERNANCE (Phase 75) -->
         <div class="card span-4" id="institutional-section"
             style="display:none; border-top: 3px solid #6366f1; background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.5));">
