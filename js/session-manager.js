@@ -457,3 +457,43 @@ if (typeof window !== 'undefined') {
     SessionManager.startTracking();
     setTimeout(() => SessionManager.checkAndShowNotifications(), 1500);
 }
+
+// =============================================
+//  STORAGE MIGRATION v2 — Auto-cleanup legacy dev keys
+//  Runs once per browser to remove stale unconditional
+//  dev-unlock.js writes that corrupted auth state.
+// =============================================
+(function _cleanLegacyDevStorage() {
+    const MIGRATION_KEY = 'dcm_storage_v2';
+    if (localStorage.getItem(MIGRATION_KEY)) return; // Already cleaned
+
+    const STALE_DEV_KEYS = [
+        'is_super_dev',
+        'dcm_user_role',
+        'dcm_active_role',
+        'dcm_segment',
+        'dcm_org_id',
+        'userRole',
+        'userTier'
+    ];
+
+    // Only wipe the full token/profile if the token looks like a dev fake
+    // (i.e. starts with 'dev_master_token_' or 'dev-mode-token')
+    const existingToken = localStorage.getItem('dcm_auth_token') || '';
+    const isStaleToken = existingToken.startsWith('dev_master_token_')
+        || existingToken === 'dev-mode-token'
+        || existingToken.startsWith('guest-token-123');
+
+    if (isStaleToken) {
+        localStorage.removeItem('dcm_auth_token');
+        localStorage.removeItem('dcm_user_profile');
+        localStorage.removeItem('dcm_session_start');
+        console.info('[SessionManager] 🧹 Stale dev auth token cleared (migration v2).');
+    }
+
+    STALE_DEV_KEYS.forEach(k => localStorage.removeItem(k));
+
+    // Mark as done
+    localStorage.setItem(MIGRATION_KEY, '1');
+    console.info('[SessionManager] ✅ Storage migration v2 complete.');
+})();
