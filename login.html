@@ -1,35 +1,41 @@
 <!DOCTYPE html>
 
 <html lang="fr">
-<head>
-<link href="https://dcmcore.com/login.html" hreflang="fr" rel="alternate"/>
-<link href="https://dcmcore.com/login.html" hreflang="x-default" rel="alternate"/>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Connexion - Blockchain Academy</title>
-<!-- Institutional Security (Phase 82) -->
-<script src="js/security-enforcer.js"></script>
-<script src="js/error-monitor.js" type="module"></script>
-<!-- FONTS -->
-<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
-<!-- AUTO-REDIRECT IF LOGGED IN -->
-<script>
-        (function () {
-            // Updated for Phase 26+ Architecture
-            const token = localStorage.getItem('dcm_auth_token');
-            const profile = localStorage.getItem('dcm_user_profile');
 
-            if (token && profile) {
-                console.log("Session active. Redirection vers le Dashboard...");
-                window.location.href = 'dashboard.html';
+<head>
+    <link href="https://dcmcore.com/login.html" hreflang="fr" rel="alternate" />
+    <link href="https://dcmcore.com/login.html" hreflang="x-default" rel="alternate" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Connexion - Blockchain Academy</title>
+    <!-- Institutional Security (Phase 82) -->
+    <script src="js/security-enforcer.js"></script>
+    <script src="js/error-monitor.js" type="module"></script>
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="config.js?v=3"></script>
+    <!-- AUTO-REDIRECT IF ALREADY AUTHENTICATED -->
+    <script>
+        (async function () {
+            // Wait for supabase to be available
+            if (!window.supabase) return;
+            try {
+                const { data: { session } } = await window.supabase.auth.getSession();
+                if (session && session.user) {
+                    console.log('Active Supabase session found. Redirecting to dashboard...');
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (e) {
+                console.warn('Session check failed on login page:', e);
             }
         })();
     </script>
-<!-- SUPABASE -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script src="config.js?v=3"></script>
-<style>
+    <style>
         /* [Styles remain unchanged] */
         :root {
             --bg-dark: #020617;
@@ -296,7 +302,9 @@
             display: none;
         }
     </style>
-<meta content="Explore the login module of the DCM Digital Governance OS." name="description"/><link href="https://dcm-digital.com/login.html" rel="canonical"/><script type="application/ld+json">{
+    <meta content="Explore the login module of the DCM Digital Governance OS." name="description" />
+    <link href="https://dcm-digital.com/login.html" rel="canonical" />
+    <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Connexion - Blockchain Academy",
@@ -309,97 +317,99 @@
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 </head>
-<body>
-<!-- Background -->
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="login-card">
-<div class="logo-area">
-<i class="fas fa-cube"></i>
-<h1>Blockchain Academy</h1>
-<p>Espace Membre Sécurisé</p>
-</div>
-<div class="auth-tabs">
-<button aria-label="Bouton" class="tab-btn active" id="tab-login">Connexion</button>
-<button aria-label="Bouton" class="tab-btn" id="tab-signup">Inscription</button>
-</div>
-<form id="auth-form">
-<!-- Prénom et Nom (visible uniquement en mode inscription) -->
-<div class="input-group" id="firstname-group" style="display: none;">
-<label>Prénom</label>
-<div class="input-wrapper">
-<i class="fas fa-user"></i>
-<input id="firstname" placeholder="Jean" type="text"/>
-</div>
-</div>
-<div class="input-group" id="lastname-group" style="display: none;">
-<label>Nom</label>
-<div class="input-wrapper">
-<i class="fas fa-user"></i>
-<input id="lastname" placeholder="Dupont" type="text"/>
-</div>
-</div>
-<div class="input-group">
-<label>Email Professionnel</label>
-<div class="input-wrapper">
-<i class="fas fa-envelope"></i>
-<input id="email" placeholder="nom@entreprise.com" required="" type="email"/>
-</div>
-</div>
-<div class="input-group">
-<div style="display:flex; justify-content:space-between;">
-<label>Mot de passe</label>
-<a href="#" onclick="showResetPassword()" style="font-size:12px; color:var(--accent-blue); text-decoration:none;">Oublié ?</a>
-</div>
-<div class="input-wrapper">
-<i class="fas fa-key"></i>
-<input id="password" minlength="6" placeholder="••••••••" required="" type="password"/>
-</div>
-</div>
-<div class="input-group" id="confirm-password-group" style="display: none;">
-<label>Confirmer le mot de passe</label>
-<div class="input-wrapper">
-<i class="fas fa-check-circle"></i>
-<input id="confirm-password" placeholder="••••••••" type="password"/>
-</div>
-</div>
-<button aria-label="Bouton" class="submit-btn" id="submit-btn" type="submit">
-<span id="btn-text">Se connecter</span>
-<i class="fas fa-arrow-right"></i>
-</button>
-<button aria-label="Bouton" class="submit-btn" onclick="enterGuestMode()" style="background:transparent; border:1px solid var(--glass-border); margin-top:15px; color:var(--text-muted);" type="button">
-<span>Mode Invité (Démo)</span>
-</button>
-</form>
-<div id="auth-message"></div>
-<!-- RESET PASSWORD MODAL (Hidden by default) -->
-<div id="reset-modal" style="display:none; text-align:center; margin-top:20px;">
-<h3 style="font-size:16px; margin-bottom:10px;">Réinitialisation</h3>
-<p style="font-size:13px; color:#94a3b8; margin-bottom:15px;">Entrez votre email pour recevoir un lien de
-                réinitialisation.</p>
-<input id="reset-email" placeholder="votre@email.com" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--glass-border); background:rgba(30,41,59,0.5); color:white; margin-bottom:10px;" type="email"/>
-<button aria-label="Bouton" onclick="handleReset()" style="width:100%; padding:10px; background:var(--accent-cyan); border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer;">Envoyer
-                le lien</button>
-<div style="margin-top:10px;">
-<a href="#" onclick="hideResetPassword()" style="font-size:12px; color:#94a3b8;">Annuler</a>
-</div>
-</div>
-<div class="card-footer">
-<p>Protégé par Supabase Auth</p>
-<div style="margin-top: 10px;">
-<a href="index.html">← Retour à l'accueil</a>
-</div>
-</div>
-</div>
-<!-- AUTH LOGIC -->
-<script type="module">
-        import { SessionManager } from './js/session-manager.js';
-        import { supabase } from './js/supabase-client.js';
 
-        // Looking for config...
-        if (typeof DCM_CONFIG === 'undefined') {
-            document.body.innerHTML = "<h2 style='color:white;text-align:center;'>Erreur: config.js non chargé</h2>";
-        }
+<body>
+    <!-- Background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="login-card">
+        <div class="logo-area">
+            <i class="fas fa-cube"></i>
+            <h1>Blockchain Academy</h1>
+            <p>Espace Membre Sécurisé</p>
+        </div>
+        <div class="auth-tabs">
+            <button aria-label="Bouton" class="tab-btn active" id="tab-login">Connexion</button>
+            <button aria-label="Bouton" class="tab-btn" id="tab-signup">Inscription</button>
+        </div>
+        <form id="auth-form">
+            <!-- Prénom et Nom (visible uniquement en mode inscription) -->
+            <div class="input-group" id="firstname-group" style="display: none;">
+                <label>Prénom</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input id="firstname" placeholder="Jean" type="text" />
+                </div>
+            </div>
+            <div class="input-group" id="lastname-group" style="display: none;">
+                <label>Nom</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input id="lastname" placeholder="Dupont" type="text" />
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Email Professionnel</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input id="email" placeholder="nom@entreprise.com" required="" type="email" />
+                </div>
+            </div>
+            <div class="input-group">
+                <div style="display:flex; justify-content:space-between;">
+                    <label>Mot de passe</label>
+                    <a href="#" onclick="showResetPassword()"
+                        style="font-size:12px; color:var(--accent-blue); text-decoration:none;">Oublié ?</a>
+                </div>
+                <div class="input-wrapper">
+                    <i class="fas fa-key"></i>
+                    <input id="password" minlength="6" placeholder="••••••••" required="" type="password" />
+                </div>
+            </div>
+            <div class="input-group" id="confirm-password-group" style="display: none;">
+                <label>Confirmer le mot de passe</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-check-circle"></i>
+                    <input id="confirm-password" placeholder="••••••••" type="password" />
+                </div>
+            </div>
+            <button aria-label="Bouton" class="submit-btn" id="submit-btn" type="submit">
+                <span id="btn-text">Se connecter</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <button aria-label="Bouton" class="submit-btn" onclick="enterGuestMode()"
+                style="background:transparent; border:1px solid var(--glass-border); margin-top:15px; color:var(--text-muted);"
+                type="button">
+                <span>Mode Invité (Démo)</span>
+            </button>
+        </form>
+        <div id="auth-message"></div>
+        <!-- RESET PASSWORD MODAL (Hidden by default) -->
+        <div id="reset-modal" style="display:none; text-align:center; margin-top:20px;">
+            <h3 style="font-size:16px; margin-bottom:10px;">Réinitialisation</h3>
+            <p style="font-size:13px; color:#94a3b8; margin-bottom:15px;">Entrez votre email pour recevoir un lien de
+                réinitialisation.</p>
+            <input id="reset-email" placeholder="votre@email.com"
+                style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--glass-border); background:rgba(30,41,59,0.5); color:white; margin-bottom:10px;"
+                type="email" />
+            <button aria-label="Bouton" onclick="handleReset()"
+                style="width:100%; padding:10px; background:var(--accent-cyan); border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer;">Envoyer
+                le lien</button>
+            <div style="margin-top:10px;">
+                <a href="#" onclick="hideResetPassword()" style="font-size:12px; color:#94a3b8;">Annuler</a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <p>Protégé par Supabase Auth</p>
+            <div style="margin-top: 10px;">
+                <a href="index.html">← Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+    <!-- AUTH LOGIC -->
+    <script>
+        // Ensure we always have a supabase reference
+        const _sb = () => window.supabase;
 
         // STATE
         let isSignup = false;
@@ -421,24 +431,16 @@
         const tabSignup = document.getElementById('tab-signup');
 
         // TABS HANDLER
-        tabLogin.addEventListener('click', (e) => {
-            console.log("Login Tab Clicked");
-            toggleMode(false);
-        });
-        tabSignup.addEventListener('click', (e) => {
-            console.log("Signup Tab Clicked");
-            toggleMode(true);
-        });
+        tabLogin.addEventListener('click', () => toggleMode(false));
+        tabSignup.addEventListener('click', () => toggleMode(true));
 
         function toggleMode(signupMode) {
-            console.log("Toggle Mode:", signupMode ? "Signup" : "Login");
             isSignup = signupMode;
             if (isSignup) {
                 tabLogin.classList.remove('active');
                 tabSignup.classList.add('active');
-                btnText.innerText = "Créer un compte";
-                submitBtn.style.background = "linear-gradient(135deg, var(--accent-purple), var(--accent-blue))";
-                // Show profile fields
+                btnText.innerText = 'Créer un compte';
+                submitBtn.style.background = 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))';
                 firstnameGroup.style.display = 'block';
                 lastnameGroup.style.display = 'block';
                 confirmPasswordGroup.style.display = 'block';
@@ -448,9 +450,8 @@
             } else {
                 tabSignup.classList.remove('active');
                 tabLogin.classList.add('active');
-                btnText.innerText = "Se connecter";
-                submitBtn.style.background = "linear-gradient(135deg, var(--accent-blue), var(--accent-cyan))";
-                // Hide profile fields
+                btnText.innerText = 'Se connecter';
+                submitBtn.style.background = 'linear-gradient(135deg, var(--accent-blue), var(--accent-cyan))';
                 firstnameGroup.style.display = 'none';
                 lastnameGroup.style.display = 'none';
                 confirmPasswordGroup.style.display = 'none';
@@ -458,158 +459,156 @@
                 lastnameInput.required = false;
                 confirmPasswordInput.required = false;
             }
-            showMessage('', ''); // Clear messages
+            showMessage('', '');
         }
 
         // SUBMIT HANDLER
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = emailInput.value;
+            const email = emailInput.value.trim();
             const password = passwordInput.value;
             const confirmPassword = confirmPasswordInput.value;
 
             if (isSignup && password !== confirmPassword) {
-                showMessage("Les mots de passe ne correspondent pas.", "error");
+                showMessage('Les mots de passe ne correspondent pas.', 'error');
+                return;
+            }
+
+            const sb = _sb();
+            if (!sb) {
+                showMessage('Erreur : service d\'authentification indisponible.', 'error');
                 return;
             }
 
             setLoading(true);
             showMessage('', '');
 
-            // --- DEV MODE BACKDOOR (Restored) ---
-            if (!isSignup && (password === 'admin123' || password === 'dcm2026')) {
-                setTimeout(() => {
-                    // Inject Session for Dashboard 2.0
-                    const profile = {
-                        name: "Admin Dev",
-                        email: email,
-                        role: "Risk Manager", // Default Role
-                        jurisdiction: "Global",
-                        subscription_tier: "institutional",
-                        impactScore: 100
-                    };
-                    localStorage.setItem('dcm_auth_token', 'dev-mode-token');
-                    localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
-
-                    showMessage("🔓 Mode Développeur Activé ! Redirection...", "success");
-                    setTimeout(() => window.location.href = "dashboard.html", 1000);
-                }, 800);
-                return;
-            }
-
             try {
                 if (isSignup) {
-                    // --- SIGN UP ---
                     const firstname = firstnameInput.value.trim();
                     const lastname = lastnameInput.value.trim();
 
-                    const result = await SessionManager.signup(email, password, firstname, lastname);
+                    const { data, error } = await sb.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            data: {
+                                first_name: firstname,
+                                last_name: lastname,
+                                full_name: `${firstname} ${lastname}`
+                            }
+                        }
+                    });
+                    if (error) throw error;
 
-                    if (!result.requireVerification) {
-                        showMessage("Compte créé et connecté ! Redirection...", "success");
-                        setTimeout(() => {
-                            window.location.href = "dashboard.html";
-                        }, 1500);
+                    if (data.session) {
+                        // Auto-confirm enabled
+                        localStorage.setItem('dcm_auth_token', data.session.access_token);
+                        localStorage.setItem('dcm_user_profile', JSON.stringify({
+                            id: data.user.id,
+                            name: `${firstname} ${lastname}`.trim() || email.split('@')[0],
+                            email: data.user.email,
+                            role: 'Analyste',
+                            subscription_tier: 'free'
+                        }));
+                        showMessage('Compte créé ! Redirection...', 'success');
+                        setTimeout(() => window.location.href = 'dashboard.html', 1200);
                     } else {
-                        showMessage("Compte créé ! 📩 Veuillez vérifier vos emails.", "success");
+                        showMessage('Compte créé ! 📩 Veuillez vérifier vos emails pour activer votre compte.', 'success');
                         form.reset();
                     }
 
                 } else {
-                    // --- SIGN IN ---
-                    await SessionManager.login(email, password);
-                    showMessage("Connexion réussie ! Redirection...", "success");
+                    // SIGN IN via Supabase
+                    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+                    if (error) throw error;
 
-                    setTimeout(() => {
-                        window.location.href = "dashboard.html";
-                    }, 1000);
+                    // Cache profile for offline fallback
+                    localStorage.setItem('dcm_auth_token', data.session.access_token);
+                    localStorage.setItem('dcm_user_profile', JSON.stringify({
+                        id: data.user.id,
+                        name: data.user.user_metadata?.full_name || email.split('@')[0],
+                        email: data.user.email,
+                        role: 'Analyste',
+                        subscription_tier: 'free'
+                    }));
+
+                    showMessage('Connexion réussie ! Redirection...', 'success');
+                    setTimeout(() => window.location.href = 'dashboard.html', 900);
                 }
             } catch (err) {
-                console.error("Auth Error:", err);
+                console.error('Auth Error:', err);
                 let msg = err.message;
-
-                // --- PHASE 48: ADVANCED AUTH ERROR HANDLING ---
-                if (msg.includes("Invalid login credentials")) {
-                    msg = "Email ou mot de passe incorrect.";
-                } else if (msg.includes("Email not confirmed")) {
-                    msg = "Veuillez cliquer sur le lien envoyé par email pour vérifier votre compte avant de vous connecter.";
-                } else if (msg.includes("rate limit") || msg.includes("Too many requests")) {
-                    msg = "Trop de tentatives de connexion. Veuillez réessayer dans quelques minutes (Sécurité anti brute-force).";
-                }
-
-                showMessage(msg, "error");
+                if (msg.includes('Invalid login credentials')) msg = 'Email ou mot de passe incorrect.';
+                else if (msg.includes('Email not confirmed')) msg = 'Vérifiez vos emails pour activer votre compte avant de vous connecter.';
+                else if (msg.includes('rate limit') || msg.includes('Too many requests')) msg = 'Trop de tentatives. Réessayez dans quelques minutes.';
+                showMessage(msg, 'error');
             } finally {
                 setLoading(false);
             }
         });
 
-        // HELPERS [Unchanged]
+        // HELPERS
         function setLoading(loading) {
             submitBtn.disabled = loading;
             if (loading) {
                 submitBtn.classList.add('loading');
-                btnText.innerText = "Chargement...";
+                btnText.innerText = 'Chargement...';
             } else {
                 submitBtn.classList.remove('loading');
-                btnText.innerText = isSignup ? "Créer un compte" : "Se connecter";
+                btnText.innerText = isSignup ? 'Créer un compte' : 'Se connecter';
             }
         }
 
         function showMessage(text, type) {
-            if (!text) {
-                messageDiv.style.display = 'none';
-                return;
-            }
+            if (!text) { messageDiv.style.display = 'none'; return; }
             messageDiv.innerText = text;
             messageDiv.className = type;
             messageDiv.style.display = 'block';
         }
 
-        // GUEST MODE (Updated for Dashboard 3.0)
+        // GUEST MODE
         window.enterGuestMode = function () {
-            // Create Mock Session
             const guestProfile = {
-                name: "Invité",
-                role: "Visiteur",
-                jurisdiction: "Global",
+                name: 'Invité',
+                role: 'Visiteur',
+                jurisdiction: 'Global',
                 subscription_tier: 'free',
                 impactScore: 50
             };
-            localStorage.setItem('dcm_auth_token', 'guest-token-123');
+            localStorage.setItem('dcm_auth_token', 'guest-token-' + Date.now());
             localStorage.setItem('dcm_user_profile', JSON.stringify(guestProfile));
+            showMessage('Mode Invité activé. Redirection...', 'success');
+            setTimeout(() => window.location.href = 'dashboard.html', 800);
+        };
 
-            showMessage("Mode Invité activé. Redirection...", "success");
-            setTimeout(() => window.location.href = "dashboard.html", 800);
-        }
-
-        // RESET PASSWORD UI
+        // RESET PASSWORD
         window.showResetPassword = function () {
             document.getElementById('auth-form').style.display = 'none';
             document.getElementById('reset-modal').style.display = 'block';
             document.querySelector('.auth-tabs').style.display = 'none';
-        }
-
+        };
         window.hideResetPassword = function () {
             document.getElementById('auth-form').style.display = 'block';
             document.getElementById('reset-modal').style.display = 'none';
             document.querySelector('.auth-tabs').style.display = 'flex';
-        }
-
+        };
         window.handleReset = async function () {
             const email = document.getElementById('reset-email').value;
-            if (!email) return alert("Veuillez entrer un email.");
-
+            if (!email) return alert('Veuillez entrer un email.');
+            const sb = _sb();
             try {
-                const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                const { error } = await sb.auth.resetPasswordForEmail(email, {
                     redirectTo: window.location.origin + '/update-password.html',
                 });
                 if (error) throw error;
-                alert("📧 Email de réinitialisation envoyé ! Vérifiez votre boîte mail.");
+                alert('📧 Email de réinitialisation envoyé !');
                 hideResetPassword();
             } catch (err) {
-                alert("Erreur: " + err.message);
+                alert('Erreur: ' + err.message);
             }
-        }
+        };
     </script>
 </body>
+
 </html>

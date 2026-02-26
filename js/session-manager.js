@@ -24,38 +24,23 @@ const SessionManager = {
     //  INITIALIZATION — Check Supabase session
     // =============================================
     init: async () => {
-        // 🚧 DEV MASTER OVERRIDE — bypass Supabase check entirely in dev mode
-        const isSuperDevEarly = localStorage.getItem('is_super_dev') === 'true'
-            || localStorage.getItem('dcm_user_role') === 'ADMIN';
-        if (isSuperDevEarly) {
-            const cached = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
-            if (cached) {
-                console.info('🚧 [DEV-UNLOCK] Master profile restored from localStorage — full access granted.');
-                return JSON.parse(cached);
-            }
+        const sb = _supabase();
+        if (!sb) {
+            console.warn('SessionManager: supabase not loaded');
+            return null;
         }
 
-        const sb = _supabase();
-        if (!sb) { console.warn('SessionManager: supabase not loaded, using localStorage fallback'); }
-        const { data: { session } = {}, error } = sb ? await sb.auth.getSession() : { data: {}, error: 'no-supabase' };
+        const { data: { session } = {}, error } = await sb.auth.getSession();
 
         const path = window.location.pathname;
         const isPublicPage = path.endsWith('index.html') || path.endsWith('login.html') || path === '/' || path.endsWith('/');
 
         if (error || !session) {
-            // Fallback: check localStorage cache (offline/demo mode)
-            const cachedToken = localStorage.getItem(SessionManager.KEYS.AUTH_TOKEN);
-            const cachedProfile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
-
-            if (!cachedToken || !cachedProfile) {
-                if (!isPublicPage) {
-                    console.warn('🔒 No active Supabase session. Redirecting to login...');
-                    window.location.href = 'login.html';
-                }
-                return null;
+            if (!isPublicPage) {
+                console.warn('🔒 No active Supabase session. Redirecting to login...');
+                window.location.href = 'login.html';
             }
-            // Return cached profile (offline/demo mode)
-            return JSON.parse(cachedProfile);
+            return null;
         }
 
         // Real Supabase session exists — build & cache profile
@@ -96,20 +81,22 @@ const SessionManager = {
             lastLogin: new Date().toISOString()
         };
 
-        // 🚧 SUPER DEV / MASTER OVERRIDE 🚧
-        if (user.email === 'joanlyczak@gmail.com' || localStorage.getItem('is_super_dev') === 'true') {
-            console.warn("SessionManager: 🚧 MASTER ACCESS ACTIVATED - Forcing ADMIN Role and Enterprise Tier");
+        // 🎭 MASTER ACCESS — only for confirmed Supabase email
+        const MASTER_EMAIL = 'joanlyczak@gmail.com';
+        if (user.email === MASTER_EMAIL) {
+            console.info('SessionManager: 🎭 MASTER ACCESS for ' + MASTER_EMAIL);
             profile.role = 'ADMIN';
             profile.subscription_tier = 'enterprise';
-            profile.org_id = 'dcm-master-org'; // Virtual org for master access
+            profile.org_id = 'dcm-master-org';
 
-            // Immediately sync with legacy systems
-            localStorage.setItem('dcm_user_role', 'ADMIN');
-            localStorage.setItem('dcm_active_role', 'enterprise');
+            // Activate master patches via dev-unlock hook (conditional, post-auth)
+            if (typeof window.__activateMasterMode === 'function') {
+                window.__activateMasterMode(user.email);
+            }
         }
 
         // Cache locally for offline fallback
-        localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, accessToken);
+        localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, session?.access_token || accessToken);
         localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(profile));
         localStorage.setItem(SessionManager.KEYS.SESSION_START, Date.now());
         if (profile.org_id) localStorage.setItem('dcm_org_id', profile.org_id);
@@ -160,7 +147,7 @@ const SessionManager = {
     //  LOGOUT — Clears Supabase session + local cache
     // =============================================
     logout: async () => {
-        console.log('🔒 Terminating session (Supabase + LocalStorage)...');
+        console.log('🔒 Terminating session (Supabase + Storage)...');
 
         // 1. Sign out from Supabase
         try {
@@ -170,24 +157,27 @@ const SessionManager = {
             console.warn('Supabase signout failed, continuing with cache clear:', e);
         }
 
-        // 2. Clear all institutional caches
-        localStorage.removeItem(SessionManager.KEYS.AUTH_TOKEN);
-        localStorage.removeItem(SessionManager.KEYS.USER_PROFILE);
-        localStorage.removeItem(SessionManager.KEYS.SESSION_START);
-        localStorage.removeItem('dcm_org_id');
-        localStorage.removeItem('dcm_active_role');
+        // 2. Clear all localStorage auth & role keys
+        const keysToRemove = [
+            SessionManager.KEYS.AUTH_TOKEN,
+            SessionManager.KEYS.USER_PROFILE,
+            SessionManager.KEYS.SESSION_START,
+            SessionManager.KEYS.LAST_ACTIVITY,
+            'dcm_org_id',
+            'dcm_active_role',
+            'dcm_segment',
+            'dcm_user_role',
+            'is_super_dev',
+            'userRole',
+            'userTier'
+        ];
+        keysToRemove.forEach(k => localStorage.removeItem(k));
 
-        // 3. Clear Dev Overrides & Legacy Mapping
-        localStorage.removeItem('is_super_dev');
-        localStorage.removeItem('dcm_user_role');
-        localStorage.removeItem('dcm_segment');
-        localStorage.removeItem('userRole');
-        localStorage.removeItem('userTier');
-
+        // 3. Clear sessionStorage (master flag + anything else)
         sessionStorage.clear();
 
-        // 4. Redirect
-        window.location.href = 'index.html';
+        // 4. Redirect to login
+        window.location.href = 'login.html';
     },
 
     // =============================================

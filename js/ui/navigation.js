@@ -124,16 +124,38 @@ const NavigationManager = {
             });
         });
 
-        // Add Footer Logic (Logout, Settings)
+        // Add Footer Logic (User Info + Logout)
+        const user = window.SessionManager?.getCurrentUser?.() || {};
+        const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
+        const tierColor = tierColors[user.subscription_tier] || '#64748b';
+        const tierLabel = (user.subscription_tier || 'free').toUpperCase();
+        const userName = user.name || user.email?.split('@')[0] || 'Utilisateur';
+        const userEmail = user.email || '';
+
         html += `
-            <div style="margin-top:auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+            <div style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
+                <!-- User identity card -->
+                <div style="padding:12px 15px; margin-bottom:8px; background:rgba(255,255,255,0.03); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div style="width:34px; height:34px; border-radius:50%; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                            <i class="fas fa-user" style="font-size:13px; color:#3b82f6;"></i>
+                        </div>
+                        <div style="overflow:hidden; flex:1;">
+                            <div style="font-size:12px; font-weight:700; color:white; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${userName}</div>
+                            <div style="font-size:10px; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${userEmail}</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:8px;">
+                        <span style="font-size:9px; font-weight:800; letter-spacing:1px; background:${tierColor}22; color:${tierColor}; border:1px solid ${tierColor}44; padding:2px 8px; border-radius:20px;">${tierLabel}</span>
+                    </div>
+                </div>
                 <li>
                     <a href="pricing.html" class="nav-item" style="color:var(--accent-gold)">
                         <i class="fas fa-crown"></i> UPGRADE PLAN
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-item" style="color:var(--accent-red)" onclick="SessionManager.logout()">
+                    <a href="#" class="nav-item" style="color:#ef4444" onclick="event.preventDefault(); SessionManager.logout()">
                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                     </a>
                 </li>

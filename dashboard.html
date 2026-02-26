@@ -18,6 +18,34 @@
     <script src="js/error-monitor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js"></script>
+    <!-- AUTH GUARD (Phase 7): redirect to login if no valid Supabase session -->
+    <script>
+        (async function () {
+            // Body is hidden via CSS until session is confirmed
+            document.documentElement.style.visibility = 'hidden';
+            try {
+                if (!window.supabase) throw new Error('supabase not loaded');
+                const { data: { session } } = await window.supabase.auth.getSession();
+                if (!session || !session.user) {
+                    // Check if localStorage fallback exists (guest/demo mode)
+                    const cachedProfile = localStorage.getItem('dcm_user_profile');
+                    const cachedToken = localStorage.getItem('dcm_auth_token');
+                    if (!cachedProfile || !cachedToken) {
+                        window.location.replace('login.html');
+                        return;
+                    }
+                }
+            } catch (e) {
+                // If supabase not available but localStorage has a session, allow access
+                const cachedProfile = localStorage.getItem('dcm_user_profile');
+                if (!cachedProfile) {
+                    window.location.replace('login.html');
+                    return;
+                }
+            }
+            document.documentElement.style.visibility = '';
+        })();
+    </script>
     <script src="js/config.js"></script>
     <script src="js/core/tenant-manager.js"></script>
     <script src="js/core/workflow-engine.js"></script>
