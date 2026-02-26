@@ -1398,19 +1398,17 @@
             }
         };
 
-        // ─── LOAD QuizEngine via dynamic import ──────────────────────────────────────
-        (async () => {
-            try {
-                const mod = await import('./js/quiz-engine.js');
-                window.QuizEngine = mod.QuizEngine;
+        // ─── Init after engine loaded via script tag ──────────────────────────────
+        function initQuiz() {
+            if (window.QuizEngine) {
                 QuizUI.init();
-            } catch (err) {
-                console.warn('QuizEngine import failed:', err);
-                // Fallback: init UI without engine (shows locked state for all)
-                QuizUI.init();
+            } else {
+                setTimeout(initQuiz, 30);
             }
-        })();
+        }
     </script>
+    <script src="js/quiz-engine.js"></script>
+    <script>initQuiz();</script>
 </body>
 
 </html>

@@ -4,10 +4,11 @@
  * Phase 2: Quiz Engine
  * Handles: question loading, shuffling, session management,
  * scoring, unlock logic, localStorage persistence.
+ * Compatible with both file:// and http:// protocols (non-module).
  * ============================================
  */
 
-export const QuizEngine = {
+const QuizEngine = {
 
     // ─── CONFIG ─────────────────────────────────────────────────────────────
     BANK_PATH: './js/quiz-bank/',
@@ -88,11 +89,20 @@ export const QuizEngine = {
         const level = this.LEVELS.find(l => l.id === levelId);
         if (!level) throw new Error(`Level ${levelId} not found`);
 
-        const response = await fetch(`${this.BANK_PATH}${level.file}?v=${Date.now()}`);
-        if (!response.ok) throw new Error(`Failed to load ${level.file}: ${response.status}`);
-
-        const data = await response.json();
-        return data;
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `${this.BANK_PATH}${level.file}?v=${Date.now()}`, true);
+            xhr.onload = () => {
+                if (xhr.status === 200 || xhr.status === 0) {
+                    try { resolve(JSON.parse(xhr.responseText)); }
+                    catch (e) { reject(new Error(`JSON parse error: ${e.message}`)); }
+                } else {
+                    reject(new Error(`Failed to load ${level.file}: ${xhr.status}`));
+                }
+            };
+            xhr.onerror = () => reject(new Error(`Network error loading ${level.file}`));
+            xhr.send();
+        });
     },
 
     // ─── SHUFFLE UTILITY ─────────────────────────────────────────────────────
