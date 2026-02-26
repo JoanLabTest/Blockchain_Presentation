@@ -4,7 +4,7 @@
  * This is the core logic for the Multi-tenant Enterprise model.
  */
 
-export const TenantManager = {
+const TenantManager = {
 
     // Default Mock Org for the Demonstration
     DEFAULT_ORG: {

@@ -4,7 +4,7 @@
  * Supports custom branding for Enterprise organizations.
  */
 
-export const ReportEngine = {
+const ReportEngine = {
 
     /**
      * GENERATE BUNDLE: Creates a consolidated report object for export

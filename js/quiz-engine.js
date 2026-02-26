@@ -275,6 +275,298 @@ const QuizEngine = {
                 { id: "L5-029", question: "Le 'institutional adoption cycle' pour le DLT suit le modèle de Gartner Hype Cycle pour les entreprises en :", choices: ["Innovation Trigger → Pic d'attentes → Creux de désillusion → Pente d'illumination → Plateau de productivité", "Adoption rapide → Saturation → Déclin → Remplacement technologique", "Réglementation → Pilote → Production → Scale", "Aucun modèle reconnu n'est applicable à l'adoption institutionnelle"], correct: 0, explanation: "En 2024-2025, le DLT institutionnel est entre le Creux de désillusion et la Pente d'illumination — post-hype blockchain 2017-2019, maintenant cas d'usage réels en production chez JPMorgan, SocGen, HSBC.", theme: "Market Dynamics", difficulty: "medium" },
                 { id: "L5-030", question: "Le 'exit hypothesis' optimal pour les investisseurs d'une startup DLT institutionnelle Série A est :", choices: ["IPO sur le Nasdaq dans les 18 mois suivant la levée", "Acquisition stratégique par un acteur établi (SWIFT, Broadridge, Euroclear, grande banque) ou IPO à 5-7 ans", "Émission de tokens propres convertibles en equity", "Rachat par les fondateurs via un management buyout"], correct: 1, explanation: "Les exits réalistes: M&A stratégique (FIS, Broadridge, DTCC, une grande banque cherchant une brique DLT propriétaire) ou IPO si scale atteint. Le token exit est incompatible avec un VC institutionnel traditionnel.", theme: "VC Due Diligence", difficulty: "hard" }
             ]
+        },
+        'super': {
+            level: 'super',
+            name: "DCM Black Level — Strategic Mastery",
+            subtitle: "High-Stakes Scenarios, VC Selection, Regulatory Hardening & Infrastructure Design",
+            theme_color: "#7c3aed",
+            questions: [
+                {
+                    id: "SL-001",
+                    scenario: "Vous pitchez une levée de fonds Série A de 15M€ devant un VC Tier-1. Ils vous demandent quelle est votre 'unfair advantage' réglementaire par rapport à un concurrent disposant de 10x plus de capital mais sans agrément MiCA.",
+                    question: "Quelle réponse maximise vos chances d'obtenir une 'term sheet' avec une valorisation premium ?",
+                    choices: [
+                        "L'agrément MiCA nous permet d'opérer dès maintenant dans 27 pays, créant une barrière à l'entrée de 18-24 mois pour la concurrence.",
+                        "Notre technologie est open-source et plus décentralisée que celle du concurrent.",
+                        "Nous avons une plus grande communauté sur les réseaux sociaux et Discord.",
+                        "L'agrément MiCA garantit que nos smart contracts ne contiennent aucune faille de sécurité.",
+                        "Le concurrent sera racheté par une banque avant d'obtenir son agrément.",
+                        "L'adhésion aux standards MiCA réduit nos coûts de serveurs cloud de 40%.",
+                        "Nous pouvons émettre des stablecoins algorithmiques sans collatéral grâce à MiCA.",
+                        "La régulation capture les opportunités de marché plus vite que le capital pur dans le secteur institutionnel."
+                    ],
+                    correct: 0,
+                    explanation: "Dans le B2B régulé, la 'regulatory capture' (être le premier agréé) est le moat le plus puissant. Un concurrent sans agrément doit attendre le processus administratif (18-24m), vous laissant le champ libre pour sécuriser les partenaires bancaires.",
+                    theme: "Série A Strategy",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-002",
+                    scenario: "Une banque systémique (G-SIB) souhaite émettre une obligation numérique de 500M€ avec règlement T+0. Elle hésite entre utiliser le réseau public Ethereum (L2) ou une infrastructure privée de type Canton Network.",
+                    question: "Quel est l'argument technique décisif pour choisir Canton Network dans ce contexte institutionnel ?",
+                    choices: [
+                        "La vitesse de transaction est 100x supérieure à celle d'Ethereum.",
+                        "L'interopérabilité native entre sub-ledgers confidentiels sans révéler les positions globales au reste du marché.",
+                        "Canton Network permet d'utiliser n'importe quel langage de programmation, même non-déterministe.",
+                        "L'absence totale de frais de transaction (gas fees) pour tous les participants.",
+                        "La conformité automatique au droit civil américain indépendamment de la juridiction des nœuds.",
+                        "Le support natif du Bitcoin comme monnaie de règlement par défaut.",
+                        "La suppression du besoin de HSM pour la conservation des clés privées.",
+                        "Une gouvernance centralisée permettant d'annuler n'importe quelle transaction par simple vote."
+                    ],
+                    correct: 1,
+                    explanation: "Canton (Digital Asset) a été conçu pour la finance: il permet à chaque banque de garder ses données confidentielles sur son sub-ledger tout en permettant des transactions atomiques cross-ledger — résolvant le paradoxe 'Confidentialité vs Interopérabilité'.",
+                    theme: "Infrastructure Choice",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-003",
+                    scenario: "Durant un audit DORA, le régulateur identifie que votre infrastructure DLT dépend d'un seul fournisseur Cloud pour 95% de vos nœuds validateurs.",
+                    question: "Quelle mesure corrective est la plus robuste pour éviter une sanction majeure ?",
+                    choices: [
+                        "Migrer 50% des validateurs vers une autre région du même fournisseur Cloud.",
+                        "Implémenter une stratégie Multi-cloud hybride avec des nœuds répartis sur au moins deux providers distincts et des nœuds on-premise.",
+                        "Souscrire à une assurance ICT couvrant 100% des amendes réglementaires potentielles.",
+                        "Chiffrer toutes les communications entre nœuds avec AES-256.",
+                        "Passer à un consensus Proof of Work pour supprimer la dépendance aux infrastructures virtualisées.",
+                        "Augmenter le capital Tier 1 de 10% pour compenser le risque opérationnel résiduel.",
+                        "Demander une dérogation au motif que le fournisseur cloud est lui-même certifié SOC2.",
+                        "Recruter un Chief Resilience Officer pour superviser manuellement les serveurs."
+                    ],
+                    correct: 1,
+                    explanation: "DORA (Art. 28) insiste sur la concentration des risques ICT. Une stratégie multi-cloud / hybride est la 'gold standard' pour garantir la continuité de service en cas de panne généralisée d'un fournisseur (anti vendor lock-in).",
+                    theme: "DORA Compliance",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-004",
+                    scenario: "Vous concevez un stablecoin de niveau institutionnel (Asset-Referenced Token) sous MiCA. Le régulateur exige une preuve de réserve en temps réel avec un mécanisme de 'kill-switch' auditable.",
+                    question: "Quelle architecture technique est la plus 'future-proof' pour ce cas d'usage ?",
+                    choices: [
+                        "Un oracle centralisé mettant à jour un fichier CSV stocké sur IPFS chaque heure.",
+                        "Des Proof-of-Reserves on-chain via des Oracles TEE avec un smart contract 'Circuit Breaker' contrôlé par une gouvernance multi-signature.",
+                        "Une simple attestation hebdomadaire d'un cabinet d'audit envoyée par email au régulateur.",
+                        "L'utilisation d'une blockchain permissionless sans aucun contrôle pour maximiser la liquidité.",
+                        "Un mécanisme de minting basé uniquement sur le prix du Bitcoin.",
+                        "Une architecture basée sur un DAO où chaque détenteur de token peut bloquer le contrat.",
+                        "Le stockage de 100% des réserves en stablecoins algorithmiques concurrents.",
+                        "Une intégration native avec le système SWIFT pour valider les flux fiat avant émission."
+                    ],
+                    correct: 1,
+                    explanation: "Les oracles TEE (Trusted Execution Environment) fournissent des preuves de données off-chain inviolables. Le 'Circuit Breaker' permet de suspendre l'activité en cas de déviation, sécurisant les fonds selon les standards MiCA.",
+                    theme: "Stablecoin Governance",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-005",
+                    scenario: "Dans le cadre de Bâle III (BCBS 2022), une banque souhaite minimiser sa charge de capital pour ses avoirs en titres tokenisés.",
+                    question: "Pour être classifié en 'Groupe 1a' (pondération favorable), quel critère est indispensable ?",
+                    choices: [
+                        "L'actif doit être une crypto-monnaie avec une capitalisation > 100Md$.",
+                        "Le titre tokenisé doit avoir les mêmes droits juridiques et économiques que son équivalent traditionnel et être émis sur un réseau régulé.",
+                        "L'actif doit être détenu dans un wallet non-custodial personnel pour éviter le risque de tiers.",
+                        "L'actif doit obligatoirement être un NFT unique représentant de l'immobilier.",
+                        "La banque doit détenir au moins 51% des nœuds validateurs du réseau.",
+                        "L'actif doit être émis sur une blockchain Proof of Work exclusivement.",
+                        "Le titre doit être convertible en or physique sous 48 heures.",
+                        "Le réseau DLT utilisé doit être exempté de la surveillance de l'EBA."
+                    ],
+                    correct: 1,
+                    explanation: "La classification Groupe 1a (BCBS) est réservée aux tokenized traditional assets. S'ils respectent les critères de structure et de réseau (sécurité, gouvernance), ils reçoivent la même pondération que l'actif 'legacy' (ex: 20% pour une obligation souveraine).",
+                    theme: "Basel III Strategy",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-006",
+                    scenario: "Le projet 'European Blockchain Services Infrastructure' (EBSI) vise à créer un réseau paneuropéen pour les services publics.",
+                    question: "Quel est le risque majeur d'une infrastructure hybride (off-chain storage + on-chain notarization) pour les données personnelles ?",
+                    choices: [
+                        "Le coût trop élevé du stockage sur IPFS.",
+                        "La tension entre l'immuabilité du hash on-chain et le 'Droit à l'oubli' (Art. 17 RGPD) si le hash permet d'identifier indirectement une personne.",
+                        "L'impossibilité de lire les données si le réseau EBSI subit un hard fork.",
+                        "La lenteur du consensus IBFT 2.0 pour les gros fichiers.",
+                        "La nécessité pour chaque citoyen de payer des gas fees en tokens EBSI.",
+                        "Le risque que les validateurs censurent les données sociales des citoyens.",
+                        "L'obsolescence rapide du format de fichier JSON-LD utilisé.",
+                        "L'obligation de migrer toutes les données vers une blockchain publique américaine."
+                    ],
+                    correct: 1,
+                    explanation: "Même si la donnée est off-chain, le hash on-chain est considéré comme une donnée pseudonymisée sous RGPD. S'il peut être corrélé à d'autres infos pour identifier quelqu'un, l'immuabilité du hash contrevient au droit à l'effacement.",
+                    theme: "RGPD & Privacy",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-007",
+                    scenario: "Durant un incident cyber majeur (ex: détection d'une backdoor dans une lib open-source critique), DORA impose une notification rapide.",
+                    question: "Quel est le délai maximal pour soumettre le 'rapport initial' d'incident majeur aux autorités compétentes ?",
+                    choices: [
+                        "Dans l'heure suivant la détection.",
+                        "Dans les 4 heures (mais au maximum 24h après détection).",
+                        "Dans les 72 heures comme prévu par le RGPD.",
+                        "Dans les 5 jours ouvrés.",
+                        "Uniquement lors de la clôture annuelle des comptes.",
+                        "La notification n'est obligatoire que si des fonds ont été volés.",
+                        "Dans les 48 heures précédant la correction du bug.",
+                        "Dans les 15 jours si l'incident est partagé avec l'ENISA."
+                    ],
+                    correct: 1,
+                    explanation: "DORA (Art. 19) durcit les délais: un rapport d'incident majeur doit être envoyé extrêmement rapidement (Timeline EBA/ESMA suggérée de 4h à 24h). C'est beaucoup plus strict que le RGPD (72h).",
+                    theme: "DORA Compliance",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-008",
+                    scenario: "Un Asset Manager souhaite lancer un fonds monétaire tokenisé (MMF) offrant un règlement en 'Atomic Swap' contre une monnaie numérique.",
+                    question: "Quel instrument de règlement (Settlement Asset) minimise le risque de crédit de l'actif monétaire pour une banque ?",
+                    choices: [
+                        "Un stablecoin émis par un exchange non régulé.",
+                        "Une Wholesale CBDC (wCBDC) émise par une Banque Centrale sur le réseau DLT.",
+                        "Un token de dépôt (Deposit Token) émis par une banque commerciale de rang 2.",
+                        "Un token synthétique indexé sur le cours de l'or.",
+                        "Un Wrapped Bitcoin (wBTC) sur un réseau Layer 2.",
+                        "Le paiement en cash via SWIFT avec confirmation manuelle on-chain.",
+                        "Un stablecoin algorithmique indexé sur l'inflation.",
+                        "L'utilisation d'un système de crédit mutuel entre participants du réseau."
+                    ],
+                    correct: 1,
+                    explanation: "La CBDC (Central Bank Digital Currency) est une monnaie de banque centrale, donc sans risque de crédit ni de liquidité. C'est l'actif de règlement 'utlime' pour les transactions de gros (wholesale).",
+                    theme: "Settlement Mechanics",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-009",
+                    scenario: "Pour auditer un smart contract gérant 1 milliard USD d'actifs, quelle méthode offre le plus haut niveau d'assurance mathématique ?",
+                    choices: [
+                        "Un audit manuel par deux experts indépendants pendant 2 semaines.",
+                        "La Vérification Formelle (Formal Verification) via des solveurs SMT prouvant l'absence de certains types de bugs.",
+                        "Le 'Fuzzing' pendant 48 heures sur tous les points d'entrée du contrat.",
+                        "Un bug bounty program ouvert de 100 000 USD.",
+                        "Vérifier manuellement que le code est identique à celui d'un template OpenZeppelin.",
+                        "Recourir à une IA générative pour scanner les vulnérabilités courantes.",
+                        "Mesurer la couverture de test unitaire (Unit Test Coverage) au-delà de 95%.",
+                        "Faire certifier le processus de développement par la norme ISO 9001."
+                    ],
+                    correct: 1,
+                    explanation: "La Vérification Formelle utilise des méthodes mathématiques pour prouver qu'un programme respecte une spécification. Contrairement aux tests qui cherchent des bugs, elle 'prouve' l'absence de bugs spécifiques (ex: overflow, reentrancy).",
+                    theme: "Smart Contract Audit",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-010",
+                    scenario: "La directive AMLD6 impose des contrôles accrus sur les transactions impliquant des 'unhosted wallets' (wallets non-custodials).",
+                    question: "Quelle technologie permet de concilier AML et vie privée pour ces wallets ?",
+                    choices: [
+                        "L'interdiction pure et simple des transferts vers des portefeuilles externes.",
+                        "L'utilisation de Zero-Knowledge KYC (zk-KYC) permettant de prouver l'éligibilité sans révéler l'identité on-chain.",
+                        "L'envoi automatique de la clé privée au régulateur lors de chaque transaction.",
+                        "Le blocage de toutes les transactions supérieures à 50€.",
+                        "Le marquage (tainting) de tous les tokens ayant transité par un wallet non-custodial.",
+                        "Le stockage de l'historique complet de navigation de l'utilisateur sur la blockchain.",
+                        "L'utilisation de wallets ne fonctionnant qu'avec une reconnaissance faciale centralisée.",
+                        "L'exigence d'une double signature systématique par un notaire pour chaque transfert."
+                    ],
+                    correct: 1,
+                    explanation: "Le zk-KYC est la frontière actuelle de la compliance: il permet de prouver (par ex via une signature ZK) que le wallet appartient à une personne vérifiée sans inscrire son nom sur un registre public immuable.",
+                    theme: "AML & Privacy",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-011",
+                    scenario: "Un consortium bancaire déploie une blockchain permissioned. Ils doivent choisir entre un consensus PBFT et un consensus Raft.",
+                    question: "Pourquoi le PBFT est-il préférable dans ce contexte multi-acteurs ?",
+                    choices: [
+                        "Il est beaucoup plus rapide que Raft en termes de TPS.",
+                        "Il tolère les fautes Byzantines (nœuds malveillants ou menteurs), contrairement à Raft qui ne gère que les pannes sèches.",
+                        "Il consomme moins d'énergie que Raft.",
+                        "Il est natif dans toutes les distributions Linux standard.",
+                        "Il permet d'ajouter des milliers de validateurs sans perte de performance.",
+                        "Il garantit l'anonymat des validateurs vis-à-vis du reste du monde.",
+                        "Il a été inventé spécifiquement par la BCE pour les CBDC.",
+                        "Il ne nécessite aucune communication réseau entre les validateurs."
+                    ],
+                    correct: 1,
+                    explanation: "Raft suppose que le leader est honnête mais peut tomber en panne. Dans un consortium (rivalité potentielle), PBFT protège contre un leader malveillant qui tenterait de censurer ou modifier l'ordre des transactions.",
+                    theme: "Consensus Mechanisms",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-012",
+                    scenario: "L'infrastructure DCM Digital doit intégrer un 'ESG Score' pour chaque actif tokenisé, incluant l'empreinte carbone du protocole sous-jacent.",
+                    question: "Quel indicateur est le plus pertinent pour un investisseur institutionnel Article 9 SFDR ?",
+                    choices: [
+                        "La capitalisation boursière du token multipliée par son score ESG moyen.",
+                        "Le Carbon-per-Transaction et le mécanisme de consensus (PoS vs PoW) audités on-chain.",
+                        "Le nombre de 'Likes' ESG sur le profil social de l'émetteur.",
+                        "L'absence totale d'électricité consommée par le réseau DLT.",
+                        "L'utilisation exclusiv de serveurs hébergés en Islande.",
+                        "Le montant des dons faits par la fondation blockchain à des ONGs environnementales.",
+                        "Le ratio de femmes parmi les validateurs du réseau.",
+                        "Le prix du token s'il est corrélé positivement à l'indice MSCI World ESG."
+                    ],
+                    correct: 1,
+                    explanation: "Pour les fonds Article 9 (objectif durable), la mesure de l'impact réel (empreinte carbone de l'archi IT / consensus) est cruciale. L'EBA et l'ESMA préparent des standards de reporting ESG pour les crypto-actifs.",
+                    theme: "ESG & SFDR",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-013",
+                    scenario: "Une plateforme de Titrisation DLT veut automatiser le cycle de vie des actifs (coupons, amortissements) via des smart contracts.",
+                    question: "Quel est le risque de 'Model Risk' (MRM) le plus critique dans ce système ?",
+                    choices: [
+                        "L'inefficacité du code Solidity en termes de consommation de gas.",
+                        "Une erreur de conception dans la logique de calcul des intérêts intégrée au smart contract immuable.",
+                        "L'utilisation d'une version de compilateur trop ancienne.",
+                        "Le manque de commentaires dans le code source pour les auditeurs.",
+                        "Le choix d'une police de caractères non lisible dans le code.",
+                        "La fluctuation du prix du gas rendant l'exécution trop chère.",
+                        "L'absence de logo sur les tokens émis par le contrat.",
+                        "La lenteur de synchronisation des nœuds d'archive."
+                    ],
+                    correct: 1,
+                    explanation: "Sous SR 11-7, un smart contract est un modèle. Si la logique métier (calcul d'intérêts) est codée en dur et fausse, l'erreur devient systémique, immuable et peut causer des pertes massives. C'est le cœur du Model Risk management sur DLT.",
+                    theme: "Model Risk Management",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-014",
+                    scenario: "Le 'Regulated Liability Network' (RLN) propose une architecture où monnaie et actifs coexistent sur le même registre.",
+                    question: "Quel est le bénéfice majeur par rapport au modèle actuel ( silos banques vs silos dépositaires ) ?",
+                    choices: [
+                        "La suppression des banques commerciales au profit d'un algorithme unique.",
+                        "Le règlement atomique simultané (DVP) en temps réel, 24/7, sans risque de décalage temporel entre titre et cash.",
+                        "La gratuité totale des services bancaires pour les épargnants.",
+                        "L'utilisation systématique du Bitcoin pour tous les règlements interbancaires.",
+                        "L'anonymat complet des transactions envers le régulateur.",
+                        "La fin de l'inflation grâce à la programmabilité monétaire.",
+                        "La réduction de la taille des serveurs informatiques des banques par 10.",
+                        "L'unification des taux d'intérêt au niveau mondial."
+                    ],
+                    correct: 1,
+                    explanation: "Le RLN (testé par NY Fed, Citi, Mastercard) vise à supprimer les frictions de réconciliation entre silos. L'atomicité garantit que le titre ne bouge que si le cash bouge, instantanément, réduisant les besoins de collatéral.",
+                    theme: "Market Infrastructure",
+                    difficulty: "super"
+                },
+                {
+                    id: "SL-015",
+                    scenario: "SCÉNARIO FINAL : Une cyber-attaque systémique paralyse 3 grands fournisseurs cloud et 2 oracles majeurs simultanément pendant une période de crise de liquidité globale.",
+                    question: "Quelle caractéristique d'architecture permet à DCM Digital de survivre opérationnellement ?",
+                    choices: [
+                        "L'utilisation exclusive de serveurs locaux non connectés à Internet.",
+                        "La Redondance Hybride (Cloud + On-Premise) avec consensus BFT tolérant la perte d'oracles via des sources de prix redondantes locales.",
+                        "L'arrêt complet de la plateforme jusqu'à la fin de la crise cloud.",
+                        "Le basculement de toutes les transactions sur le réseau Bitcoin Mainnet.",
+                        "L'utilisation d'une assurance contre les catastrophes naturelles.",
+                        "La confiance absolue dans la capacité des fournisseurs cloud à rétablir le service sous 2 heures.",
+                        "La liquidation automatique de tous les actifs dès la première minute d'interruption.",
+                        "La demande d'un prêt d'urgence à la banque centrale via un formulaire papier."
+                    ],
+                    correct: 1,
+                    explanation: "La 'Survivabilité' institutionnelle nécessite: 1/ Redondance infra (Multi-cloud/Hybride), 2/ Redondance data (Multi-oracle), 3/ Résilience consensus (BFT). C'est la seule façon de maintenir l'intégrité en cas de choc systémique ICT.",
+                    theme: "Systemic Resilience",
+                    difficulty: "super"
+                }
+            ]
         }
     },
 

@@ -3,7 +3,7 @@
  * Centralized, stateless logic for Trust Scores and Risk Indices.
  */
 
-export const ScoringEngine = {
+const ScoringEngine = {
 
     /**
      * Calculates the Trust Score based on sub-metrics.
@@ -55,3 +55,7 @@ export const ScoringEngine = {
         return 'C';
     }
 };
+
+if (typeof window !== 'undefined') {
+    window.ScoringEngine = ScoringEngine;
+}

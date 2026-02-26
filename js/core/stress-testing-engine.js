@@ -4,7 +4,7 @@
  * with Network Infrastructure Overlays (SWIAT & Canton).
  */
 
-export const StressTestingEngine = {
+const StressTestingEngine = {
     config: {
         simulations: 1000,
         days: 365,
@@ -112,3 +112,7 @@ export const StressTestingEngine = {
         };
     }
 };
+
+if (typeof window !== 'undefined') {
+    window.StressTestingEngine = StressTestingEngine;
+}

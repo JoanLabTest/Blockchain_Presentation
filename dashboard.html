@@ -20,6 +20,8 @@
     <script src="js/core/tenant-manager.js"></script>
     <script src="js/core/workflow-engine.js"></script>
     <script src="js/core/report-engine.js"></script>
+    <script src="js/core/scoring-engine.js"></script>
+    <script src="js/core/stress-testing-engine.js"></script>
     <script src="js/ui/onboarding-wizard.js"></script>
     <script src="js/ui/navigation.js"></script>
     <script src="js/dashboard-engine.js"></script>
@@ -1822,8 +1824,6 @@
                 }
 
                 // --- SAAS ARCHITECTURE CORE (Phase 72) ---
-                // Use window globals (loaded by script tags or dev-unlock.js)
-                // Graceful fallbacks if modules not loaded
                 const FeatureMatrix = window.DCM_CORE_FLAGS?.FeatureMatrix || {};
                 const checkFeature = window.DCM_CORE_FLAGS?.checkFeature || (() => true);
                 const gateFeature = window.DCM_CORE_FLAGS?.gateFeature || (() => true);
@@ -1831,6 +1831,10 @@
                 if (!window.DCM_CORE_FLAGS) {
                     window.DCM_CORE_FLAGS = { FeatureMatrix, checkFeature, gateFeature };
                 }
+
+                // Ensure global access for non-module scripts
+                window.checkFeature = checkFeature;
+                window.gateFeature = gateFeature;
 
                 // Default segment from localStorage or ADMIN detection
                 const rawSegment = localStorage.getItem('dcm_user_role') === 'ADMIN' ? 'enterprise'

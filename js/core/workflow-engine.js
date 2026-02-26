@@ -3,7 +3,7 @@
  * Automates risk-monitoring tasks, sensitivity alerts, and scheduled institutional reporting.
  */
 
-export const WorkflowEngine = {
+const WorkflowEngine = {
 
     // Active Workflows State
     activeWorkflows: {
