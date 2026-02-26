@@ -4,9 +4,10 @@
  * Handles: Auth state, JWT verification, RLS-backed data, logout.
  */
 
-import { supabase } from './supabase-client.js';
+// supabase is loaded globally via supabase-client.js script tag
+const _supabase = () => window.supabase;
 
-export const SessionManager = {
+const SessionManager = {
 
     // --- KEYS (kept for offline/fallback cache) ---
     KEYS: {
@@ -34,7 +35,9 @@ export const SessionManager = {
             }
         }
 
-        const { data: { session }, error } = await supabase.auth.getSession();
+        const sb = _supabase();
+        if (!sb) { console.warn('SessionManager: supabase not loaded, using localStorage fallback'); }
+        const { data: { session } = {}, error } = sb ? await sb.auth.getSession() : { data: {}, error: 'no-supabase' };
 
         const path = window.location.pathname;
         const isPublicPage = path.endsWith('index.html') || path.endsWith('login.html') || path === '/' || path.endsWith('/');
@@ -71,11 +74,12 @@ export const SessionManager = {
     // =============================================
     _buildProfile: async (user, accessToken) => {
         // Try to fetch extended profile from public.profiles table
-        const { data: profileData, error } = await supabase
+        const sb = _supabase();
+        const { data: profileData, error } = sb ? await sb
             .from('profiles')
             .select('*')
             .eq('id', user.id)
-            .single();
+            .single() : { data: null, error: null };
 
         if (error) {
             console.error("Supabase Profile Fetch Error:", error.message);
@@ -117,7 +121,8 @@ export const SessionManager = {
     //  LOGIN — Delegates to Supabase Auth
     // =============================================
     login: async (email, password) => {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const sb = _supabase(); if (!sb) throw new Error('Supabase not available');
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
         if (error) throw error;
 
         const profile = await SessionManager._buildProfile(data.user, data.session.access_token);
@@ -128,7 +133,8 @@ export const SessionManager = {
     //  SIGNUP — Delegates to Supabase Auth
     // =============================================
     signup: async (email, password, firstName, lastName) => {
-        const { data, error } = await supabase.auth.signUp({
+        const sb = _supabase(); if (!sb) throw new Error('Supabase not available');
+        const { data, error } = await sb.auth.signUp({
             email,
             password,
             options: {
@@ -157,7 +163,7 @@ export const SessionManager = {
         console.log('🔒 Terminating session (Supabase + LocalStorage)...');
 
         // 1. Sign out from Supabase
-        await supabase.auth.signOut();
+        const sb = _supabase(); if (sb) await sb.auth.signOut();
 
         // 2. Clear all local caches
         localStorage.removeItem(SessionManager.KEYS.AUTH_TOKEN);
@@ -225,7 +231,9 @@ export const SessionManager = {
     //  DATA SYNC — Write activity to Supabase
     // =============================================
     syncPageActivity: async () => {
-        const { data: { session } } = await supabase.auth.getSession();
+        const sb = _supabase();
+        if (!sb) return;
+        const { data: { session } } = await sb.auth.getSession();
         if (!session) return; // No real session, skip sync
 
         const path = window.location.pathname.split('/').pop() || 'index.html';
@@ -238,7 +246,8 @@ export const SessionManager = {
             AnalyticsEngine.trackPageTime(path, seconds);
         }
 
-        await supabase.from('activity_logs').upsert({
+        if (!sb) return;
+        await sb.from('activity_logs').upsert({
             user_id: session.user.id,
             page_url: path,
             time_spent_seconds: seconds,
@@ -424,21 +433,24 @@ export const SessionManager = {
 //  SUPABASE AUTH STATE LISTENER
 //  Auto-sync session changes (token refresh, expiry)
 // =============================================
-supabase.auth.onAuthStateChange(async (event, session) => {
-    if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
-        localStorage.removeItem(SessionManager.KEYS.AUTH_TOKEN);
-        localStorage.removeItem(SessionManager.KEYS.USER_PROFILE);
-        localStorage.removeItem(SessionManager.KEYS.SESSION_START);
-    } else if (event === 'TOKEN_REFRESHED' && session) {
-        // Update cached token with fresh one
-        localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, session.access_token);
-        const profile = await SessionManager._buildProfile(session.user, session.access_token);
-        console.log('🔄 Token refreshed, profile updated:', profile.name);
-    }
-});
+const _sb = _supabase();
+if (_sb) {
+    _sb.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+            localStorage.removeItem(SessionManager.KEYS.AUTH_TOKEN);
+            localStorage.removeItem(SessionManager.KEYS.USER_PROFILE);
+            localStorage.removeItem(SessionManager.KEYS.SESSION_START);
+        } else if (event === 'TOKEN_REFRESHED' && session) {
+            localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, session.access_token);
+            const profile = await SessionManager._buildProfile(session.user, session.access_token);
+            console.log('🔄 Token refreshed, profile updated:', profile.name);
+        }
+    });
+}
 
-// Auto-start tracking if in browser
+// Expose globally and auto-start
 if (typeof window !== 'undefined') {
+    window.SessionManager = SessionManager;
     SessionManager.startTracking();
     setTimeout(() => SessionManager.checkAndShowNotifications(), 1500);
 }

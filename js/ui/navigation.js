@@ -4,9 +4,13 @@
  * Supports: Core, Governance, Toolkit, Academic.
  */
 
-import { checkFeature } from '../core/feature-flags.js';
+// checkFeature is exposed as window.checkFeature by feature-flags.js
+const _checkFeature = (segment, feature) => {
+    if (typeof window.checkFeature === 'function') return window.checkFeature(segment, feature);
+    return true; // permissive fallback in dev mode
+};
 
-export const NavigationManager = {
+const NavigationManager = {
 
     // --- PILLAR DEFINITIONS ---
     PILLARS: {
@@ -94,7 +98,7 @@ export const NavigationManager = {
 
             pillar.links.forEach(item => {
                 // Feature Gating
-                const isEnabled = !item.feature || checkFeature(segment, item.feature);
+                const isEnabled = !item.feature || _checkFeature(segment, item.feature);
                 const style = isEnabled ? '' : 'opacity:0.4; filter:grayscale(1); cursor:not-allowed;';
                 const title = isEnabled ? '' : 'title="Module réservé au plan supérieur"';
 
@@ -133,3 +137,8 @@ export const NavigationManager = {
         target.innerHTML = html;
     }
 };
+
+// Expose globally
+if (typeof window !== 'undefined') {
+    window.NavigationManager = NavigationManager;
+}

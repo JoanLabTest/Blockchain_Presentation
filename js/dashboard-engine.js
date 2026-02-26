@@ -4,10 +4,8 @@
  * Fully backwards-compatible with existing chart rendering.
  */
 
-import { supabase } from './supabase-client.js';
-import { ScoringEngine } from './core/scoring-engine.js';
-import { BacktestingEngine } from './core/backtesting-engine.js';
-import { StressTestingEngine } from './core/stress-testing-engine.js';
+// Dependencies loaded via script tags — accessed as window globals
+const _sb = () => window.supabase;
 
 // ============================================================
 //  SUPABASE DATA LAYER
@@ -22,7 +20,9 @@ const SupabaseData = {
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-        const { data, error } = await supabase
+        const sb = _sb();
+        if (!sb) return null;
+        const { data, error } = await sb
             .from('quiz_results')
             .select('*')
             .eq('user_id', userId)
@@ -37,7 +37,9 @@ const SupabaseData = {
      * Fetch research score snapshots for evolution chart.
      */
     getScoreHistory: async (userId) => {
-        const { data, error } = await supabase
+        const sb = _sb();
+        if (!sb) return null;
+        const { data, error } = await sb
             .from('research_scores')
             .select('total_score, sub_score_legal, sub_score_tech, sub_score_risk, sub_score_engagement, snapshot_date')
             .eq('user_id', userId)
@@ -52,7 +54,9 @@ const SupabaseData = {
      * Fetch simulations for table view.
      */
     getSimulations: async (userId) => {
-        const { data, error } = await supabase
+        const sb = _sb();
+        if (!sb) return null;
+        const { data, error } = await sb
             .from('simulations')
             .select('id, scenario_name, input_data, results, created_at')
             .eq('user_id', userId)
@@ -67,7 +71,9 @@ const SupabaseData = {
      * Fetch activity logs for the live activity timeline.
      */
     getActivityLogs: async (userId) => {
-        const { data, error } = await supabase
+        const sb = _sb();
+        if (!sb) return null;
+        const { data, error } = await sb
             .from('activity_logs')
             .select('page_url, time_spent_seconds, session_date')
             .eq('user_id', userId)
@@ -82,7 +88,9 @@ const SupabaseData = {
      * Write quiz result to Supabase after quiz completion.
      */
     saveQuizResult: async (userId, quizType, scorePercent, timeTaken, passed) => {
-        const { data, error } = await supabase
+        const sb = _sb();
+        if (!sb) return false;
+        const { data, error } = await sb
             .from('quiz_results')
             .insert([{
                 user_id: userId,
@@ -101,7 +109,9 @@ const SupabaseData = {
      * Write simulation result to Supabase (Phase 79).
      */
     saveSimulation: async (userId, orgId, name, type, inputData, results) => {
-        const { data, error } = await supabase
+        const sb = _sb();
+        if (!sb) return null;
+        const { data, error } = await sb
             .from('simulations')
             .insert([{
                 user_id: userId,
@@ -199,7 +209,8 @@ const Adapters = {
     calculateRiskIndex: (sims, scores) => {
         const radar = scores.radarData;
         const avg = radar ? radar.dataset.reduce((a, b) => a + b, 0) / radar.dataset.length : 0;
-        return ScoringEngine.calculateRiskIndex(sims, avg);
+        const SE = window.ScoringEngine;
+        return SE ? SE.calculateRiskIndex(sims, avg) : Math.round(avg);
     },
 
     getRiskAdvice: (riskIndex) => {
@@ -241,7 +252,7 @@ const Adapters = {
 //  MAIN DASHBOARD ENGINE
 // ============================================================
 
-export const DashboardEngine = {
+const DashboardEngine = {
 
     /**
      * Institutional Stress Test Trigger (Phase 127)
@@ -257,10 +268,13 @@ export const DashboardEngine = {
             network: network
         };
 
-        const result = StressTestingEngine.runStressTest(params.currentPrice, params);
+        const SE = window.StressTestingEngine;
+        if (!SE) { console.warn('StressTestingEngine not loaded'); return; }
+        const result = SE.runStressTest(params.currentPrice, params);
 
         // Save to Supabase
-        const saved = await SupabaseData.saveSimulation(
+        const sb = _sb();
+        const saved = sb ? (await SupabaseData.saveSimulation(
             activeUser.id,
             activeUser.org_id,
             `Stress Test: ${network.toUpperCase()} Infra`,
@@ -272,7 +286,7 @@ export const DashboardEngine = {
                 infra_risk: result.metrics.infraRiskScore,
                 is_institutional: true
             }
-        );
+        )) : null;
 
         if (saved) {
             SessionManager.showToast('🛡️', 'Stress Test Terminé', `Simulation d'infrastructure ${network.toUpperCase()} validée.`);
@@ -344,13 +358,14 @@ export const DashboardEngine = {
         const profile = await SessionManager.init();
         const activeOrg = window.TenantManager ? window.TenantManager.getActiveOrg() : null;
         const orgId = activeOrg ? activeOrg.id : profile?.org_id;
+        const sb = _sb();
         const isEnterprise = profile?.subscription_tier === 'enterprise' || activeOrg?.tier === 'Enterprise';
 
         console.log(`📡 Loading real data for user: ${userId} [Org: ${orgId}]`);
 
         // Parallel fetch all data with Org Isolation for Enterprise
-        const fetchSims = isEnterprise && orgId
-            ? supabase.from('simulations').select('*').eq('org_id', orgId)
+        const fetchSims = sb && isEnterprise && orgId
+            ? sb.from('simulations').select('*').eq('org_id', orgId)
             : SupabaseData.getSimulations(userId);
 
         const [quizResults, scoreHistory, simulations, activityLogs] = await Promise.all([
@@ -653,7 +668,9 @@ export const DashboardEngine = {
             collateralization: 80
         };
 
-        const result = BacktestingEngine.runSensitivityAudit(mockMetrics, scenario);
+        const BE = window.BacktestingEngine;
+        if (!BE) { console.warn('BacktestingEngine not loaded'); return; }
+        const result = BE.runSensitivityAudit(mockMetrics, scenario);
 
         setTimeout(() => {
             placeholder.style.display = 'none';
@@ -1089,3 +1106,8 @@ export const DashboardEngine = {
     // --- PUBLIC API for external modules ---
     SupabaseData
 };
+
+// Expose globally
+if (typeof window !== 'undefined') {
+    window.DashboardEngine = DashboardEngine;
+}
