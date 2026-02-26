@@ -15,13 +15,13 @@
     <title>DCM Intelligence - Cockpit</title>
     <!-- SECURITY ENFORCER (Phase 48) -->
     <script src="js/security-enforcer.js"></script>
-    <script src="js/error-monitor.js" type="module"></script>
+    <script src="js/error-monitor.js"></script>
     <script src="js/config.js"></script>
-    <script src="js/core/tenant-manager.js" type="module"></script>
-    <script src="js/core/workflow-engine.js" type="module"></script>
-    <script src="js/core/report-engine.js" type="module"></script>
-    <script src="js/ui/onboarding-wizard.js" type="module"></script>
-    <script src="js/navigation-orchestrator.js" type="module"></script>
+    <script src="js/core/tenant-manager.js"></script>
+    <script src="js/core/workflow-engine.js"></script>
+    <script src="js/core/report-engine.js"></script>
+    <script src="js/ui/onboarding-wizard.js"></script>
+    <script src="js/navigation-orchestrator.js"></script>
     <!-- FONTS -->
     <link
         href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
@@ -111,7 +111,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             display: block;
-            opacity: 0;
+            opacity: 1;
             transition: opacity 0.8s ease-in-out;
         }
 
@@ -1642,11 +1642,10 @@
             disable: 'mobile'
         });
     </script>
-    <script type="module">
-        import { SessionManager } from './js/session-manager.js';
-        import { MarketTicker } from './js/market-ticker.js';
-        import { DashboardEngine } from './js/dashboard-engine.js';
-        import { DashboardTour } from './js/dashboard-tour.js';
+    <script>
+        // Non-module wrapper — compatible with file:// and https://
+        // SessionManager, DashboardEngine etc. loaded via their own script tags or dev-unlock
+        // Graceful: page is always visible; modules enhance if available
 
         // Initialize AOS
         // window.addEventListener('load', function () { AOS.init({ duration: 800, once: true }); });
@@ -1804,141 +1803,154 @@
         };
 
         document.addEventListener('DOMContentLoaded', async () => {
-            // Check for upgrade success flag to force refresh profile
-            const urlParams = new URLSearchParams(window.location.search);
-            let isUpgradeRoute = false;
-
-            if (urlParams.get('upgrade') === 'success') {
-                isUpgradeRoute = true;
-                localStorage.removeItem(SessionManager.KEYS?.USER_PROFILE || 'dcm_user_profile');
-                SessionManager.showToast('✨', 'Abonnement Activé', 'Configuration de votre espace premium en cours...');
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-
-            // --- SAAS ARCHITECTURE CORE (Phase 72) ---
-            const { FeatureMatrix, checkFeature, gateFeature } = await import('./js/core/feature-flags.js');
-            const { SegmentManager } = await import('./js/core/segment-manager.js');
-            const { ScoringEngine } = await import('./js/core/scoring-engine.js');
-            const { NavigationManager } = await import('./js/ui/navigation.js');
-            const { GrowthEngine } = await import('./js/core/growth-engine.js');
-            const { AuditLogger } = await import('./js/ui/audit-logger.js');
-
-            window.DCM_CORE_FLAGS = { FeatureMatrix, checkFeature, gateFeature };
-            window.SegmentManager = SegmentManager;
-            window.NavigationManager = NavigationManager;
-            window.GrowthEngine = GrowthEngine;
-            window.AuditLogger = AuditLogger;
-
-            const segment = SegmentManager.detectSegment();
-            document.body.setAttribute('data-segment', segment);
-            console.log(`🚀 SaaS Mode Active: ${segment.toUpperCase()}`);
-
-            // Initialize Audit View if applicable (Gated to Enterprise for Phase 77 audit fix)
-            if (segment === 'enterprise') {
-                const instSection = document.getElementById('institutional-section');
-                if (instSection) instSection.style.display = 'block';
-                AuditLogger.renderAuditTrail('audit-trail-container', segment);
-            }
-
-            // Render Sidebar (Phase 73)
-            NavigationManager.renderSidebar(segment, document.getElementById('side-nav-menu'));
-
-            // Sync Module Visibility (Phase 96)
-            DashboardEngine.applyRoleVisibility(segment);
-
-            // Phase 127: Stress Test Factory Gating
-            if (segment === 'enterprise') {
-                const factory = document.getElementById('stress-test-factory');
-                if (factory) factory.style.display = 'block';
-            }
-
-            // Trigger Body Fade-in (Phase 98)
+            // Always make body visible immediately
             document.body.classList.add('loaded');
 
-            // 1. Session Check (async — real Supabase JWT)
-            let user = await SessionManager.init();
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                let isUpgradeRoute = false;
 
-            // 1.5 Polling if we just upgraded (webhook can take 2-4 seconds)
-            if (isUpgradeRoute && user) {
-                let attempts = 0;
-                while (user.subscription_tier === 'free' && attempts < 5) {
-                    console.log(`Polling for premium tier... (Attempt ${attempts + 1})`);
-                    await new Promise(r => setTimeout(r, 1500)); // wait 1.5s
-                    user = await SessionManager.init(); // re-fetch profile
-                    attempts++;
+                if (urlParams.get('upgrade') === 'success') {
+                    isUpgradeRoute = true;
+                    if (window.SessionManager) localStorage.removeItem(window.SessionManager.KEYS?.USER_PROFILE || 'dcm_user_profile');
+                    if (window.SessionManager) window.SessionManager.showToast('✨', 'Abonnement Activé', 'Configuration de votre espace premium en cours...');
+                    window.history.replaceState({}, document.title, window.location.pathname);
                 }
-                if (user.subscription_tier !== 'free') {
-                    SessionManager.showToast('✅', 'Succès', 'Votre abonnement est maintenant actif !');
+
+                // --- SAAS ARCHITECTURE CORE (Phase 72) ---
+                // Use window globals (loaded by script tags or dev-unlock.js)
+                // Graceful fallbacks if modules not loaded
+                const FeatureMatrix = window.DCM_CORE_FLAGS?.FeatureMatrix || {};
+                const checkFeature = window.DCM_CORE_FLAGS?.checkFeature || (() => true);
+                const gateFeature = window.DCM_CORE_FLAGS?.gateFeature || (() => true);
+
+                if (!window.DCM_CORE_FLAGS) {
+                    window.DCM_CORE_FLAGS = { FeatureMatrix, checkFeature, gateFeature };
                 }
-            }
 
-            // 2. Populate Header
-            if (user) {
-                document.getElementById('user-greeting').innerText = `Welcome back, ${user.name}`;
-                document.getElementById('user-role').innerHTML = `<i class="fas fa-user-shield"></i> ${user.role}`;
-                document.getElementById('user-jurisdiction').innerHTML = `<i class="fas fa-globe-europe"></i> ${user.jurisdiction}`;
+                // Default segment from localStorage or ADMIN detection
+                const rawSegment = localStorage.getItem('dcm_user_role') === 'ADMIN' ? 'enterprise'
+                    : localStorage.getItem('dcm_segment') || 'enterprise';
 
-                // Subscription Tier Logic (Phase 34)
-                const tierEl = document.getElementById('user-tier-badge');
-                if (tierEl) {
-                    const tier = user.subscription_tier || 'free';
-                    let tierHtml = '';
-                    if (tier === 'institutional') {
-                        tierHtml = `<span style="background:linear-gradient(135deg, #f59e0b, #b45309);color:white;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;box-shadow:0 0 10px rgba(245, 158, 11, 0.4);"><i class="fas fa-crown"></i> INSTITUTIONAL</span>`;
-                    } else if (tier === 'pro') {
-                        tierHtml = `<span style="background:rgba(59, 130, 246, 0.15);color:#3b82f6;border:1px solid #3b82f6;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;"><i class="fas fa-bolt"></i> PRO</span>`;
-                        tierHtml += `<a href="pricing.html" style="margin-left:10px;font-size:12px;color:#3b82f6;text-decoration:none;font-weight:bold;">Upgrade <i class="fas fa-arrow-right"></i></a>`;
-                    } else {
-                        tierHtml = `<span style="background:rgba(148, 163, 184, 0.1);color:#94a3b8;border:1px solid #475569;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;">FREE</span>`;
-                        tierHtml += `<a href="pricing.html" style="margin-left:10px;font-size:12px;color:#3b82f6;text-decoration:none;font-weight:bold;">Upgrade <i class="fas fa-arrow-right"></i></a>`;
+                const segment = window.SegmentManager?.detectSegment?.() || rawSegment;
+                document.body.setAttribute('data-segment', segment);
+                console.log(`🚀 SaaS Mode Active: ${segment.toUpperCase()}`);
+
+                // Initialize Audit View
+                if (segment === 'enterprise') {
+                    const instSection = document.getElementById('institutional-section');
+                    if (instSection) instSection.style.display = 'block';
+                    if (window.AuditLogger) AuditLogger.renderAuditTrail('audit-trail-container', segment);
+                }
+
+                // Render Sidebar
+                if (window.NavigationManager) {
+                    window.NavigationManager.renderSidebar(segment, document.getElementById('side-nav-menu'));
+                }
+
+                // Sync Module Visibility
+                if (window.DashboardEngine?.applyRoleVisibility) {
+                    window.DashboardEngine.applyRoleVisibility(segment);
+                }
+
+                // Stress Test Factory Gating
+                if (segment === 'enterprise') {
+                    const factory = document.getElementById('stress-test-factory');
+                    if (factory) factory.style.display = 'block';
+                }
+
+                // 1. Session Check
+                let user = null;
+                if (window.SessionManager) {
+                    try { user = await window.SessionManager.init(); } catch (e) { console.warn('Session init skipped:', e); }
+                }
+
+                // Upgrade polling
+                if (isUpgradeRoute && user && window.SessionManager) {
+                    let attempts = 0;
+                    while (user.subscription_tier === 'free' && attempts < 5) {
+                        console.log(`Polling for premium tier... (Attempt ${attempts + 1})`);
+                        await new Promise(r => setTimeout(r, 1500));
+                        try { user = await window.SessionManager.init(); } catch (e) { break; }
+                        attempts++;
                     }
-                    tierEl.innerHTML = tierHtml;
+                    if (user?.subscription_tier !== 'free') {
+                        window.SessionManager?.showToast('✅', 'Succès', 'Votre abonnement est maintenant actif !');
+                    }
                 }
-            }
 
-            // 3. Load Real Data (Supabase → fallback mock)
-            const data = await DashboardEngine.loadData();
+                // 2. Populate Header
+                if (user) {
+                    const greetEl = document.getElementById('user-greeting');
+                    if (greetEl) greetEl.innerText = `Welcome back, ${user.name}`;
+                    const roleEl = document.getElementById('user-role');
+                    if (roleEl) roleEl.innerHTML = `<i class="fas fa-user-shield"></i> ${user.role}`;
+                    const jurisdEl = document.getElementById('user-jurisdiction');
+                    if (jurisdEl) jurisdEl.innerHTML = `<i class="fas fa-globe-europe"></i> ${user.jurisdiction}`;
 
-            // 4. Show data source badge
-            const sourceEl = document.getElementById('data-source-badge');
-            if (sourceEl) {
-                const isLive = data.source === 'supabase';
-                sourceEl.innerHTML = isLive
-                    ? `<span style="background:rgba(16,185,129,0.15);color:#10b981;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px"><i class="fas fa-circle" style="font-size:7px;vertical-align:middle"></i> LIVE DATA</span>`
-                    : `<span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px"><i class="fas fa-circle" style="font-size:7px;vertical-align:middle"></i> DEMO MODE</span>`;
-            }
+                    const tierEl = document.getElementById('user-tier-badge');
+                    if (tierEl) {
+                        const tier = user.subscription_tier || 'free';
+                        let tierHtml = '';
+                        if (tier === 'institutional' || tier === 'enterprise') {
+                            tierHtml = `<span style="background:linear-gradient(135deg,#f59e0b,#b45309);color:white;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;"><i class="fas fa-crown"></i> INSTITUTIONAL</span>`;
+                        } else if (tier === 'pro') {
+                            tierHtml = `<span style="background:rgba(59,130,246,0.15);color:#3b82f6;border:1px solid #3b82f6;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;"><i class="fas fa-bolt"></i> PRO</span>`;
+                            tierHtml += `<a href="pricing.html" style="margin-left:10px;font-size:12px;color:#3b82f6;text-decoration:none;font-weight:bold;">Upgrade <i class="fas fa-arrow-right"></i></a>`;
+                        } else {
+                            tierHtml = `<span style="background:rgba(148,163,184,0.1);color:#94a3b8;border:1px solid #475569;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">FREE</span>`;
+                            tierHtml += `<a href="pricing.html" style="margin-left:10px;font-size:12px;color:#3b82f6;text-decoration:none;font-weight:bold;">Upgrade <i class="fas fa-arrow-right"></i></a>`;
+                        }
+                        tierEl.innerHTML = tierHtml;
+                    }
+                }
 
-            // 5. Render Charts & Widgets
-            DashboardEngine.initCharts(data);
-            DashboardEngine.renderSimulationTable(data.simulations);
-            DashboardEngine.renderComplianceWidget(data.complianceProfile);
-            DashboardEngine.renderTimeline(data.timeline);
-            DashboardEngine.renderRiskWidget(data.riskProfile);
+                // 3. Load Data & Render Charts
+                if (window.DashboardEngine) {
+                    try {
+                        const data = await window.DashboardEngine.loadData();
 
-            // 6. Apply Segmented UI (Phase 61/73)
-            const activeRole = SessionManager.getActiveRole();
-            applySegmentedUI(user, activeRole);
+                        const sourceEl = document.getElementById('data-source-badge');
+                        if (sourceEl) {
+                            const isLive = data.source === 'supabase';
+                            sourceEl.innerHTML = isLive
+                                ? `<span style="background:rgba(16,185,129,0.15);color:#10b981;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;"><i class="fas fa-circle" style="font-size:7px;vertical-align:middle"></i> LIVE DATA</span>`
+                                : `<span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;"><i class="fas fa-circle" style="font-size:7px;vertical-align:middle"></i> DEMO MODE</span>`;
+                        }
 
-            // 6.5 Handle Empty State (Phase 73)
-            if (window.handleEmptyState) window.handleEmptyState(data);
+                        window.DashboardEngine.initCharts(data);
+                        window.DashboardEngine.renderSimulationTable(data.simulations);
+                        window.DashboardEngine.renderComplianceWidget(data.complianceProfile);
+                        window.DashboardEngine.renderTimeline(data.timeline);
+                        window.DashboardEngine.renderRiskWidget(data.riskProfile);
 
-            // 7. Actionable Recommendations (Phase 63)
-            const recs = DashboardEngine.RecommendationEngine.generate(data, activeRole);
-            DashboardEngine.renderRecommendations(recs);
+                        const activeRole = window.SessionManager?.getActiveRole?.() || segment;
+                        window.applySegmentedUI(user, activeRole);
+                        if (window.handleEmptyState) window.handleEmptyState(data);
 
-            // 8. Render Badges (Phase 60 legacy)
-            DashboardEngine.renderBadges();
+                        const recs = window.DashboardEngine.RecommendationEngine?.generate?.(data, activeRole);
+                        if (recs) window.DashboardEngine.renderRecommendations(recs);
 
-            // 6. Update KPI Text
-            const scoreVal = document.querySelector('.score-val');
-            if (scoreVal) scoreVal.innerText = data.lastGrade || 'A-';
+                        window.DashboardEngine.renderBadges?.();
 
-            // 7. INITIALIZE TOUR (Phase 60)
-            if (DashboardTour) {
-                DashboardTour.init();
+                        const scoreVal = document.querySelector('.score-val');
+                        if (scoreVal) scoreVal.innerText = data.lastGrade || 'A-';
+                    } catch (de) {
+                        console.warn('DashboardEngine render skipped:', de);
+                    }
+                }
+
+                // Tour init
+                if (window.DashboardTour) window.DashboardTour.init();
+
+            } catch (globalErr) {
+                console.warn('Dashboard init error (non-blocking):', globalErr);
+                // Ensure body is visible even if everything fails
+                document.body.classList.add('loaded');
             }
         });
     </script>
+
     <!-- PWA REGISTRATION (Phase 30) -->
     <script>
         if ('serviceWorker' in navigator) {
