@@ -565,9 +565,9 @@
             const email = document.getElementById('reset-email').value;
             if (!email) return alert('Veuillez entrer un email.');
             try {
-                const { error } = await _sb().auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + '/update-password.html',
-                });
+                // Use the GitHub Pages production URL for the redirectTo
+                const redirectTo = 'https://joanlabtest.github.io/blockchain-presentation/update-password.html';
+                const { error } = await _sb().auth.resetPasswordForEmail(email, { redirectTo });
                 if (error) throw error;
                 alert('📧 Email de réinitialisation envoyé !');
                 hideResetPassword();
@@ -577,4 +577,3 @@
 </body>
 
 </html>
-```
