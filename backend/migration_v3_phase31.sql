@@ -4,13 +4,15 @@
 -- Apply this in Supabase SQL Editor > New query > Run
 -- ============================================================
 
--- 1. Add subscription tier, username and full_name to profiles
+-- 1. Add subscription tier, username, full_name and other missing columns to profiles
 ALTER TABLE public.profiles
 ADD COLUMN IF NOT EXISTS subscription_tier text DEFAULT 'free'
 CHECK (subscription_tier IN ('free', 'pro', 'institutional'));
 
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS username text;
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS full_name text;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS jurisdiction text DEFAULT 'EU';
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS kyc_status text DEFAULT 'pending';
 
 -- 2. Add RLS INSERT policy for quiz_results (users insert their own)
 DO $$
