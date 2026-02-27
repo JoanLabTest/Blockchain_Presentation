@@ -32,30 +32,12 @@
     </script>
     <!-- AUTH GUARD (Phase 7): immediate execution to prevent flash -->
     <script>
-        (async function () {
-            // Body is hidden via CSS until session is confirmed
-            document.documentElement.style.visibility = 'hidden';
-            try {
-                const { data: { session } } = await window.supabase.auth.getSession();
-                if (!session || !session.user) {
-                    // Check if localStorage fallback exists (guest/demo mode)
-                    const cachedProfile = localStorage.getItem('dcm_user_profile');
-                    const cachedToken = localStorage.getItem('dcm_auth_token');
-                    if (!cachedProfile || !cachedToken) {
-                        window.location.replace('login.html');
-                        return;
-                    }
-                }
-            } catch (e) {
-                // If supabase not available but localStorage has a session, allow access
-                const cachedProfile = localStorage.getItem('dcm_user_profile');
-                if (!cachedProfile) {
-                    window.location.replace('login.html');
-                    return;
-                }
+        // AUTH GUARD (Hardened Iteration 4)
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (window.SessionManager) {
+                await window.SessionManager.protectRoute();
             }
-            document.documentElement.style.visibility = '';
-        })();
+        });
     </script>
     <script src="js/config.js"></script>
     <script src="js/core/tenant-manager.js"></script>

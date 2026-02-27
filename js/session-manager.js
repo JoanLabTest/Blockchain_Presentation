@@ -30,26 +30,44 @@ const SessionManager = {
             return null;
         }
 
-        const { data: { session } = {}, error } = await sb.auth.getSession();
+        // 🛡️ STRICT CHECK: getUser() hits the server to verify the JWT and account status
+        // getSession() only checks the local cached token which might be stale/deleted.
+        const { data: { user }, error } = await sb.auth.getUser();
 
-        const path = window.location.pathname;
-        const isPublicPage = path.endsWith('index.html') || path.endsWith('login.html') || path === '/' || path.endsWith('/');
-
-        if (error || !session) {
-            if (!isPublicPage) {
-                console.warn('🔒 No active Supabase session. Redirecting to login...');
-                window.location.href = 'login.html';
-            }
+        if (error || !user) {
+            console.warn('🔒 No active/valid Supabase session found on server.');
+            // Clear local cache if server says no
+            const keysToRemove = [SessionManager.KEYS.AUTH_TOKEN, SessionManager.KEYS.USER_PROFILE, SessionManager.KEYS.SESSION_START];
+            keysToRemove.forEach(k => localStorage.removeItem(k));
             return null;
         }
 
-        // Real Supabase session exists — build & cache profile
-        const user = session.user;
-        const profile = await SessionManager._buildProfile(user, session.access_token);
+        // Fetch fresh session for accessToken and cache update
+        const { data: { session } } = await sb.auth.getSession();
+        const profile = await SessionManager._buildProfile(user, session?.access_token);
 
         // --- PHASE 48: SESSION TIMEOUT INIT ---
         SessionManager._initActivityTracker();
 
+        return profile;
+    },
+
+    /**
+     * Protects a route by enforcing a valid server-side session.
+     * Redirects to login if check fails.
+     */
+    protectRoute: async () => {
+        // Hide body until verified to prevent flash
+        document.documentElement.style.visibility = 'hidden';
+
+        const profile = await SessionManager.init();
+        if (!profile) {
+            console.warn('🔒 Route protection: Invalid session. Redirecting...');
+            window.location.replace('login.html');
+            return null;
+        }
+
+        document.documentElement.style.visibility = '';
         return profile;
     },
 
