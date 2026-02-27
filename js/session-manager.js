@@ -150,6 +150,9 @@ const SessionManager = {
         if (profile) {
             localStorage.setItem('dcm_segment', profile.subscription_tier || 'student');
             localStorage.setItem('dcm_active_role', profile.subscription_tier || 'student');
+
+            // 📣 Notify components that the verified profile is ready
+            window.dispatchEvent(new CustomEvent('dcm-profile-ready', { detail: profile }));
         }
         return profile;
     },

@@ -1931,7 +1931,13 @@
                 // 1. Session Check
                 let user = null;
                 if (window.SessionManager) {
-                    try { user = await window.SessionManager.init(); } catch (e) { console.warn('Session init skipped:', e); }
+                    try {
+                        user = await window.SessionManager.init();
+                        // Bridge: Ensure verified profile is exposed for immediate HUD/Sidebar reactive updates
+                        window.SessionManager.__verifiedProfile = user;
+                    } catch (e) {
+                        console.warn('Session init skipped:', e);
+                    }
                 }
 
                 // Upgrade polling

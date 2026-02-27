@@ -16,10 +16,15 @@ const NavigationOrchestrator = {
         console.log('🧭 Navigation Orchestrator initialized.');
 
         const run = () => {
-            // Initialize Multi-tenancy (Phase 106)
             if (window.TenantManager) {
                 window.TenantManager.init();
             }
+
+            // Listen for verified profile readiness (Phase 115)
+            window.addEventListener('dcm-profile-ready', (e) => {
+                console.log('🔄 Profile Verified: Re-syncing Navigation...');
+                NavigationOrchestrator.handleSegmentTransition(e.detail.subscription_tier || 'student');
+            });
 
             const params = NavigationOrchestrator.getQueryParams();
 
@@ -92,7 +97,9 @@ const NavigationOrchestrator = {
         if (window.location.pathname.includes('dashboard.html')) {
             const sideMenu = document.getElementById('side-nav-menu');
             if (window.NavigationManager && sideMenu) {
-                window.NavigationManager.renderSidebar(normalized, sideMenu);
+                // Determine if we have a verified profile or fallback
+                const verifiedTier = window.SessionManager?.__verifiedProfile?.subscription_tier;
+                window.NavigationManager.renderSidebar(verifiedTier || normalized, sideMenu);
             }
             if (window.DashboardEngine) {
                 window.DashboardEngine.applyRoleVisibility(normalized);
