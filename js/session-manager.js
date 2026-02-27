@@ -44,6 +44,10 @@ const SessionManager = {
             if (typeof window.__deactivateMasterMode === 'function') {
                 window.__deactivateMasterMode();
             }
+
+            // 🛡️ SYNC STATE: Force Supabase client to acknowledge the session is dead
+            await sb.auth.signOut();
+
             return null;
         }
 

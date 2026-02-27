@@ -43,16 +43,26 @@
     <script>
         (async function () {
             try {
+                // Check if we have a session locally (fast)
                 const { data: { session } } = await window.supabase.auth.getSession();
+
                 if (session && session.user) {
-                    // Redirect silently while page is still invisible
-                    window.location.replace('dashboard.html');
-                    return; // stay invisible during redirect
+                    // 🛡️ STRICT CHECK: Verify with server before redirecting to avoid loop
+                    const { data: { user }, error } = await window.supabase.auth.getUser();
+
+                    if (user && !error) {
+                        // All good — redirect silently while page is still invisible
+                        window.location.replace('dashboard.html');
+                        return;
+                    } else {
+                        console.warn('🔒 Stale session detected on login page. Clearing state.');
+                        await window.supabase.auth.signOut();
+                    }
                 }
             } catch (e) {
                 console.warn('Session check failed on login page:', e);
             }
-            // No active session — reveal the login page with a smooth fade-in
+            // No valid active session — reveal the login page with a smooth fade-in
             document.documentElement.style.opacity = '1';
         })();
     </script>
