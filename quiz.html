@@ -1586,6 +1586,12 @@
 
             init() {
                 console.log('🎮 Quiz UI Initializing...');
+                // Dev banner check
+                if (localStorage.getItem('is_super_dev') === 'true' || localStorage.getItem('dcm_user_role') === 'ADMIN') {
+                    const devBanner = document.getElementById('dev-banner');
+                    if (devBanner) devBanner.style.display = 'block';
+                }
+
                 // Restore Fast Track preference
                 const fastTrackEnabled = localStorage.getItem('dcm_fast_track') === 'true';
                 const toggle = document.getElementById('fast-track-mode');
@@ -1602,10 +1608,6 @@
                 if (window.QuizEngine) window.QuizEngine.fastTrack = enabled;
             },
 
-            renderLevelMap() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            },
-
             retryLevel() {
                 this.startLevel(this._currentLevelId);
             },
@@ -1620,7 +1622,11 @@
                 if (!this._results) return;
                 const userProfile = JSON.parse(localStorage.getItem('dcm_user_profile') || '{"name":"Utilisateur DCM"}');
                 const name = userProfile.name || 'Utilisateur DCM';
-                window.QuizCert.generate(name, this._currentLevelId, this._results.score);
+                if (window.QuizCert) {
+                    window.QuizCert.generate(name, this._currentLevelId, this._results.score);
+                } else {
+                    console.error('QuizCert not loaded');
+                }
             },
 
             // ─── SECTION MANAGEMENT ───────────────────────────────────────────────

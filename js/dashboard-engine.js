@@ -634,15 +634,22 @@ const DashboardEngine = {
             enterprise: ['quiz-card', 'evolutionChart', 'radarChart', 'risk-card', 'compliance-bar-fill', 'coverage-card', 'institutional-section']
         };
 
-        const activeModules = CONFIG[segment] || CONFIG.student;
-
-        // Modules to potentially hide
+        // ALL_GATED modules are now shown by default to maintain the "Full Dashboard" experience
+        // The individual components inside (buttons/data) will be gated by feature flags
         const ALL_GATED = ['institutional-section', 'risk-card', 'quiz-card', 'coverage-card', 'learning-velocity-card'];
 
         ALL_GATED.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
-            el.style.display = activeModules.includes(id) ? 'flex' : 'none';
+            el.style.display = 'flex'; // Always show top-level containers
+
+            // Add a subtle lock visual if the user shouldn't have it (optional but helpful)
+            if (!activeModules.includes(id)) {
+                el.style.opacity = '0.8';
+                // We could add a .locked class here if we had CSS for it
+            } else {
+                el.style.opacity = '1';
+            }
         });
 
         // Update Breadcrumb (Phase 99)

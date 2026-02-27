@@ -83,15 +83,17 @@ const NavigationManager = {
         `;
 
         // Determine which pillars to show/prioritize based on segment
+        // PHASE 102: Unified High-Visibility Navigation (All pillars visible, some locked)
         const segmentConfigs = {
-            student: ['ACADEMIC', 'CORE'],
-            pro: ['TOOLKIT', 'CORE', 'GOVERNANCE'],
-            enterprise: ['GOVERNANCE', 'CORE', 'TOOLKIT'],
-            Guest: ['CORE', 'ACADEMIC'],
-            guest: ['CORE', 'ACADEMIC']
+            student: ['ACADEMIC', 'CORE', 'TOOLKIT', 'GOVERNANCE'],
+            pro: ['CORE', 'TOOLKIT', 'GOVERNANCE', 'ACADEMIC'],
+            enterprise: ['CORE', 'GOVERNANCE', 'TOOLKIT', 'ACADEMIC'],
+            free: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE'],
+            guest: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE'],
+            Guest: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE']
         };
 
-        const activePillars = segmentConfigs[segment] || ['CORE', 'ACADEMIC'];
+        const activePillars = segmentConfigs[segment] || segmentConfigs.free;
 
         activePillars.forEach(pillarKey => {
             const pillar = NavigationManager.PILLARS[pillarKey];
