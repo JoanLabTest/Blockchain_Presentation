@@ -528,13 +528,19 @@
                     setTimeout(() => window.location.href = 'dashboard.html', 900);
                 }
             } catch (err) {
-                console.error('Auth Error:', err);
-                let msg = err.message;
+                console.error('Auth Error Full Object:', err);
+                let msg = err.message || 'Une erreur est survenue lors de l\'authentification.';
+
                 if (msg.includes('Invalid login credentials')) msg = 'Email ou mot de passe incorrect.';
                 else if (msg.includes('Email not confirmed')) msg = 'Vérifiez vos emails pour activer votre compte avant de vous connecter.';
                 else if (msg.includes('rate limit') || msg.includes('Too many requests')) msg = 'Trop de tentatives. Réessayez dans quelques minutes.';
+                else if (msg.toLowerCase().includes('database error')) {
+                    msg = 'Erreur technique (Base de données). Veuillez contacter le support.';
+                }
+
                 showMessage(msg, 'error');
-            } finally {
+            }
+            finally {
                 setLoading(false);
             }
         });

@@ -4,10 +4,13 @@
 -- Apply this in Supabase SQL Editor > New query > Run
 -- ============================================================
 
--- 1. Add subscription tier to profiles (Phase 34 Stripe ready)
+-- 1. Add subscription tier, username and full_name to profiles
 ALTER TABLE public.profiles
 ADD COLUMN IF NOT EXISTS subscription_tier text DEFAULT 'free'
 CHECK (subscription_tier IN ('free', 'pro', 'institutional'));
+
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS username text;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS full_name text;
 
 -- 2. Add RLS INSERT policy for quiz_results (users insert their own)
 DO $$
@@ -82,10 +85,11 @@ END $$;
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
-  INSERT INTO public.profiles (id, email, username, role, jurisdiction, subscription_tier)
+  INSERT INTO public.profiles (id, email, username, full_name, role, jurisdiction, subscription_tier)
   VALUES (
     new.id,
     new.email,
+    COALESCE(new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1)),
     COALESCE(new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1)),
     'student',
     'EU',

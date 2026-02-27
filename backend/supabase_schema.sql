@@ -9,10 +9,13 @@ create extension if not exists "uuid-ossp";
 create table if not exists public.profiles (
   id uuid references auth.users not null primary key,
   email text,
+  username text,
   full_name text,
-  role text check (role in ('student', 'professional', 'admin')),
+  role text default 'student',
   jurisdiction text default 'EU',
-  kyc_status text default 'pending', -- pending, verified, rejected
+  kyc_status text default 'pending',
+  subscription_tier text default 'free',
+  stripe_customer_id text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
