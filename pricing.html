@@ -780,14 +780,14 @@
     </footer>
     <!-- SCRIPTS -->
     <script defer="" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script type="module">
-        import { SessionManager } from './js/session-manager.js';
-
+    <script>
         const SUPABASE_URL = 'https://wnwerjuqtrduqkgwdjrg.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo';
 
         // AOS Init
-        window.addEventListener('load', function () { AOS.init({ duration: 800, once: true }); });
+        window.addEventListener('load', function () {
+            if (window.AOS) window.AOS.init({ duration: 800, once: true });
+        });
 
         // --- BILLING TOGGLE ---
         let currentBillingCycle = 'monthly';
@@ -796,10 +796,15 @@
             currentBillingCycle = isYearly ? 'yearly' : 'monthly';
 
             const pricePro = document.getElementById('price-pro');
-            document.getElementById('label-monthly').classList.toggle('active', !isYearly);
-            document.getElementById('label-yearly').classList.toggle('active', isYearly);
+            const labelMonthly = document.getElementById('label-monthly');
+            const labelYearly = document.getElementById('label-yearly');
 
-            pricePro.innerHTML = isYearly ? '€39<span>/mo</span>' : '€49<span>/mo</span>';
+            if (labelMonthly) labelMonthly.classList.toggle('active', !isYearly);
+            if (labelYearly) labelYearly.classList.toggle('active', isYearly);
+
+            if (pricePro) {
+                pricePro.innerHTML = isYearly ? '€39<span>/mo</span>' : '€49<span>/mo</span>';
+            }
         }
         window.toggleBilling = toggleBilling;
 
@@ -809,7 +814,8 @@
             if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirection...';
 
             try {
-                const user = await SessionManager.init();
+                // SessionManager is global from script tag
+                const user = await window.SessionManager.init();
                 if (!user) {
                     alert('Veuillez vous connecter avant de souscrire à un abonnement.');
                     window.location.href = 'login.html';
@@ -840,7 +846,7 @@
             } catch (err) {
                 console.error('Checkout error:', err);
                 alert(`Erreur : ${err.message}`);
-                if (btn) btn.innerHTML = 'Start 14-Day Free Trial';
+                if (btn) btn.innerHTML = 'Démarrez l\'Essai Pro';
             }
         }
         window.initiateCheckout = initiateCheckout;
@@ -851,7 +857,7 @@
             if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Ouverture...';
 
             try {
-                const user = await SessionManager.init();
+                const user = await window.SessionManager.init();
                 if (!user) return;
 
                 const response = await fetch(`${SUPABASE_URL}/functions/v1/manage-subscription`, {
@@ -883,17 +889,19 @@
             window.location.href = 'pilot-intake.html';
         }
         function closeEnterpriseIntake() {
-            document.getElementById('enterprise-modal').style.display = 'none';
+            const modal = document.getElementById('enterprise-modal');
+            if (modal) modal.style.display = 'none';
         }
         function handleEnterpriseSubmit(e) {
             e.preventDefault();
             const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
 
             setTimeout(() => {
                 alert("Votre demande a été transmise à notre équipe institutionnelle. Un responsable de compte vous contactera sous 24h.");
                 closeEnterpriseIntake();
-                btn.innerHTML = 'ENVOYER LA DEMANDE';
+                btn.innerHTML = originalText;
             }, 1500);
         }
         window.showEnterpriseIntake = showEnterpriseIntake;
@@ -901,13 +909,19 @@
         window.handleEnterpriseSubmit = handleEnterpriseSubmit;
 
         // --- DYNAMIC SESSION UI ---
-        // Read profile synchronously from localStorage — no async ESM race condition
-        (function applyPricingUI() {
+        (async function applyPricingUI() {
+            // Need to wait for SessionManager to be ready or just use localStorage for sync check
             const raw = localStorage.getItem('dcm_user_profile');
-            if (!raw) return; // Not logged in — show default CTAs
+            if (!raw) return;
 
             let user;
             try { user = JSON.parse(raw); } catch (e) { return; }
+
+            // Re-init session to get fresh DB state if available
+            if (window.SessionManager) {
+                const freshUser = await window.SessionManager.init();
+                if (freshUser) user = freshUser;
+            }
 
             const tier = (user.subscription_tier || 'free').toLowerCase();
             const email = user.email || '';

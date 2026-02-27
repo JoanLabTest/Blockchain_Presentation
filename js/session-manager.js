@@ -93,6 +93,13 @@ const SessionManager = {
             if (typeof window.__activateMasterMode === 'function') {
                 window.__activateMasterMode(user.email);
             }
+        } else {
+            // 🧹 SECURITY: Wipe any stale dev/master flags from localStorage on every normal login.
+            // This prevents a previous master session from leaking ADMIN access to a new user.
+            const STALE_KEYS = ['is_super_dev', 'dcm_user_role', 'dcm_active_role', 'dcm_segment', 'dcm_org_id', 'userRole', 'userTier'];
+            STALE_KEYS.forEach(k => localStorage.removeItem(k));
+            sessionStorage.removeItem('dcm_master_active');
+            if (window.DCM_CONFIG) window.DCM_CONFIG.DEV_MODE = false;
         }
 
         // Cache locally for offline fallback
@@ -329,21 +336,21 @@ const SessionManager = {
         }
     },
 
-    // =============================================
-    //  RBAC (Phase 80)
-    // =============================================
     checkAccess: (permission) => {
-        // 🚧 DEV MASTER OVERRIDE — always grant in dev/super mode
-        const isSuperDevLS = localStorage.getItem('is_super_dev') === 'true'
-            || localStorage.getItem('dcm_user_role') === 'ADMIN';
-        if (isSuperDevLS) {
-            console.log(`[DEV-UNLOCK] ✅ checkAccess("${permission}") → GRANTED (master override)`);
-            return true;
-        }
-
         const profile = SessionManager.getCurrentUser() || {};
         const role = profile.role || 'Viewer';
         const tier = profile.subscription_tier || 'free';
+        const email = profile.email || '';
+
+        // 🎭 MASTER ACCESS — only if confirmed via Supabase session email
+        // NOTE: We do NOT read localStorage flags (is_super_dev, dcm_user_role)
+        // to prevent auth bypass from stale session data.
+        const MASTER_EMAIL = 'joanlyczak@gmail.com';
+        const isMaster = email === MASTER_EMAIL;
+        if (isMaster) {
+            console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (master)`);
+            return true;
+        }
 
         /**
          * Institutional Permission Matrix
@@ -364,19 +371,9 @@ const SessionManager = {
             return false;
         }
 
-        let isGranted = false;
-
-        // 1. Role & email master check
-        const isMaster = profile.email === 'joanlyczak@gmail.com'
-            || role.toUpperCase() === 'ADMIN'
-            || role === 'Head of Digital';
-        if (isMaster) {
-            isGranted = true;
-        }
-        // 2. Role & Tier Check
-        else if (rule.roles.includes(role) && rule.tiers.includes(tier)) {
-            isGranted = true;
-        }
+        // Role & Tier Check
+        const isGranted = rule.roles.some(r => r.toLowerCase() === role.toLowerCase())
+            && rule.tiers.includes(tier.toLowerCase());
 
         if (!isGranted) {
             SessionManager.showPaywall(permission, role);
