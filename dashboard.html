@@ -34,8 +34,15 @@
     <script>
         // AUTH GUARD (Hardened Iteration 4)
         window.addEventListener('DOMContentLoaded', async () => {
+            // Failsafe: Ensure page is shown after 3 seconds even if script hangs
+            const failsafe = setTimeout(() => {
+                document.documentElement.style.visibility = '';
+                console.warn('⚠️ Auth guard timeout: Failsafe triggered.');
+            }, 3000);
+
             if (window.SessionManager) {
                 await window.SessionManager.protectRoute();
+                clearTimeout(failsafe);
             }
         });
     </script>

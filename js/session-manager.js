@@ -65,15 +65,22 @@ const SessionManager = {
         // Hide body until verified to prevent flash
         document.documentElement.style.visibility = 'hidden';
 
-        const profile = await SessionManager.init();
-        if (!profile) {
-            console.warn('🔒 Route protection: Invalid session. Redirecting...');
+        try {
+            const profile = await SessionManager.init();
+            if (!profile) {
+                console.warn('🔒 Route protection: Invalid session. Redirecting...');
+                window.location.replace('login.html');
+                return null;
+            }
+            return profile;
+        } catch (err) {
+            console.error('🔒 Route protection: Critical error during init:', err);
             window.location.replace('login.html');
             return null;
+        } finally {
+            // Guarantee visibility is restored even if script errors occur
+            document.documentElement.style.visibility = '';
         }
-
-        document.documentElement.style.visibility = '';
-        return profile;
     },
 
 
@@ -131,7 +138,7 @@ const SessionManager = {
         }
 
         // Cache locally for offline fallback
-        localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, session?.access_token || accessToken);
+        localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, accessToken);
         localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(profile));
         localStorage.setItem(SessionManager.KEYS.SESSION_START, Date.now());
         if (profile.org_id) localStorage.setItem('dcm_org_id', profile.org_id);
