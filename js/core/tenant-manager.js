@@ -40,7 +40,7 @@ const TenantManager = {
 
         const storedRole = localStorage.getItem('dcm_user_role');
         if (!storedRole) {
-            TenantManager.setUserRole(TenantManager.ROLES.ADMIN); // Default for demo
+            TenantManager.setUserRole(TenantManager.ROLES.VIEWER); // Secure default instead of ADMIN
         }
     },
 

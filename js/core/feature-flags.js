@@ -1,10 +1,4 @@
-/**
- * FEATURE FLAGS ENGINE - v1.0
- * Centralized logic for segmented access control.
- * Implements logical gating to prevent unauthorized feature access.
- */
-
-export const FeatureMatrix = {
+const FeatureMatrix = {
     student: {
         audit: false,
         benchmark: false,
@@ -42,12 +36,7 @@ export const FeatureMatrix = {
     }
 };
 
-/**
- * Checks if a feature is enabled for a specific segment.
- * @param {string} segment - user segment (student, pro, enterprise)
- * @param {string} feature - feature key
- */
-export const checkFeature = (segment, feature) => {
+const checkFeature = (segment, feature) => {
     // 🚧 SUPER DEV / MASTER OVERRIDE 🚧
     if (localStorage.getItem('dcm_user_role') === 'ADMIN') {
         return true;
@@ -65,13 +54,7 @@ export const checkFeature = (segment, feature) => {
     return value === true || value === 'standard' || value === 'unlimited' || value === 'limited';
 };
 
-/**
- * Gates a feature by checking the segment and taking action.
- * @param {string} segment 
- * @param {string} feature 
- * @param {Function} onDisabled - callback if disabled (e.g., show upgrade modal)
- */
-export const gateFeature = (segment, feature, onDisabled) => {
+const gateFeature = (segment, feature, onDisabled) => {
     if (!checkFeature(segment, feature)) {
         if (typeof onDisabled === 'function') {
             onDisabled();
@@ -82,3 +65,8 @@ export const gateFeature = (segment, feature, onDisabled) => {
     }
     return true;
 };
+
+// Global Exposer
+if (typeof window !== 'undefined') {
+    window.DCM_CORE_FLAGS = { FeatureMatrix, checkFeature, gateFeature };
+}

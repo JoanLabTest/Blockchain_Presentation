@@ -147,6 +147,10 @@ const SessionManager = {
         localStorage.setItem(SessionManager.KEYS.SESSION_START, Date.now());
         if (profile.org_id) localStorage.setItem('dcm_org_id', profile.org_id);
 
+        if (profile) {
+            localStorage.setItem('dcm_segment', profile.subscription_tier || 'student');
+            localStorage.setItem('dcm_active_role', profile.subscription_tier || 'student');
+        }
         return profile;
     },
 

@@ -24,7 +24,7 @@ const NavigationOrchestrator = {
             const params = NavigationOrchestrator.getQueryParams();
 
             // Detect segment from URL or LocalStorage fallback
-            const savedRole = localStorage.getItem('dcm_active_role') || localStorage.getItem('dcm_segment') || 'Guest';
+            const savedRole = localStorage.getItem('dcm_active_role') || localStorage.getItem('dcm_segment') || 'student';
             const activeSegment = params.segment || savedRole;
 
             // 1. Handle Segment Handoff/Init
