@@ -39,6 +39,11 @@ const SessionManager = {
             // Clear local cache if server says no
             const keysToRemove = [SessionManager.KEYS.AUTH_TOKEN, SessionManager.KEYS.USER_PROFILE, SessionManager.KEYS.SESSION_START];
             keysToRemove.forEach(k => localStorage.removeItem(k));
+
+            // 🧹 SECURITY: Ensure master UI patches are removed if no valid master session
+            if (typeof window.__deactivateMasterMode === 'function') {
+                window.__deactivateMasterMode();
+            }
             return null;
         }
 
@@ -113,10 +118,15 @@ const SessionManager = {
             }
         } else {
             // 🧹 SECURITY: Wipe any stale dev/master flags from localStorage on every normal login.
-            // This prevents a previous master session from leaking ADMIN access to a new user.
             const STALE_KEYS = ['is_super_dev', 'dcm_user_role', 'dcm_active_role', 'dcm_segment', 'dcm_org_id', 'userRole', 'userTier'];
             STALE_KEYS.forEach(k => localStorage.removeItem(k));
             sessionStorage.removeItem('dcm_master_active');
+
+            // 🧹 SECURITY: Explicitly deactivate any active master UI patches
+            if (typeof window.__deactivateMasterMode === 'function') {
+                window.__deactivateMasterMode();
+            }
+
             if (window.DCM_CONFIG) window.DCM_CONFIG.DEV_MODE = false;
         }
 
@@ -201,7 +211,12 @@ const SessionManager = {
         // 3. Clear sessionStorage (master flag + anything else)
         sessionStorage.clear();
 
-        // 4. Redirect to login
+        // 4. 🧹 SECURITY: Explicitly deactivate any active master UI patches
+        if (typeof window.__deactivateMasterMode === 'function') {
+            window.__deactivateMasterMode();
+        }
+
+        // 5. Redirect to login
         window.location.href = 'login.html';
     },
 

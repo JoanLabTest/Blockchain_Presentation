@@ -30,17 +30,30 @@
             return;
         }
 
-        console.info('[DEV-UNLOCK] 🚀 Master access CONFIRMED for: ' + confirmedEmail);
+        console.info('[DEV-UNLOCK] 🚀 Master access UI patches activated.');
         window.DCM_CONFIG.DEV_MODE = true;
 
         // Set runtime flags (session-scoped, no persistence)
         sessionStorage.setItem('dcm_master_active', 'true');
 
-        // Patch SessionManager post-auth
-        _patchSessionManager();
+        // Apply UI-only patches (No RBAC patching allowed anymore)
         _patchSegmentManager();
         _patchGrowthEngine();
         _suppressPaywallModals();
+    };
+
+    // ─── Master deactivation (clean state on logout/user switch) ──────────────
+    window.__deactivateMasterMode = function () {
+        console.info('[DEV-UNLOCK] 🧹 Deactivating master UI patches.');
+        window.DCM_CONFIG.DEV_MODE = false;
+        sessionStorage.removeItem('dcm_master_active');
+
+        // Revert UI patches if possible (simplest way is page refresh on logout)
+        // but we clear the observer here.
+        if (window.__masterObserver) {
+            window.__masterObserver.disconnect();
+            window.__masterObserver = null;
+        }
     };
 
     // ─── Checks if current user is master (verified at runtime only) ──────────
@@ -50,12 +63,16 @@
 
     // ─── Suppress paywall modals for master users ─────────────────────────────
     function _suppressPaywallModals() {
+        if (!window.__isMasterSession()) return;
+
         ['premium-upgrade-modal', 'upgrade-modal', 'paywall-modal'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.remove();
         });
 
-        const observer = new MutationObserver((mutations) => {
+        if (window.__masterObserver) window.__masterObserver.disconnect();
+
+        window.__masterObserver = new MutationObserver((mutations) => {
             if (!window.__isMasterSession()) return;
             mutations.forEach(m => {
                 m.addedNodes.forEach(node => {
@@ -71,27 +88,15 @@
                 });
             });
         });
-        if (document.body) observer.observe(document.body, { childList: true, subtree: true });
-    }
 
-    function _patchSessionManager() {
-        if (!window.__isMasterSession()) return;
-        if (window.SessionManager && typeof window.SessionManager.checkAccess === 'function') {
-            window.SessionManager.checkAccess = function (permission) {
-                console.log(`[DEV-UNLOCK] ✅ checkAccess("${permission}") → GRANTED (master)`);
-                return true;
-            };
-            window.SessionManager.showPaywall = function () {
-                console.log('[DEV-UNLOCK] 🚫 showPaywall() suppressed (master)');
-            };
-            console.info('[DEV-UNLOCK] SessionManager patched for master ✅');
-        }
+        if (document.body) window.__masterObserver.observe(document.body, { childList: true, subtree: true });
     }
 
     function _patchSegmentManager() {
         if (!window.__isMasterSession()) return;
         if (window.SegmentManager) {
-            window.SegmentManager.detectSegment = function () { return 'enterprise'; };
+            // Keep original methods if we want to revert, but enterprise dashboard 
+            // usually reloads on segment change.
             window.SegmentManager.getSegment = function () { return 'enterprise'; };
         }
     }
@@ -112,8 +117,7 @@
     // ─── Re-apply patches if master session is already active (page refresh) ──
     window.addEventListener('load', () => {
         if (window.__isMasterSession()) {
-            console.info('[DEV-UNLOCK] Master session detected on load — re-applying patches.');
-            _patchSessionManager();
+            console.info('[DEV-UNLOCK] Master session detected on load — re-applying UI patches.');
             _patchSegmentManager();
             _patchGrowthEngine();
             _suppressPaywallModals();
