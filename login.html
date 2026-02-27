@@ -29,7 +29,7 @@
                 ? window.DCM_CONFIG.supabaseKey
                 : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo';
             // UMD exposes window.supabase.createClient
-            window._dcmSb = window.supabase.createClient(url, key);
+            window.supabase = window.supabase.createClient(url, key);
             console.log('Supabase login client initialized 🚀');
         })();
     </script>
@@ -43,7 +43,7 @@
     <script>
         (async function () {
             try {
-                const { data: { session } } = await window._dcmSb.auth.getSession();
+                const { data: { session } } = await window.supabase.auth.getSession();
                 if (session && session.user) {
                     // Redirect silently while page is still invisible
                     window.location.replace('dashboard.html');
@@ -430,7 +430,7 @@
     <!-- AUTH LOGIC -->
     <script>
         // Use the login-page Supabase client
-        const _sb = () => window._dcmSb;
+        const _sb = () => window.supabase;
 
         // STATE
         let isSignup = false;
@@ -576,7 +576,7 @@
             try {
                 // Use the GitHub Pages production URL for the redirectTo
                 const redirectTo = 'https://joanlabtest.github.io/blockchain-presentation/update-password.html';
-                const { error } = await _sb().auth.resetPasswordForEmail(email, { redirectTo });
+                const { error } = await window.supabase.auth.resetPasswordForEmail(email, { redirectTo });
                 if (error) throw error;
                 alert('📧 Email de réinitialisation envoyé !');
                 hideResetPassword();
