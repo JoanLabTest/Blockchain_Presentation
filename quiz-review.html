@@ -45,80 +45,7 @@
             margin: 0;
         }
 
-        /* SIDEBAR (Fixed) */
-        .sidebar {
-            width: 280px;
-            background: rgba(2, 6, 23, 0.95);
-            border-right: 1px solid var(--border);
-            height: 100vh;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 100;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 50px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .brand-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-main);
-            border-radius: 10px;
-            display: grid;
-            place-items: center;
-            color: white;
-            font-size: 20px;
-        }
-
-        .brand-text {
-            font-weight: 800;
-            font-size: 20px;
-            color: white;
-        }
-
-        .brand-text span {
-            color: var(--accent-blue);
-        }
-
-        .nav-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex-grow: 1;
-            padding: 0;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 15px;
-            border-radius: 10px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-        }
-
-        .nav-item:hover,
-        .nav-item.active {
-            background: rgba(59, 130, 246, 0.1);
-            color: white;
-            border-color: rgba(59, 130, 246, 0.2);
-        }
+        /* Sidebar styles handled by styles-sidebar.css */
 
         /* MAIN CONTENT */
         .main-content {
@@ -211,7 +138,7 @@
 
 <body>
     <aside id="dcm-sidebar-container" class="sidebar"></aside>
-    <main class="main-content">
+    <main class="main-content" style="padding: 40px;">
         <header class="header">
             <div class="page-title">
                 <h1>Progress Review</h1>
@@ -266,123 +193,123 @@
                 </table>
             </div>
         </div>
-    
-    <script type="module">
-        import { SessionManager } from './js/session-manager.js';
-        import { NavigationManager } from './js/ui/navigation.js';
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const profile = await SessionManager.init(); // Check Auth
+        <script type="module">
+            import { SessionManager } from './js/session-manager.js';
+            import { NavigationManager } from './js/ui/navigation.js';
 
-            // Render dynamic sidebar
-            if (window.NavigationManager) {
-                window.NavigationManager.renderSidebar('Review & Time');
-            }
+            document.addEventListener('DOMContentLoaded', async () => {
+                const profile = await SessionManager.init(); // Check Auth
 
-            // --- 1. LOAD DATA ---
-            const timeData = JSON.parse(localStorage.getItem('dcm_page_history') || '{}');
-            const quizData = JSON.parse(localStorage.getItem('dcm_quiz_history') || '[]');
-
-            // --- 2. RENDER TIME CHART ---
-            // Sort pages by time desc
-            const sortedPages = Object.entries(timeData)
-                .sort(([, a], [, b]) => b - a)
-                .slice(0, 5); // Top 5
-
-            const timeLabels = sortedPages.map(([k]) => k);
-            const timeValues = sortedPages.map(([, v]) => (v / 60).toFixed(1)); // Minutes
-
-            new Chart(document.getElementById('timeChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: timeLabels,
-                    datasets: [{
-                        data: timeValues,
-                        backgroundColor: ['#3b82f6', '#a855f7', '#10b981', '#f59e0b', '#ef4444'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'right', labels: { color: '#94a3b8' } }
-                    }
+                // Render dynamic sidebar
+                if (window.NavigationManager) {
+                    window.NavigationManager.renderSidebar('Review & Time');
                 }
-            });
 
-            // Update Total Time
-            const totalSeconds = Object.values(timeData).reduce((a, b) => a + b, 0);
-            document.getElementById('total-time-display').innerText = Math.floor(totalSeconds / 60) + " min";
+                // --- 1. LOAD DATA ---
+                const timeData = JSON.parse(localStorage.getItem('dcm_page_history') || '{}');
+                const quizData = JSON.parse(localStorage.getItem('dcm_quiz_history') || '[]');
 
-            // --- 3. RENDER QUIZ CHART ---
-            const quizLabels = quizData.map((_, i) => `Test ${i + 1}`);
-            const quizScores = quizData.map(q => (q.score / q.total) * 100);
+                // --- 2. RENDER TIME CHART ---
+                // Sort pages by time desc
+                const sortedPages = Object.entries(timeData)
+                    .sort(([, a], [, b]) => b - a)
+                    .slice(0, 5); // Top 5
 
-            new Chart(document.getElementById('quizChart'), {
-                type: 'line',
-                data: {
-                    labels: quizLabels,
-                    datasets: [{
-                        label: 'Score (%)',
-                        data: quizScores,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.1)' } },
-                        x: { grid: { display: false } }
+                const timeLabels = sortedPages.map(([k]) => k);
+                const timeValues = sortedPages.map(([, v]) => (v / 60).toFixed(1)); // Minutes
+
+                new Chart(document.getElementById('timeChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: timeLabels,
+                        datasets: [{
+                            data: timeValues,
+                            backgroundColor: ['#3b82f6', '#a855f7', '#10b981', '#f59e0b', '#ef4444'],
+                            borderWidth: 0
+                        }]
                     },
-                    plugins: { legend: { display: false } }
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'right', labels: { color: '#94a3b8' } }
+                        }
+                    }
+                });
+
+                // Update Total Time
+                const totalSeconds = Object.values(timeData).reduce((a, b) => a + b, 0);
+                document.getElementById('total-time-display').innerText = Math.floor(totalSeconds / 60) + " min";
+
+                // --- 3. RENDER QUIZ CHART ---
+                const quizLabels = quizData.map((_, i) => `Test ${i + 1}`);
+                const quizScores = quizData.map(q => (q.score / q.total) * 100);
+
+                new Chart(document.getElementById('quizChart'), {
+                    type: 'line',
+                    data: {
+                        labels: quizLabels,
+                        datasets: [{
+                            label: 'Score (%)',
+                            data: quizScores,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.1)' } },
+                            x: { grid: { display: false } }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+
+                // Calc Avg
+                if (quizScores.length > 0) {
+                    const avg = quizScores.reduce((a, b) => a + b, 0) / quizScores.length;
+                    document.getElementById('avg-score-display').innerText = Math.round(avg) + "%";
                 }
-            });
 
-            // Calc Avg
-            if (quizScores.length > 0) {
-                const avg = quizScores.reduce((a, b) => a + b, 0) / quizScores.length;
-                document.getElementById('avg-score-display').innerText = Math.round(avg) + "%";
-            }
+                // --- 4. POPULATE TABLE ---
+                const tbody = document.getElementById('history-table-body');
 
-            // --- 4. POPULATE TABLE ---
-            const tbody = document.getElementById('history-table-body');
-
-            // Merge Data streams? simpler to just show Quiz history for now, + top time stats
-            // Let's list Quiz Attempts
-            quizData.reverse().forEach(q => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
+                // Merge Data streams? simpler to just show Quiz history for now, + top time stats
+                // Let's list Quiz Attempts
+                quizData.reverse().forEach(q => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
                     <td>${new Date(q.date).toLocaleDateString()} ${new Date(q.date).toLocaleTimeString()}</td>
                     <td><span class="time-badge" style="background:rgba(16,185,129,0.1); color:#10b981">QUIZ</span></td>
                     <td>${q.module}</td>
                     <td><strong>${q.score}/${q.total}</strong> (${Math.round(q.score / q.total * 100)}%)</td>
                 `;
-                tbody.appendChild(tr);
-            });
+                    tbody.appendChild(tr);
+                });
 
-            // Add Time Stats to table
-            sortedPages.forEach(([page, seconds]) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
+                // Add Time Stats to table
+                sortedPages.forEach(([page, seconds]) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
                     <td>--</td>
                     <td><span class="time-badge">PAGE VIEW</span></td>
                     <td>${page}</td>
                     <td>${(seconds / 60).toFixed(1)} min</td>
                 `;
-                tbody.appendChild(tr);
+                    tbody.appendChild(tr);
+                });
             });
-        });
-    </script>
+        </script>
 
-    <!-- Base Scripts -->
-    <script src="js/core/feature-flags.js"></script>
-    <script src="js/session-manager.js"></script>
-    <script src="js/ui/navigation.js"></script>
-    <script src="js/navigation-orchestrator.js"></script>
-</main>
+        <!-- Base Scripts -->
+        <script src="js/core/feature-flags.js"></script>
+        <script src="js/session-manager.js"></script>
+        <script src="js/ui/navigation.js"></script>
+        <script src="js/navigation-orchestrator.js"></script>
+    </main>
 </body>
 
 </html>

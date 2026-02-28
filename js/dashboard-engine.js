@@ -1024,8 +1024,6 @@ const DashboardEngine = {
 
     // --- PHASE 49: DYNAMIC RISK WIDGET ---
     renderRiskWidget: (riskData) => {
-        if (!riskData) return;
-
         const cardEl = document.getElementById('risk-card');
         const circleEl = document.getElementById('risk-score-circle');
         const labelEl = document.getElementById('risk-score-label');

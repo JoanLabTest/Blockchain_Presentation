@@ -93,14 +93,22 @@ const NavigationOrchestrator = {
         // Apply visual theme immediately to <body> to prevent blink
         document.body.setAttribute('data-segment', normalized);
 
-        // Sync Dashboard UI components (Phase 101)
-        if (window.location.pathname.includes('dashboard.html')) {
-            const sideMenu = document.getElementById('side-nav-menu');
-            if (window.NavigationManager && sideMenu) {
-                // Determine if we have a verified profile or fallback
-                const verifiedTier = window.SessionManager?.__verifiedProfile?.subscription_tier;
-                window.NavigationManager.renderSidebar(verifiedTier || normalized, sideMenu);
+        // Render Sidebar on ANY page that has the required container (Phase 116)
+        const sidebarContainer = document.getElementById('dcm-sidebar-container') || document.querySelector('.sidebar');
+        const sideMenu = document.getElementById('side-nav-menu');
+
+        if (window.NavigationManager && (sidebarContainer || sideMenu)) {
+            console.log('🏗️ Sidebar Rendering Triggered...');
+
+            const target = sidebarContainer || sideMenu;
+            const verifiedTier = window.SessionManager?.__verifiedProfile?.subscription_tier;
+            const activeRole = verifiedTier || normalized;
+
+            // Only render if container is empty to avoid flicker
+            if (target.innerHTML.trim() === '') {
+                window.NavigationManager.renderSidebar(activeRole, target);
             }
+
             if (window.DashboardEngine) {
                 window.DashboardEngine.applyRoleVisibility(normalized);
             }

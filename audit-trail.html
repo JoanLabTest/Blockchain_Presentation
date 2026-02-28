@@ -28,7 +28,8 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             margin: 0;
-            padding: 40px;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         .header {
@@ -161,7 +162,7 @@
 
 <body>
     <aside id="dcm-sidebar-container" class="sidebar"></aside>
-    <main class="main-content">
+    <main class="main-content" style="padding: 40px;">
         <div class="header">
             <div class="title">
                 <i class="fas fa-list-check" style="color:var(--accent-purple)"></i>
@@ -204,45 +205,45 @@
             </thead>
             <tbody id="audit-table-body"></tbody>
         </table>
-    
 
-    <!-- Base Scripts -->
-    <script src="js/core/feature-flags.js"></script>
-    <script src="js/session-manager.js"></script>
-    <script src="js/ui/navigation.js"></script>
-    <script src="js/navigation-orchestrator.js"></script>
 
-    <script type="module">
-        import { AuditLogger } from './js/core/audit-logger.js';
+        <!-- Base Scripts -->
+        <script src="js/core/feature-flags.js"></script>
+        <script src="js/session-manager.js"></script>
+        <script src="js/ui/navigation.js"></script>
+        <script src="js/navigation-orchestrator.js"></script>
 
-        let currentLogs = [];
+        <script type="module">
+            import { AuditLogger } from './js/core/audit-logger.js';
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const logs = AuditLogger.getLogs(); // Get logs from localStorage
+            let currentLogs = [];
 
-            if (logs.length === 0) {
-                // Generate some mock logs if empty
-                currentLogs = [
-                    { timestamp: new Date().toISOString(), user: 'Alice Dupont (RISK_OFFICER)', action: 'STRESS_TEST_RUN', details: 'Scenario: LIQUIDITY_SHOCK, Variance: -70.2%', hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' },
-                    { timestamp: new Date(Date.now() - 3600000).toISOString(), user: 'Marc Leroy (ADMIN)', action: 'RBAC_ROLE_CHANGE', details: 'User: J.Doe changed to ANALYST', hash: '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92' },
-                    { timestamp: new Date(Date.now() - 7200000).toISOString(), user: 'Sophie Martin (ANALYST)', action: 'REPORT_EXPORT', details: 'Type: Compliance Bundle PDF', hash: 'c5dae3d82d5d6d3cbd3c3c4d5e6f7a8ba3b8d1b60b3b4b1a9c1a1a2b3c4d5e6f' }
-                ];
-            } else {
-                currentLogs = logs.map(log => ({
-                    timestamp: log.timestamp,
-                    user: log.userId || 'System',
-                    action: log.action,
-                    details: typeof log.details === 'string' ? log.details : JSON.stringify(log.details),
-                    hash: log.hash
-                }));
-            }
+            document.addEventListener('DOMContentLoaded', () => {
+                const logs = AuditLogger.getLogs(); // Get logs from localStorage
 
-            renderAuditTable(currentLogs);
-        });
+                if (logs.length === 0) {
+                    // Generate some mock logs if empty
+                    currentLogs = [
+                        { timestamp: new Date().toISOString(), user: 'Alice Dupont (RISK_OFFICER)', action: 'STRESS_TEST_RUN', details: 'Scenario: LIQUIDITY_SHOCK, Variance: -70.2%', hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' },
+                        { timestamp: new Date(Date.now() - 3600000).toISOString(), user: 'Marc Leroy (ADMIN)', action: 'RBAC_ROLE_CHANGE', details: 'User: J.Doe changed to ANALYST', hash: '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92' },
+                        { timestamp: new Date(Date.now() - 7200000).toISOString(), user: 'Sophie Martin (ANALYST)', action: 'REPORT_EXPORT', details: 'Type: Compliance Bundle PDF', hash: 'c5dae3d82d5d6d3cbd3c3c4d5e6f7a8ba3b8d1b60b3b4b1a9c1a1a2b3c4d5e6f' }
+                    ];
+                } else {
+                    currentLogs = logs.map(log => ({
+                        timestamp: log.timestamp,
+                        user: log.userId || 'System',
+                        action: log.action,
+                        details: typeof log.details === 'string' ? log.details : JSON.stringify(log.details),
+                        hash: log.hash
+                    }));
+                }
 
-        function renderAuditTable(logsToRender) {
-            const tbody = document.getElementById('audit-table-body');
-            tbody.innerHTML = logsToRender.map(log => `
+                renderAuditTable(currentLogs);
+            });
+
+            function renderAuditTable(logsToRender) {
+                const tbody = document.getElementById('audit-table-body');
+                tbody.innerHTML = logsToRender.map(log => `
             <tr>
                 <td class="code-font">${new Date(log.timestamp).toISOString().replace('T', ' ').substring(0, 19)}</td>
                 <td>${log.user}</td>
@@ -255,50 +256,50 @@
                 </td>
             </tr>
         `).join('');
-        }
+            }
 
-        // Expose to global scope for HTML inline handlers
-        window.filterLogs = () => {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = currentLogs.filter(log =>
-                log.user.toLowerCase().includes(query) ||
-                log.action.toLowerCase().includes(query) ||
-                log.hash.toLowerCase().includes(query) ||
-                log.details.toLowerCase().includes(query)
-            );
-            renderAuditTable(filtered);
-        };
+            // Expose to global scope for HTML inline handlers
+            window.filterLogs = () => {
+                const query = document.getElementById('searchInput').value.toLowerCase();
+                const filtered = currentLogs.filter(log =>
+                    log.user.toLowerCase().includes(query) ||
+                    log.action.toLowerCase().includes(query) ||
+                    log.hash.toLowerCase().includes(query) ||
+                    log.details.toLowerCase().includes(query)
+                );
+                renderAuditTable(filtered);
+            };
 
-        window.exportLogsCSV = () => {
-            AuditLogger.exportTransparencyReport('enterprise');
-        };
+            window.exportLogsCSV = () => {
+                AuditLogger.exportTransparencyReport('enterprise');
+            };
 
-        window.verifyLogIntegrity = () => {
-            const btn = document.getElementById('verify-integrity-btn');
-            const originalText = btn.innerHTML;
+            window.verifyLogIntegrity = () => {
+                const btn = document.getElementById('verify-integrity-btn');
+                const originalText = btn.innerHTML;
 
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Audit en cours...';
-            btn.style.color = 'white';
-            btn.style.borderColor = 'white';
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Audit en cours...';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'white';
 
-            // Simulate cryptographic verification delay
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-check-circle"></i> Chaîne Intacte (SHA-256)';
-                btn.style.background = 'rgba(16, 185, 129, 0.2)';
-                btn.style.color = 'var(--accent-green)';
-                btn.style.borderColor = 'var(--accent-green)';
-
-                // Reset after 3 seconds
+                // Simulate cryptographic verification delay
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.background = 'rgba(168, 85, 247, 0.2)';
-                    btn.style.color = 'var(--accent-purple)';
-                    btn.style.borderColor = 'var(--accent-purple)';
-                }, 3000);
-            }, 1500);
-        };
-    </script>
-</main>
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Chaîne Intacte (SHA-256)';
+                    btn.style.background = 'rgba(16, 185, 129, 0.2)';
+                    btn.style.color = 'var(--accent-green)';
+                    btn.style.borderColor = 'var(--accent-green)';
+
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = 'rgba(168, 85, 247, 0.2)';
+                        btn.style.color = 'var(--accent-purple)';
+                        btn.style.borderColor = 'var(--accent-purple)';
+                    }, 3000);
+                }, 1500);
+            };
+        </script>
+    </main>
 </body>
 
 </html>

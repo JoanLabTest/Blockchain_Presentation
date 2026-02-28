@@ -414,7 +414,7 @@
 <body>
     <aside id="dcm-sidebar-container" class="sidebar"></aside>
 
-    <main class="main-content">
+    <main class="main-content" style="padding: 40px;">
         <header class="hero">
             <h1>Workflow Center</h1>
             <p>Automatisez la surveillance de vos modèles DCM et planifiez vos audits institutionnels sans intervention
@@ -488,248 +488,250 @@
             <div class="log-entry"><span class="log-time">00:01:42</span> <span class="log-msg">[SYSTEM] Daily weighting
                     drift analysis completed. Model stability index: 0.998.</span></div>
         </section>
-    
 
-    <!-- ===== MODAL: ÉDITER LES SEUILS ===== -->
-    <div class="wf-modal-overlay" id="modal-sensitivity" onclick="if(event.target===this)closeModal('sensitivity')">
-        <div class="wf-modal">
-            <button class="wf-modal-close" onclick="closeModal('sensitivity')"><i class="fas fa-times"></i></button>
-            <h2><i class="fas fa-bell" style="color:#3b82f6;"></i> Model Sensitivity Alert</h2>
-            <p class="wf-modal-sub">Configurez les seuils déclencheurs pour les alertes Risk automatiques.</p>
 
-            <div class="wf-field">
-                <label class="wf-label">Seuil de variance (%)</label>
-                <div class="wf-row">
-                    <input type="range" class="wf-range" id="varThreshold" min="1" max="50" value="15"
-                        oninput="document.getElementById('varThresholdVal').textContent=this.value+'%'" />
-                    <span class="wf-range-val" id="varThresholdVal">15%</span>
-                </div>
-            </div>
+        <!-- ===== MODAL: ÉDITER LES SEUILS ===== -->
+        <div class="wf-modal-overlay" id="modal-sensitivity" onclick="if(event.target===this)closeModal('sensitivity')">
+            <div class="wf-modal">
+                <button class="wf-modal-close" onclick="closeModal('sensitivity')"><i class="fas fa-times"></i></button>
+                <h2><i class="fas fa-bell" style="color:#3b82f6;"></i> Model Sensitivity Alert</h2>
+                <p class="wf-modal-sub">Configurez les seuils déclencheurs pour les alertes Risk automatiques.</p>
 
-            <div class="wf-field">
-                <label class="wf-label">Fenêtre temporelle</label>
-                <select class="wf-select" id="varWindow">
-                    <option value="1h">1 heure</option>
-                    <option value="6h">6 heures</option>
-                    <option value="24h" selected>24 heures</option>
-                    <option value="7j">7 jours</option>
-                </select>
-            </div>
-
-            <div class="wf-field">
-                <label class="wf-label">Email d'alerte</label>
-                <input type="email" class="wf-input" id="varEmail" placeholder="risk@institution.com"
-                    value="risk@global-asset.com" />
-            </div>
-
-            <div class="wf-field">
-                <label class="wf-label">Canaux de notification</label>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
-                            type="checkbox" checked style="accent-color:#3b82f6;" /> Email</label>
-                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
-                            type="checkbox" style="accent-color:#3b82f6;" /> Slack</label>
-                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
-                            type="checkbox" checked style="accent-color:#3b82f6;" /> Dashboard</label>
-                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
-                            type="checkbox" style="accent-color:#3b82f6;" /> Teams</label>
-                </div>
-            </div>
-
-            <div class="wf-actions">
-                <button class="wf-btn-save" onclick="saveWorkflow('sensitivity')"><i class="fas fa-save"
-                        style="margin-right:8px;"></i>Enregistrer</button>
-                <button class="wf-btn-cancel" onclick="closeModal('sensitivity')">Annuler</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== MODAL: CONFIGURER PDF ===== -->
-    <div class="wf-modal-overlay" id="modal-pdf" onclick="if(event.target===this)closeModal('pdf')">
-        <div class="wf-modal">
-            <button class="wf-modal-close" onclick="closeModal('pdf')"><i class="fas fa-times"></i></button>
-            <h2><i class="fas fa-file-pdf" style="color:#ef4444;"></i> Quarterly Reg-Review PDF</h2>
-            <p class="wf-modal-sub">Paramétrez la génération automatique de vos rapports de conformité trimestriels.</p>
-
-            <div class="wf-field">
-                <label class="wf-label">Format de rapport</label>
-                <select class="wf-select" id="pdfFormat">
-                    <option value="full">Complet — DORA + Bâle III + MiCA</option>
-                    <option value="dora">DORA uniquement</option>
-                    <option value="mica">MiCA uniquement</option>
-                    <option value="custom">Personnalisé</option>
-                </select>
-            </div>
-
-            <div class="wf-field">
-                <label class="wf-label">Fréquence de génération</label>
-                <select class="wf-select" id="pdfFreq">
-                    <option value="monthly">Mensuelle</option>
-                    <option value="quarterly" selected>Trimestrielle</option>
-                    <option value="yearly">Annuelle</option>
-                </select>
-            </div>
-
-            <div class="wf-field">
-                <label class="wf-label">Destinataires (séparés par virgule)</label>
-                <input type="text" class="wf-input" id="pdfRecipients" placeholder="compliance@firm.com, risk@firm.com"
-                    value="compliance@global-asset.com" />
-            </div>
-
-            <div class="wf-field">
-                <label class="wf-label">Logo institutionnel</label>
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div
-                        style="width:40px; height:40px; border-radius:8px; background:rgba(59,130,246,0.1); border:1px dashed rgba(59,130,246,0.3); display:flex; align-items:center; justify-content:center; color:#3b82f6; font-size:18px;">
-                        <i class="fas fa-building"></i>
+                <div class="wf-field">
+                    <label class="wf-label">Seuil de variance (%)</label>
+                    <div class="wf-row">
+                        <input type="range" class="wf-range" id="varThreshold" min="1" max="50" value="15"
+                            oninput="document.getElementById('varThresholdVal').textContent=this.value+'%'" />
+                        <span class="wf-range-val" id="varThresholdVal">15%</span>
                     </div>
-                    <span style="font-size:13px; color:#64748b;">DCM Digital (par défaut)</span>
-                    <button class="btn" style="font-size:11px; padding:5px 12px;"
-                        onclick="showToast('Fonctionnalité disponible en version Enterprise')">Changer</button>
                 </div>
-            </div>
 
-            <div class="wf-actions">
-                <button class="wf-btn-save" onclick="saveWorkflow('pdf')"><i class="fas fa-save"
-                        style="margin-right:8px;"></i>Enregistrer</button>
-                <button class="wf-btn-cancel" onclick="closeModal('pdf')">Annuler</button>
+                <div class="wf-field">
+                    <label class="wf-label">Fenêtre temporelle</label>
+                    <select class="wf-select" id="varWindow">
+                        <option value="1h">1 heure</option>
+                        <option value="6h">6 heures</option>
+                        <option value="24h" selected>24 heures</option>
+                        <option value="7j">7 jours</option>
+                    </select>
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Email d'alerte</label>
+                    <input type="email" class="wf-input" id="varEmail" placeholder="risk@institution.com"
+                        value="risk@global-asset.com" />
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Canaux de notification</label>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
+                                type="checkbox" checked style="accent-color:#3b82f6;" /> Email</label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
+                                type="checkbox" style="accent-color:#3b82f6;" /> Slack</label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
+                                type="checkbox" checked style="accent-color:#3b82f6;" /> Dashboard</label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
+                                type="checkbox" style="accent-color:#3b82f6;" /> Teams</label>
+                    </div>
+                </div>
+
+                <div class="wf-actions">
+                    <button class="wf-btn-save" onclick="saveWorkflow('sensitivity')"><i class="fas fa-save"
+                            style="margin-right:8px;"></i>Enregistrer</button>
+                    <button class="wf-btn-cancel" onclick="closeModal('sensitivity')">Annuler</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- ===== MODAL: PARAMÈTRES API ===== -->
-    <div class="wf-modal-overlay" id="modal-api" onclick="if(event.target===this)closeModal('api')">
-        <div class="wf-modal">
-            <button class="wf-modal-close" onclick="closeModal('api')"><i class="fas fa-times"></i></button>
-            <h2><i class="fas fa-key" style="color:#f59e0b;"></i> Cloud Archive Sync — API</h2>
-            <p class="wf-modal-sub">Configurez les credentials pour la synchronisation vers votre stockage cloud
-                souverain.</p>
+        <!-- ===== MODAL: CONFIGURER PDF ===== -->
+        <div class="wf-modal-overlay" id="modal-pdf" onclick="if(event.target===this)closeModal('pdf')">
+            <div class="wf-modal">
+                <button class="wf-modal-close" onclick="closeModal('pdf')"><i class="fas fa-times"></i></button>
+                <h2><i class="fas fa-file-pdf" style="color:#ef4444;"></i> Quarterly Reg-Review PDF</h2>
+                <p class="wf-modal-sub">Paramétrez la génération automatique de vos rapports de conformité trimestriels.
+                </p>
 
-            <div class="wf-field">
-                <label class="wf-label">Fournisseur Cloud</label>
-                <select class="wf-select" id="cloudProvider">
-                    <option value="azure">Microsoft Azure Blob Storage</option>
-                    <option value="aws">AWS S3</option>
-                    <option value="gcp">Google Cloud Storage</option>
-                    <option value="ovh">OVH Object Storage</option>
-                </select>
-            </div>
-
-            <div class="wf-field">
-                <label class="wf-label">Endpoint / Bucket URL</label>
-                <input type="text" class="wf-input" id="apiEndpoint"
-                    placeholder="https://mybucket.blob.core.windows.net" />
-            </div>
-
-            <div class="wf-field">
-                <label class="wf-label">Clé API / Access Key</label>
-                <div style="position:relative;">
-                    <input type="password" class="wf-input" id="apiKey" placeholder="••••••••••••••••"
-                        style="padding-right:46px;" />
-                    <button onclick="toggleApiKey()"
-                        style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:#64748b; cursor:pointer; font-size:14px;"><i
-                            class="fas fa-eye" id="apiKeyToggleIcon"></i></button>
+                <div class="wf-field">
+                    <label class="wf-label">Format de rapport</label>
+                    <select class="wf-select" id="pdfFormat">
+                        <option value="full">Complet — DORA + Bâle III + MiCA</option>
+                        <option value="dora">DORA uniquement</option>
+                        <option value="mica">MiCA uniquement</option>
+                        <option value="custom">Personnalisé</option>
+                    </select>
                 </div>
-            </div>
 
-            <div class="wf-field">
-                <label class="wf-label">Intervalle de synchronisation</label>
-                <div class="wf-row">
-                    <input type="range" class="wf-range" id="syncInterval" min="1" max="24" value="6"
-                        oninput="document.getElementById('syncIntervalVal').textContent=this.value+'h'" />
-                    <span class="wf-range-val" id="syncIntervalVal">6h</span>
+                <div class="wf-field">
+                    <label class="wf-label">Fréquence de génération</label>
+                    <select class="wf-select" id="pdfFreq">
+                        <option value="monthly">Mensuelle</option>
+                        <option value="quarterly" selected>Trimestrielle</option>
+                        <option value="yearly">Annuelle</option>
+                    </select>
                 </div>
-            </div>
 
-            <div
-                style="background:rgba(245,158,11,0.05); border:1px solid rgba(245,158,11,0.2); border-radius:10px; padding:14px 16px; margin-bottom:20px; font-size:12px; color:#fbbf24; display:flex; align-items:flex-start; gap:10px;">
-                <i class="fas fa-exclamation-triangle" style="margin-top:2px; flex-shrink:0;"></i>
-                <span>Les clés API sont chiffrées AES-256 et ne sont jamais transmises en clair. Seul le hash SHA-256
-                    est stocké côté serveur.</span>
-            </div>
+                <div class="wf-field">
+                    <label class="wf-label">Destinataires (séparés par virgule)</label>
+                    <input type="text" class="wf-input" id="pdfRecipients"
+                        placeholder="compliance@firm.com, risk@firm.com" value="compliance@global-asset.com" />
+                </div>
 
-            <div class="wf-actions">
-                <button class="wf-btn-save" onclick="saveWorkflow('api')"><i class="fas fa-plug"
-                        style="margin-right:8px;"></i>Connecter &amp; Activer</button>
-                <button class="wf-btn-cancel" onclick="closeModal('api')">Annuler</button>
+                <div class="wf-field">
+                    <label class="wf-label">Logo institutionnel</label>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div
+                            style="width:40px; height:40px; border-radius:8px; background:rgba(59,130,246,0.1); border:1px dashed rgba(59,130,246,0.3); display:flex; align-items:center; justify-content:center; color:#3b82f6; font-size:18px;">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <span style="font-size:13px; color:#64748b;">DCM Digital (par défaut)</span>
+                        <button class="btn" style="font-size:11px; padding:5px 12px;"
+                            onclick="showToast('Fonctionnalité disponible en version Enterprise')">Changer</button>
+                    </div>
+                </div>
+
+                <div class="wf-actions">
+                    <button class="wf-btn-save" onclick="saveWorkflow('pdf')"><i class="fas fa-save"
+                            style="margin-right:8px;"></i>Enregistrer</button>
+                    <button class="wf-btn-cancel" onclick="closeModal('pdf')">Annuler</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Toast container -->
-    <div id="wf-toast"
-        style="display:none; position:fixed; bottom:30px; right:30px; background:#0f172a; border:1px solid rgba(16,185,129,0.4); border-radius:12px; padding:16px 24px; color:white; font-family:'Urbanist',sans-serif; font-size:14px; font-weight:600; box-shadow:0 10px 40px rgba(0,0,0,0.5); z-index:99999; align-items:center; gap:12px; transition:all 0.4s ease;">
-    </div>
+        <!-- ===== MODAL: PARAMÈTRES API ===== -->
+        <div class="wf-modal-overlay" id="modal-api" onclick="if(event.target===this)closeModal('api')">
+            <div class="wf-modal">
+                <button class="wf-modal-close" onclick="closeModal('api')"><i class="fas fa-times"></i></button>
+                <h2><i class="fas fa-key" style="color:#f59e0b;"></i> Cloud Archive Sync — API</h2>
+                <p class="wf-modal-sub">Configurez les credentials pour la synchronisation vers votre stockage cloud
+                    souverain.</p>
 
-    <script>
-        // Toggle functionality
-        document.querySelectorAll('.toggle').forEach(t => {
-            t.onclick = function () { this.classList.toggle('active'); }
-        });
+                <div class="wf-field">
+                    <label class="wf-label">Fournisseur Cloud</label>
+                    <select class="wf-select" id="cloudProvider">
+                        <option value="azure">Microsoft Azure Blob Storage</option>
+                        <option value="aws">AWS S3</option>
+                        <option value="gcp">Google Cloud Storage</option>
+                        <option value="ovh">OVH Object Storage</option>
+                    </select>
+                </div>
 
-        // Modal open/close
-        function openModal(id) {
-            document.getElementById('modal-' + id).classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeModal(id) {
-            document.getElementById('modal-' + id).classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.wf-modal-overlay.open').forEach(m => m.classList.remove('open')); });
+                <div class="wf-field">
+                    <label class="wf-label">Endpoint / Bucket URL</label>
+                    <input type="text" class="wf-input" id="apiEndpoint"
+                        placeholder="https://mybucket.blob.core.windows.net" />
+                </div>
 
-        // Save workflow handler
-        function saveWorkflow(type) {
-            closeModal(type);
-            showToast(
-                type === 'sensitivity' ? 'Seuils de sensibilité enregistrés' :
-                    type === 'pdf' ? 'Configuration PDF enregistrée' :
-                        'Connexion API activée'
-            );
-            // Append a log entry
-            const logs = document.querySelector('.logs-panel');
-            const now = new Date();
-            const time = now.toTimeString().slice(0, 8);
-            const msgs = {
-                sensitivity: `[CONFIG] Model Sensitivity Alert — seuil mis à jour par l'admin.`,
-                pdf: `[CONFIG] Quarterly Reg-Review PDF — paramètres mis à jour.`,
-                api: `[CONFIG] Cloud Archive Sync — connexion API configurée et activée.`
-            };
-            const entry = document.createElement('div');
-            entry.className = 'log-entry';
-            entry.innerHTML = `<span class="log-time">${time}</span> <span class="log-msg" style="color:#10b981;">${msgs[type]}</span>`;
-            logs.appendChild(entry);
-        }
+                <div class="wf-field">
+                    <label class="wf-label">Clé API / Access Key</label>
+                    <div style="position:relative;">
+                        <input type="password" class="wf-input" id="apiKey" placeholder="••••••••••••••••"
+                            style="padding-right:46px;" />
+                        <button onclick="toggleApiKey()"
+                            style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:#64748b; cursor:pointer; font-size:14px;"><i
+                                class="fas fa-eye" id="apiKeyToggleIcon"></i></button>
+                    </div>
+                </div>
 
-        // Toast notification
-        function showToast(msg, isError = false) {
-            const t = document.getElementById('wf-toast');
-            t.innerHTML = `<i class="fas fa-${isError ? 'exclamation-circle' : 'check-circle'}" style="color:${isError ? '#ef4444' : '#10b981'};"></i> ${msg}`;
-            t.style.display = 'flex';
-            t.style.opacity = '0';
-            t.style.transform = 'translateY(12px)';
-            setTimeout(() => { t.style.opacity = '1'; t.style.transform = 'translateY(0)'; }, 50);
-            setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(12px)'; setTimeout(() => { t.style.display = 'none'; }, 400); }, 3500);
-        }
+                <div class="wf-field">
+                    <label class="wf-label">Intervalle de synchronisation</label>
+                    <div class="wf-row">
+                        <input type="range" class="wf-range" id="syncInterval" min="1" max="24" value="6"
+                            oninput="document.getElementById('syncIntervalVal').textContent=this.value+'h'" />
+                        <span class="wf-range-val" id="syncIntervalVal">6h</span>
+                    </div>
+                </div>
 
-        function showNewWorkflowToast() {
-            showToast('Module de création bientôt disponible — Version Enterprise');
-        }
+                <div
+                    style="background:rgba(245,158,11,0.05); border:1px solid rgba(245,158,11,0.2); border-radius:10px; padding:14px 16px; margin-bottom:20px; font-size:12px; color:#fbbf24; display:flex; align-items:flex-start; gap:10px;">
+                    <i class="fas fa-exclamation-triangle" style="margin-top:2px; flex-shrink:0;"></i>
+                    <span>Les clés API sont chiffrées AES-256 et ne sont jamais transmises en clair. Seul le hash
+                        SHA-256
+                        est stocké côté serveur.</span>
+                </div>
 
-        function toggleApiKey() {
-            const input = document.getElementById('apiKey');
-            const icon = document.getElementById('apiKeyToggleIcon');
-            if (input.type === 'password') { input.type = 'text'; icon.className = 'fas fa-eye-slash'; }
-            else { input.type = 'password'; icon.className = 'fas fa-eye'; }
-        }
-    </script>
+                <div class="wf-actions">
+                    <button class="wf-btn-save" onclick="saveWorkflow('api')"><i class="fas fa-plug"
+                            style="margin-right:8px;"></i>Connecter &amp; Activer</button>
+                    <button class="wf-btn-cancel" onclick="closeModal('api')">Annuler</button>
+                </div>
+            </div>
+        </div>
 
-    <!-- Base Scripts -->
-    <script src="js/core/feature-flags.js"></script>
-    <script src="js/session-manager.js"></script>
-    <script src="js/ui/navigation.js"></script>
-    <script src="js/navigation-orchestrator.js"></script>
-</main>
+        <!-- Toast container -->
+        <div id="wf-toast"
+            style="display:none; position:fixed; bottom:30px; right:30px; background:#0f172a; border:1px solid rgba(16,185,129,0.4); border-radius:12px; padding:16px 24px; color:white; font-family:'Urbanist',sans-serif; font-size:14px; font-weight:600; box-shadow:0 10px 40px rgba(0,0,0,0.5); z-index:99999; align-items:center; gap:12px; transition:all 0.4s ease;">
+        </div>
+
+        <script>
+            // Toggle functionality
+            document.querySelectorAll('.toggle').forEach(t => {
+                t.onclick = function () { this.classList.toggle('active'); }
+            });
+
+            // Modal open/close
+            function openModal(id) {
+                document.getElementById('modal-' + id).classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeModal(id) {
+                document.getElementById('modal-' + id).classList.remove('open');
+                document.body.style.overflow = '';
+            }
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.wf-modal-overlay.open').forEach(m => m.classList.remove('open')); });
+
+            // Save workflow handler
+            function saveWorkflow(type) {
+                closeModal(type);
+                showToast(
+                    type === 'sensitivity' ? 'Seuils de sensibilité enregistrés' :
+                        type === 'pdf' ? 'Configuration PDF enregistrée' :
+                            'Connexion API activée'
+                );
+                // Append a log entry
+                const logs = document.querySelector('.logs-panel');
+                const now = new Date();
+                const time = now.toTimeString().slice(0, 8);
+                const msgs = {
+                    sensitivity: `[CONFIG] Model Sensitivity Alert — seuil mis à jour par l'admin.`,
+                    pdf: `[CONFIG] Quarterly Reg-Review PDF — paramètres mis à jour.`,
+                    api: `[CONFIG] Cloud Archive Sync — connexion API configurée et activée.`
+                };
+                const entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.innerHTML = `<span class="log-time">${time}</span> <span class="log-msg" style="color:#10b981;">${msgs[type]}</span>`;
+                logs.appendChild(entry);
+            }
+
+            // Toast notification
+            function showToast(msg, isError = false) {
+                const t = document.getElementById('wf-toast');
+                t.innerHTML = `<i class="fas fa-${isError ? 'exclamation-circle' : 'check-circle'}" style="color:${isError ? '#ef4444' : '#10b981'};"></i> ${msg}`;
+                t.style.display = 'flex';
+                t.style.opacity = '0';
+                t.style.transform = 'translateY(12px)';
+                setTimeout(() => { t.style.opacity = '1'; t.style.transform = 'translateY(0)'; }, 50);
+                setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(12px)'; setTimeout(() => { t.style.display = 'none'; }, 400); }, 3500);
+            }
+
+            function showNewWorkflowToast() {
+                showToast('Module de création bientôt disponible — Version Enterprise');
+            }
+
+            function toggleApiKey() {
+                const input = document.getElementById('apiKey');
+                const icon = document.getElementById('apiKeyToggleIcon');
+                if (input.type === 'password') { input.type = 'text'; icon.className = 'fas fa-eye-slash'; }
+                else { input.type = 'password'; icon.className = 'fas fa-eye'; }
+            }
+        </script>
+
+        <!-- Base Scripts -->
+        <script src="js/core/feature-flags.js"></script>
+        <script src="js/session-manager.js"></script>
+        <script src="js/ui/navigation.js"></script>
+        <script src="js/navigation-orchestrator.js"></script>
+    </main>
 </body>
 
 </html>

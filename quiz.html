@@ -49,20 +49,6 @@
             overflow-x: hidden;
         }
 
-        /* ─── NAV ─────────────────────────────────────────────────────────────────── */
-        .quiz-nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 40px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(2, 6, 23, 0.95);
-            backdrop-filter: blur(20px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
         .quiz-nav-logo {
             font-weight: 900;
             font-size: 18px;
@@ -1138,10 +1124,13 @@
             }
         }
 
-        < !-- DEV BANNER --><div id="dev-banner">🚧 DEV MODE ACTIF — Accès complet tous niveaux | joanlyczak@gmail.com / ADMIN / Enterprise </div>< !-- HERO --><section class="quiz-hero" id="home-view"><div class="quiz-hero-label" data-aos="fade-down"><i class="fas fa-certificate"></i>DCM Institutional Assessment Program </div><h1 data-aos="fade-up" data-aos-delay="100">Prouvez votre maîtrise<br />de la gouvernance DLT</h1><p data-aos="fade-up" data-aos-delay="150">5 niveaux de certification progressifs, de l'analyse fondamentale au positioning stratégique.
- Banque de 165 questions rotatives. Score 80% minimum requis par niveau. </p><div class="hero-stats" data-aos="fade-up" data-aos-delay="200"><div class="hero-stat-item"><span class="hero-stat-num">5</span><span class="hero-stat-label">Niveaux</span></div><div class="hero-stat-item"><span class="hero-stat-num">165</span><span class="hero-stat-label">Questions</span></div><div class="hero-stat-item"><span class="hero-stat-num">80%</span><span class="hero-stat-label">Score requis</span></div><div class="hero-stat-item"><span class="hero-stat-num">4</span><span class="hero-stat-label">Certifications</span></div></div></section>< !-- LEVEL MAP --><section id="level-map"><div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 30px; padding: 0 20px;"><div class="level-map-title" style="margin:0">— Choisir un niveau —</div><div class="fast-track-toggle-wrap"><span class="fast-track-label">Mode Exécutif <i class="fas fa-bolt"
+        < !-- DEV BANNER --><div id="dev-banner">🚧 DEV MODE ACTIF — Accès complet tous niveaux | joanlyczak@gmail.com / ADMIN / Enterprise </div>< !-- HERO --><section class="quiz-hero" id="home-view"><div class="quiz-hero-label" data-aos="fade-down"><i class="fas fa-certificate"></i>DCM Institutional Assessment Program </div><h1 data-aos="fade-up" data-aos-delay="100">Prouvez votre maîtrise<br />de la gouvernance DLT</h1><p data-aos="fade-up" data-aos-delay="150">5 niveaux de certification progressifs, de l'analyse
+ fondamentale au positioning stratégique. Banque de 165 questions rotatives. Score 80% minimum requis par niveau. </p><div class="hero-stats" data-aos="fade-up" data-aos-delay="200"><div class="hero-stat-item"><span class="hero-stat-num">5</span><span class="hero-stat-label">Niveaux</span></div><div class="hero-stat-item"><span class="hero-stat-num">165</span><span class="hero-stat-label">Questions</span></div><div class="hero-stat-item"><span class="hero-stat-num">80%</span><span class="hero-stat-label">Score requis</span></div><div class="hero-stat-item"><span class="hero-stat-num">4</span><span class="hero-stat-label">Certifications</span></div></div></section>< !-- LEVEL MAP --><section id="level-map"><div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 30px; padding: 0 20px;"><div class="level-map-title" style="margin:0">— Choisir un niveau —</div><div class="fast-track-toggle-wrap"><span class="fast-track-label">Mode Exécutif <i class="fas fa-bolt" style="color:var(--yellow)"></i></span><label class="dcm-switch"><input type="checkbox" id="fast-track-mode"
+        onchange="QuizUI.toggleFastTrack(this.checked)"><span class="dcm-slider"></span></label></div></div><div class="levels-grid" id="levels-container">< !-- JS Rendered --></div></section>< !-- QUIZ RUNNER --><div id="quiz-runner"><div class="runner-header"><div class="runner-level-name" id="runner-level-name">—</div><div class="runner-progress-wrap"><div class="runner-progress-label"><span id="runner-q-label">Question 1/20</span><span id="runner-score-live">Score: 0/0</span></div><div class="runner-progress-bar"><div class="runner-progress-fill" id="runner-progress-fill" style="width:0%"></div></div></div><button class="runner-exit" onclick="QuizUI.exitToMap()"><i class="fas fa-times"></i>Quitter </button></div><div class="runner-body"><div class="runner-card"><div class="question-num" id="q-num">QUESTION 1 SUR 20</div><div id="q-theme-tag" class="question-theme-tag"></div><div id="q-scenario" class="scenario-box" style="display:none;"></div><div class="question-text" id="q-text"></div><div class="choices-grid" id="choices-container"></div><div class="feedback-box" id="feedback-box"></div><button class="runner-next-btn"
+        id="next-btn" onclick="QuizUI.nextQuestion()"><span id="next-btn-label">Question suivante</span><i class="fas fa-arrow-right"></i></button></div></div></div>< !-- RESULTS SCREEN --><div id="results-screen"><div class="results-score-ring" id="results-ring"><div class="results-score-num" id="results-score-num">0%</div><div class="results-score-sub" id="results-score-sub">Score</div></div><div class="results-title" id="results-title"></div><div class="results-subtitle" id="results-subtitle"></div><div class="results-stats"><div class="results-stat"><div class="results-stat-num" id="res-correct">—</div><div class="results-stat-label">Correctes</div></div><div class="results-stat"><div class="results-stat-num" id="res-total">—</div><div class="results-stat-label">Questions</div></div><div class="results-stat"><div class="results-stat-num" id="res-duration">—</div><div class="results-stat-label">Durée</div></div></div><div class="theme-breakdown" id="theme-breakdown-section"><div class="theme-breakdown-title">Performance par thème</div><div id="theme-rows"></div></div><div class="results-unlock-banner" id="unlock-banner"><div class="results-unlock-title"><i class="fas fa-unlock"></i>Niveau suivant déverrouillé !</div><div class="results-unlock-text" id="unlock-text"></div></div><div class="results-actions"><button class="btn-cert" id="res-cert-btn"
+        style="display:none;" onclick="QuizUI.downloadCertificate()"><i class="fas fa-file-pdf"></i>Télécharger mon Certificat </button><button class="btn-primary" id="next-level-btn" style="display:none;"
 
-        style="color:var(--yellow)"></i></span><label class="dcm-switch"><input type="checkbox" id="fast-track-mode" onchange="QuizUI.toggleFastTrack(this.checked)"><span class="dcm-slider"></span></label></div></div><div class="levels-grid" id="levels-container">< !-- JS Rendered --></div></section>< !-- QUIZ RUNNER --><div id="quiz-runner"><div class="runner-header"><div class="runner-level-name" id="runner-level-name">—</div><div class="runner-progress-wrap"><div class="runner-progress-label"><span id="runner-q-label">Question 1/20</span><span id="runner-score-live">Score: 0/0</span></div><div class="runner-progress-bar"><div class="runner-progress-fill" id="runner-progress-fill" style="width:0%"></div></div></div><button class="runner-exit" onclick="QuizUI.exitToMap()"><i class="fas fa-times"></i>Quitter </button></div><div class="runner-body"><div class="runner-card"><div class="question-num" id="q-num">QUESTION 1 SUR 20</div><div id="q-theme-tag" class="question-theme-tag"></div><div id="q-scenario" class="scenario-box" style="display:none;"></div><div class="question-text" id="q-text"></div><div class="choices-grid" id="choices-container"></div><div class="feedback-box" id="feedback-box"></div><button class="runner-next-btn" id="next-btn" onclick="QuizUI.nextQuestion()"><span id="next-btn-label">Question suivante</span><i class="fas fa-arrow-right"></i></button></div></div></div>< !-- RESULTS SCREEN --><div id="results-screen"><div class="results-score-ring" id="results-ring"><div class="results-score-num" id="results-score-num">0%</div><div class="results-score-sub" id="results-score-sub">Score</div></div><div class="results-title" id="results-title"></div><div class="results-subtitle" id="results-subtitle"></div><div class="results-stats"><div class="results-stat"><div class="results-stat-num" id="res-correct">—</div><div class="results-stat-label">Correctes</div></div><div class="results-stat"><div class="results-stat-num" id="res-total">—</div><div class="results-stat-label">Questions</div></div><div class="results-stat"><div class="results-stat-num" id="res-duration">—</div><div class="results-stat-label">Durée</div></div></div><div class="theme-breakdown" id="theme-breakdown-section"><div class="theme-breakdown-title">Performance par thème</div><div id="theme-rows"></div></div><div class="results-unlock-banner" id="unlock-banner"><div class="results-unlock-title"><i class="fas fa-unlock"></i>Niveau suivant déverrouillé !</div><div class="results-unlock-text" id="unlock-text"></div></div><div class="results-actions"><button class="btn-cert" id="res-cert-btn" style="display:none;" onclick="QuizUI.downloadCertificate()"><i class="fas fa-file-pdf"></i>Télécharger mon Certificat </button><button class="btn-primary" id="next-level-btn" style="display:none;" onclick="QuizUI.goToNextLevel()"><i class="fas fa-arrow-up"></i>Niveau suivant </button><button class="btn-primary" id="retry-btn" onclick="QuizUI.retryLevel()"><i class="fas fa-rotate-right"></i>Réessayer </button><button class="btn-secondary" onclick="QuizUI.exitToMap()"><i class="fas fa-map"></i>Carte des niveaux </button></div></div>< !-- LOADING OVERLAY --><div class="loading-overlay" id="loading-overlay" style="display:none;"><i class="fas fa-circle-notch loading-spinner"></i></div><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script>AOS.init({
+        onclick="QuizUI.goToNextLevel()"><i class="fas fa-arrow-up"></i>Niveau suivant </button><button class="btn-primary" id="retry-btn" onclick="QuizUI.retryLevel()"><i class="fas fa-rotate-right"></i>Réessayer </button><button class="btn-secondary" onclick="QuizUI.exitToMap()"><i class="fas fa-map"></i>Carte des niveaux </button></div></div>< !-- LOADING OVERLAY --><div class="loading-overlay" id="loading-overlay" style="display:none;"><i class="fas fa-circle-notch loading-spinner"></i></div><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script>AOS.init({
             duration: 600, once: true
         });
 
@@ -1285,7 +1274,7 @@
                         }
 
                         onclick="event.stopPropagation(); QuizUI.startLevel('${id}')" > $ {
-                            locked ? '<i class="fas fa-lock"></i> Verrouillé' : `<i class="fas fa-play" ></i> $ {
+                            locked ? '<i class="fas fa-lock"></i> Verrouillé' : `< i class="fas fa-play" ></i > $ {
                                 completed ? 'Rejouer' : 'Commencer'
                             }
 
@@ -1862,11 +1851,4 @@
         }
 
         </script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="js/quiz-analytics.js"></script><script src="js/quiz-cert.js"></script><script src="js/quiz-engine.js"></script><script>initQuiz();
-        </script></main>
-
-    <!-- Base Scripts -->
-    <script src="js/core/feature-flags.js"></script>
-    <script src="js/session-manager.js"></script>
-    <script src="js/ui/navigation.js"></script>
-    <script src="js/navigation-orchestrator.js"></script>
-</body></html>
+        </script></main>< !-- Base Scripts --><script src="js/core/feature-flags.js"></script><script src="js/session-manager.js"></script><script src="js/ui/navigation.js"></script><script src="js/navigation-orchestrator.js"></script></body></html>

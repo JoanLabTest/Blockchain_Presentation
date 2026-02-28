@@ -215,7 +215,7 @@
 
 <body>
     <aside id="dcm-sidebar-container" class="sidebar"></aside>
-    <main class="main-content">
+    <main class="main-content" style="padding: 40px;">
         <header class="hero">
             <h1>RWA Analytics Vertical</h1>
             <p>Analyse deep-dive des actifs tokenisés. Surveillez la liquidité, le collatéral et la performance des
@@ -273,43 +273,43 @@
                 </table>
             </div>
         </div>
-    
-    <script>
-        const data = {
-            bonds: {
-                liquidity: [40, 60, 55, 80, 75, 95, 85],
-                inventory: [
-                    { id: 'FR-DB-7721', class: 'Bond', ticker: 'DCM-EIB-20', aum: '$50.2M', yield: '4.2%', maturity: '24 months' },
-                    { id: 'US-DB-9210', class: 'Bond', ticker: 'DCM-TRE-10', aum: '$120.5M', yield: '3.8%', maturity: '12 months' },
-                    { id: 'UK-DB-1142', class: 'Bond', ticker: 'CHASE-DIG', aum: '$45.0M', yield: '4.5%', maturity: '36 months' }
-                ]
-            },
-            estate: {
-                liquidity: [30, 45, 40, 55, 70, 65, 90],
-                inventory: [
-                    { id: 'RE-LDN-001', class: 'Estate', ticker: 'PROP-X', aum: '$12.5M', yield: '6.8%', maturity: 'N/A' },
-                    { id: 'RE-PAR-402', class: 'Estate', ticker: 'RE-IND', aum: '$8.2M', yield: '7.2%', maturity: 'N/A' },
-                    { id: 'RE-NYC-991', class: 'Estate', ticker: 'SKY-LMT', aum: '$25.0M', yield: '5.9%', maturity: 'N/A' }
-                ]
+
+        <script>
+            const data = {
+                bonds: {
+                    liquidity: [40, 60, 55, 80, 75, 95, 85],
+                    inventory: [
+                        { id: 'FR-DB-7721', class: 'Bond', ticker: 'DCM-EIB-20', aum: '$50.2M', yield: '4.2%', maturity: '24 months' },
+                        { id: 'US-DB-9210', class: 'Bond', ticker: 'DCM-TRE-10', aum: '$120.5M', yield: '3.8%', maturity: '12 months' },
+                        { id: 'UK-DB-1142', class: 'Bond', ticker: 'CHASE-DIG', aum: '$45.0M', yield: '4.5%', maturity: '36 months' }
+                    ]
+                },
+                estate: {
+                    liquidity: [30, 45, 40, 55, 70, 65, 90],
+                    inventory: [
+                        { id: 'RE-LDN-001', class: 'Estate', ticker: 'PROP-X', aum: '$12.5M', yield: '6.8%', maturity: 'N/A' },
+                        { id: 'RE-PAR-402', class: 'Estate', ticker: 'RE-IND', aum: '$8.2M', yield: '7.2%', maturity: 'N/A' },
+                        { id: 'RE-NYC-991', class: 'Estate', ticker: 'SKY-LMT', aum: '$25.0M', yield: '5.9%', maturity: 'N/A' }
+                    ]
+                }
+            };
+
+            function switchAsset(type) {
+                document.querySelectorAll('.asset-tab').forEach(t => t.classList.remove('active'));
+                event.currentTarget.classList.add('active');
+
+                renderViz(data[type].liquidity);
+                renderInventory(data[type].inventory);
             }
-        };
 
-        function switchAsset(type) {
-            document.querySelectorAll('.asset-tab').forEach(t => t.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            function renderViz(values) {
+                const container = document.getElementById('liquidity-viz');
+                container.innerHTML = values.map(v => `<div class="bar" style="height:${v}%"></div>`).join('');
+            }
 
-            renderViz(data[type].liquidity);
-            renderInventory(data[type].inventory);
-        }
-
-        function renderViz(values) {
-            const container = document.getElementById('liquidity-viz');
-            container.innerHTML = values.map(v => `<div class="bar" style="height:${v}%"></div>`).join('');
-        }
-
-        function renderInventory(items) {
-            const body = document.getElementById('inventory-body');
-            body.innerHTML = items.map(item => `
+            function renderInventory(items) {
+                const body = document.getElementById('inventory-body');
+                body.innerHTML = items.map(item => `
                 <tr>
                     <td><code>${item.id}</code></td>
                     <td><span class="badge ${item.class === 'Bond' ? 'badge-bond' : 'badge-estate'}">${item.class}</span></td>
@@ -319,19 +319,19 @@
                     <td style="color:var(--text-muted)">${item.maturity}</td>
                 </tr>
             `).join('');
-        }
+            }
 
-        // Init
-        renderViz(data.bonds.liquidity);
-        renderInventory(data.bonds.inventory);
-    </script>
+            // Init
+            renderViz(data.bonds.liquidity);
+            renderInventory(data.bonds.inventory);
+        </script>
 
-    <!-- Base Scripts -->
-    <script src="js/core/feature-flags.js"></script>
-    <script src="js/session-manager.js"></script>
-    <script src="js/ui/navigation.js"></script>
-    <script src="js/navigation-orchestrator.js"></script>
-</main>
+        <!-- Base Scripts -->
+        <script src="js/core/feature-flags.js"></script>
+        <script src="js/session-manager.js"></script>
+        <script src="js/ui/navigation.js"></script>
+        <script src="js/navigation-orchestrator.js"></script>
+    </main>
 </body>
 
 </html>

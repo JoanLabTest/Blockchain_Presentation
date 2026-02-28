@@ -1,55 +1,44 @@
 const FeatureMatrix = {
     student: {
-        audit: false,
-        benchmark: false,
+        AUDIT_VIEW: false,
+        ORG_MANAGEMENT: false,
         certification: true,
-        REPORT_EXPORT: false,
-        MANAGER_VIEW: false,
         aiInsights: 'limited',
-        roiCalculator: true, // Limited pedagogical version
+        roiCalculator: true,
         growthTracker: true
     },
     pro: {
-        audit: true,
-        benchmark: true,
+        AUDIT_VIEW: true,
+        ORG_MANAGEMENT: true,
         certification: false,
-        REPORT_EXPORT: true,
-        MANAGER_VIEW: true,
-        whiteLabel: true,
         aiInsights: 'standard',
         roiCalculator: true,
         growthTracker: true
     },
     enterprise: {
-        audit: true,
-        benchmark: true,
+        AUDIT_VIEW: true,
+        ORG_MANAGEMENT: true,
         multiUser: true,
         sla: true,
         governance: true,
         apiAccess: true,
         aiInsights: 'unlimited',
-        REPORT_EXPORT: true,
-        MANAGER_VIEW: true,
         whiteLabel: true,
         roiCalculator: true,
         growthTracker: true
     },
     free: {
-        audit: false,
-        benchmark: false,
+        AUDIT_VIEW: false,
+        ORG_MANAGEMENT: false,
         certification: true,
-        REPORT_EXPORT: false,
-        MANAGER_VIEW: false,
         aiInsights: 'limited',
         roiCalculator: true,
         growthTracker: true
     },
     guest: {
-        audit: false,
-        benchmark: false,
+        AUDIT_VIEW: false,
+        ORG_MANAGEMENT: false,
         certification: false,
-        REPORT_EXPORT: false,
-        MANAGER_VIEW: false,
         aiInsights: 'limited',
         roiCalculator: false,
         growthTracker: false
