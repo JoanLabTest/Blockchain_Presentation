@@ -104,11 +104,11 @@ const NavigationOrchestrator = {
                 const activeRole = verifiedTier || normalized;
 
                 // Priority 1: side-nav-menu (for pages like dashboard.html with legacy structure)
-                if (sideMenu && sideMenu.innerHTML.trim() === '') {
+                if (sideMenu && (sideMenu.children.length === 0 || sideMenu.innerHTML.replace(/<!--[\s\S]*?-->/g, "").trim() === '')) {
                     window.NavigationManager.renderSidebar(activeRole, sideMenu);
                 }
                 // Priority 2: sidebarContainer (for new standard pages where the whole sidebar is dynamic)
-                else if (sidebarContainer && sidebarContainer.innerHTML.trim() === '') {
+                else if (sidebarContainer && (sidebarContainer.children.length === 0 || sidebarContainer.innerHTML.replace(/<!--[\s\S]*?-->/g, "").trim() === '')) {
                     window.NavigationManager.renderSidebar(activeRole, sidebarContainer);
                 }
 
