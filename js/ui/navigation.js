@@ -102,9 +102,9 @@ const NavigationManager = {
             const pillar = NavigationManager.PILLARS[pillarKey];
 
             html += `
-                <div class="nav-section-header" style="margin-top: 25px; padding: 0 15px; font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px;">
+                <li class="nav-section-header" style="margin-top: 25px; padding: 0 15px; font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px; list-style: none;">
                     <i class="fas ${pillar.icon}" style="margin-right: 8px; opacity: 0.5;"></i> ${pillar.name}
-                </div>
+                </li>
             `;
 
             pillar.links.forEach(item => {
@@ -114,7 +114,7 @@ const NavigationManager = {
                 const title = isEnabled ? '' : 'title="Module réservé au plan supérieur"';
 
                 html += `
-                    <li>
+                    <li style="list-style: none;">
                         <a href="${isEnabled ? item.link : '#'}" 
                            class="nav-item ${item.active ? 'active' : ''}" 
                            style="${style}" 
@@ -138,7 +138,7 @@ const NavigationManager = {
         const userEmail = user.email || '';
 
         html += `
-            <div style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
+            <li style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05); list-style: none;">
                 <!-- User identity card -->
                 <div style="padding:12px 15px; margin-bottom:8px; background:rgba(255,255,255,0.03); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
                     <div style="display:flex; align-items:center; gap:10px;">
@@ -154,17 +154,17 @@ const NavigationManager = {
                         <span style="font-size:9px; font-weight:800; letter-spacing:1px; background:${tierColor}22; color:${tierColor}; border:1px solid ${tierColor}44; padding:2px 8px; border-radius:20px;">${tierLabel}</span>
                     </div>
                 </div>
-                <li>
-                    <a href="pricing.html" class="nav-item" style="color:var(--accent-gold)">
-                        <i class="fas fa-crown"></i> UPGRADE PLAN
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-item" style="color:#ef4444" onclick="event.preventDefault(); SessionManager.logout()">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </a>
-                </li>
-            </div>
+            </li>
+            <li style="list-style: none;">
+                <a href="pricing.html" class="nav-item" style="color:var(--accent-gold)">
+                    <i class="fas fa-crown"></i> UPGRADE PLAN
+                </a>
+            </li>
+            <li style="list-style: none;">
+                <a href="#" class="nav-item" style="color:#ef4444" onclick="event.preventDefault(); SessionManager.logout()">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </li>
         `;
 
         target.innerHTML = html;
