@@ -30,8 +30,15 @@ const SessionManager = {
             return null;
         }
 
+        // --- PHASE 31.5: GUEST MODE BYPASS ---
+        const localToken = localStorage.getItem(SessionManager.KEYS.AUTH_TOKEN);
+        const localProfile = localStorage.getItem(SessionManager.KEYS.USER_PROFILE);
+        if (localToken && localToken.startsWith('guest-token-') && localProfile) {
+            console.info('🎟️ Guest Mode detected. Skipping server auth check.');
+            return JSON.parse(localProfile);
+        }
+
         // 🛡️ STRICT CHECK: getUser() hits the server to verify the JWT and account status
-        // getSession() only checks the local cached token which might be stale/deleted.
         const { data: { user }, error } = await sb.auth.getUser();
 
         if (error || !user) {

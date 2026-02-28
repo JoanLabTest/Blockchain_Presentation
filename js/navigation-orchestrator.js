@@ -93,24 +93,28 @@ const NavigationOrchestrator = {
         // Apply visual theme immediately to <body> to prevent blink
         document.body.setAttribute('data-segment', normalized);
 
-        // Render Sidebar on ANY page that has the required container (Phase 116)
-        const sidebarContainer = document.getElementById('dcm-sidebar-container') || document.querySelector('.sidebar');
-        const sideMenu = document.getElementById('side-nav-menu');
+        if (window.NavigationManager) {
+            const sidebarContainer = document.getElementById('dcm-sidebar-container') || document.querySelector('.sidebar');
+            const sideMenu = document.getElementById('side-nav-menu');
 
-        if (window.NavigationManager && (sidebarContainer || sideMenu)) {
-            console.log('🏗️ Sidebar Rendering Triggered...');
+            if (sidebarContainer || sideMenu) {
+                console.log('🏗️ Sidebar Rendering Triggered...');
 
-            const target = sidebarContainer || sideMenu;
-            const verifiedTier = window.SessionManager?.__verifiedProfile?.subscription_tier;
-            const activeRole = verifiedTier || normalized;
+                const verifiedTier = window.SessionManager?.__verifiedProfile?.subscription_tier;
+                const activeRole = verifiedTier || normalized;
 
-            // Only render if container is empty to avoid flicker
-            if (target.innerHTML.trim() === '') {
-                window.NavigationManager.renderSidebar(activeRole, target);
-            }
+                // Priority 1: side-nav-menu (for pages like dashboard.html with legacy structure)
+                if (sideMenu && sideMenu.innerHTML.trim() === '') {
+                    window.NavigationManager.renderSidebar(activeRole, sideMenu);
+                }
+                // Priority 2: sidebarContainer (for new standard pages where the whole sidebar is dynamic)
+                else if (sidebarContainer && sidebarContainer.innerHTML.trim() === '') {
+                    window.NavigationManager.renderSidebar(activeRole, sidebarContainer);
+                }
 
-            if (window.DashboardEngine) {
-                window.DashboardEngine.applyRoleVisibility(normalized);
+                if (window.DashboardEngine) {
+                    window.DashboardEngine.applyRoleVisibility(normalized);
+                }
             }
         }
     },

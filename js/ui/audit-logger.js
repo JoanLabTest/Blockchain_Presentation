@@ -1,6 +1,5 @@
-import { supabase } from '../supabase-client.js';
-
-export const AuditLogger = {
+// AUDIT LOGGER UI - Non-Module Version (Phase 79)
+const AuditLogger = {
 
     /**
      * Generates a SHA-256 hash for an audit entry, optionally chaining it.
@@ -16,12 +15,12 @@ export const AuditLogger = {
     },
 
     log: async (action, userRole, details = {}) => {
-        const { data: { session } } = await supabase.auth.getSession();
-        const userId = session?.user?.id;
-        const orgId = localStorage.getItem('dcm_org_id');
+        const { data: { session } } = await window.supabase.auth.getSession();
+        const userId = session?.user?.id || 'ANONYMOUS';
+        const orgId = localStorage.getItem('dcm_org_id') || 'DEFAULT_ORG';
 
         // Fetch Last Hash for Chaining (Phase 83)
-        const { data: lastLogs } = await supabase
+        const { data: lastLogs } = await window.supabase
             .from('audit_logs')
             .select('node_hash')
             .order('timestamp', { ascending: false })
@@ -42,7 +41,7 @@ export const AuditLogger = {
         // Generate Chained Integrity Hash
         entry.node_hash = await AuditLogger._generateHash(entry, prevHash);
 
-        const { data, error } = await supabase
+        const { data, error } = await window.supabase
             .from('audit_logs')
             .insert([entry])
             .select();
@@ -63,7 +62,7 @@ export const AuditLogger = {
     getLogs: async (segment) => {
         if (segment === 'student') return [];
 
-        const { data, error } = await supabase
+        const { data, error } = await window.supabase
             .from('audit_logs')
             .select('*')
             .order('timestamp', { ascending: false })
@@ -81,6 +80,7 @@ export const AuditLogger = {
             details: l.metadata
         }));
     },
+    // ... (omitting range for brevity, will use full replacement or multiple chunks)
 
     renderAuditTrail: async (containerId, segment) => {
         const container = document.getElementById(containerId);
@@ -141,7 +141,7 @@ export const AuditLogger = {
      */
     verifyIntegrity: async () => {
         console.log("🛡️ Starting Audit Log Integrity Verification...");
-        const { data: logs, error } = await supabase
+        const { data: logs, error } = await window.supabase
             .from('audit_logs')
             .select('*')
             .order('timestamp', { ascending: true }); // Check chronologically
@@ -190,7 +190,7 @@ export const AuditLogger = {
      */
     notarizeChain: async () => {
         console.log("⚓ Initiating Digital Notarization...");
-        const { data: lastLogs } = await supabase
+        const { data: lastLogs } = await window.supabase
             .from('audit_logs')
             .select('node_hash')
             .order('timestamp', { ascending: false })
@@ -210,3 +210,8 @@ export const AuditLogger = {
         alert(`📦 État notarisé avec succès !\nHash ancré : ${headHash.substring(0, 16)}...`);
     }
 };
+
+// Global Exposure
+if (typeof window !== 'undefined') {
+    window.AuditLogger = AuditLogger;
+}
