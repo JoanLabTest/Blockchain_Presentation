@@ -70,6 +70,7 @@
     <meta content="#020617" name="theme-color" />
     <!-- ANIMATIONS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="styles-sidebar.css" rel="stylesheet" />
     <script type="text/javascript">
         (function (c, l, a, r, i, t, y) {
             c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
@@ -167,37 +168,6 @@
             transform: translateY(10px);
         }
 
-        /* --- SIDEBAR --- */
-        .sidebar {
-            width: 280px;
-            background: rgba(2, 6, 23, 0.95);
-            border-right: 1px solid var(--border);
-            height: 100vh;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            /* Fixed position */
-            top: 0;
-            left: 0;
-            z-index: 100;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--border) transparent;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 10px;
-        }
 
         /* --- SEARCH BAR (Phase 56) --- */
         .header-search {
@@ -345,95 +315,6 @@
             visibility: visible;
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 50px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .brand-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-main);
-            border-radius: 10px;
-            display: grid;
-            place-items: center;
-            color: white;
-            font-size: 20px;
-            box-shadow: 0 0 20px var(--segment-color);
-            transition: all 0.5s ease;
-        }
-
-        .brand-text {
-            font-family: 'Urbanist', sans-serif;
-            font-weight: 800;
-            font-size: 20px;
-            letter-spacing: -0.5px;
-            color: white;
-        }
-
-        .brand-text span {
-            color: var(--accent-blue);
-        }
-
-        .nav-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex-grow: 1;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 15px;
-            border-radius: 10px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-        }
-
-        .nav-item:hover,
-        .nav-item.active {
-            background: rgba(59, 130, 246, 0.1);
-            color: white;
-            border-color: rgba(59, 130, 246, 0.2);
-        }
-
-        .nav-item i {
-            width: 20px;
-            text-align: center;
-        }
-
-        .nav-item.active i {
-            color: var(--accent-cyan);
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: var(--bg-card);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--bg-glass);
-            border: 2px solid var(--accent-green);
-        }
 
         /* --- MAIN CONTENT --- */
         .main-content {
@@ -2265,6 +2146,19 @@
     </script>
 
 
+    <script>
+        // AOS Failsafe: Ensures content is visible if AOS fails to initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                const aosElements = document.querySelectorAll('[data-aos]');
+                aosElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                    el.style.visibility = 'visible';
+                });
+            }, 800);
+        });
+    </script>
 </body>
 
 </html>

@@ -73,6 +73,8 @@ const NavigationManager = {
             student: '#learning',
             pro: '#toolkit',
             enterprise: '#governance',
+            institutional: '#governance',
+            free: '#core',
             Guest: '#core',
             guest: '#core'
         };
@@ -88,6 +90,7 @@ const NavigationManager = {
             student: ['ACADEMIC', 'CORE', 'TOOLKIT', 'GOVERNANCE'],
             pro: ['CORE', 'TOOLKIT', 'GOVERNANCE', 'ACADEMIC'],
             enterprise: ['CORE', 'GOVERNANCE', 'TOOLKIT', 'ACADEMIC'],
+            institutional: ['CORE', 'GOVERNANCE', 'TOOLKIT', 'ACADEMIC'],
             free: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE'],
             guest: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE'],
             Guest: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE']

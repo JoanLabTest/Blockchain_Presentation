@@ -3,10 +3,8 @@
 <html lang="fr">
 
 <head>
-    <link href="https://dcmcore.com/yield-mechanics.html" hreflang="fr"
-        rel="alternate" />
-    <link href="https://dcmcore.com/yield-mechanics.html" hreflang="x-default"
-        rel="alternate" />
+    <link href="https://dcmcore.com/yield-mechanics.html" hreflang="fr" rel="alternate" />
+    <link href="https://dcmcore.com/yield-mechanics.html" hreflang="x-default" rel="alternate" />
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Yield Mechanics - Éducation aux Actifs Numériques</title>
@@ -29,6 +27,11 @@
     <!-- ANIMATIONS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link href="styles-footer.css" rel="stylesheet" />
+    <link href="styles-sidebar.css" rel="stylesheet" />
+    <script src="js/core/feature-flags.js"></script>
+    <script src="js/session-manager.js"></script>
+    <script src="js/ui/navigation.js"></script>
+    <script src="js/navigation-orchestrator.js"></script>
     <!-- MATH -->
     <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script defer="" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -728,989 +731,1034 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="nav-logo">
-            <i class="fa-solid fa-chart-pie" style="color: var(--accent-green);"></i> YIELD <span
-                style="color:var(--text-muted); margin-left:5px;">MECHANICS</span>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fas fa-cube"></i>
+            </div>
+            <div class="brand-text">
+                DCM <span>DIGITAL</span>
+            </div>
         </div>
-        <a aria-label="Retour" class="back-btn" href="index.html"><i class="fa-solid fa-arrow-left"></i> HUB DIGITAL</a>
-    </nav>
-    <div class="container" role="main">
-        <div class="content-wrapper">
-            <!-- TABLE OF CONTENTS (Desktop) -->
-            <aside class="toc-sidebar">
-                <strong
-                    style="color: white; display: block; margin-bottom: 15px; letter-spacing: 1px;">SOMMAIRE</strong>
-                <ul class="toc-list">
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-1">1. APR vs
-                            APY</a></li>
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-2">2. Mécanismes
-                            de Staking</a></li>
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-3">3. Sources de
-                            Rendement</a></li>
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-4">4. Cadre de
-                            Risques</a></li>
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-5">5. Illusions
-                            DeFi</a></li>
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-6">6. Analyse
-                            Comparative</a></li>
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-7">7. Perspective
-                            Institutionnelle</a></li>
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-8">8. Sim
-                            Rendement Réel</a></li>
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-9">9. Analytique
-                            Avancée</a></li>
-                    <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-10">10. Fiscalité
-                            &amp; Conformité</a></li>
-                </ul>
-            </aside>
-            <div class="main-content">
-                <!-- HERO SECTION -->
-                <div class="section-box" data-aos="fade-down"
-                    style="text-align: center; border-bottom: none; margin-bottom: 40px; padding-top: 40px;">
-                    <span
-                        style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: bold; letter-spacing: 1px; border: 1px solid rgba(16, 185, 129, 0.2);">MODULE
-                        ÉDUCATIF</span>
-                    <h1 style="margin-top: 25px;">Mécanismes de Rendement<br />Actifs Numériques</h1>
-                    <div
-                        style="display: inline-block; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4); color: #f59e0b; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; letter-spacing: 1px; margin-bottom: 20px;">
-                        <i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> PROJECTION ALGORITHMIQUE
-                        - NON GARANTIE
-                    </div>
-                    <p style="max-width: 700px; margin: 0 auto 30px auto;">
-                        Un cadre complet pour comprendre l'APR, l'APY, les risques de Staking et le calcul du Rendement
-                        Réel
-                        pour les investisseurs institutionnels.
-                    </p>
-                    <div>
-                        <span class="audience-badge badge-green">Investisseurs</span>
-                        <span class="audience-badge badge-green">Étudiants</span>
-                        <span class="audience-badge badge-green">Gestionnaires de Risques</span>
-                        <span class="audience-badge badge-green">Retail</span>
-                    </div>
-                </div>
-                <!-- 1. APR vs APY -->
-                <div class="section-box" data-aos="fade-up" id="section-1">
-                    <h2>1. Fondamentaux : APR vs APY</h2>
-                    <div class="grid-2">
+        <ul class="nav-menu" id="side-nav-menu">
+            <!-- Dynamically Rendered by NavigationManager -->
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="container" role="main">
+            <div class="content-wrapper">
+                <!-- TABLE OF CONTENTS (Desktop) -->
+                <aside class="toc-sidebar">
+                    <strong
+                        style="color: white; display: block; margin-bottom: 15px; letter-spacing: 1px;">SOMMAIRE</strong>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-1">1. APR vs
+                                APY</a></li>
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-2">2.
+                                Mécanismes
+                                de Staking</a></li>
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-3">3. Sources
+                                de
+                                Rendement</a></li>
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-4">4. Cadre
+                                de
+                                Risques</a></li>
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-5">5.
+                                Illusions
+                                DeFi</a></li>
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-6">6. Analyse
+                                Comparative</a></li>
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-7">7.
+                                Perspective
+                                Institutionnelle</a></li>
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-8">8. Sim
+                                Rendement Réel</a></li>
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-9">9.
+                                Analytique
+                                Avancée</a></li>
+                        <li class="toc-item"><a aria-label="Lien sommaire" class="toc-link" href="#section-10">10.
+                                Fiscalité
+                                &amp; Conformité</a></li>
+                    </ul>
+                </aside>
+                <div class="main-content">
+                    <!-- HERO SECTION -->
+                    <div class="section-box" data-aos="fade-down"
+                        style="text-align: center; border-bottom: none; margin-bottom: 40px; padding-top: 40px;">
+                        <span
+                            style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: bold; letter-spacing: 1px; border: 1px solid rgba(16, 185, 129, 0.2);">MODULE
+                            ÉDUCATIF</span>
+                        <h1 style="margin-top: 25px;">Mécanismes de Rendement<br />Actifs Numériques</h1>
+                        <div
+                            style="display: inline-block; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4); color: #f59e0b; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; letter-spacing: 1px; margin-bottom: 20px;">
+                            <i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> PROJECTION
+                            ALGORITHMIQUE
+                            - NON GARANTIE
+                        </div>
+                        <p style="max-width: 700px; margin: 0 auto 30px auto;">
+                            Un cadre complet pour comprendre l'APR, l'APY, les risques de Staking et le calcul du
+                            Rendement
+                            Réel
+                            pour les investisseurs institutionnels.
+                        </p>
                         <div>
-                            <p>La distinction entre APR et APY est le concept le plus fondamental de l'analyse de
-                                rendement. Mal
-                                comprendre ces métriques conduit à des écarts significatifs dans les rendements
-                                attendus.</p>
-                            <h3><i class="fa-solid fa-calculator" style="color:var(--accent-blue)"></i> APR (Taux
-                                Nominal)</h3>
-                            <p><strong>Annual Percentage Rate</strong> reflète le taux d'intérêt simple sur une année.
-                                Il ne
-                                tient <strong>pas</strong> compte de la composition des intérêts au cours de l'année.
-                            </p>
-                            <div class="formula-box">$$ APR = r \times 1 $$</div>
-                            <h3 style="margin-top:30px;"><i class="fa-solid fa-chart-line"
-                                    style="color:var(--accent-green)"></i> APY (Taux Réel)</h3>
-                            <p><strong>Annual Percentage Yield</strong> reflète le taux de rendement réel gagné sur un
-                                investissement, prenant en compte l'effet des intérêts composés (réinvestissement des
-                                récompenses).</p>
-                            <div class="formula-box">$$ APY = (1 + \frac{r}{n})^n - 1 $$</div>
-                            <p style="font-size:14px; color:var(--text-muted);">Où <em>r</em> est l'APR et <em>n</em>
-                                est la
-                                fréquence de composition.</p>
-                            <div class="callout callout-info">
-                                <i class="fa-solid fa-info-circle" style="color:var(--accent-blue)"></i>
-                                <div>
-                                    <strong>Règle Institutionnelle :</strong> Toujours vérifier si un rendement coté est
-                                    en APR
-                                    ou APY. Pour une composition à haute fréquence (ex: journalière), la différence est
-                                    substantielle.
+                            <span class="audience-badge badge-green">Investisseurs</span>
+                            <span class="audience-badge badge-green">Étudiants</span>
+                            <span class="audience-badge badge-green">Gestionnaires de Risques</span>
+                            <span class="audience-badge badge-green">Retail</span>
+                        </div>
+                    </div>
+                    <!-- 1. APR vs APY -->
+                    <div class="section-box" data-aos="fade-up" id="section-1">
+                        <h2>1. Fondamentaux : APR vs APY</h2>
+                        <div class="grid-2">
+                            <div>
+                                <p>La distinction entre APR et APY est le concept le plus fondamental de l'analyse de
+                                    rendement. Mal
+                                    comprendre ces métriques conduit à des écarts significatifs dans les rendements
+                                    attendus.</p>
+                                <h3><i class="fa-solid fa-calculator" style="color:var(--accent-blue)"></i> APR (Taux
+                                    Nominal)</h3>
+                                <p><strong>Annual Percentage Rate</strong> reflète le taux d'intérêt simple sur une
+                                    année.
+                                    Il ne
+                                    tient <strong>pas</strong> compte de la composition des intérêts au cours de
+                                    l'année.
+                                </p>
+                                <div class="formula-box">$$ APR = r \times 1 $$</div>
+                                <h3 style="margin-top:30px;"><i class="fa-solid fa-chart-line"
+                                        style="color:var(--accent-green)"></i> APY (Taux Réel)</h3>
+                                <p><strong>Annual Percentage Yield</strong> reflète le taux de rendement réel gagné sur
+                                    un
+                                    investissement, prenant en compte l'effet des intérêts composés (réinvestissement
+                                    des
+                                    récompenses).</p>
+                                <div class="formula-box">$$ APY = (1 + \frac{r}{n})^n - 1 $$</div>
+                                <p style="font-size:14px; color:var(--text-muted);">Où <em>r</em> est l'APR et
+                                    <em>n</em>
+                                    est la
+                                    fréquence de composition.</p>
+                                <div class="callout callout-info">
+                                    <i class="fa-solid fa-info-circle" style="color:var(--accent-blue)"></i>
+                                    <div>
+                                        <strong>Règle Institutionnelle :</strong> Toujours vérifier si un rendement coté
+                                        est
+                                        en APR
+                                        ou APY. Pour une composition à haute fréquence (ex: journalière), la différence
+                                        est
+                                        substantielle.
+                                    </div>
                                 </div>
                             </div>
+                            <!-- CALCULATOR 1 -->
+                            <div class="calc-box">
+                                <h3>🧮 Calculateur APR vers APY</h3>
+                                <p style="font-size:14px; margin-bottom:20px;">Visualisez l'impact de la fréquence de
+                                    composition.
+                                </p>
+                                <div class="input-group">
+                                    <label>APR Nominal (%)</label>
+                                    <input class="calc-input" id="aprInput" oninput="calcAPY()" type="number"
+                                        value="10" />
+                                </div>
+                                <div class="input-group">
+                                    <label>Fréquence de Composition</label>
+                                    <select class="calc-input" id="freqInput" onchange="calcAPY()">
+                                        <option value="1">Annuelle (n=1)</option>
+                                        <option value="2">Semestrielle (n=2)</option>
+                                        <option value="4">Trimestrielle (n=4)</option>
+                                        <option value="12">Mensuelle (n=12)</option>
+                                        <option value="52">Hebdomadaire (n=52)</option>
+                                        <option selected="" value="365">Journalière (n=365)</option>
+                                    </select>
+                                </div>
+                                <div class="calc-result">
+                                    <span>Rendement Effectif (APY)</span>
+                                    <span class="res-val" id="apyResult">10.52%</span>
+                                </div>
+                                <div style="text-align:right; font-size:12px; color:var(--text-muted); margin-top:5px;">
+                                    Gain dû à la composition : <span id="apyDiff"
+                                        style="color:var(--accent-green)">+0.52%</span>
+                                </div>
+                                <div class="res-label">APY Estimé (Net)</div>
+                                <div class="res-val" id="apyVal">3.4%</div>
+                            </div>
+                            <!-- SAVE BUTTON (SaaS Feature) -->
+                            <button aria-label="Bouton" id="btnSaveSim"
+                                style="width:100%; margin-top:20px; background:var(--bg-card); border:1px solid var(--accent-gold); color:var(--accent-gold); padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; transition:0.2s;">
+                                <i class="fas fa-save"></i> SAUVEGARDER SCÉNARIO
+                            </button>
                         </div>
-                        <!-- CALCULATOR 1 -->
-                        <div class="calc-box">
-                            <h3>🧮 Calculateur APR vers APY</h3>
-                            <p style="font-size:14px; margin-bottom:20px;">Visualisez l'impact de la fréquence de
-                                composition.
-                            </p>
-                            <div class="input-group">
-                                <label>APR Nominal (%)</label>
-                                <input class="calc-input" id="aprInput" oninput="calcAPY()" type="number" value="10" />
-                            </div>
-                            <div class="input-group">
-                                <label>Fréquence de Composition</label>
-                                <select class="calc-input" id="freqInput" onchange="calcAPY()">
-                                    <option value="1">Annuelle (n=1)</option>
-                                    <option value="2">Semestrielle (n=2)</option>
-                                    <option value="4">Trimestrielle (n=4)</option>
-                                    <option value="12">Mensuelle (n=12)</option>
-                                    <option value="52">Hebdomadaire (n=52)</option>
-                                    <option selected="" value="365">Journalière (n=365)</option>
-                                </select>
-                            </div>
-                            <div class="calc-result">
-                                <span>Rendement Effectif (APY)</span>
-                                <span class="res-val" id="apyResult">10.52%</span>
-                            </div>
-                            <div style="text-align:right; font-size:12px; color:var(--text-muted); margin-top:5px;">
-                                Gain dû à la composition : <span id="apyDiff"
-                                    style="color:var(--accent-green)">+0.52%</span>
-                            </div>
-                            <div class="res-label">APY Estimé (Net)</div>
-                            <div class="res-val" id="apyVal">3.4%</div>
+                        <div class="chart-container">
+                            <canvas id="apyChart"></canvas>
                         </div>
-                        <!-- SAVE BUTTON (SaaS Feature) -->
-                        <button aria-label="Bouton" id="btnSaveSim"
-                            style="width:100%; margin-top:20px; background:var(--bg-card); border:1px solid var(--accent-gold); color:var(--accent-gold); padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; transition:0.2s;">
-                            <i class="fas fa-save"></i> SAUVEGARDER SCÉNARIO
-                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- TOAST ELEMENT -->
+        <div id="toast"><i class="fas fa-check-circle"></i> Scénario sauvegardé avec succès !</div>
+        <!-- LOGIC -->
+        <script type="module">
+            import { simEngine } from './js/simulation.js';
+
+            // Calculator Logic (Simplified for Demo)
+            const ethInput = document.getElementById('ethAmount');
+            const durationInput = document.getElementById('duration');
+            const apyDisplay = document.getElementById('apyVal');
+
+            function calculate() {
+                let eth = parseFloat(ethInput.value);
+                let apy = 3.2 + (Math.random() * 0.5);
+                apyDisplay.innerText = apy.toFixed(1) + "%";
+            }
+
+            ethInput.addEventListener('input', calculate);
+            durationInput.addEventListener('input', calculate);
+
+            // TOAST FUNCTION
+            function showToast(message) {
+                const toast = document.getElementById("toast");
+                toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+                toast.className = "show";
+                setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 3000);
+            }
+
+            // SAVE HANDLER
+            document.getElementById('btnSaveSim').addEventListener('click', () => {
+                // Simple visual feedback before prompt
+                const btn = document.getElementById('btnSaveSim');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ...';
+
+                setTimeout(() => {
+                    const name = prompt("Nom du scénario :", "Validation Node #" + Math.floor(Math.random() * 1000));
+                    if (name) {
+                        simEngine.save(
+                            'YIELD',
+                            name,
+                            { eth: ethInput.value, duration: durationInput.value },
+                            { apy: apyDisplay.innerText }
+                        );
+                        showToast("Scénario sauvegardé dans votre Dashboard !");
+                    }
+                    btn.innerHTML = originalText;
+                }, 100);
+            });
+        </script>
+        <!-- 2. STAKING MECHANICS -->
+        <div class="section-box" data-aos="fade-up" id="section-2">
+            <h2>2. Mécanismes de Staking (PoS)</h2>
+            <p>Le Staking est le mécanisme par lequel les validateurs engagent du capital (ETH, SOL, etc.) pour
+                sécuriser un réseau Proof-of-Stake. Contrairement au Mining (PoW) qui nécessite de l'énergie, le Staking
+                nécessite un engagement de capital.</p>
+            <div class="grid-3" style="margin-top:30px;">
+                <div class="card">
+                    <i class="fa-solid fa-server"
+                        style="font-size:30px; color:var(--accent-purple); margin-bottom:15px;"></i>
+                    <h3>Validation</h3>
+                    <p style="font-size:14px;">Les validateurs bloquent du capital (ex: 32 ETH) pour proposer et
+                        attester des blocs. C'est une caution ou "Skin in the game".</p>
+                    <div
+                        style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
+                        <strong>Rôle :</strong> Sécuriser le Réseau
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-coins"
+                        style="font-size:30px; color:var(--accent-gold); margin-bottom:15px;"></i>
+                    <h3>Récompenses</h3>
+                    <p style="font-size:14px;">En échange d'un travail honnête, les validateurs reçoivent des
+                        récompenses protocolaires (Inflation) et des frais de transaction.</p>
+                    <div
+                        style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
+                        <strong>Incitation :</strong> Rendement (~3-5%)
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-gavel"
+                        style="font-size:30px; color:var(--accent-red); margin-bottom:15px;"></i>
+                    <h3>Slashing</h3>
+                    <p style="font-size:14px;">Un mécanisme de pénalité. Si un validateur agit malicieusement (ex:
+                        double signature) ou est hors ligne, une partie de sa mise est brûlée.</p>
+                    <div
+                        style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
+                        <strong>Risque :</strong> Perte de Capital
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 3. YIELD SOURCES -->
+        <div class="section-box" data-aos="fade-up" id="section-3">
+            <h2>3. Sources de Rendement</h2>
+            <p>Tous les rendements ne se valent pas. Comprendre la source est critique pour l'analyse de durabilité.</p>
+            <div class="grid-3">
+                <div class="card" style="border-top:3px solid var(--accent-blue);">
+                    <h3>1. Émission (Rewards)</h3>
+                    <p style="font-size:14px;">Inflation monétaire au niveau du protocole. De nouveaux jetons sont créés
+                        pour payer les validateurs.</p>
+                    <ul style="font-size:13px; margin-top:10px;">
+                        <li><strong>Durabilité :</strong> Faible (Dilutif)</li>
+                        <li><strong>Note :</strong> Le rendement réel dépend du taux de burn vs émission.</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-top:3px solid var(--accent-green);">
+                    <h3>2. Exécution (Frais)</h3>
+                    <p style="font-size:14px;">Frais de priorité payés par les utilisateurs pour inclure leurs
+                        transactions dans un bloc.</p>
+                    <ul style="font-size:13px; margin-top:10px;">
+                        <li><strong>Durabilité :</strong> Élevée (Demande Organique)</li>
+                        <li><strong>Moteur :</strong> Activité/usage du réseau.</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-top:3px solid var(--accent-purple);">
+                    <h3>3. MEV (Boost)</h3>
+                    <p style="font-size:14px;"><strong>Maximal Extractable Value.</strong> Profit supplémentaire tiré du
+                        réordonnancement des transactions (arbitrage, liquidations).</p>
+                    <ul style="font-size:13px; margin-top:10px;">
+                        <li><strong>Durabilité :</strong> Variable</li>
+                        <li><strong>Potentiel :</strong> Pics élevés lors de volatilité.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 4. RISK FRAMEWORK -->
+        <div class="section-box" data-aos="fade-up" id="section-4">
+            <h2>4. Cadre de Risques (5 Points)</h2>
+            <p>Évaluation institutionnelle des risques de staking au-delà de la simple volatilité de marché.</p>
+            <div class="risk-matrix-grid">
+                <!-- Header Row -->
+                <div class="rm-header"></div>
+                <div class="rm-header" style="background:#22c55e20; color:var(--accent-green)">IMPACT FAIBLE</div>
+                <div class="rm-header" style="background:#eab30820; color:var(--accent-gold)">IMPACT MOYEN</div>
+                <div class="rm-header" style="background:#ef444420; color:var(--accent-red)">IMPACT CRITIQUE</div>
+                <!-- Axis Labels -->
+                <div class="rm-axis-y">PROBABILITÉ</div>
+                <!-- Row 1: ÉLEVÉE -->
+                <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
+                    FRÉQUENT</div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-low" title="Fluctuations mineures du rendement">Yield Compression</div>
+                </div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-med" title="Volatilité prix &gt; rendement">Volatilité Marché</div>
+                </div>
+                <div class="rm-cell">
+                    <!-- Vide -->
+                </div>
+                <!-- Row 2: MOYENNE -->
+                <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
+                    OCCASIONNEL</div>
+                <div class="rm-cell">
+                    <!-- Vide -->
+                </div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-med" title="Délai de déblocage">Illiquidité (21j)</div>
+                </div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-high" title="Pénalité mineure de slashing">Slashing (Downtime)</div>
+                </div>
+                <!-- Row 3: RARE -->
+                <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">RARE
+                </div>
+                <div class="rm-cell">
+                    <!-- Vide -->
+                </div>
+                <div class="rm-cell">
+                    <div class="risk-point rp-high" title="Depeg Stablecoin/LST">Validateur Malicieux</div>
+                </div>
+                <div class="rm-cell" style="background:rgba(239,68,68,0.05)">
+                    <div class="risk-point rp-high" title="Echec complet du protocole ou Hack">Smart Contract Exploit
+                    </div>
+                </div>
+            </div>
+            <div style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:10px;">
+                <i class="fa-solid fa-arrows-up-down-left-right"></i> Survolez les risques pour voir les détails.
+            </div>
+        </div>
+        <!-- 5. DEFI ILLUSIONS -->
+        <div class="section-box" data-aos="fade-up" id="section-5">
+            <h2>5. Illusions de Rendement DeFi</h2>
+            <div class="callout callout-warn">
+                <i class="fa-solid fa-triangle-exclamation" style="color:var(--accent-gold)"></i>
+                <div>
+                    <strong>Le Piège du "Haut Rendement" :</strong> Si un rendement provient d'émissions de jetons
+                    plutôt que de revenus, il est probablement insoutenable.
+                    Toujours demander : <em>"D'où vient l'argent ?"</em>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div>
+                    <h3>🚩 Drapeaux Rouges</h3>
+                    <ul style="margin-top:15px;">
+                        <li><strong>APY &gt; 20% sur Stablecoins :</strong> Indique souvent un levier élevé ou une
+                            mécanique de Ponzi (ex: Anchor Protocol).</li>
+                        <li><strong>Rendement en "Jetons de Gouvernance" :</strong> Vous êtes payé dans un actif volatil
+                            qui subit une pression vendeuse constante.</li>
+                        <li><strong>Bonus de Verrouillage :</strong> "Bloquez 4 ans pour 4x le rendement" résulte
+                            souvent en une valeur nulle au déblocage.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Étude de Cas : Anchor Protocol (UST)</h3>
+                    <div class="card" style="padding:20px; border-left:4px solid var(--accent-red);">
+                        <div style="font-weight:bold; margin-bottom:5px;">Rendement Promis : 20% Fixe</div>
+                        <div style="font-size:14px; color:var(--text-muted); margin-bottom:10px;">Source : Subventions
+                            VC &amp; Réflexivité Ponzi</div>
+                        <div style="font-weight:bold; color:var(--accent-red);">Résultat : Effondrement de 40Md$ en Mai
+                            2022</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 6. COMPARATIVE ANALYSIS -->
+        <div class="section-box" data-aos="fade-up" id="section-6">
+            <h2>6. Analyse Comparative</h2>
+            <p>Comparaison du Staking Crypto Natif face aux autres stratégies de rendement numérique.</p>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Stratégie</th>
+                        <th>APY Typique</th>
+                        <th>Profil de Risque</th>
+                        <th>Source de Rendement</th>
+                        <th>Risque Réglementaire</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Staking (ETH)</strong></td>
+                        <td>3.0% - 4.5%</td>
+                        <td><span class="risk-tag r-yellow">MOYEN</span></td>
+                        <td>Fonction du Protocole</td>
+                        <td>Moyen (Sécurité ?)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prêts (Aave)</strong></td>
+                        <td>2.0% - 10.0%</td>
+                        <td><span class="risk-tag r-yellow">MOYEN</span></td>
+                        <td>Intérêts Emprunteurs (Variable)</td>
+                        <td>Faible (Logiciel)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RWA (Bons du Trésor)</strong></td>
+                        <td>4.5% - 5.5%</td>
+                        <td><span class="risk-tag r-green">FAIBLE</span></td>
+                        <td>Dette Gouv. US</td>
+                        <td>Élevé (Full KYC)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prêts CeFi</strong></td>
+                        <td>4% - 12%</td>
+                        <td><span class="risk-tag r-red">ÉLEVÉ</span></td>
+                        <td>Réhypothécation / Trading</td>
+                        <td>Critique (Faillite)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 7. INSTITUTIONAL PERSPECTIVE -->
+        <div class="section-box" data-aos="fade-up" id="section-7">
+            <h2>7. Perspective Institutionnelle</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Score de Durabilité du Rendement</h3>
+                    <p>Les institutions quantifient la qualité du rendement via le ratio Revenus de Frais (Organique)
+                        sur Émission Totale (Inflation).</p>
+                    <div class="formula-box" style="font-size:14px;">$$ Score = \frac{Frais}{Récompenses} \times 100 $$
+                    </div>
+                    <p style="font-size:14px;"><em>Ethereum score régulièrement &gt;60%, tandis que la plupart des
+                            alt-L1
+                            scorent &lt;5%, dépendant entièrement de l'inflation.</em>
+                    </p>
+                </div>
+                <div>
+                    <h3>Vue Réglementaire (US vs UE)</h3>
+                    <div class="card" style="padding:20px;">
+                        <ul style="margin:0; padding-left:15px; font-size:14px;">
+                            <li><strong>🇺🇸 USA (SEC) :</strong> Le Staking-as-a-Service est souvent vu comme un
+                                contrat d'investissement (Security). Le staking auto-gardé est plus sûr.</li>
+                            <li style="margin-top:10px;"><strong>🇪🇺 UE (MiCA) :</strong> Cadre plus clair. Le staking
+                                est généralement reconnu comme un service technique, distinct des produits financiers.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 8. REAL YIELD SIMULATOR -->
+        <div class="section-box" data-aos="fade-up" id="section-8">
+            <h2>8. Simulateur de "Rendement Réel"</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Le Piège du Rendement</h3>
+                    <p>Un APY élevé ne signifie rien si l'actif sous-jacent se déprécie. Ce simulateur calcule votre
+                        **Position Nette** en Fiat, en tenant compte de la volatilité des prix.</p>
+                    <h4 style="margin-top:20px; color:white;">Scénarios :</h4>
+                    <ul style="font-size:14px; margin-top:10px;">
+                        <li><strong>Bon :</strong> 5% Rendement + 10% Hausse Prix = <span
+                                style="color:var(--accent-green)">+15.5% Retour Réel</span></li>
+                        <li><strong>Mauvais :</strong> 20% Rendement - 30% Chute Prix = <span
+                                style="color:var(--accent-red)">-16.0% Retour Réel</span></li>
+                    </ul>
+                    <div class="callout callout-inst" style="margin-top:40px;">
+                        <i class="fa-solid fa-lightbulb" style="color:var(--accent-green)"></i>
+                        <div>
+                            <strong>Conseil Pro :</strong> Le staking crée un "coussin". Un rendement de 5% permet à
+                            l'actif de chuter de 4.7% tout en maintenant le seuil de rentabilité.
+                        </div>
+                    </div>
+                </div>
+                <!-- CALCULATOR 2 -->
+                <div class="calc-box" style="border-top-color: var(--accent-red);">
+                    <h3>📉 Stress Test de Rendement Réel</h3>
+                    <div class="input-group">
+                        <label>Investissement Principal ($)</label>
+                        <input class="calc-input" id="principal" oninput="calcRealYield()" type="number"
+                            value="100000" />
+                    </div>
+                    <div class="input-group">
+                        <label>APY de Staking (%)</label>
+                        <input class="calc-input" id="apy" oninput="calcRealYield()" type="number" value="8" />
+                    </div>
+                    <div class="input-group">
+                        <label>Durée d'Investissement (Années)</label>
+                        <input id="duration" max="10" min="1" oninput="calcRealYield()"
+                            style="margin-bottom:10px; accent-color:var(--text-muted);" type="range" value="1" />
+                        <div
+                            style="font-family:'JetBrains Mono'; font-size:12px; text-align:right; color:var(--text-muted);">
+                            <span id="durationVal">1</span> Ans
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Variation Prix du Jeton (%)</label>
+                        <input id="priceChange" max="50" min="-50" oninput="calcRealYield()"
+                            style="width:100%; accent-color:var(--accent-red); margin-bottom:10px;" type="range"
+                            value="-20" />
+                        <div id="priceVal"
+                            style="text-align:right; font-family:'JetBrains Mono'; color:white; font-size:14px;">-20%
+                        </div>
+                    </div>
+                    <div class="calc-result">
+                        <span>Valeur du Portefeuille</span>
+                        <span class="res-val" id="finalValue">$ 86,400</span>
+                    </div>
+                    <div
+                        style="display:flex; justify-content:space-between; font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222;">
+                        <div style="color:var(--text-muted);">Gain Nominal : <span id="nominalGain"
+                                style="color:white;">+8000 Jetons</span></div>
+                        <div style="color:var(--text-muted);">P&amp;L Net : <span id="netPnl"
+                                style="color:var(--accent-red)">-13.60%</span></div>
                     </div>
                     <div class="chart-container">
-                        <canvas id="apyChart"></canvas>
+                        <canvas id="yieldChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- TOAST ELEMENT -->
-    <div id="toast"><i class="fas fa-check-circle"></i> Scénario sauvegardé avec succès !</div>
-    <!-- LOGIC -->
-    <script type="module">
-        import { simEngine } from './js/simulation.js';
+        <!-- 9. ADVANCED ANALYTICS -->
+        <div class="section-box" data-aos="fade-up" id="section-9" style="border:none;">
+            <h2>9. Analytique Avancée</h2>
+            <h3>A. Modèle de Stress Test Staking</h3>
+            <p>Projections de Rendement Réel sous divers scénarios "Black Swan".</p>
+            <table class="data-table" style="margin-bottom:40px;">
+                <thead>
+                    <tr>
+                        <th>Scénario</th>
+                        <th>Impact APY</th>
+                        <th>Impact Prix</th>
+                        <th>Résultat (Rendement Réel)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Scénario de Base</strong></td>
+                        <td>5.0%</td>
+                        <td>0%</td>
+                        <td><span style="color:var(--accent-green)">+5.00%</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Événement de Slashing (Mineur)</strong></td>
+                        <td>5.0%</td>
+                        <td>0%</td>
+                        <td><span style="color:var(--accent-gold)">-1.00% (Perte Capital)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bear Market (-50%)</strong></td>
+                        <td>5.0%</td>
+                        <td>-50%</td>
+                        <td><span style="color:var(--accent-red)">-47.5%</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Congestion Réseau</strong></td>
+                        <td>8.5%</td>
+                        <td>+10%</td>
+                        <td><span style="color:var(--accent-green)">+19.3%</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>B. Matrice de Corrélation</h3>
+            <p>Corrélation du rendement de staking avec les actifs macro traditionnels (Données Hypothétiques).</p>
+            <div class="corr-matrix-container">
+                <div class="corr-matrix">
+                    <!-- Headers -->
+                    <div class="corr-cell corr-header">Actif</div>
+                    <div class="corr-cell corr-header">S&amp;P 500</div>
+                    <div class="corr-cell corr-header">Nasdaq</div>
+                    <div class="corr-cell corr-header">Or</div>
+                    <div class="corr-cell corr-header">US 10Y</div>
+                    <div class="corr-cell corr-header">BTC</div>
+                    <!-- Row 1: ETH Staking Yield -->
+                    <div class="corr-cell corr-header" style="text-align:left;">Rendement ETH</div>
+                    <div class="corr-cell corr-val">0.15</div>
+                    <div class="corr-cell corr-val">0.22</div>
+                    <div class="corr-cell corr-val">0.05</div>
+                    <div class="corr-cell corr-val">-0.10</div>
+                    <div class="corr-cell corr-val" style="color:var(--accent-green)">0.85</div>
+                    <!-- Row 2: RWA Yield -->
+                    <div class="corr-cell corr-header" style="text-align:left;">Rendement RWA</div>
+                    <div class="corr-cell corr-val">0.10</div>
+                    <div class="corr-cell corr-val">0.05</div>
+                    <div class="corr-cell corr-val">-0.15</div>
+                    <div class="corr-cell corr-val" style="color:var(--accent-green)">0.98</div>
+                    <div class="corr-cell corr-val">0.02</div>
+                    <!-- Row 3: DeFi Lending -->
+                    <div class="corr-cell corr-header" style="text-align:left;">Taux DeFi</div>
+                    <div class="corr-cell corr-val">0.45</div>
+                    <div class="corr-cell corr-val">0.50</div>
+                    <div class="corr-cell corr-val">0.12</div>
+                    <div class="corr-cell corr-val">0.30</div>
+                    <div class="corr-cell corr-val">0.90</div>
+                </div>
+            </div>
+            <div class="callout callout-inst" style="background:#0f172a; margin-top:30px;">
+                <i class="fa-solid fa-layer-group" style="color:var(--accent-purple)"></i>
+                <div>
+                    <strong>Construction de Portefeuille :</strong>
+                    Le Staking Natif offre un "Taux sans risque crypto-natif", mais porte un risque de volatilité de
+                    type Actions comparé aux RWA (Bons du Trésor Tokénisés) qui offrent une stabilité décorrélée.
+                </div>
+            </div>
+        </div>
+        <!-- 10. FISCALITY & COMPLIANCE -->
+        <div class="section-box" data-aos="fade-up" id="section-10" style="border:none;">
+            <h2>10. Fiscalité &amp; Conformité (Focus France/EU)</h2>
+            <div class="grid-2">
+                <div>
+                    <h3><i class="fa-solid fa-scale-balanced" style="color:var(--accent-blue)"></i> Régime Fiscal</h3>
+                    <p>Traitement des revenus de staking pour les résidents fiscaux français et sociétés.</p>
+                    <div class="card" style="margin-bottom:20px;">
+                        <h4>Personnes Physiques (Retail)</h4>
+                        <ul style="font-size:14px; margin-top:10px;">
+                            <li><strong>Flat Tax (PFU) :</strong> 30% sur les plus-values lors de la conversion en Fiat.
+                            </li>
+                            <li><strong>Transactions Crypto-Crypto :</strong> Neutralisées (pas d'imposition tant que ça
+                                reste en crypto).</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-left:4px solid var(--accent-purple);">
+                        <h4>Sociétés (IS)</h4>
+                        <ul style="font-size:14px; margin-top:10px;">
+                            <li><strong>Impôt sur les Sociétés :</strong> 15% (PME) ou 25%.</li>
+                            <li><strong>Latence :</strong> Les gains doivent être comptabilisés à la valeur de marché au
+                                moment de la réception (Mark-to-Market), même sans conversion.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3><i class="fa-solid fa-passport" style="color:var(--accent-green)"></i> Statut Réglementaire</h3>
+                    <div class="callout callout-inst">
+                        <div>
+                            <strong>MiCA (Markets in Crypto-Assets) :</strong>
+                            L'UE établit un cadre clair. Les services de Staking peuvent être fournis par des CASP
+                            (Crypto-Asset Service Providers) agréés.
+                        </div>
+                    </div>
+                    <h3>Documentation Requise (Audit)</h3>
+                    <ul style="font-size:14px;">
+                        <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Preuve de
+                                Délégation :</strong> Transaction on-chain vers le validateur.</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Relevé de
+                                Récompenses :</strong> Export CSV quotidien des rewards reçus.</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Valorisation
+                                :</strong> Prix du token au jour de chaque reward.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-        // Calculator Logic (Simplified for Demo)
-        const ethInput = document.getElementById('ethAmount');
-        const durationInput = document.getElementById('duration');
-        const apyDisplay = document.getElementById('apyVal');
+        <!-- PRO ANALYTICS CTA -->
+        <section class="section-slide"
+            style="padding: 60px 0; border-top: 1px solid #333; text-align: center; margin-top: 100px; position: relative; z-index: 10; background-color: #020617;">
+            <div class="container" data-aos="fade-up">
+                <h3 style="color:white; margin-bottom:10px;">Pour les Analystes Financiers</h3>
+                <p>Accédez aux modèles de rentabilité validateur et à la matrice des risques institutionnels.</p>
+                <a class="cta-button" href="pos-economics.html"
+                    style="margin-top: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); display: inline-flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-chart-pie"></i> ANALYSE ÉCONOMIQUE VALIDATEUR (PRO)
+                </a>
+            </div>
+        </section>
+        <!-- MAIN FOOTER -->
+        <!-- MAIN FOOTER -->
+        <footer class="super-footer">
+            <div class="footer-content">
+                <div class="footer-grid">
+                    <!-- 0. BRAND -->
+                    <div class="footer-brand">
+                        <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                        <p>Plateforme d’analyse dédiée à la tokenisation des actifs financiers et aux infrastructures
+                            blockchain publiques et institutionnelles.</p>
+                        <div class="footer-socials">
+                            <a aria-label="LinkedIn" class="social-btn" href="https://www.linkedin.com/in/joan-lyczak/"
+                                target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            <a aria-label="GitHub" class="social-btn"
+                                href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank"><i
+                                    class="fab fa-github"></i></a>
+                            <a aria-label="Twitter" class="social-btn" href="https://x.com/Joan_Lyczak"
+                                target="_blank"><i class="fab fa-x-twitter"></i></a>
+                        </div>
+                    </div>
+                    <!-- 1. PRODUIT -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Produit
+                        </h4>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Hub Central</a></li>
+                            <li><a href="sandbox.html">Dashboard</a></li>
+                            <li><a href="simple.html">Academy</a></li>
+                            <li><a href="guide.html">Guide Expert</a></li>
+                            <li><a href="yield-mechanics.html">Simulation Engine</a></li>
+                            <li><a href="quiz.html">Certification</a></li>
+                            <li><a href="pricing-institutional.html">Pricing</a></li>
+                        </ul>
+                    </div>
+                    <!-- 2. RESEARCH -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research
+                        </h4>
+                        <ul class="footer-links">
+                            <li><a href="rwa.html">RWA &amp; DeFi</a></li>
+                            <li><a href="yield-mechanics.html">Yield Mechanics</a></li>
+                            <li><a href="web3.html">Web3 Infrastructure</a></li>
+                            <li><a href="ai-finance.html">AI &amp; Finance</a></li>
+                            <li><a href="institutional-problem-statement.html">Strategic Vision</a></li>
+                            <li><a href="competitive-landscape.html">Competitive Landscape</a></li>
+                            <li><a href="series-a-narrative.html">Series A Deck</a></li>
+                            <li><a href="governance-os-landing.html">Institutional Governance</a></li>
+                            <li><a href="mrm-hub.html">MRM Hub</a></li>
+                            <li><a href="data-certification.html">Data Trust Certif</a></li>
+                            <li><a href="case-study-tokenized-bond.html">Quantified Use Case</a></li>
+                            <li><a href="economic-model.html">Economic Model</a></li>
+                            <li><a href="regulatory-mapping.html">Regulatory Mapping</a></li>
+                            <li><a href="legal-matrix.html">Global Matrix</a></li>
+                            <li><a href="networks/index.html">Blockchain Networks</a></li>
+                        </ul>
+                    </div>
+                    <!-- 3. INFRASTRUCTURE -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                            Infrastructure</h4>
+                        <ul class="footer-links">
+                            <li><a href="lifecycle.html">Cycle de Vie</a></li>
+                            <li><a href="flux-comparison.html">Comparateur Flux</a></li>
+                            <li><a href="legal_pilot.html">Régime Pilote (UE)</a></li>
+                            <li><a href="sandbox.html">Sandbox</a></li>
+                            <li><a href="deployment-architecture.html">Deployment Arch</a></li>
+                            <li><a href="networks/swiat.html">SWIAT</a></li>
+                            <li><a href="networks/canton.html">Canton Network</a></li>
+                        </ul>
+                    </div>
+                    <!-- 4. CORPORATE -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                            Corporate
+                        </h4>
+                        <ul class="footer-links">
+                            <li><a href="methodology.html">Méthodologie</a></li>
+                            <li><a href="guide.html">Documentation</a></li>
+                            <li><a href="index-simple.html">Site Corporate</a></li>
+                            <li><a href="about.html">À propos</a></li>
+                            <li><a href="mailto:contact@dcm-digital.com">Contact</a></li>
+                        </ul>
+                    </div>
+                    <!-- 5. LEGAL -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-shield-alt" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                            Legal
+                        </h4>
+                        <ul class="footer-links">
+                            <li><a href="mentions-legales.html">Mentions Légales</a></li>
+                            <li><a href="privacy.html">Politique de Confidentialité</a></li>
+                            <li><a href="cgu.html">Conditions d'Utilisation</a></li>
+                            <li><a href="cookies.html">Politique Cookies</a></li>
+                            <li><a href="methodology.html#disclaimer">Disclaimer</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-disclaimer"
+                    style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto;">
+                    <strong>Regulatory Transparency :</strong> DCM Digital quantifie les risques technologiques des
+                    infrastructures DLT. Nous ne fournissons aucun conseil juridique, de conformité ou d'investissement.
+                    Les données réglementaires (DORA, MiCA, Bâle III) sont utilisées comme références de modélisation
+                    systémique et nécessitent l'analyse indépendante de vos directions des risques. <a
+                        href="regulatory-transparency.html"
+                        style="color: #3b82f6; text-decoration: underline;">Consulter notre Cadre de Transparence</a>.
+                </div>
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content"
+                        style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                        <div class="copyright">
+                            © 2026 DCM Digital • Version 4.3.0
+                        </div>
+                        <div class="legal-links">
+                            <a href="support-it.html">Support IT</a>
+                            <a href="api-docs.html">Documentation API</a>
+                        </div>
+                    </div>
+                </div>
+        </footer>
+        <!-- SCRIPTS -->
+        <script defer="" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            window.addEventListener('load', function () { AOS.init({ duration: 800, once: true, offset: 100 }); });
 
-        function calculate() {
-            let eth = parseFloat(ethInput.value);
-            let apy = 3.2 + (Math.random() * 0.5);
-            apyDisplay.innerText = apy.toFixed(1) + "%";
-        }
+            // --- GLOBAL CHART CONFIG ---
+            Chart.defaults.color = '#94a3b8';
+            Chart.defaults.borderColor = '#334155';
+            let apyChartInstance = null;
+            let yieldChartInstance = null;
 
-        ethInput.addEventListener('input', calculate);
-        durationInput.addEventListener('input', calculate);
+            /* --- APR to APY CALCULATOR --- */
+            function calcAPY() {
+                const apr = parseFloat(document.getElementById('aprInput').value);
+                const freq = parseFloat(document.getElementById('freqInput').value);
 
-        // TOAST FUNCTION
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
-            toast.className = "show";
-            setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 3000);
-        }
+                if (!isNaN(apr) && !isNaN(freq)) {
+                    const r = apr / 100;
+                    const apy = (Math.pow((1 + r / freq), freq) - 1) * 100;
+                    const diff = apy - apr;
 
-        // SAVE HANDLER
-        document.getElementById('btnSaveSim').addEventListener('click', () => {
-            // Simple visual feedback before prompt
-            const btn = document.getElementById('btnSaveSim');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ...';
+                    document.getElementById('apyResult').innerText = apy.toFixed(2) + "%";
 
-            setTimeout(() => {
-                const name = prompt("Nom du scénario :", "Validation Node #" + Math.floor(Math.random() * 1000));
-                if (name) {
-                    simEngine.save(
-                        'YIELD',
-                        name,
-                        { eth: ethInput.value, duration: durationInput.value },
-                        { apy: apyDisplay.innerText }
-                    );
-                    showToast("Scénario sauvegardé dans votre Dashboard !");
+                    const diffEl = document.getElementById('apyDiff');
+                    diffEl.innerText = "+" + diff.toFixed(2) + "%";
+                    diffEl.style.color = diff > 0.5 ? "var(--accent-green)" : "var(--text-muted)";
+
+                    updateAPYChart(apr, apy);
                 }
-                btn.innerHTML = originalText;
-            }, 100);
-        });
-    </script>
-    <!-- 2. STAKING MECHANICS -->
-    <div class="section-box" data-aos="fade-up" id="section-2">
-        <h2>2. Mécanismes de Staking (PoS)</h2>
-        <p>Le Staking est le mécanisme par lequel les validateurs engagent du capital (ETH, SOL, etc.) pour
-            sécuriser un réseau Proof-of-Stake. Contrairement au Mining (PoW) qui nécessite de l'énergie, le Staking
-            nécessite un engagement de capital.</p>
-        <div class="grid-3" style="margin-top:30px;">
-            <div class="card">
-                <i class="fa-solid fa-server"
-                    style="font-size:30px; color:var(--accent-purple); margin-bottom:15px;"></i>
-                <h3>Validation</h3>
-                <p style="font-size:14px;">Les validateurs bloquent du capital (ex: 32 ETH) pour proposer et
-                    attester des blocs. C'est une caution ou "Skin in the game".</p>
-                <div style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
-                    <strong>Rôle :</strong> Sécuriser le Réseau
-                </div>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-coins" style="font-size:30px; color:var(--accent-gold); margin-bottom:15px;"></i>
-                <h3>Récompenses</h3>
-                <p style="font-size:14px;">En échange d'un travail honnête, les validateurs reçoivent des
-                    récompenses protocolaires (Inflation) et des frais de transaction.</p>
-                <div style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
-                    <strong>Incitation :</strong> Rendement (~3-5%)
-                </div>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-gavel" style="font-size:30px; color:var(--accent-red); margin-bottom:15px;"></i>
-                <h3>Slashing</h3>
-                <p style="font-size:14px;">Un mécanisme de pénalité. Si un validateur agit malicieusement (ex:
-                    double signature) ou est hors ligne, une partie de sa mise est brûlée.</p>
-                <div style="font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; color:#666;">
-                    <strong>Risque :</strong> Perte de Capital
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 3. YIELD SOURCES -->
-    <div class="section-box" data-aos="fade-up" id="section-3">
-        <h2>3. Sources de Rendement</h2>
-        <p>Tous les rendements ne se valent pas. Comprendre la source est critique pour l'analyse de durabilité.</p>
-        <div class="grid-3">
-            <div class="card" style="border-top:3px solid var(--accent-blue);">
-                <h3>1. Émission (Rewards)</h3>
-                <p style="font-size:14px;">Inflation monétaire au niveau du protocole. De nouveaux jetons sont créés
-                    pour payer les validateurs.</p>
-                <ul style="font-size:13px; margin-top:10px;">
-                    <li><strong>Durabilité :</strong> Faible (Dilutif)</li>
-                    <li><strong>Note :</strong> Le rendement réel dépend du taux de burn vs émission.</li>
-                </ul>
-            </div>
-            <div class="card" style="border-top:3px solid var(--accent-green);">
-                <h3>2. Exécution (Frais)</h3>
-                <p style="font-size:14px;">Frais de priorité payés par les utilisateurs pour inclure leurs
-                    transactions dans un bloc.</p>
-                <ul style="font-size:13px; margin-top:10px;">
-                    <li><strong>Durabilité :</strong> Élevée (Demande Organique)</li>
-                    <li><strong>Moteur :</strong> Activité/usage du réseau.</li>
-                </ul>
-            </div>
-            <div class="card" style="border-top:3px solid var(--accent-purple);">
-                <h3>3. MEV (Boost)</h3>
-                <p style="font-size:14px;"><strong>Maximal Extractable Value.</strong> Profit supplémentaire tiré du
-                    réordonnancement des transactions (arbitrage, liquidations).</p>
-                <ul style="font-size:13px; margin-top:10px;">
-                    <li><strong>Durabilité :</strong> Variable</li>
-                    <li><strong>Potentiel :</strong> Pics élevés lors de volatilité.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- 4. RISK FRAMEWORK -->
-    <div class="section-box" data-aos="fade-up" id="section-4">
-        <h2>4. Cadre de Risques (5 Points)</h2>
-        <p>Évaluation institutionnelle des risques de staking au-delà de la simple volatilité de marché.</p>
-        <div class="risk-matrix-grid">
-            <!-- Header Row -->
-            <div class="rm-header"></div>
-            <div class="rm-header" style="background:#22c55e20; color:var(--accent-green)">IMPACT FAIBLE</div>
-            <div class="rm-header" style="background:#eab30820; color:var(--accent-gold)">IMPACT MOYEN</div>
-            <div class="rm-header" style="background:#ef444420; color:var(--accent-red)">IMPACT CRITIQUE</div>
-            <!-- Axis Labels -->
-            <div class="rm-axis-y">PROBABILITÉ</div>
-            <!-- Row 1: ÉLEVÉE -->
-            <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
-                FRÉQUENT</div>
-            <div class="rm-cell">
-                <div class="risk-point rp-low" title="Fluctuations mineures du rendement">Yield Compression</div>
-            </div>
-            <div class="rm-cell">
-                <div class="risk-point rp-med" title="Volatilité prix &gt; rendement">Volatilité Marché</div>
-            </div>
-            <div class="rm-cell">
-                <!-- Vide -->
-            </div>
-            <!-- Row 2: MOYENNE -->
-            <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">
-                OCCASIONNEL</div>
-            <div class="rm-cell">
-                <!-- Vide -->
-            </div>
-            <div class="rm-cell">
-                <div class="risk-point rp-med" title="Délai de déblocage">Illiquidité (21j)</div>
-            </div>
-            <div class="rm-cell">
-                <div class="risk-point rp-high" title="Pénalité mineure de slashing">Slashing (Downtime)</div>
-            </div>
-            <!-- Row 3: RARE -->
-            <div class="rm-header" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:10px;">RARE
-            </div>
-            <div class="rm-cell">
-                <!-- Vide -->
-            </div>
-            <div class="rm-cell">
-                <div class="risk-point rp-high" title="Depeg Stablecoin/LST">Validateur Malicieux</div>
-            </div>
-            <div class="rm-cell" style="background:rgba(239,68,68,0.05)">
-                <div class="risk-point rp-high" title="Echec complet du protocole ou Hack">Smart Contract Exploit
-                </div>
-            </div>
-        </div>
-        <div style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:10px;">
-            <i class="fa-solid fa-arrows-up-down-left-right"></i> Survolez les risques pour voir les détails.
-        </div>
-    </div>
-    <!-- 5. DEFI ILLUSIONS -->
-    <div class="section-box" data-aos="fade-up" id="section-5">
-        <h2>5. Illusions de Rendement DeFi</h2>
-        <div class="callout callout-warn">
-            <i class="fa-solid fa-triangle-exclamation" style="color:var(--accent-gold)"></i>
-            <div>
-                <strong>Le Piège du "Haut Rendement" :</strong> Si un rendement provient d'émissions de jetons
-                plutôt que de revenus, il est probablement insoutenable.
-                Toujours demander : <em>"D'où vient l'argent ?"</em>
-            </div>
-        </div>
-        <div class="grid-2">
-            <div>
-                <h3>🚩 Drapeaux Rouges</h3>
-                <ul style="margin-top:15px;">
-                    <li><strong>APY &gt; 20% sur Stablecoins :</strong> Indique souvent un levier élevé ou une
-                        mécanique de Ponzi (ex: Anchor Protocol).</li>
-                    <li><strong>Rendement en "Jetons de Gouvernance" :</strong> Vous êtes payé dans un actif volatil
-                        qui subit une pression vendeuse constante.</li>
-                    <li><strong>Bonus de Verrouillage :</strong> "Bloquez 4 ans pour 4x le rendement" résulte
-                        souvent en une valeur nulle au déblocage.</li>
-                </ul>
-            </div>
-            <div>
-                <h3>Étude de Cas : Anchor Protocol (UST)</h3>
-                <div class="card" style="padding:20px; border-left:4px solid var(--accent-red);">
-                    <div style="font-weight:bold; margin-bottom:5px;">Rendement Promis : 20% Fixe</div>
-                    <div style="font-size:14px; color:var(--text-muted); margin-bottom:10px;">Source : Subventions
-                        VC &amp; Réflexivité Ponzi</div>
-                    <div style="font-weight:bold; color:var(--accent-red);">Résultat : Effondrement de 40Md$ en Mai
-                        2022</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 6. COMPARATIVE ANALYSIS -->
-    <div class="section-box" data-aos="fade-up" id="section-6">
-        <h2>6. Analyse Comparative</h2>
-        <p>Comparaison du Staking Crypto Natif face aux autres stratégies de rendement numérique.</p>
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Stratégie</th>
-                    <th>APY Typique</th>
-                    <th>Profil de Risque</th>
-                    <th>Source de Rendement</th>
-                    <th>Risque Réglementaire</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Staking (ETH)</strong></td>
-                    <td>3.0% - 4.5%</td>
-                    <td><span class="risk-tag r-yellow">MOYEN</span></td>
-                    <td>Fonction du Protocole</td>
-                    <td>Moyen (Sécurité ?)</td>
-                </tr>
-                <tr>
-                    <td><strong>Prêts (Aave)</strong></td>
-                    <td>2.0% - 10.0%</td>
-                    <td><span class="risk-tag r-yellow">MOYEN</span></td>
-                    <td>Intérêts Emprunteurs (Variable)</td>
-                    <td>Faible (Logiciel)</td>
-                </tr>
-                <tr>
-                    <td><strong>RWA (Bons du Trésor)</strong></td>
-                    <td>4.5% - 5.5%</td>
-                    <td><span class="risk-tag r-green">FAIBLE</span></td>
-                    <td>Dette Gouv. US</td>
-                    <td>Élevé (Full KYC)</td>
-                </tr>
-                <tr>
-                    <td><strong>Prêts CeFi</strong></td>
-                    <td>4% - 12%</td>
-                    <td><span class="risk-tag r-red">ÉLEVÉ</span></td>
-                    <td>Réhypothécation / Trading</td>
-                    <td>Critique (Faillite)</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <!-- 7. INSTITUTIONAL PERSPECTIVE -->
-    <div class="section-box" data-aos="fade-up" id="section-7">
-        <h2>7. Perspective Institutionnelle</h2>
-        <div class="grid-2">
-            <div>
-                <h3>Score de Durabilité du Rendement</h3>
-                <p>Les institutions quantifient la qualité du rendement via le ratio Revenus de Frais (Organique)
-                    sur Émission Totale (Inflation).</p>
-                <div class="formula-box" style="font-size:14px;">$$ Score = \frac{Frais}{Récompenses} \times 100 $$
-                </div>
-                <p style="font-size:14px;"><em>Ethereum score régulièrement &gt;60%, tandis que la plupart des alt-L1
-                        scorent &lt;5%, dépendant entièrement de l'inflation.</em>
-                </p>
-            </div>
-            <div>
-                <h3>Vue Réglementaire (US vs UE)</h3>
-                <div class="card" style="padding:20px;">
-                    <ul style="margin:0; padding-left:15px; font-size:14px;">
-                        <li><strong>🇺🇸 USA (SEC) :</strong> Le Staking-as-a-Service est souvent vu comme un
-                            contrat d'investissement (Security). Le staking auto-gardé est plus sûr.</li>
-                        <li style="margin-top:10px;"><strong>🇪🇺 UE (MiCA) :</strong> Cadre plus clair. Le staking
-                            est généralement reconnu comme un service technique, distinct des produits financiers.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 8. REAL YIELD SIMULATOR -->
-    <div class="section-box" data-aos="fade-up" id="section-8">
-        <h2>8. Simulateur de "Rendement Réel"</h2>
-        <div class="grid-2">
-            <div>
-                <h3>Le Piège du Rendement</h3>
-                <p>Un APY élevé ne signifie rien si l'actif sous-jacent se déprécie. Ce simulateur calcule votre
-                    **Position Nette** en Fiat, en tenant compte de la volatilité des prix.</p>
-                <h4 style="margin-top:20px; color:white;">Scénarios :</h4>
-                <ul style="font-size:14px; margin-top:10px;">
-                    <li><strong>Bon :</strong> 5% Rendement + 10% Hausse Prix = <span
-                            style="color:var(--accent-green)">+15.5% Retour Réel</span></li>
-                    <li><strong>Mauvais :</strong> 20% Rendement - 30% Chute Prix = <span
-                            style="color:var(--accent-red)">-16.0% Retour Réel</span></li>
-                </ul>
-                <div class="callout callout-inst" style="margin-top:40px;">
-                    <i class="fa-solid fa-lightbulb" style="color:var(--accent-green)"></i>
-                    <div>
-                        <strong>Conseil Pro :</strong> Le staking crée un "coussin". Un rendement de 5% permet à
-                        l'actif de chuter de 4.7% tout en maintenant le seuil de rentabilité.
-                    </div>
-                </div>
-            </div>
-            <!-- CALCULATOR 2 -->
-            <div class="calc-box" style="border-top-color: var(--accent-red);">
-                <h3>📉 Stress Test de Rendement Réel</h3>
-                <div class="input-group">
-                    <label>Investissement Principal ($)</label>
-                    <input class="calc-input" id="principal" oninput="calcRealYield()" type="number" value="100000" />
-                </div>
-                <div class="input-group">
-                    <label>APY de Staking (%)</label>
-                    <input class="calc-input" id="apy" oninput="calcRealYield()" type="number" value="8" />
-                </div>
-                <div class="input-group">
-                    <label>Durée d'Investissement (Années)</label>
-                    <input id="duration" max="10" min="1" oninput="calcRealYield()"
-                        style="margin-bottom:10px; accent-color:var(--text-muted);" type="range" value="1" />
-                    <div
-                        style="font-family:'JetBrains Mono'; font-size:12px; text-align:right; color:var(--text-muted);">
-                        <span id="durationVal">1</span> Ans
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>Variation Prix du Jeton (%)</label>
-                    <input id="priceChange" max="50" min="-50" oninput="calcRealYield()"
-                        style="width:100%; accent-color:var(--accent-red); margin-bottom:10px;" type="range"
-                        value="-20" />
-                    <div id="priceVal"
-                        style="text-align:right; font-family:'JetBrains Mono'; color:white; font-size:14px;">-20%</div>
-                </div>
-                <div class="calc-result">
-                    <span>Valeur du Portefeuille</span>
-                    <span class="res-val" id="finalValue">$ 86,400</span>
-                </div>
-                <div
-                    style="display:flex; justify-content:space-between; font-size:12px; margin-top:10px; padding-top:10px; border-top:1px solid #222;">
-                    <div style="color:var(--text-muted);">Gain Nominal : <span id="nominalGain"
-                            style="color:white;">+8000 Jetons</span></div>
-                    <div style="color:var(--text-muted);">P&amp;L Net : <span id="netPnl"
-                            style="color:var(--accent-red)">-13.60%</span></div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="yieldChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 9. ADVANCED ANALYTICS -->
-    <div class="section-box" data-aos="fade-up" id="section-9" style="border:none;">
-        <h2>9. Analytique Avancée</h2>
-        <h3>A. Modèle de Stress Test Staking</h3>
-        <p>Projections de Rendement Réel sous divers scénarios "Black Swan".</p>
-        <table class="data-table" style="margin-bottom:40px;">
-            <thead>
-                <tr>
-                    <th>Scénario</th>
-                    <th>Impact APY</th>
-                    <th>Impact Prix</th>
-                    <th>Résultat (Rendement Réel)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Scénario de Base</strong></td>
-                    <td>5.0%</td>
-                    <td>0%</td>
-                    <td><span style="color:var(--accent-green)">+5.00%</span></td>
-                </tr>
-                <tr>
-                    <td><strong>Événement de Slashing (Mineur)</strong></td>
-                    <td>5.0%</td>
-                    <td>0%</td>
-                    <td><span style="color:var(--accent-gold)">-1.00% (Perte Capital)</span></td>
-                </tr>
-                <tr>
-                    <td><strong>Bear Market (-50%)</strong></td>
-                    <td>5.0%</td>
-                    <td>-50%</td>
-                    <td><span style="color:var(--accent-red)">-47.5%</span></td>
-                </tr>
-                <tr>
-                    <td><strong>Congestion Réseau</strong></td>
-                    <td>8.5%</td>
-                    <td>+10%</td>
-                    <td><span style="color:var(--accent-green)">+19.3%</span></td>
-                </tr>
-            </tbody>
-        </table>
-        <h3>B. Matrice de Corrélation</h3>
-        <p>Corrélation du rendement de staking avec les actifs macro traditionnels (Données Hypothétiques).</p>
-        <div class="corr-matrix-container">
-            <div class="corr-matrix">
-                <!-- Headers -->
-                <div class="corr-cell corr-header">Actif</div>
-                <div class="corr-cell corr-header">S&amp;P 500</div>
-                <div class="corr-cell corr-header">Nasdaq</div>
-                <div class="corr-cell corr-header">Or</div>
-                <div class="corr-cell corr-header">US 10Y</div>
-                <div class="corr-cell corr-header">BTC</div>
-                <!-- Row 1: ETH Staking Yield -->
-                <div class="corr-cell corr-header" style="text-align:left;">Rendement ETH</div>
-                <div class="corr-cell corr-val">0.15</div>
-                <div class="corr-cell corr-val">0.22</div>
-                <div class="corr-cell corr-val">0.05</div>
-                <div class="corr-cell corr-val">-0.10</div>
-                <div class="corr-cell corr-val" style="color:var(--accent-green)">0.85</div>
-                <!-- Row 2: RWA Yield -->
-                <div class="corr-cell corr-header" style="text-align:left;">Rendement RWA</div>
-                <div class="corr-cell corr-val">0.10</div>
-                <div class="corr-cell corr-val">0.05</div>
-                <div class="corr-cell corr-val">-0.15</div>
-                <div class="corr-cell corr-val" style="color:var(--accent-green)">0.98</div>
-                <div class="corr-cell corr-val">0.02</div>
-                <!-- Row 3: DeFi Lending -->
-                <div class="corr-cell corr-header" style="text-align:left;">Taux DeFi</div>
-                <div class="corr-cell corr-val">0.45</div>
-                <div class="corr-cell corr-val">0.50</div>
-                <div class="corr-cell corr-val">0.12</div>
-                <div class="corr-cell corr-val">0.30</div>
-                <div class="corr-cell corr-val">0.90</div>
-            </div>
-        </div>
-        <div class="callout callout-inst" style="background:#0f172a; margin-top:30px;">
-            <i class="fa-solid fa-layer-group" style="color:var(--accent-purple)"></i>
-            <div>
-                <strong>Construction de Portefeuille :</strong>
-                Le Staking Natif offre un "Taux sans risque crypto-natif", mais porte un risque de volatilité de
-                type Actions comparé aux RWA (Bons du Trésor Tokénisés) qui offrent une stabilité décorrélée.
-            </div>
-        </div>
-    </div>
-    <!-- 10. FISCALITY & COMPLIANCE -->
-    <div class="section-box" data-aos="fade-up" id="section-10" style="border:none;">
-        <h2>10. Fiscalité &amp; Conformité (Focus France/EU)</h2>
-        <div class="grid-2">
-            <div>
-                <h3><i class="fa-solid fa-scale-balanced" style="color:var(--accent-blue)"></i> Régime Fiscal</h3>
-                <p>Traitement des revenus de staking pour les résidents fiscaux français et sociétés.</p>
-                <div class="card" style="margin-bottom:20px;">
-                    <h4>Personnes Physiques (Retail)</h4>
-                    <ul style="font-size:14px; margin-top:10px;">
-                        <li><strong>Flat Tax (PFU) :</strong> 30% sur les plus-values lors de la conversion en Fiat.
-                        </li>
-                        <li><strong>Transactions Crypto-Crypto :</strong> Neutralisées (pas d'imposition tant que ça
-                            reste en crypto).</li>
-                    </ul>
-                </div>
-                <div class="card" style="border-left:4px solid var(--accent-purple);">
-                    <h4>Sociétés (IS)</h4>
-                    <ul style="font-size:14px; margin-top:10px;">
-                        <li><strong>Impôt sur les Sociétés :</strong> 15% (PME) ou 25%.</li>
-                        <li><strong>Latence :</strong> Les gains doivent être comptabilisés à la valeur de marché au
-                            moment de la réception (Mark-to-Market), même sans conversion.</li>
-                    </ul>
-                </div>
-            </div>
-            <div>
-                <h3><i class="fa-solid fa-passport" style="color:var(--accent-green)"></i> Statut Réglementaire</h3>
-                <div class="callout callout-inst">
-                    <div>
-                        <strong>MiCA (Markets in Crypto-Assets) :</strong>
-                        L'UE établit un cadre clair. Les services de Staking peuvent être fournis par des CASP
-                        (Crypto-Asset Service Providers) agréés.
-                    </div>
-                </div>
-                <h3>Documentation Requise (Audit)</h3>
-                <ul style="font-size:14px;">
-                    <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Preuve de
-                            Délégation :</strong> Transaction on-chain vers le validateur.</li>
-                    <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Relevé de
-                            Récompenses :</strong> Export CSV quotidien des rewards reçus.</li>
-                    <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> <strong>Valorisation
-                            :</strong> Prix du token au jour de chaque reward.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- PRO ANALYTICS CTA -->
-    <section class="section-slide"
-        style="padding: 60px 0; border-top: 1px solid #333; text-align: center; margin-top: 100px; position: relative; z-index: 10; background-color: #020617;">
-        <div class="container" data-aos="fade-up">
-            <h3 style="color:white; margin-bottom:10px;">Pour les Analystes Financiers</h3>
-            <p>Accédez aux modèles de rentabilité validateur et à la matrice des risques institutionnels.</p>
-            <a class="cta-button" href="pos-economics.html"
-                style="margin-top: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); display: inline-flex; align-items: center; gap: 10px;">
-                <i class="fas fa-chart-pie"></i> ANALYSE ÉCONOMIQUE VALIDATEUR (PRO)
-            </a>
-        </div>
-    </section>
-    <!-- MAIN FOOTER -->
-    <!-- MAIN FOOTER -->
-    <footer class="super-footer">
-        <div class="footer-content">
-            <div class="footer-grid">
-                <!-- 0. BRAND -->
-                <div class="footer-brand">
-                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
-                    <p>Plateforme d’analyse dédiée à la tokenisation des actifs financiers et aux infrastructures
-                        blockchain publiques et institutionnelles.</p>
-                    <div class="footer-socials">
-                        <a aria-label="LinkedIn" class="social-btn" href="https://www.linkedin.com/in/joan-lyczak/"
-                            target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a aria-label="GitHub" class="social-btn"
-                            href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank"><i
-                                class="fab fa-github"></i></a>
-                        <a aria-label="Twitter" class="social-btn" href="https://x.com/Joan_Lyczak" target="_blank"><i
-                                class="fab fa-x-twitter"></i></a>
-                    </div>
-                </div>
-                <!-- 1. PRODUIT -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Produit</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Hub Central</a></li>
-                        <li><a href="sandbox.html">Dashboard</a></li>
-                        <li><a href="simple.html">Academy</a></li>
-                        <li><a href="guide.html">Guide Expert</a></li>
-                        <li><a href="yield-mechanics.html">Simulation Engine</a></li>
-                        <li><a href="quiz.html">Certification</a></li>
-                        <li><a href="pricing-institutional.html">Pricing</a></li>
-                    </ul>
-                </div>
-                <!-- 2. RESEARCH -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research</h4>
-                    <ul class="footer-links">
-                        <li><a href="rwa.html">RWA &amp; DeFi</a></li>
-                        <li><a href="yield-mechanics.html">Yield Mechanics</a></li>
-                        <li><a href="web3.html">Web3 Infrastructure</a></li>
-                        <li><a href="ai-finance.html">AI &amp; Finance</a></li>
-                        <li><a href="institutional-problem-statement.html">Strategic Vision</a></li>
-                        <li><a href="competitive-landscape.html">Competitive Landscape</a></li>
-                        <li><a href="series-a-narrative.html">Series A Deck</a></li>
-                        <li><a href="governance-os-landing.html">Institutional Governance</a></li>
-                        <li><a href="mrm-hub.html">MRM Hub</a></li>
-                        <li><a href="data-certification.html">Data Trust Certif</a></li>
-                        <li><a href="case-study-tokenized-bond.html">Quantified Use Case</a></li>
-                        <li><a href="economic-model.html">Economic Model</a></li>
-                        <li><a href="regulatory-mapping.html">Regulatory Mapping</a></li>
-                        <li><a href="legal-matrix.html">Global Matrix</a></li>
-                        <li><a href="networks/index.html">Blockchain Networks</a></li>
-                    </ul>
-                </div>
-                <!-- 3. INFRASTRUCTURE -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
-                        Infrastructure</h4>
-                    <ul class="footer-links">
-                        <li><a href="lifecycle.html">Cycle de Vie</a></li>
-                        <li><a href="flux-comparison.html">Comparateur Flux</a></li>
-                        <li><a href="legal_pilot.html">Régime Pilote (UE)</a></li>
-                        <li><a href="sandbox.html">Sandbox</a></li>
-                        <li><a href="deployment-architecture.html">Deployment Arch</a></li>
-                        <li><a href="networks/swiat.html">SWIAT</a></li>
-                        <li><a href="networks/canton.html">Canton Network</a></li>
-                    </ul>
-                </div>
-                <!-- 4. CORPORATE -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Corporate
-                    </h4>
-                    <ul class="footer-links">
-                        <li><a href="methodology.html">Méthodologie</a></li>
-                        <li><a href="guide.html">Documentation</a></li>
-                        <li><a href="index-simple.html">Site Corporate</a></li>
-                        <li><a href="about.html">À propos</a></li>
-                        <li><a href="mailto:contact@dcm-digital.com">Contact</a></li>
-                    </ul>
-                </div>
-                <!-- 5. LEGAL -->
-                <div class="footer-col">
-                    <h4><i class="fas fa-shield-alt" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Legal
-                    </h4>
-                    <ul class="footer-links">
-                        <li><a href="mentions-legales.html">Mentions Légales</a></li>
-                        <li><a href="privacy.html">Politique de Confidentialité</a></li>
-                        <li><a href="cgu.html">Conditions d'Utilisation</a></li>
-                        <li><a href="cookies.html">Politique Cookies</a></li>
-                        <li><a href="methodology.html#disclaimer">Disclaimer</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-disclaimer" style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto;">
-                <strong>Regulatory Transparency :</strong> DCM Digital quantifie les risques technologiques des infrastructures DLT. Nous ne fournissons aucun conseil juridique, de conformité ou d'investissement. Les données réglementaires (DORA, MiCA, Bâle III) sont utilisées comme références de modélisation systémique et nécessitent l'analyse indépendante de vos directions des risques. <a href="regulatory-transparency.html" style="color: #3b82f6; text-decoration: underline;">Consulter notre Cadre de Transparence</a>.
-            </div>
-        <div class="footer-bottom">
-            <div class="footer-bottom-content"
-                style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
-                <div class="copyright">
-                    © 2026 DCM Digital • Version 4.3.0
-                </div>
-                <div class="legal-links">
-                    <a href="support-it.html">Support IT</a>
-                    <a href="api-docs.html">Documentation API</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- SCRIPTS -->
-    <script defer="" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        window.addEventListener('load', function () { AOS.init({ duration: 800, once: true, offset: 100 }); });
-
-        // --- GLOBAL CHART CONFIG ---
-        Chart.defaults.color = '#94a3b8';
-        Chart.defaults.borderColor = '#334155';
-        let apyChartInstance = null;
-        let yieldChartInstance = null;
-
-        /* --- APR to APY CALCULATOR --- */
-        function calcAPY() {
-            const apr = parseFloat(document.getElementById('aprInput').value);
-            const freq = parseFloat(document.getElementById('freqInput').value);
-
-            if (!isNaN(apr) && !isNaN(freq)) {
-                const r = apr / 100;
-                const apy = (Math.pow((1 + r / freq), freq) - 1) * 100;
-                const diff = apy - apr;
-
-                document.getElementById('apyResult').innerText = apy.toFixed(2) + "%";
-
-                const diffEl = document.getElementById('apyDiff');
-                diffEl.innerText = "+" + diff.toFixed(2) + "%";
-                diffEl.style.color = diff > 0.5 ? "var(--accent-green)" : "var(--text-muted)";
-
-                updateAPYChart(apr, apy);
-            }
-        }
-
-        function updateAPYChart(apr, apy) {
-            const ctx = document.getElementById('apyChart').getContext('2d');
-
-            // Generate data points for 12 months
-            const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const dataAPR = [];
-            const dataAPY = [];
-
-            for (let i = 0; i <= 12; i++) {
-                dataAPR.push(100 * (1 + (apr / 100) * (i / 12))); // Simple interest linear
-                dataAPY.push(100 * Math.pow((1 + apy / 100), i / 12)); // Compound interest exponential
             }
 
-            if (apyChartInstance) {
-                apyChartInstance.data.datasets[0].data = dataAPR;
-                apyChartInstance.data.datasets[1].data = dataAPY;
-                apyChartInstance.update();
-            } else {
-                apyChartInstance = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            {
-                                label: 'Intérêt Simple (APR)',
-                                data: dataAPR,
-                                borderColor: '#3b82f6',
-                                borderDash: [5, 5],
-                                tension: 0.4
+            function updateAPYChart(apr, apy) {
+                const ctx = document.getElementById('apyChart').getContext('2d');
+
+                // Generate data points for 12 months
+                const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const dataAPR = [];
+                const dataAPY = [];
+
+                for (let i = 0; i <= 12; i++) {
+                    dataAPR.push(100 * (1 + (apr / 100) * (i / 12))); // Simple interest linear
+                    dataAPY.push(100 * Math.pow((1 + apy / 100), i / 12)); // Compound interest exponential
+                }
+
+                if (apyChartInstance) {
+                    apyChartInstance.data.datasets[0].data = dataAPR;
+                    apyChartInstance.data.datasets[1].data = dataAPY;
+                    apyChartInstance.update();
+                } else {
+                    apyChartInstance = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Intérêt Simple (APR)',
+                                    data: dataAPR,
+                                    borderColor: '#3b82f6',
+                                    borderDash: [5, 5],
+                                    tension: 0.4
+                                },
+                                {
+                                    label: 'Intérêt Composé (APY)',
+                                    data: dataAPY,
+                                    borderColor: '#10b981',
+                                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                    fill: true,
+                                    tension: 0.4
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom' },
+                                tooltip: { mode: 'index', intersect: false }
                             },
-                            {
-                                label: 'Intérêt Composé (APY)',
-                                data: dataAPY,
-                                borderColor: '#10b981',
-                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                                fill: true,
-                                tension: 0.4
+                            scales: {
+                                y: { display: false }
                             }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'bottom' },
-                            tooltip: { mode: 'index', intersect: false }
-                        },
-                        scales: {
-                            y: { display: false }
                         }
+                    });
+                }
+            }
+            /* --- REAL YIELD SIMULATOR --- */
+            function calcRealYield() {
+                const P = parseFloat(document.getElementById('principal').value);
+                const APY = parseFloat(document.getElementById('apy').value);
+                const Duration = parseFloat(document.getElementById('duration').value);
+                const PriceChange = parseFloat(document.getElementById('priceChange').value);
+
+                // Update UI displays
+                document.getElementById('priceVal').innerText = (PriceChange > 0 ? "+" : "") + PriceChange + "%";
+                document.getElementById('durationVal').innerText = Duration;
+
+                // Logic:
+                const tokensStart = P; // Assuming $1 = 1 Token for start
+                // Tokens = P * (1 + APY/100)^Duration
+                const tokensEnd = P * Math.pow((1 + APY / 100), Duration);
+                const priceMultiplier = 1 * (1 + PriceChange / 100);
+                const finalValue = tokensEnd * priceMultiplier;
+
+                // Metrics
+                const nominalGain = tokensEnd - P;
+                const pnlPercent = ((finalValue - P) / P) * 100;
+
+                // Formatting
+                const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+                const numFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+
+                document.getElementById('finalValue').innerText = formatter.format(finalValue);
+                document.getElementById('nominalGain').innerText = "+" + numFormatter.format(nominalGain) + " (Nominal)";
+
+                const pnlEl = document.getElementById('netPnl');
+                pnlEl.innerText = (pnlPercent > 0 ? "+" : "") + pnlPercent.toFixed(2) + "%";
+                pnlEl.style.color = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+
+                // Dynamic calc box border color
+                const box = document.querySelector('#section-8 .calc-box');
+                box.style.borderTopColor = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+
+                updateYieldChart(P, finalValue, Duration, PriceChange);
+            }
+
+            function updateYieldChart(principal, finalValue, duration, priceChange) {
+                const ctx = document.getElementById('yieldChart').getContext('2d');
+
+                const isProfit = finalValue >= principal;
+                const color = isProfit ? '#10b981' : '#ef4444';
+
+                const labels = ['Investissement Initial', 'Valeur Finale (' + duration + ' ans)'];
+                const data = [principal, finalValue];
+
+                if (yieldChartInstance) {
+                    yieldChartInstance.data.labels = labels;
+                    yieldChartInstance.data.datasets[0].data = data;
+                    yieldChartInstance.data.datasets[0].backgroundColor = [
+                        '#3b82f6', // Initial is always blue
+                        color
+                    ];
+                    yieldChartInstance.update();
+                } else {
+                    yieldChartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Valeur de Portefeuille ($)',
+                                data: data,
+                                backgroundColor: ['#3b82f6', color],
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, grid: { color: '#333' } }
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Initialize Calculators (and Charts)
+            // Delay slightly to ensure canvas is ready
+            setTimeout(() => {
+                calcAPY();
+                calcRealYield();
+            }, 100);
+
+            // Scroll Spy for TOC
+            const sections = document.querySelectorAll('.section-box');
+            const navLinks = document.querySelectorAll('.toc-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link && link.getAttribute('href') && link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            /* --- CORRELATION HEATMAP --- */
+            function colorizeCorrelationMatrix() {
+                const cells = document.querySelectorAll('.corr-val');
+                cells.forEach(cell => {
+                    const val = parseFloat(cell.innerText);
+                    if (isNaN(val)) return;
+
+                    // Color Logic
+                    cell.style.color = "#fff";
+                    if (val >= 0.7) {
+                        cell.style.backgroundColor = "rgba(16, 185, 129, 0.2)"; // Strong Green
+                        cell.style.color = "var(--accent-green)";
+                    } else if (val >= 0.3) {
+                        cell.style.backgroundColor = "rgba(16, 185, 129, 0.05)"; // Weak Green
+                    } else if (val <= -0.5) {
+                        cell.style.backgroundColor = "rgba(239, 68, 68, 0.2)"; // Strong Red
+                        cell.style.color = "var(--accent-red)";
+                    } else if (val < 0) {
+                        cell.style.backgroundColor = "rgba(239, 68, 68, 0.05)"; // Weak Red
                     }
                 });
             }
-        }
-        /* --- REAL YIELD SIMULATOR --- */
-        function calcRealYield() {
-            const P = parseFloat(document.getElementById('principal').value);
-            const APY = parseFloat(document.getElementById('apy').value);
-            const Duration = parseFloat(document.getElementById('duration').value);
-            const PriceChange = parseFloat(document.getElementById('priceChange').value);
-
-            // Update UI displays
-            document.getElementById('priceVal').innerText = (PriceChange > 0 ? "+" : "") + PriceChange + "%";
-            document.getElementById('durationVal').innerText = Duration;
-
-            // Logic:
-            const tokensStart = P; // Assuming $1 = 1 Token for start
-            // Tokens = P * (1 + APY/100)^Duration
-            const tokensEnd = P * Math.pow((1 + APY / 100), Duration);
-            const priceMultiplier = 1 * (1 + PriceChange / 100);
-            const finalValue = tokensEnd * priceMultiplier;
-
-            // Metrics
-            const nominalGain = tokensEnd - P;
-            const pnlPercent = ((finalValue - P) / P) * 100;
-
-            // Formatting
-            const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-            const numFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
-
-            document.getElementById('finalValue').innerText = formatter.format(finalValue);
-            document.getElementById('nominalGain').innerText = "+" + numFormatter.format(nominalGain) + " (Nominal)";
-
-            const pnlEl = document.getElementById('netPnl');
-            pnlEl.innerText = (pnlPercent > 0 ? "+" : "") + pnlPercent.toFixed(2) + "%";
-            pnlEl.style.color = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
-
-            // Dynamic calc box border color
-            const box = document.querySelector('#section-8 .calc-box');
-            box.style.borderTopColor = pnlPercent >= 0 ? "var(--accent-green)" : "var(--accent-red)";
-
-            updateYieldChart(P, finalValue, Duration, PriceChange);
-        }
-
-        function updateYieldChart(principal, finalValue, duration, priceChange) {
-            const ctx = document.getElementById('yieldChart').getContext('2d');
-
-            const isProfit = finalValue >= principal;
-            const color = isProfit ? '#10b981' : '#ef4444';
-
-            const labels = ['Investissement Initial', 'Valeur Finale (' + duration + ' ans)'];
-            const data = [principal, finalValue];
-
-            if (yieldChartInstance) {
-                yieldChartInstance.data.labels = labels;
-                yieldChartInstance.data.datasets[0].data = data;
-                yieldChartInstance.data.datasets[0].backgroundColor = [
-                    '#3b82f6', // Initial is always blue
-                    color
-                ];
-                yieldChartInstance.update();
-            } else {
-                yieldChartInstance = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Valeur de Portefeuille ($)',
-                            data: data,
-                            backgroundColor: ['#3b82f6', color],
-                            borderRadius: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false }
-                        },
-                        scales: {
-                            y: { beginAtZero: true, grid: { color: '#333' } }
-                        }
+            colorizeCorrelationMatrix();
+        </script>
+        <script src="search-engine.js"></script>
+        <!-- AOS FIX -->
+        <script defer="" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                AOS.init({ duration: 800, once: true, offset: 50 });
+            });
+            setTimeout(function () {
+                const hiddenElements = document.querySelectorAll('[data-aos]');
+                hiddenElements.forEach(el => {
+                    if (getComputedStyle(el).opacity === '0') {
+                        el.style.opacity = '1';
+                        el.style.visibility = 'visible';
                     }
                 });
-            }
-        }
-
-        // Initialize Calculators (and Charts)
-        // Delay slightly to ensure canvas is ready
-        setTimeout(() => {
-            calcAPY();
-            calcRealYield();
-        }, 100);
-
-        // Scroll Spy for TOC
-        const sections = document.querySelectorAll('.section-box');
-        const navLinks = document.querySelectorAll('.toc-link');
-
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link && link.getAttribute('href') && link.getAttribute('href').includes(current)) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        /* --- CORRELATION HEATMAP --- */
-        function colorizeCorrelationMatrix() {
-            const cells = document.querySelectorAll('.corr-val');
-            cells.forEach(cell => {
-                const val = parseFloat(cell.innerText);
-                if (isNaN(val)) return;
-
-                // Color Logic
-                cell.style.color = "#fff";
-                if (val >= 0.7) {
-                    cell.style.backgroundColor = "rgba(16, 185, 129, 0.2)"; // Strong Green
-                    cell.style.color = "var(--accent-green)";
-                } else if (val >= 0.3) {
-                    cell.style.backgroundColor = "rgba(16, 185, 129, 0.05)"; // Weak Green
-                } else if (val <= -0.5) {
-                    cell.style.backgroundColor = "rgba(239, 68, 68, 0.2)"; // Strong Red
-                    cell.style.color = "var(--accent-red)";
-                } else if (val < 0) {
-                    cell.style.backgroundColor = "rgba(239, 68, 68, 0.05)"; // Weak Red
-                }
-            });
-        }
-        colorizeCorrelationMatrix();
-    </script>
-    <script src="search-engine.js"></script>
-    <!-- AOS FIX -->
-    <script defer="" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            AOS.init({ duration: 800, once: true, offset: 50 });
-        });
-        setTimeout(function () {
-            const hiddenElements = document.querySelectorAll('[data-aos]');
-            hiddenElements.forEach(el => {
-                if (getComputedStyle(el).opacity === '0') {
-                    el.style.opacity = '1';
-                    el.style.visibility = 'visible';
-                }
-            });
-        }, 500);
-    </script>
+            }, 500);
+        </script>
+    </main>
 </body>
 
 </html>

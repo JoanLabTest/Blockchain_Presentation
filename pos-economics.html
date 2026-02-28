@@ -954,6 +954,19 @@
             }
         });
     </script>
+    <script>
+        // AOS Failsafe: Ensures content is visible if AOS fails to initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const aosElements = document.querySelectorAll('[data-aos]');
+                aosElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                    el.style.visibility = 'visible';
+                });
+            }, 800);
+        });
+    </script>
 </body>
 
 </html>

@@ -35,6 +35,11 @@
     <!-- Global CSS -->
     <link href="styles/main.css" rel="stylesheet" />
     <link href="styles/components.css" rel="stylesheet" />
+    <link href="styles-sidebar.css" rel="stylesheet" />
+    <script src="js/core/feature-flags.js"></script>
+    <script src="js/session-manager.js"></script>
+    <script src="js/ui/navigation.js"></script>
+    <script src="js/navigation-orchestrator.js"></script>
     <style>
         :root {
             --bg-dark: #020617;
@@ -249,199 +254,224 @@
 </head>
 
 <body>
-    <!-- NAVIGATION -->
-    <nav class="hub-nav p-4 flex justify-between items-center transition-all duration-300">
-        <div class="flex items-center space-x-3">
-            <a class="flex items-center space-x-2 text-white hover:text-red-400 transition-colors" href="index.html">
-                <i class="fas fa-network-wired text-xl text-red-500"></i>
-                <span class="font-bold text-lg tracking-wide hidden sm:inline">DCM DIGITAL</span>
-                <span
-                    class="text-xs text-slate-400 ml-2 py-0.5 px-2 bg-slate-800 rounded-full border border-slate-700">Differentiation</span>
-            </a>
-        </div>
-        <div class="flex items-center space-x-6 text-sm font-medium">
-            <a class="text-slate-300 hover:text-white transition-colors" href="series-a-narrative.html"><i
-                    class="fas fa-arrow-left mr-2"></i>Series A Deck</a>
-        </div>
-    </nav>
-    <!-- HERO SECTION -->
-    <section class="risk-hero">
-        <div class="max-w-4xl mx-auto">
-            <div class="inline-block px-4 py-1.5 rounded-full border border-red-800 bg-red-900/30 text-red-400 text-xs font-bold uppercase tracking-wider mb-6"
-                data-aos="fade-down">
-                Core Algorithmic Moat
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fas fa-cube"></i>
             </div>
-            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight" data-aos="fade-up"
-                data-aos-delay="100">
-                Risk Engine 3.0 :<br /> <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-500">Systemic &amp;
-                    Correlated Layer</span>
-            </h1>
-            <p class="text-lg text-slate-400 mb-8 max-w-3xl mx-auto font-light" data-aos="fade-up" data-aos-delay="200">
-                L'infrastructure DLT n'est pas un silo de données. C'est un graphe d'interdépendances. Le moteur de
-                risque DCM est le premier framework quantitatif spécifiquement architecturé pour le risque asymétrique
-                et systémique des actifs digitaux.
-            </p>
+            <div class="brand-text">
+                DCM <span>DIGITAL</span>
+            </div>
         </div>
-    </section>
-    <!-- MAIN CONTENT -->
-    <section class="risk-section">
+        <ul class="nav-menu" id="side-nav-menu">
+            <!-- Dynamically Rendered by NavigationManager -->
+        </ul>
+    </aside>
 
-        <!-- COMEX-READY BRIEF -->
-        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 30px; margin-bottom: 50px;"
+    <main class="main-content">
+        <!-- HERO SECTION -->
+        <section class="risk-hero">
+            <div class="max-w-4xl mx-auto">
+                <div class="inline-block px-4 py-1.5 rounded-full border border-red-800 bg-red-900/30 text-red-400 text-xs font-bold uppercase tracking-wider mb-6"
+                    data-aos="fade-down">
+                    Core Algorithmic Moat
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight" data-aos="fade-up"
+                    data-aos-delay="100">
+                    Risk Engine 3.0 :<br /> <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-500">Systemic &amp;
+                        Correlated Layer</span>
+                </h1>
+                <p class="text-lg text-slate-400 mb-8 max-w-3xl mx-auto font-light" data-aos="fade-up"
+                    data-aos-delay="200">
+                    L'infrastructure DLT n'est pas un silo de données. C'est un graphe d'interdépendances. Le moteur de
+                    risque DCM est le premier framework quantitatif spécifiquement architecturé pour le risque
+                    asymétrique
+                    et systémique des actifs digitaux.
+                </p>
+            </div>
+        </section>
+        <!-- MAIN CONTENT -->
+        <section class="risk-section">
+
+            <!-- COMEX-READY BRIEF -->
+            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 30px; margin-bottom: 50px;"
+                data-aos="fade-up">
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <i class="fas fa-clipboard-list"
+                        style="color: var(--accent-red); font-size: 24px; margin-right: 15px;"></i>
+                    <h2 style="font-size: 20px; font-weight: 700; margin: 0; color: white;">COMEX-Ready Brief : Systemic
+                        Risk</h2>
+                </div>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                        <i class="fas fa-check-circle"
+                            style="color: var(--accent-red); margin-top: 5px; margin-right: 15px;"></i>
+                        <span style="color: var(--text-muted); font-size: 15px;"><strong style="color: white;">Objectif
+                                :</strong> Modélise les risques corrélés (défaillance DLT → crise de liquidité) ignorés
+                            par
+                            les outils GRC traditionnels.</span>
+                    </li>
+                    <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                        <i class="fas fa-check-circle"
+                            style="color: var(--accent-red); margin-top: 5px; margin-right: 15px;"></i>
+                        <span style="color: var(--text-muted); font-size: 15px;"><strong style="color: white;">Mécanisme
+                                :</strong> Traduit instantanément un défaut algorithmique en pénalité au sein d'une
+                            matrice
+                            de corrélation non-linéaire.</span>
+                    </li>
+                    <li style="display: flex; align-items: flex-start;">
+                        <i class="fas fa-check-circle"
+                            style="color: var(--accent-red); margin-top: 5px; margin-right: 15px;"></i>
+                        <span style="color: var(--text-muted); font-size: 15px;"><strong style="color: white;">Impact
+                                Capital :</strong> Fournit le substrat quantitatif pour ajuster dynamiquement les
+                            tampons de
+                            fonds propres (Capital Buffers) selon Bâle III.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <details
+                style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; margin-bottom: 50px; padding: 5px;"
+                data-aos="fade-up">
+                <summary
+                    style="padding: 20px; font-weight: 600; cursor: pointer; color: white; list-style: none; display: flex; align-items: center; justify-content: space-between;">
+                    <span><i class="fas fa-cogs" style="margin-right: 10px; color: var(--accent-red);"></i> Technical
+                        View:
+                        Mathematical Moat & Node Stack (Click to Expand)</span>
+                    <i class="fas fa-chevron-down text-sm text-slate-400"></i>
+                </summary>
+                <div style="padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 10px;">
+                    <!-- THE POSTULATE -->
+                    <div class="postulate-banner" data-aos="fade-up">
+                        <div class="postulate-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="postulate-text">
+                            <h3>Le Paradigme du Risque Indépendant est Obsolète</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                Les logiciels GRC traditionnels traitent chaque risque informatique comme une
+                                probabilité
+                                indépendante (Risque A isolé du Risque B). Dans la finance DLT, la dégradation d'un
+                                Smart
+                                Contract
+                                d'Oracle déclenche instantanément l'effondrement en cascade des provisions d'un
+                                Stablecoin
+                                de
+                                collatéral, provoquant un défaut de règlement sur un Bond Tokenisé. <strong
+                                    class="text-white">Le
+                                    risque DLT est systémique par définition algorithmique.</strong>
+                            </p>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white mb-6" data-aos="fade-up">Couches de Modélisation du Moteur
+                        (Stack)</h2>
+                    <!-- THE STACK -->
+                    <div class="layer-stack">
+                        <div class="layer-item layer-c1" data-aos="fade-up" data-aos-delay="50">
+                            <div class="layer-dot"><i class="fas fa-code"></i></div>
+                            <div class="layer-content">
+                                <h4>1. Smart Contract Vulnerability (Idiosyncratique)</h4>
+                                <p>Calcul des probabilités de failles isolées au niveau du code (Reentrancy, Overflow,
+                                    Access
+                                    Control) audité sur les réseaux primaires institutionnels.</p>
+                            </div>
+                        </div>
+                        <div class="layer-item layer-c2" data-aos="fade-up" data-aos-delay="100">
+                            <div class="layer-dot"><i class="fas fa-link"></i></div>
+                            <div class="layer-content">
+                                <h4>2. Oracle &amp; Bridge Dependency (Contagion Vector)</h4>
+                                <p>Intégration du ratio de dépendance aux sources de données externes et aux protocoles
+                                    inter-chaînes. Évaluation de la fragilité de la synchronisation Off-Chain/On-Chain.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="layer-item layer-c3" data-aos="fade-up" data-aos-delay="150">
+                            <div class="layer-dot"><i class="fas fa-coins"></i></div>
+                            <div class="layer-content">
+                                <h4>3. Settlement &amp; Collateral Liquidity (Shock Absorption)</h4>
+                                <p>Stress tests sur les liquidités des Wholesale CBDCs et Stablecoins institutionnels
+                                    régulés (MiCA)
+                                    lors d'un pic massif de rachat ou d'un depeg momentané.</p>
+                            </div>
+                        </div>
+                        <div class="layer-item layer-c4" data-aos="fade-up" data-aos-delay="200">
+                            <div class="layer-dot"><i class="fas fa-chart-network"></i></div>
+                            <div class="layer-content">
+                                <h4>4. Systemic Cascading Risk (Global Correlation)</h4>
+                                <p>Le Graal : Modélisation des chocs asymétriques où l'effondrement de la couche 1, 2 ou
+                                    3
+                                    provoque
+                                    un Default System Event via des matrices de corrélation non-linéaires.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DIFFERENTIATOR CARDS -->
+                    <h2 class="text-2xl font-bold text-white mb-6" data-aos="fade-up">Le Différenciateur (Moat
+                        Quantitatif)
+                    </h2>
+                    <div class="diff-grid" data-aos="fade-up">
+                        <div class="diff-card">
+                            <h4>Non-Linear Correlation Matrix</h4>
+                            <p>
+                                Contrairement aux outils Legacy qui additionnent simplement les risques (A + B), le Risk
+                                Engine de
+                                DCM utilise une logique matricielle pour capturer l'emballement exponentiel : la
+                                défaillance
+                                d'un
+                                smart contract accroît la probabilité de défaut de liquidité associée.
+                            </p>
+                            <div class="math-snippet">
+                                P_Sys(Default) = 1 - ∏(1 - P(Node_i | State)) * Copula_Factor
+                            </div>
+                        </div>
+                        <div class="diff-card">
+                            <h4>Dynamic Capital Optimization</h4>
+                            <p>
+                                En traduisant ce risque corrélé en métriques Bâloises (RWA / Capital Charge), le moteur
+                                ne
+                                se
+                                contente pas de "signaler" une erreur ; il l'intègre dynamiquement dans le calcul
+                                d'allocation de
+                                capital DLT de la banque.
+                            </p>
+                            <div class="math-snippet">
+                                If (Systemic_Index &lt; Threshold) { RWA_Multiplier=1.0 } else {
+                                RWA_Multiplier=Max_Penalty
+                                } </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+        </section>
+
+        <!-- MEGA CTA FUNNEL -->
+        <section class="mega-cta-section"
+            style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(15, 23, 42, 1)); text-align: center; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 50px;"
             data-aos="fade-up">
-            <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                <i class="fas fa-clipboard-list"
-                    style="color: var(--accent-red); font-size: 24px; margin-right: 15px;"></i>
-                <h2 style="font-size: 20px; font-weight: 700; margin: 0; color: white;">COMEX-Ready Brief : Systemic
-                    Risk</h2>
+            <h2 style="font-size: 32px; color: white; margin-bottom: 20px;">Prêt à optimiser votre infrastructure DLT ?
+            </h2>
+            <p style="color: #94a3b8; font-size: 18px; max-width: 600px; margin: 0 auto;">Passez de l'exploration
+                technologique à la gouvernance institutionnelle en moins de 30 jours.</p>
+            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="mailto:contact@dcm-digital.com" class="btn-term"
+                    style="padding: 15px 30px; font-size: 16px; background: rgba(168, 85, 247, 0.2); border-color: #a855f7; color: white; text-decoration: none;">Réserver
+                    une Démo</a>
+                <a href="pricing-institutional.html" class="btn-term"
+                    style="padding: 15px 30px; font-size: 16px; border-color: #cbd5e1; color: #cbd5e1; text-decoration: none;">Voir
+                    les Tarifs Entreprise</a>
             </div>
-            <ul style="list-style: none; padding: 0; margin: 0;">
-                <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
-                    <i class="fas fa-check-circle"
-                        style="color: var(--accent-red); margin-top: 5px; margin-right: 15px;"></i>
-                    <span style="color: var(--text-muted); font-size: 15px;"><strong style="color: white;">Objectif
-                            :</strong> Modélise les risques corrélés (défaillance DLT → crise de liquidité) ignorés par
-                        les outils GRC traditionnels.</span>
-                </li>
-                <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
-                    <i class="fas fa-check-circle"
-                        style="color: var(--accent-red); margin-top: 5px; margin-right: 15px;"></i>
-                    <span style="color: var(--text-muted); font-size: 15px;"><strong style="color: white;">Mécanisme
-                            :</strong> Traduit instantanément un défaut algorithmique en pénalité au sein d'une matrice
-                        de corrélation non-linéaire.</span>
-                </li>
-                <li style="display: flex; align-items: flex-start;">
-                    <i class="fas fa-check-circle"
-                        style="color: var(--accent-red); margin-top: 5px; margin-right: 15px;"></i>
-                    <span style="color: var(--text-muted); font-size: 15px;"><strong style="color: white;">Impact
-                            Capital :</strong> Fournit le substrat quantitatif pour ajuster dynamiquement les tampons de
-                        fonds propres (Capital Buffers) selon Bâle III.</span>
-                </li>
-            </ul>
-        </div>
+        </section>
 
-        <details
-            style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; margin-bottom: 50px; padding: 5px;"
-            data-aos="fade-up">
-            <summary
-                style="padding: 20px; font-weight: 600; cursor: pointer; color: white; list-style: none; display: flex; align-items: center; justify-content: space-between;">
-                <span><i class="fas fa-cogs" style="margin-right: 10px; color: var(--accent-red);"></i> Technical View:
-                    Mathematical Moat & Node Stack (Click to Expand)</span>
-                <i class="fas fa-chevron-down text-sm text-slate-400"></i>
-            </summary>
-            <div style="padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 10px;">
-                <!-- THE POSTULATE -->
-                <div class="postulate-banner" data-aos="fade-up">
-                    <div class="postulate-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                    <div class="postulate-text">
-                        <h3>Le Paradigme du Risque Indépendant est Obsolète</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed">
-                            Les logiciels GRC traditionnels traitent chaque risque informatique comme une probabilité
-                            indépendante (Risque A isolé du Risque B). Dans la finance DLT, la dégradation d'un Smart
-                            Contract
-                            d'Oracle déclenche instantanément l'effondrement en cascade des provisions d'un Stablecoin
-                            de
-                            collatéral, provoquant un défaut de règlement sur un Bond Tokenisé. <strong
-                                class="text-white">Le
-                                risque DLT est systémique par définition algorithmique.</strong>
-                        </p>
-                    </div>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-6" data-aos="fade-up">Couches de Modélisation du Moteur
-                    (Stack)</h2>
-                <!-- THE STACK -->
-                <div class="layer-stack">
-                    <div class="layer-item layer-c1" data-aos="fade-up" data-aos-delay="50">
-                        <div class="layer-dot"><i class="fas fa-code"></i></div>
-                        <div class="layer-content">
-                            <h4>1. Smart Contract Vulnerability (Idiosyncratique)</h4>
-                            <p>Calcul des probabilités de failles isolées au niveau du code (Reentrancy, Overflow,
-                                Access
-                                Control) audité sur les réseaux primaires institutionnels.</p>
-                        </div>
-                    </div>
-                    <div class="layer-item layer-c2" data-aos="fade-up" data-aos-delay="100">
-                        <div class="layer-dot"><i class="fas fa-link"></i></div>
-                        <div class="layer-content">
-                            <h4>2. Oracle &amp; Bridge Dependency (Contagion Vector)</h4>
-                            <p>Intégration du ratio de dépendance aux sources de données externes et aux protocoles
-                                inter-chaînes. Évaluation de la fragilité de la synchronisation Off-Chain/On-Chain.</p>
-                        </div>
-                    </div>
-                    <div class="layer-item layer-c3" data-aos="fade-up" data-aos-delay="150">
-                        <div class="layer-dot"><i class="fas fa-coins"></i></div>
-                        <div class="layer-content">
-                            <h4>3. Settlement &amp; Collateral Liquidity (Shock Absorption)</h4>
-                            <p>Stress tests sur les liquidités des Wholesale CBDCs et Stablecoins institutionnels
-                                régulés (MiCA)
-                                lors d'un pic massif de rachat ou d'un depeg momentané.</p>
-                        </div>
-                    </div>
-                    <div class="layer-item layer-c4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="layer-dot"><i class="fas fa-chart-network"></i></div>
-                        <div class="layer-content">
-                            <h4>4. Systemic Cascading Risk (Global Correlation)</h4>
-                            <p>Le Graal : Modélisation des chocs asymétriques où l'effondrement de la couche 1, 2 ou 3
-                                provoque
-                                un Default System Event via des matrices de corrélation non-linéaires.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- DIFFERENTIATOR CARDS -->
-                <h2 class="text-2xl font-bold text-white mb-6" data-aos="fade-up">Le Différenciateur (Moat Quantitatif)
-                </h2>
-                <div class="diff-grid" data-aos="fade-up">
-                    <div class="diff-card">
-                        <h4>Non-Linear Correlation Matrix</h4>
-                        <p>
-                            Contrairement aux outils Legacy qui additionnent simplement les risques (A + B), le Risk
-                            Engine de
-                            DCM utilise une logique matricielle pour capturer l'emballement exponentiel : la défaillance
-                            d'un
-                            smart contract accroît la probabilité de défaut de liquidité associée.
-                        </p>
-                        <div class="math-snippet">
-                            P_Sys(Default) = 1 - ∏(1 - P(Node_i | State)) * Copula_Factor
-                        </div>
-                    </div>
-                    <div class="diff-card">
-                        <h4>Dynamic Capital Optimization</h4>
-                        <p>
-                            En traduisant ce risque corrélé en métriques Bâloises (RWA / Capital Charge), le moteur ne
-                            se
-                            contente pas de "signaler" une erreur ; il l'intègre dynamiquement dans le calcul
-                            d'allocation de
-                            capital DLT de la banque.
-                        </p>
-                        <div class="math-snippet">
-                            If (Systemic_Index &lt; Threshold) { RWA_Multiplier=1.0 } else { RWA_Multiplier=Max_Penalty
-                            } </div>
-                    </div>
-                </div>
-            </div>
-        </details>
+        <!-- UNIFIED SUPER FOOTER -->
+        <!-- Scripts -->
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            AOS.init({ duration: 800, once: true });
 
-    </section>
-    
-    <!-- MEGA CTA FUNNEL -->
-    <section class="mega-cta-section" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(15, 23, 42, 1)); text-align: center; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 50px;" data-aos="fade-up">
-        <h2 style="font-size: 32px; color: white; margin-bottom: 20px;">Prêt à optimiser votre infrastructure DLT ?</h2>
-        <p style="color: #94a3b8; font-size: 18px; max-width: 600px; margin: 0 auto;">Passez de l'exploration technologique à la gouvernance institutionnelle en moins de 30 jours.</p>
-        <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-            <a href="mailto:contact@dcm-digital.com" class="btn-term" style="padding: 15px 30px; font-size: 16px; background: rgba(168, 85, 247, 0.2); border-color: #a855f7; color: white; text-decoration: none;">[ SCHEDULE_DEMO ]</a>
-            <a href="pricing-institutional.html" class="btn-term" style="padding: 15px 30px; font-size: 16px; border-color: #cbd5e1; color: #cbd5e1; text-decoration: none;">[ VIEW_ENTERPRISE_PRICING ]</a>
-        </div>
-    </section>
-
-<!-- UNIFIED SUPER FOOTER -->
-    <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 800, once: true });
-
-        // Inject Unified Footer
-    </script>
+            // Inject Unified Footer
+        </script>
+    </main>
 </body>
 
 </html>

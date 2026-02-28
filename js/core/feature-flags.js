@@ -33,6 +33,26 @@ const FeatureMatrix = {
         whiteLabel: true,
         roiCalculator: true,
         growthTracker: true
+    },
+    free: {
+        audit: false,
+        benchmark: false,
+        certification: true,
+        REPORT_EXPORT: false,
+        MANAGER_VIEW: false,
+        aiInsights: 'limited',
+        roiCalculator: true,
+        growthTracker: true
+    },
+    guest: {
+        audit: false,
+        benchmark: false,
+        certification: false,
+        REPORT_EXPORT: false,
+        MANAGER_VIEW: false,
+        aiInsights: 'limited',
+        roiCalculator: false,
+        growthTracker: false
     }
 };
 

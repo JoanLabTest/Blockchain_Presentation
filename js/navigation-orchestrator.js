@@ -7,7 +7,7 @@
 const NavigationOrchestrator = {
 
     // --- APP ROUTES CONFIG ---
-    SEGMENTS: ['student', 'pro', 'enterprise', 'Guest', 'guest'],
+    SEGMENTS: ['student', 'pro', 'enterprise', 'free', 'institutional', 'Guest', 'guest'],
 
     /**
      * INIT: Called on page load
