@@ -708,46 +708,51 @@ const DashboardEngine = {
     },
 
     handleTabSwitching: (tab) => {
-        const simSection = document.getElementById('simulations-section');
-        const reportSection = document.getElementById('reports-section');
-        const validationSection = document.getElementById('validation-section');
-        const adminSection = document.getElementById('admin-section');
+        const sections = {
+            'simulations': document.getElementById('simulations-section'),
+            'reports': document.getElementById('reports-section'),
+            'validation': document.getElementById('validation-section'),
+            'admin': document.getElementById('admin-section')
+        };
         const bcModule = document.getElementById('bc-module');
-
         const topCards = [
             'advisor-insights', 'quiz-card', 'coverage-card', 'activity-timeline',
             'learning-velocity-card', 'main-chart-card', 'risk-card'
         ];
 
-        // Default visible state resetting
-        if (simSection) simSection.style.display = 'none';
-        if (reportSection) reportSection.style.display = 'none';
-        if (validationSection) validationSection.style.display = 'none';
-        if (adminSection) adminSection.style.display = 'none';
+        console.log('[Dashboard] Switching to tab:', tab);
+
+        // Hide all major sections first
+        Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
 
         if (tab === 'reports' || tab === 'validation' || tab === 'admin') {
+            // Hide dashboard specific top cards
             topCards.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
             });
-            if (tab === 'reports' && reportSection) {
-                reportSection.style.display = 'block';
-                if (bcModule) bcModule.innerText = 'RAPPORTS';
-            } else if (tab === 'validation' && validationSection) {
-                validationSection.style.display = 'block';
-                if (bcModule) bcModule.innerText = 'VALIDATION';
-            } else if (tab === 'admin' && adminSection) {
-                adminSection.style.display = 'block';
-                if (bcModule) bcModule.innerText = 'CORPORATE ADMIN';
+
+            // Show target section
+            if (sections[tab]) {
+                sections[tab].style.display = (tab === 'admin') ? 'grid' : 'block';
+                if (bcModule) {
+                    const labels = { 'reports': 'RAPPORTS', 'validation': 'VALIDATION', 'admin': 'CORPORATE ADMIN' };
+                    bcModule.innerText = labels[tab];
+                }
             }
         } else {
-            // Default: Show Simulations (+ existing cards)
+            // Default: Dashboard View
             topCards.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = '';
             });
-            if (simSection) simSection.style.display = 'block';
+            if (sections['simulations']) sections['simulations'].style.display = 'block';
             if (bcModule) bcModule.innerText = window.location.hash.includes('risk-card') ? 'RISK ENGINE' : 'COCKPIT';
+        }
+
+        // AOS Refresh to avoid invisible elements after layout jump
+        if (window.AOS) {
+            setTimeout(() => window.AOS.refresh(), 50);
         }
     },
 

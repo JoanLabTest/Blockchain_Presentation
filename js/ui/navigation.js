@@ -80,12 +80,20 @@ const NavigationManager = {
         };
         const anchor = hubAnchors[segment] || '';
 
+        // Standard Brand Header (Phase 115)
+        const brandHtml = `
+            <div class="brand">
+                <div class="brand-icon"><i class="fas fa-cube"></i></div>
+                <div class="brand-text">DCM <span>DIGITAL</span></div>
+            </div>
+            <ul class="nav-menu" id="side-nav-menu" style="list-style: none; padding: 0;">
+        `;
+
         let html = `
-            <li><a href="index.html" class="nav-item"><i class="fas fa-home"></i> Retour au Hub</a></li>
+            <li style="list-style: none;"><a href="index.html" class="nav-item"><i class="fas fa-home"></i> Retour au Hub</a></li>
         `;
 
         // Determine which pillars to show/prioritize based on segment
-        // PHASE 102: Unified High-Visibility Navigation (All pillars visible, some locked)
         const segmentConfigs = {
             student: ['ACADEMIC', 'CORE', 'TOOLKIT', 'GOVERNANCE'],
             pro: ['CORE', 'TOOLKIT', 'GOVERNANCE', 'ACADEMIC'],
@@ -108,7 +116,6 @@ const NavigationManager = {
             `;
 
             pillar.links.forEach(item => {
-                // Feature Gating
                 const isEnabled = !item.feature || _checkFeature(segment, item.feature);
                 const style = isEnabled ? '' : 'opacity:0.4; filter:grayscale(1); cursor:not-allowed;';
                 const title = isEnabled ? '' : 'title="Module réservé au plan supérieur"';
@@ -129,7 +136,7 @@ const NavigationManager = {
             });
         });
 
-        // Add Footer Logic (User Info + Logout)
+        // Add Footer Logic
         const user = window.SessionManager?.getCurrentUser?.() || window.SessionManager?.__verifiedProfile || {};
         const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
         const tierColor = tierColors[user.subscription_tier] || '#64748b';
@@ -139,7 +146,6 @@ const NavigationManager = {
 
         html += `
             <li style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05); list-style: none;">
-                <!-- User identity card -->
                 <div style="padding:12px 15px; margin-bottom:8px; background:rgba(255,255,255,0.03); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <div style="width:34px; height:34px; border-radius:50%; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
@@ -167,7 +173,12 @@ const NavigationManager = {
             </li>
         `;
 
-        target.innerHTML = html;
+        // Smart Update: Injection vs Wrap
+        if (target.id === 'side-nav-menu' || target.classList.contains('nav-menu')) {
+            target.innerHTML = html;
+        } else {
+            target.innerHTML = brandHtml + html + '</ul>';
+        }
     }
 };
 

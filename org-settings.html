@@ -253,8 +253,12 @@
 </head>
 
 <body>
-    <aside id="dcm-sidebar-container" class="sidebar"></aside>
-    <main class="main-content" style="padding: 40px;">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="dcm-sidebar-container">
+        <!-- Dynamically Rendered by NavigationManager -->
+    </aside>
+
+    <main class="main-content" style="padding: 40px;" id="main-settings-content">
         <header class="header">
             <h1>Gestion de l'Organisation</h1>
             <p class="subtitle">Configurez l'identité de votre institution et gérez les accès de vos collaborateurs.</p>
@@ -393,6 +397,46 @@
             function copyInviteLink() {
                 prompt("Lien d'invitation (expire dans 24h):", "https://dcmcore.com/invite?org=GAMP-7742-EU&token=abc123xyz");
             }
+        </script>
+
+        <!-- Auth & Access Control -->
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                const checkAccess = () => {
+                    const user = window.SessionManager?.profile || window.SessionManager?.__verifiedProfile || {};
+                    const tier = user.subscription_tier || 'free';
+
+                    if (tier === 'free' && !window.__isMasterSession?.()) {
+                        const content = document.getElementById('main-settings-content');
+                        if (content) {
+                            content.innerHTML = `
+                                <div style="max-width:600px; margin: 100px auto; text-align:center; background:var(--bg-card); padding:50px; border-radius:24px; border:1px solid var(--border-highlight);">
+                                    <div style="font-size:60px; margin-bottom:20px;">🏢</div>
+                                    <h2 style="color:white; margin-bottom:15px;">Gestion d'Organisation</h2>
+                                    <p style="color:var(--text-muted); line-height:1.6; margin-bottom:30px;">
+                                        Les paramètres d'organisation sont réservés aux comptes <strong>Enterprise</strong> et <strong>Institutional</strong>. 
+                                        En tant que membre individuel, vous pouvez soit créer votre institution, soit être rattaché à une organisation existante par votre administrateur.
+                                    </p>
+                                    <div style="display:flex; flex-direction:column; gap:12px;">
+                                        <a href="pricing.html" class="btn btn-primary" style="justify-content:center; padding:15px;">Découvrir les Plans Enterprise</a>
+                                        <a href="dashboard.html" class="btn btn-outline" style="justify-content:center; padding:15px;">Retour au Cockpit</a>
+                                    </div>
+                                    <div style="margin-top:25px; font-size:12px; color:var(--text-muted);">
+                                        Besoin d'aide ? <a href="mailto:support@dcm-digital.com" style="color:var(--accent-blue)">Contacter le support</a>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }
+                };
+
+                // Wait for profile to be ready
+                if (window.SessionManager?.isReady) {
+                    checkAccess();
+                } else {
+                    window.addEventListener('dcm-profile-ready', checkAccess);
+                }
+            });
         </script>
 
         <!-- Base Scripts -->

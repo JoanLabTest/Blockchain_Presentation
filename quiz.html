@@ -1303,301 +1303,278 @@
                                         const container = document.getElementById('levels-container');
                                         if (!container) return;
 
-                                        const levelIds = [1,
-                                            2,
-                                            3,
-                                            4,
-                                            5,
-                                            'super'];
-                                        const unlocks = engine ? engine.getUnlocks() : [1];
+                                        const levelIds = [1, 2, 3, 4, 5, 'super'];
+                                        const isMaster = window.__isMasterSession?.() || false;
 
                                         container.innerHTML = levelIds.map(id => {
                                             const info = this.LEVEL_INFO[id];
                                             const isSuper = id === 'super';
-                                            const unlocked = engine ? engine.isLevelUnlocked(id) : (id === 1);
+                                            const unlocked = isMaster ? true : (engine ? engine.isLevelUnlocked(id) : (id === 1));
 
-                                            const bestScore = engine ? engine.getBestScore(isSuper ? 'SL' : `L${id}
-
-                            `) : null;
+                                            const bestScore = engine ? engine.getBestScore(isSuper ? 'SL' : `L${id}`) : null;
                                             const completed = bestScore !== null && bestScore >= 80;
                                             const locked = !unlocked;
 
-                                            const badgeHtml = isSuper ? `<span class="level-badge badge-super" ><i class="fas fa-fire" ></i> BLACK LEVEL</span>` : completed ? `<span class="level-badge badge-completed" ><i class="fas fa-star" ></i> Validé</span>` : unlocked ? `<span class="level-badge badge-unlocked" ><i class="fas fa-circle" ></i> Disponible</span>` : `<span class="level-badge badge-locked" ><i class="fas fa-lock" ></i> Verrouillé</span>`;
+                                            const badgeHtml = isSuper ? `<span class="level-badge badge-super"><i class="fas fa-fire"></i> BLACK LEVEL</span>` : completed ? `<span class="level-badge badge-completed"><i class="fas fa-star"></i> Validé</span>` : unlocked ? `<span class="level-badge badge-unlocked"><i class="fas fa-circle"></i> Disponible</span>` : `<span class="level-badge badge-locked"><i class="fas fa-lock"></i> Verrouillé</span>`;
 
-                                            const scoreHtml = bestScore ? `<div class="level-score" style="color:${info.color}" ><i class="fas fa-trophy" ></i> Meilleur: ${bestScore}
+                                            const scoreHtml = bestScore ? `<div class="level-score" style="color:${info.color}"><i class="fas fa-trophy"></i> Meilleur: ${bestScore}%</div>` : `<div class="level-meta-item"><i class="fas fa-list"></i> ${info.session}/${info.questions} questions</div>`;
 
-                        %</div>` : `<div class="level-meta-item" ><i class="fas fa-list" ></i> ${info.session}
-
-                        /${info.questions}
-
-                        questions</div>`;
-
-                                            return ` <div class="level-card ${locked ? 'locked' : ''} ${completed ? 'completed' : ''} ${isSuper ? 'super-card' : ''}"
-                        style="--level-color: ${info.color};"
-
-                        onclick="${locked ? '' : `QuizUI.startLevel('${id}')`}" > <div class="level-card-top" > <div class="level-icon" ><i class="fas ${this.LEVEL_ICONS[id]}" ></i></div> ${badgeHtml}
-
-                        </div> <div class="level-name" >${isSuper ? '<i class="fas fa-bolt"></i> ' : `Level ${id}
-
-                            — `
-                        }
-
-                        ${info.name}
-
-                        </div> <div class="level-desc" >${info.desc}
-
-                        </div> <div style="font-size:11px; color:${info.color}; font-weight:700; margin-bottom:12px; opacity:0.8;" > <i class="fas fa-user-tie" ></i> ${info.audience}
-
-                        </div> <div class="level-meta" > ${scoreHtml}
-
-                        <div class="level-meta-item" ><i class="fas fa-crosshairs" ></i> 80% requis</div> </div> <button class="start-btn"${locked ? 'disabled' : ''}
-
-                        onclick="event.stopPropagation(); QuizUI.startLevel('${id}')" > ${locked ? '<i class="fas fa-lock"></i> Verrouillé' : `< i class="fas fa-play" ></i > ${
-                                    completed ? 'Rejouer' : 'Commencer'}
-
-                                `
-                        }
-
-                        </button> </div>`;
-                    }).join('');
-            }
-
-            ,
-
-            // ─── START LEVEL ──────────────────────────────────────────────────────
-            async startLevel(levelId) {
-                                    this._show('loading-overlay');
-
-                                    try {
-                                        const engine = window.QuizEngine;
-                                        if (!engine) throw new Error('QuizEngine not loaded');
-
-                                        const levelIdParsed = isNaN(levelId) ? levelId : parseInt(levelId);
-                                        await engine.startSession(levelIdParsed);
-
-                                        this._currentLevelId = levelIdParsed;
-                                        this._liveCorrect = 0;
-                                        this._liveTotal = 0;
-
-                                        const info = this.LEVEL_INFO[levelId];
-
-                                        document.getElementById('runner-level-name').textContent = `Level ${isNaN(levelId) ? '★': levelId}
-
-                    — ${info.name}
-
-                    `;
-                                        document.getElementById('runner-progress-fill').style.background = info.color;
-
-                                        this._hide('loading-overlay');
-                                        this._showSection('quiz-runner');
-
-                                        if (levelId === 'super') {
-                                            document.body.classList.add('super-mode');
-                                        }
-
-                                        else {
-                                            document.body.classList.remove('super-mode');
-                                        }
-
-                                        this._renderQuestion();
+                                            return `
+                                                <div class="level-card ${locked ? 'locked' : ''} ${completed ? 'completed' : ''} ${isSuper ? 'super-card' : ''}" style="--level-color: ${info.color};" onclick="${locked ? '' : `QuizUI.startLevel('${id}')`}">
+                                                    <div class="level-card-top">
+                                                        <div class="level-icon"><i class="fas ${this.LEVEL_ICONS[id]}"></i></div>
+                                                        ${badgeHtml}
+                                                    </div>
+                                                    <div class="level-name">
+                                                        ${isSuper ? '<i class="fas fa-bolt"></i> ' : `Level ${id} — `}${info.name}
+                                                    </div>
+                                                    <div class="level-desc">${info.desc}</div>
+                                                    <div style="font-size:11px; color:${info.color}; font-weight:700; margin-bottom:12px; opacity:0.8;">
+                                                        <i class="fas fa-user-tie"></i> ${info.audience}
+                                                    </div>
+                                                    <div class="level-meta">
+                                                        ${scoreHtml}
+                                                        <div class="level-meta-item"><i class="fas fa-crosshairs"></i> 80% requis</div>
+                                                    </div>
+                                                    <button class="start-btn" ${locked ? 'disabled' : ''} onclick="event.stopPropagation(); QuizUI.startLevel('${id}')">
+                                                        ${locked ? '<i class="fas fa-lock"></i> Verrouillé' : `<i class="fas fa-play"></i> ${completed ? 'Rejouer' : 'Commencer'}`}
+                                                    </button>
+                                                </div>`;
+                                        }).join('');
                                     }
 
-                                    catch (err) {
-                                        this._hide('loading-overlay');
-                                        console.error('Start error:', err);
+                                    ,
 
-                                        alert(`Impossible de charger ce niveau : ${err.message}
+                                    // ─── START LEVEL ──────────────────────────────────────────────────────
+                                    async startLevel(levelId) {
+                                        this._show('loading-overlay');
+
+                                        try {
+                                            const engine = window.QuizEngine;
+                                            if (!engine) throw new Error('QuizEngine not loaded');
+
+                                            const levelIdParsed = isNaN(levelId) ? levelId : parseInt(levelId);
+                                            await engine.startSession(levelIdParsed);
+
+                                            this._currentLevelId = levelIdParsed;
+                                            this._liveCorrect = 0;
+                                            this._liveTotal = 0;
+
+                                            const info = this.LEVEL_INFO[levelId];
+
+                                            document.getElementById('runner-level-name').textContent = `Level ${isNaN(levelId) ? '★' : levelId} — ${info.name}`;
+                                            document.getElementById('runner-progress-fill').style.background = info.color;
+
+                                            this._hide('loading-overlay');
+                                            this._showSection('quiz-runner');
+
+                                            if (levelId === 'super') {
+                                                document.body.classList.add('super-mode');
+                                            }
+
+                                            else {
+                                                document.body.classList.remove('super-mode');
+                                            }
+
+                                            this._renderQuestion();
+                                        }
+
+                                        catch (err) {
+                                            this._hide('loading-overlay');
+                                            console.error('Start error:', err);
+
+                                            alert(`Impossible de charger ce niveau : ${err.message}
 
                         `);
-                                    }
-                                }
-
-            ,
-
-                                // ─── RENDER QUESTION ──────────────────────────────────────────────────
-                                _renderQuestion() {
-                                    const engine = window.QuizEngine;
-                                    const q = engine.getCurrentQuestion();
-
-                                    if (!q) {
-                                        this._showResults();
-                                        return;
+                                        }
                                     }
 
-                                    const total = q.total;
-                                    const idx = q.index + 1;
-                                    const info = this.LEVEL_INFO[this._currentLevelId] || this.LEVEL_INFO[1];
-                                    const letters = ['A',
-                                        'B',
-                                        'C',
-                                        'D',
-                                        'E',
-                                        'F',
-                                        'G',
-                                        'H'];
+                                    ,
 
-                                    // Progress
-                                    document.getElementById('q-num').textContent = `QUESTION ${idx}
+                                    // ─── RENDER QUESTION ──────────────────────────────────────────────────
+                                    _renderQuestion() {
+                                        const engine = window.QuizEngine;
+                                        const q = engine.getCurrentQuestion();
+
+                                        if (!q) {
+                                            this._showResults();
+                                            return;
+                                        }
+
+                                        const total = q.total;
+                                        const idx = q.index + 1;
+                                        const info = this.LEVEL_INFO[this._currentLevelId] || this.LEVEL_INFO[1];
+                                        const letters = ['A',
+                                            'B',
+                                            'C',
+                                            'D',
+                                            'E',
+                                            'F',
+                                            'G',
+                                            'H'];
+
+                                        // Progress
+                                        document.getElementById('q-num').textContent = `QUESTION ${idx}
 
                 SUR ${total}
 
                 `;
 
-                                    document.getElementById('runner-q-label').textContent = `Question ${idx}
+                                        document.getElementById('runner-q-label').textContent = `Question ${idx}
 
                 /${total}
 
                 `;
 
-                                    document.getElementById('runner-progress-fill').style.width = `${q.progress}
+                                        document.getElementById('runner-progress-fill').style.width = `${q.progress}
 
                 %`;
 
-                                    document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}
+                                        document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}
 
                 /${this._liveTotal}
 
                 `;
 
-                                    // Theme tag
-                                    const themeEl = document.getElementById('q-theme-tag');
-                                    themeEl.textContent = q.theme || '';
+                                        // Theme tag
+                                        const themeEl = document.getElementById('q-theme-tag');
+                                        themeEl.textContent = q.theme || '';
 
-                                    themeEl.style.background = `color-mix(in srgb, ${info.color}
+                                        themeEl.style.background = `color-mix(in srgb, ${info.color}
 
                     15%, transparent)`;
-                                    themeEl.style.color = info.color;
+                                        themeEl.style.color = info.color;
 
-                                    themeEl.style.border = `1px solid color-mix(in srgb, ${info.color}
+                                        themeEl.style.border = `1px solid color-mix(in srgb, ${info.color}
 
                     30%, transparent)`;
 
-                                    // Scenario (super level)
-                                    const scenarioEl = document.getElementById('q-scenario');
+                                        // Scenario (super level)
+                                        const scenarioEl = document.getElementById('q-scenario');
 
-                                    if (q.scenario) {
-                                        scenarioEl.style.display = 'block';
-                                        scenarioEl.textContent = q.scenario;
-                                    }
+                                        if (q.scenario) {
+                                            scenarioEl.style.display = 'block';
+                                            scenarioEl.textContent = q.scenario;
+                                        }
 
-                                    else {
-                                        scenarioEl.style.display = 'none';
-                                    }
+                                        else {
+                                            scenarioEl.style.display = 'none';
+                                        }
 
-                                    // Question text
-                                    document.getElementById('q-text').textContent = q.question;
+                                        // Question text
+                                        document.getElementById('q-text').textContent = q.question;
 
-                                    // Choices
-                                    const choicesEl = document.getElementById('choices-container');
+                                        // Choices
+                                        const choicesEl = document.getElementById('choices-container');
 
-                                    choicesEl.innerHTML = q.choices.map((c, i) => ` <button class="choice-btn" id="choice-${i}" onclick="QuizUI.selectChoice(${i})" > <span class="choice-letter" style="${document.body.classList.contains('super-mode') ? 'border-color:rgba(124,58,237,0.3);' : ''}" >${letters[i]}
+                                        choicesEl.innerHTML = q.choices.map((c, i) => ` <button class="choice-btn" id="choice-${i}" onclick="QuizUI.selectChoice(${i})" > <span class="choice-letter" style="${document.body.classList.contains('super-mode') ? 'border-color:rgba(124,58,237,0.3);' : ''}" >${letters[i]}
 
                     </span> <span style="flex:1;" >${c}
 
                     </span> </button>`).join('');
 
-                                    // Reset feedback
-                                    const fb = document.getElementById('feedback-box');
-                                    fb.style.display = 'none';
-                                    fb.className = 'feedback-box';
-                                    document.getElementById('next-btn').style.display = 'none';
-                                }
+                                        // Reset feedback
+                                        const fb = document.getElementById('feedback-box');
+                                        fb.style.display = 'none';
+                                        fb.className = 'feedback-box';
+                                        document.getElementById('next-btn').style.display = 'none';
+                                    }
 
-            ,
+                                    ,
 
-                                // ─── SELECT CHOICE ────────────────────────────────────────────────────
-                                selectChoice(index) {
-                                    const engine = window.QuizEngine;
-                                    const result = engine.submitAnswer(index);
-                                    if (!result) return;
+                                    // ─── SELECT CHOICE ────────────────────────────────────────────────────
+                                    selectChoice(index) {
+                                        const engine = window.QuizEngine;
+                                        const result = engine.submitAnswer(index);
+                                        if (!result) return;
 
-                                    this._liveTotal++;
-                                    if (result.isCorrect) this._liveCorrect++;
+                                        this._liveTotal++;
+                                        if (result.isCorrect) this._liveCorrect++;
 
-                                    document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}
+                                        document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}
 
                 /${this._liveTotal}
 
                 `;
 
-                                    // Disable all choices
-                                    document.querySelectorAll('.choice-btn').forEach(btn => btn.disabled = true);
+                                        // Disable all choices
+                                        document.querySelectorAll('.choice-btn').forEach(btn => btn.disabled = true);
 
-                                    // Highlight correct / wrong
-                                    document.getElementById(`choice-${index}
+                                        // Highlight correct / wrong
+                                        document.getElementById(`choice-${index}
 
                     `).classList.add(result.isCorrect ? 'correct' : 'wrong');
 
-                                    if (!result.isCorrect) {
-                                        document.getElementById(`choice-${result.correctIndex}
+                                        if (!result.isCorrect) {
+                                            document.getElementById(`choice-${result.correctIndex}
 
                         `)?.classList.add('correct');
-                                    }
+                                        }
 
-                                    // Feedback box
-                                    const fb = document.getElementById('feedback-box');
-                                    fb.style.display = 'block';
+                                        // Feedback box
+                                        const fb = document.getElementById('feedback-box');
+                                        fb.style.display = 'block';
 
-                                    fb.className = `feedback-box ${result.isCorrect ? 'correct-fb': 'wrong-fb'}
+                                        fb.className = `feedback-box ${result.isCorrect ? 'correct-fb' : 'wrong-fb'}
 
                 `;
 
-                                    fb.innerHTML = ` <span class="feedback-icon">${result.isCorrect ? '✅': '❌'}
+                                        fb.innerHTML = ` <span class="feedback-icon">${result.isCorrect ? '✅' : '❌'}
 
-                </span><strong>${result.isCorrect ? 'Correct !': 'Incorrect.'}
+                </span><strong>${result.isCorrect ? 'Correct !' : 'Incorrect.'}
 
                 </strong><span style="margin-left:4px; opacity:0.85;">${result.explanation}
 
                 </span>`;
 
-                                    // Next button
-                                    const nextBtn = document.getElementById('next-btn');
-                                    nextBtn.style.display = 'flex';
-                                    const isLast = !result.hasMore;
-                                    document.getElementById('next-btn-label').textContent = isLast ? 'Voir les résultats' : 'Question suivante';
-                                }
-
-            ,
-
-                                // ─── NEXT QUESTION ────────────────────────────────────────────────────
-                                nextQuestion() {
-                                    const engine = window.QuizEngine;
-                                    const next = engine.getCurrentQuestion();
-
-                                    if (!next) {
-                                        this._showResults();
+                                        // Next button
+                                        const nextBtn = document.getElementById('next-btn');
+                                        nextBtn.style.display = 'flex';
+                                        const isLast = !result.hasMore;
+                                        document.getElementById('next-btn-label').textContent = isLast ? 'Voir les résultats' : 'Question suivante';
                                     }
 
-                                    else {
-                                        this._renderQuestion();
+                                    ,
+
+                                    // ─── NEXT QUESTION ────────────────────────────────────────────────────
+                                    nextQuestion() {
+                                        const engine = window.QuizEngine;
+                                        const next = engine.getCurrentQuestion();
+
+                                        if (!next) {
+                                            this._showResults();
+                                        }
+
+                                        else {
+                                            this._renderQuestion();
+                                        }
                                     }
-                                }
 
-            ,
+                                    ,
 
-                                // ─── SHOW RESULTS ─────────────────────────────────────────────────────
-                                _showResults() {
-                                    const engine = window.QuizEngine;
-                                    const results = engine.endSession();
-                                    this._results = results;
-                                    const info = this.LEVEL_INFO[this._currentLevelId] || this.LEVEL_INFO[1];
+                                    // ─── SHOW RESULTS ─────────────────────────────────────────────────────
+                                    _showResults() {
+                                        const engine = window.QuizEngine;
+                                        const results = engine.endSession();
+                                        this._results = results;
+                                        const info = this.LEVEL_INFO[this._currentLevelId] || this.LEVEL_INFO[1];
 
-                                    this._showSection('results-screen');
+                                        this._showSection('results-screen');
 
-                                    // Score ring
-                                    const ring = document.getElementById('results-ring');
-                                    ring.style.borderColor = results.passed ? '#10b981' : '#ef4444';
-                                    ring.style.color = results.passed ? '#10b981' : '#ef4444';
+                                        // Score ring
+                                        const ring = document.getElementById('results-ring');
+                                        ring.style.borderColor = results.passed ? '#10b981' : '#ef4444';
+                                        ring.style.color = results.passed ? '#10b981' : '#ef4444';
 
-                                    document.getElementById('results-score-num').textContent = `${results.score}
+                                        document.getElementById('results-score-num').textContent = `${results.score}
 
                 %`;
 
-                                    // Title
-                                    document.getElementById('results-title').textContent = results.passed ? '🏆 Niveau validé !'
-                                        : '💪 Résultat insuffisant';
+                                        // Title
+                                        document.getElementById('results-title').textContent = results.passed ? '🏆 Niveau validé !'
+                                            : '💪 Résultat insuffisant';
 
-                                    document.getElementById('results-subtitle').textContent = results.passed ? `Score de ${results.score}
+                                        document.getElementById('results-subtitle').textContent = results.passed ? `Score de ${results.score}
 
                 % sur ${results.total}
 
@@ -1607,30 +1584,30 @@
 
                 % requis. Réessayez avec une nouvelle rotation de questions.`;
 
-                                    // Stats
-                                    document.getElementById('res-correct').textContent = `${results.correct}
+                                        // Stats
+                                        document.getElementById('res-correct').textContent = `${results.correct}
 
                 /${results.total}
 
                 `;
-                                    document.getElementById('res-total').textContent = results.total;
-                                    const mins = Math.floor(results.duration / 60);
-                                    const secs = results.duration % 60;
+                                        document.getElementById('res-total').textContent = results.total;
+                                        const mins = Math.floor(results.duration / 60);
+                                        const secs = results.duration % 60;
 
-                                    document.getElementById('res-duration').textContent = `${mins}
+                                        document.getElementById('res-duration').textContent = `${mins}
 
                 m${secs.toString().padStart(2, '0')}
 
                 s`;
 
-                                    // Theme breakdown
-                                    const themeRows = document.getElementById('theme-rows');
+                                        // Theme breakdown
+                                        const themeRows = document.getElementById('theme-rows');
 
-                                    themeRows.innerHTML = Object.entries(results.themes).map(([theme, data]) => {
-                                        const pct = Math.round((data.correct / data.total) * 100);
-                                        const color = pct >= 80 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
+                                        themeRows.innerHTML = Object.entries(results.themes).map(([theme, data]) => {
+                                            const pct = Math.round((data.correct / data.total) * 100);
+                                            const color = pct >= 80 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
 
-                                        return ` <div class="theme-row" > <div class="theme-row-top" > <span>${theme}
+                                            return ` <div class="theme-row" > <div class="theme-row-top" > <span>${theme}
 
                         </span> <span style="color:${color}; font-family:'JetBrains Mono',monospace;" >${data.correct}
 
@@ -1639,173 +1616,173 @@
                         (${pct}
 
                             %)</span> </div> <div class="theme-bar" ><div class="theme-bar-fill" style="width:${pct}%; background:${color};" ></div></div> </div>`;
-                                    }).join('');
+                                        }).join('');
 
-                                    // Unlock banner
-                                    const unlockBanner = document.getElementById('unlock-banner');
-                                    const nextLevelBtn = document.getElementById('next-level-btn');
-                                    const certBtn = document.getElementById('res-cert-btn');
+                                        // Unlock banner
+                                        const unlockBanner = document.getElementById('unlock-banner');
+                                        const nextLevelBtn = document.getElementById('next-level-btn');
+                                        const certBtn = document.getElementById('res-cert-btn');
 
-                                    if (results.passed && results.unlocked) {
-                                        unlockBanner.style.display = 'block';
+                                        if (results.passed && results.unlocked) {
+                                            unlockBanner.style.display = 'block';
 
-                                        document.getElementById('unlock-text').textContent = `${results.unlocked.name}
+                                            document.getElementById('unlock-text').textContent = `${results.unlocked.name}
 
                     est maintenant accessible.`;
-                                        nextLevelBtn.style.display = 'flex';
-                                    }
-
-                                    else {
-                                        unlockBanner.style.display = 'none';
-                                        nextLevelBtn.style.display = 'none';
-                                    }
-
-                                    if (certBtn) {
-                                        certBtn.style.display = results.passed ? 'flex' : 'none';
-                                    }
-
-                                    // Confetti if passed
-                                    if (results.passed) this._fireConfetti(info.color);
-                                }
-
-            ,
-
-                                // ─── ACTIONS ──────────────────────────────────────────────────────────
-                                goToNextLevel() {
-                                    if (!this._results?.unlocked) return;
-                                    this.startLevel(this._results.unlocked.id);
-                                }
-
-            ,
-
-                                init() {
-                                    console.log('🎮 Quiz UI Initializing...');
-
-                                    // Dev banner check
-                                    if (localStorage.getItem('is_super_dev') === 'true' || localStorage.getItem('dcm_user_role') === 'ADMIN') {
-                                        const devBanner = document.getElementById('dev-banner');
-                                        if (devBanner) devBanner.style.display = 'block';
-                                    }
-
-                                    // Restore Fast Track preference
-                                    const fastTrackEnabled = localStorage.getItem('dcm_fast_track') === 'true';
-                                    const toggle = document.getElementById('fast-track-mode');
-                                    if (toggle) toggle.checked = fastTrackEnabled;
-                                    if (window.QuizEngine) window.QuizEngine.fastTrack = fastTrackEnabled;
-
-                                    this.renderLevelMap();
-                                    this._showSection('home-view');
-                                }
-
-            ,
-
-                                toggleFastTrack(enabled) {
-                                    console.log(`⚡ Fast Track Mode: ${enabled ? 'ON' : 'OFF'}
-
-                    `);
-                                    localStorage.setItem('dcm_fast_track', enabled);
-                                    if (window.QuizEngine) window.QuizEngine.fastTrack = enabled;
-                                }
-
-            ,
-
-                                retryLevel() {
-                                    this.startLevel(this._currentLevelId);
-                                }
-
-            ,
-
-                                exitToMap() {
-                                    this._showSection('home-view');
-                                    this.renderLevelMap();
-
-                                    window.scrollTo({
-                                        top: 0, behavior: 'smooth'
-                                    });
-                                }
-
-        ,
-
-                                downloadCertificate() {
-                                    if (!this._results) return;
-                                    const userProfile = JSON.parse(localStorage.getItem('dcm_user_profile') || '{"name":"Utilisateur DCM"}');
-                                    const name = userProfile.name || 'Utilisateur DCM';
-
-                                    if (window.QuizCert) {
-                                        window.QuizCert.generate(name, this._currentLevelId, this._results.score);
-                                    }
-
-                                    else {
-                                        console.error('QuizCert not loaded');
-                                    }
-                                }
-
-        ,
-
-                                // ─── SECTION MANAGEMENT ───────────────────────────────────────────────
-                                _showSection(sectionId) {
-                                    const views = ['home-view',
-                                        'level-map',
-                                        'quiz-runner',
-                                        'results-screen'];
-
-                                    views.forEach(id => {
-                                        const el = document.getElementById(id);
-                                        if (!el) return;
-
-                                        if (sectionId === 'home-view') {
-                                            // Special case: show both hero and map
-                                            el.style.display = (id === 'home-view' || id === 'level-map') ? 'block' : 'none';
-
-                                            if (id === 'home-view') window.scrollTo({
-                                                top: 0, behavior: 'smooth'
-                                            });
+                                            nextLevelBtn.style.display = 'flex';
                                         }
 
                                         else {
-                                            if (id === sectionId) {
-                                                el.style.display = id === 'quiz-runner' ? 'flex' : 'block';
+                                            unlockBanner.style.display = 'none';
+                                            nextLevelBtn.style.display = 'none';
+                                        }
 
-                                                window.scrollTo({
+                                        if (certBtn) {
+                                            certBtn.style.display = results.passed ? 'flex' : 'none';
+                                        }
+
+                                        // Confetti if passed
+                                        if (results.passed) this._fireConfetti(info.color);
+                                    }
+
+                                    ,
+
+                                    // ─── ACTIONS ──────────────────────────────────────────────────────────
+                                    goToNextLevel() {
+                                        if (!this._results?.unlocked) return;
+                                        this.startLevel(this._results.unlocked.id);
+                                    }
+
+                                    ,
+
+                                    init() {
+                                        console.log('🎮 Quiz UI Initializing...');
+
+                                        // Dev banner check
+                                        if (localStorage.getItem('is_super_dev') === 'true' || localStorage.getItem('dcm_user_role') === 'ADMIN') {
+                                            const devBanner = document.getElementById('dev-banner');
+                                            if (devBanner) devBanner.style.display = 'block';
+                                        }
+
+                                        // Restore Fast Track preference
+                                        const fastTrackEnabled = localStorage.getItem('dcm_fast_track') === 'true';
+                                        const toggle = document.getElementById('fast-track-mode');
+                                        if (toggle) toggle.checked = fastTrackEnabled;
+                                        if (window.QuizEngine) window.QuizEngine.fastTrack = fastTrackEnabled;
+
+                                        this.renderLevelMap();
+                                        this._showSection('home-view');
+                                    }
+
+                                    ,
+
+                                    toggleFastTrack(enabled) {
+                                        console.log(`⚡ Fast Track Mode: ${enabled ? 'ON' : 'OFF'}
+
+                    `);
+                                        localStorage.setItem('dcm_fast_track', enabled);
+                                        if (window.QuizEngine) window.QuizEngine.fastTrack = enabled;
+                                    }
+
+                                    ,
+
+                                    retryLevel() {
+                                        this.startLevel(this._currentLevelId);
+                                    }
+
+                                    ,
+
+                                    exitToMap() {
+                                        this._showSection('home-view');
+                                        this.renderLevelMap();
+
+                                        window.scrollTo({
+                                            top: 0, behavior: 'smooth'
+                                        });
+                                    }
+
+                                    ,
+
+                                    downloadCertificate() {
+                                        if (!this._results) return;
+                                        const userProfile = JSON.parse(localStorage.getItem('dcm_user_profile') || '{"name":"Utilisateur DCM"}');
+                                        const name = userProfile.name || 'Utilisateur DCM';
+
+                                        if (window.QuizCert) {
+                                            window.QuizCert.generate(name, this._currentLevelId, this._results.score);
+                                        }
+
+                                        else {
+                                            console.error('QuizCert not loaded');
+                                        }
+                                    }
+
+                                    ,
+
+                                    // ─── SECTION MANAGEMENT ───────────────────────────────────────────────
+                                    _showSection(sectionId) {
+                                        const views = ['home-view',
+                                            'level-map',
+                                            'quiz-runner',
+                                            'results-screen'];
+
+                                        views.forEach(id => {
+                                            const el = document.getElementById(id);
+                                            if (!el) return;
+
+                                            if (sectionId === 'home-view') {
+                                                // Special case: show both hero and map
+                                                el.style.display = (id === 'home-view' || id === 'level-map') ? 'block' : 'none';
+
+                                                if (id === 'home-view') window.scrollTo({
                                                     top: 0, behavior: 'smooth'
                                                 });
                                             }
 
                                             else {
-                                                el.style.display = 'none';
+                                                if (id === sectionId) {
+                                                    el.style.display = id === 'quiz-runner' ? 'flex' : 'block';
+
+                                                    window.scrollTo({
+                                                        top: 0, behavior: 'smooth'
+                                                    });
+                                                }
+
+                                                else {
+                                                    el.style.display = 'none';
+                                                }
                                             }
-                                        }
-                                    });
-                                }
+                                        });
+                                    }
 
-        ,
+                                    ,
 
-                                _show(id) {
-                                    const el = document.getElementById(id);
-                                    if (el) el.style.display = 'flex';
-                                }
+                                    _show(id) {
+                                        const el = document.getElementById(id);
+                                        if (el) el.style.display = 'flex';
+                                    }
 
-        ,
-                                _hide(id) {
-                                    const el = document.getElementById(id);
-                                    if (el) el.style.display = 'none';
-                                }
+                                    ,
+                                    _hide(id) {
+                                        const el = document.getElementById(id);
+                                        if (el) el.style.display = 'none';
+                                    }
 
-        ,
+                                    ,
 
-                                // ─── CONFETTI ─────────────────────────────────────────────────────────
-                                _fireConfetti(baseColor = '#6366f1') {
-                                    const colors = [baseColor,
-                                        '#fff',
-                                        '#f59e0b',
-                                        '#10b981',
-                                        '#3b82f6'];
+                                    // ─── CONFETTI ─────────────────────────────────────────────────────────
+                                    _fireConfetti(baseColor = '#6366f1') {
+                                        const colors = [baseColor,
+                                            '#fff',
+                                            '#f59e0b',
+                                            '#10b981',
+                                            '#3b82f6'];
 
-                                    for (let i = 0; i < 60; i++) {
-                                        const piece = document.createElement('div');
-                                        piece.className = 'confetti-piece';
+                                        for (let i = 0; i < 60; i++) {
+                                            const piece = document.createElement('div');
+                                            piece.className = 'confetti-piece';
 
-                                        piece.style.cssText = ` left: ${Math.random() * 100}
+                                            piece.style.cssText = ` left: ${Math.random() * 100}
 
                 %;
                 top: -10px;
@@ -1814,7 +1791,7 @@
 
                 ;
 
-                animation-duration: ${1.5+Math.random() * 2}
+                animation-duration: ${1.5 + Math.random() * 2}
 
                 s;
 
@@ -1824,13 +1801,13 @@
 
                 transform: scale(${0.5 + Math.random()});
                 `;
-                                        document.body.appendChild(piece);
-                                        piece.addEventListener('animationend', () => piece.remove());
+                                            document.body.appendChild(piece);
+                                            piece.addEventListener('animationend', () => piece.remove());
+                                        }
                                     }
                                 }
-        }
 
-                                ;
+                                    ;
 
                                 // ─── Init after engine loaded via script tag ──────────────────────────────
                                 function initQuiz() {
