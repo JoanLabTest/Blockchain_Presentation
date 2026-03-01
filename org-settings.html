@@ -399,18 +399,20 @@
             }
         </script>
 
-        <!-- Auth & Access Control -->
+        <!-- Auth & Access Control Guard (Phase 118.3) -->
         <script>
-            window.addEventListener('DOMContentLoaded', () => {
-                const checkAccess = () => {
-                    const user = window.SessionManager?.profile || window.SessionManager?.__verifiedProfile || {};
-                    const tier = user.subscription_tier || 'free';
+            (function () {
+                const enforceAccess = (profile) => {
+                    const tier = profile?.subscription_tier || 'free';
+                    const isMaster = window.__isMasterSession?.() || false;
 
-                    if (tier === 'free' && !window.__isMasterSession?.()) {
+                    console.log(`[AccessControl] Verifying tier: ${tier} (Master: ${isMaster})`);
+
+                    if (tier === 'free' && !isMaster) {
                         const content = document.getElementById('main-settings-content');
                         if (content) {
                             content.innerHTML = `
-                                <div style="max-width:600px; margin: 100px auto; text-align:center; background:var(--bg-card); padding:50px; border-radius:24px; border:1px solid var(--border-highlight);">
+                                <div style="max-width:600px; margin: 100px auto; text-align:center; background:var(--bg-card); padding:50px; border-radius:24px; border:1px solid var(--border-highlight); animation: fadeIn 0.5s ease-out;">
                                     <div style="font-size:60px; margin-bottom:20px;">🏢</div>
                                     <h2 style="color:white; margin-bottom:15px;">Gestion d'Organisation</h2>
                                     <p style="color:var(--text-muted); line-height:1.6; margin-bottom:30px;">
@@ -426,17 +428,30 @@
                                     </div>
                                 </div>
                             `;
+                            // Ensure sidebar state is also updated if needed
+                            document.querySelectorAll('.nav-item').forEach(item => {
+                                if (item.href.includes('org-settings')) item.classList.add('disabled');
+                            });
                         }
                     }
                 };
 
-                // Wait for profile to be ready
-                if (window.SessionManager?.isReady) {
-                    checkAccess();
-                } else {
-                    window.addEventListener('dcm-profile-ready', checkAccess);
+                // Guard: Check immediately if SessionManager is already ready
+                if (window.SessionManager?.isReady || window.SessionManager?.profile) {
+                    enforceAccess(window.SessionManager.profile || window.SessionManager.__verifiedProfile);
                 }
-            });
+
+                // Listener: Catch future profile updates
+                window.addEventListener('dcm-profile-ready', (e) => enforceAccess(e.detail));
+
+                // Fallback: If no profile after 2.5s, assume restricted for safety
+                setTimeout(() => {
+                    if (!window.SessionManager?.profile && !window.SessionManager?.__verifiedProfile) {
+                        console.warn('[AccessControl] Timeout: Profil non détecté, application des restrictions par défaut.');
+                        enforceAccess({ subscription_tier: 'free' });
+                    }
+                }, 2500);
+            })();
         </script>
 
         <!-- Base Scripts -->

@@ -707,7 +707,13 @@ const DashboardEngine = {
         });
     },
 
+    /**
+     * Optimized Tab Switching (Phase 118.2)
+     * Handles section visibility with protective guards to prevent flickering.
+     */
     handleTabSwitching: (tab) => {
+        if (!tab) tab = new URLSearchParams(window.location.search).get('tab') || 'overview';
+
         const sections = {
             'simulations': document.getElementById('simulations-section'),
             'reports': document.getElementById('reports-section'),
@@ -720,28 +726,33 @@ const DashboardEngine = {
             'learning-velocity-card', 'main-chart-card', 'risk-card'
         ];
 
-        console.log('[Dashboard] Switching to tab:', tab);
+        console.log(`[Dashboard] 🎯 Routing to tab: ${tab}`);
 
-        // Hide all major sections first
-        Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
+        // 1. Immediate hiding of irrelevant sections to preempt layout jumps
+        Object.keys(sections).forEach(key => {
+            const s = sections[key];
+            if (s) s.style.display = 'none';
+        });
 
+        // 2. Logic Branching
         if (tab === 'reports' || tab === 'validation' || tab === 'admin') {
-            // Hide dashboard specific top cards
+            // Dashboard-specific cards are hidden for specialized views
             topCards.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
             });
 
-            // Show target section
-            if (sections[tab]) {
-                sections[tab].style.display = (tab === 'admin') ? 'grid' : 'block';
+            // Activate Target Section
+            const target = sections[tab];
+            if (target) {
+                target.style.display = (tab === 'admin') ? 'grid' : 'block';
                 if (bcModule) {
                     const labels = { 'reports': 'RAPPORTS', 'validation': 'VALIDATION', 'admin': 'CORPORATE ADMIN' };
                     bcModule.innerText = labels[tab];
                 }
             }
         } else {
-            // Default: Dashboard View
+            // Default "Cockpit" View
             topCards.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = '';
@@ -750,9 +761,11 @@ const DashboardEngine = {
             if (bcModule) bcModule.innerText = window.location.hash.includes('risk-card') ? 'RISK ENGINE' : 'COCKPIT';
         }
 
-        // AOS Refresh to avoid invisible elements after layout jump
+        // 3. Coordinate with AOS to prevent the "Fade In" from appearing as flickering
         if (window.AOS) {
-            setTimeout(() => window.AOS.refresh(), 50);
+            // Multiple refreshes to catch dynamic layout adjustments
+            window.AOS.refresh();
+            setTimeout(() => window.AOS.refresh(), 150);
         }
     },
 

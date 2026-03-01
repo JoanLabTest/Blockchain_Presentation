@@ -1383,9 +1383,7 @@
                                             this._hide('loading-overlay');
                                             console.error('Start error:', err);
 
-                                            alert(`Impossible de charger ce niveau : ${err.message}
-
-                        `);
+                                            alert(`Impossible de charger ce niveau : ${err.message}`);
                                         }
                                     }
 
@@ -1414,40 +1412,22 @@
                                             'H'];
 
                                         // Progress
-                                        document.getElementById('q-num').textContent = `QUESTION ${idx}
+                                        document.getElementById('q-num').textContent = `QUESTION ${idx} SUR ${total}`;
 
-                SUR ${total}
+                                        document.getElementById('runner-q-label').textContent = `Question ${idx}/${total}`;
 
-                `;
+                                        document.getElementById('runner-progress-fill').style.width = `${q.progress}%`;
 
-                                        document.getElementById('runner-q-label').textContent = `Question ${idx}
-
-                /${total}
-
-                `;
-
-                                        document.getElementById('runner-progress-fill').style.width = `${q.progress}
-
-                %`;
-
-                                        document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}
-
-                /${this._liveTotal}
-
-                `;
+                                        document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}/${this._liveTotal}`;
 
                                         // Theme tag
                                         const themeEl = document.getElementById('q-theme-tag');
                                         themeEl.textContent = q.theme || '';
 
-                                        themeEl.style.background = `color-mix(in srgb, ${info.color}
-
-                    15%, transparent)`;
+                                        themeEl.style.background = `color-mix(in srgb, ${info.color} 15%, transparent)`;
                                         themeEl.style.color = info.color;
 
-                                        themeEl.style.border = `1px solid color-mix(in srgb, ${info.color}
-
-                    30%, transparent)`;
+                                        themeEl.style.border = `1px solid color-mix(in srgb, ${info.color} 30%, transparent)`;
 
                                         // Scenario (super level)
                                         const scenarioEl = document.getElementById('q-scenario');
@@ -1467,11 +1447,12 @@
                                         // Choices
                                         const choicesEl = document.getElementById('choices-container');
 
-                                        choicesEl.innerHTML = q.choices.map((c, i) => ` <button class="choice-btn" id="choice-${i}" onclick="QuizUI.selectChoice(${i})" > <span class="choice-letter" style="${document.body.classList.contains('super-mode') ? 'border-color:rgba(124,58,237,0.3);' : ''}" >${letters[i]}
-
-                    </span> <span style="flex:1;" >${c}
-
-                    </span> </button>`).join('');
+                                        choicesEl.innerHTML = q.choices.map((c, i) => `
+                                            <button class="choice-btn" id="choice-${i}" onclick="QuizUI.selectChoice(${i})">
+                                                <span class="choice-letter" style="${document.body.classList.contains('super-mode') ? 'border-color:rgba(124,58,237,0.3);' : ''}">${letters[i]}</span>
+                                                <span style="flex:1;">${c}</span>
+                                            </button>
+                                        `).join('');
 
                                         // Reset feedback
                                         const fb = document.getElementById('feedback-box');
@@ -1491,41 +1472,29 @@
                                         this._liveTotal++;
                                         if (result.isCorrect) this._liveCorrect++;
 
-                                        document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}
-
-                /${this._liveTotal}
-
-                `;
+                                        document.getElementById('runner-score-live').textContent = `✓ ${this._liveCorrect}/${this._liveTotal}`;
 
                                         // Disable all choices
                                         document.querySelectorAll('.choice-btn').forEach(btn => btn.disabled = true);
 
                                         // Highlight correct / wrong
-                                        document.getElementById(`choice-${index}
-
-                    `).classList.add(result.isCorrect ? 'correct' : 'wrong');
+                                        document.getElementById(`choice-${index}`).classList.add(result.isCorrect ? 'correct' : 'wrong');
 
                                         if (!result.isCorrect) {
-                                            document.getElementById(`choice-${result.correctIndex}
-
-                        `)?.classList.add('correct');
+                                            document.getElementById(`choice-${result.correctIndex}`)?.classList.add('correct');
                                         }
 
                                         // Feedback box
                                         const fb = document.getElementById('feedback-box');
                                         fb.style.display = 'block';
 
-                                        fb.className = `feedback-box ${result.isCorrect ? 'correct-fb' : 'wrong-fb'}
+                                        fb.className = `feedback-box ${result.isCorrect ? 'correct-fb' : 'wrong-fb'}`;
 
-                `;
-
-                                        fb.innerHTML = ` <span class="feedback-icon">${result.isCorrect ? '✅' : '❌'}
-
-                </span><strong>${result.isCorrect ? 'Correct !' : 'Incorrect.'}
-
-                </strong><span style="margin-left:4px; opacity:0.85;">${result.explanation}
-
-                </span>`;
+                                        fb.innerHTML = `
+                                            <span class="feedback-icon">${result.isCorrect ? '✅' : '❌'}</span>
+                                            <strong>${result.isCorrect ? 'Correct !' : 'Incorrect.'}</strong>
+                                            <span style="margin-left:4px; opacity:0.85;">${result.explanation}</span>
+                                        `;
 
                                         // Next button
                                         const nextBtn = document.getElementById('next-btn');
@@ -1566,39 +1535,23 @@
                                         ring.style.borderColor = results.passed ? '#10b981' : '#ef4444';
                                         ring.style.color = results.passed ? '#10b981' : '#ef4444';
 
-                                        document.getElementById('results-score-num').textContent = `${results.score}
-
-                %`;
+                                        document.getElementById('results-score-num').textContent = `${results.score}%`;
 
                                         // Title
                                         document.getElementById('results-title').textContent = results.passed ? '🏆 Niveau validé !'
                                             : '💪 Résultat insuffisant';
 
-                                        document.getElementById('results-subtitle').textContent = results.passed ? `Score de ${results.score}
-
-                % sur ${results.total}
-
-                questions — niveau suivant débloqué.` : `Score de ${results.score}
-
-                % — ${this.LEVEL_INFO[1] && engine.PASS_SCORE}
-
-                % requis. Réessayez avec une nouvelle rotation de questions.`;
+                                        document.getElementById('results-subtitle').textContent = results.passed
+                                            ? `Score de ${results.score}% sur ${results.total} questions — niveau suivant débloqué.`
+                                            : `Score de ${results.score}% — ${engine.PASS_SCORE || 80}% requis. Réessayez avec une nouvelle rotation de questions.`;
 
                                         // Stats
-                                        document.getElementById('res-correct').textContent = `${results.correct}
-
-                /${results.total}
-
-                `;
+                                        document.getElementById('res-correct').textContent = `${results.correct}/${results.total}`;
                                         document.getElementById('res-total').textContent = results.total;
                                         const mins = Math.floor(results.duration / 60);
                                         const secs = results.duration % 60;
 
-                                        document.getElementById('res-duration').textContent = `${mins}
-
-                m${secs.toString().padStart(2, '0')}
-
-                s`;
+                                        document.getElementById('res-duration').textContent = `${mins}m${secs.toString().padStart(2, '0')}s`;
 
                                         // Theme breakdown
                                         const themeRows = document.getElementById('theme-rows');
@@ -1607,15 +1560,17 @@
                                             const pct = Math.round((data.correct / data.total) * 100);
                                             const color = pct >= 80 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
 
-                                            return ` <div class="theme-row" > <div class="theme-row-top" > <span>${theme}
-
-                        </span> <span style="color:${color}; font-family:'JetBrains Mono',monospace;" >${data.correct}
-
-                        /${data.total}
-
-                        (${pct}
-
-                            %)</span> </div> <div class="theme-bar" ><div class="theme-bar-fill" style="width:${pct}%; background:${color};" ></div></div> </div>`;
+                                            return `
+                                                <div class="theme-row">
+                                                    <div class="theme-row-top">
+                                                        <span>${theme}</span>
+                                                        <span style="color:${color}; font-family:'JetBrains Mono',monospace;">${data.correct}/${data.total} (${pct}%)</span>
+                                                    </div>
+                                                    <div class="theme-bar">
+                                                        <div class="theme-bar-fill" style="width:${pct}%; background:${color};"></div>
+                                                    </div>
+                                                </div>
+                                            `;
                                         }).join('');
 
                                         // Unlock banner
@@ -1626,9 +1581,7 @@
                                         if (results.passed && results.unlocked) {
                                             unlockBanner.style.display = 'block';
 
-                                            document.getElementById('unlock-text').textContent = `${results.unlocked.name}
-
-                    est maintenant accessible.`;
+                                            document.getElementById('unlock-text').textContent = `${results.unlocked.name} est maintenant accessible.`;
                                             nextLevelBtn.style.display = 'flex';
                                         }
 
