@@ -124,15 +124,17 @@ const SessionManager = {
 
         // 🎭 MASTER ACCESS — only for confirmed Supabase email
         const MASTER_EMAIL = 'joanlyczak@gmail.com';
-        if (user.email === MASTER_EMAIL) {
-            console.info('SessionManager: 🎭 MASTER ACCESS for ' + MASTER_EMAIL);
+        const userEmail = user.email ? user.email.toLowerCase() : '';
+        
+        if (userEmail === MASTER_EMAIL.toLowerCase()) {
+            console.info('SessionManager: 🎭 MASTER ACCESS for ' + userEmail);
             profile.role = 'ADMIN';
             profile.subscription_tier = 'enterprise';
             profile.org_id = 'dcm-master-org';
 
             // Activate master patches via dev-unlock hook (conditional, post-auth)
             if (typeof window.__activateMasterMode === 'function') {
-                window.__activateMasterMode(user.email);
+                window.__activateMasterMode(userEmail);
             }
         } else {
             // 🧹 SECURITY: Wipe any stale dev/master flags from localStorage on every normal login.

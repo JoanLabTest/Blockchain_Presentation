@@ -156,10 +156,19 @@ const NavigationOrchestrator = {
             const main = document.querySelector('.main-content');
             if (main) main.classList.add('tab-switching');
 
-            setTimeout(() => {
-                tabElement.click();
-                if (main) main.classList.remove('tab-switching');
-            }, 300);
+            const attemptSwitch = (retries = 10) => {
+                if (window.DashboardEngine) {
+                    window.DashboardEngine.handleTabSwitching(tabId);
+                    if (main) main.classList.remove('tab-switching');
+                } else if (retries > 0) {
+                    setTimeout(() => attemptSwitch(retries - 1), 100);
+                } else {
+                    console.error(`⚠️ Deep Link Failure: DashboardEngine not loaded after retries. Cannot open tab: ${tabId}`);
+                    if (main) main.classList.remove('tab-switching');
+                }
+            };
+
+            setTimeout(attemptSwitch, 100);
 
         } else {
             console.warn(`⚠️ Deep Link Failure: Tab [${tabId}] not found in current segment view.`);

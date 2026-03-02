@@ -644,7 +644,8 @@ const DashboardEngine = {
             el.style.display = 'flex'; // Always show top-level containers
 
             // Add a subtle lock visual if the user shouldn't have it (optional but helpful)
-            if (!activeModules.includes(id)) {
+            const activeModulesForRole = CONFIG[segment] || [];
+            if (!activeModulesForRole.includes(id)) {
                 el.style.opacity = '0.8';
                 // We could add a .locked class here if we had CSS for it
             } else {
@@ -679,9 +680,8 @@ const DashboardEngine = {
         }
 
         // --- TAB SWITCHING (Phase 108) ---
-        const urlParams = new URLSearchParams(window.location.search);
-        const tab = urlParams.get('tab');
-        DashboardEngine.handleTabSwitching(tab);
+        // Tab switching is now orchestrated by NavigationOrchestrator to avoid redundant loops.
+        // DashboardEngine.handleTabSwitching(tab);
 
         // Feature: Custom Tab Labels in Breadcrumb
         window.addEventListener('hashchange', () => {
@@ -689,31 +689,39 @@ const DashboardEngine = {
             if (bcModule && hash) bcModule.innerText = hash;
         });
 
-        // Intercept sidebar tab clicks to prevent full page reload
-        document.addEventListener('click', (e) => {
-            const navLink = e.target.closest('a.nav-item');
-            if (navLink && navLink.hasAttribute('data-tab')) {
-                const tabId = navLink.getAttribute('data-tab');
-                if (tabId && window.location.pathname.endsWith('dashboard.html')) {
-                    e.preventDefault();
-                    window.history.pushState({}, '', '?tab=' + tabId);
-                    DashboardEngine.handleTabSwitching(tabId);
+        // Intercept sidebar tab clicks to prevent full page reload (Phase 118.6: Idempotent)
+        if (!window.__dashboardClickInterceptorAdded) {
+            document.addEventListener('click', (e) => {
+                const navLink = e.target.closest('a.nav-item');
+                if (navLink && navLink.hasAttribute('data-tab')) {
+                    const tabId = navLink.getAttribute('data-tab');
+                    if (tabId && window.location.pathname.endsWith('dashboard.html')) {
+                        e.preventDefault();
+                        window.history.pushState({}, '', '?tab=' + tabId);
+                        DashboardEngine.handleTabSwitching(tabId);
 
-                    // Update active state in sidebar
-                    document.querySelectorAll('a.nav-item').forEach(n => n.classList.remove('active'));
-                    navLink.classList.add('active');
+                        // Update active state in sidebar
+                        document.querySelectorAll('a.nav-item').forEach(n => n.classList.remove('active'));
+                        navLink.classList.add('active');
+                    }
                 }
-            }
-        });
+            });
+            window.__dashboardClickInterceptorAdded = true;
+        }
     },
 
     /**
-     * Optimized Tab Switching (Phase 118.2)
-     * Handles section visibility with protective guards to prevent flickering.
+     * Optimized Tab Switching (Phase 118.5)
+     * Handles section visibility with protective guards to prevent jumping/flickering.
      */
     handleTabSwitching: (tab) => {
         if (!tab) tab = new URLSearchParams(window.location.search).get('tab') || 'overview';
 
+        // 🛡️ GUARD: Prevent redundant switching if already on this tab (Phase 118.7)
+        if (window.__currentDashboardTab === tab) return;
+        window.__currentDashboardTab = tab;
+
+        const mainContent = document.querySelector('.main-content');
         const sections = {
             'simulations': document.getElementById('simulations-section'),
             'reports': document.getElementById('reports-section'),
@@ -728,6 +736,13 @@ const DashboardEngine = {
 
         console.log(`[Dashboard] 🎯 Routing to tab: ${tab}`);
 
+        // 🛡️ ANTI-JUMP: Lock height if content exists
+        if (mainContent) {
+            const currentHeight = mainContent.offsetHeight;
+            mainContent.style.minHeight = `${currentHeight}px`;
+            mainContent.classList.add('tab-switching');
+        }
+
         // 1. Immediate hiding of irrelevant sections to preempt layout jumps
         Object.keys(sections).forEach(key => {
             const s = sections[key];
@@ -736,13 +751,11 @@ const DashboardEngine = {
 
         // 2. Logic Branching
         if (tab === 'reports' || tab === 'validation' || tab === 'admin') {
-            // Dashboard-specific cards are hidden for specialized views
             topCards.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
             });
 
-            // Activate Target Section
             const target = sections[tab];
             if (target) {
                 target.style.display = (tab === 'admin') ? 'grid' : 'block';
@@ -752,7 +765,6 @@ const DashboardEngine = {
                 }
             }
         } else {
-            // Default "Cockpit" View
             topCards.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = '';
@@ -761,12 +773,13 @@ const DashboardEngine = {
             if (bcModule) bcModule.innerText = window.location.hash.includes('risk-card') ? 'RISK ENGINE' : 'COCKPIT';
         }
 
-        // 3. Coordinate with AOS to prevent the "Fade In" from appearing as flickering
-        if (window.AOS) {
-            // Multiple refreshes to catch dynamic layout adjustments
-            window.AOS.refresh();
-            setTimeout(() => window.AOS.refresh(), 150);
-        }
+        setTimeout(() => {
+            if (mainContent) {
+                mainContent.style.minHeight = '';
+                mainContent.classList.remove('tab-switching');
+            }
+            if (window.AOS) window.AOS.refresh();
+        }, 150);
     },
 
     runStressTest: async () => {
