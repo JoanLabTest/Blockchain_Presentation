@@ -6,45 +6,33 @@ from collections import Counter, defaultdict
 
 # CONFIG
 TARGET_FILES = [
-    'index.html',
-    'pos-economics.html',
-    'smart-contracts.html',
-    'yield-mechanics.html',
-    'legal_pilot.html',
-    'ai-finance.html',
-    'guide.html',
-    'simple.html',
-    'buidl.html',
-    'ecb-dlt-trials.html',
-    'mica-simulator.html',
-    'data-architecture.html',
-    'audit-trail.html',
-    'org-settings.html',
-    'rwa-analytics.html',
-    'governance-os.html',
-    'governance-os-landing.html'
+    'index.html', 'pos-economics.html', 'smart-contracts.html', 'yield-mechanics.html',
+    'legal_pilot.html', 'ai-finance.html', 'guide.html', 'simple.html', 'buidl.html',
+    'ecb-dlt-trials.html', 'mica-simulator.html', 'data-architecture.html', 'audit-trail.html',
+    'org-settings.html', 'rwa-analytics.html', 'governance-os.html', 'governance-os-landing.html',
+    'institutional-problem-statement.html', 'why-now.html', 'competitive-landscape.html',
+    'series-a-narrative.html', 'board-intelligence.html', 'case-study-tokenized-bond.html',
+    'case-study-asset-manager.html', 'data-certification.html', 'deployment-architecture.html',
+    'economic-model.html', 'mrm-hub.html', 'regulatory-mapping.html', 'workflow-center.html',
+    'comparateur.html', 'dashboard.html', 'sandbox.html', 'pricing-institutional.html',
+    'risk-register.html', 'regulatory-transparency.html', 'legal-matrix.html', 'governance-framework.html'
 ]
 
 OUTPUT_FILE = 'search-index.json'
 
 CATEGORY_RULES = {
-    'pos-economics.html': 'RISK',
-    'smart-contracts.html': 'TECH',
-    'yield-mechanics.html': 'MACRO',
-    'legal_pilot.html': 'LEGAL',
-    'ai-finance.html': 'TECH',
-    'guide.html': 'TOOL',
-    'simple.html': 'TOOL',
-    'index.html': 'GOV',
-    'buidl.html': 'TECH',
-    'ecb-dlt-trials.html': 'MACRO',
-    'mica-simulator.html': 'LEGAL',
-    'data-architecture.html': 'TECH',
-    'audit-trail.html': 'GOV',
-    'org-settings.html': 'GOV',
-    'rwa-analytics.html': 'MACRO',
-    'governance-os.html': 'GOV',
-    'governance-os-landing.html': 'GOV'
+    'pos-economics.html': 'RISK', 'smart-contracts.html': 'TECH', 'yield-mechanics.html': 'MACRO',
+    'legal_pilot.html': 'LEGAL', 'ai-finance.html': 'TECH', 'guide.html': 'TOOL', 'simple.html': 'TOOL',
+    'index.html': 'GOV', 'buidl.html': 'TECH', 'ecb-dlt-trials.html': 'MACRO', 'mica-simulator.html': 'LEGAL',
+    'data-architecture.html': 'TECH', 'audit-trail.html': 'GOV', 'org-settings.html': 'GOV',
+    'rwa-analytics.html': 'MACRO', 'governance-os.html': 'GOV', 'governance-os-landing.html': 'GOV',
+    'institutional-problem-statement.html': 'MACRO', 'why-now.html': 'MACRO', 'competitive-landscape.html': 'MACRO',
+    'series-a-narrative.html': 'MACRO', 'board-intelligence.html': 'GOV', 'case-study-tokenized-bond.html': 'TOOL',
+    'case-study-asset-manager.html': 'TOOL', 'data-certification.html': 'TECH', 'deployment-architecture.html': 'TECH',
+    'economic-model.html': 'MACRO', 'mrm-hub.html': 'RISK', 'regulatory-mapping.html': 'LEGAL', 
+    'workflow-center.html': 'TOOL', 'comparateur.html': 'TOOL', 'dashboard.html': 'TOOL', 
+    'sandbox.html': 'TECH', 'pricing-institutional.html': 'GOV', 'risk-register.html': 'RISK', 
+    'regulatory-transparency.html': 'LEGAL', 'legal-matrix.html': 'LEGAL', 'governance-framework.html': 'GOV'
 }
 
 AUTO_TAGS = {
