@@ -14,8 +14,13 @@ high_priority = [
     "competitive-landscape.html",
     "series-a-narrative.html",
     "governance-os-landing.html",
+    "governance-os.html",
     "mrm-hub.html",
-    "economic-model.html"
+    "economic-model.html",
+    "buidl.html",
+    "ecb-dlt-trials.html",
+    "yield-mechanics.html",
+    "rwa-analytics.html"
 ]
 
 medium_priority = [
@@ -28,7 +33,11 @@ medium_priority = [
     "guide.html",
     "dashboard.html",
     "sandbox.html",
-    "pricing-institutional.html"
+    "pricing-institutional.html",
+    "mica-simulator.html",
+    "data-architecture.html",
+    "audit-trail.html",
+    "org-settings.html"
 ]
 
 all_html_files = glob.glob('*.html') + glob.glob('networks/*.html')

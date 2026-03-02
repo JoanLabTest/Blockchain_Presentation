@@ -13,7 +13,16 @@ TARGET_FILES = [
     'legal_pilot.html',
     'ai-finance.html',
     'guide.html',
-    'simple.html'
+    'simple.html',
+    'buidl.html',
+    'ecb-dlt-trials.html',
+    'mica-simulator.html',
+    'data-architecture.html',
+    'audit-trail.html',
+    'org-settings.html',
+    'rwa-analytics.html',
+    'governance-os.html',
+    'governance-os-landing.html'
 ]
 
 OUTPUT_FILE = 'search-index.json'
@@ -26,7 +35,16 @@ CATEGORY_RULES = {
     'ai-finance.html': 'TECH',
     'guide.html': 'TOOL',
     'simple.html': 'TOOL',
-    'index.html': 'GOV'
+    'index.html': 'GOV',
+    'buidl.html': 'TECH',
+    'ecb-dlt-trials.html': 'MACRO',
+    'mica-simulator.html': 'LEGAL',
+    'data-architecture.html': 'TECH',
+    'audit-trail.html': 'GOV',
+    'org-settings.html': 'GOV',
+    'rwa-analytics.html': 'MACRO',
+    'governance-os.html': 'GOV',
+    'governance-os-landing.html': 'GOV'
 }
 
 AUTO_TAGS = {
