@@ -309,6 +309,51 @@
             color: white;
         }
 
+        /* Language Switcher Styling */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn {
+            width: 28px;
+            height: 20px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            opacity: 0.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: none;
+        }
+
+        .lang-btn:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .lang-btn.active {
+            opacity: 1;
+            border-color: #3b82f6;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .lang-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         /* RESPONSIVE */
         @media (max-width: 850px) {
             .framework-layout {
@@ -358,10 +403,13 @@
                 <a class="back-link" href="governance-os-landing.html">
                     <i class="fas fa-arrow-left"></i> Back to OS
                 </a>
-                <div class="flex items-center space-x-2 ml-4 pl-4 border-l border-slate-700">
-                    <a href="../fr/mrm-hub.html"
-                        style="text-decoration: none; font-size: 12px; color: var(--text-muted);">FR</a>
-                    <a href="#" style="text-decoration: none; font-size: 12px; color: white; font-weight: bold;">EN</a>
+                <div class="lang-switcher">
+                    <a href="../fr/mrm-hub.html" class="lang-btn" title="Version Française">
+                        <img src="https://flagcdn.com/w40/fr.png" alt="FR">
+                    </a>
+                    <a href="#" class="lang-btn active" title="English Version">
+                        <img src="https://flagcdn.com/w40/gb.png" alt="EN">
+                    </a>
                 </div>
             </div>
         </nav>
