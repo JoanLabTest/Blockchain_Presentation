@@ -1,15 +1,23 @@
 /* PRINT STYLESHEET - EXECUTIVE BRIEF FORMAT */
 @media print {
-    
+
     /* RESET UI */
-    .navbar, 
-    .super-footer, 
-    .floating-search-trigger, 
+    .navbar,
+    .super-footer,
+    .floating-search-trigger,
     .search-modal-backdrop,
-    .toc-sidebar, 
+    .toc-sidebar,
     .back-btn,
     .language-switcher,
-    #citation-modal {
+    #citation-modal,
+    .hub-nav,
+    nav,
+    footer,
+    .print-btn,
+    .btn-primary,
+    .btn-outline,
+    .social-btn,
+    .mega-cta-section {
         display: none !important;
     }
 
@@ -24,12 +32,12 @@
         color: black !important;
         font-size: 11pt !important;
         line-height: 1.4 !important;
-        font-family: 'Times New Roman', serif !important; /* Serious Serif for print */
+        font-family: 'Times New Roman', serif !important;
     }
 
     /* HEADER INJECTION */
     body::before {
-        content: "DCM DIGITAL HUB - EXECUTIVE BRIEF | " attr(data-date);
+        content: "DCM DIGITAL HUB - EXECUTIVE BRIEF";
         display: block;
         text-align: center;
         font-size: 9pt;
@@ -40,68 +48,84 @@
     }
 
     /* TYPOGRAPHY */
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
         color: black !important;
         page-break-after: avoid;
-        font-family: Arial, sans-serif !important; /* Headers sans-serif */
+        font-family: Arial, sans-serif !important;
     }
 
-    h1 { font-size: 24pt !important; margin-bottom: 0.5cm !important; }
-    h2 { font-size: 16pt !important; border-bottom: 1px solid black !important; padding-bottom: 5px !important; margin-top: 1cm !important; }
-    
-    p { margin-bottom: 10px !important; }
-
-    /* LINKS */
-    a {
-        text-decoration: none !important;
-        color: black !important;
+    h1 {
+        font-size: 24pt !important;
+        margin-bottom: 0.5cm !important;
     }
-    
-    /* Show URL only for external links if needed, but keeping it clean for now */
-    /* a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; } */
+
+    h2 {
+        font-size: 16pt !important;
+        border-bottom: 1px solid black !important;
+        padding-bottom: 5px !important;
+        margin-top: 1cm !important;
+    }
+
+    p {
+        margin-bottom: 10px !important;
+    }
 
     /* CONTAINERS */
-    .container {
+    .container,
+    .max-w-6xl,
+    .case-section {
         width: 100% !important;
         max-width: none !important;
         padding: 0 !important;
         margin: 0 !important;
     }
 
-    .main-content {
-        margin: 0 !important;
+    /* EXECUTIVE LAYER & CRO BOXES */
+    .executive-layer,
+    .executive-summary,
+    .cro-box,
+    section[data-aos] {
+        page-break-inside: avoid !important;
+        border: 1px solid #000 !important;
+        background: #fdfdfd !important;
+        color: black !important;
+        margin-bottom: 20px !important;
+        padding: 15px !important;
+    }
+
+    /* GRID FIXES for Print */
+    .grid,
+    [style*="display: grid"] {
+        display: block !important;
+    }
+
+    .grid>div,
+    [style*="display: grid"]>div {
+        margin-bottom: 20px !important;
         width: 100% !important;
     }
 
-    /* COMPONENTS */
-    .code-window, .code-block {
+    /* TABLES */
+    table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+        margin: 20px 0 !important;
+    }
+
+    th,
+    td {
         border: 1px solid #ccc !important;
-        background: #f5f5f5 !important;
-        color: black !important;
-        page-break-inside: avoid;
-    }
-
-    .std-table, .network-table {
-        width: 100% !important;
-        border: 1px solid black !important;
-    }
-    
-    .std-table th, .network-table th {
-        background: #eee !important;
-        color: black !important;
-        border-bottom: 1px solid black !important;
-    }
-    
-    .std-table td, .network-table td {
-        border-bottom: 1px solid #ccc !important;
+        padding: 8px !important;
         color: black !important;
     }
 
-    /* DIAGRAMS & IMAGES */
-    img, svg, canvas {
+    img,
+    svg,
+    canvas {
         max-width: 100% !important;
         page-break-inside: avoid;
-        /* Filter to guarantee visibility on white paper if images are dark-mode optimized */
-        /* filter: grayscale(100%); */ 
     }
 }
