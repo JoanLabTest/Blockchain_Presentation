@@ -14,15 +14,25 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "TechArticle",
-      "headline": "Gestion du Risque de Règlement DLT : Vers le Règlement Atomique",
-      "description": "Comment la DLT élimine le risque Herstatt par le biais de mécanismes DvP programmables.",
-      "author": { "@type": "Organization", "name": "DCM Core" },
-      "publisher": {
-        "@type": "Organization",
-        "name": "DCM Core",
-        "logo": { "@type": "ImageObject", "url": "https://www.dcmcore.com/assets/logo-dcm.png" }
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Qu’est-ce que le risque de règlement (Settlement Risk) ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le risque de règlement survient lorsqu’une partie livre un actif sans recevoir le paiement en retour, souvent dû à des décalages temporels entre systèmes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment la blockchain élimine-t-elle le risque Herstatt ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La blockchain permet le règlement atomique (DvP) : l’échange d’actif et de paiement se produit simultanément sur le registre, garantissant que les deux parties sont honorées ou qu’aucune transaction n’a lieu."
+          }
+        }
+      ]
     }
     </script>
 
@@ -67,14 +77,6 @@
             margin-bottom: 25px;
         }
 
-        .highlight-box {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--accent);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 40px 0;
-        }
-
         .breadcrumb {
             display: flex;
             gap: 10px;
@@ -100,16 +102,50 @@
 
         <h1>Gestion du Risque de Règlement DLT : Vers le Règlement Atomique</h1>
 
+        <div class="exec-summary">
+            <strong>Résumé Executif :</strong> Le règlement atomique DvP change radicalement la gestion du risque
+            Herstatt. Ce guide analyse comment la DLT permet de passer d'un cycle T+2 à un échange instantané (T+0),
+            optimisant ainsi le capital et la liquidité.
+        </div>
+
         <p>
             Le **risque de règlement** (ou risque Herstatt) est l'un des plus grands défis de la finance de gros. Il
             survient lorsqu'une partie d'une transaction livre l'actif mais ne reçoit pas le paiement correspondant en
             raison d'un décalage temporel ou d'une défaillance opérationnelle.
         </p>
 
-        <div class="highlight-box">
-            <strong>L'Opportunité DLT :</strong> La blockchain permet de réaliser un **Règlement Atomique** (Delivery vs
-            Payment - DvP). Soit les deux parties de la transaction sont exécutées simultanément, soit aucune ne l'est.
-            Cela élimine de facto le risque de crédit lié au règlement.
+        <div class="inst-table-container">
+            <table class="inst-table">
+                <thead>
+                    <tr>
+                        <th>Caractéristique</th>
+                        <th>Cycle Traditionnel</th>
+                        <th>Cycle DLT Atomique</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Délai de Règlement</td>
+                        <td>T+2 (deux jours ouvrés)</td>
+                        <td>T+0 (instantané)</td>
+                    </tr>
+                    <tr>
+                        <td>Risque de Contrepartie</td>
+                        <td>Élevé durant le délai</td>
+                        <td>Quasi-nul (Simultanéité)</td>
+                    </tr>
+                    <tr>
+                        <td>Consommation Capital</td>
+                        <td>Important (Collatéral T+2)</td>
+                        <td>Optimisée (Libération immédiate)</td>
+                    </tr>
+                    <tr>
+                        <td>Mécanisme DvP</td>
+                        <td>Off-chain (DVP par tiers)</td>
+                        <td>On-chain (DvP par code)</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <h2>1. DvP On-Chain vs Off-Chain</h2>
@@ -143,4 +179,20 @@
 
 </body>
 
-</html>
+</html><section class="faq-section">
+    <h2 style="border: none; padding: 0;">FAQ Risque de Règlement</h2>
+    <div class="faq-grid">
+        <div class="faq-item">
+            <div class="faq-question">Qu’est-ce que le risque Herstatt ?</div>
+            <div class="faq-answer">C’est un risque de règlement lié au décalage horaire ou opérationnel entre les systèmes de paiement originellement nommé d'après la faillite de la banque Herstatt en 1974.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Comment fonctionne le DvP atomique ?</div>
+            <div class="faq-answer">Grâce aux smart contracts, l'échange d'actifs (ex: obligations tokenisées) et le paiement (ex: CBDC) sont liés : ils sont validés simultanément ou annulés, supprimant le risque de livraison sans paiement.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Pourquoi le cycle T+0 est-il avantageux ?</div>
+            <div class="faq-answer">Il libère immédiatement le collatéral immobilisé, diminue le risque de crédit systémique et accélère la rotation du capital pour les institutions financières.</div>
+        </div>
+    </div>
+</section>
