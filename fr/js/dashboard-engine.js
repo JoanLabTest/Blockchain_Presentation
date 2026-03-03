@@ -1234,6 +1234,4 @@ const DashboardEngine = {
 };
 
 // Expose globally
-if (typeof window !== 'undefined') {
-    window.DashboardEngine = DashboardEngine;
-}
+window.DashboardEngine = DashboardEngine;

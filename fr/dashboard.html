@@ -694,15 +694,17 @@
             font-weight: 800;
         }
     </style>
-    <meta content="Explore the dashboard module of the DCM Digital Governance OS." name="description" />
-    <link href="https://dcm-digital.com/dashboard.html" rel="canonical" />
+    <title>Hub de Gestion des Risques de Modèle Blockchain (MRM) | DCM Core</title>
+    <meta name="description"
+        content="Framework avancé de gestion des risques de modèle adapté aux actifs numériques, aux infrastructures DLT et aux contrôles de risques institutionnels.">
+    <link rel="canonical" href="https://www.dcmcore.com/fr/dashboard.html">
     <script src="js/cookie-consent.js"></script>
     <script src="js/cta-tracker.js"></script>
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    
+
     <link rel="alternate" hreflang="fr" href="https://dcm-digital.com/fr/dashboard.html" />
     <link rel="alternate" hreflang="en" href="https://dcm-digital.com/en/dashboard.html" />
     <link rel="alternate" hreflang="x-default" href="https://dcm-digital.com/fr/dashboard.html" />
@@ -1898,6 +1900,19 @@
                 // Tour & Ticker init
                 if (window.DashboardTour) window.DashboardTour.init();
                 if (window.MarketTicker) window.MarketTicker.initTicker();
+
+                // --- TAB INITIALIZATION (Audit Fix: Hardened) ---
+                const initDashboardTabs = () => {
+                    if (window.DashboardEngine?.handleTabSwitching) {
+                        const initialTab = new URLSearchParams(window.location.search).get('tab') || 'overview';
+                        console.log(`[DeepLink] Activating target tab: ${initialTab}`);
+                        window.DashboardEngine.handleTabSwitching(initialTab);
+                    } else {
+                        console.warn('[DeepLink] DashboardEngine not ready, retrying...');
+                        setTimeout(initDashboardTabs, 100);
+                    }
+                };
+                initDashboardTabs();
 
             } catch (globalErr) {
                 console.warn('Dashboard init error (non-blocking):', globalErr);
