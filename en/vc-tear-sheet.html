@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Tear Sheet | DCM Digital</title>
+    <script>
+        // Simple client-side protection for demo purposes. Bypassed if Dev Mode is active.
+        const isAuth = sessionStorage.getItem('dcm_investor_auth') === 'true';
+
+        if (!isAuth) {
+            window.location.href = 'investor-login.html';
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* A4 Print Layout Simulation */
+        body {
+            background-color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            margin: 0;
+            padding: 40px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .a4-page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 20mm;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        p {
+            margin: 0;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+
+        p {
+            font-size: 11px;
+            line-height: 1.5;
+            color: #475569;
+            margin-bottom: 15px;
+        }
+
+        /* Grid System */
+        .flex-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .col-main {
+            flex: 2;
+        }
+
+        .col-side {
+            flex: 1;
+            border-left: 1px solid #e2e8f0;
+            padding-left: 20px;
+        }
+
+        /* Metrics Box */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .metric-val {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .metric-label {
+            font-size: 9px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Lists */
+        ul {
+            margin: 0 0 15px 0;
+            padding-left: 15px;
+        }
+
+        li {
+            font-size: 11px;
+            color: #475569;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        li strong {
+            color: #0f172a;
+        }
+
+        /* Footer */
+        .page-footer {
+            position: absolute;
+            bottom: 20mm;
+            left: 20mm;
+            right: 20mm;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            color: #94a3b8;
+        }
+
+        .confidential-stamp {
+            position: absolute;
+            top: 20mm;
+            right: 20mm;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 2px;
+        }
+
+        .btn-back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #3b82f6;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .a4-page {
+                box-shadow: none;
+                width: auto;
+                min-height: auto;
+            }
+
+            .btn-back {
+                display: none;
+            }
+        }
+    </style>
+    <script src="js/cookie-consent.js"></script>
+    <script src="js/cta-tracker.js"></script>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+</head>
+
+<body>
+
+    <a href="investor-relations.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Data Room</a>
+
+    <div class="a4-page">
+        <div class="confidential-stamp">Strictly Confidential - Do Not Distribute</div>
+
+        <h1>DCM DIGITAL</h1>
+        <div class="tagline">Enterprise DLT Governance & Capital Optimization OS (B2B SaaS)</div>
+
+        <div class="flex-row">
+            <!-- MAIN COLUMN -->
+            <div class="col-main">
+                <h2>Company Overview</h2>
+                <p>DCM Digital provides the critical "Governance Layer" missing in enterprise blockchain deployments. By
+                    translating complex technical DLT events (Smart Contracts) into real-time, auditable financial risk
+                    metrics, we enable Tier 1 banks to comply with Basel III/DORA and drastically reduce their
+                    Operational Risk Capital Buffers, unlocking millions in liquidity.</p>
+
+                <h2>The Problem & Market</h2>
+                <p><strong>The Gap:</strong> Traditional Model Risk Management (MRM) systems treat blockchain
+                    deployments as static "black boxes". This lack of deterministic observability forces regulators to
+                    mandate massive capital buffers (RWA) for Operational Risk.</p>
+                <p><strong>TAM (Total Addressable Market):</strong> The Institutional Digital Asset software market is
+                    projected to reach $10B+ by 2030, driven by the tokenization of Real-World Assets (RWA) and
+                    mandatory frameworks like DORA in the EU.</p>
+
+                <h2>The Product Solution (DCM Governance OS)</h2>
+                <ul>
+                    <li><strong>Continuous MRM Monitor:</strong> API-first Oracle bridging DLT environments (Canton,
+                        Hyperledger) with legacy Core Banking.</li>
+                    <li><strong>Capital Optimization Engine:</strong> Translates cryptographic proofs into LGD (Loss
+                        Given Default) reductions.</li>
+                    <li><strong>Data Trust Certification:</strong> Cryptographically verifiable audit trails for
+                        compliance teams (Line 2/3 Defense).</li>
+                </ul>
+
+                <h2>Competitive Moat</h2>
+                <ul>
+                    <li><strong>Regulatory Native:</strong> Built strictly for Basel III AMA / DORA compliance, not
+                        retail crypto.</li>
+                    <li><strong>High-Friction Enterprise Sticky:</strong> Deep integration into Core Banking Systems
+                        creates a +5 Year lifespan per client.</li>
+                    <li><strong>First-Mover in TradFi DLT Governance:</strong> Competitors focus on on-chain analytics
+                        (Chainalysis); we focus on balance-sheet impact.</li>
+                </ul>
+
+                <h2>Go-to-Market Strategy</h2>
+                <p>Direct enterprise sales targeting Chief Risk Officers (CRO) and Heads of Digital Assets at European
+                    G-SIBs. High-touch, 6-9 month sales cycle prioritizing "Proof of Value" through parallel-run
+                    simulations demonstrating immediate capital relief.</p>
+            </div>
+
+            <!-- SIDE COLUMN -->
+            <div class="col-side">
+                <h2>Key Details</h2>
+                <p style="margin-bottom: 5px;"><strong>Sector:</strong> Enterprise FinTech / RegTech</p>
+                <p style="margin-bottom: 5px;"><strong>Model:</strong> Tiered B2B SaaS (License + Vol)</p>
+                <p style="margin-bottom: 5px;"><strong>HQ:</strong> Paris, France</p>
+                <p style="margin-bottom: 25px;"><strong>Stage:</strong> Seed / Pre-Series A</p>
+
+                <h2>Financial Metrics (Pro Forma)</h2>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-val">€150k</div>
+                        <div class="metric-label">Target ACV</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-val">€2.5M</div>
+                        <div class="metric-label">Series A Target</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-val">12 mo</div>
+                        <div class="metric-label">Runway Current</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-val">+3yr</div>
+                        <div class="metric-label">LTV / CAC</div>
+                    </div>
+                </div>
+
+                <h2>Use of Funds (Series A)</h2>
+                <ul>
+                    <li><strong>50% R&D:</strong> Expand integration adapters (SWIAT, EVM) and upgrade Zero-Knowledge
+                        modules.</li>
+                    <li><strong>35% Sales & Marketing:</strong> Scale enterprise sales team; target UK/Swiss markets.
+                    </li>
+                    <li><strong>15% Operations:</strong> Security audits, DORA certification, and legal scaling.</li>
+                </ul>
+
+                <h2>Leadership Team</h2>
+                <p style="margin-bottom: 5px;"><strong>Joan Lyczak</strong><br>Founder & CEO. Expertise in financial
+                    markets, DLT modeling, and quantitative risk.</p>
+
+                <h2 style="margin-top: 30px;">Contact</h2>
+                <p><strong>Email:</strong> contact@dcm-digital.com<br><strong>Website:</strong> dcm-digital.com</p>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div>DCM Digital SAS. Company Registration: [Pending].</div>
+            <div>Prepared solely for Qualified Investors. Data is projected.</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
