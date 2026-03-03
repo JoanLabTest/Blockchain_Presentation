@@ -1,0 +1,365 @@
+/* ===================================
+   TRADING DESK INTERACTIF
+   =================================== */
+
+/* STYLE CONSOLE TRADING */
+.trader-console {
+    background: #0b1121;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 40px;
+}
+
+.console-header {
+    background: #1e293b;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #334155;
+    font-size: 12px;
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    color: #10b981;
+    font-weight: 600;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 5px #10b981;
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.wallet-info {
+    color: #94a3b8;
+}
+
+.console-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.market-panel {
+    padding: 30px;
+    border-right: 1px solid #334155;
+}
+
+.instrument-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.badge-aaa {
+    background: #334155;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    vertical-align: middle;
+    color: #cbd5e1;
+}
+
+.isin {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.big-price {
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+    transition: color 0.5s;
+}
+
+.price-change {
+    color: #10b981;
+    font-size: 14px;
+    display: block;
+    text-align: right;
+}
+
+.order-book {
+    background: #020617;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.book-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 5px;
+    text-align: right;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.book-row.header {
+    font-weight: bold;
+    color: #64748b;
+    border-bottom: 1px solid #1e293b;
+    margin-bottom: 5px;
+}
+
+.bid {
+    color: #10b981;
+}
+
+.ask {
+    color: #ef4444;
+}
+
+.instrument-details {
+    display: flex;
+    gap: 10px;
+}
+
+.detail-box {
+    background: #1e293b;
+    padding: 10px;
+    flex: 1;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.detail-box strong {
+    display: block;
+    font-size: 16px;
+    color: #fff;
+    margin-top: 5px;
+}
+
+.order-panel {
+    padding: 30px;
+    background: #161f32;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    color: #64748b;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    background: #0b1121;
+    border: 1px solid #334155;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: inherit;
+    text-align: right;
+    font-size: 16px;
+}
+
+.switch-field {
+    display: flex;
+    overflow: hidden;
+}
+
+.switch-field input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+}
+
+.switch-field label {
+    background-color: #0b1121;
+    color: #94a3b8;
+    font-size: 14px;
+    line-height: 1;
+    text-align: center;
+    padding: 10px 16px;
+    margin-right: -1px;
+    border: 1px solid #334155;
+    transition: all 0.1s ease-in-out;
+    flex: 1;
+    cursor: pointer;
+}
+
+.switch-field label:first-of-type {
+    border-radius: 4px 0 0 4px;
+}
+
+.switch-field label:last-of-type {
+    border-radius: 0 4px 4px 0;
+}
+
+.switch-field input:checked+label {
+    background-color: #10b981;
+    color: #fff;
+    box-shadow: none;
+    border-color: #10b981;
+}
+
+#radio-sell:checked+label {
+    background-color: #ef4444;
+    border-color: #ef4444;
+}
+
+.total-display {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #334155;
+    padding-top: 15px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.execute-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    padding: 15px;
+    color: white;
+    font-weight: bold;
+    font-family: inherit;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.execute-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.execute-btn:active {
+    transform: translateY(0);
+}
+
+/* MODAL STYLES */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid #3b82f6;
+    text-align: center;
+    width: 400px;
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.3);
+}
+
+.modal-content h3 {
+    margin: 0 0 20px 0;
+    color: #3b82f6;
+}
+
+.steps-container {
+    text-align: left;
+    margin: 20px 0;
+    font-family: 'Outfit', sans-serif;
+    color: #cbd5e1;
+}
+
+.step-item {
+    margin-bottom: 10px;
+    opacity: 0.5;
+    transition: all 0.3s;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.step-item.active {
+    opacity: 1;
+    color: #fff;
+    font-weight: bold;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.step-item.done {
+    color: #10b981;
+    opacity: 1;
+}
+
+.step-item.done i::before {
+    content: "\f058";
+}
+
+.success-message {
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .console-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .market-panel {
+        border-right: none;
+        border-bottom: 1px solid #334155;
+    }
+}
+
+@media (max-width: 768px) {
+    .console-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .instrument-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .big-price {
+        font-size: 30px;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 25px;
+    }
+}

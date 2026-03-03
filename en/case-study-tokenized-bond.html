@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+
+<html data-theme="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Quantified Use Case: 500M€ Tokenized Bond - DCM Digital</title>
+    <meta
+        content="Quantitative analysis of a 500M€ tokenized bond issuance on SWIAT. Stress test simulation, RWA impact and capital provisioning."
+        name="description" />
+    <!-- SEO & JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Report",
+      "headline": "Quantified Institutional Use Case: Tokenized Bond",
+      "description": "Board-ready mathematical justification for DCM Digital Governance OS value proposition using a 500M€ Digital Bond scenario.",
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Digital"
+      }
+    }
+    </script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Global CSS -->
+    <link href="styles/main.css" rel="stylesheet" />
+    <link href="styles/components.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --surface-dark: #0f172a;
+            --surface-hover: #1e293b;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --financial-red: #ef4444;
+            --financial-green: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Nav & Footer overrides */
+        .hub-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .case-hero {
+            padding: 160px 5% 80px;
+            background: radial-gradient(circle at top center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            text-align: center;
+        }
+
+        /* CONTENT BLOCKS */
+        .case-section {
+            max-width: 1100px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .pdf-download-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .pdf-download-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        /* DATA CARDS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--surface-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-blue);
+        }
+
+        .metric-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* SIMULATION TABLES */
+        .sim-table-container {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .sim-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .sim-table th {
+            text-align: left;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sim-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .sim-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .val-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .val-positive {
+            color: var(--financial-green);
+        }
+
+        .val-negative {
+            color: var(--financial-red);
+        }
+
+        /* MATH BLOCK */
+        .math-block {
+            background: #000;
+            border-left: 3px solid var(--accent-purple);
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #a855f7;
+            margin-bottom: 40px;
+            overflow-x: auto;
+        }
+
+        /* CONCLUSION */
+        .roi-conclusion {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .roi-text h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .roi-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            background-image: linear-gradient(135deg, #3b82f6, #a855f7);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        @media (max-width: 900px) {
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .roi-conclusion {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sim-table-container {
+                overflow-x: auto;
+            }
+        }
+    </style>
+    <link href="https://dcm-digital.com/case-study-tokenized-bond.html" rel="canonical" />
+    <link href="styles-footer.css" rel="stylesheet" /> <!-- NEW SUPER FOOTER -->
+    <script src="js/cookie-consent.js"></script>
+    <script src="js/cta-tracker.js"></script>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+</head>
+
+<body>
+    <!-- NAVIGATION -->
+    <nav class="hub-nav p-4 flex justify-between items-center transition-all duration-300">
+        <div class="flex items-center space-x-3">
+            <a class="flex items-center space-x-2 text-white hover:text-blue-400 transition-colors" href="index.html">
+                <i class="fas fa-chart-line text-xl text-blue-500"></i>
+                <span class="font-bold text-lg tracking-wide hidden sm:inline">DCM DIGITAL</span>
+                <span
+                    class="text-xs text-slate-400 ml-2 py-0.5 px-2 bg-slate-800 rounded-full border border-slate-700">Quant</span>
+            </a>
+            <div class="flex items-center space-x-2 ml-4 pl-4 border-l border-slate-700">
+                <a href="../fr/case-study-tokenized-bond.html"
+                    style="text-decoration: none; font-size: 12px; color: var(--text-muted);">FR</a>
+                <a href="#" style="text-decoration: none; font-size: 12px; color: white; font-weight: bold;">EN</a>
+            </div>
+        </div>
+        <div class="flex items-center space-x-6 text-sm font-medium">
+            <a class="text-slate-300 hover:text-white transition-colors" href="series-a-narrative.html">Series A</a>
+            <a class="text-blue-400 hover:text-blue-300 transition-colors hidden sm:inline" href="javascript:void(0)"
+                onclick="window.print()">
+                <i class="fas fa-print mr-2"></i>Print Report
+            </a>
+        </div>
+    </nav>
+
+    <!-- EXECUTIVE LAYER (Phase 1) -->
+    <section class="max-w-6xl mx-auto px-5 mt-24 mb-10" data-aos="fade-up">
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px;">
+            <!-- 3-Bullet Summary -->
+            <div
+                style="background: rgba(15, 23, 42, 0.6); border: 1px solid #3b82f6; border-radius: 16px; padding: 25px;">
+                <h3
+                    style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #3b82f6; margin-bottom: 15px;">
+                    Executive Summary</h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px; display: flex; gap: 12px; font-size: 15px;">
+                        <i class="fas fa-check-circle" style="color: #3b82f6; margin-top: 4px;"></i>
+                        <span>Analysis of a tokenized bond issuance (100M€) on private DLT infrastructure.</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; gap: 12px; font-size: 15px;">
+                        <i class="fas fa-check-circle" style="color: #3b82f6; margin-top: 4px;"></i>
+                        <span>Elimination of settlement risk (DvP) via atomic Delivery-vs-Payment.</span>
+                    </li>
+                    <li style="display: flex; gap: 12px; font-size: 15px;">
+                        <i class="fas fa-check-circle" style="color: #3b82f6; margin-top: 4px;"></i>
+                        <span>70% reduction in post-market costs through automation of Corporate Actions.</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- CRO Box -->
+            <div
+                style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(245, 158, 11, 0.1)); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 16px; padding: 25px;">
+                <h3
+                    style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #f59e0b; margin-bottom: 15px;">
+                    Why this matters for a CRO</h3>
+                <p style="font-size: 14px; color: #94a3b8; line-height: 1.5;">
+                    "This case study demonstrates how DLT transforms systemic risk into balance sheet efficiency.
+                    It is the #1 argument for migrating Fixed Income activities to the blockchain."
+                </p>
+                <div
+                    style="margin-top: 15px; font-size: 12px; font-weight: 700; color: white; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-coins"></i> QUANTIFIED VALUE PROPOSITION
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- HERO SECTION -->
+    <section class="case-hero">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1.5 rounded-full border border-blue-800 bg-blue-900/30 text-blue-400 text-xs font-bold uppercase tracking-wider mb-6"
+                data-aos="fade-down">
+                Quantified Institutional Use Case
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight" data-aos="fade-up"
+                data-aos-delay="100">
+                Tokenized Bond Issuance: <br /><span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">500M€ on
+                    DLT</span>
+            </h1>
+            <p class="text-lg text-slate-400 mb-8 max-w-3xl mx-auto font-light" data-aos="fade-up" data-aos-delay="200">
+                Empirical demonstration of DCM Governance OS value. We analyze the impact of technological risk steering
+                on the capital charge of a tier-1 issuer.
+            </p>
+        </div>
+    </section>
+    <!-- MAIN CONTENT -->
+    <section class="case-section">
+        <div class="board-header" data-aos="fade-up">
+            <div>
+                <h2 class="text-2xl font-bold text-white">Board-Ready Business Case</h2>
+                <p class="text-sm text-slate-400 mt-1">Date: Q1 2026 | Hypothèse Conservatrice (Bâle III - OpRisk)</p>
+            </div>
+            <button class="pdf-download-btn" onclick="alert('Board-Ready PDF Export generated.')">
+                <i class="far fa-file-pdf mr-2"></i> Export Board PDF
+            </button>
+        </div>
+        <!-- POSTULAT -->
+        <div class="mb-10 text-slate-300 leading-relaxed font-light" data-aos="fade-up">
+            <p class="mb-4">
+                <strong>Premise:</strong> A systemic bank executes a Digital Bond issuance of 500 Million Euros on the
+                <strong>SWIAT</strong> institutional network (Permissioned DLT), with settlement via a Wholesale
+                Stablecoin.
+            </p>
+            <p>
+                Without an algorithmic monitoring system dedicated to DLT specificities (Smart Contracts, Oracles,
+                Bridging), the entire principal is exposed to a liquidity discount and requires maximum operational
+                capital provisioning (Capital Floor RWA).
+            </p>
+        </div>
+        <!-- METRICS OVERVIEW -->
+        <div class="metrics-grid" data-aos="fade-up" data-aos-delay="100">
+            <div class="metric-card">
+                <div class="metric-title">Notional Issued</div>
+                <div class="metric-value">€500M</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Primary Network</div>
+                <div class="metric-value" style="font-size: 1.4rem; padding-top: 5px;">SWIAT (DLT)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Settlement (DvP)</div>
+                <div class="metric-value" style="font-size: 1.4rem; padding-top: 5px;">Wholesale CBDC</div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--warning-orange);">
+                <div class="metric-title">Basel III OpRisk (Standard)</div>
+                <div class="metric-value text-orange-400">12.5%</div>
+            </div>
+        </div>
+
+        <!-- DATA ASSUMPTIONS DISCLAIMER -->
+        <div style="font-size: 0.85rem; color: var(--text-muted); padding: 20px; border-left: 3px solid var(--warning-orange); background: rgba(245, 158, 11, 0.05); border-radius: 6px; margin-bottom: 40px;"
+            data-aos="fade-up">
+            <h4 style="color: var(--warning-orange); font-weight: 700; margin-bottom: 8px; font-size: 0.95rem;">
+                <i class="fas fa-shield-alt" style="margin-right: 8px;"></i> CONSERVATIVE ASSUMPTIONS USED
+            </h4>
+            <ul style="list-style-type: disc; padding-left: 20px; margin-bottom: 0;">
+                <li style="margin-bottom: 6px;">ROI and cost reduction metrics are modeled on a 100M€ primary bond
+                    emission
+                    over 3 years via an institutional DLT (e.g., Canton Network).</li>
+                <li style="margin-bottom: 6px;">Internal IT integration costs (Legacy Bridge API) <strong>are not
+                        minimized</strong> and are included as maximum infrastructure friction (1.2M€ CAPEX Year 1).
+                </li>
+                <li style="margin-bottom: 6px;">The <em>Loss Given Event (LGE)</em> is evaluated at 1.0 (total loss of
+                    value in case of DLT failure) to maximize the operational stress test according to Basel III.</li>
+                <li>This simulation is illustrative and does not replace an evaluation validated by your MRM department.
+                    <a href="regulatory-transparency.html"
+                        style="color: var(--accent-blue); text-decoration: underline;">Consult our Regulatory
+                        Transparency Framework</a>.
+                </li>
+            </ul>
+        </div>
+
+        <!-- SCENARIO COMPARISON -->
+        <h3 class="text-xl font-bold text-white mb-6" data-aos="fade-up">Simulation : Impact sur la Charge en Capital
+            (Capital Buffer)</h3>
+        <div class="sim-table-container" data-aos="fade-up">
+            <table class="sim-table">
+                <thead>
+                    <tr>
+                        <th>Risk Parameter</th>
+                        <th>Scenario A: Without DCM (Legacy MRM)</th>
+                        <th>Scenario B: With DCM Governance OS</th>
+                        <th>Algorithmic Impact (DCM)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Smart Contract Visibility</strong></td>
+                        <td>Black Box (Static T0 Audit)</td>
+                        <td>Monitored in Real-Time (<span class="val-mono">DCM_Hash</span>)</td>
+                        <td class="val-positive"><i class="fas fa-check-circle mr-2"></i> Proven Mitigation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Correlation Risk (Network)</strong></td>
+                        <td>Considered Independent (False)</td>
+                        <td>DCM Systemic Stress Test applied</td>
+                        <td class="val-positive"><i class="fas fa-check-circle mr-2"></i> Exact Modeling</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Operational Default Probability</strong></td>
+                        <td class="val-mono">P(Default) = 2.50%</td>
+                        <td class="val-mono text-blue-400">P(Default) = 0.85%</td>
+                        <td class="val-positive"><i class="fas fa-arrow-down mr-2"></i> -1.65 pts</td>
+                    </tr>
+                    <tr style="background: rgba(255,255,255,0.02);">
+                        <td><strong>Capital Allocation (RWA Equivalent)</strong></td>
+                        <td class="val-mono text-orange-400">€62,500,000</td>
+                        <td class="val-mono text-emerald-400">€21,250,000</td>
+                        <td class="val-positive font-bold"><i class="fas fa-arrow-down mr-2"></i> -66% Provision</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- INTERACTIVE CHART -->
+        <div class="mb-10 p-6 bg-slate-900 rounded-xl border border-slate-700" data-aos="fade-up">
+            <h4 class="text-lg font-bold text-white mb-6 text-center">Capital Charge Comparison (OpRisk RWA)
+            </h4>
+            <div style="position: relative; height:300px; width:100%; max-width:700px; margin:0 auto;">
+                <canvas id="capitalChart"></canvas>
+            </div>
+        </div>
+        <!-- MATH JUSTIFICATION -->
+        <h3 class="text-xl font-bold text-white mb-4" data-aos="fade-up">Mathematical Foundations (Excerpt)</h3>
+        <p class="text-sm text-slate-400 mb-4" data-aos="fade-up">Capital optimization is based on demonstrating to the
+            regulator the reduction of technological operational <em>Loss Given Default (LGD)</em> through deterministic
+            observability.</p>
+        <div class="math-block" data-aos="fade-up">
+            // Capital Operational RWA Calculation (Simplified Basel III AMA Proxy)
+
+            Capital_Charge = Exposure_At_Default(EAD) * Probability_Of_Event(PoE) * Loss_Given_Event(LGE)
+
+            Where:
+            EAD = €500,000,000
+            Legacy_PoE = 0.025 (Average DLT Blackbox Risk)
+            DCM_PoE = 0.0085 (Continuous Auditable Governance)
+            LGE = 1.00 (Total Loss of function assumption in worst case)
+
+            Legacy_Capital_Charge = 500M * 0.025 * 1 = €12,500,000 (Expected Loss / base provision)
+            Regulatory_Multiplier (OpRisk) = 5x
+            Legacy_RWA_Capital_Impact = 12.5M * 5 = €62,500,000
+
+            DCM_Governed_Capital_Impact = (500M * 0.0085 * 1) * 5 = €21,250,000
+        </div>
+        <!-- INTEGRATION COST (FRICTION) -->
+        <div class="sim-table-container" data-aos="fade-up"
+            style="margin-top: 30px; margin-bottom: 30px; background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2);">
+            <table class="sim-table">
+                <tbody>
+                    <tr>
+                        <td style="width: 70%;"><strong>IT Integration Friction (Year 1 CAPEX)</strong><br><span
+                                style="font-size: 0.8rem; color: var(--text-muted);">Cost of integrating the DCM Oracle
+                                to the Core Banking System (Legacy API) + External Security Audit</span></td>
+                        <td class="val-mono text-orange-400 font-bold" style="text-align: right;">- €1,200,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CONCLUSION ROI -->
+        <div class="roi-conclusion" data-aos="fade-up">
+            <div class="roi-text">
+                <h3>Net Capital Unlock (Capital Optimization)</h3>
+                <p class="text-slate-300 text-sm max-w-xl">
+                    By proving to regulators that the DLT infrastructure is audited, monitored and governed via the DCM
+                    OS instead of an Excel spreadsheet, the bank justifies a drastic reduction in its capital buffer.
+                    This released capital (RoC), <em>even after deducting heavy integration costs (Friction)</em>,
+                    immediately finances the risk steering.
+                </p>
+            </div>
+            <div class="roi-value">
+                €40.05M
+                <div class="text-xs text-blue-400 text-center uppercase tracking-widest mt-1">Net Capital Released</div>
+            </div>
+        </div>
+
+        <!-- CONTEXTUAL CTA -->
+        <div style="text-align: center; margin-top: 40px;" data-aos="fade-up">
+            <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 15px;">Calculate the balance sheet
+                impact for
+                your own issuance operations.</p>
+            <a href="mailto:contact@dcm-digital.com" class="btn-primary"
+                style="padding: 12px 24px; font-size: 15px; text-decoration: none;"><i class="fas fa-calculator"
+                    style="margin-right: 8px;"></i> Request a Personalized Simulation</a>
+        </div>
+    </section>
+    <!-- INSTITUTIONAL VALIDATION (Social Proof Phase 2) -->
+    <section class="max-w-6xl mx-auto px-5 py-12" data-aos="fade-up">
+        <div
+            class="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-university"></i> <span class="text-xs font-bold uppercase tracking-widest">SWIAT
+                    Infrastructure</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-double"></i> <span class="text-xs font-bold uppercase tracking-widest">ISAE 3402
+                    Type II</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-shield"></i> <span class="text-xs font-bold uppercase tracking-widest">DORA
+                    Compliant</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- METHODOLOGY & ASSUMPTIONS (Phase 1 Transparency) -->
+    <section class="max-w-6xl mx-auto px-5 py-12" data-aos="fade-up">
+        <div class="bg-slate-900 shadow-2xl rounded-2xl border border-slate-800 p-8">
+            <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                <i class="fas fa-calculator text-blue-500"></i> Methodology & Calculation Assumptions
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-3">RWA Reduction</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Calculated on the basis of substituting 'Unrated
+                        Corporate' exposure (RW 100%) with a 'Qualifying Infrastructure DLT' exposure (RW 20% subject to
+                        supervisory validation).</p>
+                </div>
+                <div>
+                    <h4 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-3">Post-Market Costs</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Assumption of elimination of manual T+2
+                        reconciliation. Based on an average cost of 45€ per instruction via Swift vs 2€ via atomic DCM
+                        notarization.</p>
+                </div>
+                <div>
+                    <h4 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-3">VaR Stress Test</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Monte Carlo simulation (10,000 iterations).
+                        Integration of a correlation factor of 0.85 between DLT liquidity risk and underlying market
+                        risk.</p>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-slate-800 text-[11px] text-slate-500 italic">
+                * The simulations presented are provided for information only and must be validated by your own internal
+                risk management models (MRM).
+            </div>
+        </div>
+    </section>
+
+    <!-- RELATED STRATEGIC INSIGHTS -->
+    <section class="max-w-6xl mx-auto px-5 py-20 border-t border-slate-800/40" data-aos="fade-up">
+        <h3 class="text-xl font-bold text-white mb-8">Related Strategic Insights</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a href="governance-os-landing.html"
+                class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-blue-500 transition-all group">
+                <div class="text-xs uppercase text-slate-500 group-hover:text-blue-400 mb-2">Platform</div>
+                <div class="text-sm font-bold text-slate-200">Governance OS <i
+                        class="fas fa-arrow-right ml-1 opacity-0 group-hover:opacity-100 transition-opacity"></i></div>
+            </a>
+            <a href="regulatory-mapping.html"
+                class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-emerald-500 transition-all group">
+                <div class="text-xs uppercase text-slate-500 group-hover:text-emerald-400 mb-2">Compliance</div>
+                <div class="text-sm font-bold text-slate-200">Regulatory Mapping <i
+                        class="fas fa-arrow-right ml-1 opacity-0 group-hover:opacity-100 transition-opacity"></i></div>
+            </a>
+            <a href="mrm-hub.html"
+                class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-emerald-500 transition-all group">
+                <div class="text-xs uppercase text-slate-500 group-hover:text-emerald-400 mb-2">Risk Management</div>
+                <div class="text-sm font-bold text-slate-200">MRM Hub <i
+                        class="fas fa-arrow-right ml-1 opacity-0 group-hover:opacity-100 transition-opacity"></i></div>
+            </a>
+            <a href="economic-model.html"
+                class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-purple-500 transition-all group">
+                <div class="text-xs uppercase text-slate-500 group-hover:text-purple-400 mb-2">SaaS Logic</div>
+                <div class="text-sm font-bold text-slate-200">Economic Model <i
+                        class="fas fa-arrow-right ml-1 opacity-0 group-hover:opacity-100 transition-opacity"></i></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- UNIFIED SUPER FOOTER -->
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById('capitalChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Legacy MRM (Sans DCM)', 'DCM Governance OS'],
+                        datasets: [{
+                            label: 'Capital Allocation (€ Millions)',
+                            data: [62.5, 21.25],
+                            backgroundColor: [
+                                'rgba(245, 158, 11, 0.8)', // Orange
+                                'rgba(16, 185, 129, 0.8)'  // Emerald
+                            ],
+                            borderColor: [
+                                '#f59e0b',
+                                '#10b981'
+                            ],
+                            borderWidth: 1,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        return context.raw + 'M €';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                                ticks: { color: '#94a3b8', callback: function (value) { return value + 'M'; } }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#f8fafc', font: { weight: 'bold' } }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- MAIN FOOTER -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- 0. BRAND -->
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                    <p>Analysis platform dedicated to asset tokenization and public/institutional blockchain
+                        infrastructure.</p>
+                    <div class="footer-socials">
+                        <a aria-label="LinkedIn" class="social-btn" href="https://www.linkedin.com/in/joan-lyczak/"
+                            target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a aria-label="GitHub" class="social-btn"
+                            href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank"><i
+                                class="fab fa-github"></i></a>
+                        <a aria-label="Twitter" class="social-btn" href="https://x.com/Joan_Lyczak" target="_blank"><i
+                                class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <!-- 1. PRODUCT -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Central Hub</a></li>
+                        <li><a href="sandbox.html">Dashboard</a></li>
+                        <li><a href="simple.html">Academy</a></li>
+                        <li><a href="guide.html">Expert Guide</a></li>
+                        <li><a href="yield-mechanics.html">Simulation Engine</a></li>
+                        <li><a href="quiz.html">Certification</a></li>
+                        <li><a href="pricing-institutional.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <!-- 2. RESEARCH -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research</h4>
+                    <ul class="footer-links">
+                        <li><a href="rwa.html">RWA & DeFi</a></li>
+                        <li><a href="yield-mechanics.html">Yield Mechanics</a></li>
+                        <li><a href="web3.html">Web3 Infrastructure</a></li>
+                        <li><a href="ai-finance.html">AI & Finance</a></li>
+                        <li><a href="institutional-problem-statement.html">Strategic Vision</a></li>
+                        <li><a href="competitive-landscape.html">Competitive Landscape</a></li>
+                        <li><a href="series-a-narrative.html">Series A Deck</a></li>
+                        <li><a href="governance-os-landing.html">Institutional Governance</a></li>
+                        <li><a href="mrm-hub.html">MRM Hub</a></li>
+                        <li><a href="data-certification.html">Data Trust Certif</a></li>
+                        <li><a href="case-study-tokenized-bond.html">Quantified Use Case</a></li>
+                        <li><a href="economic-model.html">Economic Model</a></li>
+                        <li><a href="regulatory-mapping.html">Regulatory Mapping</a></li>
+                        <li><a href="legal-matrix.html">Global Matrix</a></li>
+                        <li><a href="networks/index.html">Blockchain Networks</a></li>
+                    </ul>
+                </div>
+                <!-- 3. INFRASTRUCTURE -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                        Infrastructure</h4>
+                    <ul class="footer-links">
+                        <li><a href="lifecycle.html">Asset Lifecycle</a></li>
+                        <li><a href="flux-comparison.html">Flux Comparator</a></li>
+                        <li><a href="legal_pilot.html">Pilot Regime (EU)</a></li>
+                        <li><a href="sandbox.html">Sandbox</a></li>
+                        <li><a href="deployment-architecture.html">Deployment Arch</a></li>
+                        <li><a href="networks/swiat.html">SWIAT</a></li>
+                        <li><a href="networks/canton.html">Canton Network</a></li>
+                    </ul>
+                </div>
+                <!-- 4. CORPORATE -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Corporate
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="methodology.html">Methodology</a></li>
+                        <li><a href="current-status.html">Roadmap & Status</a></li>
+                        <li><a href="guide.html">Documentation</a></li>
+                        <li><a href="index-simple.html">Corporate Site</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="investor-login.html" style="color: #a855f7;"><i class="fas fa-lock"
+                                    style="font-size: 10px; margin-right: 4px;"></i> Investor Room</a></li>
+                        <li><a href="mailto:contact@dcm-digital.com">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- 5. LEGAL -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-shield-alt" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Legal
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="mentions-legales.html">Legal Mentions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="cgu.html">Terms of Use</a></li>
+                        <li><a href="cookies.html">Cookie Policy</a></li>
+                        <li><a href="methodology.html#disclaimer">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer"
+                style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto;">
+                <strong>Regulatory Transparency:</strong> DCM Digital quantifies technological risks of DLT
+                infrastructures. We do not provide legal, compliance or investment advice. Regulatory data (DORA, MiCA,
+                Basel III) are used as systemic modeling references and require independent analysis from your risk
+                departments. <a href="regulatory-transparency.html"
+                    style="color: #3b82f6; text-decoration: underline;">Consult our Transparency Framework</a>.
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content"
+                    style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="copyright">
+                        © 2026 DCM Digital • Version 4.3.0
+                    </div>
+                    <div class="legal-links">
+                        <a href="support-it.html">Support IT</a>
+                        <a href="api-docs.html">Documentation API</a>
+                    </div>
+                </div>
+            </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Login | DCM Digital</title>
+    <link rel="stylesheet" href="styles-sandbox.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            color: #f8fafc;
+            font-family: 'Inter', -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-box {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .login-box h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .login-box p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .login-input:focus {
+            border-color: #a855f7;
+        }
+
+        .btn-login {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: #a855f7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background: #9333ea;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        #error-msg {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+    <script src="js/cookie-consent.js"></script>
+    <script src="js/cta-tracker.js"></script>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+</head>
+
+<body>
+
+    <div class="login-box">
+        <i class="fas fa-lock" style="font-size: 40px; color: #a855f7; margin-bottom: 15px;"></i>
+        <h1>Investor Data Room</h1>
+        <p>Restricted Access. Please enter the master password provided by the founder.</p>
+
+        <input type="password" id="passwordInput" class="login-input" placeholder="••••••••"
+            onkeypress="handleEnter(event)">
+        <button class="btn-login" onclick="checkPassword()">Access Data Room</button>
+
+        <div id="error-msg">Incorrect password. Please try again or contact management.</div>
+    </div>
+
+    <script>
+        const VALID_PASSWORDS = ["SERIES-A", "DCM2026", "GUEST"];
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value.toUpperCase();
+            const errorMsg = document.getElementById('error-msg');
+
+            if (VALID_PASSWORDS.includes(input)) {
+                // Store auth state in sessionStorage (simple security for demo purposes)
+                sessionStorage.setItem('dcm_investor_auth', 'true');
+                window.location.href = 'investor-relations.html';
+            } else {
+                errorMsg.style.display = 'block';
+                // Shake effect
+                const box = document.querySelector('.login-box');
+                box.style.transform = 'translateX(-10px)';
+                setTimeout(() => box.style.transform = 'translateX(10px)', 100);
+                setTimeout(() => box.style.transform = 'translateX(-10px)', 200);
+                setTimeout(() => box.style.transform = 'translateX(0)', 300);
+            }
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        }
+    </script>
+</body>
+
+</html>

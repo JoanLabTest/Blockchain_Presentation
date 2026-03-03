@@ -1,0 +1,137 @@
+/* HUB 3D STYLES */
+
+/* --- 1. HERO 3D CUBE --- */
+.cube-scene {
+    width: 200px;
+    height: 200px;
+    perspective: 600px;
+    margin: 0 auto;
+}
+
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotate 15s infinite linear;
+}
+
+.cube__face {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 2px solid rgba(59, 130, 246, 0.5);
+    background: rgba(15, 23, 42, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2) inset;
+    backdrop-filter: blur(5px);
+}
+
+.cube__face--front {
+    transform: rotateY(0deg) translateZ(100px);
+}
+
+.cube__face--right {
+    transform: rotateY(90deg) translateZ(100px);
+}
+
+.cube__face--back {
+    transform: rotateY(180deg) translateZ(100px);
+}
+
+.cube__face--left {
+    transform: rotateY(-90deg) translateZ(100px);
+}
+
+.cube__face--top {
+    transform: rotateX(90deg) translateZ(100px);
+}
+
+.cube__face--bottom {
+    transform: rotateX(-90deg) translateZ(100px);
+}
+
+/* Animation Keyframes */
+@keyframes rotate {
+    0% {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+/* Glow Effect inside Cube */
+.cube__face i {
+    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.8));
+}
+
+/* --- 2. TILT CARDS --- */
+/* The base card style is in index.html, we modify the transform behavior here via JS mostly, 
+   but we add some lightning effects */
+.universe-card {
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+}
+
+.universe-card:hover {
+    /* Enhanced glow on hover */
+    box-shadow:
+        0 20px 40px -10px rgba(59, 130, 246, 0.3),
+        0 0 20px rgba(59, 130, 246, 0.1) inset;
+}
+
+.card-icon {
+    transform: translateZ(30px);
+    /* Parallax Effect */
+}
+
+.card-title {
+    transform: translateZ(20px);
+}
+
+.card-desc {
+    transform: translateZ(10px);
+}
+
+/* --- 3. LINKEDIN BUTTON --- */
+.linkedin-btn {
+    background: #0077b5;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.linkedin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 119, 181, 0.4);
+}
+
+.linkedin-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: 0.5s;
+}
+
+.linkedin-btn:hover::after {
+    left: 100%;
+}

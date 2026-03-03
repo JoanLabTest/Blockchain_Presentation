@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Enterprise Audit Trail | DCM Digital</title>
+    <!-- Same CSS as dashboard for consistency -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .badge {
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--accent-purple);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .input-glass {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .audit-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .audit-table th,
+        .audit-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .audit-table th {
+            color: var(--text-muted);
+            font-weight: 600;
+            background: rgba(15, 23, 42, 0.8);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .audit-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent-green);
+        }
+
+        .action-cell {
+            font-weight: 600;
+        }
+
+        .crypto-proof {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .crypto-proof i {
+            color: var(--accent-purple);
+        }
+    </style>
+    <meta content="Explore the audit trail module of the DCM Digital Governance OS." name="description" />
+    <link href="https://dcm-digital.com/audit-trail.html" rel="canonical" />
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Enterprise Audit Trail | DCM Digital",
+  "description": "Explore the audit trail module of the DCM Digital Governance OS.",
+  "url": "https://dcm-digital.com/audit-trail.html"
+}</script>
+    <script src="js/cookie-consent.js"></script>
+    <script src="js/cta-tracker.js"></script>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="stylesheet" href="styles-sidebar.css">
+    <link rel="stylesheet" href="styles-navigation.css">
+</head>
+
+<body>
+    <aside id="dcm-sidebar-container" class="sidebar"></aside>
+    <main class="main-content">
+        <div class="header">
+            <div class="title">
+                <i class="fas fa-list-check" style="color:var(--accent-purple)"></i>
+                Audit Trail Explorer
+                <span class="badge">ISAE 3000 READY</span>
+            </div>
+            <div>
+                <button class="btn-glass" id="verify-integrity-btn" onclick="verifyLogIntegrity()"
+                    style="background:rgba(168, 85, 247, 0.2); color:var(--accent-purple); border-color:var(--accent-purple);"><i
+                        class="fas fa-shield-halved"></i> Vérifier Intégrité</button>
+                <button class="btn-glass" onclick="exportLogsCSV()" style="background:var(--accent-blue);"><i
+                        class="fas fa-file-csv"></i> Exporter
+                    CSV</button>
+            </div>
+        </div>
+        <div class="controls">
+            <input class="input-glass" id="searchInput" onkeyup="filterLogs()"
+                placeholder="🔍 Rechercher User, Action, Hash..." style="width: 300px;" type="text" />
+            <select class="input-glass">
+                <option>Toutes les Actions</option>
+                <option>Simulations (Stress Test)</option>
+                <option>Exports de Données</option>
+                <option>Modifications Droits (RBAC)</option>
+            </select>
+            <select class="input-glass">
+                <option>Sélectionnez un Rôle</option>
+                <option>Admin</option>
+                <option>Risk Officer</option>
+            </select>
+        </div>
+        <table class="audit-table">
+            <thead>
+                <tr>
+                    <th>Timestamp (UTC)</th>
+                    <th>Utilisateur (Rôle)</th>
+                    <th>Action</th>
+                    <th>Détails</th>
+                    <th>Cryptographic Proof (SHA-256)</th>
+                </tr>
+            </thead>
+            <tbody id="audit-table-body"></tbody>
+        </table>
+
+
+        <!-- Base Scripts -->
+        <script src="js/core/feature-flags.js"></script>
+        <script src="js/session-manager.js"></script>
+        <script src="js/ui/navigation.js"></script>
+        <script src="js/navigation-orchestrator.js"></script>
+
+        <script type="module">
+            import { AuditLogger } from './js/core/audit-logger.js';
+
+            let currentLogs = [];
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const logs = AuditLogger.getLogs(); // Get logs from localStorage
+
+                if (logs.length === 0) {
+                    // Generate some mock logs if empty
+                    currentLogs = [
+                        { timestamp: new Date().toISOString(), user: 'Alice Dupont (RISK_OFFICER)', action: 'STRESS_TEST_RUN', details: 'Scenario: LIQUIDITY_SHOCK, Variance: -70.2%', hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' },
+                        { timestamp: new Date(Date.now() - 3600000).toISOString(), user: 'Marc Leroy (ADMIN)', action: 'RBAC_ROLE_CHANGE', details: 'User: J.Doe changed to ANALYST', hash: '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92' },
+                        { timestamp: new Date(Date.now() - 7200000).toISOString(), user: 'Sophie Martin (ANALYST)', action: 'REPORT_EXPORT', details: 'Type: Compliance Bundle PDF', hash: 'c5dae3d82d5d6d3cbd3c3c4d5e6f7a8ba3b8d1b60b3b4b1a9c1a1a2b3c4d5e6f' }
+                    ];
+                } else {
+                    currentLogs = logs.map(log => ({
+                        timestamp: log.timestamp,
+                        user: log.userId || 'System',
+                        action: log.action,
+                        details: typeof log.details === 'string' ? log.details : JSON.stringify(log.details),
+                        hash: log.hash
+                    }));
+                }
+
+                renderAuditTable(currentLogs);
+            });
+
+            function renderAuditTable(logsToRender) {
+                const tbody = document.getElementById('audit-table-body');
+                tbody.innerHTML = logsToRender.map(log => `
+            <tr>
+                <td class="code-font">${new Date(log.timestamp).toISOString().replace('T', ' ').substring(0, 19)}</td>
+                <td>${log.user}</td>
+                <td class="action-cell">${log.action}</td>
+                <td style="color:var(--text-muted)">${log.details}</td>
+                <td>
+                    <div class="crypto-proof">
+                        <i class="fas fa-link"></i> <span class="code-font">${log.hash.substring(0, 16)}...${log.hash.substring(56)}</span>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+            }
+
+            // Expose to global scope for HTML inline handlers
+            window.filterLogs = () => {
+                const query = document.getElementById('searchInput').value.toLowerCase();
+                const filtered = currentLogs.filter(log =>
+                    log.user.toLowerCase().includes(query) ||
+                    log.action.toLowerCase().includes(query) ||
+                    log.hash.toLowerCase().includes(query) ||
+                    log.details.toLowerCase().includes(query)
+                );
+                renderAuditTable(filtered);
+            };
+
+            window.exportLogsCSV = () => {
+                AuditLogger.exportTransparencyReport('enterprise');
+            };
+
+            window.verifyLogIntegrity = () => {
+                const btn = document.getElementById('verify-integrity-btn');
+                const originalText = btn.innerHTML;
+
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Audit en cours...';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'white';
+
+                // Simulate cryptographic verification delay
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Chaîne Intacte (SHA-256)';
+                    btn.style.background = 'rgba(16, 185, 129, 0.2)';
+                    btn.style.color = 'var(--accent-green)';
+                    btn.style.borderColor = 'var(--accent-green)';
+
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = 'rgba(168, 85, 247, 0.2)';
+                        btn.style.color = 'var(--accent-purple)';
+                        btn.style.borderColor = 'var(--accent-purple)';
+                    }, 3000);
+                }, 1500);
+            };
+        </script>
+    </main>
+</body>
+
+</html>

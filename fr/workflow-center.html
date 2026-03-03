@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <!-- DEV MASTER UNLOCK -->
+    <script src="js/dev-unlock.js"></script>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Enterprise Workflow Center | DCM Digital</title>
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-gold: #f59e0b;
+            --accent-green: #10b981;
+            --border: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR - Handled by styles-sidebar.css */
+
+        .side-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .side-link:hover,
+        .side-link.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+        }
+
+        /* MAIN - Handled by styles-sidebar.css */
+        .main-content {
+            padding: 60px 80px;
+            max-width: 1400px;
+        }
+
+        .hero {
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 700px;
+        }
+
+        /* WORKFLOW GRID */
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 25px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.02);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* STATUS BADGES */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .status-paused {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-gold);
+        }
+
+        /* ACTION AREA */
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            transition: 0.3s;
+            font-family: 'Urbanist', sans-serif;
+        }
+
+        .btn:hover {
+            background: white;
+            color: var(--bg-dark);
+        }
+
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: #334155;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toggle.active {
+            background: var(--accent-blue);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: 0.3s;
+        }
+
+        .toggle.active::after {
+            left: 23px;
+        }
+
+        /* LOGS PANEL */
+        .logs-panel {
+            margin-top: 50px;
+            background: #020617;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .log-entry {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .log-time {
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .log-msg {
+            color: #cbd5e1;
+        }
+
+        /* ===== MODAL STYLES ===== */
+        .wf-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.85);
+            z-index: 10000;
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wf-modal-overlay.open {
+            display: flex;
+        }
+
+        .wf-modal {
+            background: #0f172a;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            padding: 36px;
+            max-width: 520px;
+            width: 94%;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+        }
+
+        .wf-modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .wf-modal-close:hover {
+            color: white;
+        }
+
+        .wf-modal h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wf-modal-sub {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .wf-field {
+            margin-bottom: 18px;
+        }
+
+        .wf-label {
+            display: block;
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .wf-input,
+        .wf-select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 11px 15px;
+            color: white;
+            font-size: 14px;
+            font-family: 'Urbanist', sans-serif;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .wf-input:focus,
+        .wf-select:focus {
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .wf-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .wf-range {
+            width: 100%;
+            accent-color: var(--accent-blue);
+            cursor: pointer;
+        }
+
+        .wf-range-val {
+            min-width: 44px;
+            text-align: center;
+            color: var(--accent-blue);
+            font-weight: 800;
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .wf-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .wf-btn-save {
+            flex: 1;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Urbanist', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .wf-btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35);
+        }
+
+        .wf-btn-cancel {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Urbanist', sans-serif;
+        }
+    </style>
+    <meta content="Explore the workflow center module of the DCM Digital Governance OS." name="description" />
+    <link href="https://dcm-digital.com/workflow-center.html" rel="canonical" />
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Enterprise Workflow Center | DCM Digital",
+  "description": "Explore the workflow center module of the DCM Digital Governance OS.",
+  "url": "https://dcm-digital.com/workflow-center.html"
+}</script>
+    <script src="js/cookie-consent.js"></script>
+    <script src="js/cta-tracker.js"></script>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <link rel="stylesheet" href="styles-sidebar.css">
+    <link rel="stylesheet" href="styles-navigation.css">
+</head>
+
+<body>
+    <aside id="dcm-sidebar-container" class="sidebar"></aside>
+
+    <main class="main-content" style="padding: 40px;">
+        <header class="hero">
+            <h1>Workflow Center</h1>
+            <p>Automatisez la surveillance de vos modèles DCM et planifiez vos audits institutionnels sans intervention
+                manuelle.</p>
+        </header>
+        <div class="workflow-grid">
+            <!-- MODEL SENSITIVITY ALERT -->
+            <div class="card">
+                <div class="status status-active"><i class="fas fa-circle" style="font-size:7px;"></i> Actif</div>
+                <div class="card-icon"><i class="fas fa-bell"></i></div>
+                <div class="card-title">Model Sensitivity Alert</div>
+                <div class="card-desc">
+                    Déclenche une alerte si le score d'un protocole surveillé varie de plus de <strong>15%</strong> en
+                    moins de 24h. Aligne les équipes Risk immédiatement.
+                </div>
+                <div class="card-actions">
+                    <button class="btn" onclick="openModal('sensitivity')"><i class="fas fa-sliders"
+                            style="margin-right:6px;"></i>Éditer les seuils</button>
+                    <div class="toggle active"></div>
+                </div>
+            </div>
+            <!-- QUARTERLY METHODOLOGY CHECKUP -->
+            <div class="card">
+                <div class="status status-active"><i class="fas fa-circle" style="font-size:7px;"></i> Actif</div>
+                <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="card-title">Quarterly Reg-Review</div>
+                <div class="card-desc">
+                    Génère automatiquement un rapport de conformité Bâle III / DORA chaque trimestre pour le département
+                    Compliance.
+                </div>
+                <div class="card-actions">
+                    <button class="btn" onclick="openModal('pdf')"><i class="fas fa-file-pdf"
+                            style="margin-right:6px;"></i>Configurer PDF</button>
+                    <div class="toggle active"></div>
+                </div>
+            </div>
+            <!-- AUDIT TRAIL SYNC -->
+            <div class="card">
+                <div class="status status-paused"><i class="fas fa-pause-circle"></i> Suspendu</div>
+                <div class="card-icon"><i class="fas fa-cloud-arrow-up" style="color:var(--accent-gold)"></i></div>
+                <div class="card-title">Cloud Archive Sync</div>
+                <div class="card-desc">
+                    Exportation miroir de tous les logs SHA-256 vers votre instance Azure/AWS souveraine pour preuve de
+                    stockage hors-site.
+                </div>
+                <div class="card-actions">
+                    <button class="btn" onclick="openModal('api')"><i class="fas fa-key"
+                            style="margin-right:6px;"></i>Paramètres API</button>
+                    <div class="toggle"></div>
+                </div>
+            </div>
+            <!-- NEW WORKFLOW PLACEHOLDER -->
+            <div class="card" onclick="showNewWorkflowToast()"
+                style="border: 2px dashed var(--border); display:flex; flex-direction:column; justify-content:center; align-items:center; opacity:0.6; cursor:pointer;">
+                <i class="fas fa-plus-circle" style="font-size:32px; margin-bottom:10px; color:var(--text-muted)"></i>
+                <div style="font-weight:700; color:var(--text-muted)">Nouveau Workflow</div>
+            </div>
+        </div>
+        <section class="logs-panel">
+            <div
+                style="font-size:14px; font-weight:800; color:white; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">
+                <i class="fas fa-terminal"></i> Workflow Activity Logs
+            </div>
+            <div class="log-entry"><span class="log-time">10:24:15</span> <span class="log-msg">[ID:7742] Model
+                    Sensitivity check completed for ETH-Lido. No variance detected.</span></div>
+            <div class="log-entry"><span class="log-time">09:00:00</span> <span class="log-msg">[ID:9921] Quarterly
+                    Reg-Review (Q1 2026) generated and sent to compliance@global-asset.com.</span></div>
+            <div class="log-entry" style="color:var(--accent-gold)"><span class="log-time">08:15:33</span> <span
+                    class="log-msg">[WARNING] Cloud Archive Sync failed: Identity Provider timeout. Retrying in
+                    5m...</span></div>
+            <div class="log-entry"><span class="log-time">00:01:42</span> <span class="log-msg">[SYSTEM] Daily weighting
+                    drift analysis completed. Model stability index: 0.998.</span></div>
+        </section>
+
+
+        <!-- ===== MODAL: ÉDITER LES SEUILS ===== -->
+        <div class="wf-modal-overlay" id="modal-sensitivity" onclick="if(event.target===this)closeModal('sensitivity')">
+            <div class="wf-modal">
+                <button class="wf-modal-close" onclick="closeModal('sensitivity')"><i class="fas fa-times"></i></button>
+                <h2><i class="fas fa-bell" style="color:#3b82f6;"></i> Model Sensitivity Alert</h2>
+                <p class="wf-modal-sub">Configurez les seuils déclencheurs pour les alertes Risk automatiques.</p>
+
+                <div class="wf-field">
+                    <label class="wf-label">Seuil de variance (%)</label>
+                    <div class="wf-row">
+                        <input type="range" class="wf-range" id="varThreshold" min="1" max="50" value="15"
+                            oninput="document.getElementById('varThresholdVal').textContent=this.value+'%'" />
+                        <span class="wf-range-val" id="varThresholdVal">15%</span>
+                    </div>
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Fenêtre temporelle</label>
+                    <select class="wf-select" id="varWindow">
+                        <option value="1h">1 heure</option>
+                        <option value="6h">6 heures</option>
+                        <option value="24h" selected>24 heures</option>
+                        <option value="7j">7 jours</option>
+                    </select>
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Email d'alerte</label>
+                    <input type="email" class="wf-input" id="varEmail" placeholder="risk@institution.com"
+                        value="risk@global-asset.com" />
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Canaux de notification</label>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
+                                type="checkbox" checked style="accent-color:#3b82f6;" /> Email</label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
+                                type="checkbox" style="accent-color:#3b82f6;" /> Slack</label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
+                                type="checkbox" checked style="accent-color:#3b82f6;" /> Dashboard</label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;"><input
+                                type="checkbox" style="accent-color:#3b82f6;" /> Teams</label>
+                    </div>
+                </div>
+
+                <div class="wf-actions">
+                    <button class="wf-btn-save" onclick="saveWorkflow('sensitivity')"><i class="fas fa-save"
+                            style="margin-right:8px;"></i>Enregistrer</button>
+                    <button class="wf-btn-cancel" onclick="closeModal('sensitivity')">Annuler</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MODAL: CONFIGURER PDF ===== -->
+        <div class="wf-modal-overlay" id="modal-pdf" onclick="if(event.target===this)closeModal('pdf')">
+            <div class="wf-modal">
+                <button class="wf-modal-close" onclick="closeModal('pdf')"><i class="fas fa-times"></i></button>
+                <h2><i class="fas fa-file-pdf" style="color:#ef4444;"></i> Quarterly Reg-Review PDF</h2>
+                <p class="wf-modal-sub">Paramétrez la génération automatique de vos rapports de conformité trimestriels.
+                </p>
+
+                <div class="wf-field">
+                    <label class="wf-label">Format de rapport</label>
+                    <select class="wf-select" id="pdfFormat">
+                        <option value="full">Complet — DORA + Bâle III + MiCA</option>
+                        <option value="dora">DORA uniquement</option>
+                        <option value="mica">MiCA uniquement</option>
+                        <option value="custom">Personnalisé</option>
+                    </select>
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Fréquence de génération</label>
+                    <select class="wf-select" id="pdfFreq">
+                        <option value="monthly">Mensuelle</option>
+                        <option value="quarterly" selected>Trimestrielle</option>
+                        <option value="yearly">Annuelle</option>
+                    </select>
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Destinataires (séparés par virgule)</label>
+                    <input type="text" class="wf-input" id="pdfRecipients"
+                        placeholder="compliance@firm.com, risk@firm.com" value="compliance@global-asset.com" />
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Logo institutionnel</label>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div
+                            style="width:40px; height:40px; border-radius:8px; background:rgba(59,130,246,0.1); border:1px dashed rgba(59,130,246,0.3); display:flex; align-items:center; justify-content:center; color:#3b82f6; font-size:18px;">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <span style="font-size:13px; color:#64748b;">DCM Digital (par défaut)</span>
+                        <button class="btn" style="font-size:11px; padding:5px 12px;"
+                            onclick="showToast('Fonctionnalité disponible en version Enterprise')">Changer</button>
+                    </div>
+                </div>
+
+                <div class="wf-actions">
+                    <button class="wf-btn-save" onclick="saveWorkflow('pdf')"><i class="fas fa-save"
+                            style="margin-right:8px;"></i>Enregistrer</button>
+                    <button class="wf-btn-cancel" onclick="closeModal('pdf')">Annuler</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MODAL: PARAMÈTRES API ===== -->
+        <div class="wf-modal-overlay" id="modal-api" onclick="if(event.target===this)closeModal('api')">
+            <div class="wf-modal">
+                <button class="wf-modal-close" onclick="closeModal('api')"><i class="fas fa-times"></i></button>
+                <h2><i class="fas fa-key" style="color:#f59e0b;"></i> Cloud Archive Sync — API</h2>
+                <p class="wf-modal-sub">Configurez les credentials pour la synchronisation vers votre stockage cloud
+                    souverain.</p>
+
+                <div class="wf-field">
+                    <label class="wf-label">Fournisseur Cloud</label>
+                    <select class="wf-select" id="cloudProvider">
+                        <option value="azure">Microsoft Azure Blob Storage</option>
+                        <option value="aws">AWS S3</option>
+                        <option value="gcp">Google Cloud Storage</option>
+                        <option value="ovh">OVH Object Storage</option>
+                    </select>
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Endpoint / Bucket URL</label>
+                    <input type="text" class="wf-input" id="apiEndpoint"
+                        placeholder="https://mybucket.blob.core.windows.net" />
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Clé API / Access Key</label>
+                    <div style="position:relative;">
+                        <input type="password" class="wf-input" id="apiKey" placeholder="••••••••••••••••"
+                            style="padding-right:46px;" />
+                        <button onclick="toggleApiKey()"
+                            style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:#64748b; cursor:pointer; font-size:14px;"><i
+                                class="fas fa-eye" id="apiKeyToggleIcon"></i></button>
+                    </div>
+                </div>
+
+                <div class="wf-field">
+                    <label class="wf-label">Intervalle de synchronisation</label>
+                    <div class="wf-row">
+                        <input type="range" class="wf-range" id="syncInterval" min="1" max="24" value="6"
+                            oninput="document.getElementById('syncIntervalVal').textContent=this.value+'h'" />
+                        <span class="wf-range-val" id="syncIntervalVal">6h</span>
+                    </div>
+                </div>
+
+                <div
+                    style="background:rgba(245,158,11,0.05); border:1px solid rgba(245,158,11,0.2); border-radius:10px; padding:14px 16px; margin-bottom:20px; font-size:12px; color:#fbbf24; display:flex; align-items:flex-start; gap:10px;">
+                    <i class="fas fa-exclamation-triangle" style="margin-top:2px; flex-shrink:0;"></i>
+                    <span>Les clés API sont chiffrées AES-256 et ne sont jamais transmises en clair. Seul le hash
+                        SHA-256
+                        est stocké côté serveur.</span>
+                </div>
+
+                <div class="wf-actions">
+                    <button class="wf-btn-save" onclick="saveWorkflow('api')"><i class="fas fa-plug"
+                            style="margin-right:8px;"></i>Connecter &amp; Activer</button>
+                    <button class="wf-btn-cancel" onclick="closeModal('api')">Annuler</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast container -->
+        <div id="wf-toast"
+            style="display:none; position:fixed; bottom:30px; right:30px; background:#0f172a; border:1px solid rgba(16,185,129,0.4); border-radius:12px; padding:16px 24px; color:white; font-family:'Urbanist',sans-serif; font-size:14px; font-weight:600; box-shadow:0 10px 40px rgba(0,0,0,0.5); z-index:99999; align-items:center; gap:12px; transition:all 0.4s ease;">
+        </div>
+
+        <script>
+            // Toggle functionality
+            document.querySelectorAll('.toggle').forEach(t => {
+                t.onclick = function () { this.classList.toggle('active'); }
+            });
+
+            // Modal open/close
+            function openModal(id) {
+                document.getElementById('modal-' + id).classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeModal(id) {
+                document.getElementById('modal-' + id).classList.remove('open');
+                document.body.style.overflow = '';
+            }
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.wf-modal-overlay.open').forEach(m => m.classList.remove('open')); });
+
+            // Save workflow handler
+            function saveWorkflow(type) {
+                closeModal(type);
+                showToast(
+                    type === 'sensitivity' ? 'Seuils de sensibilité enregistrés' :
+                        type === 'pdf' ? 'Configuration PDF enregistrée' :
+                            'Connexion API activée'
+                );
+                // Append a log entry
+                const logs = document.querySelector('.logs-panel');
+                const now = new Date();
+                const time = now.toTimeString().slice(0, 8);
+                const msgs = {
+                    sensitivity: `[CONFIG] Model Sensitivity Alert — seuil mis à jour par l'admin.`,
+                    pdf: `[CONFIG] Quarterly Reg-Review PDF — paramètres mis à jour.`,
+                    api: `[CONFIG] Cloud Archive Sync — connexion API configurée et activée.`
+                };
+                const entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.innerHTML = `<span class="log-time">${time}</span> <span class="log-msg" style="color:#10b981;">${msgs[type]}</span>`;
+                logs.appendChild(entry);
+            }
+
+            // Toast notification
+            function showToast(msg, isError = false) {
+                const t = document.getElementById('wf-toast');
+                t.innerHTML = `<i class="fas fa-${isError ? 'exclamation-circle' : 'check-circle'}" style="color:${isError ? '#ef4444' : '#10b981'};"></i> ${msg}`;
+                t.style.display = 'flex';
+                t.style.opacity = '0';
+                t.style.transform = 'translateY(12px)';
+                setTimeout(() => { t.style.opacity = '1'; t.style.transform = 'translateY(0)'; }, 50);
+                setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(12px)'; setTimeout(() => { t.style.display = 'none'; }, 400); }, 3500);
+            }
+
+            function showNewWorkflowToast() {
+                showToast('Module de création bientôt disponible — Version Enterprise');
+            }
+
+            function toggleApiKey() {
+                const input = document.getElementById('apiKey');
+                const icon = document.getElementById('apiKeyToggleIcon');
+                if (input.type === 'password') { input.type = 'text'; icon.className = 'fas fa-eye-slash'; }
+                else { input.type = 'password'; icon.className = 'fas fa-eye'; }
+            }
+        </script>
+
+        <!-- Base Scripts -->
+        <script src="js/core/feature-flags.js"></script>
+        <script src="js/session-manager.js"></script>
+        <script src="js/ui/navigation.js"></script>
+        <script src="js/navigation-orchestrator.js"></script>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <link href="https://dcmcore.com/en/flux-comparison.html" hreflang="en" rel="alternate" />
+    <link href="https://dcmcore.com/flux-comparison.html" hreflang="fr" rel="alternate" />
+    <link href="https://dcmcore.com/en/flux-comparison.html" hreflang="x-default" rel="alternate" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <!-- Content Security Policy (CSP) -->
+    <meta
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self';"
+        http-equiv="Content-Security-Policy" />
+    <title>Flux & Operations - 3D Experience</title>
+    <!-- SEO META TAGS -->
+    <meta
+        content="Comparison of financial flows: Traditional settlement process (T+2) vs Blockchain (T+0). Efficiency gain analysis."
+        name="description" />
+    <meta content="Financial Flows, Settlement, T+2, T+0, Blockchain Efficiency, Clearing, Custody" name="keywords" />
+    <meta content="Legacy vs Blockchain - Flow Comparison" property="og:title" />
+    <meta content="Visualize the difference between classic banking circuits and the blockchain."
+        property="og:description" />
+    <meta content="article" property="og:type" />
+    <meta content="https://dcmcore.com/en/flux-comparison.html" property="og:url" />
+    <!-- FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- EXTERNAL STYLES -->
+    <link href="../styles-navigation.css" rel="stylesheet" />
+    <link href="../styles-logo-dropdown.css" rel="stylesheet" />
+    <link href="../styles-mobile.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+    <link href="../styles-sidebar.css" rel="stylesheet" />
+    <script src="../js/core/feature-flags.js"></script>
+    <script src="../js/session-manager.js"></script>
+    <script src="../js/ui/navigation.js"></script>
+    <script src="../js/navigation-orchestrator.js"></script>
+    <style>
+        /* --- 3D & DYNAMIC CORE STYLES --- */
+        :root {
+            --bg-dark: #020617;
+            --card-glass: rgba(30, 41, 59, 0.4);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-gray: #64748b;
+            --accent-orange: #f59e0b;
+            --text-main: #f8fafc;
+        }
+
+        body {
+            background: var(--bg-dark);
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        /* 3D BACKGROUND */
+        #flowCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* NAVIGATION SHIM - Adjusted for 80px Header */
+        .navbar-shim {
+            height: 70px;
+        }
+
+        /* HEADER REFINEMENT */
+
+        .nav-logo {
+            font-size: 22px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding-top: 120px;
+            /* Added padding to clear sticky header */
+        }
+
+        .hero-title {
+            font-size: 80px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-family: 'JetBrains Mono';
+            color: var(--accent-green);
+            font-size: 18px;
+            margin-bottom: 60px;
+            z-index: 2;
+            padding: 10px 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 50px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* 3D COMPARISON CARDS (HERO) */
+        .comp-wrapper {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            perspective: 2000px;
+            z-index: 2;
+        }
+
+        .comp-card {
+            width: 320px;
+            height: 400px;
+            background: var(--card-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            transform-style: preserve-3d;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: 0.4s;
+        }
+
+        .card-legacy {
+            border-top: 4px solid var(--accent-gray);
+        }
+
+        .card-digital {
+            border-top: 4px solid var(--accent-green);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.1);
+        }
+
+        .comp-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            transform: translateZ(30px);
+        }
+
+        .comp-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            transform: translateZ(20px);
+        }
+
+        .comp-desc {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-top: 10px;
+            transform: translateZ(10px);
+        }
+
+        /* VS BADGE */
+        .vs-badge {
+            font-size: 30px;
+            font-weight: 900;
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: pulseVs 2s infinite;
+        }
+
+        @keyframes pulseVs {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(16, 185, 129, 0);
+            }
+
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* --- MODULE SYSTEM (SLIDES) --- */
+        .module-container {
+            max-width: 1300px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .module-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .module-sub {
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono';
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        /* 3D SPLIT VIEW */
+        .split-3d {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            perspective: 1000px;
+        }
+
+        .panel-3d {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 40px;
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .panel-tag {
+            font-family: 'JetBrains Mono';
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .tag-legacy {
+            background: #334155;
+            color: #cbd5e1;
+        }
+
+        .tag-digital {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* FLOW ITEMS */
+        .flow-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: 0.3s;
+        }
+
+        .flow-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(10px);
+        }
+
+        .f-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #94a3b8;
+        }
+
+        .digital .f-icon {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .f-content strong {
+            display: block;
+            color: white;
+            font-size: 16px;
+        }
+
+        .f-content span {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* CONNECTORS */
+        .connector {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.2);
+            margin: -10px 0 15px;
+            font-size: 18px;
+        }
+
+        .connector.active {
+            color: #10b981;
+            animation: drop 1s infinite;
+        }
+
+        @keyframes drop {
+            0% {
+                transform: translateY(-5px);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(5px);
+                opacity: 0;
+            }
+        }
+
+        /* --- ATOMIC VISUAL --- */
+        .atomic-box {
+            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.1) 0%, rgba(2, 6, 23, 0) 70%);
+            border: 1px solid #10b981;
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .atomic-anim {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #10b981, transparent);
+            position: absolute;
+            top: 0;
+            left: -100%;
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .split-3d {
+                grid-template-columns: 1fr;
+            }
+
+            .comp-wrapper {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "CLARITY_ID");
+    </script>
+    <link href="https://dcm-digital.com/en/flux-comparison.html" rel="canonical" />
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Flux & Operations - 3D Experience",
+  "description": "Comparison of financial flows: Traditional settlement process (T+2) vs Blockchain (T+0). Efficiency gain analysis.",
+  "url": "https://dcm-digital.com/en/flux-comparison.html"
+}</script>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/cta-tracker.js"></script>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+</head>
+
+<body>
+    <main class="main-content" style="margin-left: 0; max-width: 1200px; margin: 0 auto; padding-top: 40px;">
+        <!-- 3D BACKGROUND -->
+        <canvas id="flowCanvas"></canvas>
+        <!-- NAVIGATION HARMONIZED (Refined) -->
+        <nav class="navbar-pro">
+            <div class="nav-logo-dropdown">
+                <div class="nav-logo">
+                    <i class="fas fa-cube"></i>
+                    BLOCKCHAIN <span style="color:#3b82f6">PRO</span>
+                    <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 8px;"></i>
+                </div>
+                <div class="nav-logo-menu">
+                    <a class="logo-menu-item" href="guide.html">
+                        <i class="fas fa-briefcase"></i>
+                        <div><strong>Blockchain Pro</strong><span>Expert Version - 23 sections</span></div>
+                    </a>
+                    <a class="logo-menu-item" href="simple.html">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div><strong>Blockchain Academy</strong><span>Discovery Version - 5 slides</span></div>
+                    </a>
+                    <a class="logo-menu-item" href="../index-simple.html">
+                        <i class="fas fa-chart-line"></i>
+                        <div><strong>DCM Digital</strong><span>Pitch Version - 6 sections</span></div>
+                    </a>
+                    <a class="logo-menu-item" href="web3.html">
+                        <i class="fas fa-cube"></i>
+                        <div><strong>Web3 Banking</strong><span>Programmable Infrastructure</span></div>
+                    </a>
+                    <a class="logo-menu-item active" href="flux-comparison.html">
+                        <i class="fas fa-exchange-alt"></i>
+                        <div><strong>Flux &amp; Operations</strong><span>Comparative Analysis</span></div>
+                    </a>
+                    <a class="logo-menu-item" href="rwa.html">
+                        <i class="fas fa-layer-group" style="color:#f59e0b;"></i>
+                        <div><strong>RWA &amp; DeFi</strong><span>Institutional DeFi</span></div>
+                    </a>
+                    <a class="logo-menu-item" href="quiz.html">
+                        <i class="fas fa-award" style="color:#f59e0b;"></i>
+                        <div><strong>Quiz Certification</strong><span>Test your knowledge</span></div>
+                    </a>
+                </div>
+            </div>
+            <div class="nav-links-pro"
+                style="position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 30px; align-items: center;">
+                <a class="nav-home-btn" href="../index.html"
+                    style="color: #3b82f6; font-weight: 700; text-decoration: none; font-size: 15px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-home"></i> Hub
+                </a>
+                <a aria-label="Navigation" class="nav-link-item" href="#slide1"
+                    style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s;">Introduction</a>
+                <a aria-label="Navigation" class="nav-link-item" href="#slide2"
+                    style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s;">Primary</a>
+                <a aria-label="Navigation" class="nav-link-item" href="#slide3"
+                    style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s;">Secondary</a>
+                <a aria-label="Navigation" class="nav-link-item" href="#slide5"
+                    style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s;">Synthesis</a>
+                <style>
+                    .nav-link-item:hover {
+                        color: white !important;
+                    }
+
+                    @media (max-width: 1024px) {
+                        .nav-links-pro {
+                            position: fixed !important;
+                            transform: none !important;
+                            left: auto !important;
+                        }
+                    }
+                </style>
+            </div>
+            <div class="nav-language" style="display: flex; align-items: center; margin-right: 20px; gap: 10px;">
+                <a class="lang-btn" href="../fr/flux-comparison.html"
+                    style="opacity: 0.5; filter: grayscale(1);"><span>🇫🇷</span></a>
+                <a class="lang-btn active" href="flux-comparison.html"
+                    style="opacity: 1; filter: grayscale(0);"><span>🇬🇧</span></a>
+            </div>
+            <button aria-label="Button" class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i
+                    class="fas fa-bars"></i></button>
+        </nav>
+        <div class="navbar-shim"></div>
+        <!-- BREADCRUMBS -->
+        <div style="position: absolute; top: 80px; left: 20px; z-index: 10; font-size: 12px; color: var(--text-muted);">
+            <a href="../index.html" style="color:var(--text-muted); text-decoration:none;">Hub</a> <span
+                style="margin:0 5px;">/</span>
+            <span style="color:white;">Flux &amp; Operations</span>
+        </div>
+        <!-- HERO INTRO -->
+        <section class="hero-section" id="slide1">
+            <div class="hero-title" data-aos="zoom-in">Flux <span style="color:#10b981">Operations</span></div>
+            <div class="hero-subtitle">The Simplification Shock: T+2 vs T+0</div>
+            <div class="comp-wrapper">
+                <div aria-label="Traditional Paper Model Card" class="comp-card card-legacy" data-tilt=""
+                    data-tilt-max="10">
+                    <div class="comp-icon"><i class="fa-solid fa-file-contract"></i></div>
+                    <div class="comp-name">Paper Model</div>
+                    <div class="comp-desc">Sequential • Manual • Slow</div>
+                </div>
+                <div class="vs-badge">VS</div>
+                <div aria-label="Digital Blockchain Model Card" class="comp-card card-digital" data-tilt=""
+                    data-tilt-max="10">
+                    <div class="comp-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="comp-name">Digital Model</div>
+                    <div class="comp-desc">Blockchain • Automated • Instant</div>
+                </div>
+            </div>
+        </section>
+        <!-- MARKET CONTEXT SECTION (NEW) -->
+        <div class="module-container" data-aos="fade-up">
+            <div
+                style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 20px; padding: 40px; position: relative; overflow: hidden;">
+                <div
+                    style="position: absolute; top: -10px; right: -10px; font-size: 100px; color: rgba(59, 130, 246, 0.05); transform: rotate(15deg); pointer-events: none;">
+                    <i class="fas fa-globe-europe"></i>
+                </div>
+                <h3 style="color: #3b82f6; font-size: 24px; margin-bottom: 20px; font-family: 'Outfit', sans-serif;">
+                    <i class="fas fa-info-circle"></i> Regulatory Context &amp; Market
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                    <div>
+                        <strong style="color: white; font-size: 18px; display: block; margin-bottom: 10px;">Towards T+1
+                            (2027)</strong>
+                        <p style="color: #cbd5e1; font-size: 15px; line-height: 1.6;">
+                            Europe is preparing its transition to a <strong>D+1</strong> (T+1) settlement cycle to align
+                            with
+                            US standards.
+                            TradFi seeks to reduce its cycles but remains constrained by sequential reconciliation.
+                        </p>
+                    </div>
+                    <div>
+                        <strong style="color: white; font-size: 18px; display: block; margin-bottom: 10px;">The
+                            Blockchain
+                            Alternative</strong>
+                        <p style="color: #cbd5e1; font-size: 15px; line-height: 1.6;">
+                            Major players (JPMorgan, Chainlink, Ondo) are already experimenting with <strong>Cross-chain
+                                DvP</strong>.
+                            The goal: move from reducing delays (T+1) to eliminating counterparty risk
+                            (Atomic T+0).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- SLIDE 2 : PRIMARY MARKET -->
+        <div class="module-container" data-aos="fade-up" id="slide2">
+            <div class="module-header">
+                <h2 class="module-title">1. Emission (Primary)</h2>
+                <span class="module-sub">Security creation cycle</span>
+            </div>
+            <div class="split-3d">
+                <!-- Legacy -->
+                <div class="panel-3d" style="border-top: 4px solid #64748b;">
+                    <div class="panel-head">
+                        <span class="panel-title">Conventional (T+5)</span>
+                        <span class="panel-tag tag-legacy">LEGACY BANK</span>
+                    </div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-comments"></i></div>
+                        <div class="f-content"><strong>D-5 : Syndication</strong><span>Classic Bookbuilding
+                                (Bloomberg)</span></div>
+                    </div>
+                    <div class="connector"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-file-signature"></i></div>
+                        <div class="f-content"><strong>D-0 : Global Note</strong><span>Single paper certificate
+                                signature</span></div>
+                    </div>
+                    <div class="connector"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-truck"></i></div>
+                        <div class="f-content"><strong>D+2 : CSD Deposit</strong><span>Physical transport to
+                                vault</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Digital -->
+                <div class="panel-3d digital" data-tilt="" style="border-top: 4px solid #10b981;">
+                    <div class="panel-head">
+                        <span class="panel-title">Digital (T+0)</span>
+                        <span class="panel-tag tag-digital">NATIVE DLT</span>
+                    </div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-code"></i></div>
+                        <div class="f-content"><strong>H-0 : Smart Contract</strong><span>Code deployment
+                                (Minting)</span></div>
+                    </div>
+                    <div class="connector active"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="f-content"><strong>H+10m : Distribution</strong><span>Direct P2P delivery</span>
+                        </div>
+                    </div>
+                    <div class="atomic-box">
+                        <div class="atomic-anim"></div>
+                        <strong style="color:#10b981">ELIMINATION OF PAPER</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- SLIDE 3 : SECONDARY MARKET -->
+        <div class="module-container" data-aos="fade-up" id="slide3">
+            <div class="module-header">
+                <h2 class="module-title">2. Trading (Secondary)</h2>
+                <span class="module-sub">Security exchange cycle</span>
+            </div>
+            <div class="split-3d">
+                <!-- Legacy -->
+                <div class="panel-3d" style="border-top: 4px solid #64748b;">
+                    <div class="panel-head">
+                        <span class="panel-title">The "Messaging" (T+2)</span>
+                        <span class="panel-tag tag-legacy">SWIFT</span>
+                    </div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-handshake"></i></div>
+                        <div class="f-content"><strong>D+0 : The Trade</strong><span>OTC phone agreement</span></div>
+                    </div>
+                    <div class="connector"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="f-content"><strong>D+1 : Clearing &amp; Netting</strong><span>Clearing House
+                                (LCH)</span></div>
+                    </div>
+                    <div class="connector"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-rotate"></i></div>
+                        <div class="f-content"><strong>D+2 : Matching</strong><span>CSD Reconciliation (Risk of
+                                Fail)</span></div>
+                    </div>
+                </div>
+                <!-- Digital -->
+                <div class="panel-3d digital" data-tilt="" style="border-top: 4px solid #10b981;">
+                    <div class="panel-head">
+                        <span class="panel-title">Atomic Exchange (T+0)</span>
+                        <span class="panel-tag tag-digital">BLOCKCHAIN</span>
+                    </div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-wifi"></i></div>
+                        <div class="f-content"><strong>T+0 : Trade &amp; Settle</strong><span>Click to Trade (DEX /
+                                OTC)</span>
+                        </div>
+                    </div>
+                    <div class="connector active"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-item">
+                        <div class="f-icon"><i class="fa-solid fa-check-double"></i></div>
+                        <div class="f-content"><strong>Instant</strong><span>Immediate ledger update</span>
+                        </div>
+                    </div>
+                    <div class="atomic-box">
+                        <div class="atomic-anim"></div>
+                        <strong style="color:#10b981">ZERO RECONCILIATION</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- SLIDE 4 : SETTLEMENT (DVP) -->
+        <div class="module-container" data-aos="fade-up" id="slide4">
+            <div class="module-header">
+                <h2 class="module-title">3. Settlement (DvP)</h2>
+                <span class="module-sub">Atomic Swap vs Clearing House</span>
+            </div>
+            <div class="split-3d">
+                <!-- Legacy -->
+                <div class="panel-3d" style="border-top: 4px solid #64748b;">
+                    <div class="panel-head">
+                        <span class="panel-title">Complex (Classic DvP)</span>
+                    </div>
+                    <p style="color:#94a3b8; margin-bottom:20px;">Requires a Clearing House (LCH) to guarantee
+                        that the buyer pays and the seller delivers.</p>
+                    <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:8px; text-align:center;">
+                        <i class="fa-solid fa-building-columns" style="font-size:30px; margin-bottom:10px;"></i>
+                        <div>Central Intermediary</div>
+                    </div>
+                </div>
+                <!-- Digital -->
+                <div class="panel-3d digital" data-tilt="" style="border-top: 4px solid #10b981;">
+                    <div class="panel-head">
+                        <span class="panel-title">Atomic (Smart Contract)</span>
+                    </div>
+                    <p style="color:#94a3b8; margin-bottom:20px;">The code mathematically guarantees the simultaneous
+                        exchange.
+                        If one fails, everything
+                        is cancelled.</p>
+                    <!-- ATOMIC DEFINITION BOX (NEW) -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.1); border: 1px dashed #10b981; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; color: #cbd5e1; line-height: 1.5;">
+                        <strong style="color: #10b981; display: block; margin-bottom: 5px;">Definition : Atomic
+                            DvP</strong>
+                        A settlement where the transfer of the asset and cash happen <em>simultaneously</em> in the same
+                        transaction. Counterparty risk = 0.
+                    </div>
+                    <div class="atomic-box" style="margin-top:0;">
+                        <i class="fa-solid fa-rotate fa-spin"
+                            style="font-size:40px; color:#10b981; margin-bottom:10px;"></i>
+                        <div><strong>Atomic Swap</strong></div>
+                        <div style="font-size:12px; color:#10b981;">Cash ↔ Security (Same block)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- SLIDE 5 : SYNTHESIS -->
+        <div class="module-container" data-aos="fade-up" id="slide5">
+            <div class="module-header">
+                <h2 class="module-title">Comparative Synthesis</h2>
+                <span class="module-sub">Overview of gains</span>
+            </div>
+            <div class="panel-3d" style="max-width:800px; margin:0 auto; text-align:left;">
+                <table style="width:100%; border-collapse:collapse; color:#cbd5e1;">
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <th style="padding:15px; text-align:left;">Flow</th>
+                        <th style="padding:15px; text-align:left; color:#94a3b8;">TradFi (Legacy)</th>
+                        <th style="padding:15px; text-align:left; color:#10b981;">Blockchain (Digital)</th>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <td style="padding:15px;"><strong>Emission</strong></td>
+                        <td style="padding:15px;">Paper + Custodian (D+5)</td>
+                        <td style="padding:15px; color:#10b981;">Smart Contract Minting (T+0)</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <td style="padding:15px;"><strong>Trade</strong></td>
+                        <td style="padding:15px;">SWIFT + CSD</td>
+                        <td style="padding:15px; color:#10b981;">Ledger On-chain</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <td style="padding:15px;"><strong>Settlement</strong></td>
+                        <td style="padding:15px;">T+2 (Soon T+1)</td>
+                        <td style="padding:15px; color:#10b981;"><strong>T+0 (Atomic)</strong></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <td style="padding:15px;"><strong>Netting</strong></td>
+                        <td style="padding:15px;">Yes (Liq. Optimization)</td>
+                        <td style="padding:15px; color:#10b981;">Gross / Direct</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <td style="padding:15px;"><strong>Clearing</strong></td>
+                        <td style="padding:15px;">Mandatory (LCH)</td>
+                        <td style="padding:15px; color:#10b981;">Integrated (Code)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:15px;"><strong>Reconciliation</strong></td>
+                        <td style="padding:15px;">Manual / Costly</td>
+                        <td style="padding:15px; color:#10b981;"><strong>Automatic</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- SLIDE 6 : COUPONS -->
+        <div class="module-container" data-aos="fade-up" id="slide6">
+            <div class="module-header">
+                <h2 class="module-title">4. Coupon Management</h2>
+                <span class="module-sub">Corporate Actions</span>
+            </div>
+            <div class="split-3d">
+                <div class="panel-3d" style="border-top: 4px solid #64748b;">
+                    <div class="panel-head"><span class="panel-title">Manual &amp; Risky</span></div>
+                    <ul style="list-style:none; padding:0; color:#94a3b8;">
+                        <li style="margin-bottom:10px;"><i class="fas fa-times" style="color:#ef4444; width:20px;"></i>
+                            Manual calculations by the Paying Agent.</li>
+                        <li style="margin-bottom:10px;"><i class="fas fa-times" style="color:#ef4444; width:20px;"></i>
+                            Frequent claims.</li>
+                        <li><i class="fas fa-times" style="color:#ef4444; width:20px;"></i> Payment delays (D+1).
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-3d digital" data-tilt="" style="border-top: 4px solid #10b981;">
+                    <div class="panel-head"><span class="panel-title">Smart Contract</span></div>
+                    <ul style="list-style:none; padding:0; color:#cbd5e1;">
+                        <li style="margin-bottom:10px;"><i class="fas fa-check" style="color:#10b981; width:20px;"></i>
+                            Automatic calculation (Code).</li>
+                        <li style="margin-bottom:10px;"><i class="fas fa-check" style="color:#10b981; width:20px;"></i>
+                            Instant payment to holders.</li>
+                        <li><i class="fas fa-check" style="color:#10b981; width:20px;"></i> Zero calculation errors.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- SLIDE 8 : ROI & CONCLUSION -->
+        <div class="module-container" data-aos="fade-up" id="slide8">
+            <div class="module-header">
+                <h2 class="module-title">ROI &amp; Costs</h2>
+                <span class="module-sub">The economic equation</span>
+            </div>
+            <div class="split-3d">
+                <!-- GAINS -->
+                <div class="panel-3d" style="border: 1px solid #10b981;">
+                    <div class="panel-head"><span class="panel-title" style="color:#10b981">Quantifiable Gains</span>
+                    </div>
+                    <ul style="list-style:none; padding:0; color:#cbd5e1; font-size:16px;">
+                        <li style="margin-bottom:15px;"><i class="fas fa-arrow-down" style="color:#10b981;"></i>
+                            <strong>-80%</strong> Operational Costs (Post-trade)
+                        </li>
+                        <li style="margin-bottom:15px;"><i class="fas fa-arrow-down" style="color:#10b981;"></i>
+                            <strong>0%</strong> Reconciliation Fees (Golden Source)
+                        </li>
+                        <li style="margin-bottom:15px;"><i class="fas fa-arrow-up" style="color:#10b981;"></i>
+                            <strong>x10</strong> Execution Speed (T+0)
+                        </li>
+                    </ul>
+                </div>
+                <!-- COSTS -->
+                <div class="panel-3d" style="border: 1px solid #f59e0b;">
+                    <div class="panel-head"><span class="panel-title" style="color:#f59e0b">Initial Costs</span></div>
+                    <ul style="list-style:none; padding:0; color:#cbd5e1; font-size:16px;">
+                        <li style="margin-bottom:15px;"><i class="fas fa-coins" style="color:#f59e0b;"></i>
+                            Infrastructure &amp;
+                            Setup (~€100k)</li>
+                        <li style="margin-bottom:15px;"><i class="fas fa-users" style="color:#f59e0b;"></i> Team
+                            Training</li>
+                        <li style="margin-bottom:15px;"><i class="fas fa-balance-scale" style="color:#f59e0b;"></i>
+                            Legal
+                            Consulting</li>
+                    </ul>
+                    <div style="text-align:center; font-weight:700; color:#f59e0b; margin-top:20px;">ESTIMATED ROI:
+                        12-18
+                        MONTHS
+                    </div>
+                </div>
+            </div>
+            <!-- CONCLUSION BLOCK -->
+            <div class="panel-3d" style="margin-top:40px; border-left:4px solid #3b82f6; text-align:center;">
+                <h3 style="color:white; margin-bottom:10px;">Strategic Conclusion</h3>
+                <p style="font-size:20px; color:#cbd5e1;">"Transition from error management to real-time liquidity
+                    management."</p>
+            </div>
+        </div>
+        <!-- SCRIPTS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+        <script defer="" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            window.addEventListener('load', function () { AOS.init(); });
+            VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+                max: 15,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.2
+            });
+
+            // --- THREE.JS BACKGROUND ---
+            const canvas = document.getElementById('flowCanvas');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x020617, 0.002);
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // FLOW PARTICLES
+            const particlesGeo = new THREE.BufferGeometry();
+            const count = 2000;
+            const posArray = new Float32Array(count * 3);
+            for (let i = 0; i < count * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 50;
+            }
+            particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMat = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0x10b981,
+                transparent: true,
+                opacity: 0.8
+            });
+            const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
+            scene.add(particlesMesh);
+
+            camera.position.z = 5;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                particlesMesh.rotation.y += 0.001;
+                particlesMesh.position.z += 0.01;
+                if (particlesMesh.position.z > 5) particlesMesh.position.z = -5;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Mobile Menu
+            function toggleMobileMenu() {
+                document.querySelector('.nav-links-pro').classList.toggle('active');
+            }
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        </script>
+        <!-- MAIN FOOTER -->
+        <footer class="super-footer">
+            <div class="footer-content">
+                <div class="footer-grid">
+                    <!-- 0. BRAND -->
+                    <div class="footer-brand">
+                        <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                        <p>Analysis platform dedicated to financial asset tokenization and institutional public
+                            blockchain infrastructure.</p>
+                        <div class="footer-socials">
+                            <a aria-label="LinkedIn" class="social-btn" href="https://www.linkedin.com/in/joan-lyczak/"
+                                target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            <a aria-label="GitHub" class="social-btn"
+                                href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank"><i
+                                    class="fab fa-github"></i></a>
+                            <a aria-label="Twitter" class="social-btn" href="https://x.com/Joan_Lyczak"
+                                target="_blank"><i class="fab fa-x-twitter"></i></a>
+                        </div>
+                    </div>
+                    <!-- 1. PRODUCT -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Product
+                        </h4>
+                        <ul class="footer-links">
+                            <li><a href="../index.html">Central Hub</a></li>
+                            <li><a href="../sandbox.html">Dashboard</a></li>
+                            <li><a href="simple.html">Academy</a></li>
+                            <li><a href="guide.html">Expert Guide</a></li>
+                            <li><a href="yield-mechanics.html">Simulation Engine</a></li>
+                            <li><a href="quiz.html">Certification</a></li>
+                            <li><a href="../pricing-institutional.html">Pricing</a></li>
+                        </ul>
+                    </div>
+                    <!-- 2. RESEARCH -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research
+                        </h4>
+                        <ul class="footer-links">
+                            <li><a href="rwa.html">RWA &amp; DeFi</a></li>
+                            <li><a href="yield-mechanics.html">Yield Mechanics</a></li>
+                            <li><a href="web3.html">Web3 Infrastructure</a></li>
+                            <li><a href="ai-finance.html">AI &amp; Finance</a></li>
+                            <li><a href="institutional-problem-statement.html">Strategic Vision</a></li>
+                            <li><a href="competitive-landscape.html">Competitive Landscape</a></li>
+                            <li><a href="series-a-narrative.html">Series A Deck</a></li>
+                            <li><a href="governance-os-landing.html">Institutional Governance</a></li>
+                            <li><a href="mrm-hub.html">MRM Hub</a></li>
+                            <li><a href="data-certification.html">Data Trust Certif</a></li>
+                            <li><a href="case-study-tokenized-bond.html">Quantified Use Case</a></li>
+                            <li><a href="economic-model.html">Economic Model</a></li>
+                            <li><a href="regulatory-mapping.html">Regulatory Mapping</a></li>
+                            <li><a href="legal-matrix.html">Global Matrix</a></li>
+                            <li><a href="../networks/index.html">Blockchain Networks</a></li>
+                        </ul>
+                    </div>
+                    <!-- 3. INFRASTRUCTURE -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                            Infrastructure</h4>
+                        <ul class="footer-links">
+                            <li><a href="lifecycle.html">Lifecycle</a></li>
+                            <li><a href="flux-comparison.html">Flux Comparator</a></li>
+                            <li><a href="legal_pilot.html">Pilot Regime (EU)</a></li>
+                            <li><a href="../sandbox.html">Sandbox</a></li>
+                            <li><a href="deployment-architecture.html">Deployment Arch</a></li>
+                            <li><a href="../networks/swiat.html">SWIAT</a></li>
+                            <li><a href="../networks/canton.html">Canton Network</a></li>
+                        </ul>
+                    </div>
+                    <!-- 4. CORPORATE -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                            Corporate</h4>
+                        <ul class="footer-links">
+                            <li><a href="methodology.html">Methodology</a></li>
+                            <li><a href="guide.html">Documentation</a></li>
+                            <li><a href="../index-simple.html">Corporate Site</a></li>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="mailto:contact@dcm-digital.com">Contact</a></li>
+                        </ul>
+                    </div>
+                    <!-- 5. LEGAL -->
+                    <div class="footer-col">
+                        <h4><i class="fas fa-shield-alt" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                            Legal</h4>
+                        <ul class="footer-links">
+                            <li><a href="mentions-legales.html">Legal Mentions</a></li>
+                            <li><a href="privacy.html">Privacy Policy</a></li>
+                            <li><a href="cgu.html">Terms of Use</a></li>
+                            <li><a href="cookies.html">Cookie Policy</a></li>
+                            <li><a href="methodology.html#disclaimer">Disclaimer</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-disclaimer"
+                    style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto;">
+                    <strong>Regulatory Transparency :</strong> DCM Digital quantifies the technological risks of DLT
+                    infrastructures. We do not provide any legal, compliance, or investment advice. Regulatory data
+                    (DORA, MiCA, Basel III) are used as references for systemic modeling and require independent
+                    analysis by your risk management departments. <a href="regulatory-transparency.html"
+                        style="color: #3b82f6; text-decoration: underline;">Consult our Transparency Framework</a>.
+                </div>
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content"
+                        style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                        <div class="copyright">
+                            © 2026 DCM Digital • Version 4.3.0
+                        </div>
+                        <div class="legal-links">
+                            <a href="support-it.html">IT Support</a>
+                            <a href="api-docs.html">API Documentation</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- SCROLL TO TOP -->
+        <button aria-label="Button" class="scroll-to-top" id="scrollToTop" title="Back to top">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+        <!-- AOS FIX -->
+        <script defer="" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                AOS.init({ duration: 800, once: true, offset: 50 });
+            });
+            setTimeout(function () {
+                const hiddenElements = document.querySelectorAll('[data-aos]');
+                hiddenElements.forEach(el => {
+                    if (getComputedStyle(el).opacity === '0') {
+                        el.style.opacity = '1';
+                        el.style.visibility = 'visible';
+                    }
+                });
+            }, 500);
+        </script>
+    </main>
+</body>
+
+</html>

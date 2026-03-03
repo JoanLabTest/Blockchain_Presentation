@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html data-theme="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Economic Model Transparency - DCM Digital</title>
+    <meta
+        content="DCM Digital SaaS revenue architecture. Scalability, modular licenses, and B2B economic model for financial infrastructures."
+        name="description" />
+    <!-- SEO & JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "DCM Economic Model",
+      "applicationCategory": "Financial Software",
+      "description": "B2B SaaS Revenue Logic and Scalability Framework for DCM Digital Governance OS.",
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Digital"
+      }
+    }
+    </script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Global CSS -->
+    <link href="styles/main.css" rel="stylesheet" />
+    <link href="styles/components.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --surface-dark: #0f172a;
+            --surface-hover: #1e293b;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --tier-base: #64748b;
+            --tier-pro: #3b82f6;
+            --tier-ent: #a855f7;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Nav overrides */
+        .hub-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .eco-hero {
+            padding: 160px 5% 80px;
+            background: radial-gradient(circle at top left, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
+            text-align: center;
+        }
+
+        /* CONTENT BLOCKS */
+        .eco-section {
+            max-width: 1100px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        /* SAAS LOGIC CARDS */
+        .logic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .logic-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .logic-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(168, 85, 247, 0.3);
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        .logic-icon {
+            font-size: 2rem;
+            color: var(--accent-purple);
+            margin-bottom: 20px;
+        }
+
+        .logic-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        /* TIERING TABLE */
+        .tiering-container {
+            background: var(--surface-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        .tiering-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            background: rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tier-col {
+            padding: 20px;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tier-base {
+            color: var(--tier-base);
+        }
+
+        .tier-pro {
+            color: var(--tier-pro);
+        }
+
+        .tier-ent {
+            color: var(--tier-ent);
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+        }
+
+        .tiering-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+        }
+
+        .tiering-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .tiering-row:last-child {
+            border-bottom: none;
+        }
+
+        .feature-name {
+            padding: 15px 20px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-name i {
+            margin-right: 12px;
+            color: var(--text-muted);
+            width: 16px;
+            text-align: center;
+        }
+
+        .feature-value {
+            padding: 15px 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .check-yes {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+        }
+
+        .check-no {
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .feature-text {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* SCALABILITY METRICS */
+        .scalability-banner {
+            background: linear-gradient(90deg, rgba(168, 85, 247, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .scale-stat h4 {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .scale-stat .stat-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        @media (max-width: 900px) {
+            .logic-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tiering-header,
+            .tiering-row {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+            .feature-name {
+                grid-column: span 3;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .feature-value {
+                border-left: none;
+            }
+
+            .scalability-banner {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+    <link href="https://dcm-digital.com/economic-model.html" rel="canonical" />
+    <link href="styles-footer.css" rel="stylesheet" /> <!-- NEW SUPER FOOTER -->
+    <script src="js/cookie-consent.js"></script>
+    <script src="js/cta-tracker.js"></script>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+</head>
+
+<body>
+    <!-- NAVIGATION -->
+    <nav class="hub-nav p-4 flex justify-between items-center transition-all duration-300">
+        <div class="flex items-center space-x-3">
+            <a class="flex items-center space-x-2 text-white hover:text-purple-400 transition-colors" href="index.html">
+                <i class="fas fa-layer-group text-xl text-purple-500"></i>
+                <span class="font-bold text-lg tracking-wide hidden sm:inline">DCM DIGITAL</span>
+                <span
+                    class="text-xs text-slate-400 ml-2 py-0.5 px-2 bg-slate-800 rounded-full border border-slate-700">Scaling</span>
+            </a>
+        </div>
+        <div class="flex items-center space-x-6 text-sm font-medium">
+            <a class="text-slate-300 hover:text-white transition-colors" href="series-a-narrative.html"><i
+                    class="fas fa-arrow-left mr-2"></i>Series A Deck</a>
+        </div>
+    </nav>
+
+    <!-- EXECUTIVE LAYER (Phase 1) -->
+    <section class="max-w-6xl mx-auto px-5 mt-24 mb-10" data-aos="fade-up">
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px;">
+            <!-- 3-Bullet Summary -->
+            <div
+                style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--accent-purple); border-radius: 16px; padding: 25px;">
+                <h3
+                    style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-purple); margin-bottom: 15px;">
+                    Executive Summary</h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px; display: flex; gap: 12px; font-size: 15px;">
+                        <i class="fas fa-check-circle" style="color: var(--accent-purple); margin-top: 4px;"></i>
+                        <span>Predictable B2B SaaS model based on modular licenses (Core, Compliance, AI).</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; gap: 12px; font-size: 15px;">
+                        <i class="fas fa-check-circle" style="color: var(--accent-purple); margin-top: 4px;"></i>
+                        <span>Scalabilité brute (Marges > 85%) grâce à une architecture serverless et
+                            multi-tenant.</span>
+                    </li>
+                    <li style="display: flex; gap: 12px; font-size: 15px;">
+                        <i class="fas fa-check-circle" style="color: var(--accent-purple); margin-top: 4px;"></i>
+                        <span>Long-term value capture via API usage (Volume-based tiers) and Enterprise
+                            SLAs.</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- CRO Box -->
+            <div
+                style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.1)); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 25px;">
+                <h3
+                    style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-blue); margin-bottom: 15px;">
+                    Why this matters for a CRO</h3>
+                <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5;">
+                    "Un modèle économique transparent est une garantie de pérennité du partenaire. DCM assure une
+                    structure de coût alignée sur la réduction effective des risques opérationnels du client."
+                </p>
+                <div
+                    style="margin-top: 15px; font-size: 12px; font-weight: 700; color: white; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-handshake"></i> LONG-TERM PARTNERSHIP FOCUS
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- HERO SECTION -->
+    <section class="eco-hero">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1.5 rounded-full border border-purple-800 bg-purple-900/30 text-purple-400 text-xs font-bold uppercase tracking-wider mb-6"
+                data-aos="fade-down">
+                B2B SaaS Revenue Logic
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight" data-aos="fade-up"
+                data-aos-delay="100">
+                Economic Model Transparency.
+            </h1>
+            <p class="text-lg text-slate-400 mb-8 max-w-3xl mx-auto font-light" data-aos="fade-up" data-aos-delay="200">
+                Un modèle de revenus hautement prédictible, conçu pour capturer la valeur de l'infrastructure financière
+                sans brider l'adoption initiale. Focus sur l'ARR et l'upsell modulaire.
+            </p>
+        </div>
+    </section>
+    <!-- MAIN CONTENT -->
+    <section class="eco-section">
+        <!-- LOGIC GRID -->
+        <h2 class="text-2xl font-bold text-white mb-6" data-aos="fade-up">Monetization Mechanics (SaaS)</h2>
+        <div class="logic-grid" data-aos="fade-up" data-aos-delay="100">
+            <div class="logic-card">
+                <div class="logic-icon"><i class="fas fa-cubes"></i></div>
+                <h3>Modular Licensing</h3>
+                <p class="text-sm text-slate-400">
+                    Tarification basée sur les modules activés (Core Engine, Regulatory Reporting, AI Copilot). Les
+                    banques peuvent démarrer avec un périmètre restreint (ex: SWIAT only) et "Land &amp; Expand".
+                </p>
+            </div>
+            <div class="logic-card">
+                <div class="logic-icon"><i class="fas fa-server"></i></div>
+                <h3>Volume-Based API Usage</h3>
+                <p class="text-sm text-slate-400">
+                    Overage tiers appliqués sur les appels API massifs (Ingestion de données de marché B-PIPE, millions
+                    de calculs Monte Carlo). Assure une capture de valeur corrélée à la taille du client.
+                </p>
+            </div>
+            <div class="logic-card">
+                <div class="logic-icon"><i class="fas fa-shield-halved"></i></div>
+                <h3>Enterprise SLAs &amp; Support</h3>
+                <p class="text-sm text-slate-400">
+                    Monétisation premium des options SOC2-compliant, du Single Sign-On (SAML 2.0) et de la ségrégation
+                    stricte via VPC On-Premise (Private Cloud Deployment).
+                </p>
+            </div>
+        </div>
+        <!-- TIERING TABLE -->
+        <h2 class="text-2xl font-bold text-white mb-6" data-aos="fade-up">Commercial Tier Structure (ARR Focus)
+        </h2>
+        <div class="tiering-container" data-aos="fade-up" data-aos-delay="200">
+            <div class="tiering-header">
+                <div></div> <!-- Placeholder for feature column -->
+                <div class="tier-col tier-base">Essential (PoC)</div>
+                <div class="tier-col tier-pro">Professional</div>
+                <div class="tier-col tier-ent">Enterprise (Scale)</div>
+            </div>
+            <div class="tiering-row">
+                <div class="feature-name"><i class="fas fa-network-wired"></i> Accessible Primary Networks</div>
+                <div class="feature-value feature-text">1 (ex: SWIAT)</div>
+                <div class="feature-value feature-text">Up to 3</div>
+                <div class="feature-value feature-text">Unlimited + Custom</div>
+            </div>
+            <div class="tiering-row">
+                <div class="feature-name"><i class="fas fa-bolt"></i> Risk Engine (Stress Tests)</div>
+                <div class="feature-value feature-text">Static T0</div>
+                <div class="feature-value feature-text">Daily Batch</div>
+                <div class="feature-value feature-text text-accent-green">Real-Time API</div>
+            </div>
+            <div class="tiering-row">
+                <div class="feature-name"><i class="fas fa-robot"></i> Zero-Hallucination AI Copilot</div>
+                <div class="feature-value check-no"><i class="fas fa-times"></i></div>
+                <div class="feature-value check-yes"><i class="fas fa-check"></i></div>
+                <div class="feature-value check-yes"><i class="fas fa-check"></i> <span
+                        class="text-xs text-slate-400 ml-1">(Private LLM)</span></div>
+            </div>
+            <div class="tiering-row">
+                <div class="feature-name"><i class="fas fa-file-contract"></i> Cryptographic Audit Trail (Notarization)
+                </div>
+                <div class="feature-value check-no"><i class="fas fa-times"></i></div>
+                <div class="feature-value check-no"><i class="fas fa-times"></i></div>
+                <div class="feature-value check-yes"><i class="fas fa-check"></i></div>
+            </div>
+            <div class="tiering-row">
+                <div class="feature-name"><i class="fas fa-server"></i> Déploiement &amp; SSO</div>
+                <div class="feature-value feature-text">Public SaaS / No SSO</div>
+                <div class="feature-value feature-text">Shared SaaS / SAML</div>
+                <div class="feature-value feature-text text-purple-400">Private VPC / Strict RBAC</div>
+            </div>
+        </div>
+        <!-- PRICING BENCHMARK -->
+        <h2 class="text-2xl font-bold text-white mb-6 mt-12" data-aos="fade-up">Positionnement Prix (Value-Based
+            Pricing)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12" data-aos="fade-up">
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-6">
+                <h3 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2">Coût d'Inaction (Status
+                    Quo)</h3>
+                <ul class="text-sm text-slate-400 space-y-3">
+                    <li><i class="fas fa-times text-red-500 mr-2"></i> Basel III capital weight (Exposure 1250% RW)
+                    </li>
+                    <li><i class="fas fa-times text-red-500 mr-2"></i> MiCA/DORA fines (Up to €5M or 10% Turnover)</li>
+                    <li><i class="fas fa-times text-red-500 mr-2"></i> Manual audit (MBB consultants: ~€500k / year)</li>
+                </ul>
+                <div class="mt-4 pt-4 border-t border-slate-700 font-bold text-white">
+                    Impact: &gt; 1-2M€ / an par infrastructure
+                </div>
+            </div>
+            <div class="bg-blue-900/20 border border-blue-500/30 rounded-xl p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10"><i
+                        class="fas fa-balance-scale text-6xl text-blue-400"></i></div>
+                <h3 class="text-lg font-bold text-blue-400 mb-4 border-b border-blue-500/30 pb-2">DCM Governance OS
+                    (SaaS)</h3>
+                <ul class="text-sm text-slate-300 space-y-3">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Instant DORA/MiCA compliance & audit trail
+                    </li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Optimisation des tampons de capitaux via KPIs
+                        SR 11-7</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Predictable pricing (Pure software license)
+                    </li>
+                </ul>
+                <div
+                    class="mt-4 pt-4 border-t border-blue-500/30 font-bold text-white flex justify-between items-center">
+                    <span>Enterprise ARR Target:</span>
+                    <span class="text-xl text-blue-400">~150k - 250k€</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCALABILITY BANNER -->
+        <div class="scalability-banner" data-aos="fade-up">
+            <div class="scale-stat">
+                <h4>SaaS Gross Margins</h4>
+                <div class="stat-val">&gt; 85%</div>
+                <div class="text-xs text-slate-300 mt-2">Architecture Serverless &amp; Edge</div>
+            </div>
+            <div class="scale-stat">
+                <h4>Upsell Expansion Velocity</h4>
+                <div class="stat-val">+3 Mod./an</div>
+                <div class="text-xs text-slate-300 mt-2">Activation of adjacent networks</div>
+            </div>
+            <div class="scale-stat">
+                <h4>Sticky Infrastructure</h4>
+                <div class="stat-val">API-First</div>
+                <div class="text-xs text-slate-300 mt-2">Lock-in at the heart of the banking IT system</div>
+            </div>
+        </div>
+    </section>
+    <!-- RELATED STRATEGIC INSIGHTS -->
+    <section class="max-w-6xl mx-auto px-5 py-20 border-t border-slate-800/40" data-aos="fade-up">
+        <h3 class="text-xl font-bold text-white mb-8">Related Strategic Insights</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a href="governance-os-landing.html"
+                class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-blue-500 transition-all group">
+                <div class="text-xs uppercase text-slate-500 group-hover:text-blue-400 mb-2">Platform</div>
+                <div class="text-sm font-bold text-slate-200">Governance OS <i
+                        class="fas fa-arrow-right ml-1 opacity-0 group-hover:opacity-100 transition-opacity"></i></div>
+            </a>
+            <a href="regulatory-mapping.html"
+                class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-emerald-500 transition-all group">
+                <div class="text-xs uppercase text-slate-500 group-hover:text-emerald-400 mb-2">Compliance</div>
+                <div class="text-sm font-bold text-slate-200">Regulatory Mapping <i
+                        class="fas fa-arrow-right ml-1 opacity-0 group-hover:opacity-100 transition-opacity"></i></div>
+            </a>
+            <a href="mrm-hub.html"
+                class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-amber-500 transition-all group">
+                <div class="text-xs uppercase text-slate-500 group-hover:text-amber-400 mb-2">Risk Management</div>
+                <div class="text-sm font-bold text-slate-200">MRM Hub <i
+                        class="fas fa-arrow-right ml-1 opacity-0 group-hover:opacity-100 transition-opacity"></i></div>
+            </a>
+            <a href="case-study-tokenized-bond.html"
+                class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-purple-500 transition-all group">
+                <div class="text-xs uppercase text-slate-500 group-hover:text-purple-400 mb-2">Case Study</div>
+                <div class="text-sm font-bold text-slate-200">Tokenized Bond <i
+                        class="fas fa-arrow-right ml-1 opacity-0 group-hover:opacity-100 transition-opacity"></i></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- UNIFIED SUPER FOOTER -->
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // Inject Unified Footer
+    </script>
+    <!-- MAIN FOOTER -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- 0. BRAND -->
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                    <p>Plateforme d’analyse dédiée à la tokenisation des actifs financiers et aux infrastructures
+                        blockchain publiques et institutionnelles.</p>
+                    <div class="footer-socials">
+                        <a aria-label="LinkedIn" class="social-btn" href="https://www.linkedin.com/in/joan-lyczak/"
+                            target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a aria-label="GitHub" class="social-btn"
+                            href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank"><i
+                                class="fab fa-github"></i></a>
+                        <a aria-label="Twitter" class="social-btn" href="https://x.com/Joan_Lyczak" target="_blank"><i
+                                class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <!-- 1. PRODUIT -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Produit</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Hub Central</a></li>
+                        <li><a href="sandbox.html">Dashboard</a></li>
+                        <li><a href="simple.html">Academy</a></li>
+                        <li><a href="guide.html">Guide Expert</a></li>
+                        <li><a href="yield-mechanics.html">Simulation Engine</a></li>
+                        <li><a href="quiz.html">Certification</a></li>
+                        <li><a href="pricing-institutional.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <!-- 2. RESEARCH -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research</h4>
+                    <ul class="footer-links">
+                        <li><a href="rwa.html">RWA & DeFi</a></li>
+                        <li><a href="yield-mechanics.html">Yield Mechanics</a></li>
+                        <li><a href="web3.html">Web3 Infrastructure</a></li>
+                        <li><a href="ai-finance.html">AI & Finance</a></li>
+                        <li><a href="institutional-problem-statement.html">Strategic Vision</a></li>
+                        <li><a href="competitive-landscape.html">Competitive Landscape</a></li>
+                        <li><a href="series-a-narrative.html">Series A Deck</a></li>
+                        <li><a href="governance-os-landing.html">Institutional Governance</a></li>
+                        <li><a href="mrm-hub.html">MRM Hub</a></li>
+                        <li><a href="data-certification.html">Data Trust Certif</a></li>
+                        <li><a href="case-study-tokenized-bond.html">Quantified Use Case</a></li>
+                        <li><a href="economic-model.html">Economic Model</a></li>
+                        <li><a href="regulatory-mapping.html">Regulatory Mapping</a></li>
+                        <li><a href="legal-matrix.html">Global Matrix</a></li>
+                        <li><a href="networks/index.html">Blockchain Networks</a></li>
+                    </ul>
+                </div>
+                <!-- 3. INFRASTRUCTURE -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                        Infrastructure</h4>
+                    <ul class="footer-links">
+                        <li><a href="lifecycle.html">Lifecycle</a></li>
+                        <li><a href="flux-comparison.html">Flux Comparator</a></li>
+                        <li><a href="legal_pilot.html">Pilot Regime (EU)</a></li>
+                        <li><a href="sandbox.html">Sandbox</a></li>
+                        <li><a href="deployment-architecture.html">Deployment Arch</a></li>
+                        <li><a href="networks/swiat.html">SWIAT</a></li>
+                        <li><a href="networks/canton.html">Canton Network</a></li>
+                    </ul>
+                </div>
+                <!-- 4. CORPORATE -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Corporate
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="methodology.html">Methodology</a></li>
+                        <li><a href="current-status.html">Roadmap & Status</a></li>
+                        <li><a href="guide.html">Documentation</a></li>
+                        <li><a href="index-simple.html">Corporate Site</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="investor-login.html" style="color: #a855f7;"><i class="fas fa-lock"
+                                    style="font-size: 10px; margin-right: 4px;"></i> Investor Room</a></li>
+                        <li><a href="mailto:contact@dcm-digital.com">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- 5. LEGAL -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-shield-alt" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Legal
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="mentions-legales.html">Legal Mentions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="cgu.html">Terms of Use</a></li>
+                        <li><a href="cookies.html">Cookie Policy</a></li>
+                        <li><a href="methodology.html#disclaimer">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer"
+                style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto;">
+                <strong>Regulatory Transparency :</strong> DCM Digital quantifie les risques technologiques des
+                infrastructures DLT. Nous ne fournissons aucun conseil juridique, de conformité ou d'investissement. Les
+                données réglementaires (DORA, MiCA, Bâle III) sont utilisées comme références de modélisation systémique
+                et nécessitent l'analyse indépendante de vos directions des risques. <a
+                    href="regulatory-transparency.html" style="color: #3b82f6; text-decoration: underline;">Consulter
+                    notre Cadre de Transparence</a>.
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content"
+                    style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="copyright">
+                        © 2026 DCM Digital • Version 4.3.0
+                    </div>
+                    <div class="legal-links">
+                        <a href="support-it.html">Support IT</a>
+                        <a href="api-docs.html">Documentation API</a>
+                    </div>
+                </div>
+            </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+/* ============================================================
+   DASHBOARD SIDEBAR — SHARED COMPONENT
+   ============================================================ */
+
+.sidebar {
+    width: 280px;
+    background: #020617;
+    /* Solid fallback */
+    background: rgba(2, 6, 23, 0.98);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    height: 100vh;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    /* Higher z-index to stay above page content */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    transition: transform 0.3s ease;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 50px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-main, linear-gradient(135deg, #3b82f6, #8b5cf6));
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.brand-text {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    color: white;
+}
+
+.brand-text span {
+    color: #3b82f6;
+}
+
+.nav-menu {
+    list-style: none !important;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.nav-item {
+    list-style: none !important;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: rgba(59, 130, 246, 0.1);
+    color: white;
+}
+
+.nav-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Main Content Adjustment */
+.main-content {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+    margin-top: 0;
+    padding-top: 70px;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<link href="https://dcmcore.com/networks/ethereum.html" hreflang="fr" rel="alternate"/>
+<link href="https://dcmcore.com/networks/ethereum.html" hreflang="x-default" rel="alternate"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ethereum (ETH) | EVM &amp; PoS Tokenomics</title>
+<meta content="Analyse technique d'Ethereum : transition PoS, The Merge, Smart Contracts (EVM), tokenomics EIP-1559 (Burn), et l'écosystème DeFi / L2 Rollups." name="description"/>
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<!-- ICONS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<!-- ANIMATIONS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+<!-- 3D COIN STYLES -->
+<link href="../styles-3d-coin.css" rel="stylesheet"/>
+<!-- UNIFIED FOOTER -->
+<link href="../styles-footer.css" rel="stylesheet"/>
+<style>
+        :root {
+            --bg-dark: #000000;
+            --bg-card: #080808;
+            --text-main: #f3f4f6;
+            --text-muted: #888888;
+            --eth-purple: #627EEA;
+            --accent-green: #10b981;
+            --border: #222;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        #hubCanvas {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 18px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 100px auto 0;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        h1 {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-section h2 {
+            font-size: 32px;
+            color: white;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content-section p {
+            font-size: 17px;
+            color: #a3a3a3;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .metric-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 2px solid var(--eth-purple);
+        }
+
+        .metric-val {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            font-family: 'JetBrains Mono';
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .engine-box {
+            background: #0b0b0b;
+            border: 1px solid #333;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .engine-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: var(--eth-purple);
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 10px;
+        }
+
+        .simulation-input {
+            width: 100%;
+            background: #111;
+            border: 1px solid #444;
+            color: white;
+            padding: 15px;
+            font-family: 'JetBrains Mono';
+            font-size: 18px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .simulation-input:focus {
+            border-color: var(--eth-purple);
+        }
+
+        .simulation-result {
+            font-size: 24px;
+            font-family: 'JetBrains Mono';
+            color: white;
+            font-weight: bold;
+        }
+
+        .feature-box {
+            background: rgba(98, 126, 234, 0.05);
+            border-left: 3px solid var(--eth-purple);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .feature-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .feature-box p {
+            margin-bottom: 0;
+            font-size: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+        }
+    </style>
+<!-- JSON-LD SCHEMA -->
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Ethereum (ETH) | EVM, PoS & Ultrasound Money",
+      "description": "Deep-dive institutionnel sur Ethereum : Transition Proof of Stake, The Merge, mécanique de burn EIP-1559, et scalabilité Rollup-centric (L2).",
+      "keywords": ["Ethereum", "ETH", "EVM", "PoS", "EIP-1559", "Rollups", "Smart Contracts"],
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Digital | Research OS"
+      },
+      "datePublished": "2026-02-20",
+      "dateModified": "2026-02-20",
+      "publisher": {
+        "@type": "Organization",
+        "name": "DCM Digital"
+      }
+    }
+    </script>
+<link href="https://dcm-digital.com/networks/ethereum.html" rel="canonical"/>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/cta-tracker.js"></script>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+</head>
+<body>
+<canvas id="hubCanvas"></canvas>
+<nav class="navbar">
+<div class="nav-logo">
+<i class="fa-brands fa-ethereum" style="color: var(--eth-purple);"></i> ETHEREUM
+        </div>
+<a aria-label="Retour" class="back-btn" href="index.html"><i class="fa-solid fa-arrow-left"></i> NETWORK HUB</a>
+</nav>
+<div class="container" role="main">
+<!-- 1. OVERVIEW -->
+<div class="hero" data-aos="fade-up">
+<!-- 3D COIN -->
+<div class="coin-scene" style="--coin-color: var(--eth-purple);">
+<div class="coin-wrapper">
+<!-- Front Face -->
+<div class="coin-face coin-front">
+<i class="fa-brands fa-ethereum"></i>
+</div>
+<!-- Back Face -->
+<div class="coin-face coin-back">
+<i class="fa-brands fa-ethereum"></i>
+</div>
+<!-- 3D Edges -->
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+<div class="coin-edge"></div>
+</div>
+</div>
+<h1>L'Ordinateur Mondial</h1>
+<p>Ethereum est la principale plateforme programmable mondiale, motorisant les Smart Contracts, le Web3, la
+                DeFi et les Actifs du Monde Réel (RWA), sécurisée aujourd'hui par la Preuve d'Enjeu.</p>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 50px;">
+<div class="metric-card">
+<div class="metric-val">2015</div>
+<div class="metric-label">Génèse</div>
+</div>
+<div class="metric-card">
+<div class="metric-val">~1M+</div>
+<div class="metric-label">Validateurs</div>
+</div>
+<div class="metric-card">
+<div class="metric-val">~12s</div>
+<div class="metric-label">Block Time</div>
+</div>
+<div class="metric-card">
+<div class="metric-val">~15-30</div>
+<div class="metric-label">TPS (Layer 1)</div>
+</div>
+</div>
+</div>
+<!-- THE COMPARATIVE ENGINE -->
+<div class="content-section grid-2" data-aos="fade-up">
+<div>
+<h2><i class="fa-solid fa-satellite-dish" style="color: var(--eth-purple);"></i> Profil Réseau</h2>
+<p>Ethereum s'impose comme la couche de règlement universelle. Contrairement à des chaines monolithiques
+                    ultra-rapides (Solana) ou soutenues par des entités corporatives (BNB Chain), Ethereum privilégie la
+                    décentralisation ultime de sa couche de base. En opérant The Merge (2022), le réseau a décarboné sa
+                    sécurité de 99.9%, tout en solidifiant la rareté de l'Ether.</p>
+<div class="feature-box">
+<h4>Rollup-Centric Roadmap &amp; Danksharding</h4>
+<p>Pour résoudre le trilemme de scalabilité, Ethereum a abandonné l'exécution L1 pour se transformer
+                        en couche de <strong>Disponibilité des Données (Data Availability)</strong>. L'exécution est
+                        déportée sur des <strong>Layer 2 (Rollups)</strong>. Les futures mises à jour (Danksharding)
+                        introduiront le <em>Data Availability Sampling</em>, permettant aux Rollups de vérifier
+                        massivement les données à coûts minimes.</p>
+</div>
+</div>
+<div class="engine-box">
+<div class="engine-title">Institutional Radar : Ethereum</div>
+<div style="position: relative; height: 300px; width: 100%;">
+<canvas id="radarChart"></canvas>
+</div>
+</div>
+<!-- Live Stats (Phase 52) -->
+<div id="live-stats-eth"></div>
+<!-- Comparer Button (Phase 54) -->
+<div style="text-align:right;margin-top:10px">
+<a href="../comparateur.html?left=ETH&amp;right=BTC" style="display:inline-flex;align-items:center;gap:6px;background:rgba(98,126,234,.1);border:1px solid rgba(98,126,234,.25);color:#627EEA;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.5px">
+<i class="fas fa-code-compare"></i> Comparer ETH vs BTC
+                </a>
+</div>
+</div>
+<!-- 2. CONSENSUS & 3. EVM -->
+<div class="content-section" data-aos="fade-up">
+<h2><i class="fa-solid fa-server"></i> EVM &amp; Consensus (PoS)</h2>
+<p>Contrairement au SHA-256 de Bitcoin, Ethereum est sécurisé par le capital (Staking) grâce au Proof of
+                Stake.</p>
+<div class="grid-2">
+<div class="feature-box">
+<h4>Proof of Stake (PoS)</h4>
+<p>Un utilisateur doit verrouiller au moins 32 ETH pour opérer un noeud validateur. Si un validateur
+                        agit malicieusement vis-à-vis du réseau, son capital est détruit informatiquement (Mécanisme de
+                        <strong>Slashing</strong>).
+                    </p>
+</div>
+<div class="feature-box">
+<h4>Ethereum Virtual Machine (EVM)</h4>
+<p>L'EVM est l'environnement d'exécution Turing-complet qui lit et exécute les smart contracts.
+                        Chaque opération a un coût en "Gas" pour empêcher le spamming et rémunérer l'inclusion des
+                        blocs.</p>
+</div>
+</div>
+</div>
+<!-- 4. MONETARY POLICY & SIMULATION -->
+<div class="content-section grid-2" data-aos="fade-up">
+<div>
+<h2><i class="fa-solid fa-coins"></i> Ultrasound Money Policy</h2>
+<p>La politique monétaire d'Ethereum a muté suite au Merge et à la mise à jour EIP-1559, rendant l'Ether
+                    potentiellement déflationniste.</p>
+<div class="feature-box">
+<h4>EIP-1559 &amp; The Burn</h4>
+<p>Les frais de transaction (Base Fee) envoyés par les utilisateurs ne sont plus donnés aux
+                        validateurs : ils sont <strong>brûlés (détruits)</strong>. Si le réseau est très actif, les BTC
+                        détruits (Burn) dépassent les Nouveaux ETH émis pour les validateurs, causant une déflation
+                        nette du circulating supply ("Ultrasound Money").</p>
+</div>
+</div>
+<div class="engine-box">
+<div class="engine-title">Simulateur : Ultrasound Burn Mechanics</div>
+<label style="color: #888; font-size: 13px; display: block; margin-bottom: 10px;">Estimez l'inflation
+                    annuelle nette selon le prix du Gas moyen (Base Fee)</label>
+<input aria-label="Ajuster le Gwei" class="simulation-input" id="gasInput" max="100" min="5" type="range" value="25"/>
+<div style="font-family: 'JetBrains Mono'; color: #ccc; margin-bottom: 15px;">Réseau actif à : <span id="gasDisplay" style="color:var(--eth-purple);">25 Gwei</span></div>
+<div style="display: flex; justify-content: space-between; border-top: 1px dotted #333; padding-top: 15px; margin-top: 15px;">
+<div style="color: #888; font-size: 12px;">Net Issuance :</div>
+<div class="simulation-result" id="issuanceResult">...</div>
+</div>
+</div>
+</div>
+<!-- 5. ECOSYSTEM & 6. RISK LAYER -->
+<div class="content-section grid-2" data-aos="fade-up">
+<div>
+<h2><i class="fa-solid fa-triangle-exclamation"></i> Risques (MEV &amp; Centralisation)</h2>
+<p>L'écosystème colossal d'Ethereum (DeFi, L2, NFTs) génère de nouvelles vulnérabilités structurelles
+                    différentes des autres Layer 1.</p>
+<ul style="color: #888; font-size: 15px; padding-left: 20px; line-height: 1.8;">
+<li><strong>Liquid Staking Derivatives (LSDs) :</strong> Le staking est massivement concentré via
+                        des entités comme Lido et Coinbase, posant un risque de collusion sur plus de 33% du consensus.
+                    </li>
+<li><strong>Maximal Extractable Value (MEV) :</strong> "L'impôt cryptographique". Les <em>Block
+                            Builders</em> ordonnent les transactions pour extraire du profit (arbitrage, sandwich
+                        attacks) au détriment de l'utilisateur final.</li>
+<li><strong>Risque Centralisation L2 :</strong> Bien que vantés pour la scalabilité, les Sequencers
+                        actuels des principaux Rollups (Optimism, Arbitrum, Base) demeurent exploités de manière
+                        centralisée.</li>
+</ul>
+</div>
+<div class="engine-box">
+<div class="engine-title">Risk Matrix Heatmap</div>
+<div id="riskHeatmap"></div>
+</div>
+</div>
+<!-- QUIZ / CERTIFICATION -->
+<!-- BIBLIOGRAPHY -->
+<div class="content-section" data-aos="fade-up" style="border-top: 1px dashed #333;">
+<div class="feature-box" style="background: rgba(98, 126, 234, 0.05); border-left: 3px solid var(--eth-purple);">
+<h4><i class="fa-solid fa-book" style="color: var(--eth-purple);"></i> Références &amp; Académie</h4>
+<ul style="color: #ccc; font-size: 14px; padding-left: 20px; line-height: 1.8; margin-top: 10px;">
+<li>Buterin, V. (2013). <i>A Next-Generation Smart Contract and Decentralized Application
+                            Platform</i>. (<a href="https://ethereum.org/en/whitepaper/" style="color: var(--eth-purple);" target="_blank">Whitepaper</a>)</li>
+<li>Buterin, V. et al. (EIP-1559). <i>Fee market change for ETH 1.0 chain</i>. (<a href="https://eips.ethereum.org/EIPS/eip-1559" style="color: var(--eth-purple);" target="_blank">EIP Specification</a>)</li>
+<li>Github Repo: <a href="https://github.com/ethereum/consensus-specs" style="color: var(--eth-purple);" target="_blank">Ethereum Proof-of-Stake Consensus Specifications</a></li>
+</ul>
+</div>
+</div>
+<div class="content-section" data-aos="fade-up" id="quiz-container">
+<!-- Injected by NetworkEngine -->
+</div>
+</div>
+<!-- FOOTER -->
+<!-- MAIN FOOTER -->
+<footer class="super-footer">
+<div class="footer-content">
+<div class="footer-grid">
+<!-- 0. BRAND -->
+<div class="footer-brand">
+<h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+<p>Plateforme d’analyse dédiée à la tokenisation des actifs financiers et aux infrastructures
+                    blockchain publiques et institutionnelles.</p>
+<div class="footer-socials">
+<a aria-label="LinkedIn" class="social-btn" href="https://www.linkedin.com/in/joan-lyczak/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+<a aria-label="GitHub" class="social-btn" href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank"><i class="fab fa-github"></i></a>
+<a aria-label="Twitter" class="social-btn" href="https://x.com/Joan_Lyczak" target="_blank"><i class="fab fa-x-twitter"></i></a>
+</div>
+</div>
+<!-- 1. PRODUIT -->
+<div class="footer-col">
+<h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Produit</h4>
+<ul class="footer-links">
+<li><a href="../index.html">Hub Central</a></li>
+<li><a href="../sandbox.html">Dashboard</a></li>
+<li><a href="../simple.html">Academy</a></li>
+<li><a href="../guide.html">Guide Expert</a></li>
+<li><a href="../yield-mechanics.html">Simulation Engine</a></li>
+<li><a href="../quiz.html">Certification</a></li>
+<li><a href="../pricing-institutional.html">Pricing</a></li>
+</ul>
+</div>
+<!-- 2. RESEARCH -->
+<div class="footer-col">
+<h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research</h4>
+<ul class="footer-links">
+<li><a href="../rwa.html">RWA &amp; DeFi</a></li>
+<li><a href="../yield-mechanics.html">Yield Mechanics</a></li>
+<li><a href="../web3.html">Web3 Infrastructure</a></li>
+<li><a href="../ai-finance.html">AI &amp; Finance</a></li>
+<li><a href="../institutional-problem-statement.html">Strategic Vision</a></li>
+<li><a href="../competitive-landscape.html">Competitive Landscape</a></li>
+<li><a href="../series-a-narrative.html">Series A Deck</a></li>
+<li><a href="../governance-os-landing.html">Institutional Governance</a></li>
+<li><a href="../mrm-hub.html">MRM Hub</a></li>
+<li><a href="../data-certification.html">Data Trust Certif</a></li>
+<li><a href="../case-study-tokenized-bond.html">Quantified Use Case</a></li>
+<li><a href="../economic-model.html">Economic Model</a></li>
+<li><a href="../regulatory-mapping.html">Regulatory Mapping</a></li>
+<li><a href="../legal-matrix.html">Global Matrix</a></li>
+<li><a href="index.html">Blockchain Networks</a></li>
+</ul>
+</div>
+<!-- 3. INFRASTRUCTURE -->
+<div class="footer-col">
+<h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                    Infrastructure</h4>
+<ul class="footer-links">
+<li><a href="../lifecycle.html">Cycle de Vie</a></li>
+<li><a href="../flux-comparison.html">Comparateur Flux</a></li>
+<li><a href="../legal_pilot.html">Régime Pilote (UE)</a></li>
+<li><a href="../sandbox.html">Sandbox</a></li>
+<li><a href="swiat.html">SWIAT</a></li>
+<li><a href="canton.html">Canton Network</a></li>
+</ul>
+</div>
+<!-- 4. CORPORATE -->
+<div class="footer-col">
+<h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Corporate
+                </h4>
+<ul class="footer-links">
+<li><a href="../methodology.html">Méthodologie</a></li>
+<li><a href="../guide.html">Documentation</a></li>
+<li><a href="../index-simple.html">Site Corporate</a></li>
+<li><a href="../about.html">À propos</a></li>
+<li><a href="mailto:contact@dcm-digital.com">Contact</a></li>
+</ul>
+</div>
+<!-- 5. LEGAL -->
+<div class="footer-col">
+<h4><i class="fas fa-shield-alt" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Legal
+                </h4>
+<ul class="footer-links">
+<li><a href="../mentions-legales.html">Mentions Légales</a></li>
+<li><a href="../privacy.html">Politique de Confidentialité</a></li>
+<li><a href="../cgu.html">Conditions d'Utilisation</a></li>
+<li><a href="../cookies.html">Politique Cookies</a></li>
+<li><a href="../methodology.html#disclaimer">Disclaimer</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-disclaimer" style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto;">
+                <strong>Regulatory Transparency :</strong> DCM Digital quantifie les risques technologiques des infrastructures DLT. Nous ne fournissons aucun conseil juridique, de conformité ou d'investissement. Les données réglementaires (DORA, MiCA, Bâle III) sont utilisées comme références de modélisation systémique et nécessitent l'analyse indépendante de vos directions des risques. <a href="regulatory-transparency.html" style="color: #3b82f6; text-decoration: underline;">Consulter notre Cadre de Transparence</a>.
+            </div>
+        <div class="footer-bottom">
+<div class="footer-bottom-content" style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+<div class="copyright">
+                © 2026 DCM Digital • Version 4.3.0
+            </div>
+<div class="legal-links">
+<a href="support-it.html">Support IT</a>
+<a href="api-docs.html">Documentation API</a>
+</div>
+</div>
+</div>
+</footer>
+<script src="../js/config.js"></script>
+<script defer="" src="../js/session-manager.js"></script>
+<!-- ENGINE & CHART -->
+<script defer="" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer="" src="../js/network-engine.js"></script>
+<script>
+        fetch('../components/footer.html').then(response => response.text()).then(data => {
+            document.getElementById('footer-container').innerHTML = data;
+            const footerImgs = document.querySelectorAll('#footer-container img');
+            footerImgs.forEach(img => { const src = img.getAttribute('src'); if (src && !src.startsWith('http') && !src.startsWith('assets/')) { img.setAttribute('src', '../' + src); } });
+            const footerLinks = document.querySelectorAll('#footer-container a');
+            footerLinks.forEach(link => { const href = link.getAttribute('href'); if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto')) { link.setAttribute('href', '../' + href); } });
+        });
+
+        window.addEventListener('load', () => {
+            // 1. Radar Chart : Order = [Security, Decentralization, Throughput, Hardness, Eco Depth]
+            NetworkEngine.initComparativeRadar('radarChart', 'Ethereum', [9, 8, 3, 9, 10], '#627EEA');
+
+            // Live Market Stats (Phase 52)
+            NetworkEngine.fetchLiveStats('live-stats-eth', 'ETH');
+
+            // 2. Risk Heatmap
+            NetworkEngine.initRiskHeatmap('riskHeatmap', {
+                'Regulatory': 'Medium', // SEC scrutinizing staking/LSDs
+                'Technical': 'Medium', // Smart contract bugs
+                'Monetary': 'Low', // Defined and transparent EIP-1559
+                'Governance': 'Medium' // Social consensus vs Core Devs centralization
+            });
+
+            // 3. Ultrasound Burn Logic Simulator
+            const gasInput = document.getElementById('gasInput');
+            const gasDisplay = document.getElementById('gasDisplay');
+            const validateSimulation = (gwei) => {
+                gasDisplay.innerText = gwei + ' Gwei';
+                // Very simplified Ultrasound calculation
+                // Base Issuance is ~700,000 ETH / year.
+                // 15 Gwei is roughly the equilibrium break-even point today.
+                const eqPoint = 15;
+                if (gwei < eqPoint) return `<span style="color:#ef4444;">Inflationniste (+${(eqPoint - gwei) * 0.05}%)</span>`;
+                if (gwei == eqPoint) return `<span style="color:#f59e0b;">Équilibre Neutre (0%)</span>`;
+                if (gwei > eqPoint) return `<span style="color:#10b981;">Déflationniste (-${(gwei - eqPoint) * 0.03}%)</span>`;
+            };
+            NetworkEngine.setupSimulator('gasInput', 'issuanceResult', validateSimulation);
+
+            // 4. Quiz
+            NetworkEngine.initQuiz('quiz-container',
+                "Sur Ethereum, quel est le nom du mécanisme introduit par la mise à jour EIP-1559 qui détruit une partie des frais de transaction (Base Fee) ?",
+                [
+                    "Le Slashing",
+                    "Le Halving",
+                    "The Merge",
+                    "Le Burn"
+                ],
+                3
+            );
+        });
+    </script>
+<!-- UI -->
+<script defer="" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script defer="" src="../hub-particles.js"></script>
+<script>window.addEventListener('load', () => AOS.init({ duration: 800, once: true }));</script>
+</body>
+</html>
