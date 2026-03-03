@@ -22,6 +22,7 @@ const NavigationManager = {
                 { id: 'nav-ecb', name: 'ECB DLT Trials', link: 'ecb-dlt-trials.html', icon: 'fa-globe-europe' },
                 { id: 'nav-rwa', name: 'RWA Vertical', link: 'rwa-analytics.html', icon: 'fa-layer-group', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-risk', name: 'Risk Engine', link: 'dashboard.html#risk-card', icon: 'fa-shield-virus' },
+                { id: 'nav-insights', name: 'Centre de Ressources', link: 'insights/index.html', icon: 'fa-book-atlas' },
                 { id: 'nav-yield', name: 'Yield Lab', link: 'yield-mechanics.html', icon: 'fa-flask-vial' }
             ]
         },
