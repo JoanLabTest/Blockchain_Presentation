@@ -1,16 +1,860 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
-    <meta http-equiv="refresh" content="0; url=/fr/pricing.html">
-    <script type="text/javascript">
-        window.location.href = "/fr/pricing.html"
-    </script>
-    <title>Redirecting...</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>DCM Digital Hub | Pricing & Plans</title>
+    <meta
+        content="Licence SaaS pour piloter le risque DLT, l’auditabilité et la conformité — depuis l’analyste jusqu’au COMEX."
+        name="description" />
+    <meta content="index, follow" name="robots" />
+
+    <!-- FONTS & ICONS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800;900&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --bg-card: #0a0a0a;
+            --text-main: #f3f4f6;
+            --text-muted: #888888;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-gold: #f59e0b;
+            --border: #222;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        /* HERO PRICING */
+        .pricing-hero {
+            padding: 160px 20px 60px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #000 70%);
+        }
+
+        .hero-badge {
+            color: var(--accent-blue);
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 6px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            color: white;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.5;
+        }
+
+        /* TOGGLE SWITCH */
+        .billing-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .billing-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: #888;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .billing-label.active {
+            color: white;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 64px;
+            height: 36px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--accent-purple);
+            transition: .4s;
+            border-radius: 36px;
+            border: 1px solid #555;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 28px;
+            width: 28px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--accent-purple);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .save-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        /* PRICING CARDS */
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .pricing-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pricing-card {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 20px;
+            padding: 45px 35px;
+            position: relative;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: #444;
+        }
+
+        .pricing-card.popular {
+            border-color: var(--accent-purple);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
+            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        @media (max-width: 900px) {
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .tier-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 5px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .tier-target {
+            font-size: 14px;
+            color: var(--accent-blue);
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tier-price {
+            font-size: 56px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: white;
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .tier-price span.currency {
+            font-size: 24px;
+            color: #888;
+        }
+
+        .tier-price span.period {
+            font-size: 16px;
+            color: #888;
+            font-weight: 600;
+            font-family: 'Urbanist', sans-serif;
+        }
+
+        .tier-desc {
+            font-size: 15px;
+            color: #ccc;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            min-height: 48px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 40px;
+            flex-grow: 1;
+            padding: 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 15px;
+            color: #ddd;
+        }
+
+        .feature-item i {
+            color: var(--accent-green);
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .feature-item i.fa-xmark {
+            color: #444;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #333;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-primary {
+            background: var(--accent-purple);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #7c3aed;
+            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* SOCIAL PROOF BANNER */
+        .social-proof-banner {
+            background: rgba(15, 23, 42, 0.8);
+            border-top: 1px solid rgba(59, 130, 246, 0.3);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .social-proof-banner p {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            margin-top: 0;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .logos i {
+            font-size: 36px;
+            color: #64748b;
+            transition: 0.3s;
+        }
+
+        .logos i:hover {
+            color: #fff;
+        }
+
+        /* FEATURE MATRIX */
+        .matrix-section {
+            max-width: 1100px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .matrix-section h2 {
+            text-align: center;
+            font-size: 40px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            margin-bottom: 50px;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #222;
+        }
+
+        .matrix-table th,
+        .matrix-table td {
+            padding: 20px 25px;
+            text-align: center;
+            border-bottom: 1px solid #222;
+        }
+
+        .matrix-table th:first-child,
+        .matrix-table td:first-child {
+            text-align: left;
+        }
+
+        .matrix-table th {
+            font-size: 18px;
+            color: white;
+            font-weight: 800;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .matrix-table th:first-child {
+            width: 40%;
+        }
+
+        .category-row td {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-align: left !important;
+        }
+
+        .matrix-table td:first-child {
+            font-weight: 600;
+            color: #ddd;
+            font-size: 15px;
+        }
+
+        .matrix-table td i.check {
+            color: var(--accent-green);
+            font-size: 18px;
+        }
+
+        .matrix-table td i.cross {
+            color: #444;
+            font-size: 18px;
+        }
+
+        .matrix-table th.highlight,
+        .matrix-table td.highlight {
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .matrix-table th.highlight {
+            color: var(--accent-purple);
+        }
+
+        /* FAQ SECTION */
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 40px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            margin-bottom: 50px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #222;
+            padding: 25px 0;
+        }
+
+        .faq-question {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            font-size: 16px;
+            color: #aaa;
+            line-height: 1.6;
+            display: none;
+            padding-top: 10px;
+        }
+
+        .faq-question.active+.faq-answer {
+            display: block;
+        }
+
+        /* AOS Safety Fallback */
+        .pricing-card {
+            opacity: 1 !important;
+            transform: none;
+            visibility: visible !important;
+        }
+    </style>
+
+
+    <link rel="alternate" hreflang="fr" href="https://dcm-digital.com/fr/pricing.html" />
+    <link rel="alternate" hreflang="en" href="https://dcm-digital.com/en/pricing.html" />
+    <link rel="alternate" hreflang="x-default" href="https://dcm-digital.com/fr/pricing.html" />
 </head>
 
 <body>
-    If you are not redirected, <a href="/fr/pricing.html">click here</a>.
+    <nav class="navbar">
+        <div style="font-weight: 800; font-family: 'Outfit'; font-size: 22px; color: white;">
+            <i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM <span
+                style="font-weight:400; color:var(--text-muted)">DIGITAL</span>
+        </div>
+        <a class="back-btn" href="dashboard.html"><i class="fa-solid fa-arrow-left"></i> RETOUR DASHBOARD</a>
+    </nav>
+
+    <section class="pricing-hero">
+        <div class="hero-badge">Licensing & Plans</div>
+        <h1>Licence SaaS pour piloter le risque DLT,<br>l’auditabilité et la conformité.</h1>
+        <p class="subtitle">De l'analyste au COMEX. Obtenez une visibilité en temps réel sur l'exposition de vos actifs
+            tokenisés et générez des rapports Board-Ready certifiés MiCA & DORA.</p>
+
+        <div class="billing-toggle">
+            <span class="billing-label active" id="label-monthly" onclick="setBilling('monthly')">Mensuel</span>
+            <label class="switch">
+                <input id="billing-switch" type="checkbox" onchange="toggleBilling()" checked>
+                <span class="slider"></span>
+            </label>
+            <span class="billing-label" id="label-yearly" onclick="setBilling('yearly')">Annuel <span
+                    class="save-badge">20% Off</span></span>
+        </div>
+    </section>
+
+    <!-- 3 TIERS CARDS -->
+    <div class="pricing-container" data-aos="fade-up">
+
+        <!-- FREE TIER -->
+        <div class="pricing-card">
+            <div class="tier-name">Analyst Free</div>
+            <div class="tier-target">Recherche & Découverte</div>
+            <div class="tier-price"><span class="currency">€</span>0<span class="period">/mo</span></div>
+            <div class="tier-desc">L'essentiel pour les analystes souhaitant découvrir la tokenisation et explorer
+                l'écosystème institutionnel.</div>
+            <ul class="feature-list">
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Accès complet au Hub Central</span>
+                </li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Documentation & Academy basique</span>
+                </li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Comparateur de flux (Lecture
+                        seule)</span></li>
+                <li class="feature-item missing"><i class="fa-solid fa-xmark"></i> <span style="color:#555">Export PDF
+                        Board-Ready</span></li>
+                <li class="feature-item missing"><i class="fa-solid fa-xmark"></i> <span style="color:#555">Simulateur
+                        On-Chain (Stress Tests)</span></li>
+            </ul>
+            <a class="btn btn-outline" href="index.html">Commencer gratuitement</a>
+        </div>
+
+        <!-- PRO TIER -->
+        <div class="pricing-card popular">
+            <div class="popular-badge">Most Popular</div>
+            <div class="tier-name">Professional</div>
+            <div class="tier-target">Risque & Conformité</div>
+            <div class="tier-price"><span class="currency">€</span><span id="price-pro">39</span><span
+                    class="period">/mo</span></div>
+            <div class="tier-desc">Conçu pour les experts métiers nécessitant des outils de simulation de rendement et
+                de conformité réglementaire (MiCA).</div>
+            <ul class="feature-list">
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span><strong>Tout le plan Free, plus
+                            :</strong></span></li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Simulateur Yield Mechanics (V2)</span>
+                </li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Exports PDF & Rapports CSV
+                        natifs</span></li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Score Compliance (MiCA) Live</span>
+                </li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Certification & Quiz Profiling
+                        illimité</span></li>
+            </ul>
+            <button class="btn btn-primary" onclick="alert('Redirection vers Stripe Checkout...')">Démarrer l'essai Pro
+                (14j)</button>
+            <p style="font-size:12px; color:#888; text-align:center; margin-top:15px; margin-bottom:0;">Annulable à tout
+                moment. Sans engagement.</p>
+        </div>
+
+        <!-- ENTERPRISE TIER -->
+        <div class="pricing-card">
+            <div class="tier-name">Enterprise</div>
+            <div class="tier-target">Déploiement Institutionnel</div>
+            <div class="tier-price" style="font-size: 40px; margin-top:10px; margin-bottom: 11px;">Sur Mesure</div>
+            <div class="tier-desc">Architecture multi-utilisateurs, gestion des rôles et API on-chain pour banques et
+                assets managers.</div>
+            <ul class="feature-list">
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span><strong>Tout le plan Pro, plus
+                            :</strong></span></li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Validation Cover Pool Prouvée</span>
+                </li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Accès API Données & Modèles</span></li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>SSO (SAML) & Audit Logs
+                        intégraux</span></li>
+                <li class="feature-item"><i class="fa-solid fa-check"></i> <span>SLA 99.9% & Account Manager
+                        Dédié</span></li>
+            </ul>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-primary" style="background:#fff; color:#000;"
+                    onclick="window.location.href='pricing-institutional.html'">Voir l'offre Enterprise</button>
+                <button class="btn btn-outline" onclick="window.location.href='mailto:sales@dcm-digital.com'">Contacter
+                    les Ventes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOCIAL PROOF BANNER -->
+    <div class="social-proof-banner" data-aos="fade-in">
+        <p>In discussion with EU Tier-1 institutions & aligned with MiCA & DORA frameworks</p>
+        <div class="logos">
+            <i class="fab fa-ethereum" title="Ethereum Compatible"></i>
+            <i class="fab fa-aws" title="AWS Infrastructure"></i>
+            <i class="fab fa-stripe" title="Stripe Verified"></i>
+            <i class="fas fa-shield-halved" title="Audited Security"></i>
+            <i class="fas fa-university" title="Institutional Standard"></i>
+        </div>
+    </div>
+
+    <!-- DETAILED FEATURE MATRIX -->
+    <section class="matrix-section" data-aos="fade-up">
+        <h2>Feature Comparison</h2>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Fonctionnalités</th>
+                    <th>Analyst Free</th>
+                    <th class="highlight">Professional</th>
+                    <th>Enterprise</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Category 1 -->
+                <tr class="category-row">
+                    <td colspan="4">Core Platform & Analytics</td>
+                </tr>
+                <tr>
+                    <td>Données Marchés & RWA</td>
+                    <td>Journalier (D-1)</td>
+                    <td class="highlight">Temps Réel</td>
+                    <td>Temps Réel + API</td>
+                </tr>
+                <tr>
+                    <td>Comparateur de Flux (Ops)</td>
+                    <td><i class="fa-solid fa-check check"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-check check"></i></td>
+                    <td>Custom Networks</td>
+                </tr>
+                <tr>
+                    <td>Regulatory Mapping (Global)</td>
+                    <td><i class="fa-solid fa-check check"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-check check"></i></td>
+                    <td>Veille Personnalisée</td>
+                </tr>
+
+                <!-- Category 2 -->
+                <tr class="category-row">
+                    <td colspan="4">Risk Engine & Simulation</td>
+                </tr>
+                <tr>
+                    <td>Simulateur Yield Mechanics</td>
+                    <td><i class="fa-solid fa-xmark cross"></i></td>
+                    <td class="highlight">Illimité</td>
+                    <td>Modèles Custom (Python)</td>
+                </tr>
+                <tr>
+                    <td>RWA Stress Tests</td>
+                    <td><i class="fa-solid fa-xmark cross"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-check check"></i></td>
+                    <td><i class="fa-solid fa-check check"></i></td>
+                </tr>
+                <tr>
+                    <td>Audit Smart Contracts Privatif</td>
+                    <td><i class="fa-solid fa-xmark cross"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-xmark cross"></i></td>
+                    <td><i class="fa-solid fa-check check"></i></td>
+                </tr>
+
+                <!-- Category 3 -->
+                <tr class="category-row">
+                    <td colspan="4">Reporting & Gouvernance</td>
+                </tr>
+                <tr>
+                    <td>Export PDF (Board-Ready)</td>
+                    <td><i class="fa-solid fa-xmark cross"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-check check"></i></td>
+                    <td>White-label / Multi-formats</td>
+                </tr>
+                <tr>
+                    <td>Mode Manager (Gestion Équipe)</td>
+                    <td><i class="fa-solid fa-xmark cross"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-xmark cross"></i></td>
+                    <td>Jusqu'à 100 utilisateurs</td>
+                </tr>
+                <tr>
+                    <td>SSO & Audit Logs</td>
+                    <td><i class="fa-solid fa-xmark cross"></i></td>
+                    <td class="highlight"><i class="fa-solid fa-xmark cross"></i></td>
+                    <td>SAML, OIDC, Logs natifs</td>
+                </tr>
+
+                <!-- Category 4 -->
+                <tr class="category-row">
+                    <td colspan="4">Support & Onboarding</td>
+                </tr>
+                <tr>
+                    <td>SLA & Disponibilité</td>
+                    <td>Best effort</td>
+                    <td class="highlight">99.0% Uptime</td>
+                    <td>99.9% Uptime SLA</td>
+                </tr>
+                <tr>
+                    <td>Support Client</td>
+                    <td>Communauté</td>
+                    <td class="highlight">Email (Réponse < 24h)</td>
+                    <td>Account Manager Dédié</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section" data-aos="fade-up">
+        <h2>Questions Fréquentes</h2>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Puis-je essayer la version Professional avant de
+                m'engager ? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Oui. Nous proposons un essai entièrement gratuit de 14 jours pour le plan
+                Professional. Aucune facturation ne sera émise avant la fin de cette période, et vous pouvez annuler à
+                n'importe quel moment depuis votre espace client.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Combien puis-je économiser avec l'abonnement annuel ? <i
+                    class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Le plan annuel est facturé en une seule fois et vous permet d'économiser environ 20%
+                par rapport à un paiement mensuel. Pour le plan Pro, cela représente le prix de 39€/mois (facturé 468€
+                annuellement) au lieu de 49€/mois.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Comment fonctionne la tarification personnalisée
+                Enterprise ? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Le plan Enterprise (à partir de ~50k€ ACV) est calculé en fonction de la taille de
+                votre institution, des modules activés, et des intégrations API requises. Nos équipes commerciales vous
+                fourniront un devis précis après un premier appel de qualification (Intake).</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Mes données stratégiques (simulations, portfolios)
+                sont-elles sécurisées ? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Absolument. La sécurité institutionnelle est au cœur de DCM. Sur le plan Enterprise,
+                vous disposez d'environnements dédiés, de pistes d'audit conformes DORA, et même d'options de
+                déploiement "Air-Gapped" ou on-premise si requis.</div>
+        </div>
+    </section>
+
+    <!-- SUPER FOOTER INJECTION -->
+    <footer class="super-footer">
+        <!-- Re-use the existing footer content here ... -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-content" style="text-align:center; padding: 20px; font-size:12px; color:#555;">
+                © 2026 DCM Digital • Version 4.3.0
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            if (window.AOS) window.AOS.init({ duration: 800, once: true });
+            document.getElementById('billing-switch').checked = true;
+            toggleBilling();
+        });
+
+        function toggleBilling() {
+            const isYearly = document.getElementById('billing-switch').checked;
+            const pricePro = document.getElementById('price-pro');
+            const labelMonthly = document.getElementById('label-monthly');
+            const labelYearly = document.getElementById('label-yearly');
+
+            if (isYearly) {
+                pricePro.textContent = '39';
+                labelYearly.classList.add('active');
+                labelMonthly.classList.remove('active');
+            } else {
+                pricePro.textContent = '49';
+                labelMonthly.classList.add('active');
+                labelYearly.classList.remove('active');
+            }
+        }
+
+        function setBilling(type) {
+            const switchEl = document.getElementById('billing-switch');
+            if (type === 'yearly' && !switchEl.checked) {
+                switchEl.checked = true;
+                toggleBilling();
+            } else if (type === 'monthly' && switchEl.checked) {
+                switchEl.checked = false;
+                toggleBilling();
+            }
+        }
+
+        function toggleFaq(el) {
+            el.classList.toggle('active');
+            const icon = el.querySelector('i');
+            if (el.classList.contains('active')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.add('fa-chevron-down');
+                icon.classList.remove('fa-chevron-up');
+            }
+        }
+    </script>
 </body>
 
 </html>
