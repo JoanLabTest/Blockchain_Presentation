@@ -140,7 +140,7 @@
         <div class="exec-summary">
             <strong>Technical Summary:</strong> Digital risk modeling requires going beyond normal distributions.
             This guide details the application of Monte Carlo simulations to quantify exposure to extreme on-chain
-            events.
+            events, aligned with <strong>BCBS (Basel Committee)</strong> principles for digital asset risk.
         </div>
 
         <p>
@@ -180,9 +180,11 @@
 
         <h2>1. Modeling Crypto Volatility</h2>
         <p>
-            Unlike traditional stocks, digital asset price trajectories often exhibit thick tails (*fat tails*).
+            Unlike traditional equity markets, digital asset price trajectories often exhibit thick tails (*fat tails*).
             Our simulations integrate jump-diffusion models to capture the sharp volatility spikes
-            frequent in the blockchain ecosystem.
+            frequent in the blockchain ecosystem, ensuring compliance with <strong>EBA (European Banking
+                Authority)</strong>
+            stress-testing requirements for stablecoins and RWA.
         </p>
 
         <pre>
@@ -196,11 +198,12 @@ def simulate_dlt_price(S0, T, r, sigma, jumps):
     return price_path
     </pre>
 
-        <h2>2. Stress Testing Liquidity Pools</h2>
+        <h2>2. Stress Testing Liquidity Pools (DORA Resilience)</h2>
         <p>
-            For RWA (Real World Assets) or stablecoins, we use Monte Carlo to simulate mass withdrawals.
-            This validates whether reserves and redemption mechanisms are sufficient to maintain
-            the *peg* or the overall fund's solvency.
+            For RWA (Real World Assets) or stablecoins, we use Monte Carlo to simulate mass withdrawals and
+            secondary market de-pegging. This validates whether reserves and redemption mechanisms are
+            sufficient to maintain the *peg*—a critical requirement for <strong>MiCA Asset-Referenced Tokens
+                (ARTs)</strong>.
         </p>
 
         <h2>3. The DCM Core Advantage</h2>
