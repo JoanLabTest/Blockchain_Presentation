@@ -45,7 +45,7 @@ const NavigationManager = {
                 { id: 'nav-roi', name: 'ROI Calculator', link: 'flux-comparison.html', icon: 'fa-calculator' },
                 { id: 'nav-sandbox', name: 'Dev Sandbox', link: 'sandbox.html', icon: 'fa-terminal' },
                 { id: 'nav-workflows', name: 'Workflows', link: 'workflow-center.html', icon: 'fa-bolt', feature: 'ORG_MANAGEMENT' },
-                { id: 'nav-compare', name: 'Market Benchmarks', link: 'comparateur.html', icon: 'fa-code-compare' }
+                { id: 'nav-compare', name: 'Market Benchmarks', link: 'network-comparator.html', icon: 'fa-code-compare' }
             ]
         },
         ACADEMIC: {
@@ -90,7 +90,7 @@ const NavigationManager = {
         `;
 
         let html = `
-            <li style="list-style: none;"><a href="index.html" class="nav-item"><i class="fas fa-home"></i> Retour au Hub</a></li>
+            <li style="list-style: none;"><a href="index.html" class="nav-item"><i class="fas fa-home"></i> Back to Hub</a></li>
         `;
 
         // Determine which pillars to show/prioritize based on segment

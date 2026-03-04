@@ -159,10 +159,18 @@
     <link rel="stylesheet" href="styles-sidebar.css">
     <link rel="stylesheet" href="styles-navigation.css">
 
-    
+
     <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/audit-trail.html" />
     <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/audit-trail.html" />
     <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/fr/audit-trail.html" />
+    <style>
+        .lang-switch-container {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -173,27 +181,30 @@
                 <i class="fas fa-list-check" style="color:var(--accent-purple)"></i>
                 Audit Trail Explorer
                 <span class="badge">ISAE 3000 READY</span>
+                <div class="lang-switch-container">
+                    <a href="../fr/audit-trail.html"><img src="https://flagcdn.com/w20/fr.png" alt="FR" width="20"></a>
+                    <a href="#" class="active"><img src="https://flagcdn.com/w20/gb.png" alt="EN" width="20"></a>
+                </div>
             </div>
             <div>
                 <button class="btn-glass" id="verify-integrity-btn" onclick="verifyLogIntegrity()"
                     style="background:rgba(168, 85, 247, 0.2); color:var(--accent-purple); border-color:var(--accent-purple);"><i
-                        class="fas fa-shield-halved"></i> Vérifier Intégrité</button>
+                        class="fas fa-shield-halved"></i> Verify Integrity</button>
                 <button class="btn-glass" onclick="exportLogsCSV()" style="background:var(--accent-blue);"><i
-                        class="fas fa-file-csv"></i> Exporter
-                    CSV</button>
+                        class="fas fa-file-csv"></i> Export CSV</button>
             </div>
         </div>
         <div class="controls">
             <input class="input-glass" id="searchInput" onkeyup="filterLogs()"
-                placeholder="🔍 Rechercher User, Action, Hash..." style="width: 300px;" type="text" />
+                placeholder="🔍 Search User, Action, Hash..." style="width: 300px;" type="text" />
             <select class="input-glass">
-                <option>Toutes les Actions</option>
+                <option>All Actions</option>
                 <option>Simulations (Stress Test)</option>
-                <option>Exports de Données</option>
-                <option>Modifications Droits (RBAC)</option>
+                <option>Data Exports</option>
+                <option>Permission Changes (RBAC)</option>
             </select>
             <select class="input-glass">
-                <option>Sélectionnez un Rôle</option>
+                <option>Select a Role</option>
                 <option>Admin</option>
                 <option>Risk Officer</option>
             </select>
@@ -283,13 +294,13 @@
                 const btn = document.getElementById('verify-integrity-btn');
                 const originalText = btn.innerHTML;
 
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Audit en cours...';
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Audit in progress...';
                 btn.style.color = 'white';
                 btn.style.borderColor = 'white';
 
                 // Simulate cryptographic verification delay
                 setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Chaîne Intacte (SHA-256)';
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Chain Intact (SHA-256)';
                     btn.style.background = 'rgba(16, 185, 129, 0.2)';
                     btn.style.color = 'var(--accent-green)';
                     btn.style.borderColor = 'var(--accent-green)';

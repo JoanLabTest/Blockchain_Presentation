@@ -7,9 +7,8 @@
     <title>The Complete Guide to Blockchain Risk Governance (EU 2026 Edition) | DCM Core</title>
     <meta name="description"
         content="Authority guide for CROs and Risk Officers on MiCA, DORA, and Model Risk Management (MRM) for digital assets in the EU.">
-    <link rel="canonical" href="https://dcmcore.com/en/insights/mica/governance-digital-assets-eu.html">
-    <link rel="alternate" hreflang="en"
-        href="https://dcmcore.com/en/insights/mica/governance-digital-assets-eu.html">
+    <link rel="canonical" href="https://dcmcore.com/en/insights/mica/digital-assets-governance-eu.html">
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/insights/mica/digital-assets-governance-eu.html">
     <link rel="alternate" hreflang="fr"
         href="https://dcmcore.com/fr/insights/mica/gouvernance-actifs-numeriques-ue.html">
     <link rel="alternate" hreflang="x-default"
@@ -30,7 +29,7 @@
       },
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://dcmcore.com/en/insights/mica/governance-digital-assets-eu.html"
+        "@id": "https://dcmcore.com/en/insights/mica/digital-assets-governance-eu.html"
       }
     }
     </script>
@@ -331,30 +330,42 @@
                 <h2 id="faq" style="border: none; padding: 0;">Strategic Governance FAQ</h2>
                 <div class="faq-grid">
                     <div class="faq-item">
-                        <div class="faq-question">What is digital asset governance in the EU?</div>
+                        <div class="faq-question" onclick="toggleFaq(this)">What is digital asset governance in the EU?
+                            <i class="fas fa-chevron-down"
+                                style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i>
+                        </div>
                         <div class="faq-answer">It refers to the framework of structured supervision for crypto-assets,
                             tokenized instruments, and DLT infrastructures, in compliance with European regulatory
                             frameworks such as MiCA and DORA.</div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question">What is "Executable Governance"?</div>
+                        <div class="faq-question" onclick="toggleFaq(this)">What is "Executable Governance"? <i
+                                class="fas fa-chevron-down"
+                                style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i></div>
                         <div class="faq-answer">It is the transformation of regulatory obligations into automated
                             system rules, continuously validated via audit simulations, ensuring real-time compliance.
                         </div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question">How can regulatory compliance be automated?</div>
+                        <div class="faq-question" onclick="toggleFaq(this)">How can regulatory compliance be automated?
+                            <i class="fas fa-chevron-down"
+                                style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i>
+                        </div>
                         <div class="faq-answer">Through machine-readable control frameworks (Trust-as-Code)
                             translating legal obligations into monitoring rules executable by DCM Core.
                         </div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question">What is the impact on capital allocation?</div>
+                        <div class="faq-question" onclick="toggleFaq(this)">What is the impact on capital allocation? <i
+                                class="fas fa-chevron-down"
+                                style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i></div>
                         <div class="faq-answer">Risk classification and volatility modeling directly influence
                             internal buffers and prudential exposure limits.</div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question">Why are traditional compliance tools inadequate?</div>
+                        <div class="faq-question" onclick="toggleFaq(this)">Why are traditional compliance tools
+                            inadequate? <i class="fas fa-chevron-down"
+                                style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i></div>
                         <div class="faq-answer">They often lack real-time monitoring of on-chain data
                             (liquidity depth, finality) and fail to capture protocol-level risks.</div>
                     </div>
@@ -362,8 +373,8 @@
             </div>
 
             <div class="proof-resource-card">
-                <img src="../../../.gemini/antigravity/brain/7f1014a8-8814-4077-b412-33dfa3d3cac6/whitepaper_cover_risk_capital_1772630017717.png"
-                    alt="MiCA Compliance Whitepaper" class="resource-thumbnail">
+                <img src="../../../assets/images/institutional/whitepaper-cover.png" alt="MiCA Compliance Whitepaper"
+                    class="resource-thumbnail">
                 <div class="resource-content">
                     <h4>Strategic Brief: MiCA Compliance Implementation</h4>
                     <p>Analysis of the operational and financial impacts of the MiCA regulation on digital asset
@@ -375,14 +386,35 @@
             <div class="conversion-card">
                 <h3>Ready to Transform Your Governance into a Strategic Advantage?</h3>
                 <p>Discover how DCM Core automates MiCA and DORA risk monitoring for Tier-1 institutions.</p>
-                <img src="../../../.gemini/antigravity/brain/7f1014a8-8814-4077-b412-33dfa3d3cac6/dashboard_mockup_institutional_cro_1772628999346.png"
+                <img src="../../../assets/images/institutional/dashboard-mockup.png"
                     alt="DCM Core Institutional Cockpit" class="dashboard-preview">
                 <div class="cta-group">
-                    <a href="../../../pricing.html" class="btn-primary-solid">Request Private Banking Demo</a>
-                    <a href="../../../dashboard.html" class="btn-secondary-glass">Access Live Cockpit</a>
+                    <a href="../../pricing.html" class="btn-primary-solid">Request Private Banking Demo</a>
+                    <a href="../../dashboard.html" class="btn-secondary-glass">Access Live Cockpit</a>
                 </div>
             </div>
         </main>
+    </div>
+
+    <script>
+        function toggleFaq(element) {
+            const item = element.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const icon = element.querySelector('i');
+
+            const isOpen = answer.style.display === 'block';
+
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(ans => ans.style.display = 'none');
+            document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
+
+            if (!isOpen) {
+                answer.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+    </main>
     </div>
 
 </body>
