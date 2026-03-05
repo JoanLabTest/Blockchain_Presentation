@@ -471,7 +471,7 @@
 
     <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/pricing.html" />
     <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/pricing.html" />
-    <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/fr/pricing.html" />
+    <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/en/pricing.html" />
 </head>
 
 <body>
@@ -488,7 +488,8 @@
         <div style="display: flex; align-items: center; gap: 20px;">
             <div class="lang-switch" style="display: flex; gap: 10px;">
                 <a href="../fr/pricing.html"><img alt="FR" src="https://flagcdn.com/w20/fr.png" width="20" /></a>
-                <a class="active" href="#"><img alt="EN" src="https://flagcdn.com/w20/gb.png" width="20" /></a>
+                <a class="active" href="https://dcmcore.com/en/pricing.html"><img alt="EN"
+                        src="https://flagcdn.com/w20/gb.png" width="20" /></a>
             </div>
             <a class="back-btn" href="index.html">
                 <i class="fas fa-arrow-left"></i>
@@ -684,6 +685,55 @@
             </tbody>
         </table>
     </section>
+    <!-- FAQ SECTION -->
+    <section class="faq-section" data-aos="fade-up"
+        style="max-width: 1000px; margin: 0 auto 100px auto; padding: 0 20px;">
+        <h2 style="text-align:center; font-size:32px; margin-bottom:40px;">Frequently Asked Questions</h2>
+        <div class="faq-item" style="border-bottom: 1px solid #222; padding: 20px 0;">
+            <div class="faq-question" onclick="toggleFaq(this)"
+                style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:18px;">
+                Can I try the Professional version before committing? <i class="fas fa-chevron-down"
+                    style="font-size: 14px; color: var(--text-muted);"></i></div>
+            <div class="faq-answer"
+                style="display:none; color: var(--text-muted); font-size: 15px; margin-top: 15px; line-height: 1.6;">
+                Yes. We offer a 14-day free trial for the Professional plan. You won't be charged until the end of this
+                period, and you can cancel anytime from your client portal.</div>
+        </div>
+        <div class="faq-item" style="border-bottom: 1px solid #222; padding: 20px 0;">
+            <div class="faq-question" onclick="toggleFaq(this)"
+                style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:18px;">
+                How much can I save with the annual subscription? <i class="fas fa-chevron-down"
+                    style="font-size: 14px; color: var(--text-muted);"></i></div>
+            <div class="faq-answer"
+                style="display:none; color: var(--text-muted); font-size: 15px; margin-top: 15px; line-height: 1.6;">The
+                annual plan is billed in a single payment and allows you to save approximately 20% compared to monthly
+                billing. For the Pro plan, this reflects a price of €39/month (billed annually at €468) instead of
+                €49/month.</div>
+        </div>
+        <div class="faq-item" style="border-bottom: 1px solid #222; padding: 20px 0;">
+            <div class="faq-question" onclick="toggleFaq(this)"
+                style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:18px;">
+                How does Enterprise custom pricing work? <i class="fas fa-chevron-down"
+                    style="font-size: 14px; color: var(--text-muted);"></i></div>
+            <div class="faq-answer"
+                style="display:none; color: var(--text-muted); font-size: 15px; margin-top: 15px; line-height: 1.6;">The
+                Enterprise plan (starting at ~$50k ACV) is calculated based on your institution's size, active modules,
+                and required API integrations. Our sales team will provide a precise quote after an initial
+                qualification call.</div>
+        </div>
+        <div class="faq-item" style="border-bottom: 1px solid #222; padding: 20px 0;">
+            <div class="faq-question" onclick="toggleFaq(this)"
+                style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:18px;">
+                Is my strategic data (simulations, portfolios) secure? <i class="fas fa-chevron-down"
+                    style="font-size: 14px; color: var(--text-muted);"></i></div>
+            <div class="faq-answer"
+                style="display:none; color: var(--text-muted); font-size: 15px; margin-top: 15px; line-height: 1.6;">
+                Absolutely. Institutional security is at the core of DCM. On the Enterprise plan, you have dedicated
+                environments, DORA-compliant audit trails, and even air-gapped or on-premise deployment options if
+                required.</div>
+        </div>
+    </section>
+
     <!-- SUPER FOOTER INJECTION -->
     <!-- MAIN FOOTER -->
     <footer class="super-footer">
@@ -926,6 +976,16 @@
                 btn.innerHTML = originalText;
             }, 1500);
         }
+        function toggleFaq(el) {
+            const answer = el.nextElementSibling;
+            const icon = el.querySelector('i');
+            const isOpen = answer.style.display === 'block';
+
+            answer.style.display = isOpen ? 'none' : 'block';
+            icon.classList.toggle('fa-chevron-down', isOpen);
+            icon.classList.toggle('fa-chevron-up', !isOpen);
+        }
+        window.toggleFaq = toggleFaq;
         window.showEnterpriseIntake = showEnterpriseIntake;
         window.closeEnterpriseIntake = closeEnterpriseIntake;
         window.handleEnterpriseSubmit = handleEnterpriseSubmit;
