@@ -199,6 +199,62 @@
                 display: none;
             }
         }
+
+        /* FAQ Styles */
+        .faq-section {
+            margin-top: 80px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            padding: 0 25px;
+            overflow: hidden;
+            color: var(--text-muted);
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .faq-item.active {
+            border-color: var(--pillar-accent);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding-bottom: 20px;
+            opacity: 1;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: var(--pillar-accent);
+            opacity: 1 !important;
+        }
     </style>
 </head>
 
@@ -331,7 +387,7 @@
                 <h2 id="faq" style="border: none; padding: 0;">FAQ Gouvernance Stratégique</h2>
                 <div class="faq-grid">
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">Qu’est-ce que la gouvernance des actifs
+                        <div class="faq-question">Qu’est-ce que la gouvernance des actifs
                             numériques dans l’UE ? <i class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i></div>
                         <div class="faq-answer">Elle désigne l’ensemble des mécanismes de supervision structurée des
@@ -339,7 +395,7 @@
                             réglementaires européens tels que MiCA et DORA.</div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">Qu’est-ce que la “gouvernance exécutable” ?
+                        <div class="faq-question">Qu’est-ce que la “gouvernance exécutable” ?
                             <i class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i>
                         </div>
@@ -348,7 +404,7 @@
                             conformité temps réel.</div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">Comment automatiser la conformité
+                        <div class="faq-question">Comment automatiser la conformité
                             réglementaire ? <i class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i></div>
                         <div class="faq-answer">Via des cadres de contrôle lisibles par machine (Trust-as-Code)
@@ -356,14 +412,14 @@
                         </div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">Quel impact sur l’allocation du capital ? <i
+                        <div class="faq-question">Quel impact sur l’allocation du capital ? <i
                                 class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i></div>
                         <div class="faq-answer">La classification du risque et la modélisation de la volatilité
                             influencent directement les coussins internes et limites d’exposition prudentielles.</div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">Pourquoi les outils de conformité
+                        <div class="faq-question">Pourquoi les outils de conformité
                             traditionnels sont-ils inadaptés ? <i class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i>
                         </div>
@@ -399,32 +455,18 @@
     </div>
 
     <script>
-        function toggleFaq(element) {
-            const item = element.parentElement;
-            const answer = item.querySelector('.faq-answer');
-            const icon = element.querySelector('i');
-
-            const isOpen = answer.style.display === 'block';
-
-            // Close all other FAQs
-            document.querySelectorAll('.faq-answer').forEach(ans => ans.style.display = 'none');
-            document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
-
-            if (!isOpen) {
-                answer.style.display = 'block';
-                icon.style.transform = 'rotate(180deg)';
-            }
-        }
-    </script>
-    </main>
-    </div>
-
-
-    <script>
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const item = question.parentElement;
-                item.classList.toggle('active');
+                const isActive = item.classList.contains('active');
+
+                // Close all other items
+                document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
             });
         });
     </script>

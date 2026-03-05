@@ -199,6 +199,62 @@
                 display: none;
             }
         }
+
+        /* FAQ Styles */
+        .faq-section {
+            margin-top: 80px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            padding: 0 25px;
+            overflow: hidden;
+            color: var(--text-muted);
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .faq-item.active {
+            border-color: var(--pillar-accent);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding-bottom: 20px;
+            opacity: 1;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: var(--pillar-accent);
+            opacity: 1 !important;
+        }
     </style>
 </head>
 
@@ -330,7 +386,7 @@
                 <h2 id="faq" style="border: none; padding: 0;">Strategic Governance FAQ</h2>
                 <div class="faq-grid">
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">What is digital asset governance in the EU?
+                        <div class="faq-question">What is digital asset governance in the EU?
                             <i class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i>
                         </div>
@@ -339,15 +395,14 @@
                             frameworks such as MiCA and DORA.</div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">What is "Executable Governance"? <i
-                                class="fas fa-chevron-down"
+                        <div class="faq-question">What is "Executable Governance"? <i class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i></div>
                         <div class="faq-answer">It is the transformation of regulatory obligations into automated
                             system rules, continuously validated via audit simulations, ensuring real-time compliance.
                         </div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">How can regulatory compliance be automated?
+                        <div class="faq-question">How can regulatory compliance be automated?
                             <i class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i>
                         </div>
@@ -356,14 +411,14 @@
                         </div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">What is the impact on capital allocation? <i
+                        <div class="faq-question">What is the impact on capital allocation? <i
                                 class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i></div>
                         <div class="faq-answer">Risk classification and volatility modeling directly influence
                             internal buffers and prudential exposure limits.</div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">Why are traditional compliance tools
+                        <div class="faq-question">Why are traditional compliance tools
                             inadequate? <i class="fas fa-chevron-down"
                                 style="font-size: 12px; margin-left: 10px; opacity: 0.5;"></i></div>
                         <div class="faq-answer">They often lack real-time monitoring of on-chain data
@@ -397,32 +452,18 @@
     </div>
 
     <script>
-        function toggleFaq(element) {
-            const item = element.parentElement;
-            const answer = item.querySelector('.faq-answer');
-            const icon = element.querySelector('i');
-
-            const isOpen = answer.style.display === 'block';
-
-            // Close all other FAQs
-            document.querySelectorAll('.faq-answer').forEach(ans => ans.style.display = 'none');
-            document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
-
-            if (!isOpen) {
-                answer.style.display = 'block';
-                icon.style.transform = 'rotate(180deg)';
-            }
-        }
-    </script>
-    </main>
-    </div>
-
-
-    <script>
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const item = question.parentElement;
-                item.classList.toggle('active');
+                const isActive = item.classList.contains('active');
+
+                // Close all other items
+                document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
             });
         });
     </script>
