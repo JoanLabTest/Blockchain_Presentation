@@ -12,8 +12,44 @@
 
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="../../styles-visual-hierarchy.css">
+    <link rel="stylesheet" href="../../css/institutional-cta.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
     <style>
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .cluster-card {
+            transition: all 0.4s ease;
+        }
+
+        .cluster-card.hidden {
+            display: none;
+        }
+
         :root {
             --accent: #6366f1;
             --accent-glow: rgba(99, 102, 241, 0.2);
@@ -254,33 +290,93 @@
             <i class="fas fa-cube" style="color: var(--accent);"></i>
             DCM DIGITAL <span style="color: var(--accent); opacity: 0.8;">HUB</span>
         </a>
+        <div style="margin-left: auto; display: flex; gap: 30px;">
+            <a href="index.html"
+                style="color: var(--accent); text-decoration: none; font-size: 14px; font-weight: 600;">Insights</a>
+            <a href="research.html"
+                style="color: white; text-decoration: none; font-size: 14px; font-weight: 600;">Research Center</a>
+            <a href="../solutions/gouvernance-actifs-numeriques.html"
+                style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600;">Governance Layer</a>
+            <a href="../pricing.html"
+                style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600;">Solutions</a>
+        </div>
     </nav>
 
     <div class="hub-container">
         <header class="hub-header">
-            <span class="status-tag">Expertise Institutionnelle</span>
-            <h1>Centre de Ressources Stratégiques</h1>
-            <p>Frameworks de gouvernance, analyses de risques et guides de conformité pour les acteurs financiers
-                européens.</p>
+            <span class="status-tag">Institutional Research & Intelligence Center</span>
+            <h1>Digital Asset Governance Hub</h1>
+            <p style="font-size: 20px; color: #f8fafc; font-weight: 600; margin-bottom: 20px;">The DCM Core Research
+                Center publishes technical research and strategic frameworks for digital asset governance.</p>
+            <p>Analysis for CROs, Risk Committees, and European Regulators on MiCA, DORA, and Prudential Model Risk.</p>
+
+            <!-- Category Filters -->
+            <div style="display: flex; justify-content: center; gap: 15px; margin-top: 40px; flex-wrap: wrap;">
+                <button class="filter-btn active" onclick="filterInsights('all')">All Research</button>
+                <button class="filter-btn" onclick="filterInsights('regulation')">Regulation (MiCA/DORA)</button>
+                <button class="filter-btn" onclick="filterInsights('risk')">Prudential Risk (MRM)</button>
+                <button class="filter-btn" onclick="filterInsights('adoption')">Institutional Adoption</button>
+            </div>
         </header>
+
+        <!-- Featured Whitepaper CTA -->
+        <section class="institutional-cta" style="margin-top: 60px;">
+            <div class="cta-tag">Internal Research</div>
+            <h2 class="cta-title">The Institutional Guide to Blockchain Risk Governance</h2>
+            <p class="cta-desc">Découvrez notre rapport phare de 25 pages sur la gestion des risques MiCA, DORA et
+                l'optimisation des fonds propres bancaires.</p>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a href="whitepaper-governance.html" class="pillar-cta" style="margin: 0;">Consulter le Sommaire</a>
+                <a href="research.html" class="btn-secondary-glass">Voir tous les rapports</a>
+            </div>
+        </section>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+            <div class="framework-badge">
+                <i class="fas fa-microchip"></i> Framework : Trust-as-Code v2.1
+            </div>
+
+            <a href="#" class="pillar-cta" style="max-width: 300px; position: relative; z-index: 20;"
+                onclick="alert('Demande envoyée au département Research de DCM Digital. Un consultant vous contactera sous 24h.'); return false;">
+                Accéder à la Recherche Institutionnelle <i class="fas fa-download"></i>
+            </a>
+        </div>
+        </section>
+
+        <script>
+            function filterInsights(category) {
+                const btns = document.querySelectorAll('.filter-btn');
+                btns.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+
+                const cards = document.querySelectorAll('.cluster-card');
+                cards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            }
+        </script>
 
         <div class="grid-clusters">
             <!-- Pilier MiCA -->
-            <div class="cluster-card">
+            <div class="cluster-card" data-category="regulation">
                 <div class="card-icon"><i class="fas fa-landmark"></i></div>
                 <span class="status-tag">Page Pilier</span>
                 <h2>Gouvernance MiCA (UE 2026)</h2>
                 <p>Le guide de référence pour les CROs : de la conformité réglementaire à la résilience opérationnelle
                     DORA.</p>
-                <a href="mica/gouvernance-actifs-numeriques-ue.html" class="pillar-cta">Lire le guide complet <i
-                        class="fas fa-arrow-right"></i></a>
+                <a href="mica/gouvernance-actifs-numeriques-ue.html" class="pillar-cta">Request Institutional Briefing
+                    <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <!-- Cluster Réglementaire -->
-            <div class="cluster-card">
+            <div class="cluster-card" data-category="regulation">
                 <div class="card-icon"><i class="fas fa-scale-balanced"></i></div>
                 <span class="status-tag">Réglementation</span>
                 <h2>Conformité & Normes</h2>
+
                 <p>Roadmaps pratiques pour l'implémentation des cadres MiCA et DORA en milieu bancaire.</p>
                 <div class="resource-links">
                     <a href="mica/conformite-mica-banques.html" class="resource-link">
@@ -296,7 +392,7 @@
             </div>
 
             <!-- Cluster Risques -->
-            <div class="cluster-card">
+            <div class="cluster-card" data-category="risk">
                 <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
                 <span class="status-tag">Risques de Modèles</span>
                 <h2>Blockchain MRM</h2>
@@ -318,7 +414,7 @@
             </div>
 
             <!-- Cluster Adoption -->
-            <div class="cluster-card">
+            <div class="cluster-card" data-category="adoption">
                 <div class="card-icon"><i class="fas fa-building-columns"></i></div>
                 <span class="status-tag">Transformation</span>
                 <h2>Adoption Institutionnelle</h2>
@@ -348,11 +444,6 @@
             </a>
         </div>
     </div>
-
-</body>
-
-</html>
-
 
 </body>
 

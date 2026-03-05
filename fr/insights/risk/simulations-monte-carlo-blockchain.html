@@ -56,6 +56,7 @@
 
     <link rel="stylesheet" href="../../../styles.css">
     <link rel="stylesheet" href="../../../styles-visual-hierarchy.css">
+    <link rel="stylesheet" href="../../../css/institutional-cta.css">
     <style>
         :root {
             --accent: #a855f7;
@@ -116,9 +117,9 @@
             color: inherit;
             text-decoration: none;
         }
-    
-        
-        
+
+
+
         /* FAQ Styles */
         .faq-section {
             margin-top: 80px;
@@ -180,9 +181,7 @@
             color: var(--accent);
             transform: rotate(180deg);
         }
-
-
-        </style>
+    </style>
 </head>
 
 <body>
@@ -251,6 +250,37 @@
             pics de volatilité brutaux fréquents dans l'écosystème blockchain.
         </p>
 
+        <!-- Institutional Framework: Quant Simulation Pipeline -->
+        <div
+            style="margin: 40px 0; padding: 30px; border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; background: rgba(15, 23, 42, 0.4);">
+            <h4
+                style="color: white; margin-bottom: 25px; text-transform: uppercase; font-size: 14px; letter-spacing: 2px;">
+                DCM Quant Risk Pipeline</h4>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div
+                    style="text-align: center; padding: 20px; border-radius: 12px; background: rgba(168, 85, 247, 0.05); border: 1px solid rgba(168, 85, 247, 0.2);">
+                    <i class="fas fa-random" style="color: #a855f7; font-size: 24px; margin-bottom: 15px;"></i>
+                    <h5 style="color: white; margin-bottom: 10px;">Step 1: Calibration</h5>
+                    <p style="font-size: 12px; color: #94a3b8;">Extraction des paramètres de volatilité implicite
+                        on-chain.</p>
+                </div>
+                <div
+                    style="text-align: center; padding: 20px; border-radius: 12px; background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.2);">
+                    <i class="fas fa-microchip" style="color: #6366f1; font-size: 24px; margin-bottom: 15px;"></i>
+                    <h5 style="color: white; margin-bottom: 10px;">Step 2: Simulation</h5>
+                    <p style="font-size: 12px; color: #94a3b8;">Exécution de 100,000 trajectoires via Jump-Diffusion.
+                    </p>
+                </div>
+                <div
+                    style="text-align: center; padding: 20px; border-radius: 12px; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2);">
+                    <i class="fas fa-file-invoice-dollar"
+                        style="color: #22c55e; font-size: 24px; margin-bottom: 15px;"></i>
+                    <h5 style="color: white; margin-bottom: 10px;">Step 3: RWA Impact</h5>
+                    <p style="font-size: 12px; color: #94a3b8;">Calcul de l'impact sur les fonds propres Tier-1.</p>
+                </div>
+            </div>
+        </div>
+
         <pre>
 # Pseudo-code simplifié d'une simulation de trajectoire
 def simulate_dlt_price(S0, T, r, sigma, jumps):
@@ -269,6 +299,34 @@ def simulate_dlt_price(S0, T, r, sigma, jumps):
             maintenir le *peg* ou la solvabilité du fonds.
         </p>
 
+        <!-- Sample Simulation Data -->
+        <div
+            style="margin: 40px 0; background: #000; border-radius: 16px; padding: 30px; border: 1px solid var(--accent);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h4 style="color: white; margin: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
+                    Sample Output: Settlement Latency (10k runs)</h4>
+                <span style="font-size: 10px; color: var(--accent);">Engine: DCM-Quant-v2</span>
+            </div>
+            <div style="height: 150px; display: flex; align-items: flex-end; gap: 4px;">
+                <div style="flex: 1; background: rgba(168, 85, 247, 0.2); height: 20%;"></div>
+                <div style="flex: 1; background: rgba(168, 85, 247, 0.4); height: 45%;"></div>
+                <div style="flex: 1; background: rgba(168, 85, 247, 0.6); height: 85%;"></div>
+                <div style="flex: 1; background: var(--accent); height: 100%;"></div>
+                <div style="flex: 1; background: rgba(168, 85, 247, 0.4); height: 35%;"></div>
+                <div style="flex: 1; background: rgba(168, 85, 247, 0.2); height: 15%;"></div>
+                <div style="flex: 1; background: rgba(168, 85, 247, 0.1); height: 5%;"></div>
+            </div>
+            <div
+                style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 10px; color: #64748b;">
+                <span>0.1s</span>
+                <span>Audit Standard: 99.9% Confidece</span>
+                <span>2.5s</span>
+            </div>
+            <p style="font-size: 12px; color: #94a3b8; margin-top: 20px; font-style: italic;">"La distribution montre un
+                cluster critique au-delà de 1.8s, nécessitant un provisionnement de liquidité buffer selon l'EBA CP-02."
+            </p>
+        </div>
+
         <h2>3. L'avantage DCM Core</h2>
         <p>
             DCM Core n'est pas seulement un tableau de bord. Notre moteur de risque permet d'injecter ces simulations
@@ -278,41 +336,43 @@ def simulate_dlt_price(S0, T, r, sigma, jumps):
         </p>
 
         <section class="faq-section">
-    <h2 style="border: none; padding: 0;">FAQ Simulations Techniques</h2>
-    <div class="faq-grid">
-        <div class="faq-item">
-            <div class="faq-question">Qu'est-ce qu'une simulation de Monte Carlo ?</div>
-            <div class="faq-answer">C’est une technique mathématique qui utilise l’échantillonnage aléatoire répété pour
-                obtenir des résultats numériques, permettant d'estimer la probabilité d'occurrence de divers scénarios
-                de risque.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Qu'est-ce qu'un 'Fat Tail' en finance blockchain ?</div>
-            <div class="faq-answer">Cela désigne une distribution statistique où les événements extrêmes (krachs ou
-                hausses brutales) sont beaucoup plus fréquents que dans une distribution normale classique.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Quel est l'horizon temporel recommandé pour ces tests ?</div>
-            <div class="faq-answer">Pour les actifs volatils, des simulations à court terme (24h à 7 jours) sont
-                cruciales pour la gestion de liquidité, complétées par des stress-tests à long terme pour la solvabilité
-                globale.</div>
-        </div>
-    </div>
-</section>
+            <h2 style="border: none; padding: 0;">FAQ Simulations Techniques</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">Qu'est-ce qu'une simulation de Monte Carlo ?</div>
+                    <div class="faq-answer">C’est une technique mathématique qui utilise l’échantillonnage aléatoire
+                        répété pour
+                        obtenir des résultats numériques, permettant d'estimer la probabilité d'occurrence de divers
+                        scénarios
+                        de risque.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Qu'est-ce qu'un 'Fat Tail' en finance blockchain ?</div>
+                    <div class="faq-answer">Cela désigne une distribution statistique où les événements extrêmes (krachs
+                        ou
+                        hausses brutales) sont beaucoup plus fréquents que dans une distribution normale classique.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Quel est l'horizon temporel recommandé pour ces tests ?</div>
+                    <div class="faq-answer">Pour les actifs volatils, des simulations à court terme (24h à 7 jours) sont
+                        cruciales pour la gestion de liquidité, complétées par des stress-tests à long terme pour la
+                        solvabilité
+                        globale.</div>
+                </div>
+            </div>
+        </section>
 
-        <div class="conversion-card" style="margin-top: 80px;">
-            <h3>Simulez vos Risques avec une Précision Tier-1</h3>
-            <p>DCM Core intègre des moteurs Monte Carlo avancés pour le stress-testing de vos portefeuilles numériques.
-            </p>
-            <img src="../../../assets/images/institutional/dashboard-mockup.png"
-                alt="Moteur Monte Carlo DLT" class="dashboard-preview">
-            <div class="cta-group">
-                <a href="../../pricing.html" class="btn-primary-solid">Tester l'Engine Risk</a>
-                <a href="../../dashboard.html" class="btn-secondary-glass">Ouvrir le Pilot</a>
-                
-        </div>
-    </div>
-<div class="cta-section"
+        <section class="institutional-cta" style="margin: 40px 0; padding: 40px;">
+            <div class="cta-tag">Spécification Technique</div>
+            <h3 class="cta-title" style="font-size: 24px;">Demander un Briefing Institutionnel</h3>
+            <p class="cta-desc" style="font-size: 14px;">Accédez aux spécifications complètes de notre moteur de risque
+                et discutez de l'intégration avec votre cadre MRM.</p>
+            <a href="../../contact.html" class="pillar-cta" style="max-width: 300px; margin: 0 auto;">
+                Planifier un Briefing Risque <i class="fas fa-calendar-check"></i>
+            </a>
+        </section>
+        <div class="cta-section"
             style="margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
             <p><em>Consultez le guide complet : <a href="model-risk-management-blockchain.html"
                         style="color: var(--accent); font-weight:700;">Blockchain Model Risk Management (MRM)</a></em>
@@ -324,10 +384,10 @@ def simulate_dlt_price(S0, T, r, sigma, jumps):
     </div>
 
 
-    
 
 
-    
+
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
