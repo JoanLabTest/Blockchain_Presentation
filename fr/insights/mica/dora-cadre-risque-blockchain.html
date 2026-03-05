@@ -101,37 +101,71 @@
             text-decoration: none;
         }
     
-        .faq-answer {
-            display: none;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            margin-top: 10px;
+        
+        
+        /* FAQ Styles */
+        .faq-section {
+            margin-top: 80px;
         }
 
-        .faq-item.active .faq-answer {
-            display: block;
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .faq-question {
+            padding: 20px 25px;
             cursor: pointer;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            font-weight: bold;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-weight: 600;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            padding: 0 25px;
+            overflow: hidden;
+            color: #94a3b8;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .faq-item.active {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-bottom: 20px;
+            opacity: 1;
         }
 
         .faq-question::after {
             content: '+';
             font-size: 20px;
+            transition: transform 0.3s ease;
         }
 
         .faq-item.active .faq-question::after {
             content: '-';
+            color: var(--accent);
+            transform: rotate(180deg);
         }
+
+
         </style>
 </head>
 
@@ -207,6 +241,15 @@
                 règlement.</li>
         </ul>
 
+        
+
+        <h2>2. Tests de résilience opérationnelle numérique</h2>
+        <p>
+            Les banques doivent effectuer des tests de stress annuels de leurs systèmes ICT. Pour la DLT, cela signifie
+            simuler des scénarios de "Network Halt". DCM Core permet d'automatiser ces tests via son **Simulation
+            Engine**.
+        </p>
+
         <section class="faq-section">
             <h2 style="border: none; padding: 0;">FAQ Résilience DORA</h2>
             <div class="faq-grid">
@@ -230,13 +273,6 @@
             </div>
         </section>
 
-        <h2>2. Tests de résilience opérationnelle numérique</h2>
-        <p>
-            Les banques doivent effectuer des tests de stress annuels de leurs systèmes ICT. Pour la DLT, cela signifie
-            simuler des scénarios de "Network Halt". DCM Core permet d'automatiser ces tests via son **Simulation
-            Engine**.
-        </p>
-
         <div class="conversion-card" style="margin-top: 80px;">
             <h3>DORA : Votre Infrastructure est-elle Audit-Ready ?</h3>
             <p>Utilisez DCM Core pour surveiller vos nodes, valider votre résilience ICT et automatiser vos rapports de
@@ -246,10 +282,10 @@
             <div class="cta-group">
                 <a href="../../pricing.html" class="btn-primary-solid">Demander un Audit Specs</a>
                 <a href="../../dashboard.html" class="btn-secondary-glass">Ouvrir le Pilot</a>
-            </div>
+                
         </div>
-
-        <div class="cta-section"
+    </div>
+<div class="cta-section"
             style="margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
             <p><em>Consultez le cadre complet : <a href="gouvernance-actifs-numeriques-ue.html"
                         style="color: var(--accent); font-weight:700;">Gouvernance des Risques Blockchain (UE
@@ -267,11 +303,25 @@
         <span>Mémo DORA</span>
     </a>
 
+    
+
+    
+
     <script>
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                item.classList.toggle('active');
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const item = question.parentElement;
+                    const isActive = item.classList.contains('active');
+
+                    // Close all other items
+                    document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
             });
         });
     </script>

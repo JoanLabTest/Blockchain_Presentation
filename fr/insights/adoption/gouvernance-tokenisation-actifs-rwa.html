@@ -94,37 +94,71 @@
             text-decoration: none;
         }
     
-        .faq-answer {
-            display: none;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            margin-top: 10px;
+        
+        
+        /* FAQ Styles */
+        .faq-section {
+            margin-top: 80px;
         }
 
-        .faq-item.active .faq-answer {
-            display: block;
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .faq-question {
+            padding: 20px 25px;
             cursor: pointer;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            font-weight: bold;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-weight: 600;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            padding: 0 25px;
+            overflow: hidden;
+            color: #94a3b8;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .faq-item.active {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-bottom: 20px;
+            opacity: 1;
         }
 
         .faq-question::after {
             content: '+';
             font-size: 20px;
+            transition: transform 0.3s ease;
         }
 
         .faq-item.active .faq-question::after {
             content: '-';
+            color: var(--accent);
+            transform: rotate(180deg);
         }
+
+
         </style>
 </head>
 
@@ -214,38 +248,7 @@
             en instruments financiers programmables et transparents.
         </p>
 
-        <div class="conversion-card" style="margin-top: 80px;">
-            <h3>Pilotez vos Actifs RWA en Toute Conformité</h3>
-            <p>DCM Core unifie la gestion du lifecycle de vos actifs tokenisés avec une gouvernance automatisée Tier-1.
-            </p>
-            <img src="../../../assets/images/institutional/dashboard-mockup.png"
-                alt="RWA Lifecycle Governance" class="dashboard-preview">
-            <div class="cta-group">
-                <a href="../../pricing.html" class="btn-primary-solid">Demander une Démo RWA</a>
-                <a href="../../dashboard.html" class="btn-secondary-glass">Accéder au Cockpit</a>
-            </div>
-        </div>
-
-        <div class="cta-section"
-            style="margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <p><em>Visionnez le cadre complet : <a href="cadre-adoption-blockchain-institutionnelle.html"
-                        style="color: var(--accent); font-weight:700;">Adoption Blockchain Institutionnelle</a></em></p>
-            <p><em>Bouclez la boucle avec le <a href="cadre-adoption-blockchain-institutionnelle.html"
-                        style="color: var(--accent);">Cadre d'Adoption Stratégique</a> ou retournez au <a
-                        href="../index.html" style="color: var(--accent);">Hub de Ressources</a>.</em></p>
-        </div>
-    </div>
-
-
-    <script>
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                item.classList.toggle('active');
-            });
-        });
-    </script>
-<section class="faq-section">
+        <section class="faq-section">
     <h2 style="border: none; padding: 0;">FAQ Tokenisation RWA</h2>
     <div class="faq-grid">
         <div class="faq-item">
@@ -266,6 +269,53 @@
         </div>
     </div>
 </section>
+
+        <div class="conversion-card" style="margin-top: 80px;">
+            <h3>Pilotez vos Actifs RWA en Toute Conformité</h3>
+            <p>DCM Core unifie la gestion du lifecycle de vos actifs tokenisés avec une gouvernance automatisée Tier-1.
+            </p>
+            <img src="../../../assets/images/institutional/dashboard-mockup.png"
+                alt="RWA Lifecycle Governance" class="dashboard-preview">
+            <div class="cta-group">
+                <a href="../../pricing.html" class="btn-primary-solid">Demander une Démo RWA</a>
+                <a href="../../dashboard.html" class="btn-secondary-glass">Accéder au Cockpit</a>
+                
+        </div>
+    </div>
+<div class="cta-section"
+            style="margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <p><em>Visionnez le cadre complet : <a href="cadre-adoption-blockchain-institutionnelle.html"
+                        style="color: var(--accent); font-weight:700;">Adoption Blockchain Institutionnelle</a></em></p>
+            <p><em>Bouclez la boucle avec le <a href="cadre-adoption-blockchain-institutionnelle.html"
+                        style="color: var(--accent);">Cadre d'Adoption Stratégique</a> ou retournez au <a
+                        href="../index.html" style="color: var(--accent);">Hub de Ressources</a>.</em></p>
+        </div>
+    </div>
+
+
+    
+
+
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const item = question.parentElement;
+                    const isActive = item.classList.contains('active');
+
+                    // Close all other items
+                    document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

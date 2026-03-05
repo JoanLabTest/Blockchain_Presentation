@@ -117,37 +117,71 @@
             text-decoration: none;
         }
     
-        .faq-answer {
-            display: none;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            margin-top: 10px;
+        
+        
+        /* FAQ Styles */
+        .faq-section {
+            margin-top: 80px;
         }
 
-        .faq-item.active .faq-answer {
-            display: block;
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .faq-question {
+            padding: 20px 25px;
             cursor: pointer;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            font-weight: bold;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-weight: 600;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            padding: 0 25px;
+            overflow: hidden;
+            color: #94a3b8;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .faq-item.active {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-bottom: 20px;
+            opacity: 1;
         }
 
         .faq-question::after {
             content: '+';
             font-size: 20px;
+            transition: transform 0.3s ease;
         }
 
         .faq-item.active .faq-question::after {
             content: '-';
+            color: var(--accent);
+            transform: rotate(180deg);
         }
+
+
         </style>
 </head>
 
@@ -246,29 +280,7 @@ def simulate_dlt_price(S0, T, r, sigma, jumps):
             our governance smart contracts.
         </p>
 
-        <div class="conversion-card" style="margin-top: 80px;">
-            <h3>Simulate Your Risks with Tier-1 Precision</h3>
-            <p>DCM Core integrates advanced Monte Carlo engines for stress-testing your digital portfolios.</p>
-            <img src="../../../assets/images/institutional/dashboard-mockup.png"
-                alt="DLT Monte Carlo Engine" class="dashboard-preview">
-            <div class="cta-group">
-                <a href="../../../pricing.html" class="btn-primary-solid">Test Risk Engine</a>
-                <a href="../../../dashboard.html" class="btn-secondary-glass">Open Pilot</a>
-            </div>
-        </div>
-
-        <div class="cta-section"
-            style="margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <p><em>Read the full guide: <a href="model-risk-management-blockchain.html"
-                        style="color: var(--accent); font-weight:700;">Blockchain Model Risk Management (MRM)</a></em>
-            </p>
-            <p><em>Complete the cycle with the <a href="model-risk-management-blockchain.html"
-                        style="color: var(--accent);">360 MRM Guide</a> or return to the <a href="../../index.html"
-                        style="color: var(--accent);">Strategic Hub</a>.</em></p>
-        </div>
-    </div>
-
-<section class="faq-section">
+        <section class="faq-section">
     <h2 style="border: none; padding: 0; text-align: center; margin-bottom: 40px;">Technical Simulation FAQ</h2>
     <div class="faq-grid" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
         <div class="faq-item">
@@ -290,11 +302,49 @@ def simulate_dlt_price(S0, T, r, sigma, jumps):
     </div>
 </section>
 
+        <div class="conversion-card" style="margin-top: 80px;">
+            <h3>Simulate Your Risks with Tier-1 Precision</h3>
+            <p>DCM Core integrates advanced Monte Carlo engines for stress-testing your digital portfolios.</p>
+            <img src="../../../assets/images/institutional/dashboard-mockup.png"
+                alt="DLT Monte Carlo Engine" class="dashboard-preview">
+            <div class="cta-group">
+                <a href="../../../pricing.html" class="btn-primary-solid">Test Risk Engine</a>
+                <a href="../../../dashboard.html" class="btn-secondary-glass">Open Pilot</a>
+                
+        </div>
+    </div>
+<div class="cta-section"
+            style="margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <p><em>Read the full guide: <a href="model-risk-management-blockchain.html"
+                        style="color: var(--accent); font-weight:700;">Blockchain Model Risk Management (MRM)</a></em>
+            </p>
+            <p><em>Complete the cycle with the <a href="model-risk-management-blockchain.html"
+                        style="color: var(--accent);">360 MRM Guide</a> or return to the <a href="../../index.html"
+                        style="color: var(--accent);">Strategic Hub</a>.</em></p>
+        </div>
+    </div>
+
+
+
+    
+
+    
+
     <script>
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                item.classList.toggle('active');
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const item = question.parentElement;
+                    const isActive = item.classList.contains('active');
+
+                    // Close all other items
+                    document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
             });
         });
     </script>

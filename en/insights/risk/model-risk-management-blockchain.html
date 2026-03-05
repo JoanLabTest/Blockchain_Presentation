@@ -94,37 +94,71 @@
             text-decoration: none;
         }
     
-        .faq-answer {
-            display: none;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            margin-top: 10px;
+        
+        
+        /* FAQ Styles */
+        .faq-section {
+            margin-top: 80px;
         }
 
-        .faq-item.active .faq-answer {
-            display: block;
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .faq-question {
+            padding: 20px 25px;
             cursor: pointer;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            font-weight: bold;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-weight: 600;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            padding: 0 25px;
+            overflow: hidden;
+            color: #94a3b8;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .faq-item.active {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-bottom: 20px;
+            opacity: 1;
         }
 
         .faq-question::after {
             content: '+';
             font-size: 20px;
+            transition: transform 0.3s ease;
         }
 
         .faq-item.active .faq-question::after {
             content: '-';
+            color: var(--accent);
+            transform: rotate(180deg);
         }
+
+
         </style>
 </head>
 
@@ -224,30 +258,10 @@
                 <h4>Executive Brief: Risk & Capital (2026)</h4>
                 <p>A strategic guide on capital optimization and market risk management for digital assets.</p>
                 <a href="#" class="btn-download">Download PDF (Sample)</a>
-            </div>
-        </div>
-
-        <div class="conversion-card">
-            <h3>Reliability for Your DLT Financial Modeling</h3>
-            <p>DCM Core automates backtesting and validation of your quantitative models for full banking compliance.
-            </p>
-            <img src="../../../assets/images/institutional/dashboard-mockup.png"
-                alt="Risk Engine Visualization" class="dashboard-preview">
-            <div class="cta-group">
-                <a href="../../../pricing.html" class="btn-primary-solid">Request Technical Demo</a>
-                <a href="../../../dashboard.html" class="btn-secondary-glass">Run a Simulation</a>
-            </div>
-        </div>
-
-        <div class="cta-section"
-            style="margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <p><em>Next step: Explore the <a href="impact-capital-dlt-mrm.html" style="color: var(--accent);">Impact on
-                        Regulatory Capital</a> or return to the <a href="../../index.html"
-                        style="color: var(--accent);">Resource Center</a>.</em></p>
+                
         </div>
     </div>
-
-    <section class="faq-section">
+<section class="faq-section">
         <h2 style="border: none; padding: 0; text-align: center; margin-bottom: 40px;">Model Risk Management FAQ</h2>
         <div class="faq-grid" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
             <div class="faq-item">
@@ -269,12 +283,48 @@
         </div>
     </section>
 
+        <div class="conversion-card">
+            <h3>Reliability for Your DLT Financial Modeling</h3>
+            <p>DCM Core automates backtesting and validation of your quantitative models for full banking compliance.
+            </p>
+            <img src="../../../assets/images/institutional/dashboard-mockup.png"
+                alt="Risk Engine Visualization" class="dashboard-preview">
+            <div class="cta-group">
+                <a href="../../../pricing.html" class="btn-primary-solid">Request Technical Demo</a>
+                <a href="../../../dashboard.html" class="btn-secondary-glass">Run a Simulation</a>
+            </div>
+        </div>
+
+        <div class="cta-section"
+            style="margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <p><em>Next step: Explore the <a href="impact-capital-dlt-mrm.html" style="color: var(--accent);">Impact on
+                        Regulatory Capital</a> or return to the <a href="../../index.html"
+                        style="color: var(--accent);">Resource Center</a>.</em></p>
+        </div>
+    </div>
+
+    
+
+
+    
+
+    
 
     <script>
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                item.classList.toggle('active');
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const item = question.parentElement;
+                    const isActive = item.classList.contains('active');
+
+                    // Close all other items
+                    document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
             });
         });
     </script>
