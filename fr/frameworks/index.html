@@ -53,7 +53,7 @@
 
         .hub-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 48px;
+            font-size: clamp(32px, 8vw, 48px);
             margin-bottom: 20px;
         }
 
@@ -119,6 +119,18 @@
             font-weight: 700;
             text-transform: uppercase;
         }
+
+        .flagship-card {
+            grid-column: span 2;
+            border: 1px solid var(--accent-purple);
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        @media (max-width: 900px) {
+            .flagship-card {
+                grid-column: span 1;
+            }
+        }
     </style>
 </head>
 
@@ -131,12 +143,15 @@
                 European Institute for Digital Asset Governance</div>
         </div>
         <div class="nav-links-influence">
-            <a href="../index.html" class="nav-link-item">Accueil</a>
-            <a href="../institute/advisory-board.html" class="nav-link-item">L'Institut</a>
             <a href="../insights/index.html" class="nav-link-item">Insights</a>
             <a href="index.html" class="nav-link-item active">Frameworks</a>
-            <a href="../briefings.html" class="nav-link-item" style="color: var(--accent-purple);">Briefings</a>
+            <a href="../insights/research.html" class="nav-link-item">Research</a>
+            <a href="../institute/advisory-board.html" class="nav-link-item">Institute</a>
+            <a href="../about.html" class="nav-link-item">About</a>
         </div>
+        <button class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
     </nav>
 
     <div class="framework-hub">
@@ -147,8 +162,7 @@
         </header>
 
         <div class="framework-grid">
-            <a href="governance-index.html" class="framework-card"
-                style="grid-column: span 2; border: 1px solid var(--accent-purple); background: rgba(168, 85, 247, 0.05);">
+            <a href="governance-index.html" class="framework-card flagship-card">
                 <i class="fas fa-globe f-icon"></i>
                 <div class="f-badge" style="background: var(--accent-purple); color: white;">Flagship Asset</div>
                 <h3 class="f-title">Global Digital Asset Governance Index</h3>
@@ -189,6 +203,23 @@
             </a>
         </div>
     </div>
+
+    <script>
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinksInfluence = document.querySelector('.nav-links-influence');
+
+        if (mobileMenuToggle && navLinksInfluence) {
+            mobileMenuToggle.addEventListener('click', () => {
+                navLinksInfluence.classList.toggle('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                if (navLinksInfluence.classList.contains('active')) {
+                    icon.classList.replace('fa-bars', 'fa-times');
+                } else {
+                    icon.classList.replace('fa-times', 'fa-bars');
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

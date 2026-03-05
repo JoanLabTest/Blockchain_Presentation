@@ -80,12 +80,14 @@
         }
 
         .pillar-layout {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 120px 20px 60px;
             display: grid;
-            grid-template-columns: 280px 1fr;
+            grid-template-columns: 280px minmax(0, 1fr);
             gap: 60px;
+            overflow: hidden;
+            /* Radical: force children to stay within grid */
         }
 
         .sidebar-nav {
@@ -123,12 +125,27 @@
             color: white;
         }
 
+        .pillar-content {
+            flex: 1;
+            min-width: 0;
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
         .pillar-content h1 {
-            font-size: 48px;
+            font-size: clamp(28px, 5vw, 48px);
             font-weight: 800;
             margin-bottom: 30px;
             line-height: 1.1;
             color: white;
+            white-space: normal !important;
+            overflow-wrap: break-word !important;
+            word-wrap: break-word !important;
+            word-break: break-all !important;
+            /* Forces break even if no space */
+            max-width: 100% !important;
+            display: block !important;
         }
 
         .pillar-content h2 {
@@ -194,10 +211,16 @@
         @media (max-width: 900px) {
             .pillar-layout {
                 grid-template-columns: 1fr;
+                padding-top: 80px;
             }
 
             .sidebar-nav {
                 display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block !important;
+                color: var(--pillar-accent);
             }
         }
 
@@ -256,6 +279,40 @@
             color: var(--pillar-accent);
             opacity: 1 !important;
         }
+
+        /* Responsive Tables */
+        .inst-table-container {
+            width: 100% !important;
+            max-width: 100vw !important;
+            /* Force constraint */
+            overflow-x: auto !important;
+            margin: 30px 0;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: block !important;
+        }
+
+        .inst-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .inst-table th,
+        .inst-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .inst-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 
@@ -288,6 +345,10 @@
                     <a href="../../../en/insights/mica/digital-assets-governance-eu.html"
                         style="color: var(--text-muted); text-decoration: none;">EN</a>
                 </div>
+                <!-- Navigation mobile pour pages piliers -->
+                <button class="mobile-menu-toggle" style="display: none;">
+                    <i class="fas fa-bars"></i>
+                </button>
             </nav>
 
             <h1 id="overview">Le Guide Complet de la Gouvernance des Risques Blockchain (Édition UE 2026)</h1>
@@ -509,61 +570,65 @@
 
             <div class="proof-resource-card">
                 <img src="../../../assets/images/institutional/whitepaper-cover.png" alt="Whitepaper MiCA Compliance"
-                    <header class="insight-header" data-aos="fade-down">
-                <div class="category-tag">Policy Paper | Strategic Framework</div>
-                <h1>Gouvernance des Actifs Numériques : <br />Le Cadre MiCA pour les Institutions</h1>
-                <p class="subtitle">Analyse des structures de contrôle et des exigences de reporting pour les banques
-                    européennes.</p>
+                    class="resource-thumbnail">
+                <header class="insight-header" data-aos="fade-down">
+                    <div class="category-tag">Policy Paper | Strategic Framework</div>
+                    <h1>Gouvernance des Actifs Numériques : <br />Le Cadre MiCA pour les Institutions</h1>
+                    <p class="subtitle">Analyse des structures de contrôle et des exigences de reporting pour les
+                        banques
+                        européennes.</p>
 
-                <!-- NEW EXECUTIVE SUMMARY (Phase 7) -->
-                <div class="executive-summary"
-                    style="margin-top: 50px; background: rgba(30, 41, 59, 0.6); border: 1px solid var(--accent); border-radius: 16px; padding: 35px; text-align: left; position: relative; overflow: hidden;">
-                    <div
-                        style="position: absolute; top: -10px; right: -10px; font-size: 80px; opacity: 0.05; color: var(--accent);">
-                        <i class="fas fa-quote-right"></i></div>
-                    <h3
-                        style="color: var(--accent); font-family: 'Outfit'; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-file-contract"></i> Executive Summary
-                    </h3>
-                    <p style="font-size: 16px; line-height: 1.6; color: #e2e8f0; margin-bottom: 25px;">
-                        Ce rapport définit la "Couche de Gouvernance" requise par le règlement MiCA. Pour les
-                        institutions Tier-1, la conformité ne se limite pas à la conservation ; elle exige une
-                        infrastructure de contrôle granulaire sur les actifs programmables.
-                    </p>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <!-- NEW EXECUTIVE SUMMARY (Phase 7) -->
+                    <div class="executive-summary"
+                        style="margin-top: 50px; background: rgba(30, 41, 59, 0.6); border: 1px solid var(--accent); border-radius: 16px; padding: 35px; text-align: left; position: relative; overflow: hidden;">
                         <div
-                            style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent);">
-                            <strong style="display: block; color: white; margin-bottom: 5px;">01. Prudential
-                                Control</strong>
-                            <span style="font-size: 13px; color: #94a3b8;">Nécessité d'une séparation stricte entre les
-                                fonctions de custody et de risk management on-chain.</span>
+                            style="position: absolute; top: -10px; right: -10px; font-size: 80px; opacity: 0.05; color: var(--accent);">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <h3
+                            style="color: var(--accent); font-family: 'Outfit'; margin-top: 0; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-file-contract"></i> Executive Summary
+                        </h3>
+                        <p style="font-size: 16px; line-height: 1.6; color: #e2e8f0; margin-bottom: 25px;">
+                            Ce rapport définit la "Couche de Gouvernance" requise par le règlement MiCA. Pour les
+                            institutions Tier-1, la conformité ne se limite pas à la conservation ; elle exige une
+                            infrastructure de contrôle granulaire sur les actifs programmables.
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                            <div
+                                style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent);">
+                                <strong style="display: block; color: white; margin-bottom: 5px;">01. Prudential
+                                    Control</strong>
+                                <span style="font-size: 13px; color: #94a3b8;">Nécessité d'une séparation stricte entre
+                                    les
+                                    fonctions de custody et de risk management on-chain.</span>
+                            </div>
+                            <div
+                                style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent-purple);">
+                                <strong style="display: block; color: white; margin-bottom: 5px;">02. Finality
+                                    Risk</strong>
+                                <span style="font-size: 13px; color: #94a3b8;">Validation en temps réel des blocs pour
+                                    garantir l'irrévocabilité du règlement selon l'Art. 76.</span>
+                            </div>
+                            <div
+                                style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border-left: 3px solid #10b981;">
+                                <strong style="display: block; color: white; margin-bottom: 5px;">03. Audit
+                                    Visibility</strong>
+                                <span style="font-size: 13px; color: #94a3b8;">Capture exhaustive des états de smart
+                                    contracts pour les auditeurs et superviseurs (EBA).</span>
+                            </div>
                         </div>
                         <div
-                            style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent-purple);">
-                            <strong style="display: block; color: white; margin-bottom: 5px;">02. Finality Risk</strong>
-                            <span style="font-size: 13px; color: #94a3b8;">Validation en temps réel des blocs pour
-                                garantir l'irrévocabilité du règlement selon l'Art. 76.</span>
-                        </div>
-                        <div
-                            style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border-left: 3px solid #10b981;">
-                            <strong style="display: block; color: white; margin-bottom: 5px;">03. Audit
-                                Visibility</strong>
-                            <span style="font-size: 13px; color: #94a3b8;">Capture exhaustive des états de smart
-                                contracts pour les auditeurs et superviseurs (EBA).</span>
+                            style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+                            <span
+                                style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Strategic
+                                Implications for CROs & Boards</span>
+                            <a href="../../contact.html"
+                                style="font-size: 13px; color: var(--accent); font-weight: 600; text-decoration: none;">Request
+                                Institutional Briefing <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <div
-                        style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span
-                            style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Strategic
-                            Implications for CROs & Boards</span>
-                        <a href="../../contact.html"
-                            style="font-size: 13px; color: var(--accent); font-weight: 600; text-decoration: none;">Request
-                            Institutional Briefing <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
                 </header>
-                class="resource-thumbnail">
                 <div class="resource-content">
                     <h4>Dossier Stratégique : Mise en conformité MiCA</h4>
                     <p>Analyse des impacts opérationnels et financiers du règlement MiCA sur les prestataires de
@@ -611,6 +676,32 @@
                 }
             });
         });
+
+        // Mobile Menu Toggle for Influence Links (if wrapped in nav or breadcrumb)
+        // Note: For pillar pages, the breadcrumb serves as a mini-nav
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const sidebarNav = document.querySelector('.sidebar-nav');
+
+        if (mobileMenuToggle && sidebarNav) {
+            mobileMenuToggle.addEventListener('click', () => {
+                sidebarNav.style.display = sidebarNav.style.display === 'block' ? 'none' : 'block';
+                const icon = mobileMenuToggle.querySelector('i');
+                if (sidebarNav.style.display === 'block') {
+                    icon.classList.replace('fa-bars', 'fa-times');
+                    sidebarNav.style.position = 'fixed';
+                    sidebarNav.style.top = '70px';
+                    sidebarNav.style.left = '0';
+                    sidebarNav.style.width = '100%';
+                    sidebarNav.style.height = '100vh';
+                    sidebarNav.style.background = 'var(--bg-deep)';
+                    sidebarNav.style.zIndex = '1000';
+                    sidebarNav.style.padding = '40px';
+                } else {
+                    icon.classList.replace('fa-times', 'fa-bars');
+                    sidebarNav.style.position = 'sticky';
+                }
+            });
+        }
     </script>
 </body>
 
