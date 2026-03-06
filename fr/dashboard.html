@@ -3,6 +3,11 @@
 <html lang="fr">
 
 <head>
+    <link rel="canonical" href="https://dcmcore.com/fr/dashboard.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/dashboard.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/dashboard.html" />
+    <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/dashboard.html" />
+
     <!-- DEV MASTER UNLOCK -->
     <script src="js/dev-unlock.js"></script>
     <meta charset="utf-8" />
@@ -37,8 +42,7 @@
                 document.documentElement.style.visibility = '';
                 console.warn('⚠️ Auth guard timeout: Failsafe triggered.');
             }, 3000);
-
-            if (window.SessionManager) {
+    if (window.SessionManager) {
                 await window.SessionManager.protectRoute();
                 clearTimeout(failsafe);
             }
@@ -104,45 +108,37 @@
             --bg-glass: rgba(30, 41, 59, 0.4);
             --border: rgba(255, 255, 255, 0.5);
             --border-highlight: rgba(59, 130, 246, 0.5);
-
-            --text-main: #f8fafc;
+    --text-main: #f8fafc;
             --text-muted: #94a3b8;
-
-            --accent-blue: #3b82f6;
+    --accent-blue: #3b82f6;
             --accent-cyan: #06b6d4;
             --accent-purple: #a855f7;
             --accent-gold: #f59e0b;
             --accent-green: #10b981;
             --accent-red: #ef4444;
-
-            --gradient-main: linear-gradient(135deg, #3b82f6, #a855f7);
+    --gradient-main: linear-gradient(135deg, #3b82f6, #a855f7);
             --segment-color: var(--accent-blue);
         }
-
-        /* --- SEGMENT THEMES (Phase 73) --- */
+    /* --- SEGMENT THEMES (Phase 73) --- */
         body[data-segment="student"] {
             --segment-color: var(--accent-cyan);
             --gradient-main: linear-gradient(135deg, #06b6d4, #10b981);
         }
-
-        body[data-segment="pro"] {
+    body[data-segment="pro"] {
             --segment-color: var(--accent-purple);
             --gradient-main: linear-gradient(135deg, #3b82f6, #a855f7);
         }
-
-        body[data-segment="enterprise"] {
+    body[data-segment="enterprise"] {
             --segment-color: var(--accent-gold);
             --gradient-main: linear-gradient(135deg, #f59e0b, #b45309);
         }
-
-        * {
+    * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             outline: none;
         }
-
-        body {
+    body {
             background-color: var(--bg-dark);
             color: var(--text-main);
             font-family: 'Urbanist', sans-serif;
@@ -152,22 +148,17 @@
             opacity: 1;
             transition: opacity 0.8s ease-in-out;
         }
-
-        body.loaded {
+    body.loaded {
             opacity: 1;
         }
-
-        .main-content {
+    .main-content {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
         }
-
-        .main-content.tab-switching {
+    .main-content.tab-switching {
             opacity: 0.5;
             transform: translateY(10px);
         }
-
-
-        /* --- SEARCH BAR (Phase 56) --- */
+    /* --- SEARCH BAR (Phase 56) --- */
         .header-search {
             position: relative;
             flex-grow: 1;
@@ -176,8 +167,7 @@
             display: flex;
             align-items: center;
         }
-
-        .header-search-input {
+    .header-search-input {
             width: 100%;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
@@ -188,21 +178,18 @@
             font-family: 'Urbanist', sans-serif;
             transition: all 0.3s;
         }
-
-        .header-search-input:focus {
+    .header-search-input:focus {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--accent-blue);
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
         }
-
-        .header-search-icon {
+    .header-search-icon {
             position: absolute;
             left: 15px;
             color: var(--text-muted);
             pointer-events: none;
         }
-
-        .search-results-dash {
+    .search-results-dash {
             position: absolute;
             top: calc(100% + 10px);
             left: 0;
@@ -216,12 +203,10 @@
             overflow: hidden;
             z-index: 2000;
         }
-
-        .search-results-dash.active {
+    .search-results-dash.active {
             display: flex;
         }
-
-        .search-item-dash {
+    .search-item-dash {
             padding: 12px 15px;
             color: var(--text-muted);
             text-decoration: none;
@@ -232,17 +217,14 @@
             transition: all 0.2s;
             border-bottom: 1px solid var(--border);
         }
-
-        .search-item-dash:hover {
+    .search-item-dash:hover {
             background: rgba(59, 130, 246, 0.1);
             color: white;
         }
-
-        .search-item-dash i {
+    .search-item-dash i {
             color: var(--accent-blue);
         }
-
-        /* --- TOOLTIPS (Phase 58) --- */
+    /* --- TOOLTIPS (Phase 58) --- */
         .tooltip-trigger {
             cursor: help;
             color: var(--text-muted);
@@ -251,17 +233,14 @@
             transition: color 0.2s;
             display: inline-block;
         }
-
-        .tooltip-trigger:hover {
+    .tooltip-trigger:hover {
             color: var(--accent-blue);
         }
-
-        [data-tooltip] {
+    [data-tooltip] {
             position: relative;
             z-index: 10;
         }
-
-        [data-tooltip]::before {
+    [data-tooltip]::before {
             content: attr(data-tooltip);
             position: absolute;
             bottom: calc(100% + 10px);
@@ -287,8 +266,7 @@
             text-transform: none;
             letter-spacing: 0;
         }
-
-        [data-tooltip]::after {
+    [data-tooltip]::after {
             content: '';
             position: absolute;
             bottom: calc(100% + 6px);
@@ -301,25 +279,20 @@
             transition: opacity 0.2s ease;
             z-index: 9999;
         }
-
-        [data-tooltip]:hover::before {
+    [data-tooltip]:hover::before {
             opacity: 1;
             visibility: visible;
             transform: translateX(-50%) translateY(0);
         }
-
-        [data-tooltip]:hover::after {
+    [data-tooltip]:hover::after {
             opacity: 1;
             visibility: visible;
         }
-
-
-        /* --- MAIN CONTENT - Handled by styles-sidebar.css --- */
+    /* --- MAIN CONTENT - Handled by styles-sidebar.css --- */
         .main-content {
             background: radial-gradient(circle at top right, #1e1b4b 0%, #020617 40%);
         }
-
-        /* --- LIVE MARKET TICKER (Phase 52) --- */
+    /* --- LIVE MARKET TICKER (Phase 52) --- */
         #market-ticker {
             display: flex;
             align-items: center;
@@ -332,16 +305,14 @@
             gap: 12px;
             overflow: hidden;
         }
-
-        .ticker-coins {
+    .ticker-coins {
             display: flex;
             align-items: center;
             gap: 6px;
             flex-wrap: nowrap;
             overflow-x: auto;
         }
-
-        .ticker-item {
+    .ticker-item {
             display: flex;
             align-items: center;
             gap: 6px;
@@ -350,13 +321,11 @@
             background: rgba(255, 255, 255, 0.04);
             white-space: nowrap;
         }
-
-        .ticker-icon {
+    .ticker-icon {
             font-size: 14px;
             color: #f0c040;
         }
-
-        /* --- ADVISOR INSIGHTS (Phase 63) --- */
+    /* --- ADVISOR INSIGHTS (Phase 63) --- */
         .advisor-strip {
             background: linear-gradient(90deg, rgba(34, 197, 94, 0.05), rgba(59, 130, 246, 0.05));
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -364,14 +333,12 @@
             padding: 20px;
             position: relative;
         }
-
-        .insight-card-mini:hover {
+    .insight-card-mini:hover {
             background: rgba(255, 255, 255, 0.06) !important;
             border-color: rgba(34, 197, 94, 0.3) !important;
             transform: translateY(-2px);
         }
-
-        .insight-card-mini .trace-badge {
+    .insight-card-mini .trace-badge {
             font-size: 10px;
             color: #22c55e;
             display: flex;
@@ -381,87 +348,72 @@
             opacity: 0.7;
             transition: opacity 0.3s;
         }
-
-        .insight-card-mini:hover .trace-badge {
+    .insight-card-mini:hover .trace-badge {
             opacity: 1;
         }
-
-        .ticker-symbol {
+    .ticker-symbol {
             font-size: 12px;
             color: #888;
             font-weight: 600;
             letter-spacing: 0.05em;
         }
-
-        .ticker-price {
+    .ticker-price {
             font-size: 13px;
             color: #e2e8f0;
             font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
         }
-
-        .ticker-change {
+    .ticker-change {
             font-size: 11px;
             font-weight: 600;
         }
-
-        .ticker-sep {
+    .ticker-sep {
             color: #333;
             padding: 0 4px;
         }
-
-        .ticker-meta {
+    .ticker-meta {
             display: flex;
             align-items: center;
             gap: 6px;
             flex-shrink: 0;
         }
-
-        .ticker-live-dot {
+    .ticker-live-dot {
             width: 7px;
             height: 7px;
             border-radius: 50%;
             background: #10b981;
             animation: blink 1.6s infinite;
         }
-
-        @keyframes blink {
-
-            0%,
+    @keyframes blink {
+    0%,
             100% {
                 opacity: 1;
             }
-
-            50% {
+    50% {
                 opacity: 0.2;
             }
         }
-
-        .header {
+    .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 40px;
         }
-
-        .page-title h1 {
+    .page-title h1 {
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 5px;
         }
-
-        .page-title p {
+    .page-title p {
             color: var(--text-muted);
             font-size: 14px;
         }
-
-        .actions {
+    .actions {
             display: flex;
             gap: 15px;
             align-items: center;
         }
-
-        .user-meta {
+    .user-meta {
             display: flex;
             gap: 15px;
             font-size: 13px;
@@ -471,8 +423,7 @@
             border-radius: 20px;
             border: 1px solid var(--border);
         }
-
-        .btn-glass {
+    .btn-glass {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
             color: white;
@@ -486,13 +437,11 @@
             align-items: center;
             gap: 8px;
         }
-
-        .btn-glass:hover {
+    .btn-glass:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--accent-blue);
         }
-
-        .btn-primary {
+    .btn-primary {
             background: var(--accent-blue);
             border: none;
             color: white;
@@ -507,29 +456,24 @@
             align-items: center;
             gap: 8px;
         }
-
-        .btn-primary:hover {
+    .btn-primary:hover {
             background: #2563eb;
             transform: translateY(-2px);
         }
-
-        /* --- DASHBOARD GRID --- */
+    /* --- DASHBOARD GRID --- */
         .dash-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             margin-bottom: 30px;
         }
-
-        .span-2 {
+    .span-2 {
             grid-column: span 2;
         }
-
-        .span-4 {
+    .span-4 {
             grid-column: span 4;
         }
-
-        .card {
+    .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             padding: 25px;
@@ -541,20 +485,17 @@
             display: flex;
             flex-direction: column;
         }
-
-        /* Re-clip decorative overflow only on specific cards that need it */
+    /* Re-clip decorative overflow only on specific cards that need it */
         .card.clip-content {
             overflow: hidden;
         }
-
-        .card-header {
+    .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-
-        .card-title {
+    .card-title {
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -566,24 +507,21 @@
             position: relative;
             /* ensure tooltip child can escape */
         }
-
-        .metric-val {
+    .metric-val {
             font-family: 'JetBrains Mono', monospace;
             font-size: 32px;
             font-weight: 700;
             color: white;
             margin: 10px 0;
         }
-
-        .metric-sub {
+    .metric-sub {
             font-size: 12px;
             color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 5px;
         }
-
-        /* --- SPECIFIC WIDGETS --- */
+    /* --- SPECIFIC WIDGETS --- */
         .score-circle {
             width: 100px;
             height: 100px;
@@ -596,15 +534,13 @@
             border-top-color: var(--accent-green);
             margin: 0 auto;
         }
-
-        .timeline-item {
+    .timeline-item {
             padding-left: 15px;
             border-left: 2px solid var(--border);
             margin-bottom: 15px;
             position: relative;
         }
-
-        .timeline-item::before {
+    .timeline-item::before {
             content: '';
             position: absolute;
             left: -6px;
@@ -614,55 +550,46 @@
             border-radius: 50%;
             background: var(--accent-blue);
         }
-
-        .timeline-date {
+    .timeline-date {
             font-size: 11px;
             color: var(--text-muted);
             margin-bottom: 2px;
         }
-
-        .timeline-content {
+    .timeline-content {
             font-size: 13px;
             color: white;
         }
-
-        /* TABLE */
+    /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
         }
-
-        th {
+    th {
             text-align: left;
             padding: 10px;
             color: var(--text-muted);
             font-size: 12px;
             border-bottom: 1px solid var(--border);
         }
-
-        td {
+    td {
             padding: 15px 10px;
             border-bottom: 1px solid var(--border);
             font-size: 14px;
         }
-
-        tr:hover {
+    tr:hover {
             background: rgba(255, 255, 255, 0.02);
         }
-
-        .status-badge {
+    .status-badge {
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 700;
         }
-
-        /* COMPLIANCE WIDGET */
+    /* COMPLIANCE WIDGET */
         #compliance-bar-fill {
             transition: width 1s ease-in-out;
         }
-
-        /* BREADCRUMBS (Phase 73) */
+    /* BREADCRUMBS (Phase 73) */
         .breadcrumbs {
             display: flex;
             align-items: center;
@@ -673,23 +600,19 @@
             color: var(--text-muted);
             margin-bottom: 12px;
         }
-
-        .breadcrumbs a {
+    .breadcrumbs a {
             color: var(--text-muted);
             text-decoration: none;
             transition: color 0.2s;
         }
-
-        .breadcrumbs a:hover {
+    .breadcrumbs a:hover {
             color: white;
         }
-
-        .breadcrumbs i {
+    .breadcrumbs i {
             font-size: 8px;
             opacity: 0.5;
         }
-
-        .breadcrumb-segment {
+    .breadcrumb-segment {
             color: var(--segment-color) !important;
             font-weight: 800;
         }
@@ -697,18 +620,12 @@
     <title>Hub de Gestion des Risques de Modèle Blockchain (MRM) | DCM Core</title>
     <meta name="description"
         content="Framework avancé de gestion des risques de modèle adapté aux actifs numériques, aux infrastructures DLT et aux contrôles de risques institutionnels.">
-    <link rel="canonical" href="https://dcmcore.com/fr/dashboard.html">
     <script src="js/cookie-consent.js"></script>
     <script src="js/cta-tracker.js"></script>
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-
-
-    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/dashboard.html" />
-    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/dashboard.html" />
-    <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/fr/dashboard.html" />
-</head>
+    </head>
 
 <body>
     <!-- SIDEBAR -->

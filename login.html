@@ -3,6 +3,11 @@
 <html lang="fr">
 
 <head>
+    <link rel="canonical" href="https://dcmcore.com/login.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/login.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/login.html" />
+    <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/login.html" />
+
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Connexion - Blockchain Academy</title>
@@ -43,12 +48,10 @@
             try {
                 // Check if we have a session locally (fast)
                 const { data: { session } } = await window.supabase.auth.getSession();
-
-                if (session && session.user) {
+    if (session && session.user) {
                     // 🛡️ STRICT CHECK: Verify with server before redirecting to avoid loop
                     const { data: { user }, error } = await window.supabase.auth.getUser();
-
-                    if (user && !error) {
+    if (user && !error) {
                         // All good — redirect silently while page is still invisible
                         window.location.replace('dashboard.html');
                         return;
@@ -77,15 +80,13 @@
             --error: #ef4444;
             --success: #10b981;
         }
-
-        * {
+    * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Urbanist', sans-serif;
         }
-
-        body {
+    body {
             background-color: var(--bg-dark);
             color: var(--text-main);
             height: 100vh;
@@ -95,8 +96,7 @@
             overflow: hidden;
             position: relative;
         }
-
-        /* Animated Background Orbs */
+    /* Animated Background Orbs */
         .orb {
             position: absolute;
             border-radius: 50%;
@@ -105,16 +105,14 @@
             z-index: -1;
             animation: float 10s infinite ease-in-out;
         }
-
-        .orb-1 {
+    .orb-1 {
             width: 300px;
             height: 300px;
             background: var(--accent-cyan);
             top: -50px;
             left: -50px;
         }
-
-        .orb-2 {
+    .orb-2 {
             width: 400px;
             height: 400px;
             background: var(--accent-blue);
@@ -122,20 +120,16 @@
             right: -100px;
             animation-delay: -5s;
         }
-
-        @keyframes float {
-
-            0%,
+    @keyframes float {
+    0%,
             100% {
                 transform: translate(0, 0);
             }
-
-            50% {
+    50% {
                 transform: translate(30px, 50px);
             }
         }
-
-        /* Login Card */
+    /* Login Card */
         .login-card {
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(20px);
@@ -147,13 +141,11 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             z-index: 10;
         }
-
-        .logo-area {
+    .logo-area {
             text-align: center;
             margin-bottom: 30px;
         }
-
-        .logo-area i {
+    .logo-area i {
             font-size: 40px;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
             -webkit-background-clip: text;
@@ -162,21 +154,18 @@
             margin-bottom: 15px;
             display: block;
         }
-
-        .logo-area h1 {
+    .logo-area h1 {
             font-size: 24px;
             font-weight: 800;
             letter-spacing: -0.5px;
         }
-
-        .logo-area p {
+    .logo-area p {
             color: #94a3b8;
             font-size: 14px;
             margin-top: 5px;
             font-family: 'JetBrains Mono', monospace;
         }
-
-        /* Tabs */
+    /* Tabs */
         .auth-tabs {
             display: flex;
             background: rgba(255, 255, 255, 0.05);
@@ -184,8 +173,7 @@
             border-radius: 12px;
             margin-bottom: 25px;
         }
-
-        .tab-btn {
+    .tab-btn {
             flex: 1;
             padding: 10px;
             border: none;
@@ -196,31 +184,26 @@
             cursor: pointer;
             transition: 0.3s;
         }
-
-        .tab-btn.active {
+    .tab-btn.active {
             background: var(--accent-blue);
             color: white;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
-
-        /* Form */
+    /* Form */
         .input-group {
             margin-bottom: 20px;
         }
-
-        .input-group label {
+    .input-group label {
             display: block;
             margin-bottom: 8px;
             font-size: 14px;
             color: #94a3b8;
             font-weight: 600;
         }
-
-        .input-wrapper {
+    .input-wrapper {
             position: relative;
         }
-
-        .input-wrapper i {
+    .input-wrapper i {
             position: absolute;
             left: 15px;
             top: 50%;
@@ -228,8 +211,7 @@
             color: #64748b;
             transition: 0.3s;
         }
-
-        .input-wrapper input {
+    .input-wrapper input {
             width: 100%;
             padding: 14px 14px 14px 45px;
             background: rgba(30, 41, 59, 0.5);
@@ -240,18 +222,15 @@
             outline: none;
             transition: 0.3s;
         }
-
-        .input-wrapper input:focus {
+    .input-wrapper input:focus {
             border-color: var(--accent-cyan);
             box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1);
             background: rgba(30, 41, 59, 0.8);
         }
-
-        .input-wrapper input:focus+i {
+    .input-wrapper input:focus+i {
             color: var(--accent-cyan);
         }
-
-        /* Submit Button */
+    /* Submit Button */
         .submit-btn {
             width: 100%;
             padding: 16px;
@@ -269,22 +248,18 @@
             align-items: center;
             gap: 10px;
         }
-
-        .submit-btn:hover {
+    .submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.4);
         }
-
-        .submit-btn:active {
+    .submit-btn:active {
             transform: scale(0.98);
         }
-
-        .submit-btn.loading {
+    .submit-btn.loading {
             opacity: 0.7;
             cursor: wait;
         }
-
-        /* Feedback Message */
+    /* Feedback Message */
         #auth-message {
             margin-top: 20px;
             padding: 12px;
@@ -294,45 +269,38 @@
             display: none;
             font-weight: 500;
         }
-
-        .success {
+    .success {
             background: rgba(16, 185, 129, 0.1);
             color: var(--success);
             border: 1px solid rgba(16, 185, 129, 0.2);
         }
-
-        .error {
+    .error {
             background: rgba(239, 68, 68, 0.1);
             color: var(--error);
             border: 1px solid rgba(239, 68, 68, 0.2);
         }
-
-        /* Footer */
+    /* Footer */
         .card-footer {
             margin-top: 30px;
             text-align: center;
             font-size: 14px;
             color: #64748b;
         }
-
-        .card-footer a {
+    .card-footer a {
             color: var(--accent-cyan);
             text-decoration: none;
             font-weight: 600;
             transition: 0.2s;
         }
-
-        .card-footer a:hover {
+    .card-footer a:hover {
             color: var(--accent-blue);
             text-decoration: underline;
         }
-
-        .hidden {
+    .hidden {
             display: none;
         }
     </style>
     <meta content="Explore the login module of the DCM Digital Governance OS." name="description" />
-    <link href="https://dcmcore.com/login.html" rel="canonical" />
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "WebPage",
@@ -345,11 +313,7 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-
-    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/login.html" />
-    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/login.html" />
-    <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/fr/login.html" />
-</head>
+    </head>
 
 <body>
     <!-- Background -->
