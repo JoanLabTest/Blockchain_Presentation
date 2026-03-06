@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications & Intelligence | DCM Core</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #050609;
+            --accent-purple: #a855f7;
+            --accent-gold: #c5a059;
+            --card-glass: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: #f1f5f9;
+            font-family: 'Urbanist', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .hero-library {
+            padding: 120px 20px 80px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+        }
+
+        .hero-library h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-library p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .nav-library {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .nav-library a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: var(--card-glass);
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .nav-library a:hover, .nav-library a.active {
+            background: var(--accent-purple);
+            color: #fff;
+        }
+
+        .pub-section {
+            margin-bottom: 100px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .grid-pubs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+        }
+
+        .pub-card {
+            background: var(--card-glass);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pub-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .pub-img {
+            height: 200px;
+            background: #1a1b26;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .pub-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--accent-purple);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .pub-content {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .pub-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .pub-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .pub-excerpt {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .pub-actions {
+            display: flex;
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .btn-pub {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .btn-pub:hover {
+            opacity: 0.8;
+        }
+
+        .footer-banner {
+            background: linear-gradient(90deg, #1e1b4b 0%, #0a0b10 100%);
+            padding: 80px 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-library">
+        <div class="pub-badge" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 20px;">Knowledge Ecosystem</div>
+        <h1>Bibliothèque de Publications</h1>
+        <p>Recherche macroéconomique, documents de travail et analyses stratégiques pour l'infrastructure financière globale.</p>
+    </section>
+
+    <div class="container">
+        <nav class="nav-library">
+            <a href="#" class="active">All Publications</a>
+            <a href="#reports">Annual Reports</a>
+            <a href="#papers">Working Papers</a>
+            <a href="#briefs">Policy Briefs</a>
+            <a href="#monitor">Risk Monitors</a>
+        </nav>
+
+        <!-- ANNUAL REPORTS -->
+        <section class="pub-section" id="reports">
+            <div class="section-header">
+                <h2>Rapports Annuels</h2>
+                <span style="color: #64748b; font-size: 0.9rem;">Signature Institutional Series</span>
+            </div>
+            <div class="grid-pubs">
+                <article class="pub-card" style="grid-column: span 2;">
+                    <div class="pub-img" style="height: 300px; background: linear-gradient(135deg, #1e1b4b 0%, #a855f7 100%);">
+                        <i class="fas fa-file-invoice" style="font-size: 80px; opacity: 0.3;"></i>
+                        <div class="pub-badge">Flagship 2026</div>
+                    </div>
+                    <div class="pub-content">
+                        <div class="pub-meta">ANNUAL REPORT | MARCH 2026</div>
+                        <h3 class="pub-title" style="font-size: 2.2rem;">Digital Asset Governance Report 2026</h3>
+                        <p class="pub-excerpt">Le rapport de référence de 120 pages analysant la transition vers le règlement atomique (T+0), l'impact global de MiCA 2 et l'évolution des infrastructures de marché DLT. Une ressource indispensable pour les départements de risque et conformité.</p>
+                        <div class="pub-actions">
+                            <a href="#" class="btn-pub btn-primary"><i class="fas fa-file-pdf"></i> Executive Summary (32 pages)</a>
+                            <a href="../pricing-institutional.html" class="btn-pub btn-secondary"><i class="fas fa-lock"></i> Request Full Report (Gated)</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- WORKING PAPERS -->
+        <section class="pub-section" id="papers">
+            <div class="section-header">
+                <h2>DCM Core Working Papers</h2>
+                <span style="color: #a855f7; font-weight: 600;">Academic Excellence</span>
+            </div>
+            <div class="grid-pubs">
+                <article class="pub-card">
+                    <div class="pub-content">
+                        <div class="pub-meta">WORKING PAPER NO. 001</div>
+                        <h3 class="pub-title">Tokenized Settlement Systems: Stability & Liquidity</h3>
+                        <p class="pub-excerpt">Une analyse comparative des protocoles de settlement atomique versus le système Legacy T+2.</p>
+                        <div class="pub-actions">
+                            <a href="#" class="btn-pub btn-secondary"><i class="fas fa-file-lines"></i> View Paper</a>
+                        </div>
+                    </div>
+                </article>
+                <!-- Annual Report Card -->
+                <a href="digital-asset-governance-report-2026.html" class="pub-card" data-aos="fade-up">
+                    <div class="pub-badge" style="position: relative; top: 0; left: 0; background: rgba(168, 85, 247, 0.2); color: #a855f7; border-color: rgba(168, 85, 247, 0.3);">Flagship Publication</div>
+                    <h3 class="serif-heading">Digital Asset Governance Report 2026</h3>
+                    <p class="pub-desc">The definitive 120-page strategic analysis on global digital asset infrastructure and the institutional shift towards tokenisation.</p>
+                    <div class="pub-footer">
+                        <span><i class="fas fa-calendar"></i> March 2026</span>
+                        <span style="color:white; font-weight:700;">Access Report <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+                <article class="pub-card">
+                    <div class="pub-content">
+                        <div class="pub-meta">WORKING PAPER NO. 002</div>
+                        <h3 class="pub-title">CBDC Interoperability with Public DLT</h3>
+                        <p class="pub-excerpt">Framework technique pour l'intégration des MNBC de gros avec les réseaux financiers ouverts.</p>
+                        <div class="pub-actions">
+                            <a href="#" class="btn-pub btn-secondary"><i class="fas fa-file-lines"></i> View Paper</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="pub-card">
+                    <div class="pub-content">
+                        <div class="pub-meta">WORKING PAPER NO. 003</div>
+                        <h3 class="pub-title">Smart Contract Model Risk Management</h3>
+                        <p class="pub-excerpt">Nouvelles normes pour l'évaluation de la robustesse des flux programmables en finance.</p>
+                        <div class="pub-actions">
+                            <a href="#" class="btn-pub btn-secondary"><i class="fas fa-file-lines"></i> View Paper</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- POLICY BRIEFS & MONITOR -->
+        <section class="pub-section" id="briefs">
+            <div class="section-header">
+                <h2>Policy Briefs & Quarterly Reviews</h2>
+            </div>
+            <div class="grid-pubs">
+                <article class="pub-card">
+                    <div class="pub-content">
+                        <div class="pub-meta">QUARTERLY RISK MONITOR | Q1 2026</div>
+                        <h3 class="pub-title">Digital Asset Market Stress Review</h3>
+                        <p class="pub-excerpt">Analyse trimestrielle des métriques du GDARI et des nouveaux vecteurs de risque identifiés.</p>
+                        <div class="pub-actions">
+                            <a href="#" class="btn-pub btn-secondary"><i class="fas fa-chart-line"></i> Read Monitor</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="pub-card">
+                    <div class="pub-content">
+                        <div class="pub-meta">POLICY BRIEF | FEB 2026</div>
+                        <h3 class="pub-title">Implications of MiCA for Market Structure</h3>
+                        <p class="pub-excerpt">Note de synthèse pour les régulateurs sur la réorganisation des CEX et DEX sous MiCA.</p>
+                        <div class="pub-actions">
+                            <a href="#" class="btn-pub btn-secondary"><i class="fas fa-balance-scale"></i> View Brief</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <div class="footer-banner">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 20px;">Institutional Intelligence Access</h2>
+            <p style="color: #94a3b8; max-width: 600px; margin: 0 auto 40px;">Recevez nos publications trimestrielles et nos rapports spéciaux directement dans votre boîte mail.</p>
+            <a href="../pricing-institutional.html" class="btn-pub btn-primary" style="padding: 15px 40px; font-size: 1rem;">Subscribe to Research Portal</a>
+        </div>
+    </div>
+
+</body>
+</html>

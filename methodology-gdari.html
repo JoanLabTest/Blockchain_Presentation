@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology | GDARI Risk Index | DCM Core</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #0a0b10;
+            --accent-gold: #c5a059;
+            --text-muted: #94a3b8;
+            --border-institutional: rgba(197, 160, 89, 0.2);
+        }
+
+        body {
+            background: var(--bg-deep);
+            color: #e2e8f0;
+            font-family: 'Urbanist', sans-serif;
+            line-height: 1.6;
+        }
+
+        .paper-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 40px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%);
+        }
+
+        .paper-header {
+            text-align: center;
+            margin-bottom: 80px;
+            border-bottom: 1px solid var(--border-institutional);
+            padding-bottom: 40px;
+        }
+
+        .paper-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+        }
+
+        .abstract {
+            background: rgba(197, 160, 89, 0.05);
+            padding: 30px;
+            border-left: 4px solid var(--accent-gold);
+            margin: 40px 0;
+            font-style: italic;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            margin-top: 60px;
+            font-size: 1.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .formula-box {
+            background: #000;
+            border: 1px solid #333;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .formula-label {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--bg-deep);
+            padding: 2px 10px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .pillar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+
+        .pillar-table th, .pillar-table td {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .pillar-table th {
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .nav-back {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        .nav-back:hover {
+            opacity: 1;
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+
+    <a href="digital-asset-risk-index.html" class="nav-back">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <article class="paper-container">
+        <header class="paper-header">
+            <div class="metadata">Technical Whitepaper | Volume 26.1 | DCM Core Research</div>
+            <h1>GDARI Technical Methodology</h1>
+            <p>Design and Implementation of the Global Digital Asset Risk Index</p>
+        </header>
+
+        <section class="abstract">
+            <strong>Résumé :</strong> Ce document détaille le cadre mathématique et structurel du GDARI. L'indice utilise un modèle de moyenne mobile pondérée exponentiellement (EWMA) pour agréger 32 flux de données en temps réel à travers 5 piliers analytiques, offrant une mesure agrégée du risque systémique sur les marchés d'actifs numériques.
+        </section>
+
+        <h2>1. Architecture des Piliers</h2>
+        <p>Le GDARI repose sur une structure hiérarchique où les données brutes sont normalisées avant d'être agrégées. Chaque pilier contribue au score final selon un coefficient de pondération déterminé par son impact historique sur la stabilité du marché.</p>
+
+        <table class="pillar-table">
+            <thead>
+                <tr>
+                    <th>Pilier Analytique</th>
+                    <th>Poids (w)</th>
+                    <th>Métriques Clés</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Market Volatility</td>
+                    <td>25%</td>
+                    <td>Implied Vol (Derivs), Realized Vol (30d), Tail Risk</td>
+                </tr>
+                <tr>
+                    <td>Liquidity Stress</td>
+                    <td>30%</td>
+                    <td>Bid-Ask Spreads, Depth @ 2%, Net Inflows/Outflows</td>
+                </tr>
+                <tr>
+                    <td>Regulatory Pressure</td>
+                    <td>20%</td>
+                    <td>Enforcement Action Velocity, Legislative Proposals</td>
+                </tr>
+                <tr>
+                    <td>Systemic Events</td>
+                    <td>15%</td>
+                    <td>Smart Contract Exploits, De-peg Frequency</td>
+                </tr>
+                <tr>
+                    <td>Institutional Flows</td>
+                    <td>10%</td>
+                    <td>ETF AUM Velocity, CME Open Interest</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2. Modélisation Mathématique</h2>
+        <p>Pour lisser les bruits de marché tout en conservant une réactivité aux chocs soudains, nous utilisons une fonction d'agrégation EWMA :</p>
+
+        <div class="formula-box">
+            <div class="formula-label">Equation 1: Time-Weighted Component Score</div>
+            S<sub>t</sub> = (1 - λ) &Sigma; [ w<sub>i</sub> &sdot; x<sub>i,t</sub> ] + λ &sdot; S<sub>t-1</sub>
+        </div>
+
+        <p>Où &lambda; (lambda) est le facteur de lissage fixé à 0.94, équilibrant la persistance de l'historique et la pertinence des nouvelles données.</p>
+
+        <h2>3. Normalisation et Seuils</h2>
+        <p>Chaque métrique x<sub>i</sub> est normalisée sur une échelle de 0 à 100 via une fonction Sigmoïde pour éviter les distorsions causées par des outliers extrêmes (Black Swans).</p>
+        <ul>
+            <li><strong>0 - 20 (Low) :</strong> Environnement de marché optimal, spreads serrés.</li>
+            <li><strong>21 - 45 (Moderate) :</strong> Vigilance standard, volatilité cyclique.</li>
+            <li><strong>46 - 70 (Elevated) :</strong> Risque systémique croissant, stress de liquidité détecté.</li>
+            <li><strong>71 - 100 (Critical) :</strong> Événement de désendettement forcé ou choc exogène majeur.</li>
+        </ul>
+
+        <h2>4. Gouvernance des Données</h2>
+        <p>Les données sont collectées via 3 sources de vérification distinctes. En cas de divergence > 2% entre les sources, le moteur d'exécution déclenche une routine de nettoyage "Outlier Filter" avant l'injection dans le modèle final.</p>
+
+        <div style="margin-top: 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px;">
+            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                © 2026 DCM Core | Institutional Research Department<br>
+                For deeper verification requests, please contact methodology@dcmcore.com
+            </p>
+        </div>
+    </article>
+
+</body>
+</html>
