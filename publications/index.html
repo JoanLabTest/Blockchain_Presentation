@@ -164,6 +164,7 @@
             gap: 15px;
             padding-top: 20px;
             border-top: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap;
         }
 
         .btn-pub {
@@ -176,6 +177,8 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-primary {
@@ -188,8 +191,90 @@
             color: #fff;
         }
 
+        .btn-cite {
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--accent-purple);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
         .btn-pub:hover {
             opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        /* Citation Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #0f172a;
+            margin: 10% auto;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 80%;
+            max-width: 700px;
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .cite-block {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin: 20px 0;
+            border: 1px solid rgba(255,255,255,0.05);
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-family: 'Urbanist', sans-serif;
+            font-weight: 700;
+        }
+
+        .jel-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .jel-tag {
+            font-size: 0.65rem;
+            background: rgba(197, 160, 89, 0.1);
+            color: var(--accent-gold);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .footer-banner {
@@ -200,16 +285,81 @@
             margin-top: 100px;
         }
     </style>
+    <script>
+        function openCiteModal(title, authors, year, id) {
+            const apa = `${authors} (${year}). ${title}. DCM Core Working Paper Series No. ${id}. doi:10.2026/dcm.wp.${id.split('-').pop()}`;
+            const bibtex = `@techreport{dcm${year}${id.split('-').pop()},\n  title={${title}},\n  author={${authors}},\n  year={${year}},\n  institution={DCM Core Institute},\n  number={${id}}\n}`;
+            
+            document.getElementById('cite-apa').innerText = apa;
+            document.getElementById('cite-bibtex').innerText = bibtex;
+            document.getElementById('citationModal').style.display = "block";
+        }
+
+        function closeCiteModal() {
+            document.getElementById('citationModal').style.display = "none";
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.innerText;
+                btn.innerText = "COPIED!";
+                setTimeout(() => btn.innerText = originalText, 2000);
+            });
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('citationModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
+    <!-- Professional Sticky Navigation -->
+    <nav class="navbar-pro">
+        <!-- PRIMARY LINKS (Centered) -->
+        <div class="nav-links" style="display: flex; align-items: center; gap: 25px;">
+            <a href="../en/index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Plateforme</a>
+            <a href="../en/observatory/index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Observatoire</a>
+            <a href="../en/digital-asset-risk-index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Indice de Risque</a>
+            <a href="index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 1; transition: opacity 0.2s;">Recherche</a>
+            <a href="../en/about.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">À Propos</a>
+        </div>
 
-    <section class="hero-library">
-        <div class="pub-badge" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 20px;">Knowledge Ecosystem</div>
-        <h1>Bibliothèque de Publications</h1>
-        <p>Recherche macroéconomique, documents de travail et analyses stratégiques pour l'infrastructure financière globale.</p>
-    </section>
+        <!-- SEARCH RESTORATION -->
+        <div class="nav-search" style="margin: 0 15px; max-width: 280px;">
+            <input class="nav-search-input" id="globalSearchInput" placeholder="Rechercher (MiCA, ROI, DORA)..." type="text" style="padding: 6px 15px 6px 35px; font-size: 12px; height: 32px;"/>
+            <i class="fas fa-search nav-search-icon" style="left: 12px; font-size: 11px;"></i>
+            <div class="search-results" id="searchResults"></div>
+        </div>
 
-    <div class="container">
+        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 10px;"></div>
+
+        <!-- ACTIONS & LANGUAGES (Centered Right) -->
+        <div class="nav-actions" style="display: flex; align-items: center; gap: 20px;">
+            <button class="btn-connect-wallet" id="connectWalletBtn" style="padding: 6px 15px; font-size: 11px;">
+                <i class="fas fa-wallet"></i> <span>Connect Wallet (Demo)</span>
+            </button>
+            <a href="#" style="color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 600; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#94a3b8'">Authentification</a>
+            
+            <div style="display: flex; gap: 8px;">
+                <a href="#" style="text-decoration: none; opacity: 1; filter: none;">
+                    <span style="font-size: 18px;">🇫🇷</span>
+                </a>
+                <a href="../en/index.html" style="text-decoration: none; opacity: 0.5; filter: grayscale(1); transition: 0.3s;" onmouseover="this.style.opacity='1'; this.style.filter='none'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(1)'">
+                    <span style="font-size: 18px;">🇬🇧</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button aria-label="Bouton" class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
         <nav class="nav-library">
             <a href="#" class="active">All Publications</a>
             <a href="#reports">Annual Reports</a>
@@ -247,51 +397,86 @@
         <section class="pub-section" id="papers">
             <div class="section-header">
                 <h2>DCM Core Working Papers</h2>
-                <span style="color: #a855f7; font-weight: 600;">Academic Excellence</span>
+                <span style="color: #a855f7; font-weight: 600;">Academic Excellence & Formal Citation</span>
             </div>
             <div class="grid-pubs">
+                <!-- PAPER 001 -->
                 <article class="pub-card">
                     <div class="pub-content">
-                        <div class="pub-meta">WORKING PAPER NO. 001</div>
+                        <div class="pub-meta">DCM-WP-2026-001 | doi:10.2026/dcm.wp.001</div>
                         <h3 class="pub-title">Tokenized Settlement Systems: Stability & Liquidity</h3>
-                        <p class="pub-excerpt">Une analyse comparative des protocoles de settlement atomique versus le système Legacy T+2.</p>
+                        <p class="pub-excerpt">A comparative analysis of atomic settlement protocols versus legacy T+2 systems, focusing on credit risk mitigation and liquidity requirements for Tier-1 banks.</p>
+                        <div class="jel-tags">
+                            <span class="jel-tag">JEL: G10</span>
+                            <span class="jel-tag">JEL: G21</span>
+                            <span class="jel-tag">JEL: K22</span>
+                        </div>
                         <div class="pub-actions">
                             <a href="#" class="btn-pub btn-secondary"><i class="fas fa-file-lines"></i> View Paper</a>
+                            <button class="btn-pub btn-cite" onclick="openCiteModal('Tokenized Settlement Systems: Stability & Liquidity', 'DCM Core Institute', '2026', 'DCM-WP-2026-001')"><i class="fas fa-quote-right"></i> Cite</button>
                         </div>
                     </div>
                 </article>
-                <!-- Annual Report Card -->
-                <a href="digital-asset-governance-report-2026.html" class="pub-card" data-aos="fade-up">
-                    <div class="pub-badge" style="position: relative; top: 0; left: 0; background: rgba(168, 85, 247, 0.2); color: #a855f7; border-color: rgba(168, 85, 247, 0.3);">Flagship Publication</div>
-                    <h3 class="serif-heading">Digital Asset Governance Report 2026</h3>
-                    <p class="pub-desc">The definitive 120-page strategic analysis on global digital asset infrastructure and the institutional shift towards tokenisation.</p>
-                    <div class="pub-footer">
-                        <span><i class="fas fa-calendar"></i> March 2026</span>
-                        <span style="color:white; font-weight:700;">Access Report <i class="fas fa-arrow-right"></i></span>
-                    </div>
-                </a>
+
+                <!-- PAPER 002 -->
                 <article class="pub-card">
                     <div class="pub-content">
-                        <div class="pub-meta">WORKING PAPER NO. 002</div>
+                        <div class="pub-meta">DCM-WP-2026-002 | doi:10.2026/dcm.wp.002</div>
                         <h3 class="pub-title">CBDC Interoperability with Public DLT</h3>
-                        <p class="pub-excerpt">Framework technique pour l'intégration des MNBC de gros avec les réseaux financiers ouverts.</p>
+                        <p class="pub-excerpt">Technical framework for integrating Wholesale CBDCs with open financial networks, ensuring regulatory compliance and KYC/AML enforcement at the protocol level.</p>
+                        <div class="jel-tags">
+                            <span class="jel-tag">JEL: E42</span>
+                            <span class="jel-tag">JEL: G28</span>
+                        </div>
                         <div class="pub-actions">
                             <a href="#" class="btn-pub btn-secondary"><i class="fas fa-file-lines"></i> View Paper</a>
+                            <button class="btn-pub btn-cite" onclick="openCiteModal('CBDC Interoperability with Public DLT', 'DCM Core Institute', '2026', 'DCM-WP-2026-002')"><i class="fas fa-quote-right"></i> Cite</button>
                         </div>
                     </div>
                 </article>
+
+                <!-- PAPER 003 -->
                 <article class="pub-card">
                     <div class="pub-content">
-                        <div class="pub-meta">WORKING PAPER NO. 003</div>
+                        <div class="pub-meta">DCM-WP-2026-003 | doi:10.2026/dcm.wp.003</div>
                         <h3 class="pub-title">Smart Contract Model Risk Management</h3>
-                        <p class="pub-excerpt">Nouvelles normes pour l'évaluation de la robustesse des flux programmables en finance.</p>
+                        <p class="pub-excerpt">Defining new standards for assessing the robustness of programmable financial flows and mitigating automated execution risks under DORA frameworks.</p>
+                        <div class="jel-tags">
+                            <span class="jel-tag">JEL: C63</span>
+                            <span class="jel-tag">JEL: G32</span>
+                        </div>
                         <div class="pub-actions">
                             <a href="#" class="btn-pub btn-secondary"><i class="fas fa-file-lines"></i> View Paper</a>
+                            <button class="btn-pub btn-cite" onclick="openCiteModal('Smart Contract Model Risk Management', 'DCM Core Institute', '2026', 'DCM-WP-2026-003')"><i class="fas fa-quote-right"></i> Cite</button>
                         </div>
                     </div>
                 </article>
             </div>
         </section>
+
+        <!-- CITATION MODAL -->
+        <div id="citationModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeCiteModal()">&times;</span>
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 20px;">Cite this Publication</h3>
+                
+                <div style="margin-bottom: 25px;">
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent-purple); text-transform: uppercase;">APA Format</div>
+                    <div class="cite-block" id="cite-apa"></div>
+                    <button class="copy-btn" onclick="copyToClipboard('cite-apa')">COPY APA</button>
+                </div>
+
+                <div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent-purple); text-transform: uppercase;">BibTeX</div>
+                    <div class="cite-block" id="cite-bibtex"></div>
+                    <button class="copy-btn" onclick="copyToClipboard('cite-bibtex')">COPY BIBTEX</button>
+                </div>
+
+                <p style="font-size: 0.75rem; color: #64748b; margin-top: 30px;">
+                    <i class="fas fa-info-circle"></i> These publications are part of the DCM Core Working Paper series for institutional research and policy alignment.
+                </p>
+            </div>
+        </div>
 
         <!-- POLICY BRIEFS & MONITOR -->
         <section class="pub-section" id="briefs">
