@@ -194,59 +194,20 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 70px;
+    height: 75px;
+    /* Slightly taller for institutional feel */
     z-index: 1000;
-    background: rgba(2, 6, 23, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0 40px;
+    background: rgba(2, 6, 23, 0.98);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0 60px;
+    /* More horizontal padding */
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-    gap: 20px;
-}
-
-/* INFLUENCE NAV LINKS (Phase 7) */
-.nav-links-influence {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    margin: 0 40px;
-}
-
-.nav-link-item {
-    color: #94a3b8;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    position: relative;
-    padding: 10px 0;
-}
-
-.nav-link-item:hover,
-.nav-link-item.active {
-    color: #3b82f6;
-}
-
-.nav-link-item::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: #3b82f6;
-    transition: width 0.3s ease;
-}
-
-.nav-link-item:hover::after,
-.nav-link-item.active::after {
-    width: 100%;
+    gap: 40px;
 }
 
 @media (max-width: 1024px) {
@@ -379,8 +340,7 @@
 
     /* Transformer les liens en tiroir latéral */
     .nav-links-pro,
-    .nav-links,
-    .nav-links-influence {
+    .nav-links {
         position: fixed;
         top: 0;
         right: -100%;
@@ -404,15 +364,13 @@
     }
 
     .nav-links-pro.active,
-    .nav-links.active,
-    .nav-links-influence.active {
+    .nav-links.active {
         right: 0;
     }
 
     /* Style des liens dans le menu mobile */
     .nav-links-pro a,
-    .nav-links a,
-    .nav-links-influence a {
+    .nav-links a {
         font-size: 1.1rem;
         width: 100%;
         padding: 15px 0;
@@ -832,4 +790,164 @@
     .table-responsive {
         max-width: 100% !important;
     }
+}
+
+/* ===================================
+   INSTITUTIONAL NAVIGATION LINKS
+   =================================== */
+
+.nav-links-influence {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    margin-left: auto;
+}
+
+.nav-links-influence a {
+    text-decoration: none;
+    color: #94a3b8; /* Slate 400 - Subtle institutional grey */
+    font-family: 'Inter', 'Outfit', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    position: relative;
+    padding: 8px 0;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover State */
+.nav-links-influence a:hover {
+    color: #f8fafc; /* Slate 50 - High contrast white */
+}
+
+/* Underline Animation */
+.nav-links-influence a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-links-influence a:hover::after {
+    width: 100%;
+}
+
+/* Active State */
+.nav-links-influence a.active {
+    color: #3b82f6; /* Azure Blue */
+}
+
+.nav-links-influence a.active::after {
+    width: 100%;
+    background: #3b82f6;
+}
+
+/* ===================================
+   INSTITUTIONAL RESEARCH CARDS
+   =================================== */
+.inst-research-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 32px;
+    margin: 40px 0;
+}
+
+.inst-research-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 40px;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.inst-research-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #a855f7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.inst-research-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.inst-research-card:hover::before {
+    opacity: 1;
+}
+
+.card-category-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #3b82f6;
+    font-weight: 800;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.card-research-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.card-research-desc {
+    font-size: 15px;
+    color: #94a3b8;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.card-research-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.card-research-meta span i {
+    margin-right: 6px;
+    color: #3b82f6;
+}
+
+.card-research-cta {
+    margin-top: 25px;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: gap 0.3s ease;
+}
+
+.inst-research-card:hover .card-research-cta {
+    gap: 15px;
+    color: #3b82f6;
 }
