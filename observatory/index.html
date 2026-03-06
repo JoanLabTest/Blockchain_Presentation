@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="canonical" href="https://dcmcore.com/observatory/index.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Digital Finance Observatory | DCM Core Institutional</title>
+    <meta name="description" content="Institutional infrastructure for sovereign digital finance research: Crypto, CBDC, Tokenisation, and Programmable Finance trackers.">
+    
+    <!-- FONTS: Urbanist for UI, Playfair Display (Serif) for Authority Headings, JetBrains for Data -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- STYLES -->
+    <link rel="stylesheet" href="../styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #020617; /* Slate 950 */
+            --bg-card: #0f172a; /* Slate 900 */
+            --bg-card-hover: #1e293b; /* Slate 800 */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dark: #334155;
+            
+            /* Professional Institutional Palette */
+            --accent-primary: #2563eb; /* Blue 600 */
+            --accent-secondary: #0ea5e9; /* Sky 500 */
+            --accent-gold: #d4af37; /* Institutional Gold */
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            
+            --border: #1e293b;
+            --border-light: rgba(255, 255, 255, 0.1);
+            
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Urbanist', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: var(--font-sans);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(37, 99, 235, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.05), transparent 25%);
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3, .serif-heading {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 2000;
+            box-sizing: border-box;
+        }
+        .logo {
+            font-family: var(--font-sans);
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .btn-outline {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 700;
+            font-family: var(--font-sans);
+            border: 1px solid var(--border-light);
+            padding: 8px 18px;
+            border-radius: 4px; /* Squarer, more institutional */
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        /* 2. STICKY MEGA MENU */
+        .sticky-nav {
+            position: sticky;
+            top: 70px; /* Below Main Navbar */
+            background: rgba(15, 23, 42, 0.98);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 0 40px;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .sticky-menu-list {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 30px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .sticky-menu-list::-webkit-scrollbar { display: none; }
+
+        .sticky-menu-list li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 20px 0;
+            display: block;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .sticky-menu-list li a:hover,
+        .sticky-menu-list li a.active {
+            color: white;
+            border-bottom-color: var(--accent-primary);
+        }
+
+        /* 1. HERO SECTION */
+        .hero {
+            padding: 160px 40px 100px;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            box-sizing: border-box;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg') no-repeat right center;
+            background-size: 60%;
+            background-attachment: fixed;
+        }
+        /* Map overlay tint */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, var(--bg-dark) 40%, rgba(2,6,23,0.85) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .badge-institutional {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--accent-gold);
+            background: rgba(212, 175, 55, 0.05);
+            color: var(--accent-gold);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: white;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-sans);
+            font-size: 20px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 650px;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+            text-decoration: none;
+            padding: 15px 32px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: var(--font-sans);
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+            border: 1px solid var(--accent-primary);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+        }
+
+        /* SECTION LAYOUTS */
+        .obs-section {
+            padding: 100px 40px;
+            border-bottom: 1px solid var(--border);
+            scroll-margin-top: 130px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .section-title {
+            font-size: 42px;
+            margin: 0;
+            color: white;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-sans);
+            color: var(--accent-secondary);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* 3. EXECUTIVE SUMMARY BLOCKS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .metric-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-val {
+            font-family: var(--font-serif);
+            font-size: 48px;
+            color: white;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        /* AUTHORITY STRIP */
+        .authority-strip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            padding: 40px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+        
+        .authority-strip img, .authority-placeholder {
+            opacity: 0.5;
+            filter: grayscale(100%);
+            transition: 0.3s;
+            height: 40px;
+        }
+        
+        .authority-placeholder {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .authority-strip > div:hover {
+            opacity: 1;
+        }
+
+        /* RESEARCH CARDS (PREMIUM) */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .research-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 40px 30px 30px;
+            position: relative;
+            transition: 0.4s;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-main);
+        }
+
+        .research-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-secondary);
+            background: var(--bg-card-hover);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Top Accent line */
+        .research-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--accent-secondary);
+            border-radius: 8px 8px 0 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: 0.4s;
+        }
+        .research-card:hover::before { transform: scaleX(1); }
+
+        .research-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent-secondary);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .research-card h3 {
+            font-size: 24px;
+            margin: 0 0 15px;
+            line-height: 1.3;
+        }
+
+        .research-card p {
+            color: var(--text-muted);
+            font-size: 15px;
+            flex-grow: 1;
+            margin-bottom: 30px;
+        }
+
+        .research-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-light);
+            padding-top: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .dl-icon {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s;
+        }
+        .research-card:hover .dl-icon { background: var(--accent-secondary); }
+
+        /* DATA VIZ PLACEHOLDERS */
+        .viz-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--text-muted);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        .viz-badge {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+        }
+
+        /* TABLES */
+        .inst-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-sans);
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .inst-table th {
+            text-align: left;
+            padding: 20px;
+            background: rgba(2, 6, 23, 0.5);
+            color: var(--text-muted);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+        }
+        .inst-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 15px;
+        }
+        .inst-table tr:hover { background: rgba(255,255,255,0.02); }
+
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .st-live { background: rgba(16, 185, 129, 0.1); color: var(--accent-green); border: 1px solid rgba(16,185,129,0.3); }
+        .st-pilot { background: rgba(59, 130, 246, 0.1); color: var(--accent-secondary); border: 1px solid rgba(59,130,246,0.3); }
+        .st-design { background: rgba(249, 115, 22, 0.1); color: var(--accent-orange); border: 1px solid rgba(249,115,22,0.3); }
+
+        /* TWO COL LAYOUT */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        @media (max-width: 1024px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
+
+        /* POLICY TRACKER LIST */
+        .policy-list { list-style: none; padding: 0; margin: 0; }
+        .policy-list li {
+            padding: 20px;
+            border-left: 2px solid var(--accent-secondary);
+            background: var(--bg-card);
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-radius: 0 8px 8px 0;
+            transition: 0.3s;
+        }
+        .policy-list li:hover { background: var(--bg-card-hover); transform: translateX(5px); }
+        .pl-meta { display: flex; gap: 15px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+        .pl-title { font-size: 18px; font-family: var(--font-serif); font-weight: 700; margin: 0; color: white;}
+
+        /* GDARI MINIMAL WIDGET */
+        .gdari-widget {
+            background: linear-gradient(135deg, var(--bg-card), rgba(2,6,23,0.9));
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+        .gdari-score-box {
+            text-align: center;
+        }
+        .gdari-score {
+            font-family: var(--font-serif);
+            font-size: 80px;
+            line-height: 1;
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. MAIN NAVBAR -->
+    <nav class="navbar">
+        <a href="../index.html" class="logo">
+            <i class="fas fa-cube" style="color:var(--accent-primary)"></i> DCM CORE
+        </a>
+        <div class="nav-actions">
+            <span style="font-size:12px; font-family:var(--font-mono); color:var(--text-muted); margin-right:15px; border-right: 1px solid var(--border); padding-right:15px; display:none;">GDFO Platform</span>
+            <a href="#" class="btn-outline" onclick="alert('Client Portal Authentication Modal'); return false;"><i class="fas fa-lock"></i> Client Login</a>
+        </div>
+    </nav>
+
+    <!-- 2. STICKY MEGA MENU -->
+    <div class="sticky-nav">
+        <ul class="sticky-menu-list">
+            <li><a href="#overview" class="active">Overview</a></li>
+            <li><a href="#crypto">Crypto Markets</a></li>
+            <li><a href="#cbdc">CBDC Observatory</a></li>
+            <li><a href="#rwa">RWA Tokenisation</a></li>
+            <li><a href="#smart-finance">Smart Finance</a></li>
+            <li><a href="#policy">Policy & Regs</a></li>
+            <li><a href="#gdari">Risk Index</a></li>
+        </ul>
+    </div>
+
+    <!-- 3. HERO SECTION -->
+    <header class="hero" id="overview">
+        <div class="hero-content">
+            <div data-aos="fade-down" class="badge-institutional">
+                <i class="fas fa-landmark"></i> Institutional Edition
+            </div>
+            <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">Global Digital Finance Observatory</h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                The premier quantitative and qualitative research infrastructure monitoring Crypto-Assets, CBDCs, Tokenisation, and Programmable Finance for regulators, central banks, and financial institutions.
+            </p>
+            <div data-aos="fade-up" data-aos-delay="300" style="display: flex; gap: 20px; align-items: center;">
+                <a href="#reports" class="btn-primary" onclick="alert('Elite Form: Request Institutional Database Access'); return false;">
+                    Request Institutional Access <i class="fas fa-arrow-right"></i>
+                </a>
+                <span style="font-family:var(--font-mono); font-size: 12px; color: var(--text-muted);">Strictly for institutional stakeholders.</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 4. EXECUTIVE SUMMARY & AUTHORITY -->
+    <section class="obs-section container" style="border:none; padding-top: 50px;">
+        <div class="metrics-grid" data-aos="fade-up">
+            <div class="metric-box">
+                <div class="metric-val">124</div>
+                <div class="metric-label">Premium Reports Published</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-val">45+</div>
+                <div class="metric-label">Central Banks Tracked</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-val">$1.2T</div>
+                <div class="metric-label">Digital Assets Monitored</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-val">100%</div>
+                <div class="metric-label">BIS / ECB Methodology Aligned</div>
+            </div>
+        </div>
+
+        <div class="authority-strip" data-aos="fade-up" data-aos-delay="100">
+            <div class="authority-placeholder"><i class="fas fa-landmark" style="color:var(--text-muted)"></i> BIS</div>
+            <div class="authority-placeholder"><i class="fas fa-euro-sign" style="color:var(--text-muted)"></i> ECB</div>
+            <div class="authority-placeholder"><i class="fas fa-file-contract" style="color:var(--text-muted)"></i> ESMA</div>
+            <div class="authority-placeholder"><i class="fas fa-globe" style="color:var(--text-muted)"></i> IMF</div>
+            <div style="border-left: 1px solid var(--border); padding-left: 40px;">
+                <span class="badge-institutional" style="margin:0;"><i class="fas fa-check-double"></i> Peer-Reviewed Research</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CRYPTO MARKET INSIGHTS -->
+    <section class="obs-section" id="crypto">
+        <div class="container">
+            <div class="section-header">
+                <div data-aos="fade-right">
+                    <span class="section-subtitle">01. Market Intelligence</span>
+                    <h2 class="section-title">Institutional Crypto Markets</h2>
+                </div>
+                <a href="#" class="btn-outline" data-aos="fade-left" onclick="alert('Load all Crypto Reports'); return false;">View All Crypto Insights</a>
+            </div>
+
+            <div class="two-col">
+                <div data-aos="fade-up">
+                    <div class="viz-container">
+                        <div class="viz-badge">LIVE: INSTITUTIONAL ADOPTION HEATMAP</div>
+                        <i class="fas fa-map-marked-alt" style="font-size: 64px; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <h3 class="serif-heading" style="color:white; font-size:24px; margin:0;">Global Custody Heatmap</h3>
+                        <p style="text-align:center; max-width:300px;">Visualizing concentration of institutional-grade custody providers bridging TradFi and Crypto.</p>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left">
+                    <h3 class="serif-heading" style="font-size: 28px; margin-bottom: 30px;">Featured Research</h3>
+                    
+                    <a href="#" class="research-card" onclick="alert('PDF: Stablecoin Risk Assessment Q1 2026'); return false;">
+                        <span class="research-tag">CRYPTO // MARKET RISK</span>
+                        <h3>Stablecoin Risk Assessment Q1 2026</h3>
+                        <p>A comparative stress test of fiat-backed stablecoins against the final MiCA liquidity requirements. Analyzes systemic implications of USDT vs USDC flows.</p>
+                        <div class="research-meta">
+                            <span><i class="fas fa-calendar"></i> Mar 2026</span>
+                            <span>Executive Summary <div class="dl-icon" style="display:inline-flex; margin-left:10px;"><i class="fas fa-download"></i></div></span>
+                        </div>
+                    </a>
+
+                    <div style="margin-top: 30px; border-left: 2px solid var(--border); padding-left: 20px;">
+                        <h4 style="color: white; font-family: var(--font-sans); margin: 0 0 10px;">Market Readiness Indicators</h4>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-family:var(--font-mono); font-size:13px;"><span>BTC Options Implied Vol (30D)</span> <span style="color:var(--accent-orange)">48.2%</span></div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-family:var(--font-mono); font-size:13px;"><span>CEX Top 10 Liquidity Depth</span> <span style="color:var(--accent-red)">-12.4% MoM</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. CBDC OBSERVATORY -->
+    <section class="obs-section" id="cbdc" style="background: rgba(15, 23, 42, 0.4);">
+        <div class="container">
+             <div class="section-header">
+                <div data-aos="fade-right">
+                    <span class="section-subtitle">02. Sovereign Currency</span>
+                    <h2 class="section-title">CBDC Observatory</h2>
+                </div>
+                <a href="#" class="btn-outline" data-aos="fade-left" onclick="alert('Download BIS aligned comparative matrix'); return false;"><i class="fas fa-file-pdf"></i> Request Comparative Matrix</a>
+            </div>
+
+            <table class="inst-table" data-aos="fade-up">
+                <thead>
+                    <tr>
+                        <th style="width:25%">Jurisdiction / Project</th>
+                        <th style="width:15%">Architecture</th>
+                        <th style="width:15%">Status</th>
+                        <th style="width:30%">Institutional Focus</th>
+                        <th style="width:15%; text-align:right;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Digital Euro</strong><br><span style="font-size:12px; color:var(--text-muted)">European Central Bank</span></td>
+                        <td>Retail / Wholesale</td>
+                        <td><span class="status-pill st-design">Design Phase</span></td>
+                        <td>Privacy framework, offline capabilities, holding limits.</td>
+                        <td style="text-align:right;"><a href="#" style="color:var(--accent-secondary); font-size:13px; font-weight:700; text-decoration:none;">View Brief <i class="fas fa-angle-right"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Project mBridge</strong><br><span style="font-size:12px; color:var(--text-muted)">BIS Innovation Hub</span></td>
+                        <td>Multi-CBDC Wholesale</td>
+                        <td><span class="status-pill st-pilot">MVP Pilot</span></td>
+                        <td>Cross-border FX settlement, DLT interoperability.</td>
+                        <td style="text-align:right;"><a href="#" style="color:var(--accent-secondary); font-size:13px; font-weight:700; text-decoration:none;">View Brief <i class="fas fa-angle-right"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>e-CNY</strong><br><span style="font-size:12px; color:var(--text-muted)">PBOC (China)</span></td>
+                        <td>Retail</td>
+                        <td><span class="status-pill st-live">Live (Scale)</span></td>
+                        <td>Programmability, domestic retail integration.</td>
+                        <td style="text-align:right;"><a href="#" style="color:var(--accent-secondary); font-size:13px; font-weight:700; text-decoration:none;">View Brief <i class="fas fa-angle-right"></i></a></td>
+                    </tr>
+                    <tr>
+                         <td><strong>Project Agorá</strong><br><span style="font-size:12px; color:var(--text-muted)">BIS & 7 Central Banks</span></td>
+                        <td>Unified Ledger</td>
+                        <td><span class="status-pill st-design">Concept</span></td>
+                        <td>Integration of tokenised commercial bank deposits with wholesale CBDC.</td>
+                        <td style="text-align:right;"><a href="#" style="color:var(--accent-secondary); font-size:13px; font-weight:700; text-decoration:none;">View Brief <i class="fas fa-angle-right"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 7. TOKENISATION & RWA -->
+    <section class="obs-section" id="rwa">
+        <div class="container">
+            <div class="section-header">
+                <div data-aos="fade-right">
+                    <span class="section-subtitle">03. Real World Assets</span>
+                    <h2 class="section-title">Tokenisation & Traditional Assets</h2>
+                </div>
+            </div>
+
+            <div class="two-col">
+                 <div data-aos="fade-right">
+                    <h3 class="serif-heading" style="font-size: 28px; margin-bottom: 30px;">Featured Research</h3>
+                    
+                    <a href="../case-study-tokenized-bond.html" class="research-card">
+                        <span class="research-tag">RWA // OPERATIONAL GOVERNANCE</span>
+                        <h3>RWA Governance & Settlement Framework</h3>
+                        <p>Comprehensive analysis of legal wrappers, SPV structuring, and the operational transition from T+2 legacy settlement to atomic T+0 settlement on DLT.</p>
+                        <div class="research-meta">
+                            <span><i class="fas fa-calendar"></i> Feb 2026</span>
+                            <span>Read Case Study <div class="dl-icon" style="display:inline-flex; margin-left:10px;"><i class="fas fa-arrow-right" style="color:white;"></i></div></span>
+                        </div>
+                    </a>
+                </div>
+
+                <div data-aos="fade-left">
+                     <div class="viz-container">
+                        <div class="viz-badge">SIMULATION: T+0 vs T+2 RISK</div>
+                        <i class="fas fa-project-diagram" style="font-size: 50px; margin-bottom: 20px; color: var(--accent-secondary);"></i>
+                        <h3 class="serif-heading" style="color:white; font-size:20px; margin:0 0 10px;">Monte Carlo Settlement Risk Model</h3>
+                        <p style="text-align:center; max-width:80%; font-size:14px; margin:0 0 20px;">Quantifying the reduction in counterparty credit risk and capital requirements via atomic Dvp (Delivery vs Payment).</p>
+                        <a href="../yield-mechanics.html" class="btn-outline" style="font-size:11px;">Launch Simulation Engine</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. PROGRAMMABLE FINANCE -->
+    <section class="obs-section" id="smart-finance" style="background: rgba(15, 23, 42, 0.4);">
+        <div class="container">
+            <div class="section-header">
+                <div data-aos="fade-right">
+                    <span class="section-subtitle">04. Smart Contracts & Security</span>
+                    <h2 class="section-title">Programmable Finance</h2>
+                </div>
+                <a href="#" class="btn-outline" data-aos="fade-left" onclick="alert('Access MRM Tooling'); return false;">Access Risk Models (MRM)</a>
+            </div>
+
+            <!-- Dashboard Mock -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 40px;" data-aos="fade-up">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px;">
+                    <div>
+                        <h3 style="margin:0; color:white; font-size: 20px;">Automated Protocol Risk Monitoring (MRM)</h3>
+                        <p style="margin:5px 0 0; color:var(--text-muted); font-size:14px;">Evaluating smart contract exposure across Tier-1 DeFi and Institutional DLTs.</p>
+                    </div>
+                </div>
+
+                <div class="metrics-grid" style="margin-bottom:0;">
+                    <div style="border-right: 1px solid var(--border); padding-right: 20px;">
+                        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-family:var(--font-mono);">Total Value Scanned</span>
+                        <div style="font-size:28px; font-family:var(--font-mono); color:white; font-weight:700;">$42.8B</div>
+                    </div>
+                    <div style="border-right: 1px solid var(--border); padding: 0 20px;">
+                        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-family:var(--font-mono);">Critical Incidents (30D)</span>
+                        <div style="font-size:28px; font-family:var(--font-mono); color:var(--accent-red); font-weight:700;">2</div>
+                    </div>
+                    <div style="padding-left: 20px;">
+                        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-family:var(--font-mono);">Institutional Grade TVL</span>
+                        <div style="font-size:28px; font-family:var(--font-mono); color:var(--accent-green); font-weight:700;">$18.5B</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. POLICY & REG TRACKER -->
+    <section class="obs-section" id="policy">
+        <div class="container">
+            <div class="two-col">
+                <div data-aos="fade-right">
+                    <span class="section-subtitle">05. Policy</span>
+                    <h2 class="section-title" style="margin-bottom: 30px;">Regulatory Tracker</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 40px; font-size: 18px;">
+                        Centralizing consultations, enforcement actions, and official publications from global financial authorities.
+                    </p>
+                    <a href="../regulatory-intelligence.html" class="btn-primary" style="background:var(--bg-card); border-color:var(--border);">
+                        Open Global Regulatory Map <i class="fas fa-globe"></i>
+                    </a>
+                </div>
+
+                <div data-aos="fade-left">
+                    <ul class="policy-list">
+                        <li>
+                            <div class="pl-meta">
+                                <span><i class="fas fa-university"></i> ESMA</span>
+                                <span><i class="fas fa-clock"></i> 2 Days Ago</span>
+                            </div>
+                            <h4 class="pl-title">Final Technical Standards under MiCA</h4>
+                            <p style="font-size:13px; color:var(--text-muted); margin:0;">Publication of the final report specifying the notification content for entities acting as CASPs under existing national frameworks.</p>
+                        </li>
+                        <li>
+                            <div class="pl-meta">
+                                <span><i class="fas fa-building"></i> SEC</span>
+                                <span><i class="fas fa-clock"></i> 1 Week Ago</span>
+                            </div>
+                            <h4 class="pl-title">Staff Guidance on Digital Asset Custody</h4>
+                            <p style="font-size:13px; color:var(--text-muted); margin:0;">Updated accounting bulletin regarding the obligations to safeguard crypto-assets for platform users.</p>
+                        </li>
+                        <li>
+                            <div class="pl-meta">
+                                <span><i class="fas fa-landmark"></i> MAS (Singapore)</span>
+                                <span><i class="fas fa-clock"></i> 2 Weeks Ago</span>
+                            </div>
+                            <h4 class="pl-title">Project Guardian Updates</h4>
+                            <p style="font-size:13px; color:var(--text-muted); margin:0;">Expansion of asset tokenisation initiatives with 5 new industry pilots crossing fixed income and foreign exchange.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. GDARI INTEGRATION -->
+    <section class="obs-section" id="gdari" style="background: rgba(15, 23, 42, 0.8);">
+        <div class="container">
+            <div class="gdari-widget" data-aos="zoom-in">
+                <div style="max-width: 500px;">
+                    <span class="section-subtitle">06. Systemic Risk</span>
+                    <h2 class="serif-heading" style="color:white; font-size: 32px; margin: 0 0 15px;">Global Digital Asset Risk Index (GDARI)</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 25px;">The proprietary index evaluating global market volatility, regulatory pressure, and institutional flows to determine the current systemic stress level.</p>
+                    <a href="../digital-asset-risk-index.html" class="btn-outline" style="display:inline-flex; border-color:var(--accent-orange); color:var(--accent-orange);">View GDARI Dashboard <i class="fas fa-chart-line" style="margin-left:8px;"></i></a>
+                </div>
+                
+                <div class="gdari-score-box">
+                    <div style="font-family: var(--font-mono); font-size:12px; color:var(--text-muted); letter-spacing:2px; text-transform:uppercase;">Current Index Score</div>
+                    <div class="gdari-score">47<span style="font-size:30px; color:var(--text-muted);">/100</span></div>
+                    <div style="display:inline-block; padding: 4px 12px; border-radius: 4px; background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); font-size:12px; font-weight:700; text-transform:uppercase; border: 1px solid rgba(249, 115, 22, 0.3);">
+                        Elevated Risk Environment
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUPER FOOTER INSTITUTIONAL -->
+    <footer class="super-footer" style="margin-top:0; border-top: 1px solid var(--border);">
+        <div class="footer-content" style="padding-top:80px;">
+            <div class="footer-grid">
+                <!-- BRAND -->
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-primary)"></i> DCM GDFO</h3>
+                    <p>Global Digital Finance Observatory.<br>Institutional Edition infrastructure.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- RESEARCH LINKS -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Observatory Direct</h4>
+                    <ul class="footer-links">
+                        <li><a href="#crypto">Crypto Intelligence</a></li>
+                        <li><a href="#cbdc">CBDC Tracking</a></li>
+                        <li><a href="#rwa">Tokenisation Research</a></li>
+                        <li><a href="#policy">Policy Feed</a></li>
+                        <li><a href="../digital-asset-risk-index.html">GDARI Index</a></li>
+                    </ul>
+                </div>
+
+                <!-- DCM CORE LINKS -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> DCM Core Network</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Main Hub</a></li>
+                        <li><a href="../yield-mechanics.html">Simulation Engine</a></li>
+                        <li><a href="../sandbox.html">Data Dashboard</a></li>
+                        <li><a href="../methodology.html">Quantitative Methodology</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-disclaimer" style="margin-top: 40px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto; border-top: 1px solid var(--border); padding-top: 20px;">
+                <strong>Institutional Disclosure:</strong> DCM Core Global Digital Finance Observatory provides non-advisory quantitative and qualitative technical research on digital asset infrastructures. Research methodologies align with BIS and ECB statistical publications. Not intended as financial or legal advice. Peer-reviewed material under strict editorial governance.
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content" style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="copyright">© 2026 DCM Digital Hub • Institutional Edition v4.5.0</div>
+                    <div class="legal-links">
+                        <a href="../mentions-legales.html">Legal Mentions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Init animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+
+        // Sticky Menu Active States based on Scroll
+        const sections = document.querySelectorAll('.obs-section, #overview');
+        const navLi = document.querySelectorAll('.sticky-menu-list li a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Add an offset to trigger earlier when scrolling down
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLi.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').includes(current)) {
+                    a.classList.add('active');
+                    // Optional: scroll nav scrollbar horizontally if needed
+                    a.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
