@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="canonical" href="https://dcmcore.com/fr/regulatory-intelligence.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veille Réglementaire Mondiale | DCM Core Institutional</title>
+    <meta name="description" content="Suivi en temps réel des cadres réglementaires sur les actifs numériques (MiCA, DORA, SEC). Cartographie de l'état de conformité par juridiction.">
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- STYLES -->
+    <link rel="stylesheet" href="../styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --accent-orange: #f97316;
+            --accent-red: #ef4444;
+            --border: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 100% 0%, #0f172a 0%, #020617 70%);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            padding: 6px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover {
+            border-color: white;
+            color: white;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* HERO */
+        .hero {
+            padding: 140px 20px 60px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, white 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* INTERACTIVE MAP PLACEHOLDER */
+        .map-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            position: relative;
+        }
+        .map-container {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg');
+            background-size: cover;
+            background-position: center;
+            filter: invert(0.1) sepia(0.2) saturate(0.5) hue-rotate(200deg);
+            opacity: 0.6;
+        }
+        .map-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 90%);
+        }
+        
+        /* REGIONAL NODES */
+        .node {
+            position: absolute;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            box-shadow: 0 0 20px currentColor;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: 0.3s;
+        }
+        .node:hover { transform: scale(1.5); }
+        .node::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border: 1px solid currentColor;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        .node-eu { top: 30%; left: 48%; color: var(--accent-green); }
+        .node-us { top: 35%; left: 25%; color: #eab308; }
+        .node-uk { top: 28%; left: 45%; color: var(--accent-green); }
+        .node-hk { top: 45%; left: 78%; color: var(--accent-orange); }
+        .node-sg { top: 55%; left: 75%; color: var(--accent-green); }
+        .node-ae { top: 42%; left: 58%; color: var(--accent-green); }
+
+        /* LEGEND */
+        .map-legend {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border);
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        /* TIMELINE */
+        .section-container {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        .section-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px; top: 0; bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -30px; top: 10px;
+            width: 12px; height: 12px;
+            background: var(--bg-dark);
+            border: 2px solid var(--accent-blue);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-content {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+        .timeline-content:hover { border-color: rgba(255,255,255,0.2); }
+        .timeline-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-blue);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+        .timeline-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-right: 5px;
+            text-transform: uppercase;
+        }
+
+        /* REPOSITORY */
+        .grid-repo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .repo-card {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+        }
+        .repo-card:hover { transform: translateY(-5px); border-color: var(--accent-purple); }
+        .repo-card i { font-size: 24px; color: var(--accent-purple); margin-bottom: 15px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gavel" style="color:var(--accent-purple)"></i> REGULATORY TRACKER
+        </a>
+        <div class="nav-links">
+            <a aria-label="Risk Index" href="digital-asset-risk-index.html" class="back-btn" style="color:var(--accent-orange); border-color:var(--accent-orange);">
+                <i class="fas fa-chart-line"></i> <span>Indice de Risque</span>
+            </a>
+            <a aria-label="Hub Central" href="index.html" class="back-btn">
+                <i class="fas fa-home"></i> <span>Hub Central</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div data-aos="fade-down" style="display:inline-block; margin-bottom: 20px; padding: 6px 16px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 30px; color: var(--accent-blue); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+            <i class="fas fa-shield-halved"></i> Surveillance Prudentielle Live
+        </div>
+        <h1 class="hero-title" data-aos="fade-up">Intelligence Réglementaire Mondiale</h1>
+        <p class="hero-desc" data-aos="fade-up" data-aos-delay="100">
+            Cartographie en temps réel des paysages juridiques et des cadres de conformité pour les institutions financières opérant sur les rails de la finance numérique.
+        </p>
+    </header>
+
+    <!-- MAP SECTION -->
+    <section class="map-section" data-aos="zoom-in">
+        <div class="map-container">
+            <div class="map-overlay"></div>
+            
+            <!-- Interactive Nodes -->
+            <div class="node node-eu" title="UE : MiCA en cours de déploiement (Conforme)"></div>
+            <div class="node node-us" title="USA : Incertitude législative (Surveillance)"></div>
+            <div class="node node-uk" title="UK : Cadre FSMA (En cours)"></div>
+            <div class="node node-hk" title="Hong Kong : Régime VASP (Actif)"></div>
+            <div class="node node-sg" title="Singapour : Loi sur les services de paiement (Stable)"></div>
+            <div class="node node-ae" title="EAU : Régulation VARA (Avancé)"></div>
+        </div>
+
+        <div class="map-legend">
+            <div class="legend-item"><div class="dot" style="background:var(--accent-green)"></div> CONFORME / STABLE</div>
+            <div class="legend-item"><div class="dot" style="background:#eab308"></div> SURVEILLANCE / EN COURS</div>
+            <div class="legend-item"><div class="dot" style="background:var(--accent-orange)"></div> PRESSION ÉLEVÉE</div>
+            <div class="legend-item"><div class="dot" style="background:var(--accent-red)"></div> RESTRICTIF / ALERTE</div>
+        </div>
+    </section>
+
+    <!-- UPDATES TIMELINE -->
+    <section class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 style="font-size: 32px; margin-bottom: 10px;">Dernières Mises à Jour de Politique</h2>
+            <p style="color: var(--text-muted);">Mises à jour critiques de la gouvernance mondiale</p>
+        </div>
+
+        <div class="timeline">
+            <!-- Item 1 -->
+            <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">14 MAI 2026</div>
+                    <div class="timeline-title">Mise à jour du cadre de résilience DORA (UE)</div>
+                    <div>
+                        <span class="timeline-tag">UE</span><span class="timeline-tag">Cyber-Résilience</span>
+                    </div>
+                    <p style="font-size: 14px; color: var(--text-muted); margin-top: 10px;">
+                        L'ESMA a publié de nouvelles normes techniques (RTS) sur la classification des incidents TIC majeurs, impactant directement les infrastructures de registre distribué (DLT).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="timeline-item" data-aos="fade-left" data-aos-delay="100">
+                <div class="timeline-dot" style="border-color:#eab308"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">02 MAI 2026</div>
+                    <div class="timeline-title">Audition du Sénat US sur les Stablecoins</div>
+                    <div>
+                        <span class="timeline-tag">USA</span><span class="timeline-tag">Stablecoins</span>
+                    </div>
+                    <p style="font-size: 14px; color: var(--text-muted); margin-top: 10px;">
+                        Le comité sénatorial des banques a discuté des exigences de réserve pour les émetteurs de jetons de paiement, sans consensus sur la supervision fédérale vs étatique.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="timeline-item" data-aos="fade-left" data-aos-delay="200">
+                <div class="timeline-dot" style="border-color:var(--accent-green)"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">28 AVRIL 2026</div>
+                    <div class="timeline-title">Extension de la taxonomie des actifs (MAS)</div>
+                    <div>
+                        <span class="timeline-tag">SINGAPOUR</span><span class="timeline-tag">Taxonomie</span>
+                    </div>
+                    <p style="font-size: 14px; color: var(--text-muted); margin-top: 10px;">
+                        L'Autorité Monétaire de Singapour a clarifié le statut juridique des actifs de monde réel (RWA) tokenisés, facilitant l'adoption par les banques dépositaires.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- POLICY BRIEFS REPO -->
+    <section class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 style="font-size: 32px; margin-bottom: 10px;">Répertoire des Notes de Politique</h2>
+            <p style="color: var(--text-muted);">Analyses approfondies pour les services juridiques et de conformité</p>
+        </div>
+
+        <div class="grid-repo">
+            <a href="#" class="repo-card" data-aos="fade-up" onclick="alert('Simulation Document : Guide de Conformité MiCA pour les CASP (22 pages)'); return false;">
+                <i class="fas fa-file-invoice"></i>
+                <h3 style="font-size: 18px; margin-bottom: 10px;">Guide de Conformité MiCA pour les CASP</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">Analyse exhaustive des exigences de fonds propres et de gouvernance sous MiCA.</p>
+            </a>
+            <a href="#" class="repo-card" data-aos="fade-up" data-aos-delay="100" onclick="alert('Simulation Document : Analyse de la règle de voyage du GAFI (15 pages)'); return false;">
+                <i class="fas fa-passport"></i>
+                <h3 style="font-size: 18px; margin-bottom: 10px;">Analyse de la "Travel Rule" du GAFI</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">Impact de l'alignement multi-juridictionnel sur les protocoles de conformité on-chain.</p>
+            </a>
+            <a href="#" class="repo-card" data-aos="fade-up" data-aos-delay="200" onclick="alert('Simulation Document : Cartographie des risques DORA pour les banques (18 pages)'); return false;">
+                <i class="fas fa-shield-virus"></i>
+                <h3 style="font-size: 18px; margin-bottom: 10px;">Cartographie des Risques DORA pour les Banques</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">Traduction des articles 16-20 en contrôles techniques pour les services DLT externalisés.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- MAIN FOOTER -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- 0. BRAND -->
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                    <p>Plateforme d’analyse dédiée à la tokenisation des actifs financiers et aux infrastructures blockchain publiques et institutionnelles.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://x.com/Joan_Lyczak" target="_blank" class="social-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- 1. PRODUIT -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-cube" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Produit</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Hub Central</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="simple.html">Academy</a></li>
+                        <li><a href="guide.html">Documentation</a></li>
+                    </ul>
+                </div>
+
+                <!-- 2. RESEARCH -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Research</h4>
+                    <ul class="footer-links">
+                        <li><a href="rwa.html">RWA & DeFi</a></li>
+                        <li><a href="digital-asset-risk-index.html">Global Risk Index</a></li>
+                        <li><a href="regulatory-intelligence.html">Macro Tracker</a></li>
+                        <li><a href="legal-matrix.html">Global Matrix</a></li>
+                    </ul>
+                </div>
+
+                <!-- 4. CORPORATE -->
+                <div class="footer-col">
+                    <h4><i class="fas fa-building" style="font-size:10px; opacity:0.5; margin-right:5px;"></i> Corporate</h4>
+                    <ul class="footer-links">
+                        <li><a href="methodology.html">Méthodologie</a></li>
+                        <li><a href="about.html">À propos</a></li>
+                        <li><a href="mailto:contact@dcmcore.com">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-disclaimer" style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto;">
+                <strong>Avis Juridique :</strong> Le Tracker Réglementaire DCM Core est fourni à titre informatif uniquement et ne constitue pas un avis juridique. Les institutions doivent consulter leurs services internes pour l'interprétation des lois spécifiques à leur juridiction.
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content" style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="copyright">
+                        © 2026 DCM Digital • Version 4.3.0
+                    </div>
+                </div>
+            </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+</html>

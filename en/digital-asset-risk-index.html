@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="canonical" href="https://dcmcore.com/en/digital-asset-risk-index.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Digital Asset Risk Index (GDARI) | DCM Core Institutional</title>
+    <meta name="description" content="A real-time quantitative framework measuring systemic risk across the global digital asset ecosystem. Proprietary risk pillars for institutional oversight.">
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- STYLES -->
+    <link rel="stylesheet" href="../styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --accent-orange: #f97316;
+            --accent-red: #ef4444;
+            --border: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, #0f172a 0%, #020617 70%);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            padding: 6px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover {
+            border-color: white;
+            color: white;
+            background: rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; }
+            .back-btn span { display: none; }
+        }
+
+        /* HERO GAUGE SECTION */
+        .hero-gauge {
+            padding: 140px 20px 60px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, white 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            line-height: 1.5;
+        }
+
+        /* CSS METER / GAUGE */
+        .gauge-container {
+            position: relative;
+            width: 320px;
+            height: 160px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .gauge-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 320px; height: 320px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--accent-green) 0deg 72deg,
+                #eab308 72deg 144deg,
+                var(--accent-orange) 144deg 216deg,
+                var(--accent-red) 216deg 288deg,
+                #9333ea 288deg 360deg
+            );
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); /* Half circle display */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            transform: rotate(-90deg); /* Adjust starting point */
+        }
+
+        .gauge-cover {
+            position: absolute;
+            top: 25px; left: 25px;
+            width: 270px; height: 270px;
+            border-radius: 50%;
+            background: var(--bg-dark);
+            box-shadow: inset 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .gauge-needle-container {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 10px;
+            height: 0;
+            transform-origin: bottom center;
+            transform: rotate(-5deg); 
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gauge-needle {
+            position: absolute;
+            bottom: 0;
+            left: -5px; /* Center needle */
+            width: 10px;
+            height: 140px;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .gauge-needle::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: -5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+
+        .gauge-score {
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .gauge-score-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 64px;
+            font-weight: 800;
+            color: var(--accent-orange);
+            line-height: 1;
+            text-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+        }
+
+        .gauge-score-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        /* PILLARS GRID */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .pillar-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .pillar-card:hover {
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+        }
+
+        .pillar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 15px;
+        }
+
+        .pillar-title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+
+        .pillar-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .pillar-content {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .pillar-metric {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        /* SCORE BRACKETS / COLORS */
+        .lvl-low { color: var(--accent-green); }
+        .lvl-mod { color: #eab308; }
+        .lvl-elev { color: var(--accent-orange); }
+        .lvl-high { color: var(--accent-red); }
+
+        /* RISK DRIVERS & RESEARCH */
+        .dual-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 80px;
+        }
+
+        @media (max-width: 992px) {
+            .dual-col { grid-template-columns: 1fr; }
+        }
+
+        .driver-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .driver-list li {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .driver-list li i {
+            color: var(--accent-red);
+            font-size: 18px;
+            margin-top: 3px;
+        }
+
+        .research-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            text-decoration: none;
+            color: white;
+            display: block;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .research-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateX(5px);
+        }
+
+        .box-info {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--accent-blue);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-chart-line" style="color:var(--accent-orange)"></i> RISK INDEX
+        </a>
+        <div class="nav-links">
+            <a aria-label="Regulatory Tracker" href="regulatory-intelligence.html" class="back-btn" style="color:var(--accent-purple); border-color:var(--accent-purple);">
+                <i class="fas fa-globe"></i> <span>Regulatory Tracker</span>
+            </a>
+            <a aria-label="Central Hub" href="index.html" class="back-btn">
+                <i class="fas fa-home"></i> <span>Central Hub</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO / GAUGE -->
+    <section class="hero-gauge">
+        <div data-aos="fade-down" style="display:inline-block; margin-bottom: 20px; padding: 6px 16px; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 30px; color: var(--accent-purple); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+            <i class="fas fa-calendar-check"></i> Updated Monthly
+        </div>
+        <div data-aos="fade-down" style="display:inline-block; margin-bottom: 20px; padding: 6px 16px; background: rgba(249, 115, 22, 0.1); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 30px; color: var(--accent-orange); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+            <i class="fas fa-satellite-dish"></i> Live Measurement Model
+        </div>
+        
+        <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">Global Digital Asset<br>Risk Index</h1>
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+            A real-time framework measuring systemic risk across the global digital asset ecosystem. 
+            Providing quantitative assessments for institutional risk modeling.
+        </p>
+
+        <!-- CSS GAUGE -->
+        <div class="gauge-container" data-aos="zoom-in" data-aos-delay="300">
+            <div class="gauge-bg"></div>
+            <div class="gauge-cover"></div>
+            <!-- Score: 47 (Elevated) -->
+            <div class="gauge-needle-container">
+                <div class="gauge-needle"></div>
+            </div>
+            
+            <div class="gauge-score">
+                <div class="gauge-score-value">47</div>
+                <div class="gauge-score-label lvl-elev">Elevated Risk</div>
+            </div>
+        </div>
+
+        <!-- Scale Legend -->
+        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 50px; flex-wrap: wrap;" data-aos="fade-up" data-aos-delay="400">
+            <div style="font-size:12px; font-weight: 700; color:var(--text-muted);"><span style="color:var(--accent-green)">0-20</span> LOW</div>
+            <div style="font-size:12px; font-weight: 700; color:var(--text-muted);"><span style="color:#eab308">20-40</span> MODERATE</div>
+            <div style="font-size:12px; font-weight: 700; color:var(--text-muted); background:rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px;"><span style="color:var(--accent-orange)">40-60</span> ELEVATED</div>
+            <div style="font-size:12px; font-weight: 700; color:var(--text-muted);"><span style="color:var(--accent-red)">60-80</span> HIGH</div>
+            <div style="font-size:12px; font-weight: 700; color:var(--text-muted);"><span style="color:#9333ea">80-100</span> SYSTEMIC</div>
+        </div>
+    </section>
+
+    <!-- 5 PILLARS DASHBOARD -->
+    <section class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 style="font-size: 32px; margin-bottom: 10px;">The 5 Analytical Pillars</h2>
+            <p style="color: var(--text-muted);">Index composition and current stress levels</p>
+        </div>
+
+        <div class="pillars-grid">
+            <!-- Pillar 1 -->
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="pillar-header">
+                    <div class="pillar-title"><i class="fas fa-chart-area" style="color: var(--accent-orange);"></i> Market Volatility</div>
+                    <div class="pillar-score lvl-elev">52/100</div>
+                </div>
+                <div class="pillar-content">
+                    Measures realized and implied volatility aggregated across Tier-1 crypto assets (BTC, ETH) via derivatives data.
+                    <div class="pillar-metric">
+                        <span style="color: var(--text-muted);">Current Driver:</span>
+                        <span style="color: white; font-weight: 600;">Options Expiry</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="pillar-header">
+                    <div class="pillar-title"><i class="fas fa-water" style="color: var(--accent-red);"></i> Liquidity Stress</div>
+                    <div class="pillar-score lvl-high">65/100</div>
+                </div>
+                <div class="pillar-content">
+                    Analyzes order book depth, bid-ask spreads, and liquidations across major centralized and decentralized venues.
+                    <div class="pillar-metric">
+                        <span style="color: var(--text-muted);">Current Driver:</span>
+                        <span style="color: white; font-weight: 600;">CEX Liquidity Contraction</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="pillar-header">
+                    <div class="pillar-title"><i class="fas fa-balance-scale" style="color: #eab308;"></i> Regulatory Pressure</div>
+                    <div class="pillar-score lvl-mod">38/100</div>
+                </div>
+                <div class="pillar-content">
+                    Assesses the velocity and impact of global enforcement actions, new regulatory frameworks, and central bank guidance.
+                    <div class="pillar-metric">
+                        <span style="color: var(--text-muted);">Primary Watch:</span>
+                        <span style="color: white; font-weight: 600;">SEC Enforcement (US)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 4 -->
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="pillar-header">
+                    <div class="pillar-title"><i class="fas fa-asterisk" style="color: var(--accent-green);"></i> Systemic Events</div>
+                    <div class="pillar-score lvl-low">15/100</div>
+                </div>
+                <div class="pillar-content">
+                    Real-time monitoring for catastrophic failures (e.g., major hacks, stablecoin de-pegs, critical protocol vulnerabilities).
+                    <div class="pillar-metric">
+                        <span style="color: var(--text-muted);">Status:</span>
+                        <span style="color: var(--accent-green); font-weight: 600;">Stable / No Black Swan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 5 -->
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="500">
+                <div class="pillar-header">
+                    <div class="pillar-title"><i class="fas fa-building" style="color: var(--accent-blue);"></i> Institutional Flows</div>
+                    <div class="pillar-score lvl-elev">58/100</div>
+                </div>
+                <div class="pillar-content">
+                    Tracks net flows into ETFs, ETPs, and institutional custody movements. Negative flows increase the risk premium.
+                    <div class="pillar-metric">
+                        <span style="color: var(--text-muted);">Direction:</span>
+                        <span style="color: white; font-weight: 600;">Moderate Net Outflows</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RISK DRIVERS & RESEARCH NOTES -->
+    <section class="section-container">
+        <div class="dual-col">
+            <!-- Primary Drivers -->
+            <div data-aos="fade-right">
+                <h3 style="font-size: 24px; margin-bottom: 25px;"><i class="fas fa-bolt" style="color: var(--accent-orange); margin-right: 10px;"></i> Key Risk Drivers</h3>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Key factors pushing the index to <strong>Elevated</strong> level this month:</p>
+                
+                <ul class="driver-list">
+                    <li>
+                        <i class="fas fa-arrow-up text-red-500"></i>
+                        <div>
+                            <div style="font-weight: 700; color: white;">Post-Halving Liquidity Contraction</div>
+                            <div style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Order book depth across major centralized exchanges has thinned by 15%, increasing sensitivity to large sell orders.</div>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-arrow-up text-red-500"></i>
+                        <div>
+                            <div style="font-weight: 700; color: white;">US Regulatory Scrutiny Escalating</div>
+                            <div style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">New Wells notices issued to major DeFi protocols signaling an expansion of SEC enforcement scope.</div>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-arrow-down" style="color: var(--accent-green);"></i>
+                        <div>
+                            <div style="font-weight: 700; color: white;">Institutional ETF Flows Stabilizing</div>
+                            <div style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Continued, albeit tempered, inflows into Spot Bitcoin ETFs act as a structural anchor, preventing systemic sell-offs.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Research Notes -->
+            <div data-aos="fade-left">
+                <h3 style="font-size: 24px; margin-bottom: 25px;"><i class="fas fa-file-alt" style="color: var(--accent-blue); margin-right: 10px;"></i> Research Notes</h3>
+                
+                <a href="#" class="research-card" onclick="alert('Simulation Documentation PDF: Digital Asset Liquidity Conditions (8 pages)'); return false;">
+                    <span style="background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;">Research Note #01</span>
+                    <h4 style="font-size: 18px; margin: 15px 0 10px;">Digital Asset Liquidity Conditions 2026</h4>
+                    <p style="color: var(--text-muted); font-size: 14px; margin: 0; line-height: 1.5;">Analyzing market depth fragmentation and the role of OTC desks in mitigating slippage for systematic hedge funds.</p>
+                </a>
+
+                <a href="#" class="research-card" onclick="alert('Simulation Documentation PDF: Systemic Risk Contagion Models (12 pages)'); return false;">
+                    <span style="background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;">Research Note #02</span>
+                    <h4 style="font-size: 18px; margin: 15px 0 10px;">Systemic Risk Contagion Models</h4>
+                    <p style="color: var(--text-muted); font-size: 14px; margin: 0; line-height: 1.5;">Mapping vector equations for counterparty risk assessment of major stablecoin issuers against traditional banking rails.</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Methodology Teaser -->
+        <div class="box-info" data-aos="fade-up">
+            <h4 style="color: white; margin: 0 0 10px; font-size: 16px;">Mathematical Methodology</h4>
+            DCM Core aggregates over 30 distinct data feeds across derivatives pricing, blockchain mempools, and regulatory news sentiment algorithms. The weighted model uses an EWMA (Exponentially Weighted Moving Average) to avoid lagging signals. <br><br>
+            <a href="methodology.html" style="color: var(--accent-blue); font-weight: 700; text-decoration: none;">View full quantitative methodology framework <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- MAIN FOOTER -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- 0. BRAND -->
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                    <p>Analysis platform dedicated to asset tokenization and institutional blockchain infrastructures.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://x.com/Joan_Lyczak" target="_blank" class="social-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- 1. PRODUCT -->
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Central Hub</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="simple.html">Academy</a></li>
+                        <li><a href="guide.html">Expert Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content" style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="copyright">
+                        © 2026 DCM Digital • Version 4.3.0
+                    </div>
+                </div>
+            </div>
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <button aria-label="Button" id="scrollToTop" class="scroll-to-top" title="Back to top" style="position: fixed; bottom: 30px; right: 30px; background: rgba(59, 130, 246, 0.8); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; cursor: pointer; display: none; z-index: 1000; transition: 0.3s; backdrop-filter: blur(5px);">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        const scrollTopBtn = document.getElementById("scrollToTop");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.style.display = "block";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
+        };
+        scrollTopBtn.onclick = function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="canonical" href="https://dcmcore.com/fr/observatory/index.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observatoire Mondial de la Finance Numérique (GDFO) | DCM Core</title>
+    <meta name="description" content="La source de vérité institutionnelle sur l'adoption de la blockchain, la tokenisation d'actifs et l'évolution des CBDC.">
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- STYLES -->
+    <link rel="stylesheet" href="../../styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --accent-orange: #f97316;
+            --border: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            padding: 6px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover {
+            border-color: white;
+            color: white;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* HERO */
+        .hero {
+            padding: 160px 20px 100px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+        }
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, white 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .stat-card {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* SECTIONS */
+        .section {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .section-title i { color: var(--accent-blue); }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            transition: 0.3s;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .feature-card i {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: var(--accent-blue);
+        }
+        .feature-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* DARK FOOTER */
+        .super-footer {
+            margin-top: 100px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <a href="../index.html" class="logo">
+            <i class="fas fa-eye" style="color:var(--accent-blue)"></i> OBSERVATORY
+        </a>
+        <div class="nav-links">
+            <a aria-label="Risk Index" href="../digital-asset-risk-index.html" class="back-btn" style="color:var(--accent-orange); border-color:var(--accent-orange);">
+                <i class="fas fa-chart-line"></i> <span>Indice de Risque</span>
+            </a>
+            <a aria-label="Hub Central" href="../index.html" class="back-btn">
+                <i class="fas fa-home"></i> <span>Hub Central</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div data-aos="fade-down" style="display:inline-block; margin-bottom: 20px; padding: 6px 16px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 30px; color: var(--accent-blue); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+            <i class="fas fa-microscope"></i> Surveillance Institutionnelle
+        </div>
+        <h1 data-aos="fade-up">L'Observatoire de la Finance Numérique</h1>
+        <p data-aos="fade-up" data-aos-delay="100">
+            La source de vérité mondiale sur l'adoption institutionnelle de la blockchain, la tokenisation des actifs du monde réel (RWA) et l'évolution des monnaies numériques de banque centrale (MNBC).
+        </p>
+
+        <div class="stats-grid" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-card">
+                <div class="stat-value">$14T+</div>
+                <div class="stat-label">Projection RWA 2030</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">130+</div>
+                <div class="stat-label">MNBC en Exploration</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">92%</div>
+                <div class="stat-label">Banques US testant la DLT</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">550+</div>
+                <div class="stat-label">Protocoles DeFi audités</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN SECTIONS -->
+    <section class="section">
+        <div class="feature-grid">
+            <!-- RWA -->
+            <a href="#" class="feature-card" data-aos="fade-up" onclick="alert('Module en développement : Tableau de bord de la tokenisation des actifs (RWA)'); return false;">
+                <i class="fas fa-building-columns"></i>
+                <h3>Tokenisation des Actifs (RWA)</h3>
+                <p>Suivez la migration des obligations, de l'immobilier et de l'or vers les registres distribués. Analyse de la liquidité on-chain et des émetteurs institutionnels.</p>
+            </a>
+            <!-- MNBC -->
+            <a href="#" class="feature-card" data-aos="fade-up" data-aos-delay="100" onclick="alert('Module en développement : Traqueur mondial des MNBC'); return false;">
+                <i class="fas fa-landmark"></i>
+                <h3>Banques Centrales & MNBC</h3>
+                <p>Visualisez l'état d'avancement des projets d'Euro Numérique, de Dollar Numérique et de Yuan Numérique. Analyse de l'impact sur les paiements transfrontaliers.</p>
+            </a>
+            <!-- Stablecoins -->
+            <a href="#" class="feature-card" data-aos="fade-up" data-aos-delay="200" onclick="alert('Module en développement : Analyse des Stablecoins institutionnels'); return false;">
+                <i class="fas fa-shield-halved"></i>
+                <h3>Stablecoins & Monnaie de Banque</h3>
+                <p>Analyse de la composition des réserves, du volume de transfert et de l'intégration dans les systèmes de règlement-livraison bancaires (DvP).</p>
+            </a>
+            <!-- Enterprise DLT -->
+            <a href="#" class="feature-card" data-aos="fade-up" data-aos-delay="300" onclick="alert('Module en développement : Comparateur de réseaux DLT Entreprise'); return false;">
+                <i class="fas fa-network-wired"></i>
+                <h3>Réseaux DLT Entreprise</h3>
+                <p>Comparaison de SWIAT, Canton Network, Hyperledger et des sous-réseaux Ethereum pour les cas d'usage industriels et financiers.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- MAIN FOOTER -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- 0. BRAND -->
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                    <p>Intelligence de gouvernance pour l'infrastructure financière de nouvelle génération.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <!-- 1. LINKS -->
+                <div class="footer-col">
+                    <h4>Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Hub Central</a></li>
+                        <li><a href="../digital-asset-risk-index.html">Indice de Risque</a></li>
+                        <li><a href="../regulatory-intelligence.html">Veille Réglementaire</a></li>
+                        <li><a href="../dashboard.html">Dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content" style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="copyright">
+                        © 2026 DCM Digital • Observatoire GDFO
+                    </div>
+                </div>
+            </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+</html>

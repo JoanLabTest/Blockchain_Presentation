@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="canonical" href="https://dcmcore.com/en/regulatory-intelligence.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Regulatory Intelligence | DCM Core Institutional</title>
+    <meta name="description" content="Real-time tracking of digital asset regulatory frameworks (MiCA, DORA, SEC). Jurisdiction-level compliance mapping.">
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- STYLES -->
+    <link rel="stylesheet" href="../styles-footer.css">
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --accent-orange: #f97316;
+            --accent-red: #ef4444;
+            --border: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 100% 0%, #0f172a 0%, #020617 70%);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            padding: 6px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover {
+            border-color: white;
+            color: white;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* HERO */
+        .hero {
+            padding: 140px 20px 60px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, white 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* MAP SECTION */
+        .map-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            position: relative;
+        }
+        .map-container {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg');
+            background-size: cover;
+            background-position: center;
+            filter: invert(0.1) sepia(0.2) saturate(0.5) hue-rotate(200deg);
+            opacity: 0.6;
+        }
+        .map-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 90%);
+        }
+        
+        /* REGIONAL NODES */
+        .node {
+            position: absolute;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            box-shadow: 0 0 20px currentColor;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: 0.3s;
+        }
+        .node-eu { top: 30%; left: 48%; color: var(--accent-green); }
+        .node-us { top: 35%; left: 25%; color: #eab308; }
+        .node-uk { top: 28%; left: 45%; color: var(--accent-green); }
+        .node-hk { top: 45%; left: 78%; color: var(--accent-orange); }
+        .node-sg { top: 55%; left: 75%; color: var(--accent-green); }
+        .node-ae { top: 42%; left: 58%; color: var(--accent-green); }
+
+        /* LEGEND */
+        .map-legend {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border);
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; color: var(--text-muted); }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        /* TIMELINE */
+        .section-container { max-width: 1200px; margin: 80px auto; padding: 0 20px; }
+        .timeline { position: relative; padding-left: 30px; }
+        .timeline::before { content: ''; position: absolute; left: 5px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+        .timeline-item { position: relative; margin-bottom: 40px; }
+        .timeline-dot { position: absolute; left: -30px; top: 10px; width: 12px; height: 12px; background: var(--bg-dark); border: 2px solid var(--accent-blue); border-radius: 50%; }
+        .timeline-content { background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border); padding: 20px; border-radius: 16px; }
+        .timeline-date { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent-blue); font-weight: 700; }
+        .timeline-title { font-size: 18px; font-weight: 700; color: white; margin-top: 5px; }
+
+        /* REPO */
+        .grid-repo { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .repo-card { background: #0f172a; border: 1px solid var(--border); padding: 24px; border-radius: 16px; text-decoration: none; color: white; transition: 0.2s; }
+        .repo-card:hover { transform: translateY(-5px); border-color: var(--accent-purple); }
+        .repo-card i { font-size: 24px; color: var(--accent-purple); margin-bottom: 15px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gavel" style="color:var(--accent-purple)"></i> REGULATORY TRACKER
+        </a>
+        <div class="nav-links">
+            <a aria-label="Risk Index" href="digital-asset-risk-index.html" class="back-btn" style="color:var(--accent-orange); border-color:var(--accent-orange);">
+                <i class="fas fa-chart-line"></i> <span>Risk Index</span>
+            </a>
+            <a aria-label="Central Hub" href="index.html" class="back-btn">
+                <i class="fas fa-home"></i> <span>Central Hub</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div data-aos="fade-down" style="display:inline-block; margin-bottom: 20px; padding: 6px 16px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 30px; color: var(--accent-blue); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+            <i class="fas fa-shield-halved"></i> Live Prudential Monitoring
+        </div>
+        <h1 class="hero-title" data-aos="fade-up">Global Regulatory Intelligence</h1>
+        <p class="hero-desc" data-aos="fade-up" data-aos-delay="100">
+            Real-time mapping of legal landscapes and compliance frameworks for financial institutions operating on digital finance rails.
+        </p>
+    </header>
+
+    <!-- MAP SECTION -->
+    <section class="map-section" data-aos="zoom-in">
+        <div class="map-container">
+            <div class="map-overlay"></div>
+            <div class="node node-eu" title="EU: MiCA Rolling Out (Compliant)"></div>
+            <div class="node node-us" title="USA: Legislative Uncertainty (Monitoring)"></div>
+            <div class="node node-uk" title="UK: FSMA Framework (In Progress)"></div>
+            <div class="node node-hk" title="Hong Kong: VASP Regime (Active)"></div>
+            <div class="node node-sg" title="Singapore: Payment Services Act (Stable)"></div>
+            <div class="node node-ae" title="UAE: VARA Regulation (Advanced)"></div>
+        </div>
+
+        <div class="map-legend">
+            <div class="legend-item"><div class="dot" style="background:var(--accent-green)"></div> COMPLIANT / STABLE</div>
+            <div class="legend-item"><div class="dot" style="background:#eab308"></div> MONITORING / IN PROGRESS</div>
+            <div class="legend-item"><div class="dot" style="background:var(--accent-orange)"></div> ELEVATED PRESSURE</div>
+            <div class="legend-item"><div class="dot" style="background:var(--accent-red)"></div> RESTRICTIVE / ALERT</div>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section-container">
+        <div style="text-align: center; margin-bottom: 40px;" data-aos="fade-up">
+            <h2 style="font-size: 32px; margin-bottom: 10px;">Latest Policy Updates</h2>
+            <p style="color: var(--text-muted);">Critical global governance shifts</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">MAY 14, 2026</div>
+                    <div class="timeline-title">DORA Resilience Framework Update (EU)</div>
+                    <p style="font-size: 14px; color: var(--text-muted); margin-top: 10px;">ESMA published new technical standards (RTS) on the classification of major ICT-related incidents for DLT infrastructures.</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-aos="fade-left" data-aos-delay="100">
+                <div class="timeline-dot" style="border-color:#eab308"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">MAY 02, 2026</div>
+                    <div class="timeline-title">US Senate Hearing on Stablecoins</div>
+                    <p style="font-size: 14px; color: var(--text-muted); margin-top: 10px;">Banking Committee discussed reserve requirements for payment token issuers; no consensus on federal vs state oversight.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REPO -->
+    <section class="section-container">
+        <div style="text-align: center; margin-bottom: 40px;" data-aos="fade-up">
+            <h2 style="font-size: 32px; margin-bottom: 10px;">Policy Briefs Repository</h2>
+            <p style="color: var(--text-muted);">Deep dives for legal and compliance departments</p>
+        </div>
+
+        <div class="grid-repo">
+            <a href="#" class="repo-card" data-aos="fade-up" onclick="alert('Simulation Document: MiCA Compliance Guide for CASPs (22 pages)'); return false;">
+                <i class="fas fa-file-invoice"></i>
+                <h3 style="font-size: 18px; margin-bottom: 10px;">MiCA Compliance Guide for CASPs</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">Exhaustive analysis of capital and governance requirements under MiCA.</p>
+            </a>
+            <a href="#" class="repo-card" data-aos="fade-up" data-aos-delay="100" onclick="alert('Simulation Document: FATF Travel Rule Analysis (15 pages)'); return false;">
+                <i class="fas fa-passport"></i>
+                <h3 style="font-size: 18px; margin-bottom: 10px;">FATF Travel Rule Deep Dive</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">Impact of cross-jurisdictional alignment on on-chain compliance protocols.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM DIGITAL</h3>
+                    <p>Governance intelligence for the next generation of financial infrastructure.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content" style="max-width: 1400px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="copyright">© 2026 DCM Digital • Regulatory Tracker</div>
+                </div>
+            </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+</body>
+</html>
