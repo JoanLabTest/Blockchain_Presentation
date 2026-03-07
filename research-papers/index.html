@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-        content="Access the DCM Core Institute official research repository. Featuring Working Papers (No. series), Policy Recommendations, and Technical Infrastructure papers."
+        content="DCM Core Institute Working Papers Series. High-level research on CBDCs, tokenization, and digital asset regulation."
         name="description" />
-    <title>Research Papers | DCM Core Institute</title>
+    <title>Working Papers Series | DCM Core Institute</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
@@ -24,13 +24,13 @@
 
     <!-- Stylesheets -->
     <link href="../fr/styles.css" rel="stylesheet" />
-    <link href="../fr/styles-navigation.css" rel="stylesheet" />
+    <link href="../fr/styles-megamenu.css" rel="stylesheet" />
     <link href="../fr/styles-footer.css" rel="stylesheet" />
 
     <style>
         :root {
-            --res-blue: #3b82f6;
-            --res-gold: #c9a84c;
+            --inst-blue: #3b82f6;
+            --inst-gold: #c9a84c;
             --bg-dark: #020617;
             --glass: rgba(15, 23, 42, 0.4);
             --border: rgba(255, 255, 255, 0.05);
@@ -43,248 +43,253 @@
             padding-top: 80px;
         }
 
-        .res-container {
-            max-width: 1100px;
+        .paper-container {
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 80px 20px;
         }
 
-        .header-box {
-            margin-bottom: 60px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 40px;
+        .series-tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--inst-gold);
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: block;
         }
 
-        h1 {
+        .hero-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 48px;
+            font-size: 56px;
             font-weight: 800;
             color: white;
-            margin-bottom: 20px;
-        }
-
-        .paper-filter {
-            display: flex;
-            gap: 20px;
             margin-bottom: 40px;
+            letter-spacing: -1px;
         }
 
-        .filter-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: #94a3b8;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .filter-btn.active,
-        .filter-btn:hover {
-            border-color: var(--res-blue);
-            color: white;
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        /* PAPER LIST */
         .paper-card {
             background: var(--glass);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 25px;
-            display: grid;
-            grid-template-columns: 120px 1fr 150px;
-            align-items: center;
-            gap: 30px;
-            transition: all 0.3s;
+            padding: 40px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .paper-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(15, 23, 42, 0.6);
+            border-color: var(--inst-blue);
+            transform: translateY(-2px);
         }
 
-        .paper-no {
+        .paper-number {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--res-gold);
-            font-weight: 700;
+            font-size: 13px;
+            color: var(--inst-blue);
+            margin-bottom: 15px;
+            display: block;
         }
 
         .paper-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 700;
             color: white;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .paper-authors {
-            font-size: 14px;
-            color: #64748b;
+            margin-bottom: 15px;
+            line-height: 1.3;
         }
 
         .paper-meta {
-            text-align: right;
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .paper-abstract {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .paper-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .jel-codes {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
             color: #475569;
         }
 
-        .paper-tag {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-size: 10px;
-            text-transform: uppercase;
-            font-weight: 800;
-            margin-top: 10px;
-        }
-
-        .tag-working {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--res-blue);
-        }
-
-        .tag-policy {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-        }
-
-        .tag-technical {
-            background: rgba(139, 92, 246, 0.1);
-            color: #8b5cf6;
-        }
-
         .btn-download {
-            margin-top: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            text-decoration: none;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--inst-blue);
+            padding: 8px 16px;
+            border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        @media (max-width: 800px) {
-            .paper-card {
-                grid-template-columns: 1fr;
-                gap: 15px;
-                text-align: left;
-            }
+        .btn-download:hover {
+            background: var(--inst-blue);
+            color: white;
+        }
 
-            .paper-meta {
-                text-align: left;
-            }
+        .filter-bar {
+            margin-bottom: 60px;
+            display: flex;
+            gap: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .filter-btn.active {
+            color: white;
+        }
+
+        .filter-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -21px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--inst-blue);
         }
     </style>
 </head>
 
 <body>
     <nav class="navbar-pro">
-        <div class="nav-brand" style="cursor: pointer;" onclick="window.location.href='../fr/index.html'">
-            DCM <span style="font-weight: 300;">Core Institute</span>
+        <a class="nav-brand" href="../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+
+        <div class="nav-pillars">
+            <!-- Navigation items will be updated globally via Mega-Menu -->
+            <div class="pillar-item">
+                <a href="../index.html" class="pillar-link">Platform</a>
+            </div>
+            <div class="pillar-item">
+                <a href="index.html" class="pillar-link active">Research</a>
+            </div>
         </div>
-        <div class="nav-links">
-            <a href="../about/index.html">About</a>
-            <a href="index.html" class="active">Research</a>
-            <a href="../data/index.html">Data</a>
+
+        <div class="nav-actions">
+            <a href="../login.html" class="auth-btn">Auth</a>
+            <button class="connect-btn">Connect</button>
         </div>
     </nav>
 
-    <div class="res-container">
-        <header class="header-box" data-aos="fade-up">
-            <h1>Research Repository</h1>
-            <p style="color:#94a3b8; max-width: 700px;">
-                Explore our official publications, from high-level policy recommendations to deep technical
-                specifications
-                and academic working papers.
-            </p>
+    <div class="paper-container">
+        <header data-aos="fade-up">
+            <span class="series-tag">Institutional Research Unit</span>
+            <h1 class="hero-title">Working Papers Series</h1>
+            <div class="filter-bar">
+                <button class="filter-btn active">All Papers</button>
+                <button class="filter-btn">Financial Stability</button>
+                <button class="filter-btn">CBDC</button>
+                <button class="filter-btn">Regulation</button>
+            </div>
         </header>
 
-        <div class="paper-filter" data-aos="fade-up">
-            <button class="filter-btn active">All Publications</button>
-            <button class="filter-btn">Working Papers</button>
-            <button class="filter-btn">Policy Papers</button>
-            <button class="filter-btn">Technical Reports</button>
-        </div>
+        <div class="papers-list" data-aos="fade-up">
 
-        <div class="paper-list">
-            <!-- DCM WP No. 02 -->
-            <div class="paper-card" data-aos="fade-up">
-                <div class="paper-no">DCM WP No. 02</div>
-                <div>
-                    <a href="#" class="paper-title">Systemic Fragility in Cross-Border Tokenized Settlements</a>
-                    <span class="paper-authors">Lyczak, J., Chen, W., & Dupont, M.</span>
-                    <br>
-                    <span class="paper-tag tag-working">Working Paper</span>
-                </div>
+            <!-- Paper 01 -->
+            <div class="paper-card">
+                <span class="paper-number">DCM Working Paper No. 2026/01</span>
+                <h2 class="paper-title">Liquidity Resilience in Tokenized Secondary Markets: An Institutional Framework
+                </h2>
                 <div class="paper-meta">
-                    <div>March 2026</div>
-                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download</a>
+                    <span><i class="far fa-user"></i> Dr. Marcus Aurelius • Head of Research</span>
+                    <span><i class="far fa-calendar"></i> January 2026</span>
+                </div>
+                <p class="paper-abstract">
+                    This paper examines the impact of atomicity on settlement finality and its implications for systemic
+                    liquidity buffers. We propose a new stress-test methodology for distributed registers, aligning with
+                    Basel III liquidity coverage ratios.
+                </p>
+                <div class="paper-footer">
+                    <span class="jel-codes">JEL Classification: G12, G18, E42</span>
+                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download PDF (840 KB)</a>
                 </div>
             </div>
 
-            <!-- DCM WP No. 01 -->
-            <div class="paper-card" data-aos="fade-up">
-                <div class="paper-no">DCM WP No. 01</div>
-                <div>
-                    <a href="#" class="paper-title">Liquidity Stress Models for Algorithmic Stablecoins</a>
-                    <span class="paper-authors">Institute Research Council</span>
-                    <br>
-                    <span class="paper-tag tag-working">Working Paper</span>
-                </div>
+            <!-- Paper 02 -->
+            <div class="paper-card">
+                <span class="paper-number">DCM Working Paper No. 2025/12</span>
+                <h2 class="paper-title">Cross-Border CBDC Interoperability: Architectural Models for Central Bank
+                    Reserves</h2>
                 <div class="paper-meta">
-                    <div>Jan 2026</div>
-                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download</a>
+                    <span><i class="far fa-user"></i> Elena Volkov • Senior Policy Analyst</span>
+                    <span><i class="far fa-calendar"></i> December 2025</span>
+                </div>
+                <p class="paper-abstract">
+                    An analysis of hybrid minting models and their synchronization across heterogeneous ledger
+                    environments. We evaluate the trade-offs between privacy-preserving zero-knowledge proofs and
+                    regulatory compliance.
+                </p>
+                <div class="paper-footer">
+                    <span class="jel-codes">JEL Classification: E58, F31, L86</span>
+                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download PDF (1.2 MB)</a>
                 </div>
             </div>
 
-            <!-- Policy Paper -->
-            <div class="paper-card" data-aos="fade-up">
-                <div class="paper-no">POLICY-2026-03</div>
-                <div>
-                    <a href="#" class="paper-title">Implementing MiCA Title IV: Best Practices for CASPs</a>
-                    <span class="paper-authors">Regulatory Affairs Unit</span>
-                    <br>
-                    <span class="paper-tag tag-policy">Policy Paper</span>
-                </div>
+            <!-- Paper 03 -->
+            <div class="paper-card">
+                <span class="paper-number">DCM Working Paper No. 2025/11</span>
+                <h2 class="paper-title">Fragmented Regulation: The Impact of MiCA vs. FIT21 on Institutional Market
+                    Participation</h2>
                 <div class="paper-meta">
-                    <div>Feb 2026</div>
-                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download</a>
+                    <span><i class="far fa-user"></i> Sarah Chen • Regulatory Lead</span>
+                    <span><i class="far fa-calendar"></i> November 2025</span>
+                </div>
+                <p class="paper-abstract">
+                    This study maps the divergence in asset classification between EU and US frameworks, identifying
+                    potential arbitrage vectors and their effect on institutional capital flows into tokenized bonds.
+                </p>
+                <div class="paper-footer">
+                    <span class="jel-codes">JEL Classification: K22, G28, G15</span>
+                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download PDF (950 KB)</a>
                 </div>
             </div>
 
-            <!-- Technical Paper -->
-            <div class="paper-card" data-aos="fade-up">
-                <div class="paper-no">TECH-SPEC-08</div>
-                <div>
-                    <a href="#" class="paper-title">DORA Operational Resilience: A Technical Framework</a>
-                    <span class="paper-authors">Infrastructure Resilience Lab</span>
-                    <br>
-                    <span class="paper-tag tag-technical">Technical Paper</span>
-                </div>
-                <div class="paper-meta">
-                    <div>Dec 2025</div>
-                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download</a>
-                </div>
-            </div>
         </div>
     </div>
 
     <footer class="super-footer">
         <div class="footer-content">
             <div class="footer-bottom">
-                <div class="copyright">© 2026 DCM Core Institute • Research Repository</div>
+                <div class="copyright">© 2026 DCM Core Institute • Institutional Research Unit</div>
                 <div class="legal-links">
-                    <a href="../about/transparency.html">Transparency</a>
-                    <a href="../about/methodology.html">Methodology</a>
-                    <a href="#">Submission Guidelines</a>
+                    <a href="../about/index.html">Methodology</a>
+                    <a href="../about/index.html">Research Independence</a>
                 </div>
             </div>
         </div>
