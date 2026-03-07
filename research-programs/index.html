@@ -45,6 +45,9 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
 
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
     <!-- Stylesheets -->
     <link href="../fr/styles.css" rel="stylesheet" />
     <link href="../fr/styles-navigation.css" rel="stylesheet" />
@@ -54,255 +57,522 @@
     <link href="../fr/styles-footer.css" rel="stylesheet" />
 
     <style>
+        :root {
+            --accent-gold: #c9a84c;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-muted: #94a3b8;
+        }
+
         body {
             background-color: #020617;
             font-family: 'Inter', sans-serif;
             color: white;
             overflow-x: hidden;
-            padding-top: 60px;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
         }
 
-        .hub-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px 60px 20px;
-        }
-
-        .hub-hero {
+        /* PREMIUM HERO SECTION */
+        .premium-hero {
+            position: relative;
+            padding: 160px 20px 100px;
             text-align: center;
-            margin-bottom: 80px;
+            background: linear-gradient(to bottom, rgba(2, 6, 23, 0), #020617);
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            filter: blur(60px);
+            z-index: -1;
+            animation: pulse-glow 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            from {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.8;
+            }
         }
 
         .hub-tag {
-            display: inline-block;
-            padding: 8px 16px;
-            border: 1px solid #c9a84c;
-            border-radius: 50px;
-            color: #c9a84c;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
             background: rgba(201, 168, 76, 0.1);
-            letter-spacing: 1px;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 50px;
+            color: var(--accent-gold);
+            font-size: 14px;
+            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
         }
 
         .hub-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 56px;
+            font-size: 72px;
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 25px;
-            background: linear-gradient(135deg, white, #cbd5e1);
+            line-height: 1;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
         }
 
         .hub-subtitle {
-            font-size: 18px;
-            color: #94a3b8;
-            max-width: 700px;
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 800px;
             margin: 0 auto;
             line-height: 1.6;
         }
 
-        .expert-gates {
+        /* RESEARCH GRID */
+        .research-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 40px 100px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin-bottom: 80px;
-            justify-content: center;
         }
 
-        .expert-gates.two-cols {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 800px;
-            margin: 0 auto 80px auto;
-        }
-
-        .expert-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8));
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: all 0.3s ease;
+        .research-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 45px 35px;
             text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
-            align-items: center;
             position: relative;
             overflow: hidden;
-            border-top: 3px solid transparent;
+            backdrop-filter: blur(20px);
         }
 
-        .expert-card:hover {
-            transform: translateY(-10px);
-            background: rgba(30, 41, 59, 0.8);
-            border-top-color: #c9a84c;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .expert-icon {
-            font-size: 40px;
-            color: #c9a84c;
-            margin-bottom: 20px;
-        }
-
-        .expert-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 22px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
-
-        .expert-desc {
-            font-size: 14px;
-            color: #94a3b8;
-            line-height: 1.5;
-            margin-bottom: 0;
-            flex-grow: 1;
-            /* Pushes meta to bottom */
-        }
-
-        .card-meta {
-            margin-top: 25px;
-            text-align: left;
+        .research-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            border-top: 1px dashed rgba(255, 255, 255, 0.1);
-            padding-top: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .meta-item {
-            font-size: 13px;
-            color: #94a3b8;
+        .research-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(59, 130, 246, 0.3);
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .research-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-status {
+            position: absolute;
+            top: 25px;
+            right: 25px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .meta-item i {
-            color: #3b82f6;
-            width: 14px;
-            text-align: center;
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
         }
 
-        @media (max-width: 900px) {
+        .card-icon-container {
+            width: 70px;
+            height: 70px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            font-size: 32px;
+            color: var(--accent-blue);
+            margin-bottom: 35px;
+            transition: all 0.4s;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
 
-            .expert-gates,
-            .expert-gates.two-cols {
+        .research-card:hover .card-icon-container {
+            background: var(--accent-blue);
+            color: #020617;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .card-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            flex-grow: 1;
+        }
+
+        .card-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 25px;
+        }
+
+        .metric-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .metric-value {
+            font-size: 14px;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+
+        /* SECONDARY GRID FOR 2 PILLARS */
+        .research-grid-two {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 900px;
+            margin-top: -60px;
+        }
+
+        @media (max-width: 1024px) {
+
+            .research-grid,
+            .research-grid-two {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 0 20px 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hub-title {
+                font-size: 48px;
+            }
+
+            .research-grid,
+            .research-grid-two {
                 grid-template-columns: 1fr;
             }
+        }
 
-            .hub-title {
-                font-size: 40px;
-            }
+        /* HEADER OVERRIDE FOR CONSISTENCY */
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-orb {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-5px);
         }
     </style>
 </head>
 
 <body>
-    <!-- STANDARD HEADER -->
-    <header class="app-header simplified-header">
+    <!-- PREMIUM NAVIGATION -->
+    <nav class="navbar-pro">
         <div class="header-logo" style="cursor: pointer;" onclick="window.location.href='../en/index.html'">
             <div class="logo-orb"></div>
             <span class="logo-text">DCM <span style="font-weight: 300;">Core</span></span>
         </div>
-        <div class="header-actions">
-            <!-- Global Nav links will be injected by our script if needed, or keeping it direct back to main site -->
-            <a href="../en/index.html" class="nav-btn btn-ghost"
-                style="text-decoration: none; color: white; display:flex; align-items:center; gap:8px;">
-                <i class="fas fa-arrow-left"></i> Back to Main Site
+
+        <div class="nav-links" style="display: flex; align-items: center; gap: 25px;">
+            <a href="../en/index.html"
+                style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8;">Home</a>
+            <a href="index.html"
+                style="color:var(--accent-blue); text-decoration:none; font-weight:600; font-size:13px;">Research
+                Hub</a>
+            <a href="../experts/index.html"
+                style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8;">Experts</a>
+            <a href="../media/index.html"
+                style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8;">Media</a>
+        </div>
+
+        <div class="nav-actions">
+            <a href="../en/index.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Main Site
             </a>
         </div>
-    </header>
+    </nav>
 
-    <div class="hub-container">
-        <div class="hub-hero">
-            <div class="hub-tag"><i class="fas fa-microscope"></i> Research Directives</div>
-            <h1 class="hub-title">DCM Core<br>Research Programs</h1>
+    <!-- HERO SECTION -->
+    <section class="premium-hero">
+        <div class="hero-glow"></div>
+        <div class="hub-container" data-aos="fade-up">
+            <div class="hub-tag">
+                <i class="fas fa-microscope"></i> Strategic Pillars
+            </div>
+            <h1 class="hub-title">Research<br>Programs</h1>
             <p class="hub-subtitle">
-                As a prominent global think tank, our intellectual output is structured across five major strategic
-                programs. We provide rigorous analysis for policymakers, market infrastructure providers, and
-                institutional investors navigating the digital frontier.
+                Bridging the gap between frontier technology and institutional compliance. Our programs deliver
+                rigorous,
+                data-driven insights for the next generation of global financial infrastructure.
             </p>
         </div>
+    </section>
 
-        <!-- Top 3 Pillars -->
-        <div class="expert-gates">
-            <a href="digital-asset-regulation.html" class="expert-card">
-                <i class="fas fa-balance-scale expert-icon"></i>
-                <h2 class="expert-title">Digital Asset Regulation & Compliance</h2>
-                <p class="expert-desc">Analysis of European and global regulatory frameworks (MiCA, MiFID II, AML/CFT)
-                    and their systemic compliance implications for service providers.</p>
-                <div class="card-meta">
-                    <div class="meta-item"><i class="fas fa-user-tie"></i> <span>Lead: Marc-Antoine Lemarchand</span>
-                    </div>
-                    <div class="meta-item"><i class="fas fa-book"></i> <span>Output: MiCA Compliance Guide</span></div>
+    <!-- RESEARCH GRID: TOP 3 -->
+    <section class="research-grid">
+        <!-- CARD 1 -->
+        <a href="digital-asset-regulation.html" class="research-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="card-status"><span class="status-dot"></span> Active</div>
+            <div class="card-icon-container">
+                <i class="fas fa-balance-scale"></i>
+            </div>
+            <h2 class="card-title">Regulation & Compliance</h2>
+            <p class="card-desc">Deep dive into MiCA, DORA, and global AML/CFT standards to ensure institutional-grade
+                compliance for digital asset providers.</p>
+            <div class="card-metrics">
+                <div class="metric-item">
+                    <span class="metric-label">Lead Scholar</span>
+                    <span class="metric-value">M. Lemarchand</span>
                 </div>
-            </a>
+                <div class="metric-item">
+                    <span class="metric-label">Impact Factor</span>
+                    <span class="metric-value" style="color: #3b82f6;">High</span>
+                </div>
+            </div>
+        </a>
 
-            <a href="systemic-crypto-risk.html" class="expert-card">
-                <i class="fas fa-chart-line expert-icon"></i>
-                <h2 class="expert-title">Systemic Risk in Crypto Markets</h2>
-                <p class="expert-desc">Pioneering the GDARI framework to monitor contagion, liquidity spirals, and
-                    macro-financial linkages between digital assets and traditional banking.</p>
-                <div class="card-meta">
-                    <div class="meta-item"><i class="fas fa-microscope"></i> <span>Lead: Dr. Alexandre Dubois</span>
-                    </div>
-                    <div class="meta-item"><i class="fas fa-chart-line"></i> <span>Output: Digital Asset Risk
-                            Index</span></div>
+        <!-- CARD 2 -->
+        <a href="systemic-crypto-risk.html" class="research-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="card-status"><span class="status-dot"></span> Active</div>
+            <div class="card-icon-container">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h2 class="card-title">Systemic Risk & GDARI</h2>
+            <p class="card-desc">Monitoring market contagion and macro-financial linkages using the Global Digital Asset
+                Risk Index framework.</p>
+            <div class="card-metrics">
+                <div class="metric-item">
+                    <span class="metric-label">Lead Scholar</span>
+                    <span class="metric-value">Dr. A. Dubois</span>
                 </div>
-            </a>
+                <div class="metric-item">
+                    <span class="metric-label">Focus</span>
+                    <span class="metric-value" style="color: #3b82f6;">Contagion</span>
+                </div>
+            </div>
+        </a>
 
-            <a href="tokenization-infrastructure.html" class="expert-card">
-                <i class="fas fa-project-diagram expert-icon"></i>
-                <h2 class="expert-title">Tokenization & Market Infrastructure</h2>
-                <p class="expert-desc">Evaluating DLT-based settlement layers, the Pilot Regime, and the operational
-                    viability of Real-World Asset (RWA) tokenization pipelines.</p>
-                <div class="card-meta">
-                    <div class="meta-item"><i class="fas fa-link"></i> <span>Lead: Elena Rostova</span></div>
-                    <div class="meta-item"><i class="fas fa-cubes"></i> <span>Output: Blockchain Bond Dashboard</span>
+        <!-- CARD 3 -->
+        <a href="tokenization-infrastructure.html" class="research-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="card-status"><span class="status-dot"></span> Roadmap</div>
+            <div class="card-icon-container">
+                <i class="fas fa-project-diagram"></i>
+            </div>
+            <h2 class="card-title">Tokenization & RWA</h2>
+            <p class="card-desc">Analyzing the operational viability of DLT-based settlement and the future of
+                Real-World Asset tokenization.</p>
+            <div class="card-metrics">
+                <div class="metric-item">
+                    <span class="metric-label">Lead Scholar</span>
+                    <span class="metric-value">Elena Rostova</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Complexity</span>
+                    <span class="metric-value" style="color: #a855f7;">Tier 1</span>
+                </div>
+            </div>
+        </a>
+    </section>
+
+    <!-- RESEARCH GRID: BOTTOM 2 -->
+    <section class="research-grid research-grid-two">
+        <!-- CARD 4 -->
+        <a href="cbdc-monetary-architecture.html" class="research-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="card-status"><span class="status-dot"></span> Active</div>
+            <div class="card-icon-container">
+                <i class="fas fa-university"></i>
+            </div>
+            <h2 class="card-title">CBDC & Monetary Policy</h2>
+            <p class="card-desc">Architectural trade-offs for wholesale vs retail CBDCs and the future of interoperable
+                central bank money.</p>
+            <div class="card-metrics">
+                <div class="metric-item">
+                    <span class="metric-label">Network</span>
+                    <span class="metric-value">Global Guest</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Priority</span>
+                    <span class="metric-value" style="color: #3b82f6;">Policy</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- CARD 5 -->
+        <a href="programmable-finance.html" class="research-card" data-aos="fade-up" data-aos-delay="500">
+            <div class="card-status"><span class="status-dot"></span> Research</div>
+            <div class="card-icon-container">
+                <i class="fas fa-code-branch"></i>
+            </div>
+            <h2 class="card-title">DeFi & Smart Contracts</h2>
+            <p class="card-desc">Economic assessments of algorithmic yield mechanics and the resilience of decentralized
+                financial primitives.</p>
+            <div class="card-metrics">
+                <div class="metric-item">
+                    <span class="metric-label">Network</span>
+                    <span class="metric-value">Guest Experts</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Tech Level</span>
+                    <span class="metric-value" style="color: #a855f7;">Advanced</span>
+                </div>
+            </div>
+        </a>
+    </section>
+
+    <!-- SUPER FOOTER -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>
+                        <div class="logo-orb"></div> DCM Core
+                    </h3>
+                    <p>The institutional hub for digital asset governance and strategic research.</p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
                     </div>
                 </div>
-            </a>
+                <div class="footer-col">
+                    <h4>Programs</h4>
+                    <ul class="footer-links">
+                        <li><a href="digital-asset-regulation.html">Regulation</a></li>
+                        <li><a href="systemic-crypto-risk.html">Systemic Risk</a></li>
+                        <li><a href="tokenization-infrastructure.html">Tokenization</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Infrastructure</h4>
+                    <ul class="footer-links">
+                        <li><a href="cbdc-monetary-architecture.html">CBDC</a></li>
+                        <li><a href="programmable-finance.html">DeFi Tech</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="../media/index.html">Media Hub</a></li>
+                        <li><a href="../experts/index.html">Experts</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:contact@dcmcore.com">Inquiries</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2026 DCM Core Institute. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
         </div>
+    </footer>
 
-        <!-- Bottom 2 Pillars -->
-        <div class="expert-gates two-cols">
-            <a href="cbdc-monetary-architecture.html" class="expert-card">
-                <i class="fas fa-university expert-icon"></i>
-                <h2 class="expert-title">Central Bank Digital Currency Architecture</h2>
-                <p class="expert-desc">Research mapping wholesale and retail CBDC initiatives, stablecoin reserve
-                    standards, and next-generation monetary interoperability.</p>
-                <div class="card-meta">
-                    <div class="meta-item"><i class="fas fa-users"></i> <span>Lead: Guest Network</span></div>
-                    <div class="meta-item"><i class="fas fa-globe"></i> <span>Output: Digital Finance Observatory</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="programmable-finance.html" class="expert-card">
-                <i class="fas fa-code-branch expert-icon"></i>
-                <h2 class="expert-title">Programmable Finance & DeFi Systems</h2>
-                <p class="expert-desc">Technical and economic assessments of smart contract resilience, algorithmic
-                    yield mechanics, and decentralized liquidity pools.</p>
-                <div class="card-meta">
-                    <div class="meta-item"><i class="fas fa-users"></i> <span>Lead: Guest Network</span></div>
-                    <div class="meta-item"><i class="fas fa-cogs"></i> <span>Output: Automated Yield Simulator</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-    </div>
-
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+    </script>
 </body>
 
 </html>
