@@ -4,12 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Sample Board Report | DCM Core Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body {
             font-family: 'Times New Roman', serif;
-            padding: 50px;
+            padding: 60px;
             color: #333;
-            line-height: 1.5;
+            line-height: 1.6;
+            max-width: 850px;
+            margin: 0 auto;
+            background: #fff;
+            position: relative;
+        }
+
+        .no-print-zone {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .btn-print {
+            background: #020617;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: sans-serif;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+
+        .btn-print:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
         }
 
         .header {
@@ -75,10 +108,30 @@
         th {
             background-color: #f9f9f9;
         }
+
+        @media print {
+            .no-print-zone {
+                display: none;
+            }
+
+            body {
+                padding: 0;
+                margin: 0;
+                background: white;
+                width: 100%;
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <div class="no-print-zone">
+        <button onclick="window.print()" class="btn-print">
+            <i class="fas fa-print"></i> Imprimer / Sauvegarder PDF
+        </button>
+    </div>
+
     <div class="confidential">CONFIDENTIEL - USAGE INTERNE UNIQUEMENT</div>
     <div class="header">
         <div class="title">Rapport d'Analyse Executive</div>
