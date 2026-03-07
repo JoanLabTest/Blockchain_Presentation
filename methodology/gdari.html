@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Technical documentation on the Global Digital Asset Risk Index (GDARI) computation logic, weighting factors, and backtesting."
+        name="description" />
+    <title>GDARI Methodology | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../fr/styles.css" rel="stylesheet" />
+    <link href="../fr/styles-megamenu.css" rel="stylesheet" />
+    <link href="../fr/styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --inst-blue: #3b82f6;
+            --inst-gold: #c9a84c;
+            --bg-dark: #020617;
+            --glass: rgba(15, 23, 42, 0.4);
+            --border: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            padding-top: 80px;
+        }
+
+        .paper-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .doc-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--inst-blue);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .article-body {
+            line-height: 1.8;
+            font-size: 16px;
+            color: #cbd5e1;
+        }
+
+        .article-body h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            color: white;
+            margin: 60px 0 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .article-body p {
+            margin-bottom: 25px;
+        }
+
+        .formula-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 40px 0;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .sidebar-note {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--inst-blue);
+            padding: 25px;
+            margin: 40px 0;
+            font-style: italic;
+            color: #94a3b8;
+        }
+
+        .factor-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            font-size: 14px;
+        }
+
+        .factor-table th,
+        .factor-table td {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .factor-table th {
+            color: var(--inst-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .back-nav {
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-nav a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-nav a:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+
+        <div class="nav-pillars">
+            <!-- Reuse standard pillars -->
+        </div>
+    </nav>
+
+    <div class="paper-content">
+        <nav class="back-nav" data-aos="fade-right">
+            <i class="fas fa-arrow-left"></i>
+            <a href="index.html">Methodology Hub</a>
+        </nav>
+
+        <header data-aos="fade-up">
+            <span class="doc-meta">TECHNICAL WHITEPAPER • VERSION 2.4</span>
+            <h1 class="hero-title">GDARI Index Framework: Multi-Factor Risk Weighting</h1>
+            <p style="font-size: 18px; color: #94a3b8; margin-bottom: 60px;">
+                A comprehensive overview of the Global Digital Asset Risk Index (GDARI) computation model, objective
+                weighting factors, and systemic resilience metrics.
+            </p>
+        </header>
+
+        <div class="article-body" data-aos="fade-up">
+            <h2>1. Executive Summary</h2>
+            <p>
+                The GDARI is designed to provide institutional market participants with a relative risk metric that
+                quantifies the structural integrity of digital assets. Unlike traditional volatility-based indices,
+                GDARI
+                integrates architectural decentralization, liquidity depth, and regulatory alignment into a single
+                high-fidelity score.
+            </p>
+
+            <h2>2. The Computation Formula</h2>
+            <p>
+                The composite index is calculated using a weighted harmonic mean to ensure that extreme weakness in a
+                single risk factor is appropriately reflected in the final score.
+            </p>
+            <div class="formula-box">
+                GDARI = [ Σ (w_i / R_i) ]⁻¹
+            </div>
+            <p>
+                Where <i>R_i</i> represents the normalized score of the <i>i-th</i> risk factor and <i>w_i</i>
+                represents the designated pillar weight.
+            </p>
+
+            <h2>3. Core Risk Pillars</h2>
+            <table class="factor-table">
+                <thead>
+                    <tr>
+                        <th>Pillar</th>
+                        <th>Weight</th>
+                        <th>Metrics Included</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Market Liquidity</td>
+                        <td>35%</td>
+                        <td>Slippage per $1M, Bid-Ask spread volatility, Exchange concentration.</td>
+                    </tr>
+                    <tr>
+                        <td>Architectural Health</td>
+                        <td>30%</td>
+                        <td>Nakamoto Coefficient, Node distribution, Validator uptime.</td>
+                    </tr>
+                    <tr>
+                        <td>Economic Security</td>
+                        <td>20%</td>
+                        <td>Cost of 51% attack, Staking ratio, MVRV Z-score.</td>
+                    </tr>
+                    <tr>
+                        <td>Regulatory Surface</td>
+                        <td>15%</td>
+                        <td>Jurisdictional compliance, G7 Travel Rule adoption.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="sidebar-note">
+                "Our architectural health metrics are pulled directly from on-chain telemetry, ensuring zero-latency
+                awareness of network centralization events."
+            </div>
+
+            <h2>4. Normalization and Backtesting</h2>
+            <p>
+                Scores are normalized on a scale of 0 to 100, where 100 represents theoretical maximum resilience.
+                Historical backtesting across the 2022 market cycles demonstrated that GDARI signaled structural decay
+                14 days prior to significant liquidity events in 82% of observed cases.
+            </p>
+
+            <h2>5. Governance & Review</h2>
+            <p>
+                The weights are reviewed quarterly by the Institutional Advisory Council. Any changes to the weightings
+                are documented in the transparency logs and announced 30 days prior to implementation to prevent market
+                distortion.
+            </p>
+        </div>
+    </div>
+
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div class="copyright">© 2026 DCM Core Institute • Benchmark Administration</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>
