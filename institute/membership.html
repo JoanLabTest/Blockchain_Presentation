@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="DCM Core Institute Institutional Membership Program. Join the global network of central banks, financial regulators, and academic partners."
+        name="description" />
+    <title>Institutional Membership | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../fr/styles.css" rel="stylesheet" />
+    <link href="../fr/styles-navigation.css" rel="stylesheet" />
+    <link href="../fr/styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --mem-gold: #c9a84c;
+            --mem-blue: #2563eb;
+            --mem-silver: #94a3b8;
+            --bg-dark: #020617;
+            --glass: rgba(15, 23, 42, 0.7);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: white;
+            padding-top: 70px;
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(201, 168, 76, 0.03), transparent 30%),
+                radial-gradient(circle at 100% 100%, rgba(37, 99, 235, 0.03), transparent 30%);
+        }
+
+        .membership-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        /* PRICING GRID */
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .tier-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--mem-gold);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .tier-card.featured {
+            border-color: var(--mem-blue);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .tier-card.featured::after {
+            content: 'Recommended';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--mem-blue);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .tier-icon {
+            font-size: 48px;
+            color: var(--mem-gold);
+        }
+
+        .tier-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .tier-desc {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        .tier-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tier-features li {
+            font-size: 14px;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tier-features i {
+            color: var(--mem-gold);
+            font-size: 14px;
+        }
+
+        .btn-join {
+            background: var(--mem-gold);
+            color: #1e293b;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: auto;
+            transition: all 0.3s;
+        }
+
+        .btn-join:hover {
+            background: white;
+            transform: scale(1.02);
+        }
+
+        .btn-join.outline {
+            background: none;
+            border: 1px solid var(--mem-gold);
+            color: var(--mem-gold);
+        }
+
+        /* PARTNERS SECTION */
+        .partners-bar {
+            text-align: center;
+            padding-top: 80px;
+            border-top: 1px solid var(--border);
+        }
+
+        .partners-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #475569;
+            margin-bottom: 40px;
+        }
+
+        .partners-logos {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+
+        .partners-logos span {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1024px) {
+            .tiers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <div class="nav-brand" style="cursor: pointer;" onclick="window.location.href='../fr/index.html'">
+            <div class="logo-orb"
+                style="width: 15px; height: 15px; background: #3b82f6; border-radius: 50%; display:inline-block; margin-right:8px;">
+            </div>
+            DCM <span style="font-weight: 300;">Core Institute</span>
+        </div>
+        <div class="nav-links">
+            <a href="governance.html" class="active">Institut</a>
+            <a href="../observatory/index.html">Observatoire</a>
+            <a href="../regulation-intelligence/index.html">Réglementation</a>
+            <a href="../journal/index.html">Journal</a>
+            <a href="../global-forum/index.html">Forum</a>
+            <a href="../indices/index.html">Indices</a>
+        </div>
+    </nav>
+
+    <div class="membership-container">
+        <header class="hero-section" data-aos="fade-down">
+            <h1 class="hero-title">Institutional Membership<br>Program</h1>
+            <p style="color: #94a3b8; font-size: 20px; max-width: 800px; margin: 0 auto; line-height: 1.6;">
+                Uniting global financial institutions, regulatory bodies, and academic research hubs to foster
+                a secure and interoperable digital asset ecosystem.
+            </p>
+        </header>
+
+        <div class="tiers-grid">
+            <!-- TIER 1: INSTITUTIONAL -->
+            <div class="tier-card" data-aos="fade-up">
+                <i class="fas fa-building tier-icon"></i>
+                <h2 class="tier-title">Institutional Member</h2>
+                <p class="tier-desc">Designed for banks, asset managers, and digital asset infrastructure providers
+                    seeking policy leadership.</p>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check-circle"></i> Policy Intelligence Briefs</li>
+                    <li><i class="fas fa-check-circle"></i> Standard API Data Access</li>
+                    <li><i class="fas fa-check-circle"></i> Annual Policy Forum Seat</li>
+                    <li><i class="fas fa-check-circle"></i> Compliance Checklists</li>
+                </ul>
+                <a href="#" class="btn-join outline">Inquire Membership</a>
+            </div>
+
+            <!-- TIER 2: RESEARCH -->
+            <div class="tier-card featured" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-microscope tier-icon" style="color: var(--mem-blue);"></i>
+                <h2 class="tier-title">Research Partner</h2>
+                <p class="tier-desc">For universities and think tanks focusing on financial stability and digital
+                    innovation.</p>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check-circle"></i> Granular Data API Access</li>
+                    <li><i class="fas fa-check-circle"></i> Joint Publication Program</li>
+                    <li><i class="fas fa-check-circle"></i> Research Grant Eligibility</li>
+                    <li><i class="fas fa-check-circle"></i> Academic Network Access</li>
+                </ul>
+                <a href="#" class="btn-join" style="background: var(--mem-blue); color: white;">Become a Partner</a>
+            </div>
+
+            <!-- TIER 3: STRATEGIC -->
+            <div class="tier-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-crown tier-icon"></i>
+                <h2 class="tier-title">Strategic Partner</h2>
+                <p class="tier-desc">Exclusive level for G20 regulatory bodies and central banking institutions.</p>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check-circle"></i> Advisory Board Participation</li>
+                    <li><i class="fas fa-check-circle"></i> Policy Drafting Roundtables</li>
+                    <li><i class="fas fa-check-circle"></i> Full On-Chain Data Stream</li>
+                    <li><i class="fas fa-check-circle"></i> Dedicated Policy Liaison</li>
+                </ul>
+                <a href="#" class="btn-join">Contact Secretariat</a>
+            </div>
+        </div>
+
+        <div class="partners-bar" data-aos="fade-up">
+            <h3 class="partners-title">Current Influence Network</h3>
+            <div class="partners-logos">
+                <span>MIT Media Lab</span>
+                <span>Oxford Finance</span>
+                <span>LSE Research</span>
+                <span>Global Digital Finance</span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div class="copyright">© 2026 DCM Core Institute • Secretariat</div>
+                <div class="legal-links">
+                    <a href="methodology.html">Methodology</a>
+                    <a href="transparency.html">Transparency</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>

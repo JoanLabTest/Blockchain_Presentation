@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Access the DCM Core Institute official research repository. Featuring Working Papers (No. series), Policy Recommendations, and Technical Infrastructure papers."
+        name="description" />
+    <title>Research Papers | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../fr/styles.css" rel="stylesheet" />
+    <link href="../fr/styles-navigation.css" rel="stylesheet" />
+    <link href="../fr/styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --res-blue: #3b82f6;
+            --res-gold: #c9a84c;
+            --bg-dark: #020617;
+            --glass: rgba(15, 23, 42, 0.4);
+            --border: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            padding-top: 80px;
+        }
+
+        .res-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .header-box {
+            margin-bottom: 60px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .paper-filter {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: #94a3b8;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            border-color: var(--res-blue);
+            color: white;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* PAPER LIST */
+        .paper-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: 120px 1fr 150px;
+            align-items: center;
+            gap: 30px;
+            transition: all 0.3s;
+        }
+
+        .paper-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        .paper-no {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--res-gold);
+            font-weight: 700;
+        }
+
+        .paper-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .paper-authors {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .paper-meta {
+            text-align: right;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        .paper-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-top: 10px;
+        }
+
+        .tag-working {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--res-blue);
+        }
+
+        .tag-policy {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .tag-technical {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+
+        .btn-download {
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 800px) {
+            .paper-card {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                text-align: left;
+            }
+
+            .paper-meta {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <div class="nav-brand" style="cursor: pointer;" onclick="window.location.href='../fr/index.html'">
+            DCM <span style="font-weight: 300;">Core Institute</span>
+        </div>
+        <div class="nav-links">
+            <a href="../about/index.html">About</a>
+            <a href="index.html" class="active">Research</a>
+            <a href="../data/index.html">Data</a>
+        </div>
+    </nav>
+
+    <div class="res-container">
+        <header class="header-box" data-aos="fade-up">
+            <h1>Research Repository</h1>
+            <p style="color:#94a3b8; max-width: 700px;">
+                Explore our official publications, from high-level policy recommendations to deep technical
+                specifications
+                and academic working papers.
+            </p>
+        </header>
+
+        <div class="paper-filter" data-aos="fade-up">
+            <button class="filter-btn active">All Publications</button>
+            <button class="filter-btn">Working Papers</button>
+            <button class="filter-btn">Policy Papers</button>
+            <button class="filter-btn">Technical Reports</button>
+        </div>
+
+        <div class="paper-list">
+            <!-- DCM WP No. 02 -->
+            <div class="paper-card" data-aos="fade-up">
+                <div class="paper-no">DCM WP No. 02</div>
+                <div>
+                    <a href="#" class="paper-title">Systemic Fragility in Cross-Border Tokenized Settlements</a>
+                    <span class="paper-authors">Lyczak, J., Chen, W., & Dupont, M.</span>
+                    <br>
+                    <span class="paper-tag tag-working">Working Paper</span>
+                </div>
+                <div class="paper-meta">
+                    <div>March 2026</div>
+                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- DCM WP No. 01 -->
+            <div class="paper-card" data-aos="fade-up">
+                <div class="paper-no">DCM WP No. 01</div>
+                <div>
+                    <a href="#" class="paper-title">Liquidity Stress Models for Algorithmic Stablecoins</a>
+                    <span class="paper-authors">Institute Research Council</span>
+                    <br>
+                    <span class="paper-tag tag-working">Working Paper</span>
+                </div>
+                <div class="paper-meta">
+                    <div>Jan 2026</div>
+                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Policy Paper -->
+            <div class="paper-card" data-aos="fade-up">
+                <div class="paper-no">POLICY-2026-03</div>
+                <div>
+                    <a href="#" class="paper-title">Implementing MiCA Title IV: Best Practices for CASPs</a>
+                    <span class="paper-authors">Regulatory Affairs Unit</span>
+                    <br>
+                    <span class="paper-tag tag-policy">Policy Paper</span>
+                </div>
+                <div class="paper-meta">
+                    <div>Feb 2026</div>
+                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Technical Paper -->
+            <div class="paper-card" data-aos="fade-up">
+                <div class="paper-no">TECH-SPEC-08</div>
+                <div>
+                    <a href="#" class="paper-title">DORA Operational Resilience: A Technical Framework</a>
+                    <span class="paper-authors">Infrastructure Resilience Lab</span>
+                    <br>
+                    <span class="paper-tag tag-technical">Technical Paper</span>
+                </div>
+                <div class="paper-meta">
+                    <div>Dec 2025</div>
+                    <a href="#" class="btn-download"><i class="fas fa-file-pdf"></i> Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div class="copyright">© 2026 DCM Core Institute • Research Repository</div>
+                <div class="legal-links">
+                    <a href="../about/transparency.html">Transparency</a>
+                    <a href="../about/methodology.html">Methodology</a>
+                    <a href="#">Submission Guidelines</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>

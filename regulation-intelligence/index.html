@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Global Digital Asset Regulation Intelligence. Monitor MiCA, DORA, and international regulatory frameworks for institutional digital finance."
+        name="description" />
+    <title>Regulation Intelligence | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../fr/styles.css" rel="stylesheet" />
+    <link href="../fr/styles-navigation.css" rel="stylesheet" />
+    <link href="../fr/styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --reg-gold: #c9a84c;
+            --reg-blue: #3b82f6;
+            --bg-dark: #020617;
+            --glass: rgba(15, 23, 42, 0.7);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: white;
+            padding-top: 70px;
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(201, 168, 76, 0.05), transparent 30%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.05), transparent 30%);
+        }
+
+        .reg-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 80px;
+            padding: 40px 0;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--reg-gold);
+            background: rgba(201, 168, 76, 0.1);
+            color: var(--reg-gold);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #94a3b8;
+            max-width: 850px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* GRID LAYOUT */
+        .reg-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .reg-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .reg-card:hover {
+            border-color: var(--reg-gold);
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        .card-icon {
+            font-size: 32px;
+            color: var(--reg-gold);
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-link {
+            color: var(--reg-gold);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* MAP/TABLE MOCK */
+        .table-section {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 80px;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .reg-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .reg-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            color: #475569;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reg-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .st-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .st-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        @media (max-width: 1024px) {
+            .reg-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <div class="nav-brand" style="cursor: pointer;" onclick="window.location.href='../fr/index.html'">
+            DCM <span style="font-weight: 300;">Core Institute</span>
+        </div>
+        <div class="nav-links">
+            <a href="../fr/index.html">Platform</a>
+            <a href="../institute/governance.html">Institute</a>
+            <a href="../observatory/index.html">Observatory</a>
+            <a href="../regulation-intelligence/index.html" class="active">Regulation</a>
+            <a href="../journal/index.html">Journal</a>
+            <a href="../global-forum/index.html">Forum</a>
+            <a href="../indices/index.html">Indices</a>
+        </div>
+    </nav>
+
+    <div class="reg-container">
+        <header class="hero-section" data-aos="fade-down">
+            <div class="hero-tag"><i class="fas fa-balance-scale"></i> Regulation Intelligence</div>
+            <h1 class="hero-title">Global Digital Asset<br>Regulation Intelligence</h1>
+            <p class="hero-subtitle">
+                The Institute's primary hub for monitoring legislative shifts, cross-jurisdictional compliance
+                frameworks, and the institutional implementation of MiCA and DORA.
+            </p>
+        </header>
+
+        <div class="reg-grid">
+            <div class="reg-card" data-aos="fade-up">
+                <i class="fas fa-euro-sign card-icon"></i>
+                <h2 class="card-title">MiCA Navigator</h2>
+                <p class="card-desc">Comprehensive brief on Markets in Crypto-Assets implementation. Tier-1 analysis of
+                    Stablecoin vs CASP requirements.</p>
+                <a href="policy-library.html" class="card-link">Access MiCA Brief <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="reg-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-shield-virus card-icon"></i>
+                <h2 class="card-title">DORA Compliance</h2>
+                <p class="card-desc">Operational resilience standards for digital finance. Technical monitoring of ICT
+                    risk and third-party oversight.</p>
+                <a href="policy-library.html" class="card-link">Access DORA Matrix <i
+                        class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="reg-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-globe-americas card-icon"></i>
+                <h2 class="card-title">Global Watch</h2>
+                <p class="card-desc">Monitoring regulatory shifts in APAC, UK, and the Americas. Comparative analysis of
+                    institutional licensing.</p>
+                <a href="policy-map.html" class="card-link">View Global Map <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <section class="table-section" data-aos="fade-up">
+            <div class="table-header">
+                <h3 class="card-title" style="margin:0;">Jurisdictional Comparison Matrix</h3>
+                <span style="font-family: var(--font-mono); font-size: 11px; color: #475569;">Updated: Mar 2026</span>
+            </div>
+            <table class="reg-table">
+                <thead>
+                    <tr>
+                        <th>Jurisdiction</th>
+                        <th>Framework</th>
+                        <th>Stablecoin Status</th>
+                        <th>Exchange Licensing</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>European Union</strong></td>
+                        <td>MiCA / DORA</td>
+                        <td><span class="status-badge st-active">In Force</span></td>
+                        <td>Passportable (27 States)</td>
+                        <td><a href="#" style="color: var(--reg-blue);">Brief <i
+                                    class="fas fa-external-link-alt"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>United Kingdom</strong></td>
+                        <td>FSMA 2023</td>
+                        <td><span class="status-badge st-pending">Phasing In</span></td>
+                        <td>FCA Authorization Req.</td>
+                        <td><a href="#" style="color: var(--reg-blue);">Brief <i
+                                    class="fas fa-external-link-alt"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hong Kong</strong></td>
+                        <td>VASP Regime</td>
+                        <td><span class="status-badge st-active">Live</span></td>
+                        <td>SFC Regulated (Exchange)</td>
+                        <td><a href="#" style="color: var(--reg-blue);">Brief <i
+                                    class="fas fa-external-link-alt"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div class="copyright">© 2026 DCM Core Institute • Policy Intelligence Branch</div>
+                <div class="legal-links">
+                    <a href="../institute/methodology.html">Methodology</a>
+                    <a href="../institute/transparency.html">Transparency</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>

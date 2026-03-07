@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="DCM Core Institute Institutional Data API documentation. Access real-time digital asset risk indicators, liquidity metrics, and jurisdictional data."
+        name="description" />
+    <title>Institutional Data API | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../fr/styles.css" rel="stylesheet" />
+    <link href="../fr/styles-navigation.css" rel="stylesheet" />
+    <link href="../fr/styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --api-accent: #3b82f6;
+            --api-bg: #020617;
+            --code-bg: #0f172a;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--api-bg);
+            font-family: 'Inter', sans-serif;
+            color: white;
+            padding-top: 70px;
+        }
+
+        .api-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+        }
+
+        /* SIDE NAV */
+        .api-nav {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .api-nav h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #475569;
+            margin-bottom: 20px;
+        }
+
+        .nav-group {
+            margin-bottom: 30px;
+        }
+
+        .nav-item {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--api-accent);
+        }
+
+        /* CONTENT */
+        .api-content {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 50px;
+        }
+
+        .endpoint-card {
+            margin-bottom: 80px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 60px;
+        }
+
+        .endpoint-card:last-child {
+            border-bottom: none;
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 800;
+            background: var(--api-accent);
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .endpoint-path {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            background: var(--code-bg);
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .endpoint-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .endpoint-desc {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* CODE EXAMPLE */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #94a3b8;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-header {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--api-accent);
+            color: white;
+            padding: 4px 12px;
+            font-size: 10px;
+            border-radius: 0 12px 0 12px;
+        }
+
+        .json-key {
+            color: #60a5fa;
+        }
+
+        .json-val {
+            color: #10b981;
+        }
+
+        /* ACCESS TABLE */
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+
+        .param-table th {
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            padding: 10px;
+            color: #475569;
+        }
+
+        .param-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        @media (max-width: 1024px) {
+            .api-container {
+                grid-template-columns: 1fr;
+            }
+
+            .api-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <div class="nav-brand" style="cursor: pointer;" onclick="window.location.href='../fr/index.html'">
+            DCM <span style="font-weight: 300;">Core Institute</span>
+        </div>
+        <div class="nav-links">
+            <a href="../about/index.html">Institute</a>
+            <a href="../research-papers/index.html">Research</a>
+            <a href="../data/index.html">Data</a>
+            <a href="index.html" class="active">API</a>
+            <a href="../regulation-tracker/index.html">Regulation</a>
+        </div>
+    </nav>
+
+    <div class="api-container">
+        <aside class="api-nav" data-aos="fade-right">
+            <div class="nav-group">
+                <h3>Introduction</h3>
+                <a href="#auth" class="nav-item">Authentication</a>
+                <a href="#rate" class="nav-item">Rate Limiting</a>
+            </div>
+            <div class="nav-group">
+                <h3>Risk Indicators</h3>
+                <a href="#liquidity" class="nav-item">Liquidity Index</a>
+                <a href="#stablecoin" class="nav-item">Stablecoin Reserves</a>
+                <a href="#concentration" class="nav-item">Exchange Concentration</a>
+            </div>
+            <div class="nav-group">
+                <h3>Jurisdiction API</h3>
+                <a href="#policy" class="nav-item">Regulatory Status</a>
+                <a href="#licensing" class="nav-item">License Requirements</a>
+            </div>
+        </aside>
+
+        <main class="api-content" data-aos="fade-up">
+            <header style="margin-bottom: 60px;">
+                <h1 style="font-family: 'Outfit', sans-serif; font-size: 48px; font-weight: 800; margin-bottom: 20px;">
+                    Institutional Data API</h1>
+                <p style="color: #94a3b8; font-size: 18px; line-height: 1.6;">Access real-time digital asset risk
+                    indicators, liquidity metrics, and jurisdictional policy data for institutional reporting and
+                    algorithmic risk management.</p>
+
+                <div
+                    style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--api-accent); padding: 25px; border-radius: 8px; margin-top: 30px;">
+                    <h4 style="color: var(--api-accent); margin-bottom: 10px;"><i class="fas fa-key"></i> Key Request
+                        Required</h4>
+                    <p style="font-size: 14px; color: #cbd5e1; margin: 0;">Institutional access requires a static API
+                        key provided through the DCM Core Membership Portal. Public endpoints are rate-limited to 60
+                        req/min.</p>
+                </div>
+            </header>
+
+            <!-- ENDPOINT: LIQUIDITY -->
+            <section id="liquidity" class="endpoint-card">
+                <span class="method-badge">GET</span>
+                <div class="endpoint-path">/v1/risk/liquidity-stress</div>
+                <h2 class="endpoint-title">Liquidity Stress Index</h2>
+                <p class="endpoint-desc">Returns the real-time composite liquidity stress score across Tier-1 CEX
+                    orderbooks and major DEX pools.</p>
+
+                <h3>Parameters</h3>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>asset</strong></td>
+                            <td>string</td>
+                            <td>The asset ticker (e.g., BTC, ETH, USDC).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>depth</strong></td>
+                            <td>float</td>
+                            <td>Orderbook depth % (default 2.0).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-header">JSON RESPONSE</div>
+                    {<br>
+                    &nbsp;&nbsp;<span class="json-key">"status"</span>: <span class="json-val">"success"</span>,<br>
+                    &nbsp;&nbsp;<span class="json-key">"data"</span>: {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"score"</span>: <span
+                        class="json-val">42.85</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"trend"</span>: <span
+                        class="json-val">"increasing"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"last_update"</span>: <span
+                        class="json-val">"2026-03-07T21:00:00Z"</span><br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+            </section>
+
+            <!-- ENDPOINT: STABLECOIN -->
+            <section id="stablecoin" class="endpoint-card">
+                <span class="method-badge">GET</span>
+                <div class="endpoint-path">/v1/risk/stablecoin-reserves</div>
+                <h2 class="endpoint-title">Stablecoin Reserve Transparency</h2>
+                <p class="endpoint-desc">Real-time monitoring of fiat-backed stablecoin collateralization ratios and
+                    audit trail status.</p>
+
+                <div class="code-block">
+                    <div class="code-header">JSON RESPONSE</div>
+                    {<br>
+                    &nbsp;&nbsp;<span class="json-key">"issuer"</span>: <span class="json-val">"Circle"</span>,<br>
+                    &nbsp;&nbsp;<span class="json-key">"asset"</span>: <span class="json-val">"USDC"</span>,<br>
+                    &nbsp;&nbsp;<span class="json-key">"collateral_ratio"</span>: <span
+                        class="json-val">1.02</span>,<br>
+                    &nbsp;&nbsp;<span class="json-key">"attestation_status"</span>: <span
+                        class="json-val">"current"</span><br>
+                    }
+                </div>
+            </section>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="color: #475569; font-size: 14px; margin-bottom: 25px;">Need full access to the data stream?
+                </p>
+                <a href="../institute/membership.html" class="hub-btn-premium">Request Institutional API Key</a>
+            </div>
+        </main>
+    </div>
+
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div class="copyright">© 2026 DCM Core Institute • API Documentation v5.2</div>
+                <div class="legal-links">
+                    <a href="../institute/methodology.html">Methodology</a>
+                    <a href="../institute/transparency.html">Transparency</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>

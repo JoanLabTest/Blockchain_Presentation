@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Institutional Data & Risk Indices. Access proprietary benchmarks for systemic crypto risk, liquidity stress, and digital finance stability."
+        name="description" />
+    <title>Institutional Indices | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../fr/styles.css" rel="stylesheet" />
+    <link href="../fr/styles-navigation.css" rel="stylesheet" />
+    <link href="../fr/styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --idx-blue: #3b82f6;
+            --idx-gold: #c9a84c;
+            --idx-red: #ef4444;
+            --bg-dark: #020617;
+            --glass: rgba(15, 23, 42, 0.7);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: white;
+            padding-top: 70px;
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.05), transparent 40%),
+                radial-gradient(circle at 100% 0%, rgba(201, 168, 76, 0.05), transparent 40%);
+        }
+
+        .idx-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--idx-gold);
+            background: rgba(201, 168, 76, 0.1);
+            color: var(--idx-gold);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 19px;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* INDEX DASHBOARD */
+        .idx-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .idx-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .idx-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .idx-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .idx-change {
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .up {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .down {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .idx-chart-mock {
+            height: 120px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            margin: 30px 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            padding: 10px;
+            gap: 5px;
+        }
+
+        .bar {
+            flex-grow: 1;
+            background: var(--idx-blue);
+            opacity: 0.3;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .idx-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        /* TERMINAL STYLE DATA LIST */
+        .data-list {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 80px;
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+        }
+
+        .data-item:last-child {
+            border: none;
+        }
+
+        @media (max-width: 900px) {
+            .idx-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <div class="nav-brand" style="cursor: pointer;" onclick="window.location.href='../fr/index.html'">
+            DCM <span style="font-weight: 300;">Core Institute</span>
+        </div>
+        <div class="nav-links">
+            <a href="../institute/governance.html">Institute</a>
+            <a href="../observatory/index.html">Observatory</a>
+            <a href="../regulation-intelligence/index.html">Regulation</a>
+            <a href="../journal/index.html">Journal</a>
+            <a href="../global-forum/index.html">Forum</a>
+            <a href="index.html" class="active">Indices</a>
+        </div>
+    </nav>
+
+    <div class="idx-container">
+        <header class="hero-section" data-aos="fade-down">
+            <div class="hero-tag"><i class="fas fa-chart-line"></i> Institutional Benchmarks</div>
+            <h1 class="hero-title">Core Risk & Data Indices</h1>
+            <p class="hero-subtitle">
+                Proprietary benchmarks designed for central banks and financial institutions to monitor the structural
+                health of the digital asset markets.
+            </p>
+        </header>
+
+        <div class="idx-grid">
+            <!-- GDARI -->
+            <div class="idx-card" data-aos="fade-right">
+                <div class="idx-header">
+                    <div>
+                        <h3 style="margin:0; font-family:'Outfit'; font-size:18px;">GDARI</h3>
+                        <span style="font-size:11px; color:#475569;">Systemic Risk Index</span>
+                    </div>
+                    <span class="idx-change up"><i class="fas fa-caret-up"></i> 2.4%</span>
+                </div>
+                <div class="idx-value" style="color: var(--idx-red);">64.8</div>
+                <div class="idx-chart-mock">
+                    <div class="bar" style="height:30%"></div>
+                    <div class="bar" style="height:45%"></div>
+                    <div class="bar" style="height:60%"></div>
+                    <div class="bar" style="height:55%"></div>
+                    <div class="bar" style="height:80%"></div>
+                    <div class="bar" style="height:70%"></div>
+                    <div class="bar" style="height:90%"></div>
+                </div>
+                <div class="idx-footer">
+                    <span style="color:#94a3b8;">Status: <strong
+                            style="color:var(--idx-red);">HEIGHTENED</strong></span>
+                    <a href="../institute/methodology.html"
+                        style="color:var(--idx-blue); text-decoration:none;">Methodology <i
+                            class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <!-- LSI -->
+            <div class="idx-card" data-aos="fade-left">
+                <div class="idx-header">
+                    <div>
+                        <h3 style="margin:0; font-family:'Outfit'; font-size:18px;">LSI</h3>
+                        <span style="font-size:11px; color:#475569;">Liquidity Stress Index</span>
+                    </div>
+                    <span class="idx-change down"><i class="fas fa-caret-down"></i> 1.2%</span>
+                </div>
+                <div class="idx-value" style="color: var(--idx-gold);">42.3</div>
+                <div class="idx-chart-mock">
+                    <div class="bar" style="height:60%; background:var(--idx-gold);"></div>
+                    <div class="bar" style="height:50%; background:var(--idx-gold);"></div>
+                    <div class="bar" style="height:40%; background:var(--idx-gold);"></div>
+                    <div class="bar" style="height:45%; background:var(--idx-gold);"></div>
+                    <div class="bar" style="height:35%; background:var(--idx-gold);"></div>
+                    <div class="bar" style="height:30%; background:var(--idx-gold);"></div>
+                    <div class="bar" style="height:42%; background:var(--idx-gold);"></div>
+                </div>
+                <div class="idx-footer">
+                    <span style="color:#94a3b8;">Status: <strong style="color:var(--idx-gold);">MODERATE</strong></span>
+                    <a href="#" style="color:var(--idx-blue); text-decoration:none;">Access Dataset <i
+                            class="fas fa-database"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-list" data-aos="fade-up">
+            <h3 style="font-family:'Outfit'; font-size:16px; margin-bottom:20px; color:var(--idx-blue);">Live
+                Infrastructure Metrics</h3>
+            <div class="data-item">
+                <span style="color:#475569;">Settlement Finality Confidence</span>
+                <span style="color:#10b981;">99.98%</span>
+            </div>
+            <div class="data-item">
+                <span style="color:#475569;">Cross-Chain Liquidity Fragility</span>
+                <span style="color:var(--idx-red);">72.4</span>
+            </div>
+            <div class="data-item">
+                <span style="color:#475569;">Smart Contract Audit Density</span>
+                <span style="color:var(--idx-gold);">Moderate</span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div class="copyright">© 2026 DCM Core Institute • Indices Research Unit</div>
+                <div class="legal-links">
+                    <a href="../institute/methodology.html">Methodology</a>
+                    <a href="../institute/transparency.html">Transparency</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>

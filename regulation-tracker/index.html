@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-        content="DCM Core Suivi de la Réglementation Mondiale des Actifs Numériques. Base de données complète et cartographie des cadres de crypto-actifs à travers le monde, incluant MiCA, DORA et les réglementations APAC."
+        content="Track global digital asset legislation in real-time. Monitoring MiCA, FIT21, and evolving regulatory frameworks across jurisdictions."
         name="description" />
-    <title>Suivi Réglementaire Mondial | DCM Core</title>
+    <title>Regulation Tracker | DCM Core Institute</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
@@ -19,7 +19,7 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
 
-    <!-- AOS (Animate On Scroll) -->
+    <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
     <!-- Stylesheets -->
@@ -29,618 +29,252 @@
 
     <style>
         :root {
+            --reg-accent: #10b981;
             --bg-dark: #020617;
-            --bg-card: rgba(15, 23, 42, 0.7);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-
-            --accent-blue: #3b82f6;
-            --accent-gold: #c9a84c;
-            --accent-green: #10b981;
-            --accent-purple: #a855f7;
-            --accent-orange: #f97316;
-            --accent-red: #ef4444;
+            --glass: rgba(15, 23, 42, 0.4);
+            --border: rgba(255, 255, 255, 0.05);
         }
 
         body {
             background-color: var(--bg-dark);
             font-family: 'Inter', sans-serif;
-            color: var(--text-main);
-            overflow-x: hidden;
-            background-image:
-                radial-gradient(ellipse at top center, rgba(59, 130, 246, 0.05) 0%, transparent 60%);
-            padding-top: 70px;
-            /* Navbar spacing */
+            color: #f8fafc;
+            padding-top: 80px;
         }
 
-        /* HERO SECTION */
-        .tracker-hero {
-            padding: 100px 20px 60px;
+        .reg-container {
             max-width: 1200px;
             margin: 0 auto;
-            text-align: center;
+            padding: 60px 20px;
         }
 
-        .hero-tag {
-            display: inline-flex;
+        .header-box {
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(201, 168, 76, 0.1);
-            border: 1px solid rgba(201, 168, 76, 0.3);
-            border-radius: 50px;
-            color: var(--accent-gold);
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 25px;
         }
 
-        .hero-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 56px;
+        h1 {
+            font-family: 'Outfit';
+            font-size: 48px;
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 25px;
-            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin: 0;
         }
 
-        .hero-subtitle {
-            font-size: 18px;
-            color: var(--text-muted);
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* MAIN DASHBOARD */
-        .tracker-dashboard {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px 100px;
-        }
-
-        /* MAP VISUALIZATION BOX */
-        .map-section {
-            background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
+        /* TRACKER GRID */
+        .tracker-board {
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 40px;
-            align-items: center;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
         }
 
-        @media (max-width: 1024px) {
-            .map-section {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .map-info h2 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: white;
-        }
-
-        .map-info p {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 30px;
-            font-size: 15px;
-        }
-
-        .status-legend {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-
-        .l-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .l-comprehensive {
-            background: var(--accent-green);
-            box-shadow: 0 0 10px var(--accent-green);
-        }
-
-        .l-developing {
-            background: var(--accent-blue);
-            box-shadow: 0 0 10px var(--accent-blue);
-        }
-
-        .l-fragmented {
-            background: var(--accent-orange);
-            box-shadow: 0 0 10px var(--accent-orange);
-        }
-
-        .l-restrictive {
-            background: var(--accent-red);
-            box-shadow: 0 0 10px var(--accent-red);
-        }
-
-        .map-graphic {
-            height: 350px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400"><rect width="800" height="400" fill="%230f172a" rx="12"/><path d="M 150 150 Q 200 100 250 150 T 350 120 T 450 180 T 550 130 T 650 160" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/><circle cx="450" cy="120" r="15" fill="%2310b981" opacity="0.8"/><text x="450" y="100" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">EU (MiCA)</text><circle cx="200" cy="180" r="18" fill="%23f97316" opacity="0.8"/><text x="200" y="155" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">USA</text><circle cx="650" cy="160" r="14" fill="%233b82f6" opacity="0.8"/><text x="650" y="140" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">APAC</text><circle cx="420" cy="220" r="10" fill="%233b82f6" opacity="0.8"/><text x="420" y="245" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">MENA</text><circle cx="380" cy="140" r="12" fill="%2310b981" opacity="0.8"/><text x="380" y="120" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">UK</text></svg>') no-repeat center center;
-            background-size: cover;
+        .tracker-section {
+            background: var(--glass);
+            border: 1px solid var(--border);
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
         }
 
-        /* FILTER TABS */
-        .filter-tabs {
+        .tracker-header {
+            font-family: 'Outfit';
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 25px;
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            overflow-x: auto;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
             padding-bottom: 15px;
         }
 
-        .filter-btn {
-            padding: 10px 24px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            color: #cbd5e1;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .filter-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
-        }
-
-        .filter-btn.active {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-            color: white;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
-        }
-
-        /* DATA TABLE SECTION */
-        .table-container {
-            background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        .data-table th {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 20px 25px;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #94a3b8;
-            font-weight: 700;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            white-space: nowrap;
-        }
-
-        .data-table td {
-            padding: 24px 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            vertical-align: top;
-        }
-
-        .data-table tr:hover td {
+        .leg-item {
             background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            position: relative;
         }
 
-        /* Cell Styling */
-        .cell-region {
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .leg-item:hover {
+            border-color: var(--reg-accent);
+            background: rgba(16, 185, 129, 0.03);
         }
 
-        .cell-regulator {
-            font-weight: 600;
-            color: #e2e8f0;
-            font-size: 14px;
+        .leg-jurisdiction {
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #64748b;
+            letter-spacing: 1px;
             margin-bottom: 5px;
+            display: block;
         }
 
-        .cell-framework {
-            font-size: 13px;
-            color: var(--text-muted);
+        .leg-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: white;
+            margin-bottom: 10px;
+            display: block;
         }
 
-        .badge-status {
+        .leg-status {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 4px 10px;
-            border-radius: 6px;
             font-size: 11px;
             font-weight: 700;
-            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
         }
 
-        .badge-live {
+        .status-active {
             background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-green);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #10b981;
         }
 
-        .badge-draft {
+        .status-draft {
             background: rgba(59, 130, 246, 0.1);
-            color: var(--accent-blue);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
         }
 
-        .badge-fragmented {
-            background: rgba(249, 115, 22, 0.1);
-            color: var(--accent-orange);
-            border: 1px solid rgba(249, 115, 22, 0.2);
+        .status-vote {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
         }
 
-        .btn-doc {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: white;
-            text-decoration: none;
-            transition: all 0.2s;
+        .update-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--reg-accent);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--reg-accent);
         }
 
-        .btn-doc:hover {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-            transform: translateY(-2px);
+        @media (max-width: 900px) {
+            .tracker-board {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
-    <!-- STANDARD NAVBAR -->
     <nav class="navbar-pro">
-        <div class="header-logo" style="cursor: pointer;" onclick="window.location.href='../en/index.html'">
-            <div class="logo-orb"
-                style="width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); border-radius: 50%; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);">
-            </div>
-            <span class="logo-text"
-                style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 22px; color: white; margin-left:12px;">DCM
-                <span style="font-weight: 300;">Core</span></span>
+        <div class="nav-brand" style="cursor: pointer;" onclick="window.location.href='../fr/index.html'">
+            DCM <span style="font-weight: 300;">Core Institute</span>
         </div>
-
-        <div class="nav-links" style="display: flex; align-items: center; gap: 25px;">
-            <a href="../en/index.html"
-                style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Accueil</a>
-            <a href="../data/index.html"
-                style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Centre
-                de Données</a>
-            <a href="index.html"
-                style="color:var(--accent-blue); text-decoration:none; font-weight:600; font-size:13px; opacity: 1; transition: opacity 0.2s;">Suivi
-                Réglementaire</a>
-            <a href="../events/index.html"
-                style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Événements</a>
-            <a href="../media/newsletter.html"
-                style="color:#c9a84c; text-decoration:none; font-weight:700; font-size:13px; opacity: 1; transition: opacity 0.2s;"><i
-                    class="fas fa-paper-plane"></i> Newsletter</a>
-        </div>
-
-        <div class="nav-actions" style="display: flex; align-items: center; gap: 20px;">
-            <a href="../publications/index.html"
-                style="color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 600;">Bibliothèque</a>
+        <div class="nav-links">
+            <a href="../regulation-intelligence/index.html">Intelligence</a>
+            <a href="index.html" class="active">Tracker</a>
+            <a href="../policy-library/index.html">Library</a>
         </div>
     </nav>
 
-    <!-- HERO -->
-    <section class="tracker-hero" data-aos="fade-down">
-        <div class="hero-tag"><i class="fas fa-globe"></i> Cartographies Politiques Transfrontalières</div>
-        <h1 class="hero-title">Suivi Réglementaire Mondial</h1>
-        <p class="hero-subtitle">La base de données la plus exhaustive cartographiant les cadres institutionnels des
-            actifs numériques, les régimes de licence et la préparation à la tokenisation dans les principales
-            juridictions.</p>
-    </section>
+    <div class="reg-container">
+        <header class="header-box" data-aos="fade-up">
+            <div>
+                <h1 style="letter-spacing:-1px;">Regulation Tracker</h1>
+                <p style="color:#94a3b8; font-size:16px; margin-top:10px;">Monitoring 42+ legislative frameworks
+                    globally.</p>
+            </div>
+            <div style="text-align:right;">
+                <span class="leg-status status-active" style="padding:10px 20px;">
+                    <span class="update-dot"></span> LIVE UPDATES (UTC+1)
+                </span>
+            </div>
+        </header>
 
-    <!-- DASHBOARD SECTION -->
-    <section class="tracker-dashboard">
+        <div class="tracker-board">
+            <!-- Major Frameworks -->
+            <section class="tracker-section" data-aos="fade-right">
+                <div class="tracker-header">
+                    <span>Critical Frameworks</span>
+                    <i class="fas fa-landmark" style="color:#475569;"></i>
+                </div>
 
-        <!-- Interactive Map Overview -->
-        <div class="map-section" data-aos="fade-up" data-aos-delay="100">
-            <div class="map-info">
-                <h2>Matrice de Préparation Réglementaire</h2>
-                <p>Suivre l'évolution des régimes spécifiques aux actifs numériques par rapport à l'application de la
-                    loi financière traditionnelle. L'UE mène avec des cadres complets et sur mesure, tandis que d'autres
-                    régions poursuivent des licences spécialisées ou des orientations fragmentées.</p>
-
-                <div class="status-legend">
-                    <div class="legend-item">
-                        <span class="l-dot l-comprehensive"></span> Cadre Complet (ex: MiCA)
-                    </div>
-                    <div class="legend-item">
-                        <span class="l-dot l-developing"></span> Régime Spécifique en Développement (ex: UK, HK)
-                    </div>
-                    <div class="legend-item">
-                        <span class="l-dot l-fragmented"></span> Fragmenté / Par Application (ex: USA)
-                    </div>
-                    <div class="legend-item">
-                        <span class="l-dot l-restrictive"></span> Hautement Restrictif / Interdit
+                <div class="leg-item">
+                    <span class="leg-jurisdiction">European Union</span>
+                    <span class="leg-title">MiCA (Markets in Crypto-Assets)</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="leg-status status-active">In Force</span>
+                        <span style="font-size:12px; color:#475569;">Updated: 2h ago</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="map-graphic"></div>
+                <div class="leg-item">
+                    <span class="leg-jurisdiction">United States</span>
+                    <span class="leg-title">FIT21 (Financial Innovation Act)</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="leg-status status-vote">In Senate Committee</span>
+                        <span style="font-size:12px; color:#475569;">Updated: 1d ago</span>
+                    </div>
+                </div>
+
+                <div class="leg-item">
+                    <span class="leg-jurisdiction">United Kingdom</span>
+                    <span class="leg-title">Digital Asset Property Bill</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="leg-status status-draft">Drafting Phase</span>
+                        <span style="font-size:12px; color:#475569;">Updated: 3d ago</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="tracker-section" data-aos="fade-left">
+                <div class="tracker-header">
+                    <span>Global Feed</span>
+                    <i class="fas fa-rss" style="color:#475569;"></i>
+                </div>
+
+                <div class="leg-item">
+                    <span class="leg-jurisdiction">Hong Kong</span>
+                    <span class="leg-title">Stablecoin Issuer Sandbox Launch</span>
+                    <p style="font-size:13px; color:#94a3b8; margin:10px 0;">HKMA issues new guidelines for licensed
+                        stablecoin issuers.</p>
+                    <span style="font-size:11px; color:#475569;">March 07, 2026</span>
+                </div>
+
+                <div class="leg-item">
+                    <span class="leg-jurisdiction">Singapore</span>
+                    <span class="leg-title">MAS Liquidity Guidelines v2</span>
+                    <p style="font-size:13px; color:#94a3b8; margin:10px 0;">New capital requirements for digital asset
+                        custodians.</p>
+                    <span style="font-size:11px; color:#475569;">March 06, 2026</span>
+                </div>
+
+                <div class="leg-item">
+                    <span class="leg-jurisdiction">MENA (UAE)</span>
+                    <span class="leg-title">VARA Market Conduct Rules</span>
+                    <p style="font-size:13px; color:#94a3b8; margin:10px 0;">Revised enforcement protocols for virtual
+                        asset marketing.</p>
+                    <span style="font-size:11px; color:#475569;">March 05, 2026</span>
+                </div>
+            </section>
         </div>
+    </div>
 
-        <!-- Filters -->
-        <div class="filter-tabs" data-aos="fade-up" data-aos-delay="200">
-            <button class="filter-btn active">Vue Globale</button>
-            <button class="filter-btn">Union Européenne</button>
-            <button class="filter-btn">Amérique du Nord</button>
-            <button class="filter-btn">Royaume-Uni</button>
-            <button class="filter-btn">APAC</button>
-            <button class="filter-btn">Moyen-Orient (MENA)</button>
-        </div>
-
-        <!-- Data Table -->
-        <div class="table-container" data-aos="fade-up" data-aos-delay="300">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th style="width: 20%;">Juridiction</th>
-                        <th style="width: 25%;">Régulateur(s) Principal(aux)</th>
-                        <th style="width: 20%;">Régime de Licence</th>
-                        <th style="width: 15%;">Politique Stablecoins</th>
-                        <th style="width: 10%;">Statut</th>
-                        <th style="width: 10%; text-align: center;">Brief</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- EU -->
-                    <tr>
-                        <td>
-                            <div class="cell-region"><i class="fas fa-star"
-                                    style="color:var(--accent-gold); font-size: 12px;"></i> Union Européenne</div>
-                        </td>
-                        <td>
-                            <div class="cell-regulator">ESMA, EBA, ANC Nationales (AMF, BaFin)</div>
-                            <div class="cell-framework">MiCA, DORA, DLT Pilot Regime</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">Licence CASP
-                            </div>
-                            <div style="font-size:12px; color:#94a3b8;">Passeportable sur 27 États Membres</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">EMT / ART
-                            </div>
-                            <div style="font-size:12px; color:#94a3b8;">Règles strictes (réserves, plafonds)</div>
-                        </td>
-                        <td>
-                            <span class="badge-status badge-live"><i class="fas fa-check-circle"></i> En Vigueur
-                                (Phasé)</span>
-                        </td>
-                        <td style="text-align: center;">
-                            <a href="../fr/pdf/mica-briefing.html" class="btn-doc" title="Voir le Briefing UE"><i
-                                    class="fas fa-file-alt"></i></a>
-                        </td>
-                    </tr>
-
-                    <!-- UK -->
-                    <tr>
-                        <td>
-                            <div class="cell-region"><i class="fas fa-building"
-                                    style="color:var(--accent-blue); font-size: 14px;"></i> Royaume-Uni</div>
-                        </td>
-                        <td>
-                            <div class="cell-regulator">FCA, Bank of England, HMT</div>
-                            <div class="cell-framework">FSMA 2023, Digital Securities Sandbox</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">Enregistrement
-                                FCA</div>
-                            <div style="font-size:12px; color:#94a3b8;">Focus AML/CTF & Promos</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">Focus Adossé
-                                Fiat</div>
-                            <div style="font-size:12px; color:#94a3b8;">Régulés comme systèmes de paiement</div>
-                        </td>
-                        <td>
-                            <span class="badge-status badge-draft"><i class="fas fa-cog"></i> En Développement</span>
-                        </td>
-                        <td style="text-align: center;">
-                            <a href="#" class="btn-doc" title="Voir le Briefing UK"><i class="fas fa-file-alt"></i></a>
-                        </td>
-                    </tr>
-
-                    <!-- USA -->
-                    <tr>
-                        <td>
-                            <div class="cell-region"><i class="fas fa-gavel"
-                                    style="color:var(--accent-orange); font-size: 14px;"></i> États-Unis</div>
-                        </td>
-                        <td>
-                            <div class="cell-regulator">SEC, CFTC, Treasury (FinCEN), NYDFS</div>
-                            <div class="cell-framework">Par État (BitLicense), FIT21 (En Attente)</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">MTL / Trust
-                                Charter</div>
-                            <div style="font-size:12px; color:#94a3b8;">Exigences MSB au niveau des États</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">Fédéral en
-                                Attente</div>
-                            <div style="font-size:12px; color:#94a3b8;">Sociétés fiduciaires par État (NYDFS)</div>
-                        </td>
-                        <td>
-                            <span class="badge-status badge-fragmented"><i class="fas fa-puzzle-piece"></i>
-                                Fragmenté</span>
-                        </td>
-                        <td style="text-align: center;">
-                            <a href="#" class="btn-doc" title="Voir le Briefing US"><i class="fas fa-file-alt"></i></a>
-                        </td>
-                    </tr>
-
-                    <!-- Hong Kong -->
-                    <tr>
-                        <td>
-                            <div class="cell-region"><i class="fas fa-chart-line"
-                                    style="color:var(--accent-purple); font-size: 14px;"></i> Hong Kong (RAS)</div>
-                        </td>
-                        <td>
-                            <div class="cell-regulator">SFC, HKMA</div>
-                            <div class="cell-framework">Régime VATP, Bac à Sable Émetteurs Stablecoins</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">Licence VATP
-                            </div>
-                            <div style="font-size:12px; color:#94a3b8;">Règles institutionnelles/retail strictes</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">Bac à Sable
-                                FRS</div>
-                            <div style="font-size:12px; color:#94a3b8;">Incorp. locale exigée</div>
-                        </td>
-                        <td>
-                            <span class="badge-status badge-live"><i class="fas fa-check-circle"></i> En Vigueur</span>
-                        </td>
-                        <td style="text-align: center;">
-                            <a href="#" class="btn-doc" title="Voir le Briefing HK"><i class="fas fa-file-alt"></i></a>
-                        </td>
-                    </tr>
-
-                    <!-- UAE -->
-                    <tr>
-                        <td>
-                            <div class="cell-region"><i class="fas fa-sun"
-                                    style="color:var(--accent-gold); font-size: 14px;"></i> Émirats (ADGM / VARA)</div>
-                        </td>
-                        <td>
-                            <div class="cell-regulator">VARA (Dubaï), FSRA (ADGM), CBUAE</div>
-                            <div class="cell-framework">Rulebooks VARA, Cadre DLT ADGM</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">MVP / VASP
-                                Complet</div>
-                            <div style="font-size:12px; color:#94a3b8;">Licences basées sur l'activité</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color:#fff; font-size:14px; margin-bottom:4px;">Cadre CBUAE
-                            </div>
-                            <div style="font-size:12px; color:#94a3b8;">Mandats d'ancrage stricts à l'AED</div>
-                        </td>
-                        <td>
-                            <span class="badge-status badge-live"><i class="fas fa-check-circle"></i> En Vigueur</span>
-                        </td>
-                        <td style="text-align: center;">
-                            <a href="#" class="btn-doc" title="Voir le Briefing EAU"><i class="fas fa-file-alt"></i></a>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-
-    </section>
-
-    <!-- MAIN FOOTER -->
     <footer class="super-footer">
-        <!-- Reusing standard institutional footer -->
         <div class="footer-content">
-            <div class="footer-grid">
-                <!-- 0. BRAND -->
-                <div class="footer-brand">
-                    <h3><i class="fas fa-cube" style="color:#3b82f6"></i> DCM DIGITAL</h3>
-                    <p>Analysis platform dedicated to the tokenization of financial assets and public and institutional
-                        blockchain infrastructures.</p>
-                    <div class="footer-socials">
-                        <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
-                    </div>
+            <div class="footer-bottom">
+                <div class="copyright">© 2026 DCM Core Institute • Regulation Tracker</div>
+                <div class="legal-links">
+                    <a href="../about/transparency.html">Transparency</a>
+                    <a href="../regulation-intelligence/index.html">Regulation Atlas</a>
+                    <a href="#">API Access</a>
                 </div>
-
-                <!-- 1. INSTITUTION -->
-                <div class="footer-col">
-                    <h4>Institution</h4>
-                    <ul class="footer-links">
-                        <li><a href="../fr/about.html">About</a></li>
-                        <li><a href="../experts/index.html">Experts</a></li>
-                        <li><a href="../events/index.html">Events Hub</a></li>
-                    </ul>
-                </div>
-
-                <!-- 2. ANALYTICS -->
-                <div class="footer-col">
-                    <h4>Hub Analytique</h4>
-                    <ul class="footer-links">
-                        <li><a href="../data/index.html">Observatoire Data</a></li>
-                        <li><a href="index.html" style="color: white; font-weight: 700;">Regulatory Tracker</a></li>
-                        <li><a href="../media/newsletter.html">Newsletter Policy</a></li>
-                    </ul>
-                </div>
-
-                <!-- 3. DEEP DIVES -->
-                <div class="footer-col">
-                    <h4>Deep Dives</h4>
-                    <ul class="footer-links">
-                        <li><a href="../fr/pdf/mica-briefing.html">MiCA Briefing</a></li>
-                        <li><a href="../fr/pdf/dora-briefing.html">DORA Briefing</a></li>
-                        <li><a href="../fr/pdf/gafi-briefing.html">FATF Briefing</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
-                <div class="copyright">© 2026 DCM Core Institute.</div>
             </div>
         </div>
     </footer>
 
-    <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 50
-        });
+        AOS.init({ duration: 800, once: true });
     </script>
 </body>
 

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Interactive Global Digital Asset Policy Map. Real-time monitoring of crypto-regulation frameworks, jurisdictional licensing, and fiscal status."
+        name="description" />
+    <title>Global Policy Map | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../fr/styles.css" rel="stylesheet" />
+    <link href="../fr/styles-navigation.css" rel="stylesheet" />
+    <link href="../fr/styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --full-frame: #10b981;
+            --partial-frame: #3b82f6;
+            --sandbox: #f59e0b;
+            --undefined: #64748b;
+            --bg-dark: #020617;
+            --glass: rgba(15, 23, 42, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: white;
+            padding-top: 70px;
+            overflow-x: hidden;
+        }
+
+        .map-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 30px;
+            height: calc(100vh - 120px);
+        }
+
+        /* SVG MAP STYLING */
+        .svg-map-wrapper {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #world-map {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+        }
+
+        .country {
+            fill: #1e293b;
+            stroke: #334155;
+            stroke-width: 0.5;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .country:hover {
+            stroke: white;
+            stroke-width: 1;
+        }
+
+        /* Classification Colors */
+        .country[data-status="full"] {
+            fill: var(--full-frame);
+            fill-opacity: 0.6;
+        }
+
+        .country[data-status="partial"] {
+            fill: var(--partial-frame);
+            fill-opacity: 0.6;
+        }
+
+        .country[data-status="sandbox"] {
+            fill: var(--sandbox);
+            fill-opacity: 0.6;
+        }
+
+        .country[data-status="undefined"] {
+            fill: var(--undefined);
+            fill-opacity: 0.4;
+        }
+
+        .country:hover[data-status] {
+            fill-opacity: 1;
+        }
+
+        /* LEGEND */
+        .map-legend {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* SIDEBAR */
+        .jurisdiction-panel {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            overflow-y: auto;
+        }
+
+        .panel-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .panel-header p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .metric-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            line-height: 1.4;
+        }
+
+        .timeline-box {
+            border-left: 2px solid var(--partial-frame);
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .timeline-point {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .timeline-point::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--partial-frame);
+            border-radius: 50%;
+            border: 3px solid var(--bg-dark);
+        }
+
+        .timeline-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--partial-frame);
+            font-weight: 700;
+        }
+
+        .timeline-text {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 1100px) {
+            .map-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .jurisdiction-panel {
+                height: 600px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <div class="nav-brand" style="cursor: pointer;" onclick="window.location.href='../fr/index.html'">
+            <div class="logo-orb"
+                style="width: 15px; height: 15px; background: #3b82f6; border-radius: 50%; display:inline-block; margin-right:8px;">
+            </div>
+            DCM <span style="font-weight: 300;">Core Institute</span>
+        </div>
+        <div class="nav-links">
+            <a href="../institute/governance.html">Institut</a>
+            <a href="../observatory/index.html">Observatoire</a>
+            <a href="index.html" class="active">Réglementation</a>
+            <a href="../journal/index.html">Journal</a>
+            <a href="../global-forum/index.html">Forum</a>
+            <a href="../indices/index.html">Indices</a>
+        </div>
+    </nav>
+
+    <div class="map-container">
+        <!-- SVG MAP -->
+        <div class="svg-map-wrapper" data-aos="fade-right">
+            <svg id="world-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Simplified World Map Paths (Representational) -->
+                <!-- North America -->
+                <path class="country" d="M150,50 L250,50 L300,150 L200,200 L100,150 Z" data-name="United States"
+                    data-status="partial" onclick="selectJurisdiction('US')" />
+                <!-- Europe -->
+                <path class="country" d="M450,50 L550,50 L580,150 L500,180 L420,130 Z" data-name="European Union"
+                    data-status="full" onclick="selectJurisdiction('EU')" />
+                <!-- UK -->
+                <path class="country" d="M430,40 L450,40 L460,80 L430,80 Z" data-name="United Kingdom"
+                    data-status="partial" onclick="selectJurisdiction('UK')" />
+                <!-- Asia -->
+                <path class="country" d="M650,100 L850,100 L900,250 L750,300 L600,200 Z" data-name="Hong Kong"
+                    data-status="full" onclick="selectJurisdiction('HK')" />
+                <!-- Singapore area -->
+                <path class="country" d="M720,280 L750,280 L750,310 L720,310 Z" data-name="Singapore" data-status="full"
+                    onclick="selectJurisdiction('SG')" />
+                <!-- Other areas (Background) -->
+                <path class="country" d="M300,300 L500,350 L400,450 Z" data-status="undefined" />
+            </svg>
+
+            <div class="map-legend">
+                <div class="legend-item">
+                    <div class="dot" style="background: var(--full-frame)"></div> Full Framework
+                </div>
+                <div class="legend-item">
+                    <div class="dot" style="background: var(--partial-frame)"></div> Partial / Phasing
+                </div>
+                <div class="legend-item">
+                    <div class="dot" style="background: var(--sandbox)"></div> Regulatory Sandbox
+                </div>
+                <div class="legend-item">
+                    <div class="dot" style="background: var(--undefined)"></div> Fragmented / Undefined
+                </div>
+            </div>
+        </div>
+
+        <!-- SIDE PANEL -->
+        <div class="jurisdiction-panel" id="detailPanel" data-aos="fade-left">
+            <div class="panel-header" id="panelHeader">
+                <h2>European Union</h2>
+                <p>Jurisdiction: 27 Member States (Single Market)</p>
+                <span class="status-pill" style="background: rgba(16, 185, 129, 0.1); color: var(--full-frame);">Full
+                    Institutional Framework</span>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-label">Key Institutions</span>
+                <div class="metric-value">ESMA, EBA, ECB, National Competent Authorities (NCAs)</div>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-label">Available Licenses</span>
+                <div class="metric-value">CASP (Crypto-Asset Service Provider), EMI (E-Money Institution)</div>
+            </div>
+
+            <div>
+                <span class="metric-label">Regulation Timeline</span>
+                <div class="timeline-box">
+                    <div class="timeline-point">
+                        <div class="timeline-date">JUNE 2024</div>
+                        <div class="timeline-text">MiCA Stablecoin (ART/EMT) titles enter force.</div>
+                    </div>
+                    <div class="timeline-point">
+                        <div class="timeline-date">JAN 2025</div>
+                        <div class="timeline-text">DORA operational resilience implementation.</div>
+                    </div>
+                    <div class="timeline-point">
+                        <div class="timeline-date">DEC 2024</div>
+                        <div class="timeline-text">Full MiCA CASP licensing window starts.</div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="policy-library.html" class="hub-btn-premium" style="text-align: center; margin-top: auto;">
+                Access EU Policy Brief <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div class="copyright">© 2026 DCM Core Institute • Global Policy Atlas</div>
+                <div class="legal-links">
+                    <a href="../institute/methodology.html">Methodology</a>
+                    <a href="../institute/transparency.html">Transparency</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const jurisdictions = {
+            'EU': {
+                name: 'European Union',
+                desc: 'Jurisdiction: 27 Member States (Single Market)',
+                status: 'Full Institutional Framework',
+                color: '#10b981',
+                inst: 'ESMA, EBA, ECB, NCAs',
+                licenses: 'CASP, ART/EMT, EMI',
+                timeline: [
+                    { date: 'JUNE 2024', text: 'MiCA Stablecoin titles enter force.' },
+                    { date: 'DEC 2024', text: 'Full MiCA CASP implementation.' },
+                    { date: 'JAN 2025', text: 'DORA operational requirements.' }
+                ]
+            },
+            'UK': {
+                name: 'United Kingdom',
+                desc: 'Jurisdiction: United Kingdom (Post-Brexit Framework)',
+                status: 'Partial / Phasing In',
+                color: '#3b82f6',
+                inst: 'FCA, Bank of England, HM Treasury',
+                licenses: 'Registered Cryptoasset Business, MLR Authorization',
+                timeline: [
+                    { date: 'JULY 2023', text: 'FSMA 2023 receives Royal Assent.' },
+                    { date: 'EARLY 2024', text: 'Secondary legislation for stablecoins.' },
+                    { date: '2025', text: 'Full fiat-backed stablecoin regime.' }
+                ]
+            },
+            'US': {
+                name: 'United States',
+                desc: 'Jurisdiction: Federal & State Level (Multi-Agency)',
+                status: 'Fragmented / Enforcement-Led',
+                color: '#64748b',
+                inst: 'SEC, CFTC, Treasury (FinCEN), OCC',
+                licenses: 'MTL (State), Trust Charter, SEC Registration (Pending)',
+                timeline: [
+                    { date: '2023', text: 'Enforcement-led regulation sweep.' },
+                    { date: '2024', text: 'SAB 121 custody guidelines debate.' },
+                    { date: '2025', text: 'Potential federal stablecoin legislation.' }
+                ]
+            },
+            'HK': {
+                name: 'Hong Kong',
+                desc: 'Jurisdiction: Hong Kong SAR (Web3 Hub)',
+                status: 'Full Institutional Framework',
+                color: '#10b981',
+                inst: 'SFC, HKMA',
+                licenses: 'VASP License, Type 1, 7, 9 Licenses',
+                timeline: [
+                    { date: 'JUNE 2023', text: 'New VASP licensing regime goes live.' },
+                    { date: '2024', text: 'Stablecoin sandbox and consultation.' },
+                    { date: '2025', text: 'Retail access expansion phase.' }
+                ]
+            }
+        };
+
+        function selectJurisdiction(code) {
+            const data = jurisdictions[code];
+            if (!data) return;
+
+            const panel = document.getElementById('detailPanel');
+            const header = document.getElementById('panelHeader');
+
+            header.innerHTML = `
+                <h2>${data.name}</h2>
+                <p>${data.desc}</p>
+                <span class="status-pill" style="background: rgba(255,255,255,0.05); border: 1px solid ${data.color}; color: ${data.color};">
+                    ${data.status}
+                </span>
+            `;
+
+            let timelineHtml = '';
+            data.timeline.forEach(point => {
+                timelineHtml += `
+                    <div class="timeline-point" style="--partial-frame: ${data.color}">
+                        <div class="timeline-date" style="color: ${data.color}">${point.date}</div>
+                        <div class="timeline-text">${point.text}</div>
+                    </div>
+                `;
+            });
+
+            // Update metrics and timeline (finding the elements by index or adding IDs)
+            const metrics = panel.querySelectorAll('.metric-value');
+            metrics[0].innerText = data.inst;
+            metrics[1].innerText = data.licenses;
+
+            panel.querySelector('.timeline-box').innerHTML = timelineHtml;
+
+            // Re-trigger AOS if needed
+            panel.classList.remove('aos-animate');
+            setTimeout(() => panel.classList.add('aos-animate'), 10);
+        }
+    </script>
+</body>
+
+</html>
