@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="canonical" href="https://dcmcore.com/regulatory-intelligence.html" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Digital Asset Regulation Tracker | DCM Core Institutional</title>
-    <meta name="description" content="Real-time mapping of global crypto regulations, Web3 laws, and CBDC frameworks. High-fidelity institutional regulatory intelligence for policymakers.">
-    
+    <meta name="description"
+        content="Real-time mapping of global crypto regulations, Web3 laws, and CBDC frameworks. High-fidelity institutional regulatory intelligence for policymakers.">
+
     <!-- FONTS -->
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <!-- STYLES -->
     <link rel="stylesheet" href="styles-footer.css">
 
@@ -54,6 +58,7 @@
             z-index: 1000;
             box-sizing: border-box;
         }
+
         .logo {
             font-weight: 800;
             font-size: 18px;
@@ -63,11 +68,13 @@
             color: white;
             text-decoration: none;
         }
+
         .nav-links {
             display: flex;
             gap: 15px;
             align-items: center;
         }
+
         .back-btn {
             text-decoration: none;
             color: var(--text-muted);
@@ -81,15 +88,21 @@
             align-items: center;
             gap: 8px;
         }
+
         .back-btn:hover {
             border-color: white;
             color: white;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         @media (max-width: 768px) {
-            .navbar { padding: 0 20px; }
-            .back-btn span { display: none; }
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .back-btn span {
+                display: none;
+            }
         }
 
         /* HERO */
@@ -112,7 +125,9 @@
         }
 
         @media (min-width: 768px) {
-            .hero-title { font-size: 56px; }
+            .hero-title {
+                font-size: 56px;
+            }
         }
 
         /* MAP VISUALIZATION */
@@ -121,7 +136,7 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .map-container {
             max-width: 1000px;
             height: 500px;
@@ -159,8 +174,16 @@
         }
 
         @keyframes pulse-ring {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(3); opacity: 0; border-width: 1px; }
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(3);
+                opacity: 0;
+                border-width: 1px;
+            }
         }
 
         .map-node:hover {
@@ -169,22 +192,60 @@
         }
 
         /* Node Colors based on Status */
-        .status-favorable { color: var(--accent-green); background: rgba(16, 185, 129, 0.2); box-shadow: 0 0 20px var(--accent-green); }
-        .status-discussion { color: var(--accent-yellow); background: rgba(234, 179, 8, 0.2); box-shadow: 0 0 20px var(--accent-yellow); }
-        .status-restrictive { color: var(--accent-red); background: rgba(239, 68, 68, 0.2); box-shadow: 0 0 20px var(--accent-red); }
+        .status-favorable {
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 20px var(--accent-green);
+        }
+
+        .status-discussion {
+            color: var(--accent-yellow);
+            background: rgba(234, 179, 8, 0.2);
+            box-shadow: 0 0 20px var(--accent-yellow);
+        }
+
+        .status-restrictive {
+            color: var(--accent-red);
+            background: rgba(239, 68, 68, 0.2);
+            box-shadow: 0 0 20px var(--accent-red);
+        }
 
         /* Node Positions (Approximate) */
-        .node-eu { top: 32%; left: 51%; }
-        .node-usa { top: 38%; left: 22%; }
-        .node-sg { top: 58%; left: 77%; }
-        .node-uae { top: 45%; left: 61%; }
-        .node-uk { top: 29%; left: 47%; }
-        .node-hk { top: 48%; left: 81%; }
+        .node-eu {
+            top: 32%;
+            left: 51%;
+        }
+
+        .node-usa {
+            top: 38%;
+            left: 22%;
+        }
+
+        .node-sg {
+            top: 58%;
+            left: 77%;
+        }
+
+        .node-uae {
+            top: 45%;
+            left: 61%;
+        }
+
+        .node-uk {
+            top: 29%;
+            left: 47%;
+        }
+
+        .node-hk {
+            top: 48%;
+            left: 81%;
+        }
 
         /* Node Tooltip */
         .node-tooltip {
             position: absolute;
-            bottom: 35px; /* Positioned above the node */
+            bottom: 35px;
+            /* Positioned above the node */
             left: 50%;
             transform: translateX(-50%);
             background: rgba(15, 23, 42, 0.95);
@@ -197,7 +258,7 @@
             transition: all 0.3s;
             backdrop-filter: blur(10px);
             pointer-events: none;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             text-align: left;
         }
 
@@ -213,13 +274,13 @@
             margin: 80px auto;
             padding: 0 20px;
         }
-        
+
         .timeline-container {
             position: relative;
             padding-left: 40px;
             margin-top: 40px;
         }
-        
+
         .timeline-container::before {
             content: '';
             position: absolute;
@@ -253,7 +314,7 @@
             padding: 25px;
             border-radius: 16px;
             transition: transform 0.3s, border-color 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .timeline-content:hover {
@@ -297,7 +358,7 @@
             flex-direction: column;
             text-decoration: none;
             color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .policy-card:hover {
@@ -363,6 +424,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- NAVIGATION -->
@@ -371,7 +433,8 @@
             <i class="fas fa-globe-africa" style="color:var(--accent-blue)"></i> REGULATORY TRACKER
         </a>
         <div class="nav-links">
-            <a aria-label="Legal Matrix" href="legal-matrix.html" class="back-btn" style="color:var(--accent-purple); border-color:var(--accent-purple);">
+            <a aria-label="Legal Matrix" href="legal-matrix.html" class="back-btn"
+                style="color:var(--accent-purple); border-color:var(--accent-purple);">
                 <i class="fas fa-scale-balanced"></i> <span>Legal Matrix</span>
             </a>
             <a aria-label="Hub" href="index.html" class="back-btn">
@@ -382,82 +445,132 @@
 
     <!-- HERO -->
     <header class="hero-section">
-        <div data-aos="fade-down" style="display:inline-block; margin-bottom: 20px; padding: 6px 16px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 30px; color: var(--accent-blue); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+        <div data-aos="fade-down"
+            style="display:inline-block; margin-bottom: 20px; padding: 6px 16px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 30px; color: var(--accent-blue); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
             <i class="fas fa-landmark"></i> Institutional Observatory
         </div>
         <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">Global Regulatory<br>Intelligence Tracker</h1>
-        <p style="color:var(--text-muted); max-width:700px; margin:0 auto; font-size: 20px;" data-aos="fade-up" data-aos-delay="200">
-            Real-time mapping of global crypto regulations, Web3 laws, and CBDC frameworks. 
+        <p style="color:var(--text-muted); max-width:700px; margin:0 auto; font-size: 20px;" data-aos="fade-up"
+            data-aos-delay="200">
+            Real-time mapping of global crypto regulations, Web3 laws, and CBDC frameworks.
             Intellectual infrastructure for institutions and researchers.
         </p>
     </header>
 
     <!-- WORLD MAP SECTION -->
     <section class="map-section" data-aos="fade-up" data-aos-delay="300">
-        <div style="text-align: center; margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-            <div style="display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-muted);"><span style="width:12px;height:12px;border-radius:50%;background:var(--accent-green);display:inline-block;box-shadow:0 0 10px var(--accent-green);"></span> <span>Favorable Framework</span></div>
-            <div style="display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-muted);"><span style="width:12px;height:12px;border-radius:50%;background:var(--accent-yellow);display:inline-block;box-shadow:0 0 10px var(--accent-yellow);"></span> <span>In Discussion / Developing</span></div>
-            <div style="display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-muted);"><span style="width:12px;height:12px;border-radius:50%;background:var(--accent-red);display:inline-block;box-shadow:0 0 10px var(--accent-red);"></span> <span>Restrictive / Enforcement</span></div>
+        <div
+            style="text-align: center; margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-muted);"><span
+                    style="width:12px;height:12px;border-radius:50%;background:var(--accent-green);display:inline-block;box-shadow:0 0 10px var(--accent-green);"></span>
+                <span>Favorable Framework</span></div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-muted);"><span
+                    style="width:12px;height:12px;border-radius:50%;background:var(--accent-yellow);display:inline-block;box-shadow:0 0 10px var(--accent-yellow);"></span>
+                <span>In Discussion / Developing</span></div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-muted);"><span
+                    style="width:12px;height:12px;border-radius:50%;background:var(--accent-red);display:inline-block;box-shadow:0 0 10px var(--accent-red);"></span>
+                <span>Restrictive / Enforcement</span></div>
         </div>
 
         <div class="map-container">
             <!-- EU NODE -->
             <div class="map-node node-eu status-discussion">
                 <div class="node-tooltip">
-                    <div style="font-size: 10px; color: var(--accent-yellow); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">In Discussion</div>
-                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇪🇺 European Union</div>
-                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">MiCA (Markets in Crypto-Assets) implementation actively ongoing. Final regulatory technical standards under review.</div>
-                    <div style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">Framework: <strong>MiCA / DORA</strong></div>
+                    <div
+                        style="font-size: 10px; color: var(--accent-yellow); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                        In Discussion</div>
+                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇪🇺 European
+                        Union</div>
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">MiCA (Markets in
+                        Crypto-Assets) implementation actively ongoing. Final regulatory technical standards under
+                        review.</div>
+                    <div
+                        style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                        Framework: <strong>MiCA / DORA</strong></div>
                 </div>
             </div>
 
             <!-- USA NODE -->
             <div class="map-node node-usa status-restrictive">
                 <div class="node-tooltip">
-                    <div style="font-size: 10px; color: var(--accent-red); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">Restrictive</div>
+                    <div
+                        style="font-size: 10px; color: var(--accent-red); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                        Restrictive</div>
                     <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇺🇸 USA</div>
-                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Regulation by enforcement led by SEC. Fragmented state-level policies. Pending comprehensive digital asset bills.</div>
-                    <div style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">Framework: <strong>SEC Enforcement</strong></div>
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Regulation by
+                        enforcement led by SEC. Fragmented state-level policies. Pending comprehensive digital asset
+                        bills.</div>
+                    <div
+                        style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                        Framework: <strong>SEC Enforcement</strong></div>
                 </div>
             </div>
 
             <!-- SINGAPORE NODE -->
             <div class="map-node node-sg status-favorable">
                 <div class="node-tooltip">
-                    <div style="font-size: 10px; color: var(--accent-green); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">Favorable</div>
-                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇸🇬 Singapore</div>
-                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Clear guidelines under the Payment Services Act. Active promotion of institutional digital asset adoption through Project Guardian.</div>
-                    <div style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">Framework: <strong>MAS PSA</strong></div>
+                    <div
+                        style="font-size: 10px; color: var(--accent-green); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                        Favorable</div>
+                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇸🇬 Singapore
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Clear guidelines under
+                        the Payment Services Act. Active promotion of institutional digital asset adoption through
+                        Project Guardian.</div>
+                    <div
+                        style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                        Framework: <strong>MAS PSA</strong></div>
                 </div>
             </div>
 
             <!-- UAE NODE -->
             <div class="map-node node-uae status-favorable">
                 <div class="node-tooltip">
-                    <div style="font-size: 10px; color: var(--accent-green); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">Favorable</div>
-                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇦🇪 UAE (Dubai)</div>
-                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">World's first independent digital asset regulator (VARA). Comprehensive, pro-innovation rulebooks for Virtual Asset Service Providers.</div>
-                    <div style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">Framework: <strong>VARA Rulebook</strong></div>
+                    <div
+                        style="font-size: 10px; color: var(--accent-green); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                        Favorable</div>
+                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇦🇪 UAE (Dubai)
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">World's first
+                        independent digital asset regulator (VARA). Comprehensive, pro-innovation rulebooks for Virtual
+                        Asset Service Providers.</div>
+                    <div
+                        style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                        Framework: <strong>VARA Rulebook</strong></div>
                 </div>
             </div>
 
             <!-- UK NODE -->
             <div class="map-node node-uk status-discussion">
-                 <div class="node-tooltip">
-                    <div style="font-size: 10px; color: var(--accent-yellow); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">In Discussion</div>
-                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇬🇧 United Kingdom</div>
-                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">FSMA 2023 recognizes crypto as regulated activity. FCA actively shaping authorization regimes for fiat-backed stablecoins.</div>
-                    <div style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">Framework: <strong>FSMA / FCA</strong></div>
+                <div class="node-tooltip">
+                    <div
+                        style="font-size: 10px; color: var(--accent-yellow); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                        In Discussion</div>
+                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇬🇧 United
+                        Kingdom</div>
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">FSMA 2023 recognizes
+                        crypto as regulated activity. FCA actively shaping authorization regimes for fiat-backed
+                        stablecoins.</div>
+                    <div
+                        style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                        Framework: <strong>FSMA / FCA</strong></div>
                 </div>
             </div>
-            
-             <!-- HK NODE -->
+
+            <!-- HK NODE -->
             <div class="map-node node-hk status-favorable">
-                 <div class="node-tooltip">
-                    <div style="font-size: 10px; color: var(--accent-green); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">Favorable</div>
-                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇭🇰 Hong Kong</div>
-                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">New VASP licensing regime enabling retail trading. Strategic push to reclaim status as Asia's premier crypto-financial hub.</div>
-                    <div style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">Framework: <strong>SFC VASP</strong></div>
+                <div class="node-tooltip">
+                    <div
+                        style="font-size: 10px; color: var(--accent-green); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                        Favorable</div>
+                    <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 5px;">🇭🇰 Hong Kong
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">New VASP licensing
+                        regime enabling retail trading. Strategic push to reclaim status as Asia's premier
+                        crypto-financial hub.</div>
+                    <div
+                        style="font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                        Framework: <strong>SFC VASP</strong></div>
                 </div>
             </div>
 
@@ -472,27 +585,31 @@
         </div>
 
         <div class="timeline-container">
-             <!-- Item 1 -->
-             <div class="timeline-item" data-aos="fade-up">
+            <!-- Item 1 -->
+            <div class="timeline-item" data-aos="fade-up">
                 <div class="timeline-dot" style="border-color: var(--accent-purple);"></div>
-                <div class="timeline-content" style="border-color: rgba(168, 85, 247, 0.4); background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), transparent);">
-                    <div class="timeline-date" style="color: var(--accent-purple);"><i class="fas fa-search"></i> MAY 2026 (Forward Outlook)</div>
+                <div class="timeline-content"
+                    style="border-color: rgba(168, 85, 247, 0.4); background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), transparent);">
+                    <div class="timeline-date" style="color: var(--accent-purple);"><i class="fas fa-search"></i> MAY
+                        2026 (Forward Outlook)</div>
                     <h3 style="margin: 0 0 10px 0; font-size: 20px;">MiCA Technical Standards Finalization</h3>
                     <p style="color: var(--text-muted); margin: 0; line-height: 1.6;">
-                        European Union expected to finalize Level 2 and Level 3 technical standards for MiCA. 
-                        Significant impact on stablecoin issuers (EMTs) and stringent requirements for major custody providers and institutional CASPs.
+                        European Union expected to finalize Level 2 and Level 3 technical standards for MiCA.
+                        Significant impact on stablecoin issuers (EMTs) and stringent requirements for major custody
+                        providers and institutional CASPs.
                     </p>
                 </div>
             </div>
 
             <!-- Item 2 -->
-             <div class="timeline-item" data-aos="fade-up">
+            <div class="timeline-item" data-aos="fade-up">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <div class="timeline-date">DEC 2024</div>
                     <h3 style="margin: 0 0 10px 0; font-size: 20px;">MiCA Enforcement (Full CASP Rules)</h3>
                     <p style="color: var(--text-muted); margin: 0; line-height: 1.6;">
-                        Full application of the Markets in Crypto-Assets regulation across the EU for all Crypto-Asset Service Providers (exchanges, custodians, advisors), ending transitional national regimes.
+                        Full application of the Markets in Crypto-Assets regulation across the EU for all Crypto-Asset
+                        Service Providers (exchanges, custodians, advisors), ending transitional national regimes.
                     </p>
                 </div>
             </div>
@@ -504,7 +621,8 @@
                     <div class="timeline-date">JUN 2024</div>
                     <h3 style="margin: 0 0 10px 0; font-size: 20px;">MiCA Enforcement (Stablecoins)</h3>
                     <p style="color: var(--text-muted); margin: 0; line-height: 1.6;">
-                        Rules regarding Asset-Referenced Tokens (ARTs) and E-Money Tokens (EMTs) take effect in the EU. Non-compliant offshore stablecoins begin facing delisting from major EU exchanges.
+                        Rules regarding Asset-Referenced Tokens (ARTs) and E-Money Tokens (EMTs) take effect in the EU.
+                        Non-compliant offshore stablecoins begin facing delisting from major EU exchanges.
                     </p>
                 </div>
             </div>
@@ -516,31 +634,35 @@
                     <div class="timeline-date">MAY 2023</div>
                     <h3 style="margin: 0 0 10px 0; font-size: 20px;">MiCA Formal Adoption</h3>
                     <p style="color: var(--text-muted); margin: 0; line-height: 1.6;">
-                        The European Council formally adopts the MiCA regulation, establishing the world's first comprehensive legal framework for crypto-assets across 27 member states.
+                        The European Council formally adopts the MiCA regulation, establishing the world's first
+                        comprehensive legal framework for crypto-assets across 27 member states.
                     </p>
                 </div>
             </div>
 
-             <!-- Item 5 -->
-             <div class="timeline-item" data-aos="fade-up">
+            <!-- Item 5 -->
+            <div class="timeline-item" data-aos="fade-up">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <div class="timeline-date">NOV 2022</div>
                     <h3 style="margin: 0 0 10px 0; font-size: 20px;">FTX Collapse Catalyst</h3>
                     <p style="color: var(--text-muted); margin: 0; line-height: 1.6;">
-                        The collapse of FTX triggers a massive global regulatory acceleration. Focus shifts heavily toward custody segregation, proof of reserves, and strict oversight of centralized intermediaries.
+                        The collapse of FTX triggers a massive global regulatory acceleration. Focus shifts heavily
+                        toward custody segregation, proof of reserves, and strict oversight of centralized
+                        intermediaries.
                     </p>
                 </div>
             </div>
-            
-             <!-- Item 6 -->
-             <div class="timeline-item" data-aos="fade-up">
+
+            <!-- Item 6 -->
+            <div class="timeline-item" data-aos="fade-up">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <div class="timeline-date">SEP 2020</div>
                     <h3 style="margin: 0 0 10px 0; font-size: 20px;">MiCA Proposal Initiated</h3>
                     <p style="color: var(--text-muted); margin: 0; line-height: 1.6;">
-                        The European Commission officially releases the first draft of the Markets in Crypto-Assets regulation as part of the Digital Finance Package.
+                        The European Commission officially releases the first draft of the Markets in Crypto-Assets
+                        regulation as part of the Digital Finance Package.
                     </p>
                 </div>
             </div>
@@ -550,87 +672,107 @@
     <!-- POLICY BRIEFS SECTION -->
     <section class="policy-section">
         <div style="text-align: center; margin-bottom: 50px;" data-aos="fade-up">
-            <div style="display:inline-block; margin-bottom: 15px; padding: 6px 16px; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 30px; color: var(--accent-purple); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+            <div
+                style="display:inline-block; margin-bottom: 15px; padding: 6px 16px; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 30px; color: var(--accent-purple); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
                 <i class="fas fa-file-contract"></i> Policy Knowledge Ecosystem
             </div>
             <h2 style="font-size: 36px; margin-bottom: 10px;">Policy Briefs</h2>
             <p style="color: var(--text-muted); font-size: 18px; max-width: 600px; margin: 0 auto;">
-                Concise, high-impact research papers analyzing regulatory shifts. Designed for institutional stakeholders, central banks, and compliance officers.
+                Concise, high-impact research papers analyzing regulatory shifts. Designed for institutional
+                stakeholders, central banks, and compliance officers.
             </p>
         </div>
 
         <div class="policy-grid">
             <!-- Brief 1 -->
-            <a href="#" class="policy-card" data-aos="fade-up" data-aos-delay="100" onclick="alert('PDF Documentation Simulation: The Strategic Impact of MiCA on Global Crypto Liquidity (12 pages)'); return false;">
+            <a href="#" class="policy-card" data-aos="fade-up" data-aos-delay="100"
+                onclick="alert('PDF Documentation Simulation: The Strategic Impact of MiCA on Global Crypto Liquidity (12 pages)'); return false;">
                 <div class="policy-tag">Policy Brief #01</div>
                 <h3 class="policy-title">The Strategic Impact of MiCA on Global Crypto Liquidity</h3>
                 <p class="policy-desc">
-                    An analysis of how the EU's MiCA framework will force liquidity consolidation and restructure stablecoin dominance in global markets by 2026.
+                    An analysis of how the EU's MiCA framework will force liquidity consolidation and restructure
+                    stablecoin dominance in global markets by 2026.
                 </p>
                 <div class="policy-footer">
                     <span><i class="fas fa-calendar-alt"></i> Oct 2025</span>
-                    <span style="color: white; font-weight: 600;">Read Brief <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
+                    <span style="color: white; font-weight: 600;">Read Brief <i class="fas fa-arrow-right"
+                            style="margin-left: 5px;"></i></span>
                 </div>
             </a>
 
             <!-- Brief 2 -->
-            <a href="#" class="policy-card" data-aos="fade-up" data-aos-delay="200" onclick="alert('PDF Documentation Simulation: CBDC Interoperability and the Basel III Endgame (8 pages)'); return false;">
+            <a href="#" class="policy-card" data-aos="fade-up" data-aos-delay="200"
+                onclick="alert('PDF Documentation Simulation: CBDC Interoperability and the Basel III Endgame (8 pages)'); return false;">
                 <div class="policy-tag">Policy Brief #02</div>
                 <h3 class="policy-title">CBDC Interoperability & The Basel III Endgame</h3>
                 <p class="policy-desc">
-                    Examining the technical standards required for cross-border wholesale CBDC settlement and the capital treatment of digital assets under Basel III.
+                    Examining the technical standards required for cross-border wholesale CBDC settlement and the
+                    capital treatment of digital assets under Basel III.
                 </p>
                 <div class="policy-footer">
                     <span><i class="fas fa-calendar-alt"></i> Jan 2026</span>
-                    <span style="color: white; font-weight: 600;">Read Brief <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
+                    <span style="color: white; font-weight: 600;">Read Brief <i class="fas fa-arrow-right"
+                            style="margin-left: 5px;"></i></span>
                 </div>
             </a>
 
             <!-- Brief 3 -->
-            <a href="#" class="policy-card" data-aos="fade-up" data-aos-delay="300" onclick="alert('PDF Documentation Simulation: Convergence of DORA and Smart Contract Auditing (10 pages)'); return false;">
+            <a href="#" class="policy-card" data-aos="fade-up" data-aos-delay="300"
+                onclick="alert('PDF Documentation Simulation: Convergence of DORA and Smart Contract Auditing (10 pages)'); return false;">
                 <div class="policy-tag">Policy Brief #03</div>
                 <h3 class="policy-title">DORA Compliance for Decentralized Infrastructures</h3>
                 <p class="policy-desc">
-                    How the Digital Operational Resilience Act (DORA) reshapes vendor risk management for financial institutions relying on public blockchains.
+                    How the Digital Operational Resilience Act (DORA) reshapes vendor risk management for financial
+                    institutions relying on public blockchains.
                 </p>
                 <div class="policy-footer">
                     <span><i class="fas fa-calendar-alt"></i> Feb 2026</span>
-                    <span style="color: white; font-weight: 600;">Read Brief <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
+                    <span style="color: white; font-weight: 600;">Read Brief <i class="fas fa-arrow-right"
+                            style="margin-left: 5px;"></i></span>
                 </div>
             </a>
         </div>
-        
+
         <div style="text-align: center; margin-top: 50px;" data-aos="fade-up" data-aos-delay="400">
-            <a href="#" class="btn-primary" onclick="alert('Research Repository Access logic placeholder.'); return false;" style="background: var(--accent-purple); color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 10px 20px rgba(168,85,247,0.3); border: 2px solid transparent;">
+            <a href="#" class="btn-primary"
+                onclick="alert('Research Repository Access logic placeholder.'); return false;"
+                style="background: var(--accent-purple); color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 10px 20px rgba(168,85,247,0.3); border: 2px solid transparent;">
                 <i class="fas fa-download"></i> Access Research Repository
             </a>
         </div>
     </section>
 
     <!-- RELATED RESEARCH SECTION -->
-    <section class="policy-section" style="background: rgba(15, 23, 42, 0.4); padding: 80px 20px; border-top: 1px solid var(--border);">
+    <section class="policy-section"
+        style="background: rgba(15, 23, 42, 0.4); padding: 80px 20px; border-top: 1px solid var(--border);">
         <div class="container" style="max-width:1200px; margin:0 auto;">
-            <h2 style="font-size: 28px; margin-bottom: 40px; font-family:'Urbanist', sans-serif;">Related Institutional Research</h2>
+            <h2 style="font-size: 28px; margin-bottom: 40px; font-family:'Urbanist', sans-serif;">Related Institutional
+                Research</h2>
             <div class="policy-grid">
                 <a href="research/regulation-landscape-2026.html" class="policy-card" data-aos="fade-up">
                     <div class="policy-tag">CORNERSTONE ARTICLE</div>
                     <h3 class="policy-title">The Global Landscape of Digital Asset Regulation (2026)</h3>
-                    <p class="policy-desc">Deep-dive analysis of MiCA implementation and the legislative pivot in US and Asian markets.</p>
+                    <p class="policy-desc">Deep-dive analysis of MiCA implementation and the legislative pivot in US and
+                        Asian markets.</p>
                     <div class="policy-footer">
                         <span>Lead: Dr. A. Sterling</span>
-                        <span style="color:var(--accent-purple);">Read Analysis <i class="fas fa-arrow-right"></i></span>
+                        <span style="color:var(--accent-purple);">Read Analysis <i
+                                class="fas fa-arrow-right"></i></span>
                     </div>
                 </a>
-                <a href="publications/digital-asset-governance-report-2026.html" class="policy-card" data-aos="fade-up" data-aos-delay="100">
+                <a href="publications/digital-asset-governance-report-2026.html" class="policy-card" data-aos="fade-up"
+                    data-aos-delay="100">
                     <div class="policy-tag">ANNUAL REPORT</div>
                     <h3 class="policy-title">Digital Asset Governance 2026</h3>
-                    <p class="policy-desc">Comprehensive strategic report on the institutional reinvention of global capital markets.</p>
+                    <p class="policy-desc">Comprehensive strategic report on the institutional reinvention of global
+                        capital markets.</p>
                     <div class="policy-footer">
                         <span>120 Pages • Institutional</span>
                         <span style="color:var(--accent-purple);">View Report <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </a>
-                <a href="research/future-financial-infrastructure.html" class="policy-card" data-aos="fade-up" data-aos-delay="200">
+                <a href="research/future-financial-infrastructure.html" class="policy-card" data-aos="fade-up"
+                    data-aos-delay="200">
                     <div class="policy-tag">WORKING PAPER</div>
                     <h3 class="policy-title">Future Financial Infrastructure & Settlement Rails</h3>
                     <p class="policy-desc">Technical review of atomic settlement and unified DLT market standards.</p>
@@ -657,8 +799,8 @@
                             aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                         <a href="https://github.com/JoanLabTest/Blockchain_Presentation" target="_blank"
                             class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="https://x.com/Joan_Lyczak" target="_blank" class="social-btn"
-                            aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                        <a href="https://x.com/Joan_Lyczak" target="_blank" class="social-btn" aria-label="Twitter"><i
+                                class="fab fa-x-twitter"></i></a>
                     </div>
                 </div>
 
@@ -677,32 +819,21 @@
                     </ul>
                 </div>
 
-                <!-- 2. RESEARCH -->
+                <!-- 2. ANALYTIQUES -->
                 <div class="footer-col">
-                    <h4><i class="fas fa-book" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
-                        Research</h4>
+                    <h4>Hub Analytique</h4>
                     <ul class="footer-links">
-                        <li><a href="rwa.html">RWA & DeFi</a></li>
-                        <li><a href="yield-mechanics.html">Yield Mechanics</a></li>
-                        <li><a href="web3.html">Web3 Infrastructure</a></li>
-                        <li><a href="ai-finance.html">AI & Finance</a></li>
-                        <li><a href="institutional-problem-statement.html">Strategic Vision</a></li>
-                        <li><a href="competitive-landscape.html">Competitive Landscape</a></li>
-                        <li><a href="series-a-narrative.html">Series A Deck</a></li>
-                        <li><a href="governance-os-landing.html">Institutional Governance</a></li>
-                        <li><a href="mrm-hub.html">MRM Hub</a></li>
-                        <li><a href="regulatory-intelligence.html">Macro Tracker</a></li>
-                        <li><a href="case-study-tokenized-bond.html">Quantified Use Case</a></li>
-                        <li><a href="economic-model.html">Economic Model</a></li>
-                        <li><a href="legal-matrix.html">Global Matrix</a></li>
-                        <li><a href="networks/index.html">Blockchain Networks</a></li>
+                        <li><a href="../data/index.html">Observatoire Data</a></li>
+                        <li><a href="../digital-asset-risk-index.html">Indice de Risque GDARI</a></li>
+                        <li><a href="../regulatory-intelligence.html">Veille Réglementaire</a></li>
+                        <li><a href="../media/newsletter.html">Newsletter Policy</a></li>
+                        <li><a href="../yield-mechanics.html">Mécanismes Yield</a></li>
                     </ul>
                 </div>
 
                 <!-- 3. INFRASTRUCTURE -->
                 <div class="footer-col">
-                    <h4><i class="fas fa-network-wired"
-                            style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
+                    <h4><i class="fas fa-network-wired" style="font-size:10px; opacity:0.5; margin-right:5px;"></i>
                         Infrastructure</h4>
                     <ul class="footer-links">
                         <li><a href="lifecycle.html">Cycle de Vie</a></li>
@@ -725,8 +856,9 @@
                         <li><a href="guide.html">Documentation</a></li>
                         <li><a href="index-simple.html">Site Corporate</a></li>
                         <li><a href="about.html">À propos</a>
-            <a href="experts/index.html"
-                style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Experts</a></li>
+                            <a href="experts/index.html"
+                                style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Experts</a>
+                        </li>
                         <li><a href="mailto:contact@dcmcore.com">Contact</a></li>
                     </ul>
                 </div>
@@ -770,7 +902,8 @@
     </footer>
 
     <!-- SCROLL TO TOP -->
-    <button aria-label="Bouton" id="scrollToTop" class="scroll-to-top" title="Retour en haut" style="position: fixed; bottom: 30px; right: 30px; background: rgba(59, 130, 246, 0.8); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; cursor: pointer; display: none; z-index: 1000; transition: 0.3s; backdrop-filter: blur(5px);">
+    <button aria-label="Bouton" id="scrollToTop" class="scroll-to-top" title="Retour en haut"
+        style="position: fixed; bottom: 30px; right: 30px; background: rgba(59, 130, 246, 0.8); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; cursor: pointer; display: none; z-index: 1000; transition: 0.3s; backdrop-filter: blur(5px);">
         <i class="fas fa-chevron-up"></i>
     </button>
 
@@ -785,7 +918,7 @@
 
         // Scroll to Top Logic
         const scrollTopBtn = document.getElementById("scrollToTop");
-        window.onscroll = function() {
+        window.onscroll = function () {
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
                 scrollTopBtn.style.display = "block";
             } else {
@@ -793,9 +926,10 @@
             }
         };
 
-        scrollTopBtn.onclick = function() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
+        scrollTopBtn.onclick = function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
     </script>
 </body>
+
 </html>

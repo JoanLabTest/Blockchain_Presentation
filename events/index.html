@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Institutional Events, Policy Roundtables, and Research Seminars at DCM Core Institute."
+        name="description" />
+    <title>Institutional Events & Roundtables | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../fr/styles.css" rel="stylesheet" />
+    <link href="../fr/styles-navigation.css" rel="stylesheet" />
+    <link href="../fr/styles-visual-hierarchy.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary-gold-dim: #c9a84c;
+            --bg-deep: #020617;
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+            overflow-x: hidden;
+        }
+
+        /* Hero */
+        .events-hero {
+            padding: 100px 20px;
+            text-align: center;
+            background: radial-gradient(circle at top center, rgba(30, 41, 59, 0.5), transparent);
+            position: relative;
+        }
+
+        .hero-tag {
+            background: rgba(201, 168, 76, 0.1);
+            color: var(--primary-gold-dim);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            display: inline-block;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(40px, 8vw, 64px);
+            font-weight: 800;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-lead {
+            font-size: 18px;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        /* Grid */
+        .events-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .event-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-gold-dim);
+            opacity: 0.5;
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .event-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--primary-gold-dim);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-type {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .event-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .event-desc {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .register-btn {
+            background: #1e293b;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .register-btn:hover {
+            background: var(--primary-gold-dim);
+            color: #020617;
+            border-color: var(--primary-gold-dim);
+        }
+
+        .event-status {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        /* Filter Section */
+        .filter-bar {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #94a3b8;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-gold-dim);
+            color: #020617;
+            border-color: var(--primary-gold-dim);
+        }
+
+        @media (max-width: 768px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar Pro Injection Point -->
+    <header class="navbar-pro"></header>
+
+    <div class="events-hero">
+        <div class="hero-tag">Institutional Dialogue</div>
+        <h1 class="hero-title">Events & Roundtables</h1>
+        <p class="hero-lead">DCM Core Institute hosts strategic dialogues, research seminars, and policy roundtables
+            designed to bridge the gap between technical crypto-economics and global financial regulation.</p>
+    </div>
+
+    <div class="filter-bar">
+        <button class="filter-btn active">All Events</button>
+        <button class="filter-btn">Policy Roundtables</button>
+        <button class="filter-btn">Research Seminars</button>
+        <button class="filter-btn">Webinars</button>
+    </div>
+
+    <div class="events-grid">
+        <!-- Event 1 -->
+        <div class="event-card">
+            <div class="event-date">
+                <i class="far fa-calendar"></i> April 15, 2026
+            </div>
+            <div class="event-type">Policy Roundtable</div>
+            <h3 class="event-title">Prudential Standards for Stablecoin Issuers under MiCA</h3>
+            <p class="event-desc">A closed-door session with European regulators and Tier-1 CASPs to discuss the
+                technical implementation of Article 67 capital requirements.</p>
+            <div class="event-footer">
+                <div class="event-status"><i class="fas fa-circle"></i> Registration Open</div>
+                <a href="../en/index.html#lead-capture" class="register-btn">Request Invitation</a>
+            </div>
+        </div>
+
+        <!-- Event 2 -->
+        <div class="event-card">
+            <div class="event-date">
+                <i class="far fa-calendar"></i> April 28, 2026
+            </div>
+            <div class="event-type">Research Seminar</div>
+            <h3 class="event-title">Mapping Systemic Contagion in Modular Blockchains</h3>
+            <p class="event-desc">Technical deep-dive into the GDARI contagion models. Presentation of the latest data
+                on
+                cross-chain liquidity dependencies.</p>
+            <div class="event-footer">
+                <div class="event-status"><i class="fas fa-circle"></i> Online</div>
+                <a href="../en/index.html#lead-capture" class="register-btn">Register</a>
+            </div>
+        </div>
+
+        <!-- Event 3 -->
+        <div class="event-card">
+            <div class="event-date">
+                <i class="far fa-calendar"></i> May 12, 2026
+            </div>
+            <div class="event-type">Webinar</div>
+            <h3 class="event-title">The Future of Atomic Settlement in Digital Bonds</h3>
+            <p class="event-desc">Evaluating the cost-efficiency gains of T+0 settlement systems for institutional
+                issuers. Case study: Siemens Digital Bond.</p>
+            <div class="event-footer">
+                <div class="event-status" style="color: #64748b;"><i class="fas fa-circle"></i> Coming Soon</div>
+                <button class="register-btn" disabled>Notify Me</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Super Footer Injection Point -->
+    <div class="super-footer-container"></div>
+
+    <script src="../fr/js-navigation-loader.js"></script>
+</body>
+
+</html>
