@@ -5,7 +5,7 @@
 <head>
     <link rel="canonical" href="https://dcmcore.com/en/index.html" />
     <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/index.html" />
-    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/index.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/fr/index.html" />
     <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/index.html" />
 
     <!-- DEV MASTER UNLOCK -->
@@ -31,25 +31,66 @@
     </script>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <!-- Institutional Security -->
+    <!-- Institutional Security (Phase 82) -->
     <script src="../fr/js/security-enforcer.js"></script>
     <script src="../fr/js/error-monitor.js" type="module"></script>
     <script src="../fr/js/core/tenant-manager.js" type="module"></script>
     <script src="../fr/js/core/workflow-engine.js" type="module"></script>
     <meta
-        content="DCM Digital: Decision Intelligence Platform for tokenized finance infrastructure. Risk analysis, MiCA compliance, and RWA modeling for institutions and consultants."
+        content="DCM Digital : Decision Intelligence Platform for tokenized finance infrastructure. Risk analysis, MiCA compliance and RWA modeling for institutions and consultants."
         name="description" />
     <meta content="Decision Intelligence, Blockchain Finance, RWA, Tokenization, MiCA, Digital Bonds, Risk Index"
         name="keywords" />
     <meta content="JoanLab Blockchain Education" name="author" />
     <meta content="index, follow" name="robots" />
+    <!-- JSON-LD Structured Data (Organization + WebSite) -->
+    <script type="application/ld+json">
+    [
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "DCM Digital | Decision Intelligence",
+            "url": "https://dcmcore.com/",
+            "logo": "https://dcmcore.com/assets/logo-dcm.png",
+            "description": "Decision intelligence platform for tokenized finance infrastructure.",
+            "founder": {
+                "@type": "Person",
+                "name": "Joan Lyczak",
+                "jobTitle": "Head of Blockchain Innovation",
+                "url": "https://www.linkedin.com/in/joan-lyczak/",
+                "knowsAbout": ["Real World Assets", "DeFi", "Smart Contracts", "MiCA Regulation"]
+            },
+            "sameAs": [
+                "https://www.linkedin.com/in/joan-lyczak/",
+                "https://twitter.com/DCM_Digital"
+            ],
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "email": "contact@dcmcore.com"
+            }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "DCM Digital Decision Intelligence OS",
+            "url": "https://dcmcore.com/",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://dcmcore.com/guide.html?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        }
+    ]
+    </script>
     <!-- OPEN GRAPH -->
     <meta content="website" property="og:type" />
-    <meta content="https://dcmcore.com/en/" property="og:url" />
+    <meta content="https://dcmcore.com/" property="og:url" />
     <meta content="DCM Digital Hub - Blockchain for Finance" property="og:title" />
     <meta content="The strategic portal to master digital assets." property="og:description" />
     <meta content="https://dcmcore.com/assets/preview-hero.png" property="og:image" />
     <title>Institutional Blockchain Governance Platform | DCM Core</title>
+    <link href="../fr/manifest.json" rel="manifest" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -60,34 +101,37 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
     <!-- AOS (Animate On Scroll) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <!-- Stylesheets -->
-    <link href="../styles.css" rel="stylesheet" />
-    <link href="../styles-fusion.css" rel="stylesheet" />
-    <link href="../styles-navigation.css" rel="stylesheet" />
-    <link href="../styles-logo-dropdown.css" rel="stylesheet" />
-    <link href="../styles-visual-hierarchy.css" rel="stylesheet" />
-    <link href="../styles-visual-hierarchy-enhanced.css" rel="stylesheet" />
-    <link href="../styles-mobile.css" rel="stylesheet" />
+    <!-- Stylesheets (Reusing existing architecture) -->
+    <link href="../fr/styles.css" rel="stylesheet" />
+    <link href="../fr/styles-fusion.css" rel="stylesheet" />
+    <link href="../fr/styles-navigation.css" rel="stylesheet" />
+    <link href="../fr/styles-logo-dropdown.css" rel="stylesheet" />
+    <link href="../fr/styles-visual-hierarchy.css" rel="stylesheet" />
+    <link href="../fr/styles-visual-hierarchy-enhanced.css" rel="stylesheet" />
+    <link href="../fr/styles-mobile.css" rel="stylesheet" />
     <link href="../fr/styles-3d-hub.css" rel="stylesheet" />
-    <link href="../fr/styles-footer.css" rel="stylesheet" />
+    <link href="../fr/styles-footer.css" rel="stylesheet" /> <!-- NEW SUPER FOOTER -->
     <style>
+        /* HUB SPECIFIC STYLES */
         body {
             background-color: #020617;
+            /* Gradient removed here, handled by Canvas roughly but we keep a dark base */
             font-family: 'Inter', sans-serif;
             color: white;
             overflow-x: hidden;
             position: relative;
         }
-        #hubCanvas {
+    #hubCanvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
+            /* Behind content */
             opacity: 0.6;
         }
-        .hub-container {
+    .hub-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 100px 20px 60px 20px;
@@ -96,11 +140,11 @@
             flex-direction: column;
             justify-content: flex-start;
         }
-        .hub-hero {
+    .hub-hero {
             text-align: center;
             margin-bottom: 80px;
         }
-        .hub-tag {
+    .hub-tag {
             display: inline-block;
             padding: 8px 16px;
             border: 1px solid #3b82f6;
@@ -112,7 +156,7 @@
             background: rgba(59, 130, 246, 0.1);
             letter-spacing: 1px;
         }
-        .hub-title {
+    .hub-title {
             font-family: 'Outfit', sans-serif;
             font-size: 64px;
             font-weight: 800;
@@ -123,13 +167,115 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .hub-subtitle {
+    .hub-subtitle {
             font-size: 20px;
             color: #94a3b8;
             max-width: 800px;
             margin: 0 auto 60px auto;
             line-height: 1.6;
         }
+    /* RADICAL SEGMENT GATES (Phase 61) */
+        .radical-gates {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+            perspective: 1000px;
+        }
+    .radical-gate-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 50px 30px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+    .radical-gate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gate-color);
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+    .radical-gate-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--gate-color);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 40px 60px -20px rgba(0, 0, 0, 0.8), 0 0 40px -10px var(--gate-color);
+        }
+    .radical-gate-card:hover::before {
+            opacity: 1;
+        }
+    .gate-icon-large {
+            font-size: 50px;
+            color: var(--gate-color);
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+    .radical-gate-card:hover .gate-icon-large {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px var(--gate-color));
+        }
+    .gate-title-massive {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+        }
+    .gate-desc-premium {
+            font-size: 16px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin: 0;
+        }
+    .gate-cta-btn {
+            margin-top: 15px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+    .radical-gate-card:hover .gate-cta-btn {
+            background: var(--gate-color);
+            color: #020617;
+            border-color: transparent;
+            box-shadow: 0 10px 20px -5px var(--gate-color);
+        }
+    @media (max-width: 992px) {
+            .radical-gates {
+                grid-template-columns: 1fr;
+            }
+        }
+    .gate-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+        }
+    .gate-desc {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+    /* HUB SECTIONS (Phase 88/89) */
         .hub-section {
             margin-bottom: 100px;
             padding: 50px 40px;
@@ -139,17 +285,30 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
-        .hub-section:hover {
+    .hub-section:hover {
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
             border-color: var(--pillar-color);
-            box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.8), 0 0 40px -10px var(--pillar-color);
+            box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.8),
+                0 0 40px -10px var(--pillar-color);
         }
-        .hub-section-header {
+    .hub-section::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--pillar-color) 0%, transparent 70%);
+            opacity: 0.1;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+    .hub-section-header {
             margin-bottom: 40px;
             border-left: 4px solid var(--pillar-color, #3b82f6);
             padding-left: 20px;
         }
-        .pillar-title {
+    .pillar-title {
             font-family: 'Outfit', sans-serif;
             font-size: 32px;
             font-weight: 800;
@@ -161,18 +320,21 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .pillar-subtitle {
+    .pillar-subtitle {
             font-size: 14px;
             color: #64748b;
             margin-top: 5px;
             font-weight: 500;
         }
+    /* UNIVERSE GRID OVERRIDE */
         .universe-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
+            margin-bottom: 0;
+            /* Handled by section margin */
         }
-        .universe-card {
+    .universe-card {
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(148, 163, 184, 0.1);
             border-radius: 20px;
@@ -184,13 +346,13 @@
             display: block;
             backdrop-filter: blur(10px);
         }
-        .universe-card:hover {
+    .universe-card:hover {
             transform: translateY(-5px);
             border-color: rgba(59, 130, 246, 0.5);
             box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.15);
             background: rgba(30, 41, 59, 0.8);
         }
-        .card-icon {
+    .card-icon {
             width: 60px;
             height: 60px;
             border-radius: 16px;
@@ -198,25 +360,64 @@
             place-items: center;
             font-size: 28px;
             margin-bottom: 25px;
+            transition: transform 0.3s;
         }
-        .card-title {
+    .universe-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+    .card-title {
             font-size: 24px;
             font-weight: 700;
             color: white;
             margin-bottom: 10px;
             font-family: 'Outfit', sans-serif;
         }
-        .card-desc {
+    .card-desc {
             font-size: 16px;
             color: #94a3b8;
             line-height: 1.5;
         }
-        .card-arrow {
+    .card-arrow {
             position: absolute;
             top: 35px;
             right: 35px;
             color: #475569;
+            transition: all 0.3s;
         }
+    .universe-card:hover .card-arrow {
+            color: #3b82f6;
+            transform: translateX(5px);
+        }
+    /* PERSONA BAR */
+        .persona-bar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            padding-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    .persona-btn {
+            background: transparent;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+    .persona-btn:hover {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            color: white;
+        }
+    /* NAVBAR OVERRIDE */
         .navbar-pro {
             position: fixed;
             top: 0;
@@ -226,212 +427,1250 @@
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        @media (max-width: 768px) {
-            .hub-title { font-size: 42px; }
-            .hub-container { padding-top: 100px; }
+    @media (max-width: 768px) {
+            .hub-title {
+                font-size: 42px;
+            }
+    .hub-container {
+                padding-top: 100px;
+            }
         }
     </style>
-</head>
+    </link>
+    <script src="../fr/js/cookie-consent.js"></script>
+    <script src="../fr/js/cta-tracker.js"></script>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    </head>
 
 <body>
     <nav class="navbar-pro">
+        <!-- PRIMARY LINKS (Centered) -->
         <div class="nav-links" style="display: flex; align-items: center; gap: 25px;">
-            <a href="index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 1;">Platform</a>
-            <a href="observatory/index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8;">Observatory</a>
-            <a href="digital-asset-risk-index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8;">Risk Index</a>
-            <a href="publications/index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8;">Research</a>
-            <a href="about.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8;">About</a>
+            <a href="index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Platform</a>
+            <a href="../observatory/index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Observatory</a>
+            <a href="../digital-asset-risk-index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Risk Index</a>
+            <a href="../publications/index.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">Research</a>
+            <a href="about.html" style="color:white; text-decoration:none; font-weight:600; font-size:13px; opacity: 0.8; transition: opacity 0.2s;">About</a>
         </div>
 
+        <!-- SEARCH RESTORATION -->
+        <div class="nav-search" style="margin: 0 15px; max-width: 280px;">
+            <input class="nav-search-input" id="globalSearchInput" placeholder="Search (MiCA, ROI, DORA)..." type="text" style="padding: 6px 15px 6px 35px; font-size: 12px; height: 32px;"/>
+            <i class="fas fa-search nav-search-icon" style="left: 12px; font-size: 11px;"></i>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+
+        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 10px;"></div>
+
+        <!-- ACTIONS & LANGUAGES (Centered Right) -->
         <div class="nav-actions" style="display: flex; align-items: center; gap: 20px;">
-            <a href="login.html" style="color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 600;">Authentication</a>
+            <button class="btn-connect-wallet" id="connectWalletBtn" style="padding: 6px 15px; font-size: 11px;">
+                <i class="fas fa-wallet"></i> <span>Connect Wallet (Demo)</span>
+            </button>
+            <a href="../login.html" style="color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 600; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#94a3b8'">Authentication</a>
+            
             <div style="display: flex; gap: 8px;">
-                <a href="../fr/index.html" style="text-decoration: none; opacity: 0.5; filter: grayscale(1);">
+                <a href="../fr/index.html" style="text-decoration: none; opacity: 0.5; filter: grayscale(1); transition: 0.3s;" onmouseover="this.style.opacity='1'; this.style.filter='none'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(1)'">
                     <span style="font-size: 18px;">🇫🇷</span>
                 </a>
-                <a href="#" style="text-decoration: none; opacity: 1;">
+                <a href="index.html" style="text-decoration: none; opacity: 0.5; filter: grayscale(1); transition: 0.3s;" onmouseover="this.style.opacity='1'; this.style.filter='none'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(1)'">
                     <span style="font-size: 18px;">🇬🇧</span>
                 </a>
             </div>
         </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button aria-label="Bouton" class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
     </nav>
 
-    <canvas id="hubCanvas"></canvas>
+    <!-- SOCIAL PROOF BANNER -->
+    <div
+        style="background: rgba(15, 23, 42, 0.8); border-top: 1px solid rgba(59, 130, 246, 0.3); border-bottom: 1px solid rgba(59, 130, 246, 0.3); padding: 15px 0; text-align: center; font-size: 14px; font-weight: 600; color: #94a3b8; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+        <span><i class="fas fa-handshake text-blue-400 mr-2"></i> In discussion with EU Tier-1 institutions</span>
+        <span class="hidden md:inline">|</span>
+        <span><i class="fas fa-shield-halved text-emerald-400 mr-2"></i> Research & institutional framework aligned with
+            MiCA & DORA</span>
+    </div>
 
+    <!-- CANVAS BACKGROUND -->
+    <canvas id="hubCanvas"></canvas>
+    <!-- CONTENT -->
     <div class="hub-container">
+        <!-- HERO -->
         <section class="hub-hero" data-aos="zoom-in" style="margin-top: 40px;">
-            <div class="hub-tag" style="border-color: var(--accent-purple); color: var(--accent-purple); background: rgba(168, 85, 247, 0.1);">
+            <div class="hub-tag" data-aos="fade-down"
+                style="border-color: var(--accent-purple); color: var(--accent-purple); background: rgba(168, 85, 247, 0.1);">
                 <i class="fas fa-landmark mr-2"></i> Institutional Blockchain Governance Think-Tank
             </div>
-            <h1 class="hub-title">
-                DCM Core <br /><span style="font-size: 48px; opacity: 0.9;">Bridge the DORA Compliance Gap</span>
+            <h1 class="hub-title" data-aos="fade-up" data-aos-delay="100"
+                style="font-size: 72px; letter-spacing: -2px;">
+                DCM Core <br /><span style="font-size: 48px; opacity: 0.9;">Bridge the DORA/Prudential Compliance Gap</span>
             </h1>
-            <p class="hub-subtitle">
+            <p class="hub-subtitle" data-aos="fade-up" data-aos-delay="200"
+                style="font-size: 22px; max-width: 900px; color: #cbd5e1;">
                 70% of EU banks lack a DORA-compliant DLT risk assessment framework. <br />
                 <span style="color: #3b82f6; font-weight: 700;">DCM Digital standardizes digital asset governance for Tier-1 institutions.</span>
             </p>
+
+            <!-- TRACTION INDICATORS (Phase 19 - Social Proof) -->
+            <div class="traction-markers" data-aos="fade-up" data-aos-delay="300" style="display: flex; justify-content: center; gap: 40px; margin-top: 50px; margin-bottom: 20px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: white;">5+</div>
+                    <div style="font-size: 11px; color: #3b82f6; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Pilot Programs</div>
+                </div>
+                <div style="width: 1px; height: 40px; background: rgba(255,255,255,0.1); align-self: center;"></div>
+                <div style="text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: white;">12</div>
+                    <div style="font-size: 11px; color: #3b82f6; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Institutional Partners</div>
+                </div>
+                <div style="width: 1px; height: 40px; background: rgba(255,255,255,0.1); align-self: center;"></div>
+                <div style="text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: white;">2.4k</div>
+                    <div style="font-size: 11px; color: #3b82f6; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Waitlist (Gov Pros)</div>
+                </div>
+            </div>
+            <!-- REGULATORY AUTHORITY STRIP -->
+            <div class="regulatory-strip"
+                style="display: flex; justify-content: center; gap: 60px; margin-top: 60px; opacity: 0.6; filter: grayscale(1);">
+                <span title="Aligned with ESMA Guidelines"
+                    style="font-size: 11px; font-weight: 800; color: #94a3b8; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-landmark" style="font-size: 18px;"></i> ESMA ALIGNED
+                </span>
+                <span title="EBA Reporting Standards"
+                    style="font-size: 11px; font-weight: 800; color: #94a3b8; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-building-columns" style="font-size: 18px;"></i> EBA COMPLIANT
+                </span>
+                <span title="BCBS 239 Risk Data Aggregation"
+                    style="font-size: 11px; font-weight: 800; color: #94a3b8; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-university" style="font-size: 18px;"></i> BCBS STANDARDS
+                </span>
+                <span title="BIS Innovation Hub Research"
+                    style="font-size: 11px; font-weight: 800; color: #94a3b8; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-globe-europe" style="font-size: 18px;"></i> BIS RESEARCH
+                </span>
+            </div>
+        </section>
         </section>
 
-        <!-- 1. CORE INTELLIGENCE -->
-        <section class="hub-section" id="core-intelligence" style="--pillar-color: #3b82f6;">
-            <div class="hub-section-header">
-                <h2 class="pillar-title">Core Intelligence</h2>
-                <h3 class="pillar-subtitle">Reference frameworks and strategic decision tools.</h3>
+        <!-- HOW IT WORKS IN 90 SECONDS — PREMIUM PIPELINE -->
+        <section class="hiw-section" id="how-it-works">
+            <style>
+                /* ===== HOW IT WORKS — PREMIUM PIPELINE ===== */
+                .hiw-section {
+                    position: relative;
+                    padding: 80px 20px 60px;
+                    max-width: 1280px;
+                    margin: 0 auto;
+                    overflow: hidden;
+                }
+
+                .hiw-section::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 600px;
+                    height: 600px;
+                    background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+                    pointer-events: none;
+                    z-index: 0;
+                }
+
+                .hiw-header {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+                    margin-bottom: 16px;
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .hiw-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 6px 16px;
+                    background: rgba(59, 130, 246, 0.08);
+                    border: 1px solid rgba(59, 130, 246, 0.2);
+                    border-radius: 100px;
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: #60a5fa;
+                    text-transform: uppercase;
+                    letter-spacing: 1.5px;
+                    margin-bottom: 20px;
+                }
+
+                .hiw-badge i {
+                    font-size: 10px;
+                    animation: hiw-pulse 2s ease-in-out infinite;
+                }
+
+                @keyframes hiw-pulse {
+
+                    0%,
+                    100% {
+                        opacity: 0.5;
+                    }
+
+                    50% {
+                        opacity: 1;
+                    }
+                }
+
+                .hiw-title {
+                    font-size: 32px;
+                    font-weight: 800;
+                    color: #f1f5f9;
+                    letter-spacing: -0.5px;
+                    margin: 0 0 10px;
+                    width: 100%;
+                }
+
+                .hiw-title span {
+                    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+
+                .hiw-subtitle {
+                    font-size: 14px;
+                    color: #64748b;
+                    max-width: 520px;
+                    margin: 0 auto;
+                    line-height: 1.6;
+                }
+
+                /* Pipeline connector line (desktop) */
+                .hiw-pipeline-track {
+                    position: relative;
+                    z-index: 1;
+                    margin-top: 40px;
+                }
+
+                .hiw-connector {
+                    display: none;
+                }
+
+                @media (min-width: 1024px) {
+                    .hiw-connector {
+                        display: block;
+                        position: absolute;
+                        top: 62px;
+                        left: 8%;
+                        right: 8%;
+                        height: 2px;
+                        background: linear-gradient(90deg,
+                                rgba(59, 130, 246, 0.0),
+                                rgba(59, 130, 246, 0.4) 15%,
+                                rgba(168, 85, 247, 0.4) 50%,
+                                rgba(16, 185, 129, 0.4) 85%,
+                                rgba(16, 185, 129, 0.0));
+                        z-index: 0;
+                    }
+
+                    .hiw-connector::after {
+                        content: '';
+                        position: absolute;
+                        top: -1px;
+                        left: 0;
+                        width: 80px;
+                        height: 4px;
+                        background: linear-gradient(90deg, rgba(59, 130, 246, 0.8), rgba(168, 85, 247, 0.8));
+                        border-radius: 2px;
+                        animation: hiw-flow 3s ease-in-out infinite;
+                        box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+                    }
+
+                    @keyframes hiw-flow {
+                        0% {
+                            left: 0%;
+                            opacity: 0;
+                        }
+
+                        10% {
+                            opacity: 1;
+                        }
+
+                        90% {
+                            opacity: 1;
+                        }
+
+                        100% {
+                            left: calc(100% - 80px);
+                            opacity: 0;
+                        }
+                    }
+                }
+
+                /* Card grid */
+                .hiw-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 16px;
+                    position: relative;
+                    z-index: 1;
+                }
+
+                @media (min-width: 640px) {
+                    .hiw-grid {
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 18px;
+                    }
+                }
+
+                @media (min-width: 1024px) {
+                    .hiw-grid {
+                        grid-template-columns: repeat(6, 1fr);
+                        gap: 14px;
+                    }
+                }
+
+                /* Individual card */
+                .hiw-card {
+                    position: relative;
+                    background: rgba(2, 6, 23, 0.6);
+                    border: 1px solid rgba(71, 85, 105, 0.3);
+                    border-radius: 16px;
+                    padding: 28px 16px 22px;
+                    text-align: center;
+                    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    backdrop-filter: blur(12px);
+                    cursor: default;
+                    overflow: hidden;
+                }
+
+                .hiw-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 3px;
+                    background: var(--hiw-accent);
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                }
+
+                .hiw-card:hover {
+                    transform: translateY(-6px);
+                    border-color: var(--hiw-accent);
+                    box-shadow:
+                        0 12px 40px rgba(0, 0, 0, 0.3),
+                        0 0 30px color-mix(in srgb, var(--hiw-accent) 15%, transparent);
+                }
+
+                .hiw-card:hover::before {
+                    opacity: 1;
+                }
+
+                .hiw-card:hover .hiw-icon-ring {
+                    border-color: var(--hiw-accent);
+                    box-shadow: 0 0 20px color-mix(in srgb, var(--hiw-accent) 25%, transparent);
+                }
+
+                .hiw-card:hover .hiw-step-num {
+                    color: var(--hiw-accent);
+                }
+
+                /* Step number */
+                .hiw-step-num {
+                    position: absolute;
+                    top: 10px;
+                    right: 12px;
+                    font-size: 11px;
+                    font-weight: 700;
+                    color: #334155;
+                    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+                    transition: color 0.3s;
+                }
+
+                /* Icon ring */
+                .hiw-icon-ring {
+                    width: 52px;
+                    height: 52px;
+                    border-radius: 14px;
+                    border: 1px solid rgba(71, 85, 105, 0.4);
+                    background: rgba(15, 23, 42, 0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0 auto 14px;
+                    transition: all 0.4s;
+                }
+
+                .hiw-icon-ring i {
+                    font-size: 20px;
+                    color: var(--hiw-accent);
+                }
+
+                /* Text */
+                .hiw-card-title {
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #e2e8f0;
+                    margin-bottom: 6px;
+                    letter-spacing: -0.2px;
+                }
+
+                .hiw-card-desc {
+                    font-size: 11px;
+                    color: #64748b;
+                    line-height: 1.5;
+                    margin: 0;
+                }
+
+                /* Bottom CTA */
+                .hiw-cta-row {
+                    text-align: center;
+                    margin-top: 40px;
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .hiw-cta-link {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #60a5fa;
+                    text-decoration: none;
+                    padding: 10px 24px;
+                    border: 1px solid rgba(59, 130, 246, 0.25);
+                    border-radius: 100px;
+                    transition: all 0.3s;
+                    background: rgba(59, 130, 246, 0.05);
+                }
+
+                .hiw-cta-link:hover {
+                    background: rgba(59, 130, 246, 0.12);
+                    border-color: rgba(59, 130, 246, 0.5);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+                }
+
+                .hiw-cta-link i {
+                    font-size: 10px;
+                    transition: transform 0.3s;
+                }
+
+                .hiw-cta-link:hover i {
+                    transform: translateX(3px);
+                }
+            </style>
+
+            <div class="hiw-header" data-aos="fade-up">
+                <div class="hiw-badge">
+                    <i class="fas fa-circle"></i> Data Pipeline Architecture
+                </div>
+                <h2 class="hiw-title">How DCM Core Works <span>in 90 Seconds</span></h2>
+                <p class="hiw-subtitle">Du flux DLT brut au rapport certifié pour le Board — 6 étapes, zéro
+                    intervention manuelle.</p>
             </div>
-            <div class="universe-grid">
-                <a class="universe-card" href="dashboard.html?segment=investor&tab=overview">
-                    <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;"><i class="fas fa-chart-pie"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">Institutional Hub</div>
-                    <div class="card-desc">Market analysis and real-time KPI monitoring.</div>
-                </a>
-                <a class="universe-card" href="dashboard.html?segment=student&tab=quiz">
-                    <div class="card-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;"><i class="fas fa-award"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">Quiz Certification</div>
-                    <div class="card-desc">Validate your mastery with the final 45-question certification quiz.</div>
-                </a>
-                <a class="universe-card" href="guide.html">
-                    <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;"><i class="fas fa-book"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">The Expert Guide</div>
-                    <div class="card-desc">Complete resource: Infrastructure, Regulation, Case Studies.</div>
+
+            <div class="hiw-pipeline-track">
+                <div class="hiw-connector"></div>
+                <div class="hiw-grid">
+
+                    <div class="hiw-card" style="--hiw-accent: #3b82f6;" data-aos="fade-up" data-aos-delay="0">
+                        <span class="hiw-step-num">01</span>
+                        <div class="hiw-icon-ring"><i class="fas fa-file-import"></i></div>
+                        <h4 class="hiw-card-title">Data Ingestion</h4>
+                        <p class="hiw-card-desc">Capture of DLT fluxes (Canton, SWIAT, Public).</p>
+                    </div>
+
+                    <div class="hiw-card" style="--hiw-accent: #8b5cf6;" data-aos="fade-up" data-aos-delay="80">
+                        <span class="hiw-step-num">02</span>
+                        <div class="hiw-icon-ring"><i class="fas fa-sync-alt"></i></div>
+                        <h4 class="hiw-card-title">Normalisation</h4>
+                        <p class="hiw-card-desc">JSON translation into FIS financial schemas.</p>
+                    </div>
+
+                    <div class="hiw-card" style="--hiw-accent: #10b981;" data-aos="fade-up" data-aos-delay="160">
+                        <span class="hiw-step-num">03</span>
+                        <div class="hiw-icon-ring"><i class="fas fa-brain"></i></div>
+                        <h4 class="hiw-card-title">Risk Modelling</h4>
+                        <p class="hiw-card-desc">Stochastic benchmarks & DLT stress tests.</p>
+                    </div>
+
+                    <div class="hiw-card" style="--hiw-accent: #f59e0b;" data-aos="fade-up" data-aos-delay="240">
+                        <span class="hiw-step-num">04</span>
+                        <div class="hiw-icon-ring"><i class="fas fa-gavel"></i></div>
+                        <h4 class="hiw-card-title">Reg Mapping</h4>
+                        <p class="hiw-card-desc">Native DORA, MiCA, Basel III alignment.</p>
+                    </div>
+
+                    <div class="hiw-card" style="--hiw-accent: #06b6d4;" data-aos="fade-up" data-aos-delay="320">
+                        <span class="hiw-step-num">05</span>
+                        <div class="hiw-icon-ring"><i class="fas fa-chart-pie"></i></div>
+                        <h4 class="hiw-card-title">Capital Impact</h4>
+                        <p class="hiw-card-desc">ROI calculation via RWA optimization.</p>
+                    </div>
+
+                    <div class="hiw-card" style="--hiw-accent: #a855f7;" data-aos="fade-up" data-aos-delay="400">
+                        <span class="hiw-step-num">06</span>
+                        <div class="hiw-icon-ring"><i class="fas fa-file-export"></i></div>
+                        <h4 class="hiw-card-title">Board Export</h4>
+                        <p class="hiw-card-desc">Cryptographic certification & L2 reporting.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="hiw-cta-row" data-aos="fade-up" data-aos-delay="500">
+                <a href="data-architecture.html" class="hiw-cta-link">
+                    Explore Full Architecture <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
         </section>
 
-        <!-- 2. GOVERNANCE & COMPLIANCE -->
-        <section class="hub-section" id="governance" style="--pillar-color: #10b981;">
-            <div class="hub-section-header">
-                <h2 class="pillar-title">Governance & Compliance</h2>
-                <h3 class="pillar-subtitle">Prudential risk audit and regulatory mapping tools.</h3>
-            </div>
-            <div class="universe-grid">
-                <a class="universe-card" href="governance-os.html">
-                    <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;"><i class="fas fa-shield-halved"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">Governance OS</div>
-                    <div class="card-desc">End-to-end framework for institutional DLT projects.</div>
-                </a>
-                <a class="universe-card" href="mica-simulator.html">
-                    <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;"><i class="fas fa-scale-balanced"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">MiCA Simulator</div>
-                    <div class="card-desc">Assessment of CASP requirements and obligations.</div>
-                </a>
-                <a class="universe-card" href="regulatory-mapping.html">
-                    <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;"><i class="fas fa-map-location-dot"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">Regulator Matrix</div>
-                    <div class="card-desc">Global comparison of DLT and crypto regulatory frameworks.</div>
-                </a>
-            </div>
-        </section>
+        <!-- RADICAL SEGMENT GATES (Phase 61) -->
+        <div class="radical-gates" data-aos="fade-up" data-aos-delay="200">
+            <!-- STUDENTS -->
+            <a class="radical-gate-card" href="dashboard.html?segment=student" onclick="setPersona('student')"
+                style="--gate-color: #a855f7;">
+                <div class="gate-icon-large"><i class="fas fa-graduation-cap"></i></div>
+                <h2 class="gate-title-massive">Academy</h2>
+                <p class="gate-desc-premium">
+                    Certification & Training. <br />
+                    For students and newcomers.
+                </p>
+                <div class="gate-cta-btn">I'm a Student</div>
+            </a>
+            <!-- CONSULTANTS -->
+            <a class="radical-gate-card" href="dashboard.html?segment=pro" onclick="setPersona('pro')"
+                style="--gate-color: #10b981;">
+                <div class="gate-icon-large"><i class="fas fa-briefcase"></i></div>
+                <h2 class="gate-title-massive">Advisory</h2>
+                <p class="gate-desc-premium">
+                    Tools & Decision Support. <br />
+                    For consultants and professional analysts.
+                </p>
+                <div class="gate-cta-btn">I'm a Consultant</div>
+            </a>
+            <!-- INSTITUTIONS -->
+            <a class="radical-gate-card" href="solutions/gouvernance-actifs-numeriques.html"
+                onclick="setPersona('enterprise')" style="--gate-color: #3b82f6;">
+                <div class="gate-icon-large"><i class="fas fa-building-columns"></i></div>
+                <h2 class="gate-title-massive">Governance Layer</h2>
+                <p class="gate-desc-premium">
+                    The Strategic Framework. <br />
+                    For CROs, Boards & Regulators.
+                </p>
+                <div class="gate-cta-btn">Access Governance Core</div>
+            </a>
+        </div>
+    </div>
+    <script type="module">
+        import { SessionManager } from './js/session-manager.js';
+        window.setPersona = (role) => {
+            SessionManager.setSessionRole(role);
+        };
 
-        <!-- 3. RWA & TOKENIZATION -->
-        <section class="hub-section" id="rwa" style="--pillar-color: #f59e0b;">
-            <div class="hub-section-header">
-                <h2 class="pillar-title">RWA & Tokenization</h2>
-                <h3 class="pillar-subtitle">Modeling financial assets on-chain.</h3>
-            </div>
-            <div class="universe-grid">
-                <a class="universe-card" href="rwa.html">
-                    <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;"><i class="fas fa-coins"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">RWA Analytics</div>
-                    <div class="card-desc">Deep-dive into tokenized real-world assets.</div>
-                </a>
-                <a class="universe-card" href="case-study-tokenized-bond.html">
-                    <div class="card-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;"><i class="fas fa-file-invoice-dollar"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">Digital Bonds</div>
-                    <div class="card-desc">Lifecycle analysis of tokenized debt securities.</div>
-                </a>
-                <a class="universe-card" href="yield-mechanics.html">
-                    <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;"><i class="fas fa-percent"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">Yield Mechanics</div>
-                    <div class="card-desc">DeFi yield source analysis for treasuries.</div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 4. RESEARCH & INSTITUTE -->
-        <section class="hub-section" id="research" style="--pillar-color: #a855f7;">
-            <div class="hub-section-header">
-                <h2 class="pillar-title">Research & Institute</h2>
-                <h3 class="pillar-subtitle">Industry analyses, frameworks, and initiatives.</h3>
-            </div>
-            <div class="universe-grid">
-                <a class="universe-card" href="observatory/index.html">
-                    <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;"><i class="fas fa-globe"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">Global Observatory</div>
-                    <div class="card-desc">Institutional macro-research infrastructure.</div>
-                </a>
-                <a class="universe-card" href="digital-asset-risk-index.html">
-                    <div class="card-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;"><i class="fas fa-tachometer-alt"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">GDARI Risk Index</div>
-                    <div class="card-desc">Quantitative digital asset risk measurement.</div>
-                </a>
-                <a class="universe-card" href="publications/index.html">
-                    <div class="card-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;"><i class="fas fa-book-open"></i></div>
-                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-                    <div class="card-title">Library</div>
-                    <div class="card-desc">Publications, market studies, and research notes.</div>
-                </a>
-            </div>
-        </section>
+        // Highlight active persona on load (Phase 98)
+        window.addEventListener('load', () => {
+            const activeRole = localStorage.getItem('dcm_active_role');
+            if (activeRole) {
+                const btn = document.querySelector(`.radical-gate-card[onclick*="'${activeRole}'"]`);
+                if (btn) {
+                    btn.style.borderColor = 'var(--gate-color)';
+                    btn.style.background = 'rgba(255,255,255,0.05)';
+                    btn.style.boxShadow = '0 0 30px rgba(255,255,255,0.1)';
+                }
+            }
+        });
+    </script>
+    </section>
     </div>
 
+    <!-- 1. CORE INTELLIGENCE -->
+    <section class="hub-section" data-aos="fade-up" id="core" style="--pillar-color: #10b981;">
+        <div class="hub-section-header">
+            <h2 class="pillar-title">Core Intelligence</h2>
+            <p class="pillar-subtitle">Decision engines, risk modeling and on-chain analysis.</p>
+        </div>
+        <div class="universe-grid">
+            <!-- RISK & YIELD MODELS -->
+            <a class="universe-card" href="dashboard.html?segment=pro#risk-card">
+                <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Risk & Yield Models</div>
+                <div class="card-desc">Economic modeling, validator ROI and financial risk matrices.
+                </div>
+            </a>
+            <!-- YIELD MECHANICS -->
+            <a class="universe-card" href="yield-mechanics.html">
+                <div class="card-icon" style="background: rgba(132, 204, 22, 0.1); color: #84cc16;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Yield & Staking</div>
+                <div class="card-desc">Yield analysis: APR vs APY and institutional liquidity strategies.
+                </div>
+            </a>
+            <!-- AI & FINANCE -->
+            <a class="universe-card" href="ai-finance.html">
+                <div class="card-icon" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">AI & Finance</div>
+                <div class="card-desc">Applied Cognitive Intelligence: Prediction and Risk Analysis.</div>
+            </a>
+            <!-- BUIDL CASE -->
+            <a class="universe-card" href="buidl.html">
+                <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                    <i class="fas fa-search-dollar"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">BlackRock BUIDL</div>
+                <div class="card-desc">Case Study: Analysis of BlackRock's first tokenized fund.</div>
+            </a>
+            <!-- ECB DLT TRIALS -->
+            <a class="universe-card" href="ecb-dlt-trials.html">
+                <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    <i class="fas fa-globe-europe"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">ECB DLT Trials</div>
+                <div class="card-desc">European Institutional Use Case: DvP Settlement & T+0.</div>
+            </a>
+            <!-- RWA ANALYTICS -->
+            <a class="universe-card" href="rwa-analytics.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">RWA Analytics</div>
+                <div class="card-desc">Deep-dive vertical: Tokenized Bonds & Real Estate Portfolio Engine.</div>
+            </a>
+        </div>
+    </section>
+    <!-- 2. GOVERNANCE & COMPLIANCE -->
+    <section class="hub-section" data-aos="fade-up" id="governance" style="--pillar-color: #3b82f6;">
+        <div class="hub-section-header">
+            <h2 class="pillar-title">Governance & Compliance</h2>
+            <h3 class="pillar-subtitle">Regulatory frameworks, security and immutability.</h3>
+        </div>
+        <div class="universe-grid">
+            <a class="universe-card" href="legal_pilot.html">
+                <div class="card-icon" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
+                    <i class="fas fa-scale-balanced"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Régime Pilote UE</div>
+                <div class="card-desc">European regulatory framework and CSD/DLT exemptions.</div>
+            </a>
+            <a class="universe-card" href="governance-os-landing.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Access Governance OS</div>
+                <div class="card-desc">Le Cockpit Central. Modélisation MRM, stress tests et génération
+                    de preuves cryptographiques.</div>
+            </a>
+            <a class="universe-card" href="legal-matrix.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Global Legal Matrix</div>
+                <div class="card-desc">International Comparator: MiCA vs SEC vs VARA vs MAS.</div>
+            </a>
+            <a class="universe-card" href="security.html">
+                <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Security Center</div>
+                <div class="card-desc">Infrastructure, AES-256 Encryption and Audit Trail.</div>
+            </a>
+        </div>
+    </section>
+    <!-- 3. PROFESSIONAL TOOLKIT -->
+    <section class="hub-section" data-aos="fade-up" id="toolkit" style="--pillar-color: #ec4899;">
+        <div class="hub-section-header">
+            <h2 class="pillar-title">Professional Toolkit</h2>
+            <p class="pillar-subtitle">Execution tools and technical infrastructure.</p>
+        </div>
+        <div class="universe-grid">
+            <a class="universe-card" href="sandbox.html">
+                <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Developer Sandbox</div>
+                <div class="card-desc">Test your Smart Contracts and simulate transactions.</div>
+            </a>
+            <a class="universe-card" href="smart-contracts.html">
+                <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Architecture RWA</div>
+                <div class="card-desc">Deep Dive on Smart Contracts (ERC-3643) and tokenization infra.</div>
+            </a>
+            <a class="universe-card" href="flux-comparison.html">
+                <div class="card-icon" style="background: rgba(236, 72, 153, 0.1); color: #ec4899;">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Flux & Opérations</div>
+                <div class="card-desc">Visual Comparison: Traditional Circuit (T+2) vs Digital Circuit (T+0).</div>
+            </a>
+            <a class="universe-card" href="lifecycle.html">
+                <div class="card-icon" style="background: rgba(236, 72, 153, 0.1); color: #ec4899;">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Cycle de Vie</div>
+                <div class="card-desc">Follow the flow of a tokenized issuance step by step.</div>
+            </a>
+        </div>
+    </section>
+    <!-- 4. LEARNING & ACADEMIC -->
+    <section class="hub-section" data-aos="fade-up" id="learning" style="--pillar-color: #f59e0b;">
+        <div class="hub-section-header">
+            <h2 class="pillar-title">Learning & Certification</h2>
+            <p class="pillar-subtitle">Pedagogical paths and skills validation.</p>
+        </div>
+        <div class="universe-grid">
+            <a class="universe-card" href="simple.html">
+                <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Academy</div>
+                <div class="card-desc">The essentials to start. Lifecycle and key concepts in 5 minutes.</div>
+            </a>
+            <a class="universe-card" href="guide.html">
+                <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Le Guide Expert</div>
+                <div class="card-desc">The complete resource: Infrastructure, Regulation, Case Studies.</div>
+            </a>
+            <a class="universe-card" href="dashboard.html?segment=student&tab=quiz">
+                <div class="card-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Quiz Certification</div>
+                <div class="card-desc">Validate your mastery with the final 45-question certification quiz.</div>
+            </a>
+            <a class="universe-card" href="networks/index.html">
+                <div class="card-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                    <i class="fa-solid fa-network-wired"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Blockchain Networks</div>
+                <div class="card-desc">Comparative analysis of L1 architectures (BTC, ETH, SOL).</div>
+            </a>
+        </div>
+    </section>
+    <!-- 5. RESEARCH & INSTITUTE -->
+    <section class="hub-section" data-aos="fade-up" id="research" style="--pillar-color: #a855f7;">
+        <div class="hub-section-header">
+            <h2 class="pillar-title">Research & Institute</h2>
+            <h3 class="pillar-subtitle">Sectoral analyses, frameworks and initiatives.</h3>
+        </div>
+        <div class="universe-grid">
+            <a class="universe-card" href="observatory/index.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Global Observatory</div>
+                <div class="card-desc">Institutional macroeconomic research infrastructure.</div>
+            </a>
+            <a class="universe-card" href="digital-asset-risk-index.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">GDARI Risk Index</div>
+                <div class="card-desc">Quantitative measurement of digital asset systemic risk.</div>
+            </a>
+            <a class="universe-card" href="regulatory-intelligence.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Regulatory Tracker</div>
+                <div class="card-desc">Global mapping of regulations and CBDC initiatives.</div>
+            </a>
+            <a class="universe-card" href="insights/index.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Insights</div>
+                <div class="card-desc">Analysis and outlook on the institutional ecosystem.</div>
+            </a>
+            <a class="universe-card" href="frameworks/index.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-cubes"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Frameworks</div>
+                <div class="card-desc">Structuring tools and DLT risk analysis grids.</div>
+            </a>
+            <a class="universe-card" href="insights/research.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-microscope"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Research</div>
+                <div class="card-desc">Publications, market studies and expert research notes.</div>
+            </a>
+            <a class="universe-card" href="institute/advisory-board.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-building-columns"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">Institute</div>
+                <div class="card-desc">Advisory board, gouvernance et initiatives académiques.</div>
+            </a>
+            <a class="universe-card" href="about.html">
+                <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-title">About</div>
+                <div class="card-desc">Mission, vision and business expertise behind DCM Core.</div>
+            </a>
+        </div>
+    </section>
+    <!-- PERSONA NAVIGATION -->
+    <div
+        style="text-align: center; color: #64748b; font-size: 14px; margin-bottom: 20px; font-weight: 600; letter-spacing: 1px;">
+        QUICK ACCESS BY PROFILE
+    </div>
+    <div class="persona-bar" data-aos="fade-up" data-aos-delay="600">
+        <a class="persona-btn" href="dashboard.html?segment=student">
+            <i class="fas fa-user-graduate"></i> I'm starting (Student / Junior)
+        </a>
+        <a class="persona-btn" href="dashboard.html?segment=pro">
+            <i class="fas fa-user-tie"></i> I'm Front-Office / Sales
+        </a>
+        <a class="persona-btn" href="dashboard.html?segment=pro&tab=benchmarks">
+            <i class="fas fa-laptop-code"></i> I'm IT / Tech
+        </a>
+        <a class="persona-btn" href="audit-trail.html">
+            <i class="fas fa-scale-balanced"></i> I'm Legal / Compliance
+        </a>
+    </div>
+
+    <!-- SUPER FOOTER -->
+    <!-- Section: Standards Alignment -->
+    <section class="fade-in section-alternate" id="standards-alignment" style="padding: 80px 20px;">
+        <div class="section-title">
+            <span class="section-number">09</span>
+            <h2>Standards & Frameworks Alignment</h2>
+            <p>Our research methodology is structurally aligned with global digital finance standards.</p>
+        </div>
+        <div style="max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center;">
+            <div style="opacity: 0.6; filter: grayscale(1);">
+                <i class="fas fa-building-columns" style="font-size: 40px; margin-bottom: 15px; display: block; color: #3b82f6;"></i>
+                <div style="font-size: 14px; font-weight: 800; color: white;">BIS Alignment</div>
+                <div style="font-size: 11px; color: #64748b;">Unified Ledger Framework</div>
+            </div>
+            <div style="opacity: 0.6; filter: grayscale(1);">
+                <i class="fas fa-microchip" style="font-size: 40px; margin-bottom: 15px; display: block; color: #a855f7;"></i>
+                <div style="font-size: 14px; font-weight: 800; color: white;">ISO/TC 307</div>
+                <div style="font-size: 11px; color: #64748b;">DLT Governance Standards</div>
+            </div>
+            <div style="opacity: 0.6; filter: grayscale(1);">
+                <i class="fas fa-scale-balanced" style="font-size: 40px; margin-bottom: 15px; display: block; color: #10b981;"></i>
+                <div style="font-size: 14px; font-weight: 800; color: white;">ESMA/MiCA</div>
+                <div style="font-size: 11px; color: #64748b;">Prudential Guidelines</div>
+            </div>
+            <div style="opacity: 0.6; filter: grayscale(1);">
+                <i class="fas fa-landmark" style="font-size: 40px; margin-bottom: 15px; display: block; color: #f59e0b;"></i>
+                <div style="font-size: 14px; font-weight: 800; color: white;">CPMI-IOSCO</div>
+                <div style="font-size: 11px; color: #64748b;">PFMI Compliance</div>
+            </div>
+        </div>
+        <div style="max-width: 700px; margin: 50px auto 0; padding: 20px; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.1); border-radius: 8px; text-align: center;">
+            <p style="font-size: 12px; color: #94a3b8; line-height: 1.6; margin: 0;">
+                <i class="fas fa-info-circle"></i> <strong>Institutional Transparency:</strong> DCM Core is an independent research institute. Our analyses and Working Papers are developed in strict alignment with the regulatory frameworks and technical requirements published by the above bodies. <em>DCM Core n'est pas un membre officiel de ces organisations sauf mention contraire explicite.</em>
+            </p>
+        </div>
+    </section>
+
+    <!-- MAIN FOOTER -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- 0. BRAND -->
+                <div class="footer-brand">
+                    <h3><i class="fas fa-cube" style="color:var(--accent-blue)"></i> DCM CORE</h3>
+                    <p>European Institute for Digital Asset Governance. Decision intelligence for tokenized financial infrastructures.</p>
+                    
+                    <!-- EXPERT LED BADGE (Phase 19) -->
+                    <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 15px; margin-bottom: 25px; display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-user-check" style="color: #3b82f6; font-size: 20px;"></i>
+                        <div>
+                            <div style="font-size: 12px; font-weight: 800; color: white; text-transform: uppercase; letter-spacing: 0.5px;">Led by Experts</div>
+                            <div style="font-size: 11px; color: #94a3b8;">Ex-Regulators & Quants</div>
+                        </div>
+                    </div>
+
+                    <div class="footer-socials">
+                        <a aria-label="LinkedIn" class="social-btn" href="https://www.linkedin.com/in/joan-lyczak/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a aria-label="Twitter" class="social-btn" href="https://x.com/Joan_Lyczak" target="_blank"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- 1. INSTITUTION -->
+                <div class="footer-col">
+                    <h4>Institution</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About us</a></li>
+                        <li><a href="about.html#faculty">Expert Team</a></li>
+                        <li><a href="../methodology.html">Methodology</a></li>
+                        <li><a href="mailto:contact@dcmcore.com">Contact</a></li>
+                        <li><a href="../investor-login.html" style="color: #a855f7;"><i class="fas fa-lock"></i> Espace Investisseurs</a></li>
+                    </ul>
+                </div>
+
+                <!-- 2. ANALYTIQUES & HUB -->
+                <div class="footer-col">
+                    <h4>Analytic Hub</h4>
+                    <ul class="footer-links">
+                        <li><a href="../observatory/index.html">GDFO Observatory</a></li>
+                        <li><a href="../digital-asset-risk-index.html">GDARI Risk Index</a></li>
+                        <li><a href="../regulatory-intelligence.html">Regulatory Watch</a></li>
+                        <li><a href="../sandbox.html">Dev Sandbox</a></li>
+                        <li><a href="../yield-mechanics.html">Yield Mechanics</a></li>
+                    </ul>
+                </div>
+
+                <!-- 3. SAVOIR & JURIDIQUE -->
+                <div class="footer-col">
+                    <h4>Knowledge</h4>
+                    <ul class="footer-links">
+                        <li><a href="../publications/index.html">Research Library</a></li>
+                        <li><a href="../quiz.html">Certification</a></li>
+                        <li><a href="../simple.html">Academy</a></li>
+                        <li><a href="mentions-legales.html">Legal Mentions</a></li>
+                        <li><a href="../privacy.html">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer"
+                style="margin-top: -20px; font-size: 11px; color: #64748b; line-height: 1.5; padding-bottom: 20px; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto;">
+                <strong>Regulatory Transparency:</strong> DCM Digital quantifie les risques technologiques des
+                infrastructures DLT. We do not provide legal, compliance or investment advice. Les
+                données réglementaires (DORA, MiCA, Bâle III) sont utilisées comme références de modélisation systémique
+                et nécessitent l'analyse indépendante de vos directions des risques. <a
+                    href="regulatory-transparency.html" style="color: #3b82f6; text-decoration: underline;">Consulter
+                    notre Cadre de Transparence</a>.
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content"
+                    style="max-width: 1400px; margin: 0 auto; padding: 0 40px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="copyright">
+                        © 2026 DCM Digital • Version 4.3.0
+                    </div>
+                    <div class="legal-links">
+                        <a href="support-it.html">Support IT</a>
+                        <a href="api-docs.html">Documentation API</a>
+                    </div>
+                </div>
+            </div>
+    </footer>
+    <!-- SCROLL TO TOP -->
+    <button aria-label="Bouton" class="scroll-to-top" id="scrollToTop" title="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    <style>
+        /* FIX: Raise Scroll Top & Controls to avoid overlap with Dev Access (Bottom Right) */
+        .scroll-to-top {
+            bottom: 80px !important;
+        }
+
+        /* If there are other floating elements like chatbots, raise them too */
+        .intercom-lightweight-app-launcher {
+            bottom: 80px !important;
+        }
+    </style>
+    <!-- WALLET CONNECTION MODAL -->
+    <div class="wallet-modal-overlay" id="walletModalOverlay">
+        <div class="wallet-modal">
+            <div class="wallet-header">
+                <h3>Connect a Wallet</h3>
+                <button aria-label="Bouton" class="wallet-close" onclick="closeWalletModal()"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="wallet-options">
+                <div class="wallet-option" onclick="simulateConnection('Metamask')">
+                    <i class="fab fa-ethereum wallet-icon"
+                        style="color: #F6851B; font-size: 24px; margin-right: 15px;"></i>
+                    <span class="wallet-name">MetaMask</span>
+                    <span class="wallet-badge">Popular</span>
+                </div>
+                <div class="wallet-option" onclick="simulateConnection('Ledger')">
+                    <i class="fas fa-microchip wallet-icon"
+                        style="color: #000; font-size: 24px; margin-right: 15px;"></i>
+                    <span class="wallet-name">Ledger Live</span>
+                    <span class="wallet-badge">Hardware</span>
+                </div>
+                <div class="wallet-option" onclick="simulateConnection('Safe')">
+                    <i class="fas fa-vault wallet-icon"
+                        style="color: #12ff80; font-size: 24px; margin-right: 15px;"></i>
+                    <span class="wallet-name">Safe (Gnosis)</span>
+                    <span class="wallet-badge">Institutional</span>
+                </div>
+            </div>
+            <div class="wallet-status" id="walletStatus"></div>
+        </div>
+    </div>
+    <!-- SCRIPTS -->
+    <script src="search-engine.js"></script>
+    <!-- SEARCH ENGINE LOGIC (Phase 56) -->
+    <script>
+        const searchInput = document.getElementById('globalSearchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        const modules = [
+            { name: 'MiCA Compliance', link: 'legal_pilot.html', icon: 'fa-scale-balanced' },
+            { name: 'Yield Mechanics', link: 'yield-mechanics.html', icon: 'fa-coins' },
+            { name: 'ROI Modeling', link: 'flux-comparison.html', icon: 'fa-calculator' },
+            { name: 'Smart Contracts Audit', link: 'smart-contracts.html', icon: 'fa-code' },
+            { name: 'ECB DLT Trials', link: 'ecb-dlt-trials.html', icon: 'fa-globe-europe' },
+            { name: 'BlackRock BUIDL Case', link: 'buidl.html', icon: 'fa-briefcase' },
+            { name: 'RWA Infrastructure', link: 'rwa.html', icon: 'fa-building' },
+            { name: 'Certification Center', link: 'quiz.html', icon: 'fa-award' },
+            { name: 'Developer Sandbox', link: 'sandbox.html', icon: 'fa-terminal' }
+        ];
+
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            if (val.length < 2) {
+                searchResults.classList.remove('active');
+                return;
+            }
+
+            const filtered = modules.filter(m => m.name.toLowerCase().includes(val));
+            if (filtered.length > 0) {
+                searchResults.innerHTML = filtered.map(m => `
+                    <a href="${m.link}" class="search-item">
+                        <i class="fas ${m.icon}"></i>
+                        <span>${m.name}</span>
+                    </a>
+                `).join('');
+                searchResults.classList.add('active');
+            } else {
+                searchResults.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.classList.remove('active');
+            }
+        });
+    </script>
+    <!-- AOS (Animate On Scroll) -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
-        
-        // Simple particle canvas
-        const canvas = document.getElementById('hubCanvas');
-        const ctx = canvas.getContext('2d');
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.2;
-                this.vy = (Math.random() - 0.5) * 0.2;
-                this.size = Math.random() * 2;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(59, 130, 246, 0.5)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-        const particles = Array.from({ length: 150 }, () => new Particle());
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+        AOS.init({
+            duration: 600, // Reduced from 800
+            once: true,    // Ensure it doesn't re-run on scroll up (perf boost)
+            disable: 'mobile' // Disable on small screens for better FPS
+        });
+    </script>
+    <script src="script.js"></script>
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('[data-aos]').forEach(el => {
+                if (getComputedStyle(el).opacity === '0') {
+                    el.style.opacity = '1';
+                    el.style.visibility = 'visible';
+                }
             });
-            requestAnimationFrame(animate);
+        }, 500);
+    </script>
+    <script src="hub-particles.js"></script> <!-- NEW PARTICLES & TILT SCRIPT -->
+    <!-- Shared Dev Mode -->
+    <script src="../fr/utils/dev_mode_shared.js"></script>
+    <link href="../fr/styles/dev_mode.css" rel="stylesheet" />
+    <script>
+        window.addEventListener('load', function () {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true
+            });
+        });
+
+        // PWA SERVICE WORKER REGISTRATION (Phase 30)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('✅ PWA Service Worker Registered (Index)'))
+                    .catch(err => console.log('❌ PWA Registration Failed', err));
+            });
         }
-        animate();
+    </script>
+    <!-- ===== LEAD GEN MODAL (Phase 53) ===== -->
+    <div id="lead-modal" style="
+        display:none; position:fixed; inset:0; z-index:9999;
+        background:rgba(0,0,0,0.75); backdrop-filter:blur(4px);
+        align-items:center; justify-content:center;
+    ">
+        <div style="
+            background: linear-gradient(160deg,#0d0f17 0%,#111520 100%);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 16px;
+            padding: 50px 44px;
+            max-width: 480px;
+            width: 92%;
+            position: relative;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            animation: slideUp 0.35s ease;
+        ">
+            <button onclick="closeLead()" style="
+                position:absolute; top:16px; right:18px;
+                background:none; border:none; color:#555; font-size:20px; cursor:pointer;
+            ">✕</button>
+            <!-- icon -->
+            <div style="text-align:center; margin-bottom:22px;">
+                <div style="
+                    width:60px; height:60px; border-radius:50%;
+                    background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3);
+                    display:inline-flex; align-items:center; justify-content:center;
+                    font-size:24px; color:#c9a84c;
+                ">📚</div>
+            </div>
+            <h2 style="text-align:center; color:white; font-size:22px; font-weight:700; margin-bottom:8px;">
+                Free Expert Guide
+            </h2>
+            <p style="text-align:center; color:#888; font-size:13px; line-height:1.6; margin-bottom:28px;">
+                Receive for free the <strong style="color:#c9a84c;">Guide Stratégique Digital Bonds & MiCA
+                    2026</strong>
+                — 40 pages, professional use.
+            </p>
+            <form id="lead-form" style="display:flex; flex-direction:column; gap:12px;">
+                <input id="lead-name" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
+                    onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" placeholder="First Name" required="" style="
+                    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+                    border-radius:8px; padding:13px 16px; color:white; font-size:14px;
+                    outline:none; transition:border-color 0.2s;
+                " type="text" />
+                <input id="lead-email" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
+                    onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" placeholder="Professional Email"
+                    required="" style="
+                    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+                    border-radius:8px; padding:13px 16px; color:white; font-size:14px;
+                    outline:none; transition:border-color 0.2s;
+                " type="email" />
+                <button onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='0.88'" style="
+                    background: linear-gradient(135deg, #c9a84c, #f0c060);
+                    color:#08090d; border:none; border-radius:8px;
+                    padding:14px; font-weight:700; font-size:15px;
+                    cursor:pointer; transition:opacity 0.2s; margin-top:4px;
+                " type="submit">
+                    Receive the Guide →
+                </button>
+            </form>
+            <p id="lead-msg"
+                style="display:none; text-align:center; color:#10b981; margin-top:16px; font-size:13px; font-weight:600;">
+                ✅ Thank you! The guide will be sent within 24 hours.
+            </p>
+            <p style="text-align:center; color:#444; font-size:10px; margin-top:16px;">
+                No spam. Unsubscribe in 1 click.
+            </p>
+        </div>
+    </div>
+    <style>
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <script>
+        (function () {
+            // Don't show if user already submitted OR dismissed this session
+            if (localStorage.getItem('dcm_lead_captured')) return;
+            if (sessionStorage.getItem('dcm_lead_dismissed')) return;
+
+            var shown = false;
+
+            function showLead() {
+                if (shown) return;
+                shown = true;
+                var modal = document.getElementById('lead-modal');
+                modal.style.display = 'flex';
+            }
+
+            function closeLead() {
+                document.getElementById('lead-modal').style.display = 'none';
+                // Persist dismissal for the entire session — won't re-show
+                // until new browser session (tab close + reopen)
+                sessionStorage.setItem('dcm_lead_dismissed', '1');
+            }
+
+            window.closeLead = closeLead;
+
+            // Trigger 1: timer (45s — not aggressive)
+            setTimeout(showLead, 45000);
+
+            // Trigger 2: exit intent (mouse leaves top of viewport)
+            // Only fires ONCE thanks to the `shown` flag
+            document.addEventListener('mouseleave', function (e) {
+                if (e.clientY < 10) showLead();
+            });
+
+            // Handle form submission via Formspree
+            document.getElementById('lead-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                var name = document.getElementById('lead-name').value.trim();
+                var email = document.getElementById('lead-email').value.trim();
+                if (!name || !email) return;
+
+                // Formspree endpoint (free, no backend)
+                fetch('https://formspree.io/f/xwpogena', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ name: name, email: email, source: 'DCM Lead Modal' })
+                }).then(function (r) {
+                    // Show success regardless of API response (graceful)
+                    document.getElementById('lead-form').style.display = 'none';
+                    document.getElementById('lead-msg').style.display = 'block';
+                    localStorage.setItem('dcm_lead_captured', '1');
+                    localStorage.setItem('dcm_lead_email', email);
+                    setTimeout(closeLead, 3000);
+                }).catch(function () {
+                    // Fail gracefully — still mark as captured
+                    document.getElementById('lead-form').style.display = 'none';
+                    document.getElementById('lead-msg').style.display = 'block';
+                    localStorage.setItem('dcm_lead_captured', '1');
+                    setTimeout(closeLead, 3000);
+                });
+            });
+        })();
     </script>
 </body>
+
 </html>
