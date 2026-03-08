@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-        content="DCM Core Institute Policy Briefs. Concise, high-impact notes for principal-level decision makers in the digital asset space."
+        content="Flagship Reports from DCM Core Institute. Access our thematic research on stablecoins, CBDC, RWA, and institutional blockchain adoption."
         name="description" />
-    <title>Policy Briefs Library | DCM Core Institute</title>
+    <title>Flagship Reports | DCM Core Institute</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
@@ -29,8 +29,7 @@
 
     <style>
         :root {
-            --inst-blue: #3b82f6;
-            --inst-gold: #c9a84c;
+            --rep-blue: #2563eb;
             --bg-dark: #020617;
             --glass: rgba(15, 23, 42, 0.4);
             --border: rgba(255, 255, 255, 0.05);
@@ -39,66 +38,77 @@
         body {
             background-color: var(--bg-dark);
             font-family: 'Inter', sans-serif;
-            color: #e2e8f0;
+            color: #f8fafc;
             padding-top: 80px;
         }
 
-        .brief-container {
-            max-width: 1000px;
+        .rep-container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 80px 20px;
         }
 
-        .brief-tag {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--inst-gold);
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .hero-title {
-            font-family: 'Outfit', sans-serif;
+        h1 {
+            font-family: 'Outfit';
             font-size: 56px;
             font-weight: 800;
-            color: white;
-            margin-bottom: 40px;
+            margin-bottom: 25px;
             letter-spacing: -1px;
         }
 
-        .brief-grid {
+        .report-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
         }
 
-        .brief-card {
+        .report-card {
             background: var(--glass);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 30px;
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .report-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--rep-blue);
+        }
+
+        .report-cover {
+            height: 250px;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
-        .brief-card:hover {
-            border-color: var(--inst-blue);
-            transform: translateY(-2px);
+        .report-cover i {
+            font-size: 80px;
+            color: var(--rep-blue);
+            opacity: 0.3;
         }
 
-        .brief-meta {
-            font-size: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--inst-blue);
-            margin-bottom: 15px;
+        .report-body {
+            padding: 30px;
+        }
+
+        .report-tag {
+            font-size: 10px;
             text-transform: uppercase;
+            font-weight: 800;
+            color: var(--rep-blue);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: block;
         }
 
-        .brief-title {
-            font-family: 'Outfit', sans-serif;
+        .report-title {
+            font-family: 'Outfit';
             font-size: 20px;
             font-weight: 700;
             color: white;
@@ -106,43 +116,25 @@
             line-height: 1.3;
         }
 
-        .brief-excerpt {
-            font-size: 14px;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            flex-grow: 1;
-        }
-
-        .brief-footer {
-            display: flex;
-            justify-content: space-between;
+        .btn-read {
+            display: inline-flex;
             align-items: center;
-            border-top: 1px solid var(--border);
-            padding-top: 20px;
-            font-size: 13px;
-        }
-
-        .brief-author {
-            color: #64748b;
-            font-weight: 500;
-        }
-
-        .btn-view {
-            color: var(--inst-blue);
+            gap: 10px;
+            color: white;
             text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 20px;
         }
 
-        .btn-view:hover {
-            text-decoration: underline;
+        @media (max-width: 1000px) {
+            .report-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        @media (max-width: 768px) {
-            .brief-grid {
+        @media (max-width: 600px) {
+            .report-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -159,7 +151,7 @@
         <div class="nav-pillars">
             <!-- Pillar 1: Research -->
             <div class="pillar-item">
-                <a href="../research-papers/index.html" class="pillar-link">Research</a>
+                <a href="../research-papers/index.html" class="pillar-link active">Research</a>
                 <div class="mega-dropdown">
                     <div class="dropdown-header">Intellectual Infrastructure</div>
                     <a href="../research-programs/index.html" class="dropdown-link">
@@ -303,94 +295,78 @@
 
         <div class="nav-actions">
             <div class="lang-switcher">
-                <a href="index-fr.html" class="lang-link">FR</a>
+                <a href="../../fr/reports/index.html" class="lang-link">FR</a>
                 <a href="index.html" class="lang-link active">EN</a>
             </div>
-            <a href="../login.html" class="auth-btn">Auth</a>
+            <a href="../../login.html" class="auth-btn">Auth</a>
             <button class="connect-btn">Connect</button>
         </div>
     </nav>
 
-    <div class="brief-container">
+    <div class="rep-container">
         <header data-aos="fade-up">
-            <span class="brief-tag">Global Policy Unit</span>
-            <h1 class="hero-title">Policy Briefs Library</h1>
-            <p style="color: #94a3b8; margin-bottom: 60px; font-size: 18px; max-width: 750px;">
-                Concise analytical notes delivering targeted intelligence for policymakers, central bankers, and
-                institutional leadership.
+            <span
+                style="color:var(--rep-blue); font-weight:700; font-size:11px; letter-spacing:2px; text-transform:uppercase;">Flagship
+                Research</span>
+            <h1>Research Reports</h1>
+            <p style="color:#94a3b8; font-size:19px; max-width:800px; line-height:1.6;">
+                Comprehensive thematic analysis and strategic outlooks for institutional market participants.
             </p>
         </header>
 
-        <div class="brief-grid" data-aos="fade-up">
-
-            <!-- Brief 01 -->
-            <div class="brief-card">
-                <div class="brief-meta">PB 2026/04 • Regulatory Intelligence</div>
-                <h3 class="brief-title">Implementing DORA: Operational Resilience Standards for Digital Bond Issuance
-                </h3>
-                <p class="brief-excerpt">
-                    An executive guide for issuers and CSDs on ensuring compliance with the Digital Operational
-                    Resilience Act (DORA) during on-chain settlement cycles.
-                </p>
-                <div class="brief-footer">
-                    <span class="brief-author">Policy Unit</span>
-                    <a href="#" class="btn-view">Read Note <i class="fas fa-arrow-right"></i></a>
+        <div class="report-grid">
+            <!-- Report 1 -->
+            <div class="report-card" data-aos="fade-up">
+                <div class="report-cover">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="report-body">
+                    <span class="report-tag">Thematic Report</span>
+                    <h2 class="report-title">Stablecoin Resilience: A Multi-Sovereign Framework</h2>
+                    <p style="font-size:14px; color:#94a3b8;">Impact assessment of fiat-backed stablecoins on emerging
+                        market liquidity tunnels.</p>
+                    <a href="#" class="btn-read">View Report <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
 
-            <!-- Brief 02 -->
-            <div class="brief-card">
-                <div class="brief-meta">PB 2026/03 • CBDC Strategy</div>
-                <h3 class="brief-title">Offline CBDC Portability: Assessing the Risk Matrix for Retail Implementations
-                </h3>
-                <p class="brief-excerpt">
-                    Comparative analysis of hardware-secure vs. software-only offline payment models and their
-                    implications for central bank liability management.
-                </p>
-                <div class="brief-footer">
-                    <span class="brief-author">Macro-Tech Lab</span>
-                    <a href="#" class="btn-view">Read Note <i class="fas fa-arrow-right"></i></a>
+            <!-- Report 2 -->
+            <div class="report-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="report-cover">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="report-body">
+                    <span class="report-tag">Quarterly Outlook</span>
+                    <h2 class="report-title">Q1 2026: Institutional Digital Asset Sentiment</h2>
+                    <p style="font-size:14px; color:#94a3b8;">Proprietary survey data from 120+ global financial
+                        institutions on RWA allocations.</p>
+                    <a href="#" class="btn-read">View Report <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
 
-            <!-- Brief 03 -->
-            <div class="brief-card">
-                <div class="brief-meta">PB 2026/02 • Market Infrastructure</div>
-                <h3 class="brief-title">Synthetic Stablecoins & Global Systemic Risk: A Principal's Briefing</h3>
-                <p class="brief-excerpt">
-                    Identifying the hidden leverage loops in algorithmic stablecoin protocols and their potential to
-                    trigger cross-market contagion.
-                </p>
-                <div class="brief-footer">
-                    <span class="brief-author">Risk Unit</span>
-                    <a href="#" class="btn-view">Read Note <i class="fas fa-arrow-right"></i></a>
+            <!-- Report 3 -->
+            <div class="report-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="report-cover">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="report-body">
+                    <span class="report-tag">Risk Assessment</span>
+                    <h2 class="report-title">Cyber Threats in Tokenized Capital Markets</h2>
+                    <p style="font-size:14px; color:#94a3b8;">Comprehensive audit of operational risks in DLT-based
+                        settlement finality engines.</p>
+                    <a href="#" class="btn-read">View Report <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-
-            <!-- Brief 04 -->
-            <div class="brief-card">
-                <div class="brief-meta">PB 2026/01 • EU Policy</div>
-                <h3 class="brief-title">MiCA Phase 2: Transitional Provisions for CASPs and Existing Token Issuers</h3>
-                <p class="brief-excerpt">
-                    A roadmap for market participants navigating the second implementation phase of the Markets in
-                    Crypto-Assets regulation.
-                </p>
-                <div class="brief-footer">
-                    <span class="brief-author">Regulation Hub</span>
-                    <a href="#" class="btn-view">Read Note <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-
         </div>
     </div>
 
     <footer class="super-footer">
         <div class="footer-content">
             <div class="footer-bottom">
-                <div class="copyright">© 2026 DCM Core Institute • Policy Unit</div>
+                <div class="copyright">© 2026 DCM Core Institute • Flagship Publications</div>
                 <div class="legal-links">
-                    <a href="../about/index.html">Research Independence</a>
-                    <a href="../about/index.html">Contact Unit</a>
+                    <a href="../about/transparency.html">Transparency</a>
+                    <a href="../about/methodology.html">Methodology</a>
+                    <a href="#">Report Archive</a>
                 </div>
             </div>
         </div>
