@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Observatoire mondial de la finance tokenisée : cartographie en temps réel des institutions, obligations digitales, RWA et monnaies numériques (wCBDC, stablecoins)."
+        name="description" />
+    <title>Global Tokenized Finance Map — Observatoire Écosystème | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/fr/research/global-map.html" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-megamenu.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-map: #6366f1;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+        }
+
+        .map-hero {
+            padding: 100px 20px 60px;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1), transparent 70%);
+        }
+
+        .map-hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .map-hero p {
+            font-size: 18px;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* FILTERS */
+        .map-filters {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+
+        .filter-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 10px 20px;
+            border-radius: 100px;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--accent-map);
+            color: #fff;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* GRID */
+        .map-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .map-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-map);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .card-category {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-map);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .card-title {
+            font-family: 'Outfit';
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .card-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            font-size: 12px;
+            color: #475569;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumb a { color: #475569; text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent-map); }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb" style="background: linear-gradient(135deg, #6366f1, #a855f7);"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+    </nav>
+
+    <nav class="breadcrumb" aria-label="fil d'ariane">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Accueil</a>
+        <span style="opacity:0.4;">›</span>
+        <a href="index.html">Recherche</a>
+        <span style="opacity:0.4;">›</span>
+        <span style="color:var(--accent-map);">Global Tokenized Finance Map</span>
+    </nav>
+
+    <div class="map-hero" data-aos="fade-up">
+        <h1>Global Tokenized Finance Map</h1>
+        <p>L'observatoire institutionnel des marchés de capitaux programmables. Une cartographie dynamique des leaders, protocoles et infrastructures qui redéfinissent la finance mondiale.</p>
+    </div>
+
+    <div class="map-filters" data-aos="fade-up">
+        <button class="filter-btn active" data-filter="all"><i class="fas fa-th-large"></i> Tous</button>
+        <button class="filter-btn" data-filter="public"><i class="fas fa-landmark"></i> Institutions Publiques</button>
+        <button class="filter-btn" data-filter="bonds"><i class="fas fa-file-contract"></i> Obligations Digitales</button>
+        <button class="filter-btn" data-filter="rwa"><i class="fas fa-cube"></i> RWA / Fonds</button>
+        <button class="filter-btn" data-filter="money"><i class="fas fa-coins"></i> Cash / wCBDC</button>
+    </div>
+
+    <div class="map-grid" id="mapGrid">
+        
+        <!-- Public Institutions -->
+        <article class="map-card" data-category="public" data-aos="fade-up">
+            <span class="card-category">Banque Centrale / Standard</span>
+            <h3 class="card-title">BIS Innovation Hub</h3>
+            <p class="card-desc">Coordination mondiale des projets wCBDC (mBridge, Dunbar) et standards pour le Unified Ledger.</p>
+            <div class="card-tags">
+                <span class="card-tag">International</span>
+                <span class="card-tag">Unified Ledger</span>
+            </div>
+        </article>
+
+        <article class="map-card" data-category="public" data-aos="fade-up" data-aos-delay="100">
+            <span class="card-category">Régulateur / Pilotage</span>
+            <h3 class="card-title">Monetary Authority of Singapore (MAS)</h3>
+            <p class="card-desc">Project Guardian : Tests de tokenisation des fonds et des dépôts avec les leaders mondiaux.</p>
+            <div class="card-tags">
+                <span class="card-tag">Asie</span>
+                <span class="card-tag">Project Guardian</span>
+            </div>
+        </article>
+
+        <!-- Digital Bonds -->
+        <article class="map-card" data-category="bonds" data-aos="fade-up">
+            <span class="card-category">Banque d'Affaires / Platform</span>
+            <h3 class="card-title">GS DAP™ (Goldman Sachs)</h3>
+            <p class="card-desc">Plateforme institutionnelle ayant servi à l'émission de la première obligation digitale souveraine de Hong Kong.</p>
+            <div class="card-tags">
+                <span class="card-tag">Digital Bonds</span>
+                <span class="card-tag">Canton</span>
+            </div>
+        </article>
+
+        <article class="map-card" data-category="bonds" data-aos="fade-up" data-aos-delay="100">
+            <span class="card-category">Market Infrastructure</span>
+            <h3 class="card-title">Euroclear D-FMI</h3>
+            <p class="card-desc">Infrastructure permettant l'émission et le règlement atomique de titres financiers digitaux.</p>
+            <div class="card-tags">
+                <span class="card-tag">Europe</span>
+                <span class="card-tag">Post-Marché</span>
+            </div>
+        </article>
+
+        <!-- RWA / Fonds -->
+        <article class="map-card" data-category="rwa" data-aos="fade-up">
+            <span class="card-category">Asset Management / RWA</span>
+            <h3 class="card-title">BlackRock BUIDL</h3>
+            <p class="card-desc">Fonds de trésorerie institutionnel tokenisé sur Ethereum, offrant une liquidité instantanée.</p>
+            <div class="card-tags">
+                <span class="card-tag">Fonds Tokenisés</span>
+                <span class="card-tag">Ethereum</span>
+            </div>
+        </article>
+
+        <article class="map-card" data-category="rwa" data-aos="fade-up" data-aos-delay="100">
+            <span class="card-category">Asset Management / RWA</span>
+            <h3 class="card-title">Franklin Templeton FOBXX</h3>
+            <p class="card-desc">Premier fonds monétaire américain enregistré par la SEC utilisant la blockchain Stellar et Polygon.</p>
+            <div class="card-tags">
+                <span class="card-tag">Stellar</span>
+                <span class="card-tag">Polygon</span>
+            </div>
+        </article>
+
+        <!-- Cash / wCBDC -->
+        <article class="map-card" data-category="money" data-aos="fade-up">
+            <span class="card-category">Cash Token / stablecoin</span>
+            <h3 class="card-title">SocGen Forge EURCV</h3>
+            <p class="card-desc">Stablecoin Euro conforme à MiCA, conçu pour le règlement interbancaire et les flux d'entreprise.</p>
+            <div class="card-tags">
+                <span class="card-tag">MiCA</span>
+                <span class="card-tag">Euro</span>
+            </div>
+        </article>
+
+        <article class="map-card" data-category="money" data-aos="fade-up" data-aos-delay="100">
+            <span class="card-category">Banque Centrale / Cash</span>
+            <h3 class="card-title">Banque de France wCBDC</h3>
+            <p class="card-desc">Leader européen dans les expérimentations de monnaie numérique de gros pour le règlement actif.</p>
+            <div class="card-tags">
+                <span class="card-tag">wCBDC</span>
+                <span class="card-tag">DLT</span>
+            </div>
+        </article>
+
+    </div>
+
+    <!-- CTA -->
+    <section style="background: rgba(99,102,241,0.05); padding: 80px 20px; text-align: center; border-top: 1px solid var(--glass-border);">
+        <h2 style="font-family: 'Outfit'; font-size: 28px; color: #fff; margin-bottom: 20px;">Votre initiative manque à l'appel ?</h2>
+        <p style="color: #94a3b8; max-width: 500px; margin: 0 auto 30px;">Nous mettons à jour cet observatoire mensuellement pour les membres DCM Core.</p>
+        <a href="mailto:research@dcmcore.com" style="display: inline-flex; align-items: center; gap: 10px; background: var(--accent-map); color: white; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 700; transition: 0.3s; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);">
+            Suggérer un acteur <i class="fas fa-paper-plane"></i>
+        </a>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 900, once: true });
+
+        // Simple filtering logic
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                document.querySelectorAll('.map-card').forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
