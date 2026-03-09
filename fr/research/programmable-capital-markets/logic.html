@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Finance programmable via Smart Contracts : automatisation du cycle de vie, conformité embarquée et logique exécutable pour les marchés de capitaux institutionnels." name="description" />
+    <title>Logic — Finance Programmable & Smart Contracts | PCM | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/fr/research/programmable-capital-markets/logic.html" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="../../../styles.css" rel="stylesheet" />
+    <link href="../../styles-megamenu.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent: #6366f1;
+            --accent-pcm: #f59e0b;
+            --accent-green: #10b981;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; padding-top: 80px; }
+
+        .breadcrumb { max-width: 960px; margin: 0 auto; padding: 20px 20px 0; font-size: 12px; color: #475569; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .breadcrumb a { color: #475569; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb .sep { opacity: 0.4; }
+        .breadcrumb .current { color: var(--accent); }
+
+        .content-container { max-width: 960px; margin: 0 auto; padding: 60px 20px 100px; }
+
+        .page-hero { border-left: 3px solid var(--accent); padding-left: 36px; margin-bottom: 70px; }
+        .badge-label { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+        .badge-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--accent); }
+
+        h1 { font-family: 'Outfit', sans-serif; font-size: 46px; font-weight: 800; color: #fff; margin: 16px 0 20px; line-height: 1.1; }
+        h2 { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 20px; }
+        .lead-text { font-size: 17px; color: #94a3b8; line-height: 1.7; }
+        p { line-height: 1.8; color: #cbd5e1; margin-bottom: 18px; font-size: 15px; }
+        section { margin-bottom: 70px; }
+
+        /* COMPOSABILITY DIAGRAM */
+        .composability-flow { display: flex; align-items: center; gap: 0; margin: 40px 0; overflow-x: auto; padding-bottom: 8px; }
+        .flow-node { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 18px 22px; text-align: center; flex-shrink: 0; min-width: 140px; transition: all 0.3s; }
+        .flow-node:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .flow-node-icon { font-size: 22px; color: var(--accent); margin-bottom: 8px; }
+        .flow-node-label { font-size: 12px; font-weight: 700; color: #fff; }
+        .flow-node-sub { font-size: 11px; color: #64748b; margin-top: 4px; }
+        .flow-arrow { font-size: 20px; color: rgba(99,102,241,0.4); padding: 0 8px; flex-shrink: 0; }
+
+        /* CODE BOX */
+        .code-box { background: #0f172a; border: 1px solid rgba(99,102,241,0.3); border-radius: 14px; padding: 28px 32px; margin: 30px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 2; color: #94a3b8; position: relative; overflow: hidden; }
+        .code-box::before { content: 'PROGRAMMABLE MONEY · LOGIC LAYER'; position: absolute; top: 12px; right: 16px; font-size: 10px; letter-spacing: 2px; color: rgba(99,102,241,0.4); font-family: 'Inter', sans-serif; font-weight: 700; }
+        .kw { color: #6366f1; }
+        .fn { color: #3b82f6; }
+        .str { color: #10b981; }
+        .comment { color: #334155; }
+        .val { color: #f59e0b; }
+
+        /* FEATURE GRID */
+        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 40px 0; }
+        .feature-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; transition: all 0.3s; }
+        .feature-card:hover { border-color: rgba(99,102,241,0.4); transform: translateY(-3px); }
+        .feature-icon { font-size: 26px; color: var(--accent); margin-bottom: 16px; }
+        .feature-title { font-family: 'Outfit', sans-serif; font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .feature-desc { font-size: 13px; color: #94a3b8; line-height: 1.6; margin: 0; }
+
+        /* COMPOSABILITY MATRIX */
+        .matrix-table { width: 100%; border-collapse: collapse; margin: 30px 0; font-size: 14px; }
+        .matrix-table th { background: rgba(99,102,241,0.1); color: var(--accent); padding: 13px 16px; text-align: left; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .matrix-table td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #94a3b8; vertical-align: top; }
+        .matrix-table tr:hover td { background: rgba(255,255,255,0.02); color: #fff; }
+        .check { color: #10b981; font-weight: 700; }
+        .warn { color: #f59e0b; font-weight: 700; }
+        .cross-x { color: #ef4444; font-weight: 700; }
+
+        /* INSIGHT BOX */
+        .insight-box { background: rgba(99,102,241,0.06); border-left: 4px solid var(--accent); border-radius: 0 14px 14px 0; padding: 24px 28px; margin: 40px 0; }
+        .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: block; }
+        .insight-text { font-size: 15px; color: #cbd5e1; line-height: 1.7; margin: 0; }
+
+        /* STACK POSITION */
+        .stack-position { display: flex; gap: 6px; justify-content: center; margin: 50px 0; flex-wrap: wrap; }
+        .stack-layer { padding: 8px 18px; border-radius: 30px; font-size: 12px; font-weight: 700; border: 1px solid; cursor: default; }
+
+        /* CROSS-LINKS */
+        .cross-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+        .cross-link-card { display: flex; align-items: center; gap: 14px; border-radius: 14px; padding: 18px 20px; text-decoration: none; transition: all 0.3s; }
+        .cross-link-card:hover { transform: translateY(-3px); }
+
+        @media (max-width: 700px) {
+            .feature-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 34px; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb" style="background: linear-gradient(135deg, #6366f1, #a855f7);"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+    </nav>
+
+    <nav class="breadcrumb" aria-label="fil d'ariane">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Accueil</a>
+        <span class="sep">›</span>
+        <a href="index.html">Programmable Capital Markets</a>
+        <span class="sep">›</span>
+        <span class="current">Logic — Finance Programmable</span>
+    </nav>
+
+    <div class="content-container">
+
+        <!-- STACK POSITION INDICATOR -->
+        <div class="stack-position" data-aos="fade-up">
+            <div class="stack-layer" style="color:#94a3b8; border-color:rgba(255,255,255,0.08); opacity:0.5;">01 Assets</div>
+            <div class="stack-layer" style="color:#6366f1; border-color:rgba(99,102,241,0.5); background:rgba(99,102,241,0.1);">02 Logic ← vous êtes ici</div>
+            <div class="stack-layer" style="color:#94a3b8; border-color:rgba(255,255,255,0.08); opacity:0.5;">03 Settlement</div>
+            <div class="stack-layer" style="color:#94a3b8; border-color:rgba(255,255,255,0.08); opacity:0.5;">04 Infrastructure</div>
+            <div class="stack-layer" style="color:#94a3b8; border-color:rgba(255,255,255,0.08); opacity:0.5;">05 Standards</div>
+        </div>
+
+        <!-- HERO -->
+        <header class="page-hero" data-aos="fade-up">
+            <span class="badge-label"><span class="badge-num">02</span> Couche PCM · Logic</span>
+            <h1>Logic — La Finance<br>
+                <span style="background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">
+                    comme Code Exécutable
+                </span>
+            </h1>
+            <p class="lead-text">
+                La couche <strong style="color:#fff;">Logic</strong> des Programmable Capital Markets est le cœur décisionnel du système.
+                Elle encode les règles métier, les conditions contractuelles et la conformité réglementaire directement dans
+                des <strong style="color:#fff;">Smart Contracts auto-exécutables</strong> — remplaçant l'intermédiaire humain par une logique immuable et auditée.
+            </p>
+        </header>
+
+        <!-- COMPOSABILITY FLOW -->
+        <section data-aos="fade-up">
+            <h2>La Chaîne d'Exécution Programmable</h2>
+            <p>Dans un PCM, chaque instruction financière suit une chaîne causale entre modules — c'est la <strong style="color:#fff;">composabilité</strong> :</p>
+            <div class="composability-flow">
+                <div class="flow-node">
+                    <div class="flow-node-icon"><i class="fas fa-file-contract"></i></div>
+                    <div class="flow-node-label">Terme</div>
+                    <div class="flow-node-sub">Smart Contract</div>
+                </div>
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="flow-node">
+                    <div class="flow-node-icon"><i class="fas fa-clock"></i></div>
+                    <div class="flow-node-label">Déclencheur</div>
+                    <div class="flow-node-sub">Date / Condition</div>
+                </div>
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="flow-node">
+                    <div class="flow-node-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="flow-node-label">Exécution</div>
+                    <div class="flow-node-sub">Atomique</div>
+                </div>
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="flow-node">
+                    <div class="flow-node-icon"><i class="fas fa-coins"></i></div>
+                    <div class="flow-node-label">Règlement</div>
+                    <div class="flow-node-sub">wCBDC / TD</div>
+                </div>
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="flow-node">
+                    <div class="flow-node-icon"><i class="fas fa-check-double"></i></div>
+                    <div class="flow-node-label">Audit</div>
+                    <div class="flow-node-sub">On-chain</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CODE EXAMPLE -->
+        <div class="code-box" data-aos="fade-up">
+            <span class="comment">// Exemple : Coupon automatique conditionnel (BIS Unified Ledger)</span><br>
+            <span class="kw">contract</span> <span class="fn">PCMLogicLayer</span> {<br>
+            &nbsp;&nbsp;<span class="comment">// Règle métier encodée — aucune réconciliation manuelle</span><br>
+            &nbsp;&nbsp;<span class="kw">function</span> <span class="fn">executeCoupon</span>(<span class="kw">address</span> bond) <span class="kw">external</span> {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">require</span>(block.timestamp &gt;= bond.<span class="fn">nextPaymentDate</span>(), <span class="str">"Not yet"</span>);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">require</span>(bond.<span class="fn">isCompliant</span>(msg.sender), <span class="str">"KYC fail"</span>);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">uint256</span> amount = bond.<span class="fn">couponAmount</span>();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;settlementToken.<span class="fn">transfer</span>(bond.<span class="fn">holder</span>(), amount); <span class="comment">// wCBDC</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">emit</span> <span class="fn">CouponPaid</span>(bond, amount, block.timestamp);<br>
+            &nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <!-- 6 LOGIC USE CASES -->
+        <section data-aos="fade-up">
+            <h2>6 Applications de la Logique Programmable en DCM</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-coins"></i></div>
+                    <div class="feature-title">Coupons Automatisés</div>
+                    <p class="feature-desc">Paiement automatique aux détenteurs aux dates définies dans le contrat. Zéro réconciliation, zéro retard, zéro erreur.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-id-badge"></i></div>
+                    <div class="feature-title">Conformité KYC On-Chain</div>
+                    <p class="feature-desc">Vérification d'identité et d'éligibilité réglementaire intégrée directement dans la logique de transfert (ERC-3643 / T-REX).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-scale-balanced"></i></div>
+                    <div class="feature-title">Collatéralisation Dynamique</div>
+                    <p class="feature-desc">Ajustement automatique des marges de collatéral en fonction des valorisations on-chain — margin calls programmés.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-recycle"></i></div>
+                    <div class="feature-title">Réinvestissement Automatique</div>
+                    <p class="feature-desc">Réinvestissement des flux de coupon dans de nouveaux instruments selon des règles de portefeuille prédéfinies — sans gestionnaire.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                    <div class="feature-title">Reporting Réglementaire</div>
+                    <p class="feature-desc">Génération automatique de rapports EMIR / MiFID II / DORA intégrée au cycle de vie de l'instrument — auditabilité native.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-fire-flame-curved"></i></div>
+                    <div class="feature-title">Remboursement & Burn</div>
+                    <p class="feature-desc">À maturité, le principal est automatiquement restitué et les tokens d'obligation détruits — boucle fermée sans intervention.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- INSIGHT BIS -->
+        <div class="insight-box" data-aos="fade-up">
+            <span class="insight-label"><i class="fas fa-globe"></i> Référence BIS — Unified Ledger 2023</span>
+            <p class="insight-text">
+                Le rapport BIS "Blueprint for the future monetary system" (2023) positionne la couche Logic comme
+                <strong style="color:#fff;">l'élément différenciateur fondamental</strong> du Unified Ledger par rapport aux systèmes DLT de première génération.
+                La programmabilité conditionnelle — exécution automatique si et seulement si toutes les conditions réglementaires sont satisfaites — est décrite
+                comme <em>"la transformation la plus profonde de la mécanique financière depuis la dématérialisation"</em>.
+            </p>
+        </div>
+
+        <!-- COMPOSABILITY MATRIX -->
+        <section data-aos="fade-up">
+            <h2>Matrice de Maturité — Logique Programmable par Type d'Actif</h2>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th>Instrument</th>
+                        <th>Coupons auto</th>
+                        <th>KYC on-chain</th>
+                        <th>Collatéral dyn.</th>
+                        <th>Reporting auto</th>
+                        <th>Statut 2025</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong style="color:#fff;">Obligations Digitales</strong></td>
+                        <td class="check">✓ Mûr</td>
+                        <td class="check">✓ ERC-3643</td>
+                        <td class="warn">~ Partiel</td>
+                        <td class="warn">~ En cours</td>
+                        <td><span style="background:rgba(16,185,129,0.15); color:#10b981; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700;">PRODUCTION</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color:#fff;">Repo Tokens</strong></td>
+                        <td class="check">✓</td>
+                        <td class="warn">~ DID partiel</td>
+                        <td class="check">✓ Automatique</td>
+                        <td class="warn">~ Pilot</td>
+                        <td><span style="background:rgba(245,158,11,0.15); color:#f59e0b; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700;">PILOT</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color:#fff;">Fonds Tokenisés (RWA)</strong></td>
+                        <td class="warn">~ Simplifié</td>
+                        <td class="check">✓</td>
+                        <td class="cross-x">✗ Manuel</td>
+                        <td class="warn">~ AIFMD partiel</td>
+                        <td><span style="background:rgba(245,158,11,0.15); color:#f59e0b; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700;">ÉMERGENT</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color:#fff;">Dérivés Tokenisés</strong></td>
+                        <td class="cross-x">✗ Complexe</td>
+                        <td class="warn">~ Partiel</td>
+                        <td class="warn">~ Recherche</td>
+                        <td class="cross-x">✗</td>
+                        <td><span style="background:rgba(148,163,184,0.1); color:#94a3b8; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700;">RECHERCHE</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- CROSS-LINKS -->
+        <div style="padding-top: 60px; border-top: 1px solid rgba(255,255,255,0.06);" data-aos="fade-up">
+            <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 24px;">
+                <i class="fas fa-link" style="margin-right: 8px;"></i> Autres couches PCM
+            </p>
+            <div class="cross-links-grid">
+                <a href="index.html" class="cross-link-card" style="background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2);">
+                    <i class="fas fa-layer-group" style="font-size: 22px; color: #f59e0b; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Hub PCM</div><div style="font-size:13px; color:#64748b;">Toutes les couches</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#f59e0b;"></i>
+                </a>
+                <a href="../digital-debt-capital-markets/smart-bond-contracts.html" class="cross-link-card" style="background: rgba(99,102,241,0.07); border: 1px solid rgba(99,102,241,0.2);">
+                    <i class="fas fa-code" style="font-size: 22px; color: #6366f1; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Smart Bond Contracts</div><div style="font-size:13px; color:#64748b;">Application pratique</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#6366f1;"></i>
+                </a>
+                <a href="monetary-infrastructure.html" class="cross-link-card" style="background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2);">
+                    <i class="fas fa-coins" style="font-size: 22px; color: #10b981; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Settlement — Couche 03</div><div style="font-size:13px; color:#64748b;">wCBDC & Tokenized Deposits</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#10b981;"></i>
+                </a>
+                <a href="../digital-debt-capital-markets/standards.html" class="cross-link-card" style="background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2);">
+                    <i class="fas fa-ruler-combined" style="font-size: 22px; color: #f59e0b; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Standards — Couche 05</div><div style="font-size:13px; color:#64748b;">ICMA BDT · ISO/TC 307</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#f59e0b;"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 900, once: true, offset: 60 });</script>
+</body>
+</html>
