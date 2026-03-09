@@ -14,6 +14,7 @@
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="../fr/styles-megamenu.css" rel="stylesheet" />
     <link href="../fr/styles-footer.css" rel="stylesheet" />
+    <script src="../fr/js/dev-unlock.js"></script>
 
     <style>
         :root {
@@ -819,25 +820,27 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             // Check session state via dev-unlock.js
-            if (typeof __isMasterSession === 'function') {
-                const isMaster = __isMasterSession();
+            if (typeof window.__isMasterSession === 'function') {
+                const isMaster = window.__isMasterSession();
                 const devToggleContainer = document.getElementById('devToggleContainer');
                 const devToggle = document.getElementById('devToggle');
 
                 // Show toggle only on localhost OR if token is already active
                 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || isMaster) {
-                    devToggleContainer.style.display = 'flex';
-                    devToggle.checked = isMaster;
+                    if (devToggleContainer) devToggleContainer.style.display = 'flex';
+                    if (devToggle) devToggle.checked = isMaster;
                 }
 
                 // Handle toggle change
-                devToggle.addEventListener('change', (e) => {
-                    if (typeof __setMasterSession === 'function') {
-                        __setMasterSession(e.target.checked);
-                        // Refresh page to apply states globally
-                        window.location.reload();
-                    }
-                });
+                if (devToggle) {
+                    devToggle.addEventListener('change', (e) => {
+                        if (typeof window.__setMasterSession === 'function') {
+                            window.__setMasterSession(e.target.checked);
+                            // Refresh page to apply states globally
+                            window.location.reload();
+                        }
+                    });
+                }
             }
 
             // Handle locked links
@@ -845,7 +848,7 @@
 
             authLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
-                    if (typeof __isMasterSession === 'function' && __isMasterSession()) {
+                    if (typeof window.__isMasterSession === 'function' && window.__isMasterSession()) {
                         // If unlocked, follow the embedded target
                         const target = link.getAttribute('data-target');
                         if (target && target !== "#") {
