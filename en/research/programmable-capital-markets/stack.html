@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="The complete 5-layer architecture of Tokenized Capital Markets: Assets, Logic, Settlement, Infrastructure, Standards. Institutional PCM blueprint for Tier-1 banks and regulators." name="description" />
+    <title>Tokenized Capital Market Stack — Full PCM Architecture | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/en/research/programmable-capital-markets/stack.html" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="../../../styles.css" rel="stylesheet" />
+    <link href="../../styles-megamenu.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent: #f59e0b;
+            --l1: #6366f1;
+            --l2: #a855f7;
+            --l3: #10b981;
+            --l4: #3b82f6;
+            --l5: #f59e0b;
+            --glass: rgba(15,23,42,0.7);
+            --border: rgba(255,255,255,0.08);
+        }
+
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; padding-top: 80px; }
+
+        .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 24px 0; font-size: 12px; color: #475569; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .breadcrumb a { color: #475569; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb .sep { opacity: 0.4; }
+        .breadcrumb .current { color: var(--accent); }
+
+        .hero { max-width: 900px; margin: 0 auto; padding: 60px 24px 30px; text-align: center; }
+        .badge-top { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); border-radius: 30px; padding: 6px 16px; margin-bottom: 28px; }
+        h1 { font-family: 'Outfit', sans-serif; font-size: clamp(36px, 6vw, 60px); font-weight: 900; color: #fff; margin-bottom: 24px; line-height: 1.05; }
+        .lead { font-size: 18px; color: #94a3b8; line-height: 1.7; max-width: 700px; margin: 0 auto 50px; }
+
+        .pyramid-wrap { max-width: 900px; margin: 0 auto 70px; padding: 0 24px; position: relative; }
+        .pyramid-wrap::before { content: ''; position: absolute; left: 40px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--l5) 0%, var(--l4) 25%, var(--l3) 50%, var(--l2) 75%, var(--l1) 100%); opacity: 0.3; }
+
+        .stack-row { display: flex; gap: 20px; align-items: stretch; margin-bottom: 16px; }
+        .layer-badge { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 72px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--lc); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px 8px; flex-shrink: 0; }
+        .layer-badge .ln { font-size: 22px; font-weight: 900; }
+
+        .layer-card { flex: 1; background: var(--glass); border: 1px solid var(--border); border-left: 3px solid var(--lc); border-radius: 16px; padding: 24px 28px; display: flex; gap: 24px; align-items: flex-start; transition: all 0.3s; text-decoration: none; color: inherit; }
+        .layer-card:hover { transform: translateX(8px); background: rgba(15,23,42,0.95); border-left-width: 4px; }
+        .layer-icon { font-size: 28px; color: var(--lc); flex-shrink: 0; }
+        .layer-body { flex: 1; }
+        .layer-name { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+        .layer-sub { font-size: 13px; color: #64748b; font-weight: 600; margin-bottom: 10px; }
+        .layer-desc { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 14px; }
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tech-tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #64748b; }
+        .maturity-bar { height: 4px; border-radius: 99px; background: rgba(255,255,255,0.06); margin-top: 14px; overflow: hidden; }
+        .maturity-fill { height: 100%; border-radius: 99px; background: var(--lc); }
+        .maturity-label { font-size: 10px; color: #475569; margin-top: 4px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 700; }
+        .layer-cta { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--lc); flex-shrink: 0; white-space: nowrap; }
+
+        .compare-wrap { max-width: 1100px; margin: 0 auto 80px; padding: 0 24px; }
+        h2 { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 24px; }
+
+        .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .compare-table th { padding: 14px 18px; text-align: left; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .compare-table td { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #94a3b8; vertical-align: top; line-height: 1.5; }
+        .compare-table tr:hover td { background: rgba(255,255,255,0.015); }
+        .th-dim { color: #64748b; } .th-legacy { color: #ef4444; } .th-pcm { color: #10b981; }
+        .tag-bad { color: #ef4444; } .tag-good { color: #10b981; } .tag-mid { color: #f59e0b; }
+
+        .matrix-wrap { max-width: 1100px; margin: 0 auto 80px; padding: 0 24px; }
+        .matrix-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+        .matrix-col { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 20px 16px; }
+        .matrix-col-head { font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .matrix-item { font-size: 12px; display: flex; align-items: flex-start; gap: 8px; margin-bottom: 12px; color: #94a3b8; }
+        .matrix-item i { font-size: 11px; flex-shrink: 0; margin-top: 2px; }
+
+        .hier-wrap { max-width: 900px; margin: 0 auto 80px; padding: 0 24px; }
+        .hier-diagram { display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .hier-box { padding: 18px 36px; border-radius: 14px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 16px; text-align: center; width: 100%; max-width: 480px; }
+        .hier-arrow { font-size: 24px; color: rgba(255,255,255,0.2); padding: 6px 0; }
+        .hier-row { display: flex; gap: 14px; width: 100%; max-width: 680px; }
+        .hier-box-sm { flex: 1; padding: 14px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; text-align: center; font-family: 'Outfit', sans-serif; }
+
+        .cl-wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px 100px; }
+        .cl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+        .cl-card { display: flex; align-items: center; gap: 14px; border-radius: 14px; padding: 16px 18px; text-decoration: none; transition: all 0.3s; }
+        .cl-card:hover { transform: translateY(-3px); }
+
+        @media (max-width: 720px) { .matrix-grid { grid-template-columns: 1fr 1fr; } .layer-card { flex-direction: column; } .hier-row { flex-direction: column; } }
+        @media (max-width: 480px) { .matrix-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb" style="background: linear-gradient(135deg, #f59e0b, #ef4444);"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+    </nav>
+
+    <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Home</a>
+        <span class="sep">›</span>
+        <a href="index.html">Programmable Capital Markets</a>
+        <span class="sep">›</span>
+        <span class="current">Tokenized Capital Market Stack</span>
+    </nav>
+
+    <div class="hero" data-aos="fade-up">
+        <div class="badge-top"><i class="fas fa-layer-group"></i> Institutional Architecture · PCM Framework</div>
+        <h1>Tokenized Capital<br>Market Stack</h1>
+        <p class="lead">
+            The complete architecture of programmable capital markets in <strong style="color:#fff;">5 interdependent layers</strong>.
+            Each layer is a prerequisite for the next: without standards, no interoperability;
+            without settlement, no assets. This is the structural blueprint endorsed by the BIS, ECB, and IOSCO.
+        </p>
+    </div>
+
+    <div class="pyramid-wrap" data-aos="fade-up">
+
+        <!-- Layer 5 — Standards (base) -->
+        <div class="stack-row" style="--lc: var(--l5);">
+            <div class="layer-badge" style="color: var(--l5);"><div class="ln">05</div><div>BASE</div></div>
+            <a href="../digital-debt-capital-markets/standards.html" class="layer-card" style="--lc: var(--l5);">
+                <i class="fas fa-ruler-combined layer-icon"></i>
+                <div class="layer-body">
+                    <div class="layer-name">Standards — the foundation</div>
+                    <div class="layer-sub">ICMA BDT · ISO 20022 · ISO/TC 307 · ERC-3643</div>
+                    <p class="layer-desc">Data protocols and regulatory frameworks that enable heterogeneous systems to interoperate. Without common standards, liquidity remains trapped in isolated DLT silos.</p>
+                    <div class="tech-tags"><span class="tech-tag">ICMA BDT v2.0</span><span class="tech-tag">ISO 20022</span><span class="tech-tag">ERC-3643</span><span class="tech-tag">ISO/TC 307</span><span class="tech-tag">IOSCO DLT</span></div>
+                    <div class="maturity-bar"><div class="maturity-fill" style="width:65%;"></div></div>
+                    <div class="maturity-label">2025 Maturity · 65% — Consolidation in progress</div>
+                </div>
+                <div class="layer-cta">View Standards <i class="fas fa-arrow-right"></i></div>
+            </a>
+        </div>
+
+        <!-- Layer 4 — Infrastructure -->
+        <div class="stack-row" style="--lc: var(--l4);">
+            <div class="layer-badge" style="color: var(--l4);"><div class="ln">04</div><div>INFRA</div></div>
+            <a href="architecture.html" class="layer-card" style="--lc: var(--l4);">
+                <i class="fas fa-network-wired layer-icon"></i>
+                <div class="layer-body">
+                    <div class="layer-name">Infrastructure — institutional DLT networks</div>
+                    <div class="layer-sub">Ledgers · Nodes · Interoperability · BIS Unified Ledger</div>
+                    <p class="layer-desc">The private and hybrid DLT networks powering institutional transactions: Corda Enterprise, Hyperledger Fabric, Digital Securities Registry. Cross-network interoperability is the defining challenge of 2025–2026.</p>
+                    <div class="tech-tags"><span class="tech-tag">Corda Enterprise</span><span class="tech-tag">Hyperledger Fabric</span><span class="tech-tag">Ethereum L2</span><span class="tech-tag">Digital CSD</span></div>
+                    <div class="maturity-bar"><div class="maturity-fill" style="width:55%;"></div></div>
+                    <div class="maturity-label">2025 Maturity · 55% — Active pilots, interop. in progress</div>
+                </div>
+                <div class="layer-cta">View Architecture <i class="fas fa-arrow-right"></i></div>
+            </a>
+        </div>
+
+        <!-- Layer 3 — Settlement -->
+        <div class="stack-row" style="--lc: var(--l3);">
+            <div class="layer-badge" style="color: var(--l3);"><div class="ln">03</div><div>CASH</div></div>
+            <a href="monetary-infrastructure.html" class="layer-card" style="--lc: var(--l3);">
+                <i class="fas fa-bolt layer-icon"></i>
+                <div class="layer-body">
+                    <div class="layer-name">Settlement — atomic T+0</div>
+                    <div class="layer-sub">wCBDC · Tokenized Deposits · Atomic DvP</div>
+                    <p class="layer-desc">The "cash side" of the system. Settlement in central bank money (wCBDC) or tokenized deposits ensures that asset and payment exchange simultaneously — eliminating counterparty risk in a single cryptographic block.</p>
+                    <div class="tech-tags"><span class="tech-tag">Wholesale CBDC</span><span class="tech-tag">Tokenized Deposits</span><span class="tech-tag">Atomic DvP</span><span class="tech-tag">ECB Sandbox</span></div>
+                    <div class="maturity-bar"><div class="maturity-fill" style="width:45%;"></div></div>
+                    <div class="maturity-label">2025 Maturity · 45% — ECB / BIS experiments active</div>
+                </div>
+                <div class="layer-cta">View Settlement <i class="fas fa-arrow-right"></i></div>
+            </a>
+        </div>
+
+        <!-- Layer 2 — Logic -->
+        <div class="stack-row" style="--lc: var(--l2);">
+            <div class="layer-badge" style="color: var(--l2);"><div class="ln">02</div><div>LOGIC</div></div>
+            <a href="logic.html" class="layer-card" style="--lc: var(--l2);">
+                <i class="fas fa-code layer-icon"></i>
+                <div class="layer-body">
+                    <div class="layer-name">Logic — programmable finance</div>
+                    <div class="layer-sub">Smart Contracts · Composability · Embedded Compliance</div>
+                    <p class="layer-desc">Business rules, contractual conditions, and regulatory obligations encoded directly into self-executing code. Coupon payments, on-chain KYC, dynamic collateral — without human intervention.</p>
+                    <div class="tech-tags"><span class="tech-tag">Smart Contracts</span><span class="tech-tag">ERC-3643</span><span class="tech-tag">Composability</span><span class="tech-tag">Oracle Design</span></div>
+                    <div class="maturity-bar"><div class="maturity-fill" style="width:70%;"></div></div>
+                    <div class="maturity-label">2025 Maturity · 70% — Live on bonds, emerging on derivatives</div>
+                </div>
+                <div class="layer-cta">Study Logic <i class="fas fa-arrow-right"></i></div>
+            </a>
+        </div>
+
+        <!-- Layer 1 — Assets (top) -->
+        <div class="stack-row" style="--lc: var(--l1);">
+            <div class="layer-badge" style="color: var(--l1);"><div class="ln">01</div><div>TOP</div></div>
+            <a href="../digital-debt-capital-markets/index.html" class="layer-card" style="--lc: var(--l1);">
+                <i class="fas fa-coins layer-icon"></i>
+                <div class="layer-body">
+                    <div class="layer-name">Assets — tokenized instruments</div>
+                    <div class="layer-sub">Digital Bonds · RWA · Tokenized Equity · Digital Securities</div>
+                    <p class="layer-desc">The financial instruments themselves, represented as native digital objects on a ledger. Digital Bonds (tokenized bonds) are the most mature use case and the preferred institutional entry point.</p>
+                    <div class="tech-tags"><span class="tech-tag">Tokenized Bonds</span><span class="tech-tag">Digital Securities</span><span class="tech-tag">RWA Tokenization</span><span class="tech-tag">DLT Bonds</span></div>
+                    <div class="maturity-bar"><div class="maturity-fill" style="width:80%;"></div></div>
+                    <div class="maturity-label">2025 Maturity · 80% — Active pilots (EIB, SocGen, HKMA)</div>
+                </div>
+                <div class="layer-cta">Explore Digital DCM <i class="fas fa-arrow-right"></i></div>
+            </a>
+        </div>
+    </div>
+
+    <!-- LEGACY vs PCM TABLE -->
+    <div class="compare-wrap" data-aos="fade-up">
+        <h2>Legacy FMI vs Programmable Capital Market Stack</h2>
+        <table class="compare-table">
+            <thead>
+                <tr><th class="th-dim">Dimension</th><th class="th-legacy">⛓ Legacy FMI (T2S / TARGET2)</th><th class="th-pcm">⚡ PCM Stack (DLT + Smart Contracts)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong style="color:#fff;">Asset representation</strong></td><td class="tag-bad">Centralized registers, paper / electronic</td><td class="tag-good">Native tokens on shared ledger, programmable</td></tr>
+                <tr><td><strong style="color:#fff;">Settlement</strong></td><td class="tag-bad">T+2 → T+1, manual multi-party reconciliation</td><td class="tag-good">Atomic T+0, simultaneous cryptographic DvP</td></tr>
+                <tr><td><strong style="color:#fff;">Compliance</strong></td><td class="tag-bad">Post-trade, manual EMIR/MiFID II reporting</td><td class="tag-good">Embedded in smart contract, native</td></tr>
+                <tr><td><strong style="color:#fff;">Intermediaries</strong></td><td class="tag-bad">5–8 parties (broker, CCP, CSD, custodian…)</td><td class="tag-good">2–3 direct counterparties, peer-to-peer</td></tr>
+                <tr><td><strong style="color:#fff;">Coupon payments</strong></td><td class="tag-bad">Reconciliation, manual interventions, delays</td><td class="tag-good">Automatic via smart contract, instant</td></tr>
+                <tr><td><strong style="color:#fff;">Audit & transparency</strong></td><td class="tag-mid">Dispersed logs, limited regulator access</td><td class="tag-good">Immutable on-chain, real-time native auditability</td></tr>
+                <tr><td><strong style="color:#fff;">Operational cost</strong></td><td class="tag-bad">~2–5% of volume in reconciliation fees</td><td class="tag-good">Estimated 60–80% reduction (BIS, 2023)</td></tr>
+                <tr><td><strong style="color:#fff;">Standards</strong></td><td class="tag-mid">ISO 20022, SWIFT — but proprietary silos</td><td class="tag-good">ICMA BDT + ERC-3643 + ISO 20022 unified</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ADOPTION MATRIX -->
+    <div class="matrix-wrap" data-aos="fade-up">
+        <h2>Institutional Adoption by Layer — 2025</h2>
+        <div class="matrix-grid">
+            <div class="matrix-col" style="border-color: rgba(245,158,11,0.2);">
+                <div class="matrix-col-head" style="color:#f59e0b;"><i class="fas fa-ruler-combined"></i> Standards</div>
+                <div class="matrix-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> ICMA BDT v2.0 deployed</div>
+                <div class="matrix-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> ISO 20022 SWIFT active</div>
+                <div class="matrix-item"><i class="fas fa-circle-notch" style="color:#f59e0b;"></i> ISO/TC 307 in progress</div>
+                <div class="matrix-item"><i class="fas fa-circle-notch" style="color:#f59e0b;"></i> IOSCO DLT RFC open</div>
+            </div>
+            <div class="matrix-col" style="border-color: rgba(59,130,246,0.2);">
+                <div class="matrix-col-head" style="color:#3b82f6;"><i class="fas fa-network-wired"></i> Infrastructure</div>
+                <div class="matrix-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> Corda Enterprise live</div>
+                <div class="matrix-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> D7 Deutsche Börse live</div>
+                <div class="matrix-item"><i class="fas fa-circle-notch" style="color:#f59e0b;"></i> Cross-DLT interop pilot</div>
+                <div class="matrix-item"><i class="fas fa-circle-dot" style="color:#ef4444;"></i> Unified Ledger: research</div>
+            </div>
+            <div class="matrix-col" style="border-color: rgba(16,185,129,0.2);">
+                <div class="matrix-col-head" style="color:#10b981;"><i class="fas fa-bolt"></i> Settlement</div>
+                <div class="matrix-item"><i class="fas fa-circle-notch" style="color:#f59e0b;"></i> ECB Wholesale BCB active</div>
+                <div class="matrix-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> Tokenized Deposits live</div>
+                <div class="matrix-item"><i class="fas fa-circle-notch" style="color:#f59e0b;"></i> DvP T+0: experiments</div>
+                <div class="matrix-item"><i class="fas fa-circle-dot" style="color:#ef4444;"></i> Universal wCBDC: 2026+</div>
+            </div>
+            <div class="matrix-col" style="border-color: rgba(168,85,247,0.2);">
+                <div class="matrix-col-head" style="color:#a855f7;"><i class="fas fa-code"></i> Logic</div>
+                <div class="matrix-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> Auto coupons: production</div>
+                <div class="matrix-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> On-chain KYC (ERC-3643)</div>
+                <div class="matrix-item"><i class="fas fa-circle-notch" style="color:#f59e0b;"></i> Dynamic collateral: pilot</div>
+                <div class="matrix-item"><i class="fas fa-circle-dot" style="color:#ef4444;"></i> Programmable derivatives: R&D</div>
+            </div>
+            <div class="matrix-col" style="border-color: rgba(99,102,241,0.2);">
+                <div class="matrix-col-head" style="color:#6366f1;"><i class="fas fa-coins"></i> Assets</div>
+                <div class="matrix-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> Tokenized bonds live</div>
+                <div class="matrix-item"><i class="fas fa-check-circle" style="color:#10b981;"></i> EIB, SocGen, HKMA active</div>
+                <div class="matrix-item"><i class="fas fa-circle-notch" style="color:#f59e0b;"></i> Tokenized funds (RWA) pilot</div>
+                <div class="matrix-item"><i class="fas fa-circle-dot" style="color:#ef4444;"></i> Digital equity: emerging</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIERARCHY -->
+    <div class="hier-wrap" data-aos="fade-up">
+        <h2 style="text-align:center;">The PCM Program Hierarchy</h2>
+        <p style="text-align:center; color:#64748b; font-size:14px; margin-bottom:40px;">How programs nest logically</p>
+        <div class="hier-diagram">
+            <div class="hier-box" style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); color: #f59e0b;">
+                <i class="fas fa-layer-group" style="margin-right:10px;"></i><strong>Programmable Capital Markets (PCM)</strong>
+                <div style="font-size:12px; color:#94a3b8; font-weight:400; margin-top:4px;">Programmable financial infrastructure framework</div>
+            </div>
+            <div class="hier-arrow">↓</div>
+            <div class="hier-row">
+                <div class="hier-box-sm" style="background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); color:#3b82f6;">
+                    <i class="fas fa-file-contract"></i><br><strong>Digital Debt Capital Markets</strong><br>
+                    <span style="font-size:11px; color:#64748b; font-weight:400;">Applied program · tokenized bonds</span>
+                </div>
+                <div class="hier-box-sm" style="background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); color:#10b981;">
+                    <i class="fas fa-coins"></i><br><strong>Monetary Infrastructure</strong><br>
+                    <span style="font-size:11px; color:#64748b; font-weight:400;">wCBDC · Tokenized Deposits · DvP</span>
+                </div>
+            </div>
+            <div class="hier-arrow">↓</div>
+            <div class="hier-box" style="background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2); color: #a855f7;">
+                <i class="fas fa-gavel" style="margin-right:10px;"></i><strong>Policy & Regulatory Implications</strong>
+                <div style="font-size:12px; color:#94a3b8; font-weight:400; margin-top:4px;">DLT Bonds Learnings · Future of Banking · ECB Trials</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CROSS-LINKS -->
+    <div class="cl-wrap" data-aos="fade-up">
+        <p style="font-size:11px; font-weight:700; letter-spacing:2px; color:var(--accent); text-transform:uppercase; margin-bottom:20px;"><i class="fas fa-link" style="margin-right:8px;"></i> Explore the layers</p>
+        <div class="cl-grid">
+            <a href="index.html" class="cl-card" style="background:rgba(245,158,11,0.07); border:1px solid rgba(245,158,11,0.2);"><i class="fas fa-layer-group" style="font-size:20px; color:#f59e0b; flex-shrink:0;"></i><div><div style="font-weight:700; color:#fff; font-size:14px;">PCM Hub</div><div style="font-size:12px; color:#64748b;">Overview</div></div></a>
+            <a href="logic.html" class="cl-card" style="background:rgba(168,85,247,0.07); border:1px solid rgba(168,85,247,0.2);"><i class="fas fa-code" style="font-size:20px; color:#a855f7; flex-shrink:0;"></i><div><div style="font-weight:700; color:#fff; font-size:14px;">Logic</div><div style="font-size:12px; color:#64748b;">Programmable finance</div></div></a>
+            <a href="monetary-infrastructure.html" class="cl-card" style="background:rgba(16,185,129,0.07); border:1px solid rgba(16,185,129,0.2);"><i class="fas fa-bolt" style="font-size:20px; color:#10b981; flex-shrink:0;"></i><div><div style="font-weight:700; color:#fff; font-size:14px;">Settlement</div><div style="font-size:12px; color:#64748b;">wCBDC & Tokenized Deposits</div></div></a>
+            <a href="architecture.html" class="cl-card" style="background:rgba(59,130,246,0.07); border:1px solid rgba(59,130,246,0.2);"><i class="fas fa-network-wired" style="font-size:20px; color:#3b82f6; flex-shrink:0;"></i><div><div style="font-weight:700; color:#fff; font-size:14px;">Infrastructure</div><div style="font-size:12px; color:#64748b;">Institutional DLT networks</div></div></a>
+            <a href="../digital-debt-capital-markets/standards.html" class="cl-card" style="background:rgba(245,158,11,0.07); border:1px solid rgba(245,158,11,0.2);"><i class="fas fa-ruler-combined" style="font-size:20px; color:#f59e0b; flex-shrink:0;"></i><div><div style="font-weight:700; color:#fff; font-size:14px;">Standards</div><div style="font-size:12px; color:#64748b;">ICMA BDT · ISO/TC 307</div></div></a>
+            <a href="../digital-debt-capital-markets/index.html" class="cl-card" style="background:rgba(99,102,241,0.07); border:1px solid rgba(99,102,241,0.2);"><i class="fas fa-file-contract" style="font-size:20px; color:#6366f1; flex-shrink:0;"></i><div><div style="font-weight:700; color:#fff; font-size:14px;">Digital DCM</div><div style="font-size:12px; color:#64748b;">Applied program</div></div></a>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 1000, once: true, offset: 60 });</script>
+</body>
+</html>
