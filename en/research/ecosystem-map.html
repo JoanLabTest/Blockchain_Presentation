@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Institutional mapping of tokenized financial markets: BIS, IMF, ECB, ESMA and DLT market infrastructures. Understanding the global governance of tokenization."
+        name="description" />
+    <title>Institutional Framework Map — Tokenized Markets Governance | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/en/research/ecosystem-map.html" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-megamenu.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-eco: #3b82f6;
+            --accent-gov: #6366f1;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+        }
+
+        .eco-hero {
+            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 60%);
+            padding: 100px 20px 60px;
+            text-align: center;
+        }
+
+        .gov-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 100px;
+            color: var(--accent-gov);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .eco-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        .eco-lead {
+            font-size: 19px;
+            color: #94a3b8;
+            max-width: 850px;
+            margin: 0 auto 60px;
+            line-height: 1.7;
+        }
+
+        /* ECOSYSTEM VISUALIZATION */
+        .ecosystem-flow {
+            max-width: 1000px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .flow-level {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .flow-node {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 30px;
+            text-align: center;
+            flex: 1;
+            max-width: 300px;
+            transition: all 0.3s;
+        }
+
+        .flow-node:hover {
+            border-color: var(--accent-eco);
+            transform: scale(1.02);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .flow-node i {
+            display: block;
+            font-size: 24px;
+            color: var(--accent-eco);
+            margin-bottom: 12px;
+        }
+
+        .flow-node strong {
+            display: block;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .flow-node span {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .flow-arrow {
+            color: var(--glass-border);
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        /* INSTITUTIONAL CARDS */
+        .pillar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .pillar-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pillar-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .pillar-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            color: var(--accent-eco);
+        }
+
+        .pillar-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .institution-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .institution-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .institution-item:last-child {
+            border-bottom: none;
+        }
+
+        .ins-name {
+            display: block;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .ins-role {
+            display: block;
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* MATRIX TABLE */
+        .matrix-section {
+            background: rgba(59, 130, 246, 0.02);
+            padding: 100px 20px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .matrix-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .eco-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        .eco-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--accent-eco);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+        }
+
+        .eco-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+        }
+
+        .eco-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .entity-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-eco);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 20px 0;
+            font-size: 12px;
+            color: #475569;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumb a {
+            color: #475569;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-eco);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb" style="background: linear-gradient(135deg, #3b82f6, #6366f1);"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+    </nav>
+
+    <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Home</a>
+        <span style="opacity:0.4;">›</span>
+        <a href="programmable-capital-markets/index.html">Research</a>
+        <span style="opacity:0.4;">›</span>
+        <span style="color:var(--accent-eco);">Institutional Framework Map</span>
+    </nav>
+
+    <div class="eco-hero" data-aos="fade-up">
+        <div class="gov-tag">Institutional Ecosystem Hub</div>
+        <h1 class="eco-title">Institutional Framework Map</h1>
+        <p class="eco-lead">
+            Understanding tokenized financial markets requires a clear vision of global governance. 
+            Discover how central banks, regulators, and market infrastructures are structuring the future of the financial system.
+        </p>
+
+        <!-- VISUAL FLOW -->
+        <div class="ecosystem-flow">
+            <div class="flow-level">
+                <div class="flow-node">
+                    <i class="fas fa-globe"></i>
+                    <strong>Global Institutions</strong>
+                    <span>Standard Setters</span>
+                </div>
+            </div>
+            <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+            <div class="flow-level" style="gap: 40px;">
+                <div class="flow-node">
+                    <i class="fas fa-landmark"></i>
+                    <strong>Central Banks</strong>
+                    <span>Monetary Infrastructure</span>
+                </div>
+                <div class="flow-node">
+                    <i class="fas fa-gavel"></i>
+                    <strong>Regulators</strong>
+                    <span>Supervision & Policy</span>
+                </div>
+            </div>
+            <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+            <div class="flow-level">
+                <div class="flow-node">
+                    <i class="fas fa-building-columns"></i>
+                    <strong>Market Infrastructure</strong>
+                    <span>CSD, CCP & Settlement</span>
+                </div>
+            </div>
+            <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+            <div class="flow-level">
+                <div class="flow-node" style="border-color: rgba(99,102,241,0.4);">
+                    <i class="fas fa-layer-group" style="color: var(--accent-gov);"></i>
+                    <strong>DCM Core Programs</strong>
+                    <span style="color: var(--accent-gov);">PCM · DDCM · Policy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="pillar-grid">
+        <!-- PILLAR 1 -->
+        <div class="pillar-card" data-aos="fade-up">
+            <div class="pillar-header">
+                <div class="pillar-icon"><i class="fas fa-globe"></i></div>
+                <h2 class="pillar-title">Global Institutions</h2>
+            </div>
+            <ul class="institution-list">
+                <li class="institution-item">
+                    <span class="ins-name">Bank for International Settlements (BIS)</span>
+                    <span class="ins-role">Central bank coordination, "Unified Ledger" research, and Innovation Hubs (BIS Innovation Hub).</span>
+                </li>
+                <li class="institution-item">
+                    <span class="ins-name">IMF (International Monetary Fund)</span>
+                    <span class="ins-role">Macro-financial standards, global financial stability analysis, and cross-border payments.</span>
+                </li>
+                <li class="institution-item">
+                    <span class="ins-name">World Bank</span>
+                    <span class="ins-role">Digital bond issuance for dev (e.g., Bond-i) and tokenized ESG standards.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- PILLAR 2 -->
+        <div class="pillar-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="pillar-header">
+                <div class="pillar-icon"><i class="fas fa-landmark"></i></div>
+                <h2 class="pillar-title">Central Banks</h2>
+            </div>
+            <ul class="institution-list">
+                <li class="institution-item">
+                    <span class="ins-name">European Central Bank (ECB)</span>
+                    <span class="ins-role">Digital Euro project, wholesale CBDC experiments, and TARGET Services settlement infrastructure.</span>
+                </li>
+                <li class="institution-item">
+                    <span class="ins-name">Banque de France</span>
+                    <span class="ins-role">Leader in interbank DLT settlement tests and monetary integration of financial assets.</span>
+                </li>
+                <li class="institution-item">
+                    <span class="ins-name">MAS (Singapore)</span>
+                    <span class="ins-role">Project Guardian: institutionalizing DeFi and tokenization of investment funds.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- PILLAR 3 -->
+        <div class="pillar-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="pillar-header">
+                <div class="pillar-icon"><i class="fas fa-building-columns"></i></div>
+                <h2 class="pillar-title">Market Infras (FMI)</h2>
+            </div>
+            <ul class="institution-list">
+                <li class="institution-item">
+                    <span class="ins-name">Euroclear</span>
+                    <span class="ins-role">Deployment of D-FMI (Digital Financial Market Infrastructure) for digital securities settlement.</span>
+                </li>
+                <li class="institution-item">
+                    <span class="ins-name">Clearstream / Deutsche Börse</span>
+                    <span class="ins-role">D7 platform for issuance of dematerialized and digital securities in compliance with eWpG.</span>
+                </li>
+                <li class="institution-item">
+                    <span class="ins-name">DTCC</span>
+                    <span class="ins-role">Post-trade modernization via tokenization and integration of shared ledgers (DLT).</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- PILLAR 4 -->
+        <div class="pillar-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="pillar-header">
+                <div class="pillar-icon"><i class="fas fa-gavel"></i></div>
+                <h2 class="pillar-title">Regulators & Policy</h2>
+            </div>
+            <ul class="institution-list">
+                <li class="institution-item">
+                    <span class="ins-name">ESMA (European Securities and Markets Authority)</span>
+                    <span class="ins-role">Supervision of the "DLT Pilot Regime" and regulatory convergence of crypto-assets (MiCA).</span>
+                </li>
+                <li class="institution-item">
+                    <span class="ins-name">FSB (Financial Stability Board)</span>
+                    <span class="ins-role">Assessment of systemic risks related to tokenization and non-bank financial intermediation.</span>
+                </li>
+                <li class="institution-item">
+                    <span class="ins-name">IOSCO</span>
+                    <span class="ins-role">International standards for investor protection on digital markets.</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="matrix-section">
+        <div class="matrix-container" data-aos="fade-up">
+            <h2 style="font-family: 'Outfit'; font-size: 32px; color: #fff; text-align: center;">Institutional Matrix 2024-2025</h2>
+            <p style="text-align: center; color: #94a3b8; margin-bottom: 50px;">Strategic focus by expertise domain</p>
+
+            <table class="eco-table">
+                <thead>
+                    <tr>
+                        <th>Strategic Domain</th>
+                        <th>Key Institutions</th>
+                        <th>Market Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Digital Bonds</strong></td>
+                        <td><span class="entity-tag">BIS</span> <span class="entity-tag">ECB</span> <span class="entity-tag">ICMA</span></td>
+                        <td>Standardization of data taxonomies and post-trade workflows.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wholesale CBDC (wCBDC)</strong></td>
+                        <td><span class="entity-tag">BdF</span> <span class="entity-tag">MAS</span> <span class="entity-tag">BoE</span></td>
+                        <td>Elimination of counterparty risk via Central Bank Money settlement.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>"Unified Ledger" Architecture</strong></td>
+                        <td><span class="entity-tag">BIS</span> <span class="entity-tag">IMF</span></td>
+                        <td>Vision of a shared ledger where assets and money coexist natively.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Post-Trade & Custody</strong></td>
+                        <td><span class="entity-tag">Euroclear</span> <span class="entity-tag">DTCC</span> <span class="entity-tag">ISSSA</span></td>
+                        <td>Transition to "T+0" models and decentralized securities ledgers.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div style="background: rgba(99,102,241,0.05); padding: 80px 20px; text-align: center; border-top: 1px solid var(--glass-border);">
+        <h2 style="font-family: 'Outfit'; font-size: 28px; color: #fff; margin-bottom: 20px;">Explore Research Programs</h2>
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <a href="programmable-capital-markets/index.html" class="flow-node" style="text-decoration: none; max-width: 250px;">
+                <i class="fas fa-layer-group" style="color: #f59e0b;"></i>
+                <strong>PCM Hub</strong>
+                <span style="color: #f59e0b;">Architecture & Theory</span>
+            </a>
+            <a href="digital-debt-capital-markets/index.html" class="flow-node" style="text-decoration: none; max-width: 250px;">
+                <i class="fas fa-coins" style="color: #3b82f6;"></i>
+                <strong>DDCM Hub</strong>
+                <span style="color: #3b82f6;">Applied Digital Bonds</span>
+            </a>
+            <a href="policy/dlt-bonds-learnings.html" class="flow-node" style="text-decoration: none; max-width: 250px;">
+                <i class="fas fa-gavel" style="color: #a855f7;"></i>
+                <strong>Policy Hub</strong>
+                <span style="color: #a855f7;">Regulatory Insights</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 900, once: true });
+    </script>
+</body>
+
+</html>
