@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="robots" content="noindex, follow" />
+    <title>Page Not Found | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background grid */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        /* Glow blob */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 760px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 404 NUMBER */
+        .error-code {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(100px, 18vw, 180px);
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, rgba(59,130,246,0.4), rgba(168,85,247,0.4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -8px;
+            margin-bottom: 0;
+            user-select: none;
+        }
+
+        .error-subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(22px, 4vw, 32px);
+            font-weight: 800;
+            color: #fff;
+            margin: 20px 0 16px;
+        }
+
+        .error-desc {
+            font-size: 16px;
+            color: #64748b;
+            line-height: 1.6;
+            max-width: 480px;
+            margin: 0 auto 48px;
+        }
+
+        /* SEARCH BOX */
+        .search-box {
+            display: flex;
+            gap: 10px;
+            max-width: 480px;
+            margin: 0 auto 48px;
+        }
+
+        .search-input {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: #fff;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus { border-color: rgba(59, 130, 246, 0.7); }
+        .search-input::placeholder { color: #475569; }
+
+        .search-btn {
+            background: linear-gradient(135deg, #3b82f6, #a855f7);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 20px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59,130,246,0.4); }
+
+        /* SEPARATOR */
+        .separator {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            max-width: 480px;
+            margin: 0 auto 36px;
+        }
+
+        .separator::before, .separator::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .separator span { font-size: 12px; color: #475569; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* HUB LINKS */
+        .hubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 48px;
+        }
+
+        .hub-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 14px;
+            padding: 18px 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .hub-card:hover {
+            border-color: var(--card-color, rgba(59,130,246,0.4));
+            transform: translateY(-3px);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .hub-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+            color: var(--card-color, #3b82f6);
+        }
+
+        .hub-name {
+            font-weight: 700;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .hub-desc {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.3;
+        }
+
+        /* HOME BUTTON */
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .home-btn:hover {
+            border-color: rgba(59,130,246,0.5);
+            color: #fff;
+            background: rgba(59,130,246,0.1);
+        }
+
+        /* TIMER */
+        .redirect-notice {
+            font-size: 13px;
+            color: #334155;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 480px) {
+            .hubs-grid { grid-template-columns: 1fr; }
+            .search-box { flex-direction: column; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="error-code">404</div>
+
+        <h1 class="error-subtitle">Page not found</h1>
+        <p class="error-desc">
+            This page may have moved or been renamed during our recent structural evolution toward
+            Programmable Capital Markets. Use the links below to navigate to the right section.
+        </p>
+
+        <!-- SEARCH -->
+        <div class="search-box">
+            <input class="search-input" id="searchInput" placeholder="Search the hub..." type="text" />
+            <button class="search-btn" onclick="doSearch()">
+                <i class="fas fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <div class="separator"><span>Or navigate directly</span></div>
+
+        <!-- HUB CARDS -->
+        <div class="hubs-grid">
+            <a class="hub-card" href="/fr/index.html" style="--card-color:#3b82f6;">
+                <i class="fas fa-house hub-icon"></i>
+                <div>
+                    <div class="hub-name">Hub Principal (FR)</div>
+                    <div class="hub-desc">Page d'accueil française</div>
+                </div>
+            </a>
+            <a class="hub-card" href="/en/index.html" style="--card-color:#3b82f6;">
+                <i class="fas fa-globe hub-icon"></i>
+                <div>
+                    <div class="hub-name">Main Hub (EN)</div>
+                    <div class="hub-desc">English homepage</div>
+                </div>
+            </a>
+            <a class="hub-card" href="/fr/research/programmable-capital-markets/index.html" style="--card-color:#a855f7;">
+                <i class="fas fa-layer-group hub-icon"></i>
+                <div>
+                    <div class="hub-name">Programmable Capital Markets</div>
+                    <div class="hub-desc">PCM Hub — Architecture & Research</div>
+                </div>
+            </a>
+            <a class="hub-card" href="/fr/research/digital-debt-capital-markets/index.html" style="--card-color:#6366f1;">
+                <i class="fas fa-file-contract hub-icon"></i>
+                <div>
+                    <div class="hub-name">Digital DCM</div>
+                    <div class="hub-desc">Digital Bonds & Structuring</div>
+                </div>
+            </a>
+            <a class="hub-card" href="/fr/research/programmable-capital-markets/monetary-infrastructure.html" style="--card-color:#10b981;">
+                <i class="fas fa-coins hub-icon"></i>
+                <div>
+                    <div class="hub-name">Monetary Infrastructure</div>
+                    <div class="hub-desc">wCBDC & Tokenized Deposits</div>
+                </div>
+            </a>
+            <a class="hub-card" href="/fr/research/programmable-capital-markets/future-of-banking.html" style="--card-color:#f59e0b;">
+                <i class="fas fa-university hub-icon"></i>
+                <div>
+                    <div class="hub-name">Future of Banking</div>
+                    <div class="hub-desc">Disintermediation vs Re-intermediation</div>
+                </div>
+            </a>
+        </div>
+
+        <a href="/fr/index.html" class="home-btn">
+            <i class="fas fa-arrow-left"></i> Return to Homepage
+        </a>
+
+        <p class="redirect-notice" id="redirectNotice"></p>
+    </div>
+
+    <script>
+        function doSearch() {
+            const q = document.getElementById('searchInput').value.trim();
+            if (q) {
+                window.location.href = 'https://dcmcore.com/fr/index.html?q=' + encodeURIComponent(q);
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') doSearch();
+        });
+
+        // Smart redirect based on URL pattern
+        const path = window.location.pathname.toLowerCase();
+        let redirectTarget = null;
+
+        if (path.includes('digital-dcm') || path.includes('digital-debt') || path.includes('bond')) {
+            redirectTarget = '/fr/research/digital-debt-capital-markets/index.html';
+        } else if (path.includes('pcm') || path.includes('programmable') || path.includes('capital-market')) {
+            redirectTarget = '/fr/research/programmable-capital-markets/index.html';
+        } else if (path.includes('monetary') || path.includes('cbdc') || path.includes('deposit')) {
+            redirectTarget = '/fr/research/programmable-capital-markets/monetary-infrastructure.html';
+        } else if (path.includes('banking') || path.includes('disintermediation')) {
+            redirectTarget = '/fr/research/programmable-capital-markets/future-of-banking.html';
+        } else if (path.includes('/en/')) {
+            redirectTarget = '/en/index.html';
+        }
+
+        if (redirectTarget) {
+            let countdown = 5;
+            const notice = document.getElementById('redirectNotice');
+            notice.textContent = `Redirecting you to the right section in ${countdown}s...`;
+
+            const timer = setInterval(() => {
+                countdown--;
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    window.location.href = redirectTarget;
+                } else {
+                    notice.textContent = `Redirecting you to the right section in ${countdown}s...`;
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
