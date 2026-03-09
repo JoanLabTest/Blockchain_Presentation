@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>State of Tokenized Finance 2025 - Institutional Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #020617;
+            --accent: #10b981;
+            --gray-light: #f8fafc;
+            --gray-med: #94a3b8;
+            --gray-dark: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            color: var(--primary);
+        }
+
+        /* PRINT SETTINGS */
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        @media print {
+            body {
+                background-color: #fff;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .page {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+        }
+
+        /* PAGE LAYOUT */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 25mm 20mm;
+            margin: 10mm auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header {
+            position: absolute;
+            top: 15mm;
+            left: 20mm;
+            right: 20mm;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: var(--gray-med);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .page-footer {
+            position: absolute;
+            bottom: 15mm;
+            left: 20mm;
+            right: 20mm;
+            border-top: 1px solid var(--border);
+            padding-top: 5mm;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--gray-med);
+        }
+
+        /* CONTENT STYLES */
+        .cover-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cover-tag {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .cover-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin: 0 0 20px 0;
+            color: var(--primary);
+        }
+
+        .cover-subtitle {
+            font-size: 20px;
+            color: var(--gray-med);
+            max-width: 500px;
+            margin-bottom: 80px;
+        }
+
+        .cover-meta {
+            margin-top: auto;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding-top: 50px;
+            border-top: 2px solid var(--primary);
+        }
+
+        .meta-item b {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .meta-item span {
+            font-size: 12px;
+            color: var(--gray-med);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--primary);
+            margin-top: 40px;
+        }
+
+        h2 {
+            font-size: 28px;
+            border-left: 5px solid var(--accent);
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .executive-summary {
+            background: var(--gray-light);
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .stat-block {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .stat-val {
+            display: block;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .stat-lab {
+            font-size: 10px;
+            color: var(--gray-med);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .infographic-box {
+            border: 2px dashed var(--border);
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .btn-print {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="btn-print no-print" onclick="window.print()">
+        <i class="fas fa-print"></i> Print to PDF
+    </button>
+
+    <!-- PAGE 1: COVER -->
+    <div class="page">
+        <div class="cover-content">
+            <div class="cover-tag">Strategic Intelligence</div>
+            <h1 class="cover-title">The State of<br>Tokenized Finance<br>2025</h1>
+            <p class="cover-subtitle">From proof-of-concept to institutional adoption: mapping the programmable capital market infrastructure.</p>
+            
+            <div style="margin: 40px 0;">
+                <img src="https://dcmcore.com/assets/logo-dcm-dark.png" alt="DCM Core" style="height: 40px; opacity: 0.8;">
+            </div>
+
+            <div class="cover-meta">
+                <div class="meta-item">
+                    <b>Release Date</b>
+                    <span>January 15, 2025</span>
+                </div>
+                <div class="meta-item">
+                    <b>Volume</b>
+                    <span>No. 01 / 2025</span>
+                </div>
+                <div class="meta-item">
+                    <b>Security Class</b>
+                    <span>Institutional Public</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: EXECUTIVE SUMMARY -->
+    <div class="page">
+        <div class="page-header">
+            <span>State of Tokenized Finance 2025</span>
+            <span>DCM Core Institute</span>
+        </div>
+        
+        <h2>Executive Summary</h2>
+        <div class="executive-summary">
+            <p style="font-style: italic; font-weight: 600;">"2024 was the year the pilot phase ended. 2025 is the year of operational integration under the DORA framework."</p>
+            <p>
+                The institutional digital asset ecosystem has reached a critical maturity threshold. Driven by the convergence of Distributed Ledger Technology (DLT), central bank digital currencies (CBDCs), and the entry of global asset managers, the friction between legacy finance and programmable capital markets is rapidly dissolving.
+            </p>
+        </div>
+
+        <div class="stat-block">
+            <div class="stat-item">
+                <span class="stat-val">$12.4B</span>
+                <span class="stat-lab">Total Tokenized Bonds</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-val">84%</span>
+                <span class="stat-lab">Institutional Interest</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-val">T+0</span>
+                <span class="stat-lab">Settlement Speed</span>
+            </div>
+        </div>
+
+        <h3>Key Focus Areas for 2025</h3>
+        <p><b>1. Regulatory Clarity:</b> MiCA and DORA implementation in Europe are creating the world's first comprehensive digital asset governance zone, providing the certainty required for Tier-1 deployment.</p>
+        <p><b>2. Unified Ledgers:</b> The BIS vision of a unified ledger is moving from theory to technical specifications, aiming to synchronize assets and payments natively.</p>
+        <p><b>3. RWA Composability:</b> Real World Assets (RWA) are becoming "money-like" through high-liquidity tokenized funds, being used as collateral in 24/7 repo markets.</p>
+
+        <div class="page-footer">
+            <span>© 2025 DCM Core Institute. All rights reserved.</span>
+            <span>Page 2</span>
+        </div>
+    </div>
+
+    <!-- PAGE 3: INFRASTRUCTURE MATURITY -->
+    <div class="page">
+        <div class="page-header">
+            <span>State of Tokenized Finance 2025</span>
+            <span>Infrastructure Maturity</span>
+        </div>
+
+        <h2>Infrastructure & Standards</h2>
+        <p>
+            The shift toward programmable markets requires a fundamental redesign of the Financial Market Infrastructure (FMI). We categorize this transition into four distinct maturity levels, ranging from siloed DLT networks to fully interoperable global registries.
+        </p>
+
+        <div class="infographic-box">
+            <i class="fas fa-layer-group" style="font-size: 50px; color: var(--accent); margin-bottom: 20px;"></i>
+            <h3 style="margin-top: 10px;">The Digital FMI Stack</h3>
+            <p style="text-align: center; margin-bottom: 0;">Standards & Governance Layer<br>↓<br>Atomic Settlement Layer (CBDC/Repos)<br>↓<br>Asset Programming Layer (Smart Contracts)<br>↓<br>Distributed Ledger Foundation</p>
+        </div>
+
+        <h3>Adoption Forecast (2025-2030)</h3>
+        <p>
+            By 2027, DCM Core anticipates that 15% of all new corporate debt issuances in the Eurozone will feature a digital-native version. This is driven not only by cost reduction (est. 30% reduction in back-office costs) but by the "programmable features" like automated coupon payments and instant tax withholding.
+        </p>
+
+        <div class="page-footer">
+            <span>Confidentiality: Institutional Publication</span>
+            <span>Page 3</span>
+        </div>
+    </div>
+
+</body>
+
+</html>
