@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Base de connaissances institutionnelle sur la finance tokenisée. Glossaire expert sur le règlement atomique, Unified Ledger, actifs RWA et architectures DLT."
+        name="description" />
+    <title>Knowledge Base — Finance Tokenisée | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/fr/knowledge/index.html" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-megamenu.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-kb: #f59e0b;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+        }
+
+        .kb-hero {
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+
+        .kb-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .kb-container {
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        /* SIDEBAR */
+        .kb-sidebar {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+
+        .kb-nav-title {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-kb);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .kb-nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .kb-nav-item {
+            margin-bottom: 12px;
+        }
+
+        .kb-nav-link {
+            text-decoration: none;
+            color: #94a3b8;
+            font-size: 14px;
+            transition: 0.3s;
+            display: block;
+            padding: 8px 0;
+            border-left: 2px solid transparent;
+            padding-left: 15px;
+        }
+
+        .kb-nav-link:hover, .kb-nav-link.active {
+            color: #fff;
+            border-left-color: var(--accent-kb);
+        }
+
+        /* CONTENT */
+        .kb-content section {
+            margin-bottom: 60px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+        }
+
+        .kb-content h2 {
+            font-family: 'Outfit';
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .kb-content h2 i { color: var(--accent-kb); font-size: 20px; }
+
+        .kb-content p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .kb-quote {
+            border-left: 4px solid var(--accent-kb);
+            background: rgba(245, 158, 11, 0.05);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 30px 0;
+            font-style: italic;
+            color: #f8fafc;
+        }
+
+        .kb-link-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .kb-link-box:hover {
+            border-color: var(--accent-kb);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            font-size: 12px;
+            color: #475569;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumb a { color: #475569; text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent-kb); }
+
+        @media (max-width: 900px) {
+            .kb-container { grid-template-columns: 1fr; }
+            .kb-sidebar { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+
+        <div class="nav-pillars">
+            <!-- Dimension 1: Programmes de Recherche -->
+            <div class="pillar-item">
+                <a href="/fr/research-programs/index.html" class="pillar-link">Recherche</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Infrastructure Intellectuelle</div>
+                    <a href="/fr/research/programmable-capital-markets/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-microchip" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Programmable Capital Markets (PCM)</span><span
+                                class="link-desc">Framework conceptuel & architecture technique</span></div>
+                    </a>
+                    <a href="/fr/research/digital-debt-capital-markets/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-contract" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Digital Debt Capital Markets (DDCM)</span><span
+                                class="link-desc">Standardisation de l'émission obligataire digitale</span></div>
+                    </a>
+                    <a href="/fr/research/state-of-tokenization-2025.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-alt" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">State of Finance 2025</span><span
+                                class="link-desc">Rapport stratégique annuel</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 2: Cartographies Écosystème -->
+            <div class="pillar-item">
+                <a href="#" class="pillar-link">Écosystème</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Cartographie Mondiale</div>
+                    <a href="/fr/research/ecosystem-map.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-project-diagram" style="color:#8b5cf6;"></i></div>
+                        <div class="link-text"><span class="link-title">Institutional Framework Map</span><span
+                                class="link-desc">Institutions, régulateurs & initiatives mondiales</span></div>
+                    </a>
+                    <a href="/fr/research/global-map.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-globe-americas" style="color:#6366f1;"></i></div>
+                        <div class="link-text"><span class="link-title">Global Tokenized Map</span><span
+                                class="link-desc">Acteurs, protocoles & actifs RWA</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 3: Observatoire -->
+            <div class="pillar-item">
+                <a href="/fr/observatory/tokenized-markets.html" class="pillar-link">Observatoire <span class="hot-badge" style="background:var(--accent-report); font-size:8px; vertical-align:middle; margin-left:5px;">LIVE</span></a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Market Intelligence</div>
+                    <a href="/fr/observatory/tokenized-markets.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-chart-line" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Observatoire des Marchés</span><span
+                                class="link-desc">Monitoring des capitalisations & tendances</span></div>
+                    </a>
+                    <a href="/fr/indices/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-compass" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Indices & Benchmarks</span><span
+                                class="link-desc">GDARI & Risk Intelligence</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 4: Savoir -->
+            <div class="pillar-item">
+                <a href="/fr/knowledge/index.html" class="pillar-link">Savoir</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Encyclopédie Institutionnelle</div>
+                    <a href="/fr/knowledge/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-book-open" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">Base de Connaissances</span><span
+                                class="link-desc">Glossaire avancé & concepts clés</span></div>
+                    </a>
+                    <a href="/fr/methodology/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-microscope" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Méthodologie</span><span
+                                class="link-desc">Standards de recherche DCM</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 5: Réseau & Institut -->
+            <div class="pillar-item">
+                <a href="/fr/about.html" class="pillar-link">Réseau & Institut</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Organisation & Impact</div>
+                    <a href="/fr/about.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-university" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">À propos de DCM Core</span><span
+                                class="link-desc">Mission, Gouvernance & Éthique</span></div>
+                    </a>
+                    <a href="/fr/global-forum/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-users" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Espace de Dialogue</span><span
+                                class="link-desc">Global Forum, Tables Rondes & Événements</span></div>
+                    </a>
+                    <a href="/fr/fellowships/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-graduation-cap" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Communauté</span><span
+                                class="link-desc">Fellowships & Alliances stratégiques</span></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="/en/index.html" class="lang-link">EN</a>
+                <a href="/fr/index.html" class="lang-link active">FR</a>
+            </div>
+            <a href="/fr/login.html" class="auth-btn">Auth</a>
+            <button class="connect-btn">Connect</button>
+        </div>
+    </nav>
+
+    <nav class="breadcrumb" aria-label="fil d'ariane">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Accueil</a>
+        <span style="opacity:0.4;">›</span>
+        <span style="color:var(--accent-kb);">Knowledge Base</span>
+    </nav>
+
+    <header class="kb-hero" data-aos="fade-up">
+        <h1 class="kb-title">Knowledge Base</h1>
+        <p style="color: #94a3b8; max-width: 700px; margin: 0 auto; font-size: 18px;">
+            Le référentiel académique et technique de l'infrastructure financière programmable.
+        </p>
+    </header>
+
+    <div class="kb-container">
+        <aside class="kb-sidebar" data-aos="fade-right">
+            <span class="kb-nav-title">Concepts Clés</span>
+            <ul class="kb-nav-list">
+                <li class="kb-nav-item"><a class="kb-nav-link" href="#atomic">Atomic Settlement</a></li>
+                <li class="kb-nav-item"><a class="kb-nav-link" href="#unified">Unified Ledger</a></li>
+                <li class="kb-nav-item"><a class="kb-nav-link" href="#smart-bonds">Smart Bonds</a></li>
+                <li class="kb-nav-item"><a class="kb-nav-link" href="#rwa">Tokenized Assets (RWA)</a></li>
+                <li class="kb-nav-item"><a class="kb-nav-link" href="#monetary">Monetary Infrastructure</a></li>
+            </ul>
+        </aside>
+
+        <main class="kb-content">
+            <section id="atomic" data-aos="fade-up">
+                <h2><i class="fas fa-bolt"></i> Atomic Settlement (DvP)</h2>
+                <p>
+                    Le règlement atomique, ou Delivery-versus-Payment (DvP) atomique, est un mécanisme où le transfert d'un titre financier et le transfert de son paiement se produisent simultanément sur un registre partagé (DLT).
+                </p>
+                <div class="kb-quote">
+                    "L'atomicité élimine le risque de principal : soit les deux jambes de la transaction sont confirmées, soit aucune ne l'est."
+                </div>
+                <p>
+                    Contrairement aux systèmes traditionnels T+2, l'atomicité permet un règlement en T+0, réduisant drastiquement le collatéral immobilisé et les risques de contrepartie.
+                </p>
+                <a class="kb-link-box" href="../research/programmable-capital-markets/logic.html">
+                    Voir l'implémentation logique <i class="fas fa-arrow-right"></i>
+                </a>
+            </section>
+
+            <section id="unified" data-aos="fade-up">
+                <h2><i class="fas fa-layer-group"></i> Unified Ledger</h2>
+                <p>
+                    Concept promu par la BRI (Banque des Règlements Internationaux), le Unified Ledger est une infrastructure numérique commune où la monnaie de banque centrale, les dépôts bancaires et les actifs financiers coexistent sur le même registre.
+                </p>
+                <p>
+                    Cette architecture résout les problèmes de fragmentation entre les différents registres DLT et assure une interopérabilité native entre les actifs et le cash.
+                </p>
+                <a class="kb-link-box" href="../research/programmable-capital-markets/monetary-infrastructure.html">
+                    Explorer l'infrastructure monétaire <i class="fas fa-arrow-right"></i>
+                </a>
+            </section>
+
+            <section id="smart-bonds" data-aos="fade-up">
+                <h2><i class="fas fa-file-signature"></i> Smart Bonds</h2>
+                <p>
+                    Un Smart Bond est un titre de créance dont les termes (coupons, maturité, clauses) sont inscrits sous forme de code auto-exécutant (Smart Contract). 
+                </p>
+                <p>
+                    Cela permet l'automatisation intégrale du "Servicing" de la dette, du calcul des intérêts au paiement automatique aux détenteurs, sans intervention manuelle du back-office.
+                </p>
+                <a class="kb-link-box" href="../research/digital-debt-capital-markets/smart-bond-contracts.html">
+                    Détails des Smart Contracts <i class="fas fa-arrow-right"></i>
+                </a>
+            </section>
+        </main>
+    </div>
+
+    <footer class="super-footer"></footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 900, once: true });
+    </script>
+</body>
+
+</html>
