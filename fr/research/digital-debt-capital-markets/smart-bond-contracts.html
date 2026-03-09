@@ -4,243 +4,226 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta
-        content="Smart Bond Contracts (SBC). Comprendre la programmation des instruments de dette comme source unique de vérité sur la blockchain."
-        name="description" />
-    <title>Smart Bond Contracts | DCM Core Institute</title>
+    <meta content="Smart Bond Contracts (SBC) : comprendre la programmation des instruments de dette comme source unique de vérité sur la DLT institutionnelle." name="description" />
+    <title>Smart Bond Contracts — Automatisation de la Dette | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/fr/research/digital-debt-capital-markets/smart-bond-contracts.html" />
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
-        rel="stylesheet" />
-
-    <!-- Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
-
-    <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-
-    <!-- Stylesheets -->
     <link href="../../../styles.css" rel="stylesheet" />
     <link href="../../styles-megamenu.css" rel="stylesheet" />
-    <link href="../../../styles-footer.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
 
     <style>
         :root {
-            --accent-purple: #a855f7;
+            --accent: #a855f7;
             --accent-blue: #3b82f6;
+            --accent-green: #10b981;
             --glass-bg: rgba(15, 23, 42, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        body {
-            background-color: #020617;
-            color: #f8fafc;
-            font-family: 'Inter', sans-serif;
-            padding-top: 80px;
-        }
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; padding-top: 80px; }
 
-        .content-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 80px 20px;
-        }
+        .breadcrumb { max-width: 920px; margin: 0 auto; padding: 20px 20px 0; font-size: 12px; color: #475569; display: flex; gap: 8px; align-items: center; }
+        .breadcrumb a { color: #475569; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb .sep { opacity: 0.4; }
+        .breadcrumb .current { color: var(--accent); }
 
-        .sbc-header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
+        .content-container { max-width: 920px; margin: 0 auto; padding: 60px 20px 100px; }
 
-        .category-tag {
-            color: var(--accent-purple);
-            font-weight: 700;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            display: block;
-        }
+        .page-hero { border-left: 3px solid var(--accent); padding-left: 36px; margin-bottom: 70px; }
+        .badge-label { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
 
-        h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: #fff;
-            letter-spacing: -1px;
-        }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 46px; font-weight: 800; color: #fff; margin: 16px 0 20px; line-height: 1.1; }
+        h2 { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 20px; }
 
-        /* SBC FEATURES */
-        .feature-box {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            display: grid;
-            grid-template-columns: 80px 1fr;
-            gap: 30px;
-            align-items: start;
-        }
+        .lead-text { font-size: 17px; color: #94a3b8; line-height: 1.7; }
 
-        .feature-icon {
-            font-size: 32px;
-            color: var(--accent-purple);
-            background: rgba(168, 85, 247, 0.1);
-            width: 80px;
-            height: 80px;
-            display: grid;
-            place-items: center;
-            border-radius: 16px;
-        }
+        p { line-height: 1.8; color: #cbd5e1; margin-bottom: 20px; font-size: 16px; }
+        section { margin-bottom: 70px; }
 
-        .feature-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .feature-desc {
-            font-size: 16px;
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-
-        /* CODE BLOCK STYLE */
-        .sbc-logic-block {
+        /* CODE ANALOGY */
+        .code-box {
             background: #0f172a;
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 60px 0;
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 14px;
+            padding: 28px 32px;
+            margin: 30px 0;
             font-family: 'JetBrains Mono', monospace;
-        }
-
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 12px;
-            color: #475569;
-        }
-
-        .code-content {
+            font-size: 13px;
+            line-height: 1.8;
             color: #94a3b8;
-            font-size: 14px;
-            line-height: 1.7;
+            position: relative;
+            overflow: hidden;
         }
+        .code-box::before { content: 'SMART BOND CONTRACT · ERC-3643'; position: absolute; top: 12px; right: 16px; font-size: 10px; letter-spacing: 2px; color: rgba(168,85,247,0.5); font-family: 'Inter', sans-serif; font-weight: 700; }
+        .code-box .kw { color: #a855f7; }
+        .code-box .fn { color: #3b82f6; }
+        .code-box .str { color: #10b981; }
+        .code-box .comment { color: #334155; }
 
-        .keyword {
-            color: var(--accent-purple);
-        }
+        /* FEATURE CARDS */
+        .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 40px 0; }
+        .feature-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px; transition: all 0.3s; }
+        .feature-card:hover { border-color: rgba(168,85,247,0.4); transform: translateY(-3px); }
+        .feature-icon { font-size: 28px; color: var(--accent); margin-bottom: 16px; }
+        .feature-title { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .feature-desc { font-size: 14px; color: #94a3b8; line-height: 1.6; margin: 0; }
 
-        .string {
-            color: #10b981;
-        }
+        /* INSIGHT BOX */
+        .insight-box { background: rgba(168,85,247,0.06); border-left: 4px solid var(--accent); border-radius: 0 14px 14px 0; padding: 24px 28px; margin: 40px 0; font-style: italic; color: #cbd5e1; font-size: 16px; line-height: 1.7; }
+        .insight-box cite { display: block; margin-top: 12px; font-size: 13px; font-style: normal; color: var(--accent); font-weight: 600; }
 
-        .comment {
-            color: #475569;
-        }
+        /* RISK WARNING */
+        .risk-warning { background: rgba(239,68,68,0.06); border-left: 4px solid #ef4444; border-radius: 0 14px 14px 0; padding: 20px 24px; margin: 30px 0; }
+        .risk-warning strong { color: #ef4444; }
 
-        @media (max-width: 600px) {
-            .feature-box {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
+        /* CROSS-LINKS */
+        .cross-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+        .cross-link-card { display: flex; align-items: center; gap: 14px; border-radius: 14px; padding: 18px 20px; text-decoration: none; transition: all 0.3s; }
+        .cross-link-card:hover { transform: translateY(-3px); }
 
-            .feature-icon {
-                margin: 0 auto;
-            }
-
-            h1 {
-                font-size: 38px;
-            }
+        @media (max-width: 640px) {
+            .feature-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 34px; }
         }
     </style>
-    <link rel="canonical" href="https://dcmcore.com/fr/research/digital-debt-capital-markets/smart-bond-contracts.html" />
 </head>
 
 <body>
     <nav class="navbar-pro">
         <a class="nav-brand" href="../../index.html">
-            <div class="logo-orb"></div>
+            <div class="logo-orb" style="background: linear-gradient(135deg, #a855f7, #3b82f6);"></div>
             <div class="logo-text">DCM <span>Core Institute</span></div>
         </a>
     </nav>
 
+    <nav class="breadcrumb" aria-label="fil d'ariane">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Accueil</a>
+        <span class="sep">›</span>
+        <a href="index.html">Digital DCM</a>
+        <span class="sep">›</span>
+        <span class="current">Smart Bond Contracts</span>
+    </nav>
+
     <div class="content-container">
-        <header class="sbc-header" data-aos="fade-up">
-            <span class="category-tag">Pilier Technique • Dette Programmable</span>
-            <h1>Smart Bond Contracts</h1>
-            <p style="font-size: 20px; color: #94a3b8; max-width: 700px; margin: 0 auto;">
-                Au-delà de la simple tokenisation, le Smart Bond Contract (SBC) agit comme le cerveau opérationnel de
-                l'instrument de dette, fusionnant termes juridiques et logique de règlement.
+
+        <!-- HERO -->
+        <header class="page-hero" data-aos="fade-up">
+            <span class="badge-label"><i class="fas fa-code"></i> Pilier de Recherche · Smart Contracts DLT</span>
+            <h1>Smart Bond Contracts (SBC) :<br>
+                <span style="background: linear-gradient(135deg, #a855f7, #3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">
+                    L'Obligation comme Code Exécutable
+                </span>
+            </h1>
+            <p class="lead-text">
+                Un <strong style="color:#fff;">Smart Bond Contract (SBC)</strong> est un programme autonome déployé sur une infrastructure DLT
+                qui encode et exécute automatiquement les termes d'une obligation — coupons, remboursements, conformité —
+                sans intervention humaine. C'est la source unique de vérité pour l'instrument de dette.
             </p>
         </header>
 
-        <div class="feature-box" data-aos="fade-up">
-            <div class="feature-icon"><i class="fas fa-database"></i></div>
-            <div>
-                <h2 class="feature-title">Source Unique de Données Obligataires</h2>
-                <p class="feature-desc">En hébergeant à la fois les données statiques (termes juridiques) et l'état
-                    dynamique (soldes de coupons) dans un contrat unique, les participants éliminent le besoin de
-                    réconciliations fastidieuses entre systèmes.</p>
+        <!-- CODE ANALOGY -->
+        <div class="code-box" data-aos="fade-up">
+            <span class="kw">contract</span> <span class="fn">SmartBond</span> {<br>
+            &nbsp;&nbsp;<span class="comment">// Paramètres immuables de l'obligation</span><br>
+            &nbsp;&nbsp;<span class="kw">uint256</span> <span class="str">principal</span> = 10_000_000; <span class="comment">// 10M EUR</span><br>
+            &nbsp;&nbsp;<span class="kw">uint256</span> <span class="str">couponRate</span> = 450; <span class="comment">// 4.50% annuel</span><br>
+            &nbsp;&nbsp;<span class="kw">uint256</span> <span class="str">maturityDate</span> = 1893456000; <span class="comment">// 15 juin 2030</span><br>
+            &nbsp;&nbsp;<span class="kw">address</span> <span class="str">settlementToken</span>; <span class="comment">// Tokenized Deposit / wCBDC</span><br>
+            <br>
+            &nbsp;&nbsp;<span class="fn">function</span> <span class="str">payCoupon</span>() <span class="kw">external</span> {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">require</span>(block.timestamp >= nextCouponDate);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Distribution automatique aux détenteurs tokenisés</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;_distributeToHolders(couponAmount);<br>
+            &nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <!-- SECTION 1 : FEATURES -->
+        <section data-aos="fade-up">
+            <h2>Les 4 Fonctions Clés d'un SBC Institutionnel</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-coins"></i></div>
+                    <div class="feature-title">Paiement Automatique des Coupons</div>
+                    <p class="feature-desc">Déclenchement automatique des flux d'intérêts aux dates prédéfinies. Zéro intervention humaine, zéro risque d'erreur de réconciliation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-id-badge"></i></div>
+                    <div class="feature-title">KYC/AML On-Chain (ERC-3643)</div>
+                    <p class="feature-desc">Les règles de conformité (liste investisseurs autorisés, restrictions de juridiction) sont encodées directement dans le contrat — non contournables.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="feature-title">Transfert de Propriété Atomique</div>
+                    <p class="feature-desc">Le titre et le paiement s'échangent simultanément (DvP) en une seule transaction cryptographiquement prouvée. T+0 garanti par le protocole.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-fire-flame-curved"></i></div>
+                    <div class="feature-title">Remboursement & Burn Final</div>
+                    <p class="feature-desc">À la maturité, le principal est restitué automatiquement et les tokens de l'obligation sont détruits (burned) — boucle de vie fermée sans réconciliation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- INSIGHT -->
+        <div class="insight-box" data-aos="fade-up">
+            "Les institutions bancaires européennes ayant participé aux essais DLT soulignent que la véritable valeur des Smart Bond Contracts n'est pas dans l'économie des coûts de traitement immédiate, mais dans l'élimination du risque opérationnel invisible qui s'accumule dans les workflows d'approbation manuelle."
+            <cite>— Synthèse des retours d'expérience, ECB DLT Trials 2024</cite>
+        </div>
+
+        <!-- SECTION 2 : RISQUES -->
+        <section data-aos="fade-up">
+            <h2><span style="color:#ef4444;">Risques Spécifiques</span> aux Smart Bond Contracts</h2>
+            <p>La programmabilité ne supprime pas le risque — elle le transforme. Les institutions doivent adopter une approche de <strong style="color:#fff;">Model Risk Management (MRM)</strong> spécifique aux contrats intelligents.</p>
+
+            <div class="risk-warning">
+                <p style="margin:0; font-size:15px;"><strong>⚠ Bug Risk :</strong> Un bug dans le code du contrat peut déclencher des paiements incorrects ou bloquer irrévocablement des fonds. L'audit formalisé par des tiers est obligatoire avant tout déploiement en production institutionnelle.</p>
+            </div>
+            <div class="risk-warning" style="border-color: #f59e0b; background: rgba(245,158,11,0.06);">
+                <p style="margin:0; font-size:15px;"><strong style="color:#f59e0b;">⚠ Oracle Risk :</strong> Les SBC dépendent de données externes (taux de référence, pricing) via des "oracles". Un oracle compromis peut introduire des données erronées dans une exécution automatique.</p>
+            </div>
+            <div class="risk-warning" style="border-color: #a855f7; background: rgba(168,85,247,0.06);">
+                <p style="margin:0; font-size:15px;"><strong style="color:#a855f7;">⚠ Immutabilité :</strong> Une fois déployé, le code est immuable. Les mécanismes de gouvernance pour corriger les contrats (proxy patterns, upgrade paths) doivent être prévus dès la conception.</p>
+            </div>
+        </section>
+
+        <!-- CROSS-LINKS -->
+        <div style="padding-top: 60px; border-top: 1px solid rgba(255,255,255,0.06);" data-aos="fade-up">
+            <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 24px;">
+                <i class="fas fa-link" style="margin-right: 8px;"></i> Pages liées
+            </p>
+            <div class="cross-links-grid">
+                <a href="index.html" class="cross-link-card" style="background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2);">
+                    <i class="fas fa-layer-group" style="font-size: 22px; color: #3b82f6; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Hub Digital DCM</div><div style="font-size:13px; color:#64748b;">Vue d'ensemble</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#3b82f6;"></i>
+                </a>
+                <a href="infrastructure.html" class="cross-link-card" style="background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2);">
+                    <i class="fas fa-microchip" style="font-size: 22px; color: #3b82f6; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Infrastructure DLT</div><div style="font-size:13px; color:#64748b;">Cycle de vie 8 étapes</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#3b82f6;"></i>
+                </a>
+                <a href="standards.html" class="cross-link-card" style="background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2);">
+                    <i class="fas fa-certificate" style="font-size: 22px; color: #f59e0b; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Standards & Scalabilité</div><div style="font-size:13px; color:#64748b;">ICMA BDT · ISO/TC 307</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#f59e0b;"></i>
+                </a>
+                <a href="../../ecb-dlt-trials.html" class="cross-link-card" style="background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2);">
+                    <i class="fas fa-building" style="font-size: 22px; color: #10b981; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">ECB DLT Trials</div><div style="font-size:13px; color:#64748b;">Cas réels en Europe</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#10b981;"></i>
+                </a>
             </div>
         </div>
 
-        <div class="feature-box" data-aos="fade-up" data-aos-delay="100">
-            <div class="feature-icon"><i class="fas fa-magic"></i></div>
-            <div>
-                <h2 class="feature-title">Automatisation Orchestrée du Cycle de Vie</h2>
-                <p class="feature-desc">Le SBC gère automatiquement la transition à travers les 8 étapes du cycle de vie
-                    de l'obligation, garantissant que les paiements d'intérêts et les remboursements s'exécutent
-                    instantanément.</p>
-            </div>
-        </div>
-
-        <div class="sbc-logic-block" data-aos="fade-up">
-            <div class="code-header">
-                <span>// Logique Conceptuelle de Smart Bond</span>
-                <span>v1.0.ddcm</span>
-            </div>
-            <div class="code-content">
-                <span class="keyword">contract</span> SmartBond {<br>
-                &nbsp;&nbsp;<span class="comment">// Identifiants globaux</span><br>
-                &nbsp;&nbsp;string <span class="keyword">public</span> isin = <span
-                    class="string">"DZB-2026-TOKEN"</span>;<br>
-                &nbsp;&nbsp;uint256 <span class="keyword">public</span> maturity = 1815124800;<br><br>
-
-                &nbsp;&nbsp;<span class="comment">// Logique automatisée des Coupons</span><br>
-                &nbsp;&nbsp;<span class="keyword">function</span> triggerCouponPayment() <span
-                    class="keyword">external</span> {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;require(block.timestamp >= nextCouponDate);<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;settlePayment(registreInvestisseurs, montantParToken);<br>
-                &nbsp;&nbsp;}<br>
-                }
-            </div>
-        </div>
-
-        <div class="feature-box" data-aos="fade-up" data-aos-delay="200">
-            <div class="feature-icon"><i class="fas fa-plug"></i></div>
-            <div>
-                <h2 class="feature-title">Support Multi-Ledger Modulaire</h2>
-                <p class="feature-desc">Les architectures SBC modernes privilégient l'interopérabilité, permettant à la
-                    logique obligataire d'interagir avec des registres de cash externes (MNBC, stablecoins) pour un
-                    règlement atomique DvP.</p>
-            </div>
-        </div>
-
-        <p style="text-align: center; margin-top: 60px;">
-            <a href="index.html" style="color:var(--accent-blue); text-decoration:none; font-weight:600;"><i
-                    class="fas fa-chevron-left"></i> Retour au Hub Digital DCM</a>
-        </p>
     </div>
-</body>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 900, once: true, offset: 60 });</script>
+</body>
 </html>

@@ -4,154 +4,83 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta
-        content="Approfondissement de l'infrastructure des obligations digitales. Cartographie du cycle de vie des obligations DLT en 8 étapes et des couches de règlement institutionnelles."
-        name="description" />
-    <title>Infrastructure Digital Bond | DCM Core Institute</title>
+    <meta content="Cartographie du cycle de vie complet des obligations digitales DLT en 8 étapes. Infrastructure institutionnelle du marché de dette tokenisé." name="description" />
+    <title>Infrastructure Digital Bond — Cycle de Vie DLT | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/fr/research/digital-debt-capital-markets/infrastructure.html" />
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
-        rel="stylesheet" />
-
-    <!-- Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
-
-    <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-
-    <!-- Stylesheets -->
     <link href="../../../styles.css" rel="stylesheet" />
     <link href="../../styles-megamenu.css" rel="stylesheet" />
-    <link href="../../../styles-footer.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
 
     <style>
         :root {
-            --accent-blue: #3b82f6;
+            --accent: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
             --glass-bg: rgba(15, 23, 42, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        body {
-            background-color: #020617;
-            color: #f8fafc;
-            font-family: 'Inter', sans-serif;
-            padding-top: 80px;
-        }
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; padding-top: 80px; }
 
-        .content-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 80px 20px;
-        }
+        .breadcrumb { max-width: 900px; margin: 0 auto; padding: 20px 20px 0; font-size: 12px; color: #475569; display: flex; gap: 8px; align-items: center; }
+        .breadcrumb a { color: #475569; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb .sep { opacity: 0.4; }
+        .breadcrumb .current { color: var(--accent); }
 
-        .infrastructure-hero {
-            text-align: left;
-            margin-bottom: 60px;
-        }
+        .content-container { max-width: 900px; margin: 0 auto; padding: 60px 20px 100px; }
 
-        .category-tag {
-            color: var(--accent-blue);
-            font-weight: 700;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            display: block;
-        }
+        .page-hero { border-left: 3px solid var(--accent); padding-left: 36px; margin-bottom: 70px; }
 
-        h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: #fff;
-        }
+        .badge-label { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
 
-        .lead-text {
-            font-size: 20px;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 60px;
-        }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 46px; font-weight: 800; color: #fff; margin: 16px 0 20px; line-height: 1.1; }
+        h2 { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 20px; }
 
-        /* LIFECYCLE VISUAL */
-        .lifecycle-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 80px;
-        }
+        .lead-text { font-size: 17px; color: #94a3b8; line-height: 1.7; }
 
-        .lifecycle-step {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 25px;
-            position: relative;
-        }
+        /* LIFECYCLE GRID */
+        .lifecycle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 50px 0 70px; }
 
-        .step-num {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
-            font-weight: 700;
-            color: rgba(59, 130, 246, 0.3);
-        }
+        .lifecycle-step { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 28px; position: relative; transition: all 0.3s; }
+        .lifecycle-step:hover { border-color: rgba(59,130,246,0.4); transform: translateY(-3px); }
 
-        .step-title {
-            font-weight: 700;
-            font-size: 18px;
-            color: #fff;
-            margin-bottom: 10px;
-            display: block;
-        }
+        .step-num { position: absolute; top: 20px; right: 22px; font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; color: rgba(59,130,246,0.2); }
 
-        .step-content {
-            font-size: 14px;
-            color: #94a3b8;
-            line-height: 1.5;
-        }
+        .step-icon { font-size: 22px; color: var(--accent); margin-bottom: 14px; }
 
-        /* RESEARCH NOTES BOX */
-        .notes-box {
-            background: rgba(201, 168, 76, 0.05);
-            border-left: 4px solid #c9a84c;
-            border-radius: 4px;
-            padding: 30px;
-            margin: 60px 0;
-        }
+        .step-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 17px; color: #fff; margin-bottom: 10px; display: block; }
 
-        .notes-title {
-            color: #c9a84c;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 13px;
-            margin-bottom: 15px;
-            display: block;
-        }
+        .step-content { font-size: 14px; color: #94a3b8; line-height: 1.6; }
 
-        .notes-content {
-            font-size: 15px;
-            color: #cbd5e1;
-            line-height: 1.6;
-        }
+        /* SETTLEMENT INSIGHT */
+        .insight-box { background: rgba(59,130,246,0.06); border-left: 4px solid var(--accent); border-radius: 0 14px 14px 0; padding: 24px 28px; margin: 40px 0; }
+        .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: block; }
+        .insight-text { font-size: 15px; color: #cbd5e1; line-height: 1.7; }
 
-        @media (max-width: 600px) {
-            .lifecycle-grid {
-                grid-template-columns: 1fr;
-            }
+        /* LAYERS SECTION */
+        .layers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 40px 0 70px; }
+        .layer-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 24px; text-align: center; transition: all 0.3s; }
+        .layer-card:hover { transform: translateY(-3px); }
+        .layer-icon { font-size: 26px; margin-bottom: 14px; }
+        .layer-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 15px; color: #fff; margin-bottom: 8px; }
+        .layer-desc { font-size: 13px; color: #64748b; line-height: 1.5; }
 
-            h1 {
-                font-size: 34px;
-            }
+        /* CROSS-LINKS */
+        .cross-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+        .cross-link-card { display: flex; align-items: center; gap: 14px; border-radius: 14px; padding: 18px 20px; text-decoration: none; transition: all 0.3s; }
+        .cross-link-card:hover { transform: translateY(-3px); }
+
+        @media (max-width: 640px) {
+            .lifecycle-grid { grid-template-columns: 1fr; }
+            .layers-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 34px; }
         }
     </style>
-    <link rel="canonical" href="https://dcmcore.com/fr/research/digital-debt-capital-markets/infrastructure.html" />
 </head>
 
 <body>
@@ -162,83 +91,147 @@
         </a>
     </nav>
 
+    <nav class="breadcrumb" aria-label="fil d'ariane">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Accueil</a>
+        <span class="sep">›</span>
+        <a href="index.html">Digital DCM</a>
+        <span class="sep">›</span>
+        <span class="current">Infrastructure</span>
+    </nav>
+
     <div class="content-container">
-        <header class="infrastructure-hero" data-aos="fade-up">
-            <span class="category-tag">Pilier de Recherche • Infrastructure</span>
+
+        <!-- HERO -->
+        <header class="page-hero" data-aos="fade-up">
+            <span class="badge-label"><i class="fas fa-microchip"></i> Pilier de Recherche · Infrastructure DLT</span>
             <h1>Le Cycle de Vie de l'Obligation Digitale</h1>
             <p class="lead-text">
-                Les transformations DLT permettent une digitalisation complète de bout en bout des marchés de capitaux
-                de dette.
-                Nos recherches cartographient les huit étapes critiques d'une obligation digitale de qualité
-                institutionnelle.
+                Les transformations DLT permettent une digitalisation complète de bout en bout des marchés de capitaux de dette.
+                Nos recherches cartographient les <strong style="color:#fff;">huit étapes critiques</strong> d'une obligation digitale de qualité institutionnelle,
+                de sa structuration jusqu'au remboursement automatique du principal.
             </p>
         </header>
 
-        <section class="lifecycle-grid" data-aos="fade-up">
-            <div class="lifecycle-step">
-                <span class="step-num">01</span>
-                <span class="step-title">Initialisation des Termes</span>
-                <p class="step-content">Définition des paramètres spécifiques de l'obligation (nominal, maturité,
-                    coupon) directement en formats lisibles par machine.</p>
-            </div>
-            <div class="lifecycle-step">
-                <span class="step-num">02</span>
-                <span class="step-title">Exécution & Documentation</span>
-                <p class="step-content">Automatisation des term sheets juridiques et signatures numériques pour une
-                    initiation de transaction fluide.</p>
-            </div>
-            <div class="lifecycle-step">
-                <span class="step-num">03</span>
-                <span class="step-title">Émission au Registre Tokenisé</span>
-                <p class="step-content">Enregistrement de l'émission dans un registre tokenisé basé sur la DLT,
-                    remplaçant les registres centralisés traditionnels.</p>
-            </div>
-            <div class="lifecycle-step">
-                <span class="step-num">04</span>
-                <span class="step-title">Règlement Digital (Settlement)</span>
-                <p class="step-content">Livraison contre Paiement (DvP) réalisée via du cash tokenisé, des stablecoins
-                    ou des Wholesale CBDC.</p>
-            </div>
-            <div class="lifecycle-step">
-                <span class="step-num">05</span>
-                <span class="step-title">Garde Digitale (Custody)</span>
-                <p class="step-content">Stockage institutionnel sécurisé des clés privées permettant le suivi direct de
-                    la propriété des actifs tokenisés.</p>
-            </div>
-            <div class="lifecycle-step">
-                <span class="step-num">06</span>
-                <span class="step-title">Trading sur Marché Secondaire</span>
-                <p class="step-content">Swaps atomiques et gestion de liquidité pair-à-pair dans des pools
-                    institutionnels décentralisés.</p>
-            </div>
-            <div class="lifecycle-step">
-                <span class="step-num">07</span>
-                <span class="step-title">Paiement Programmable des Coupons</span>
-                <p class="step-content">Distribution automatisée des intérêts via Smart Contracts basée sur des
-                    déclencheurs temporels prédéfinis.</p>
-            </div>
-            <div class="lifecycle-step">
-                <span class="step-num">08</span>
-                <span class="step-title">Remboursement Digital</span>
-                <p class="step-content">Remboursement instantané du principal et "burning" des jetons à la maturité de
-                    l'instrument de dette.</p>
+        <!-- LIFECYCLE GRID -->
+        <section data-aos="fade-up">
+            <h2>Les 8 Étapes du Cycle de Vie</h2>
+            <div class="lifecycle-grid">
+                <div class="lifecycle-step">
+                    <span class="step-num">01</span>
+                    <div class="step-icon"><i class="fas fa-file-signature"></i></div>
+                    <span class="step-title">Initialisation des Termes</span>
+                    <p class="step-content">Définition des paramètres spécifiques (nominal, maturité, coupon) directement dans des formats lisibles par machine. Aucune intervention manuelle ni transcription.</p>
+                </div>
+                <div class="lifecycle-step">
+                    <span class="step-num">02</span>
+                    <div class="step-icon"><i class="fas fa-pen-nib"></i></div>
+                    <span class="step-title">Exécution & Documentation</span>
+                    <p class="step-content">Automatisation des term sheets juridiques et signatures numériques pour une initiation de transaction fluide, auditée et irrévocable.</p>
+                </div>
+                <div class="lifecycle-step">
+                    <span class="step-num">03</span>
+                    <div class="step-icon"><i class="fas fa-network-wired"></i></div>
+                    <span class="step-title">Émission au Registre Tokenisé</span>
+                    <p class="step-content">Enregistrement de l'émission dans un registre tokenisé DLT, remplaçant les registres centralisés traditionnels (CSD) avec une transparence native.</p>
+                </div>
+                <div class="lifecycle-step" style="border-color: rgba(59,130,246,0.3);">
+                    <span class="step-num">04</span>
+                    <div class="step-icon"><i class="fas fa-bolt" style="color:#f59e0b;"></i></div>
+                    <span class="step-title" style="color:#f59e0b;">Règlement Digital (DvP)</span>
+                    <p class="step-content"><strong style="color:#f59e0b;">Étape critique :</strong> Livraison contre Paiement (DvP) en T+0 via cash tokenisé, Tokenized Deposits ou Wholesale CBDC. Élimine le risque de contrepartie.</p>
+                </div>
+                <div class="lifecycle-step">
+                    <span class="step-num">05</span>
+                    <div class="step-icon"><i class="fas fa-shield-alt"></i></div>
+                    <span class="step-title">Garde Digitale (Custody)</span>
+                    <p class="step-content">Stockage institutionnel sécurisé des clés privées permettant le suivi direct de la propriété des actifs tokenisés avec preuves cryptographiques.</p>
+                </div>
+                <div class="lifecycle-step">
+                    <span class="step-num">06</span>
+                    <div class="step-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <span class="step-title">Trading Marché Secondaire</span>
+                    <p class="step-content">Swaps atomiques et gestion de liquidité pair-à-pair dans des pools institutionnels — réduction de l'écart bid/ask et amélioration de la price discovery.</p>
+                </div>
+                <div class="lifecycle-step">
+                    <span class="step-num">07</span>
+                    <div class="step-icon"><i class="fas fa-coins"></i></div>
+                    <span class="step-title">Paiement Programmable des Coupons</span>
+                    <p class="step-content">Distribution automatisée des intérêts via Smart Contracts basée sur des déclencheurs temporels prédéfinis — aucune réconciliation manuelle requise.</p>
+                </div>
+                <div class="lifecycle-step">
+                    <span class="step-num">08</span>
+                    <div class="step-icon"><i class="fas fa-fire"></i></div>
+                    <span class="step-title">Remboursement Digital</span>
+                    <p class="step-content">Remboursement instantané du principal et "burning" (destruction) des tokens à la maturité — cycle de vie complet sans intervention humaine.</p>
+                </div>
             </div>
         </section>
 
-        <div class="notes-box" data-aos="fade-up">
-            <span class="notes-title"><i class="fas fa-microscope"></i> Insight Institutionnel</span>
-            <p class="notes-content">
-                Les recherches menées auprès des principaux groupes d'essai institutionnels indiquent que si
-                l'infrastructure pour les étapes 01 à 03 est mature, l'industrie doit désormais se concentrer sur
-                l'étape 04 (Règlement Digital) pour éliminer le risque de règlement et permettre une émission en T+0.
+        <!-- INSIGHT BOX -->
+        <div class="insight-box" data-aos="fade-up">
+            <span class="insight-label"><i class="fas fa-microscope"></i> Insight Institutionnel — État du Marché</span>
+            <p class="insight-text">
+                Les recherches menées auprès des principaux groupes d'essai institutionnels indiquent que si l'infrastructure pour les étapes
+                01 à 03 est <strong style="color:#fff;">désormais mature</strong>, l'industrie doit concentrer ses efforts sur
+                l'<strong style="color:#fff;">Étape 04 (Règlement Digital en T+0)</strong> pour éliminer définitivement le risque de règlement.
+                Les essais BCB de la BCE et les pilotes BRI (mBridge) démontrent la faisabilité opérationnelle d'un DvP atomique à l'échelle institutionnelle.
             </p>
         </div>
 
-        <a href="index.html" style="color:var(--accent-blue); text-decoration:none; font-weight:600;"><i
-                class="fas fa-chevron-left"></i> Retour au Hub Digital DCM</a>
+        <!-- SETTLEMENT LAYERS -->
+        <section data-aos="fade-up">
+            <h2>Les 3 Couches de Règlement Institutionnel</h2>
+            <div class="layers-grid">
+                <div class="layer-card" style="border-color: rgba(239,68,68,0.2);">
+                    <div class="layer-icon" style="color:#ef4444;"><i class="fas fa-triangle-exclamation"></i></div>
+                    <div class="layer-name">Stablecoins</div>
+                    <div class="layer-desc">Usage limité — risque émetteur élevé, hors garantie des dépôts. Inadapté pour règlement institutionnel Tier-1.</div>
+                </div>
+                <div class="layer-card" style="border-color: rgba(59,130,246,0.2);">
+                    <div class="layer-icon" style="color:#3b82f6;"><i class="fas fa-building-columns"></i></div>
+                    <div class="layer-name">Dépôts Tokenisés</div>
+                    <div class="layer-desc">Monnaie commerciale bancaire programmable sous MiCA + DORA. Solution B2B recommandée pour 2025–2026.</div>
+                </div>
+                <div class="layer-card" style="border-color: rgba(16,185,129,0.2);">
+                    <div class="layer-icon" style="color:#10b981;"><i class="fas fa-landmark"></i></div>
+                    <div class="layer-name">Wholesale CBDC</div>
+                    <div class="layer-desc">Actif de règlement ultime — zéro risque de contrepartie. En expérimentation active (ECB DLT Trials).</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CROSS-LINKS -->
+        <div style="padding-top: 60px; border-top: 1px solid rgba(255,255,255,0.06);" data-aos="fade-up">
+            <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 24px;">
+                <i class="fas fa-link" style="margin-right: 8px;"></i> Pages liées
+            </p>
+            <div class="cross-links-grid">
+                <a href="index.html" class="cross-link-card" style="background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2);">
+                    <i class="fas fa-layer-group" style="font-size: 22px; color: #3b82f6; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Hub Digital DCM</div><div style="font-size:13px; color:#64748b;">Vue d'ensemble</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#3b82f6; font-size:13px;"></i>
+                </a>
+                <a href="smart-bond-contracts.html" class="cross-link-card" style="background: rgba(168,85,247,0.07); border: 1px solid rgba(168,85,247,0.2);">
+                    <i class="fas fa-code" style="font-size: 22px; color: #a855f7; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Smart Bond Contracts</div><div style="font-size:13px; color:#64748b;">Programmation DLT</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#a855f7; font-size:13px;"></i>
+                </a>
+                <a href="standards.html" class="cross-link-card" style="background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2);">
+                    <i class="fas fa-certificate" style="font-size: 22px; color: #f59e0b; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">Standards & Scalabilité</div><div style="font-size:13px; color:#64748b;">ICMA BDT · ISO/TC 307</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#f59e0b; font-size:13px;"></i>
+                </a>
+                <a href="../../ecb-dlt-trials.html" class="cross-link-card" style="background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2);">
+                    <i class="fas fa-building" style="font-size: 22px; color: #10b981; flex-shrink:0;"></i>
+                    <div><div style="font-weight:700; color:#fff; margin-bottom:3px;">ECB DLT Trials</div><div style="font-size:13px; color:#64748b;">Expérimentations wCBDC</div></div>
+                    <i class="fas fa-arrow-right" style="margin-left:auto; color:#10b981; font-size:13px;"></i>
+                </a>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Footer Stand-in -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 900, once: true, offset: 60 });</script>
 </body>
-
 </html>
