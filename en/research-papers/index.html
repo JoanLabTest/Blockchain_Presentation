@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-        content="Global Digital Asset Stability Report (GDASR) 2026. Identifying systemic risks and regulatory mandates in the digital finance ecosystem."
+        content="DCM Core Institute Working Papers Series. High-level research on CBDCs, tokenization, and digital asset regulation."
         name="description" />
-    <title>Global Digital Asset Stability Report 2026 | DCM Core Institute</title>
+    <title>Working Papers Series | DCM Core Institute</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
@@ -26,43 +26,180 @@
     <link href="../../styles.css" rel="stylesheet" />
     <link href="../../styles-megamenu.css" rel="stylesheet" />
     <link href="../../styles-footer.css" rel="stylesheet" />
-    <link href="../../styles-reports.css" rel="stylesheet" />
 
     <style>
-        .report-hero {
-            background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%);
-            padding: 160px 20px 80px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        :root {
+            --inst-blue: #3b82f6;
+            --inst-gold: #c9a84c;
+            --bg-dark: #020617;
+            --glass: rgba(15, 23, 42, 0.4);
+            --border: rgba(255, 255, 255, 0.05);
         }
 
-        .report-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 12px;
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            padding-top: 80px;
+        }
+
+        .paper-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .series-tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--inst-gold);
             font-weight: 700;
             margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: block;
         }
 
-        .report-title-large {
-            font-family: 'Outfit';
-            font-size: 64px;
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 56px;
             font-weight: 800;
-            margin-bottom: 20px;
-            letter-spacing: -2px;
+            color: white;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
         }
 
-        @media (max-width: 768px) {
-            .report-title-large {
-                font-size: 40px;
-            }
+        .paper-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paper-card:hover {
+            border-color: var(--inst-blue);
+            transform: translateY(-2px);
+        }
+
+        .paper-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--inst-blue);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .paper-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .paper-meta {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .paper-abstract {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .paper-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .jel-codes {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        .paper-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-download,
+        .btn-html {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-download {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--inst-blue);
+        }
+
+        .btn-html {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .btn-download:hover {
+            background: var(--inst-blue);
+            color: white;
+        }
+
+        .btn-html:hover {
+            background: #10b981;
+            color: white;
+        }
+
+
+        .filter-bar {
+            margin-bottom: 60px;
+            display: flex;
+            gap: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .filter-btn.active {
+            color: white;
+        }
+
+        .filter-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -21px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--inst-blue);
         }
     </style>
 </head>
@@ -77,7 +214,7 @@
         <div class="nav-pillars">
             <!-- Pillar 1: Research -->
             <div class="pillar-item">
-                <a href="../research-papers/index.html" class="pillar-link">Research</a>
+                <a href="index.html" class="pillar-link active">Research</a>
                 <div class="mega-dropdown">
                     <div class="dropdown-header">Intellectual Infrastructure</div>
                     <a href="../research-programs/index.html" class="dropdown-link">
@@ -85,7 +222,7 @@
                         <div class="link-text"><span class="link-title">Research Programs</span><span
                                 class="link-desc">CBDC, Risk, Tokenization</span></div>
                     </a>
-                    <a href="../research-papers/index.html" class="dropdown-link">
+                    <a href="index.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-file-invoice"></i></div>
                         <div class="link-text"><span class="link-title">Working Papers</span><span
                                 class="link-desc">Numbered WP Series</span></div>
@@ -95,7 +232,7 @@
                         <div class="link-text"><span class="link-title">Policy Briefs</span><span
                                 class="link-desc">Actionable intelligence</span></div>
                     </a>
-                    <a href="stability-report.html" class="dropdown-link">
+                    <a href="../reports/stability-report.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-flag"></i></div>
                         <div class="link-text"><span class="link-title">Flagship Report</span><span
                                 class="link-desc">Global Stability 2026</span></div>
@@ -221,135 +358,100 @@
 
         <div class="nav-actions">
             <div class="lang-switcher">
-                <a href="../../fr/reports/stability-report.html" class="lang-link">FR</a>
-                <a href="stability-report.html" class="lang-link active">EN</a>
+                <a href="../../fr/research-papers/index.html" class="lang-link">FR</a>
+                <a href="index.html" class="lang-link active">EN</a>
             </div>
             <a href="../../login.html" class="auth-btn">Auth</a>
             <button class="connect-btn">Connect</button>
         </div>
     </nav>
 
-    <header class="report-hero">
-        <div class="container">
-            <div class="report-status"><i class="fas fa-check-circle"></i> Flagship Publication • Annual 2026</div>
-            <h1 class="report-title-large">Global Digital Asset <br />Stability Report</h1>
-            <p style="color: #94a3b8; font-size: 20px; max-width: 800px; margin: 0 auto;">
-                An institutional framework for monitoring systemic risk, liquidity buffers, and regulatory compliance in
-                the evolving DLT landscape.
-            </p>
+    <div class="paper-container">
+        <header data-aos="fade-up">
+            <span class="series-tag">Institutional Research Unit</span>
+            <h1 class="hero-title">Working Papers Series</h1>
+            <div class="filter-bar">
+                <button class="filter-btn active">All Papers</button>
+                <button class="filter-btn">Financial Stability</button>
+                <button class="filter-btn">CBDC</button>
+                <button class="filter-btn">Regulation</button>
+            </div>
+        </header>
+
+        <div class="papers-list" data-aos="fade-up">
+
+            <!-- Paper 01 -->
+            <div class="paper-card">
+                <span class="paper-number">DCM Working Paper No. 2026/01</span>
+                <h2 class="paper-title">Liquidity Resilience in Tokenized Secondary Markets: An Institutional Framework
+                </h2>
+                <div class="paper-meta">
+                    <span><i class="far fa-user"></i> Dr. Marcus Aurelius • Head of Research</span>
+                    <span><i class="far fa-calendar"></i> January 2026</span>
+                </div>
+                <p class="paper-abstract">
+                    This paper examines the impact of atomicity on settlement finality and its implications for systemic
+                    liquidity buffers. We propose a new stress-test methodology for distributed registers, aligning with
+                    Basel III liquidity coverage ratios.
+                </p>
+                <div class="paper-footer">
+                    <span class="jel-codes">JEL Classification: G12, G18, E42</span>
+                    <div class="paper-actions">
+                        <a href="wp-2026-01.html" class="btn-html"><i class="fas fa-laptop-code"></i> Read HTML</a>
+                        <a href="#" class="btn-download" onclick="window.print();"><i class="fas fa-file-pdf"></i> PDF
+                            Version</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paper 02 -->
+            <div class="paper-card">
+                <span class="paper-number">DCM Working Paper No. 2025/12</span>
+                <h2 class="paper-title">Cross-Border CBDC Interoperability: Architectural Models for Central Bank
+                    Reserves</h2>
+                <div class="paper-meta">
+                    <span><i class="far fa-user"></i> Elena Volkov • Senior Policy Analyst</span>
+                    <span><i class="far fa-calendar"></i> December 2025</span>
+                </div>
+                <p class="paper-abstract">
+                    An analysis of hybrid minting models and their synchronization across heterogeneous ledger
+                    environments. We evaluate the trade-offs between privacy-preserving zero-knowledge proofs and
+                    regulatory compliance.
+                </p>
+                <div class="paper-footer">
+                    <span class="jel-codes">JEL Classification: E58, F31, L86</span>
+                    <div class="paper-actions">
+                        <a href="wp-2025-12.html" class="btn-html"><i class="fas fa-laptop-code"></i> Read HTML</a>
+                        <a href="#" class="btn-download" onclick="window.print();"><i class="fas fa-file-pdf"></i> PDF
+                            Version</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paper 03 -->
+            <div class="paper-card">
+                <span class="paper-number">DCM Working Paper No. 2025/11</span>
+                <h2 class="paper-title">Fragmented Regulation: The Impact of MiCA vs. FIT21 on Institutional Market
+                    Participation</h2>
+                <div class="paper-meta">
+                    <span><i class="far fa-user"></i> Sarah Chen • Regulatory Lead</span>
+                    <span><i class="far fa-calendar"></i> November 2025</span>
+                </div>
+                <p class="paper-abstract">
+                    This study maps the divergence in asset classification between EU and US frameworks, identifying
+                    potential arbitrage vectors and their effect on institutional capital flows into tokenized bonds.
+                </p>
+                <div class="paper-footer">
+                    <span class="jel-codes">JEL Classification: K22, G28, G15</span>
+                    <div class="paper-actions">
+                        <a href="wp-2025-11.html" class="btn-html"><i class="fas fa-laptop-code"></i> Read HTML</a>
+                        <a href="#" class="btn-download" onclick="window.print();"><i class="fas fa-file-pdf"></i> PDF
+                            Version</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </header>
-
-    <div class="report-container">
-        <aside class="report-sidebar">
-            <nav class="sidebar-nav">
-                <a href="#ch1" class="sidebar-link active">1. Regulatory Landscape</a>
-                <a href="#ch2" class="sidebar-link">2. Systemic Risk Indicators</a>
-                <a href="#ch3" class="sidebar-link">3. Stablecoin Structure</a>
-                <a href="#ch4" class="sidebar-link">4. Tokenization</a>
-                <a href="#ch5" class="sidebar-link">5. CBDC Architecture</a>
-                <a href="#ch6" class="sidebar-link">6. Market Depth</a>
-                <a href="#citation" class="sidebar-link"><i class="fas fa-quote-right mr-2"></i> Citation</a>
-            </nav>
-        </aside>
-
-        <main class="report-content">
-            <!-- Chapter 1 -->
-            <section class="report-section" id="ch1" data-aos="fade-up">
-                <span class="chapter-number">CHAPTER 01</span>
-                <h2 class="section-title">Global Regulatory Landscape</h2>
-                <p class="paragraph-text">
-                    The 2026 regulatory horizon is dominated by the full implementation of MiCA in the European Union
-                    and the emergence of the Stablecoin Transparency Act in major financial hubs. As institutions
-                    bridge the gap between traditional finance and DLT, the "Prudential Compliance Gap" remains a
-                    critical vulnerability.
-                </p>
-                <div class="insight-box">
-                    <div class="insight-title"><i class="fas fa-shield-alt"></i> Policy Insight</div>
-                    <p class="insight-desc" style="font-size: 14px; color: #94a3b8; margin: 0;">
-                        DORA compliance is no longer a checklist; it is an architectural requirement. Institutions
-                        failing to map digital flows to RBC (Risk-Based Capital) standards face significant Basel III
-                        penalties.
-                    </p>
-                </div>
-            </section>
-
-            <!-- Chapter 2 -->
-            <section class="report-section" id="ch2" data-aos="fade-up">
-                <span class="chapter-number">CHAPTER 02</span>
-                <h2 class="section-title">Systemic Risk Indicators</h2>
-                <p class="paragraph-text">
-                    The Global Digital Asset Risk Index (GDARI) has identified three primary vectors for contagion in
-                    2026: cross-chain bridge concentration, liquidation cascade sensitivity, and algorithmic collateral
-                    latency.
-                </p>
-            </section>
-
-            <!-- Chapter 3 -->
-            <section class="report-section" id="ch3" data-aos="fade-up">
-                <span class="chapter-number">CHAPTER 03</span>
-                <h2 class="section-title">Stablecoin Market Structure</h2>
-                <p class="paragraph-text">
-                    The hierarchy of stability is shifting from simple fiat-backing to multi-layered liquidity buffers.
-                    Stablecoin resilience is now measured by redemption latency under high-stress "bank run" scenarios.
-                </p>
-            </section>
-
-            <!-- Chapter 4 -->
-            <section class="report-section" id="ch4" data-aos="fade-up">
-                <span class="chapter-number">CHAPTER 04</span>
-                <h2 class="section-title">Tokenization Infrastructure</h2>
-                <p class="paragraph-text">
-                    On-chain settlement of real-world assets (RWA) has surpassed $500B in 2026. The shift from pilot to
-                    production requires institutional-grade custody and real-time NAV (Net Asset Value) transparency.
-                </p>
-            </section>
-
-            <!-- Chapter 5 -->
-            <section class="report-section" id="ch5" data-aos="fade-up">
-                <span class="chapter-number">CHAPTER 05</span>
-                <h2 class="section-title">CBDC & Interoperability</h2>
-                <p class="paragraph-text">
-                    Wholesale CBDCs (wCBDC) are becoming the backbone of cross-border settlements. Interoperability
-                    protocols between public ledgers and private bank chains are the new frontier of central bank
-                    innovation.
-                </p>
-            </section>
-
-            <!-- Chapter 6 -->
-            <section class="report-section" id="ch6" data-aos="fade-up">
-                <span class="chapter-number">CHAPTER 06</span>
-                <h2 class="section-title">Market Concentration & Liquidity</h2>
-                <p class="paragraph-text">
-                    Structural depth in digital markets remains concentrated. Analysis shows that 85% of institutional
-                    liquidity flows through four major gateways, creating a "Single Point of Failure" risk for global
-                    DLT
-                    settlement.
-                </p>
-            </section>
-
-            <!-- Citation Box -->
-            <section class="citation-card" id="citation" data-aos="fade-up">
-                <div class="citation-header">
-                    <span style="font-weight: 700; color: white;">Institutional Citation</span>
-                    <button class="copy-btn" id="copyBibtex"><i class="fas fa-file-code mr-2"></i> Copy BibTeX</button>
-                </div>
-                <div class="citation-text" id="bibtexContent">
-                    @report{dcmcore2026gdasr,
-                    author = {DCM Core Institute},
-                    title = {Global Digital Asset Stability Report 2026},
-                    institution = {DCM Core Institute Policy Unit},
-                    year = {2026},
-                    url = {https://dcm-core.org/reports/stability-report.html},
-                    note = {Standardized Institutional Framework}
-                    }
-                </div>
-                <p style="font-size: 11px; color: #64748b; margin-top: 15px;">
-                    <i class="fas fa-info-circle mr-2"></i> Reference this publication as: DCM Core (2026). Global
-                    Digital Asset Stability Report. DCM Core Institute Policy Unit.
-                </p>
-            </section>
-        </main>
     </div>
 
     <footer class="super-footer">
@@ -375,9 +477,9 @@
                     <h4>Research</h4>
                     <ul class="footer-links">
                         <li><a href="../research-programs/index.html">Research Programs</a></li>
-                        <li><a href="../research-papers/index.html">Working Papers</a></li>
+                        <li><a href="index.html">Working Papers</a></li>
                         <li><a href="../policy-briefs/index.html">Policy Briefs</a></li>
-                        <li><a href="stability-report.html">Stability Report</a></li>
+                        <li><a href="../reports/stability-report.html">Stability Report</a></li>
                     </ul>
                 </div>
                 <!-- 2. DATA -->
@@ -410,7 +512,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <div class="copyright">© 2026 DCM Core Institute • Policy Unit</div>
+                <div class="copyright">© 2026 DCM Core Institute • Institutional Research Unit</div>
                 <div class="legal-links">
                     <a href="../about.html#transparency">Independence Statement</a>
                     <a href="../methodology/index.html">Methodology Hub</a>
@@ -423,31 +525,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
-
-        // Simple smooth scroll and active link toggle
-        document.querySelectorAll('.sidebar-link').forEach(link => {
-            link.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                window.scrollTo({
-                    top: target.offsetTop - 120,
-                    behavior: 'smooth'
-                });
-                document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // BibTeX copy functionality
-        document.getElementById('copyBibtex').addEventListener('click', function () {
-            const text = document.getElementById('bibtexContent').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                this.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-file-code mr-2"></i> Copy BibTeX';
-                }, 2000);
-            });
-        });
     </script>
 </body>
 

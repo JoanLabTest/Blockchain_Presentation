@@ -1,0 +1,148 @@
+import os
+
+papers = [
+    {
+        'id': '2026-01',
+        'numEN': 'DCM Working Paper No. 2026/01',
+        'numFR': 'DCM Working Paper No. 2026/01',
+        'en': {
+            'title': 'Liquidity Resilience in Tokenized Secondary Markets: An Institutional Framework',
+            'author': 'Dr. Marcus Aurelius • Head of Research',
+            'date': 'January 2026',
+            'jel': 'G12, G18, E42',
+            'abstract': 'This paper examines the impact of atomicity on settlement finality and its implications for systemic liquidity buffers. We propose a new stress-test methodology for distributed registers, aligning with Basel III liquidity coverage ratios.'
+        },
+        'fr': {
+            'title': 'Résilience de la liquidité dans les marchés secondaires tokenisés : Un cadre institutionnel',
+            'author': 'Dr. Marcus Aurelius • Responsable de la recherche',
+            'date': 'Janvier 2026',
+            'jel': 'G12, G18, E42',
+            'abstract': 'Cet article examine l\'impact de l\'atomicité sur la finalité du règlement et ses implications pour les tampons de liquidité systémiques. Nous proposons une nouvelle méthodologie de stress-test pour les registres distribués, alignée sur les ratios de couverture de liquidité de Bâle III.'
+        }
+    },
+    {
+        'id': '2025-12',
+        'numEN': 'DCM Working Paper No. 2025/12',
+        'numFR': 'DCM Working Paper No. 2025/12',
+        'en': {
+            'title': 'Cross-Border CBDC Interoperability: Architectural Models for Central Bank Reserves',
+            'author': 'Elena Volkov • Senior Policy Analyst',
+            'date': 'December 2025',
+            'jel': 'E58, F31, L86',
+            'abstract': 'An analysis of hybrid minting models and their synchronization across heterogeneous ledger environments. We evaluate the trade-offs between privacy-preserving zero-knowledge proofs and regulatory compliance.'
+        },
+        'fr': {
+            'title': 'Interopérabilité des MNBC transfrontalières : Modèles architecturaux pour les réserves des banques centrales',
+            'author': 'Elena Volkov • Analyste politique principale',
+            'date': 'Décembre 2025',
+            'jel': 'E58, F31, L86',
+            'abstract': 'Une analyse des modèles de frappe hybrides et de leur synchronisation dans des environnements de registres hétérogènes. Nous évaluons les compromis entre les preuves à divulgation nulle de connaissance (ZKP) préservant la vie privée et la conformité réglementaire.'
+        }
+    },
+    {
+        'id': '2025-11',
+        'numEN': 'DCM Working Paper No. 2025/11',
+        'numFR': 'DCM Working Paper No. 2025/11',
+        'en': {
+            'title': 'Fragmented Regulation: The Impact of MiCA vs. FIT21 on Institutional Market Participation',
+            'author': 'Sarah Chen • Regulatory Lead',
+            'date': 'November 2025',
+            'jel': 'K22, G28, G15',
+            'abstract': 'This study maps the divergence in asset classification between EU and US frameworks, identifying potential arbitrage vectors and their effect on institutional capital flows into tokenized bonds.'
+        },
+        'fr': {
+            'title': 'Régulation fragmentée : L\'impact de MiCA vs FIT21 sur la participation au marché institutionnel',
+            'author': 'Sarah Chen • Responsable réglementaire',
+            'date': 'Novembre 2025',
+            'jel': 'K22, G28, G15',
+            'abstract': 'Cette étude cartographie la divergence dans la classification des actifs entre les cadres de l\'UE et des États-Unis, identifiant les vecteurs potentiels d\'arbitrage et leur effet sur les flux de capitaux institutionnels vers les obligations tokenisées.'
+        }
+    }
+]
+
+def get_html(lang, paper):
+    is_fr = lang == 'fr'
+    d = paper['fr'] if is_fr else paper['en']
+    inst_title = 'Institut' if is_fr else 'Institute'
+    
+    return f"""<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{d["title"]} | DCM Core Institute</title>
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../../styles-megamenu.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+    <style>
+        :root {{ --inst-blue: #3b82f6; --bg-dark: #020617; }}
+        body {{ background-color: var(--bg-dark); font-family: 'Inter', sans-serif; color: #e2e8f0; padding-top: 80px; }}
+        .paper-container {{ max-width: 800px; margin: 40px auto; padding: 60px 20px; background: #fff; color: #111; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }}
+        .paper-header {{ text-align: center; border-bottom: 2px solid #ccc; margin-bottom: 40px; padding-bottom: 20px; }}
+        .paper-number {{ font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #666; display: block; margin-bottom: 10px; }}
+        .paper-title {{ font-family: 'Outfit', serif; font-size: 32px; font-weight: 700; margin-bottom: 20px; color: #000; }}
+        .paper-author {{ font-size: 16px; font-style: italic; color: #444; margin-bottom: 10px; }}
+        .paper-date {{ font-size: 14px; color: #666; }}
+        .paper-abstract {{ font-style: italic; padding: 20px; background: #f9f9f9; border-left: 4px solid var(--inst-blue); margin-bottom: 40px; line-height: 1.6; color: #111; }}
+        .paper-content {{ font-size: 16px; line-height: 1.8; color: #333; }}
+        .paper-content h3 {{ font-family: 'Outfit', sans-serif; margin-top: 30px; margin-bottom: 15px; color: #111; }}
+        .paper-content p {{ margin-bottom: 20px; }}
+        @media print {{
+            body {{ background: #fff; padding-top: 0; }}
+            .navbar-pro, .super-footer {{ display: none !important; }}
+            .paper-container {{ box-shadow: none; margin: 0; padding: 0; max-width: 100%; }}
+        }}
+    </style>
+</head>
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core {inst_title}</span></div>
+        </a>
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="../../{'en' if is_fr else 'fr'}/research-papers/wp-{paper['id']}.html" class="lang-link">{'EN' if is_fr else 'FR'}</a>
+            </div>
+            <a href="index.html" class="auth-btn">{'Retour' if is_fr else 'Back'}</a>
+            <button class="connect-btn" onclick="window.print();"><i class="fas fa-print"></i> {'Imprimer PDF' if is_fr else 'Print PDF'}</button>
+        </div>
+    </nav>
+
+    <div class="paper-container">
+        <div class="paper-header">
+            <span class="paper-number">{paper['numFR'] if is_fr else paper['numEN']}</span>
+            <h1 class="paper-title">{d['title']}</h1>
+            <div class="paper-author">{d['author']}</div>
+            <div class="paper-date">{d['date']}</div>
+        </div>
+        
+        <div class="paper-abstract">
+            <strong>{'Résumé' if is_fr else 'Abstract'}:</strong><br/>
+            {d['abstract']}<br/><br/>
+            <small><strong>JEL Classification:</strong> {d['jel']}</small>
+        </div>
+        
+        <div class="paper-content">
+            <h3>1. Introduction</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+            <p>Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim congue. Donec congue lacinia dui, a porttitor lectus condimentum laoreet.</p>
+            
+            <h3>2. Methodology</h3>
+            <p>Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu.</p>
+        </div>
+    </div>
+</body>
+</html>"""
+
+for p in papers:
+    with open(f"en/research-papers/wp-{p['id']}.html", "w") as f:
+        f.write(get_html('en', p))
+    with open(f"fr/research-papers/wp-{p['id']}.html", "w") as f:
+        f.write(get_html('fr', p))
+        
+print("Python script: Papers generated.")
