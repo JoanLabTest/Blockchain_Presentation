@@ -323,8 +323,8 @@ EN_FOOTER_TEMPLATE = """    <footer class="super-footer">
                 <div class="footer-bottom-content">
                     <div class="copyright">© 2026 DCM Core Institute</div>
                     <div class="legal-links">
-                        <a href="/en/mentions-legales.html">Legal Mentions</a>
-                        <a href="/en/cgu.html">Terms of Use</a>
+                        <a href="/en/legal-mentions.html">Legal Mentions</a>
+                        <a href="/en/terms-of-use.html">Terms of Use</a>
                         <a href="/en/privacy.html">Privacy Policy</a>
                         <a href="/en/cookies.html">Cookie Policy</a>
                         <a href="/en/support-it.html">IT Support</a>

@@ -317,8 +317,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /* ===================================
-   WEB3 WALLET SIMULATION
-   =================================== */
+   WEB3 WALLET SIMULATION (DISABLED PER USER REQUEST)
+   =================================== 
 document.addEventListener('DOMContentLoaded', () => {
     checkWalletConnection();
 });
@@ -343,99 +343,19 @@ function closeWalletModal() {
 }
 
 async function simulateConnection(provider) {
-    const status = document.getElementById('walletStatus');
-    if (!status) return;
-
-    // Helper for delay
-    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-    // STEP 1: Requesting Access
-    status.innerHTML = `
-        <div style="text-align:left; font-size:14px; color:#94a3b8; background:rgba(255,255,255,0.05); padding:15px; border-radius:8px;">
-            <div style="margin-bottom:8px;">
-                <i class="fas fa-circle-notch fa-spin" style="color:#3b82f6; width:20px;"></i> 
-                <span style="color:#e2e8f0;">Requesting Access...</span>
-            </div>
-            <div style="font-size:12px; color:#64748b; margin-left:24px;">Connection to ${provider} pending approval.</div>
-        </div>`;
-
-    await wait(1500);
-
-    // STEP 2: Signing Message
-    status.innerHTML = `
-        <div style="text-align:left; font-size:14px; color:#94a3b8; background:rgba(255,255,255,0.05); padding:15px; border-radius:8px;">
-            <div style="margin-bottom:8px; display:flex; align-items:center;">
-                <i class="fas fa-check-circle" style="color:#10b981; width:20px;"></i> 
-                <span style="color:#64748b; text-decoration:line-through;">Access Granted</span>
-            </div>
-            <div style="margin-bottom:8px;">
-                <i class="fas fa-file-signature fa-bounce" style="color:#f59e0b; width:20px;"></i> 
-                <span style="color:#e2e8f0;">Signing Message...</span>
-            </div>
-            <div style="font-size:12px; color:#f59e0b; margin-left:24px;">
-                "Authentication required. Please sign to prove ownership."
-            </div>
-        </div>`;
-
-    await wait(2000);
-
-    // STEP 3: Success
-    status.innerHTML = `
-        <div style="text-align:left; font-size:14px; color:#94a3b8; background:rgba(255,255,255,0.05); padding:15px; border-radius:8px;">
-            <div style="margin-bottom:8px;">
-                <i class="fas fa-check-circle" style="color:#10b981; width:20px;"></i> 
-                <span style="color:#10b981;">Successfully Connected!</span>
-            </div>
-             <div style="font-size:12px; color:#64748b; margin-left:24px;">Session Token Generated.</div>
-        </div>`;
-
-    await wait(1000);
-
-    // Generate random address like 0x71C...9A2
-    const randomAddr = '0x' + Array(40).fill(0).map(x => Math.random().toString(16)[2]).join('').substring(0, 4) + '...' + Array(4).fill(0).map(x => Math.random().toString(16)[2]).join('');
-
-    // Persist
-    localStorage.setItem('dcm_wallet_connected', 'true');
-    localStorage.setItem('dcm_wallet_address', randomAddr);
-    localStorage.setItem('dcm_wallet_provider', provider);
-
-    // --- INTEGRATION WITH DASHBOARD 2.0 SESSION MANAGER ---
-    // Create a session based on the wallet
-    const walletProfile = {
-        name: `WalletUser ${randomAddr.substring(0, 6)}`,
-        role: "DeFi Trader", // Specific Role for Wallet Users
-        jurisdiction: "On-Chain",
-        impactScore: 85,
-        walletAddress: randomAddr
-    };
-    localStorage.setItem('dcm_auth_token', `wallet-token-${randomAddr}`);
-    localStorage.setItem('dcm_user_profile', JSON.stringify(walletProfile));
-
-    // Update UI
-    updateWalletUI(randomAddr);
-
-    // Close modal after short delay
-    setTimeout(() => {
-        closeWalletModal();
-        // Optional: Notify user they can now access the dashboard
-        // alert("Wallet Connected! You can now access the Dashboard.");
-    }, 1000);
+    // ... code removed or disabled
 }
 
 function checkWalletConnection() {
-    const isConnected = localStorage.getItem('dcm_wallet_connected');
-    const address = localStorage.getItem('dcm_wallet_address');
-
-    if (isConnected === 'true' && address) {
-        updateWalletUI(address);
-    }
+    // ...
 }
 
 function updateWalletUI(address) {
-    const btns = document.querySelectorAll('#connectWalletBtn');
+    // ...
+}
 
-    btns.forEach(btn => {
-        btn.classList.add('connected');
+function disconnectWallet() {
+    // ...
         btn.innerHTML = `<i class="fas fa-user-check"></i> ${address}`;
         // Optional: Change onclick to disconnect or show profile
         btn.onclick = () => {
@@ -458,6 +378,8 @@ function disconnectWallet() {
         btn.onclick = openWalletModal;
     });
 }
+*/
+
 
 // Close modal when clicking outside
 
@@ -469,92 +391,4 @@ window.onclick = function (event) {
     }
 }
 
-// ===================================
-// TRANSACTION SIMULATOR (PHASE 4)
-// ===================================
-
-function updateTotal() {
-    const qtyInput = document.getElementById('order-qty');
-    const priceInput = document.getElementById('order-price');
-    const totalDisplay = document.getElementById('order-total');
-
-    if (qtyInput && priceInput && totalDisplay) {
-        const qty = parseFloat(qtyInput.value) || 0;
-        const price = parseFloat(priceInput.value) || 0;
-        const total = (qty * (price / 100));
-
-        // Format Display
-        totalDisplay.innerText = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total);
-    }
-}
-
-function executeTrade() {
-    const modal = document.getElementById('execution-modal');
-    const step1 = document.getElementById('step-1');
-    const step2 = document.getElementById('step-2');
-    const step3 = document.getElementById('step-3');
-    const successMsg = document.getElementById('success-message');
-    const stepsContainer = document.querySelector('.steps-container');
-
-    // Open Modal
-    if (modal) modal.style.display = 'flex';
-
-    // Reset State
-    if (stepsContainer) stepsContainer.style.display = 'block';
-    if (successMsg) successMsg.style.display = 'none';
-    [step1, step2, step3].forEach(step => {
-        if (step) {
-            step.style.opacity = '0.5';
-            step.querySelector('i').className = 'fa-regular fa-circle';
-        }
-    });
-
-    // Animation Sequence
-    setTimeout(() => {
-        // EDUCATIONAL TOOLTIP
-        alert("✍️ CONCEPT CLÉ : La Signature Cryptographique\n\nDans la Blockchain, vous ne tapez pas de mot de passe. Vous 'signez' mathématiquement la transaction avec votre clé privée. C'est infalsifiable.");
-
-        // Step 1
-        if (step1) {
-            step1.style.opacity = '1';
-            step1.querySelector('i').className = 'fa-solid fa-check-circle';
-            step1.querySelector('i').style.color = '#10b981';
-        }
-
-        setTimeout(() => {
-            // Step 2
-            if (step2) {
-                step2.style.opacity = '1';
-                step2.querySelector('i').className = 'fa-solid fa-check-circle';
-                step2.querySelector('i').style.color = '#10b981';
-            }
-
-            setTimeout(() => {
-                // Step 3
-                if (step3) {
-                    step3.style.opacity = '1';
-                    step3.querySelector('i').className = 'fa-solid fa-check-circle';
-                    step3.querySelector('i').style.color = '#10b981';
-                }
-
-                // Show Success
-                setTimeout(() => {
-                    if (stepsContainer) stepsContainer.style.display = 'none';
-                    if (successMsg) {
-                        successMsg.style.display = 'block';
-                        // Generate Fake Hash
-                        const randomHash = '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-                        const hashSpan = successMsg.querySelector('span');
-                        if (hashSpan) hashSpan.innerText = `Settlement ID: ${randomHash.substring(0, 10)}...${randomHash.substring(randomHash.length - 8)}`;
-                    }
-                }, 800);
-
-            }, 800);
-        }, 800);
-    }, 500);
-}
-
-function closeModal() {
-    const modal = document.getElementById('execution-modal');
-    if (modal) modal.style.display = 'none';
-}
+// Duplicate functions removed.
