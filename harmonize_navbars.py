@@ -236,7 +236,105 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
         </div>
     </nav>"""
 
-TARGET_DIRS = ['RESEARCH-PROGRAMS', 'RESEARCH', 'OBSERVATORY', 'INDICES', 'KNOWLEDGE', 'METHODOLOGY', 'FELLOWSHIPS', 'GLOBAL-FORUM']
+FR_FOOTER_TEMPLATE = """    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-orb"></div>
+                    <p>L'infrastructure de recherche indépendante pour la finance programmable.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Recherche</h4>
+                    <ul class="footer-links">
+                        <li><a href="/fr/research-programs/index.html">Programmes</a></li>
+                        <li><a href="/fr/research-papers/index.html">Working Papers</a></li>
+                        <li><a href="/fr/methodology/index.html">Méthodologie</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Données</h4>
+                    <ul class="footer-links">
+                        <li><a href="/fr/observatory/tokenized-markets.html">Observatoire</a></li>
+                        <li><a href="/fr/indices/index.html">Indices & GDARI</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Institution</h4>
+                    <ul class="footer-links">
+                        <li><a href="/fr/about.html">À propos</a></li>
+                        <li><a href="/fr/global-forum/index.html">Global Forum</a></li>
+                        <li><a href="/fr/fellowships/index.html">Fellowships</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <strong>Avertissement Institutionnel :</strong> Les analyses publiées par le DCM Core Institute sont destinées à des fins de recherche académique et d'intelligence de marché. Elles ne constituent en aucun cas des conseils d'investissement ou des recommandations de conformité.
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="copyright">© 2026 DCM Core Institute</div>
+                    <div class="legal-links">
+                        <a href="/fr/mentions-legales.html">Mentions Légales</a>
+                        <a href="/fr/cgu.html">CGU</a>
+                        <a href="/fr/privacy.html">Confidentialité</a>
+                        <a href="/fr/cookies.html">Cookies</a>
+                        <a href="/fr/support-it.html">Support IT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>"""
+
+EN_FOOTER_TEMPLATE = """    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-orb"></div>
+                    <p>The independent research infrastructure for programmable finance.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Research</h4>
+                    <ul class="footer-links">
+                        <li><a href="/en/research-programs/index.html">Programs</a></li>
+                        <li><a href="/en/research-papers/index.html">Working Papers</a></li>
+                        <li><a href="/en/methodology/index.html">Methodology</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Data</h4>
+                    <ul class="footer-links">
+                        <li><a href="/en/observatory/tokenized-markets.html">Observatory</a></li>
+                        <li><a href="/en/indices/index.html">Indices & GDARI</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Institution</h4>
+                    <ul class="footer-links">
+                        <li><a href="/en/about.html">About</a></li>
+                        <li><a href="/en/global-forum/index.html">Global Forum</a></li>
+                        <li><a href="/en/fellowships/index.html">Fellowships</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <strong>Institutional Disclaimer:</strong> Analyses published by DCM Core Institute are intended for academic research and market intelligence purposes. They do not constitute investment advice or compliance recommendations.
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="copyright">© 2026 DCM Core Institute</div>
+                    <div class="legal-links">
+                        <a href="/en/mentions-legales.html">Legal Mentions</a>
+                        <a href="/en/cgu.html">Terms of Use</a>
+                        <a href="/en/privacy.html">Privacy Policy</a>
+                        <a href="/en/cookies.html">Cookie Policy</a>
+                        <a href="/en/support-it.html">IT Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>"""
+
+TARGET_DIRS = ['RESEARCH-PROGRAMS', 'RESEARCH', 'OBSERVATORY', 'INDICES', 'KNOWLEDGE', 'METHODOLOGY', 'FELLOWSHIPS', 'GLOBAL-FORUM', 'FR', 'EN']
 
 def process_file(filepath):
     print(f"Processing: {filepath}")
@@ -288,60 +386,91 @@ def process_file(filepath):
     formatted_nav = template.format(self_link=self_link, other_link=other_link)
     
     # CSS Management: Ensure styles-megamenu.css is present and styles-navigation.css is removed
-    # Calculate relative path to fr/ folder
-    rel_base = os.path.relpath(".", os.path.dirname(filepath))
-    if rel_base == ".":
-        rel_to_fr = "fr/"
+    # Find the language root folder (fr or en)
+    parts = filepath.split(os.sep)
+    if 'fr' in parts:
+        lang_root_idx = parts.index('fr')
+    elif 'en' in parts:
+        lang_root_idx = parts.index('en')
     else:
-        # Check if we are inside fr/
-        parts = filepath.split(os.sep)
-        if "fr" in parts:
-            fr_idx = parts.index("fr")
-            rel_to_fr = os.path.sep.join([".." for _ in range(len(parts) - fr_idx - 2)] + [""])
-            if rel_to_fr == "": rel_to_fr = "./"
-        else:
-            rel_to_fr = os.path.join(rel_base, "fr/")
+        print(f"   Skipping (No lang root found in path): {filepath}")
+        return
 
-    megamenu_path = os.path.join(rel_to_fr, "styles-megamenu.css").replace("\\", "/")
-    footer_css_path = os.path.join(rel_to_fr, "styles-footer.css").replace("\\", "/")
+    # Calculate levels to go up to reach lang root
+    levels_up = len(parts) - lang_root_idx - 2
+    rel_to_lang_root = "../" * levels_up if levels_up > 0 else "./"
+
+    megamenu_path = f"{rel_to_lang_root}styles-megamenu.css"
+    footer_css_path = f"{rel_to_lang_root}styles-footer.css"
     
-    # Check if head exists
-    head_match = re.search(r'<head>.*?</head>', content, flags=re.DOTALL)
+    # Head detection and CSS injection
+    head_match = re.search(r'<head(.*?)>(.*?)</head>', content, flags=re.DOTALL | re.IGNORECASE)
     if head_match:
-        head_content = head_match.group(0)
+        opening_tag = f'<head{head_match.group(1)}>'
+        head_content = head_match.group(2)
         
         # Add megamenu if missing
         if "styles-megamenu.css" not in head_content:
             css_link = f'\n    <link href="{megamenu_path}" rel="stylesheet" />'
-            new_head = head_content.replace('</head>', f'{css_link}\n</head>')
-            content = content.replace(head_content, new_head)
-            head_content = new_head
+            content = content.replace('</head>', f'{css_link}\n</head>')
+        else:
+            # Update existing link if path is wrong
+            content = re.sub(r'<link [^>]*href="[^"]*styles-megamenu\.css"[^>]*>', f'<link href="{megamenu_path}" rel="stylesheet" />', content)
             
         # Add footer styles if missing
         if "styles-footer.css" not in head_content:
             css_link = f'\n    <link href="{footer_css_path}" rel="stylesheet" />'
-            new_head = head_content.replace('</head>', f'{css_link}\n</head>')
-            content = content.replace(head_content, new_head)
-            head_content = new_head
+            content = content.replace('</head>', f'{css_link}\n</head>')
+        else:
+            content = re.sub(r'<link [^>]*href="[^"]*styles-footer\.css"[^>]*>', f'<link href="{footer_css_path}" rel="stylesheet" />', content)
 
         # Remove styles-navigation.css if present to avoid conflicts
-        if "styles-navigation.css" in head_content:
-            new_head = re.sub(r'<link [^>]*href="[^"]*styles-navigation\.css"[^>]*>', '', head_content)
-            content = content.replace(head_content, new_head)
+        content = re.sub(r'<link [^>]*href="[^"]*styles-navigation\.css"[^>]*>', '', content)
 
-    # Replacement logic: find <nav class="navbar-pro">...</nav> or <header class="app-header simplified-header">...</header>
-    # Note: Regex needs to be broad to catch variation in formatting
+    # Replacement logic for Navbar
     new_content = re.sub(r'<nav class="navbar-pro">.*?</nav>', formatted_nav, content, flags=re.DOTALL)
     if new_content == content:
         new_content = re.sub(r'<header class="app-header simplified-header">.*?</header>', formatted_nav, content, flags=re.DOTALL)
-    
     if new_content == content:
-        # Try finding <header> or other common nav patterns if navbar-pro isn't found
-        print(f"   Warning: navbar-pro not found in {filepath}. Trying broader match.")
-        # If it fails, maybe the class is different or it's wrapped in a header
-        # Let's try to just find the top of the body and insert if not found? 
-        # No, better to be surgical.
-        
+        # Broaden regex for quiz-nav to handle style attributes
+        new_content = re.sub(r'<nav class="quiz-nav".*?>.*?</nav>', formatted_nav, new_content, flags=re.DOTALL)
+
+    # Dark Theme Injection for Working Papers (wp-*.html)
+    if re.search(r'wp-\d{4}-\d{2}\.html', filepath):
+        if "var(--bg-dark)" not in new_content:
+            print(f"   Applying Dark Theme to document: {filepath}")
+            dark_theme_styles = """
+    <style>
+        :root { --inst-blue: #3b82f6; --bg-dark: #020617; --card-dark: #0f172a; --border: rgba(255,255,255,0.1); }
+        body { background-color: var(--bg-dark); color: #e2e8f0; }
+        .paper-container { background: var(--card-dark) !important; color: #e2e8f0 !important; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .paper-header { border-bottom-color: var(--border) !important; }
+        .paper-title { color: #fff !important; }
+        .paper-author { color: #94a3b8 !important; }
+        .paper-abstract { background: rgba(59, 130, 246, 0.05) !important; border-left-color: var(--inst-blue) !important; color: #cbd5e1 !important; }
+        .paper-content { color: #cbd5e1 !important; }
+        .paper-content h3 { color: #fff !important; }
+        .paper-content p { color: #94a3b8 !important; }
+        .navbar-pro { backdrop-filter: blur(10px); background: rgba(2, 6, 23, 0.8) !important; }
+    </style>"""
+            if '</head>' in new_content:
+                new_content = new_content.replace('</head>', f'{dark_theme_styles}\n</head>')
+
+    # Replacement logic for Footer
+    footer_template = FR_FOOTER_TEMPLATE if is_fr else EN_FOOTER_TEMPLATE
+    rel_root = ("../" * (len(parts) - lang_root_idx - 1)) if (len(parts) - lang_root_idx - 1) > 0 else "./"
+    formatted_footer = footer_template.replace('href="/fr/', f'href="{rel_root}fr/').replace('href="/en/', f'href="{rel_root}en/')
+    
+    if '<footer class="super-footer">' in new_content:
+        new_content = re.sub(r'<footer class="super-footer">.*?</footer>', formatted_footer, new_content, flags=re.DOTALL)
+    else:
+        # Insert before </body> if missing
+        print(f"   Inserting missing footer in {filepath}")
+        if '</body>' in new_content:
+            new_content = new_content.replace('</body>', f'\n{formatted_footer}\n</body>')
+        else:
+            new_content += f'\n{formatted_footer}'
+    
     with open(filepath, 'w', encoding='utf-8') as f:
         f.write(new_content)
     print(f"   Success: {filepath}")
