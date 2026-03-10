@@ -234,6 +234,94 @@
         .breadcrumb a:hover {
             color: var(--accent-obs);
         }
+
+        /* TICKER */
+        .obs-ticker-wrap {
+            background: rgba(15, 23, 42, 0.4);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .obs-ticker {
+            display: inline-block;
+            animation: ticker 60s linear infinite;
+            padding-left: 100%;
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-right: 50px;
+            font-size: 13px;
+            color: #94a3b8;
+            font-family: 'JetBrains Mono';
+        }
+
+        .ticker-symbol {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .ticker-status {
+            font-size: 10px;
+            padding: 2px 6px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            border-radius: 4px;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+                transform: translate3d(-100%, 0, 0);
+            }
+        }
+
+        /* DATA FRESHNESS */
+        .freshness-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
@@ -363,12 +451,35 @@
         <span style="color:var(--accent-obs);">Market Observatory</span>
     </nav>
 
+    <!-- LIVE PULSE TICKER -->
+    <div class="obs-ticker-wrap">
+        <div class="obs-ticker">
+            <div class="ticker-item"><span class="ticker-symbol">ECB-WDLT</span> <span
+                    class="ticker-status">Settled</span> <span class="ticker-amount">€250M</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">JPM-TCN</span> <span
+                    class="ticker-status">Active</span> <span class="ticker-amount">$1.2B Transfer</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">EIB-DBOND</span> <span
+                    class="ticker-status">Issued</span> <span class="ticker-amount">£100M</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">HKMA-mBridge</span> <span
+                    class="ticker-status">Validated</span> <span class="ticker-amount">$50M FX</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">GS-DAP</span> <span class="ticker-status">Live</span>
+                <span class="ticker-amount">Green Bond Lifecycle</span>
+            </div>
+            <div class="ticker-item"><span class="ticker-symbol">SOCIETE-GENERALE-FORGE</span> <span
+                    class="ticker-status">Redeemed</span> <span class="ticker-amount">€5M EURCV</span></div>
+        </div>
+    </div>
+
     <header class="obs-hero" data-aos="fade-up">
         <div class="obs-tag">Market Intelligence Suite</div>
         <h1 class="obs-title">Tokenized Capital Markets<br>Observatory</h1>
         <p style="color: #94a3b8; max-width: 800px; margin: 0 auto; font-size: 18px;">
             Quantitative analysis and permanent monitoring of the global programmable financial infrastructure.
         </p>
+        <div class="freshness-badge">
+            <div class="pulse-dot"></div>
+            LIVE DATA UPDATED: T+0 REAL-TIME
+        </div>
     </header>
 
     <main class="dash-grid">
@@ -425,6 +536,42 @@
                 <div class="bar" style="height: 90%;"></div>
             </div>
         </div>
+
+        <!-- NEW: Liquidity Map -->
+        <div class="dash-card" data-aos="fade-up" data-aos-delay="300" style="--card-accent: #ec4899;">
+            <div class="dash-header">
+                <i class="fas fa-water"></i>
+                <span class="dash-trend trend-up"><i class="fas fa-caret-up"></i> Deep</span>
+            </div>
+            <span class="dash-value">84%</span>
+            <span class="dash-label">On-Chain Asset Concentration</span>
+            <div class="chart-placeholder">
+                <div class="bar" style="height: 100%;"></div>
+                <div class="bar" style="height: 95%;"></div>
+                <div class="bar" style="height: 90%;"></div>
+                <div class="bar" style="height: 88%;"></div>
+                <div class="bar" style="height: 86%;"></div>
+                <div class="bar" style="height: 84%;"></div>
+            </div>
+        </div>
+
+        <!-- NEW: Velocity -->
+        <div class="dash-card" data-aos="fade-up" data-aos-delay="400" style="--card-accent: #f59e0b;">
+            <div class="dash-header">
+                <i class="fas fa-bolt"></i>
+                <span class="dash-trend trend-up"><i class="fas fa-caret-up"></i> Fast</span>
+            </div>
+            <span class="dash-value">T+0</span>
+            <span class="dash-label">Average Settlement Finality</span>
+            <div class="chart-placeholder">
+                <div class="bar" style="height: 5%;"></div>
+                <div class="bar" style="height: 5%;"></div>
+                <div class="bar" style="height: 5%;"></div>
+                <div class="bar" style="height: 5%;"></div>
+                <div class="bar" style="height: 5%;"></div>
+                <div class="bar" style="height: 5%;"></div>
+            </div>
+        </div>
     </main>
 
     <section class="obs-table-container">
@@ -472,6 +619,22 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <!-- DATA EXPORT STUBS -->
+        <div style="margin-top: 40px; display: flex; gap: 15px; flex-wrap: wrap;">
+            <a href="#" class="connect-btn"
+                style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px 24px; color: #fff; text-decoration: none; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-download"></i> Download Dataset (CSV)
+            </a>
+            <a href="#" class="connect-btn"
+                style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px 24px; color: #fff; text-decoration: none; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-file-pdf"></i> Quarterly Report
+            </a>
+            <a href="#" class="connect-btn"
+                style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px 24px; color: #fff; text-decoration: none; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-code"></i> API Documentation
+            </a>
         </div>
     </section>
 
