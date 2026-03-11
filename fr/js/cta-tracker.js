@@ -1,8 +1,38 @@
 /**
  * DCM DIGITAL — CTA Conversion Tracker (RGPD Conditionnel)
  * Tracks strategic CTA clicks, scroll depth, and time-on-page.
- * ALL events fire ONLY if GA4 consent was given via cookie-consent.js.
+ * Includes Centralized Contact Management for easy future-proofing.
  */
+
+// =========================================
+//  CENTRALIZED CONTACT CONFIGURATION
+// =========================================
+window.DCM_CONTACT_CONFIG = {
+    active_email: 'dcmcoreinstitute@gmail.com', // Interim redirection
+    main: 'dcmcoreinstitute@gmail.com',
+    support: 'dcmcoreinstitute@gmail.com',
+    press: 'dcmcoreinstitute@gmail.com',
+    fellowship: 'dcmcoreinstitute@gmail.com',
+    partnerships: 'dcmcoreinstitute@gmail.com'
+};
+
+function updateDCMContactLinks() {
+    const config = window.DCM_CONTACT_CONFIG;
+    document.querySelectorAll('a[href^="mailto:"], a[data-contact]').forEach(el => {
+        const type = el.getAttribute('data-contact');
+        const email = (type && config[type]) ? config[type] : config.active_email;
+        el.href = `mailto:${email}`;
+        if (el.textContent.includes('@')) {
+            el.textContent = email;
+        }
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateDCMContactLinks);
+} else {
+    updateDCMContactLinks();
+}
 
 (function () {
     'use strict';
@@ -35,7 +65,7 @@
     //  Auto-detect strategic CTAs by href or text content
     const CTA_SELECTORS = {
         // Links to key conversion pages
-        'cta_schedule_demo': 'a[href*="SCHEDULE_DEMO"], a[href*="schedule-demo"], a[href*="mailto:contact@dcm-digital"]',
+        'cta_schedule_demo': 'a[href*="SCHEDULE_DEMO"], a[href*="schedule-demo"], a[href*="mailto:dcmcoreinstitute@gmail.com"]',
         'cta_pilot_intake': 'a[href*="pilot-intake"]',
         'cta_pricing': 'a[href*="pricing"]',
         'cta_why_now': 'a[href*="why-now"]',
