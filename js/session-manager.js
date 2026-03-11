@@ -118,39 +118,44 @@ const SessionManager = {
             role: profileData?.role || 'Analyste',
             org_id: profileData?.org_id || null,
             jurisdiction: profileData?.jurisdiction || 'EU (France)',
-            subscription_tier: profileData?.subscription_tier || 'free',
+            subscription_tier: profileData?.subscription_tier || profileData?.subscription_plan || 'free',
+            subscription_status: profileData?.subscription_status || 'inactive',
+            admin_override: profileData?.admin_override || false,
             lastLogin: new Date().toISOString()
         };
 
-        // 🎭 MASTER ACCESS — only for confirmed Supabase email
+        // 🛡️ ACCESS PRIORITY LOGIC (Phase 62)
         const MASTER_EMAIL = 'joanlyczak@gmail.com';
         const userEmail = user.email ? user.email.toLowerCase() : '';
         
+        // 1. Master Fail-Safe
         if (userEmail === MASTER_EMAIL.toLowerCase()) {
             console.info('SessionManager: 🎭 MASTER ACCESS for ' + userEmail);
             profile.role = 'ADMIN';
             profile.subscription_tier = 'enterprise';
+            profile.subscription_status = 'active';
+            profile.admin_override = true;
             profile.org_id = 'dcm-master-org';
 
-            // Activate master patches via dev-unlock hook (conditional, post-auth)
             if (typeof window.__activateMasterMode === 'function') {
                 window.__activateMasterMode(userEmail);
             }
-        } else {
-            // 🧹 SECURITY: Wipe any stale dev/master flags from localStorage on every normal login.
-            const STALE_KEYS = ['is_super_dev', 'dcm_user_role', 'dcm_active_role', 'dcm_segment', 'dcm_org_id', 'userRole', 'userTier'];
-            STALE_KEYS.forEach(k => localStorage.removeItem(k));
-            sessionStorage.removeItem('dcm_master_active');
-
-            // 🧹 SECURITY: Explicitly deactivate any active master UI patches
-            if (typeof window.__deactivateMasterMode === 'function') {
-                window.__deactivateMasterMode();
-            }
-
+        } 
+        // 2. Admin Role or Override
+        else if (profile.role?.toUpperCase() === 'ADMIN' || profile.admin_override === true) {
+            console.info('SessionManager: 🛡️ ADMIN/OVERRIDE ACCESS granted for ' + userEmail);
+            profile.subscription_status = 'active'; // Force active status for overrides
+            
+            // Clean legacy flags
+            SessionManager._clearStaleAuthItems();
+        }
+        else {
+            // 🧹 SECURITY: Wipe any stale dev/master flags
+            SessionManager._clearStaleAuthItems();
             if (window.DCM_CONFIG) window.DCM_CONFIG.DEV_MODE = false;
         }
 
-        // Cache locally for offline fallback
+        // Cache locally
         localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, accessToken);
         localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(profile));
         localStorage.setItem(SessionManager.KEYS.SESSION_START, Date.now());
@@ -159,11 +164,18 @@ const SessionManager = {
         if (profile) {
             localStorage.setItem('dcm_segment', profile.subscription_tier || 'student');
             localStorage.setItem('dcm_active_role', profile.subscription_tier || 'student');
-
-            // 📣 Notify components that the verified profile is ready
             window.dispatchEvent(new CustomEvent('dcm-profile-ready', { detail: profile }));
         }
         return profile;
+    },
+
+    _clearStaleAuthItems: () => {
+        const STALE_KEYS = ['is_super_dev', 'dcm_user_role', 'dcm_active_role', 'dcm_segment', 'dcm_org_id', 'userRole', 'userTier'];
+        STALE_KEYS.forEach(k => localStorage.removeItem(k));
+        sessionStorage.removeItem('dcm_master_active');
+        if (typeof window.__deactivateMasterMode === 'function') {
+            window.__deactivateMasterMode();
+        }
     },
 
     // =============================================
@@ -398,47 +410,70 @@ const SessionManager = {
 
     checkAccess: (permission) => {
         const profile = SessionManager.getCurrentUser() || {};
-        const role = profile.role || 'Viewer';
-        const tier = profile.subscription_tier || 'free';
         const email = profile.email || '';
+        const role = (profile.role || '').toUpperCase();
+        const tier = (profile.subscription_tier || 'free').toLowerCase();
+        const status = (profile.subscription_status || 'inactive').toLowerCase();
+        const override = profile.admin_override === true;
 
-        // 🎭 MASTER ACCESS — only if confirmed via Supabase session email
-        // NOTE: We do NOT read localStorage flags (is_super_dev, dcm_user_role)
-        // to prevent auth bypass from stale session data.
+        // 🛡️ PRIORITY ACCESS CHECK
+        
+        // 1. MASTER FAIL-SAFE
         const MASTER_EMAIL = 'joanlyczak@gmail.com';
-        const isMaster = email === MASTER_EMAIL;
-        if (isMaster) {
-            console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (master)`);
+        if (email.toLowerCase() === MASTER_EMAIL.toLowerCase()) return true;
+
+        // 2. ADMIN ROLE OR OVERRIDE
+        if (role === 'ADMIN' || override) {
+            console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (Admin/Override)`);
             return true;
         }
 
         /**
-         * Institutional Permission Matrix
-         * Maps permissions to required roles and tiers.
+         * Tier-Based Permission Matrix (Refined Architecture)
          */
-        const PERMISSION_MATRIX = {
-            'REPORT_EXPORT': { roles: ['Admin', 'Analyst'], tiers: ['pro', 'enterprise'] },
-            'AUDIT_VIEW': { roles: ['Admin'], tiers: ['enterprise'] },
-            'BENCHMARK_DETAIL': { roles: ['Admin', 'Analyst'], tiers: ['pro', 'enterprise'] },
-            'USER_MANAGEMENT': { roles: ['Admin'], tiers: ['enterprise'] },
-            'RISK_MODEL_EDIT': { roles: ['Admin'], tiers: ['enterprise'] },
-            'BASIC_DASHBOARD': { roles: ['Admin', 'Analyst', 'Viewer'], tiers: ['free', 'pro', 'enterprise'] }
+        const TIER_PERMISSIONS = {
+            'free': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH'
+            ],
+            'pro': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH',
+                'REPORT_EXPORT',
+                'BENCHMARK_DETAIL',
+                'PREMIUM_RESEARCH'
+            ],
+            'enterprise': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH',
+                'REPORT_EXPORT',
+                'BENCHMARK_DETAIL',
+                'PREMIUM_RESEARCH',
+                'AUDIT_VIEW',
+                'USER_MANAGEMENT',
+                'RISK_MODEL_EDIT',
+                'API_ACCESS'
+            ]
         };
 
-        const rule = PERMISSION_MATRIX[permission];
-        if (!rule) {
-            console.warn(`⚠️ Unknown permission requested: ${permission}. Defaulting to DENY.`);
-            return false;
-        }
-
-        // Role & Tier Check
-        const isGranted = rule.roles.some(r => r.toLowerCase() === role.toLowerCase())
-            && rule.tiers.includes(tier.toLowerCase());
-
-        if (!isGranted) {
+        // 3. STRIPE STATUS CHECK (Must be active for paid tiers)
+        const isPaidTier = tier === 'pro' || tier === 'enterprise';
+        if (isPaidTier && status !== 'active') {
+            console.warn(`[RBAC] ❌ checkAccess("${permission}") → DENIED (Paid tier but status is ${status})`);
             SessionManager.showPaywall(permission, role);
             return false;
         }
+
+        const allowedFeatures = TIER_PERMISSIONS[tier] || TIER_PERMISSIONS['free'];
+        const isGranted = allowedFeatures.includes(permission.toUpperCase());
+
+        if (!isGranted) {
+            console.warn(`[RBAC] ❌ checkAccess("${permission}") → DENIED (Tier ${tier} mission)`);
+            SessionManager.showPaywall(permission, role);
+            return false;
+        }
+
+        console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (Tier ${tier})`);
         return true;
     },
 
