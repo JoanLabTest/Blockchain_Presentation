@@ -623,6 +623,154 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             color: var(--segment-color) !important;
             font-weight: 800;
         }
+
+    /* INSTITUTIONAL MONITOR STYLES */
+    .monitor-section {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    .monitor-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 15px;
+    }
+    .monitor-title h2 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 5px;
+    }
+    .monitor-meta {
+        font-size: 12px;
+        color: var(--text-muted);
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+    .market-pulse-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    .pulse-card {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+    }
+    .pulse-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 4px; height: 100%;
+        background: var(--accent-blue);
+    }
+    .pulse-label {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+    .pulse-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 28px;
+        font-weight: 800;
+        color: white;
+    }
+    .intelligence-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .intel-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 25px;
+    }
+    .intel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .intel-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .intel-link {
+        font-size: 12px;
+        color: var(--accent-blue);
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+    .intel-link:hover {
+        color: var(--accent-cyan);
+        text-decoration: underline;
+    }
+    .intel-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .intel-list li {
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .intel-list li:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    .research-item-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: white;
+        margin-bottom: 4px;
+    }
+    .research-item-meta {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+    .inst-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .inst-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: var(--accent-gold);
+        flex-shrink: 0;
+    }
+    .inst-info h4 {
+        font-size: 14px;
+        color: white;
+        margin-bottom: 4px;
+    }
+    .inst-info p {
+        font-size: 13px;
+        color: var(--text-muted);
+    }
     </style>
     <meta content="Explore the dashboard module of the DCM Digital Governance OS." name="description" />
     <script src="js/cookie-consent.js"></script>
@@ -957,6 +1105,96 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
         </div>
+
+        <!-- NEW BLOCK: INSTITUTIONAL INTELLIGENCE LAYERS -->
+        <section class="monitor-section" data-aos="fade-up">
+            <div class="monitor-header">
+                <div class="monitor-title">
+                    <h2>Global Digital Capital Markets Monitor</h2>
+                    <div class="monitor-meta">
+                        <span><i class="fas fa-clock"></i> Last updated: <span id="monitor-timestamp">18:42 UTC</span></span>
+                        <span><i class="fas fa-database"></i> Sources: DeFiLlama, CoinGecko, FRED</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAYER 1: Market Pulse -->
+            <div class="market-pulse-grid">
+                <div class="pulse-card" style="border-left-color: #f7931a;">
+                    <div class="pulse-label">BTC Price</div>
+                    <div class="pulse-value">$92,310</div>
+                </div>
+                <div class="pulse-card" style="border-left-color: #627eea;">
+                    <div class="pulse-label">ETH Price</div>
+                    <div class="pulse-value">$3,110</div>
+                </div>
+                <div class="pulse-card" style="border-left-color: #8b5cf6;">
+                    <div class="pulse-label">TVL DeFi</div>
+                    <div class="pulse-value">$104B</div>
+                </div>
+                <div class="pulse-card" style="border-left-color: #10b981;">
+                    <div class="pulse-label">Stablecoin Supply</div>
+                    <div class="pulse-value">$165B</div>
+                </div>
+            </div>
+
+            <!-- LAYER 2 & 3: Research & Institutional Tracker -->
+            <div class="intelligence-grid">
+                <!-- Research Highlights -->
+                <div class="intel-card">
+                    <div class="intel-header">
+                        <div class="intel-title"><i class="fas fa-book-open" style="color:var(--accent-cyan);"></i> Research Highlights</div>
+                        <a href="research/index.html" class="intel-link">View All Research &rarr;</a>
+                    </div>
+                    <ul class="intel-list">
+                        <li>
+                            <div class="research-item-title">Tokenized Bonds 2026 Outlook</div>
+                            <div class="research-item-meta">Macro-Economic Research &bull; Published Today</div>
+                        </li>
+                        <li>
+                            <div class="research-item-title">CBDC Infrastructure Analysis</div>
+                            <div class="research-item-meta">Infrastructure &bull; Jan 2026</div>
+                        </li>
+                        <li>
+                            <div class="research-item-title">Digital Securities Framework</div>
+                            <div class="research-item-meta">Policy &amp; Regulation &bull; Dec 2025</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Institutional Adoption Monitor -->
+                <div class="intel-card">
+                    <div class="intel-header">
+                        <div class="intel-title"><i class="fas fa-building" style="color:var(--accent-gold);"></i> Institutional Adoption Monitor</div>
+                        <a href="observatory/index.html" class="intel-link">More initiatives &rarr;</a>
+                    </div>
+                    <div class="intel-list">
+                        <div class="inst-item" style="padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <div class="inst-logo"><i class="fas fa-landmark"></i></div>
+                            <div class="inst-info">
+                                <h4>BlackRock</h4>
+                                <p>Tokenized fund initiative expansion (BUIDL)</p>
+                            </div>
+                        </div>
+                        <div class="inst-item" style="padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <div class="inst-logo"><i class="fas fa-network-wired"></i></div>
+                            <div class="inst-info">
+                                <h4>JPMorgan</h4>
+                                <p>Expansion of Onyx blockchain settlement network</p>
+                            </div>
+                        </div>
+                        <div class="inst-item" style="padding: 15px 0;">
+                            <div class="inst-logo"><i class="fas fa-file-contract"></i></div>
+                            <div class="inst-info">
+                                <h4>DTCC</h4>
+                                <p>Tokenized collateral pilot completion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- SIMULATION HISTORY -->
         <div class="card span-4" data-aos="fade-up" data-aos-delay="200" id="simulations-section">
             <div class="card-header">
