@@ -1122,11 +1122,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="market-pulse-grid">
                 <div class="pulse-card" style="border-left-color: #f7931a;">
                     <div class="pulse-label">BTC Price</div>
-                    <div class="pulse-value">$92,310</div>
+                    <div class="pulse-value" id="pulse-btc">$92,310</div>
                 </div>
                 <div class="pulse-card" style="border-left-color: #627eea;">
                     <div class="pulse-label">ETH Price</div>
-                    <div class="pulse-value">$3,110</div>
+                    <div class="pulse-value" id="pulse-eth">$3,110</div>
                 </div>
                 <div class="pulse-card" style="border-left-color: #8b5cf6;">
                     <div class="pulse-label">TVL DeFi</div>
@@ -2368,6 +2368,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }, 800);
         });
     </script>
+
+        <!-- Live Data Fetcher for Market Pulse -->
+        <script>
+            (async function() {
+                const MARKET_URL = 'https://wnwerjuqtrduqkgwdjrg.supabase.co/functions/v1/market-data';
+                const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indud2VyanVxdHJkdXFrZ3dkanJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3Mzg3OTEsImV4cCI6MjA4NjMxNDc5MX0.0WqMQs84PFAHuoMQT8xiAZYpWN5b2XGeumtaNzRHcoo';
+
+                async function fetchMarketPulse() {
+                    try {
+                        const r = await fetch(MARKET_URL, { headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` } });
+                        if (r.ok) {
+                            const data = await r.json();
+                            if (data && data.coins) {
+                                if (data.coins.BTC && data.coins.BTC.priceUsd) {
+                                    const btcEl = document.getElementById('pulse-btc');
+                                    if(btcEl) btcEl.innerText = "$" + data.coins.BTC.priceUsd.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                                }
+                                if (data.coins.ETH && data.coins.ETH.priceUsd) {
+                                    const ethEl = document.getElementById('pulse-eth');
+                                    if(ethEl) ethEl.innerText = "$" + data.coins.ETH.priceUsd.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        console.warn("Could not fetch Market Pulse data", e);
+                    }
+                    
+                    // Update Timestamp dynamically
+                    const now = new Date();
+                    const utcHours = String(now.getUTCHours()).padStart(2, '0');
+                    const utcMinutes = String(now.getUTCMinutes()).padStart(2, '0');
+                    const timestampEl = document.getElementById('monitor-timestamp');
+                    if (timestampEl) {
+                        timestampEl.innerText = `${utcHours}:${utcMinutes} UTC`;
+                    }
+                }
+
+                // Fetch immediately
+                await fetchMarketPulse();
+                
+                // Fetch every 15 minutes (900,000 ms)
+                setInterval(fetchMarketPulse, 900000);
+            })();
+        </script>
 
         <global-footer base-path=""></global-footer>
 </body>
