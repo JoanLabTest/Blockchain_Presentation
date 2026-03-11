@@ -396,9 +396,9 @@
             </div>
             <h1>Logic & Composability:<br>The Financial Operating System</h1>
             <p class="lead">
-                Programmable finance isn't just about moving tokens; it's about <strong>encoding the rules of finance</strong> 
-                directly into the infrastructure. Through Smart Contracts, legal obligations become executable code, 
-                enabling unprecedented levels of automation and financial engineering.
+                Programmable finance isn't just about moving tokens; it's about <strong>encoding the rules of finance</strong>
+                directly into the infrastructure. Through Smart Contracts, legal obligations become <strong>executable code</strong>,
+                replacing human middle-men with immutable, audited logic.
             </p>
         </header>
 
@@ -475,102 +475,116 @@
             </div>
         </section>
 
-            <div class="code-snippet">
-                <span class="comment">// Example of embedded compliance logic</span><br>
-                <span class="keyword">function</span> <span class="func">transferAsset</span>(address to, uint256 amount) <span class="keyword">public</span> {<br>
-                &nbsp;&nbsp;<span class="comment">// Rule 1: Instant verification of regulatory eligibility</span><br>
-                &nbsp;&nbsp;<span class="func">require</span>(registry.<span class="func">isWhitelisted</span>(to), <span class="string">"KYC check failed"</span>);<br>
-                &nbsp;&nbsp;<br>
-                &nbsp;&nbsp;<span class="comment">// Rule 2: Dynamic tax calculation (MiCA compliant)</span><br>
-                &nbsp;&nbsp;uint tax = <span class="func">calculateTax</span>(amount);<br>
-                &nbsp;&nbsp;<span class="func">executeAtomicSwap</span>(msg.sender, to, amount, tax);<br>
-                }
-            </div>
+            <span class="comment">// Example: Conditional Automated Coupon (BIS Unified Ledger)</span><br>
+            <span class="keyword">contract</span> <span class="func">PCMLogicLayer</span> {<br>
+            &nbsp;&nbsp;<span class="comment">// Business rule encoded — zero manual reconciliation</span><br>
+            &nbsp;&nbsp;<span class="keyword">function</span> <span class="func">executeCoupon</span>(<span class="keyword">address</span> bond) <span class="keyword">external</span> {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="func">require</span>(block.timestamp &gt;= bond.<span class="func">nextPaymentDate</span>(), <span class="string">"Not yet"</span>);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="func">require</span>(bond.<span class="func">isCompliant</span>(msg.sender), <span class="string">"KYC fail"</span>);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">uint256</span> amount = bond.<span class="func">couponAmount</span>();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;settlementToken.<span class="func">transfer</span>(bond.<span class="func">holder</span>(), amount); <span class="comment">// wCBDC</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">emit</span> <span class="func">CouponPaid</span>(bond, amount, block.timestamp);<br>
+            &nbsp;&nbsp;}<br>
+            }
         </section>
 
         <!-- SECTION 2: USE CASES -->
         <section data-aos="fade-up">
-            <h2><span>02</span> Applied Programmable Logic</h2>
+            <h2>6 Applications of Programmable Logic in DCM</h2>
             <div class="uc-grid">
                 <div class="uc-card">
-                    <i class="fas fa-hand-holding-dollar"></i>
-                    <h3>Dynamic Servicing</h3>
-                    <p>Coupon payments, amortizations, and corporate actions executed automatically when oracle data triggers the contract conditions.</p>
+                    <i class="fas fa-coins"></i>
+                    <h3>Automated Coupons</h3>
+                    <p>Automatic payment to holders on dates defined in the contract. Zero reconciliation, zero delays, zero errors.</p>
                 </div>
                 <div class="uc-card">
-                    <i class="fas fa-user-shield"></i>
-                    <h3>Embedded AML/KYC</h3>
-                    <p>Secondary market restrictions are hardcoded. The asset literally cannot be held by a non-verified or non-eligible wallet.</p>
+                    <i class="fas fa-id-badge"></i>
+                    <h3>On-Chain KYC Compliance</h3>
+                    <p>Identity and regulatory eligibility verification integrated directly into the transfer logic (ERC-3643 / T-REX).</p>
                 </div>
                 <div class="uc-card">
-                    <i class="fas fa-puzzle-piece"></i>
-                    <h3>Money Legos</h3>
-                    <p>Combining multiple financial protocols (Issuance + Repo + Swap) into a single atomic atomic transaction string.</p>
+                    <i class="fas fa-scale-balanced"></i>
+                    <h3>Dynamic Collateralization</h3>
+                    <p>Automatic adjustment of collateral margins based on on-chain valuations — programmed margin calls.</p>
                 </div>
                 <div class="uc-card">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Dynamic Collateral</h3>
-                    <p>Automated margin calls or collateral liquidations based on real-time price feeds, reducing systemic risk.</p>
+                    <i class="fas fa-recycle"></i>
+                    <h3>Automated Reinvestment</h3>
+                    <p>Reinvestment of coupon flows into new instruments according to predefined portfolio rules — without a manager.</p>
                 </div>
                 <div class="uc-card">
-                    <i class="fas fa-leaf"></i>
-                    <h3>ESG Automation</h3>
-                    <p>Linking bond coupon rates directly to verified carbon emission data or sustainability KPIs via IoT oracles.</p>
+                    <i class="fas fa-shield-halved"></i>
+                    <h3>Regulatory Reporting</h3>
+                    <p>Automatic generation of EMIR / MiFID II / DORA reports integrated into the instrument lifecycle — native auditability.</p>
                 </div>
                 <div class="uc-card">
-                    <i class="fas fa-microchip"></i>
-                    <h3>Cross-Asset Hooks</h3>
-                    <p>Triggering an action in a Bond contract when a separate Cash or Derivative contract reaches a specific state.</p>
+                    <i class="fas fa-fire-flame-curved"></i>
+                    <h3>Redemption & Burn</h3>
+                    <p>At maturity, the principal is automatically returned and the bond tokens destroyed — closed-loop without intervention.</p>
                 </div>
             </div>
         </section>
 
         <!-- BIS INSIGHT -->
         <div class="bis-highlight" data-aos="zoom-in">
-            <h3 style="color:#fff; margin-bottom:15px; font-family:'Outfit';">The "Single Truth" Concept</h3>
+            <h3 style="color:#fff; margin-bottom:15px; font-family:'Outfit';">BIS Reference — Unified Ledger 2023</h3>
             <p style="color:#d1d5db; line-height:1.7; margin-bottom:0;">
-                According to the <strong>BIS Unified Ledger</strong> research, the logic layer eliminates 
-                the need for reconciliation between trading and back-office. The code is the final source 
-                of truth. If the code says the payment has been made, the ledger reflects it 
-                simultaneously. No delays, no mismatches.
+                The BIS report "Blueprint for the future monetary system" (2023) positions the Logic layer as 
+                <strong style="color:#fff;">the fundamental differentiator</strong> of the Unified Ledger compared to first-generation DLT systems. 
+                Conditional programmability — automatic execution if and only if all regulatory conditions are met — is described as 
+                <em>"the most profound transformation of financial mechanics since dematerialization."</em>
             </p>
         </div>
 
         <!-- SECTION 3: COMPOSABILITY -->
-        <section data-aos="fade-up">
-            <h2><span>03</span> Composability Matrix</h2>
-            <p>How different asset classes leverage the Logic Layer:</p>
-
+                <h2>Maturity Matrix — Programmable Logic by Asset Type</h2>
             <table class="logic-table">
                 <thead>
                     <tr>
-                        <th>Asset Type</th>
-                        <th>Core Logic Feature</th>
-                        <th>Impact</th>
+                        <th>Instrument</th>
+                        <th>Auto Coupons</th>
+                        <th>On-chain KYC</th>
+                        <th>Dyn. Collateral</th>
+                        <th>Auto Reporting</th>
+                        <th>2025 Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Digital Bonds</strong></td>
-                        <td>Scheduled Payment Engine</td>
-                        <td>90% reduction in back-office costs</td>
+                        <td><strong style="color:#fff;">Digital Bonds</strong></td>
+                        <td><span style="color:#10b981;">✓ Mature</span></td>
+                        <td><span style="color:#10b981;">✓ ERC-3643</span></td>
+                        <td><span style="color:#f59e0b;">~ Partial</span></td>
+                        <td><span style="color:#f59e0b;">~ Ongoing</span></td>
+                        <td><span style="background:rgba(16,185,129,0.15); color:#10b981; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700;">PRODUCTION</span></td>
                     </tr>
                     <tr>
-                        <td><strong>Tokenized Funds</strong></td>
-                        <td>Nav-Triggered Issuance</td>
-                        <td>Real-time fund entry/exit</td>
+                        <td><strong style="color:#fff;">Repo Tokens</strong></td>
+                        <td><span style="color:#10b981;">✓</span></td>
+                        <td><span style="color:#f59e0b;">~ Partial DID</span></td>
+                        <td><span style="color:#10b981;">✓ Automatic</span></td>
+                        <td><span style="color:#f59e0b;">~ Pilot</span></td>
+                        <td><span style="background:rgba(245,158,11,0.15); color:#f59e0b; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700;">PILOT</span></td>
                     </tr>
                     <tr>
-                        <td><strong>Derivatives</strong></td>
-                        <td>Multi-Oracle Contingency</td>
-                        <td>Elimination of manual clearing</td>
+                        <td><strong style="color:#fff;">Tokenized Funds (RWA)</strong></td>
+                        <td><span style="color:#f59e0b;">~ Simplified</span></td>
+                        <td><span style="color:#10b981;">✓</span></td>
+                        <td><span style="color:#ef4444;">✗ Manual</span></td>
+                        <td><span style="color:#f59e0b;">~ Partial AIFMD</span></td>
+                        <td><span style="background:rgba(245,158,11,0.15); color:#f59e0b; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700;">EMERGING</span></td>
                     </tr>
                     <tr>
-                        <td><strong>Stablecoins</strong></td>
-                        <td>Yield Distribution</td>
-                        <td>Direct benefit transmission to holders</td>
+                        <td><strong style="color:#fff;">Tokenized Derivatives</strong></td>
+                        <td><span style="color:#ef4444;">✗ Complex</span></td>
+                        <td><span style="color:#f59e0b;">~ Partial</span></td>
+                        <td><span style="color:#f59e0b;">~ Research</span></td>
+                        <td><span style="color:#ef4444;">✗</span></td>
+                        <td><span style="background:rgba(148,163,184,0.1); color:#94a3b8; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700;">RESEARCH</span></td>
                     </tr>
                 </tbody>
+            </table>
+   </tbody>
             </table>
         </section>
 
