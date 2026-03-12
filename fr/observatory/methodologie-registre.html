@@ -12,16 +12,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-        content="Standards Hub DCM Core : Le dépôt centralisé pour les standards de tokenisation, incluant la Digital Taxonomy, la classification TFIC et les frameworks d'actifs programmables."
+        content="Méthodologie du Registre Mondial des Titres Tokenisés (GTSR). Standards de recherche, pipeline de validation et protocoles d'identification."
         name="description" />
-    
-    <title>Standards Hub | DCM Core Institute</title>
+    <title>Méthodologie du Registre | Observatoire | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/fr/observatory/methodologie-registre.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/observatory/registry-methodology.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/observatory/methodologie-registre.html" />
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
         rel="stylesheet" />
 
     <!-- Font Awesome -->
@@ -37,9 +39,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <style>
         :root {
-            --accent-standards: #3b82f6;
+            --accent-obs: #3b82f6;
+            --accent-gold: #c9a84c;
+            --accent-green: #10b981;
             --glass-bg: rgba(15, 23, 42, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         body {
@@ -49,123 +53,120 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             padding-top: 80px;
         }
 
-        .content-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px 100px;
+        .meth-section {
+            max-width: 900px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
         }
 
-        .hero-section {
+        .meth-hero {
+            padding: 80px 20px 40px;
             text-align: center;
-            margin-bottom: 80px;
         }
 
-        .standards-tag {
-            display: inline-block;
-            padding: 6px 16px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 100px;
-            color: var(--accent-standards);
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-        }
-
-        h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(32px, 5vw, 56px);
+        .meth-title {
+            font-family: 'Outfit';
+            font-size: clamp(32px, 5vw, 48px);
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 25px;
-            color: #fff;
+            margin-bottom: 20px;
         }
 
-        .standards-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-        }
-
-        .standard-card {
+        .meth-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 40px;
-            position: relative;
-            overflow: hidden;
-            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            text-decoration: none;
+            margin-bottom: 40px;
+        }
+
+        .meth-h2 {
+            font-family: 'Outfit';
+            font-size: 28px;
+            color: var(--accent-obs);
+            margin-bottom: 25px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
 
-        .standard-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-standards);
-            background: rgba(59, 130, 246, 0.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        .meth-content {
+            color: #94a3b8;
+            line-height: 1.8;
+            font-size: 16px;
         }
 
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
+        .meth-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .meth-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .meth-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-obs);
+            font-weight: 700;
+        }
+
+        .pipeline-step {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-obs);
+            color: #fff;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            color: var(--accent-standards);
-            margin-bottom: 25px;
+            font-weight: 800;
+            flex-shrink: 0;
         }
 
-        .standard-card h3 {
-            font-family: 'Outfit';
-            font-size: 24px;
-            color: #fff;
-            margin-bottom: 15px;
-        }
-
-        .standard-card p {
-            color: #94a3b8;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            flex-grow: 1;
-        }
-
-        .card-footer {
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            font-size: 12px;
+            color: #475569;
             display: flex;
-            justify-content: space-between;
+            gap: 8px;
             align-items: center;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .version-badge {
-            font-family: 'JetBrains Mono';
-            font-size: 11px;
-            color: #64748b;
+        .breadcrumb a {
+            color: #475569;
+            text-decoration: none;
         }
 
-        .access-btn {
-            font-weight: 700;
-            color: var(--accent-standards);
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            .standards-grid { grid-template-columns: 1fr; }
+        .breadcrumb a:hover {
+            color: var(--accent-obs);
         }
     </style>
+    <script src="../js/global-footer.js"></script>
 </head>
 
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
     <nav class="navbar-pro">
-        <a class="nav-brand" href="../../index.html">
+        <a class="nav-brand" href="../../fr/index.html">
             <div class="logo-orb"></div>
             <div class="logo-text">DCM <span>Core Institute</span></div>
         </a>
@@ -294,71 +295,110 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         <div class="nav-actions">
             <div class="lang-switcher">
-                <a href="../../en/standards/index.html" class="lang-link">🇬🇧 EN</a>
-                <a href="index.html" class="lang-link active">🇫🇷 FR</a>
+                <a href="/en/observatory/registry-methodology.html" class="lang-link" title="English">🇬🇧 EN</a>
+                <a href="/fr/observatory/methodologie-registre.html" class="lang-link active" title="Français">🇫🇷 FR</a>
             </div>
+            <a href="../../login.html" class="auth-btn">Auth</a>
+            <button class="connect-btn">Connexion</button>
         </div>
     </nav>
 
-    <div class="content-container">
-        <header class="hero-section" data-aos="fade-up">
-            <div class="standards-tag">Dépôt Central</div>
-            <h1>Centre de Normalisation Institutionnelle</h1>
-            <p style="color: #94a3b8; font-size: 19px; max-width: 800px; margin: 0 auto;">
-                Un portail unifié vers les frameworks, les classifications et les normes techniques définissant l'avenir des marchés de capitaux programmables.
-            </p>
-        </header>
-
-        <div class="standards-grid">
-            <!-- Taxonomy -->
-            <a href="../research/programmable-capital-markets/digital-capital-markets-taxonomy.html" class="standard-card" data-aos="fade-up">
-                <div class="card-icon"><i class="fas fa-project-diagram"></i></div>
-                <h3>Digital Capital Markets Taxonomy</h3>
-                <p>La carte conceptuelle de base divisant les actifs tokenisés par nature, infrastructure et périmètre réglementaire. Le fondement de l'architecture DCM.</p>
-                <div class="card-footer">
-                    <span class="version-badge">v1.1 (Stable)</span>
-                    <span class="access-btn">Voir le Standard <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
-                </div>
-            </a>
-
-            <!-- TFIC -->
-            <a href="../research/programmable-capital-markets/tfic-classification.html" class="standard-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="card-icon"><i class="fas fa-sitemap"></i></div>
-                <h3>Classification TFIC</h3>
-                <p>La norme de codage hiérarchique pour identifier chaque type d'instrument financier on-chain. Compatible avec les principes de l'ISO 6166.</p>
-                <div class="card-footer">
-                    <span class="version-badge">v2.0 (Institutionnel)</span>
-                    <span class="access-btn">Voir le Standard <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
-                </div>
-            </a>
-
-            <!-- Smart Bonds -->
-            <a href="../research/programmable-capital-markets/smart-bond-framework.html" class="standard-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="card-icon"><i class="fas fa-file-contract"></i></div>
-                <h3>Smart Bond Framework</h3>
-                <p>Cadre technique et juridique pour l'émission de contrats de dette programmables, couvrant les événements du cycle de vie et le règlement on-chain.</p>
-                <div class="card-footer">
-                    <span class="version-badge">v1.2 (Actif)</span>
-                    <span class="access-btn">Voir le Standard <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
-                </div>
-            </a>
-
-            <!-- Smart Derivatives -->
-            <a href="../research/programmable-capital-markets/smart-derivative-contracts.html" class="standard-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="card-icon"><i class="fas fa-calculator"></i></div>
-                <h3>Smart Derivative Contracts</h3>
-                <p>Logique standardisée pour les dérivés on-chain, assurant un calcul déterministe et une gestion des garanties pour les SDCs.</p>
-                <div class="card-footer">
-                    <span class="version-badge">v1.0 (Brouillon Public)</span>
-                    <span class="access-btn">Voir le Standard <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
-                </div>
-            </a>
-        </div>
+    <div class="breadcrumb">
+        <a href="../../fr/index.html"><i class="fas fa-home"></i> Accueil</a>
+        <span>›</span>
+        <a href="tokenized-markets.html">Observatoire</a>
+        <span>›</span>
+        <a href="registre-titres-tokenises.html">Registre Mondial</a>
+        <span>›</span>
+        <span style="color:var(--accent-obs);">Méthodologie</span>
     </div>
 
+    <header class="meth-hero" data-aos="fade-up">
+        <h1 class="meth-title">Méthodologie du Registre</h1>
+        <p style="color: #64748b; font-size: 18px; max-width: 700px; margin: 0 auto;">
+            Garantir la rigueur scientifique et les standards institutionnels pour le suivi mondial des instruments financiers tokenisés.
+        </p>
+    </header>
+
+    <main class="meth-section">
+        <!-- SCOPE -->
+        <div class="meth-card" data-aos="fade-up">
+            <h2 class="meth-h2"><i class="fas fa-microscope"></i> Périmètre des Actifs</h2>
+            <div class="meth-content">
+                <p>Le Global Tokenized Securities Registry (GTSR) surveille les instruments financiers qui répondent aux critères suivants :</p>
+                <ul class="meth-list">
+                    <li><strong>Nature de l'Actif</strong> : Représente une créance, une action, une part de fonds ou un contrat dérivé.</li>
+                    <li><strong>Infrastructure</strong> : Émis ou enregistré sur une technologie de registre distribué (DLT) ou une Blockchain.</li>
+                    <li><strong>Crédibilité Institutionnelle</strong> : Soutenu par des entités réglementées ou des protocoles de niveau institutionnel.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- IDENTIFICATION -->
+        <div class="meth-card" data-aos="fade-up">
+            <h2 class="meth-h2"><i class="fas fa-fingerprint"></i> Standards d'Identification</h2>
+            <div class="meth-content">
+                <p>Pour se différencier des identifiants traditionnels (ISIN, CUSIP), le GTSR met en œuvre un système d'identification à deux niveaux :</p>
+                <ul class="meth-list">
+                    <li><strong>GTSR ID (Indexation)</strong> : Un code alphanumérique à 4 segments pour la référence sur le portail. Format : <code>GTSR-[Classe]-[Année]-[Séquence]</code>.</li>
+                    <li><strong>TFIN ID (Spécification Technique)</strong> : Un standard mondial reliant les métadonnées techniques et financières de l'instrument. Format : <code>TFIN-[Classe]-[Blockchain]-[Année]-[Séquence]</code>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- VALIDATION PIPELINE -->
+        <div class="meth-card" data-aos="fade-up">
+            <h2 class="meth-h2"><i class="fas fa-vial"></i> Pipeline de Validation</h2>
+            <div class="meth-content">
+                <p>Chaque actif passe par un processus de validation rigoureux à trois niveaux avant de recevoir un statut "Validé".</p>
+                
+                <div class="pipeline-step">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h4 style="color:#fff; margin-bottom:10px;">Vérification Technique Automatisée</h4>
+                        <p style="font-size:14px;">Vérification du Smart Contract sous-jacent, contrôle de la conformité aux standards (ERC-20, ERC-3643, etc.) et de l'activité blockchain.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-step">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h4 style="color:#fff; margin-bottom:10px;">Audit de Recherche</h4>
+                        <p style="font-size:14px;">Recoupement de la documentation juridique, des livres blancs et des dépôts réglementaires pour confirmer les caractéristiques de l'actif.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-step" style="border-bottom:none; margin-bottom:0; padding-bottom:0;">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h4 style="color:#fff; margin-bottom:10px;">Confirmation Institutionnelle</h4>
+                        <p style="font-size:14px;">Vérification directe auprès des émetteurs ou des infrastructures de marché autorisées pour garantir l'exactitude des données de valorisation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DATA SOURCES -->
+        <div class="meth-card" data-aos="fade-up">
+            <h2 class="meth-h2"><i class="fas fa-database"></i> Sources de Données & Mise à jour</h2>
+            <div class="meth-content">
+                <p>Le registre agrège des données provenant de :</p>
+                <ul class="meth-list">
+                    <li>Explorateurs blockchain publics et privés.</li>
+                    <li>Données de terminaux institutionnels.</li>
+                    <li>Registres réglementaires officiels.</li>
+                </ul>
+                <p style="margin-top:20px;"><strong>Fréquence</strong> : Les données techniques sont mises à jour en temps réel. Les revues institutionnelles sont effectuées sur un cycle trimestriel (90 jours).</p>
+            </div>
+        </div>
+    </main>
+
     <global-footer base-path="../"></global-footer>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ duration: 1000, once: true });</script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
 </body>
 
 </html>

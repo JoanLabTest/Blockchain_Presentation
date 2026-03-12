@@ -12,16 +12,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-        content="DCM Core Standards Hub: The centralized repository for tokenization standards, including Digital Taxonomy, TFIC Classification, and Programmable Asset Frameworks."
+        content="TFIN ID Standard Specification. The Tokenized Financial Instrument Number represents the institutional identifier for blockchain-based financial assets."
         name="description" />
-    
-    <title>Standards Hub | DCM Core Institute</title>
+    <title>TFIN ID Standard | DCM Core Institute Standards</title>
+    <link rel="canonical" href="https://dcmcore.com/en/standards/tfin-id.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/standards/tfin-id.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/standards/tfin-id.html" />
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
         rel="stylesheet" />
 
     <!-- Font Awesome -->
@@ -31,15 +33,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
     <!-- Stylesheets -->
-    <link href="../../styles.css" rel="stylesheet" />
-    <link href="../styles-megamenu.css" rel="stylesheet" />
-    <link href="../styles-footer.css" rel="stylesheet" />
+    <link href="../styles.css" rel="stylesheet" />
+    <link href="styles-megamenu.css" rel="stylesheet" /> <!-- Note: adjust relative for en/standards/ -->
 
     <style>
         :root {
-            --accent-standards: #3b82f6; /* Trust Blue */
+            --accent-std: #8b5cf6;
+            --accent-obs: #3b82f6;
             --glass-bg: rgba(15, 23, 42, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         body {
@@ -49,24 +51,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             padding-top: 80px;
         }
 
-        .content-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px 100px;
-        }
-
-        .hero-section {
+        .std-hero {
+            padding: 100px 20px 60px;
             text-align: center;
-            margin-bottom: 80px;
+            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
         }
 
-        .standards-tag {
+        .std-title {
+            font-family: 'Outfit';
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .std-tag {
             display: inline-block;
             padding: 6px 16px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
             border-radius: 100px;
-            color: var(--accent-standards);
+            color: var(--accent-std);
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
@@ -74,103 +79,120 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin-bottom: 25px;
         }
 
-        h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(32px, 5vw, 56px);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 25px;
-            color: #fff;
+        .spec-container {
+            max-width: 1000px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
         }
 
-        .standards-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-        }
-
-        .standard-card {
+        .spec-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             padding: 40px;
-            position: relative;
-            overflow: hidden;
-            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 40px;
         }
 
-        .standard-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-standards);
-            background: rgba(59, 130, 246, 0.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.05);
+        .spec-code-block {
+            background: #000;
             border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: var(--accent-standards);
-            margin-bottom: 25px;
-        }
-
-        .standard-card h3 {
-            font-family: 'Outfit';
+            padding: 30px;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 24px;
             color: #fff;
-            margin-bottom: 15px;
-        }
-
-        .standard-card p {
-            color: #94a3b8;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            flex-grow: 1;
-        }
-
-        .card-footer {
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            margin: 30px 0;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .version-badge {
-            font-family: 'JetBrains Mono';
-            font-size: 11px;
+        .spec-segment {
+            padding: 5px 15px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            cursor: help;
+            transition: 0.3s;
+        }
+
+        .spec-segment:hover {
+            background: var(--accent-std);
+            color: #000;
+        }
+
+        .segment-desc {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .segment-item strong {
+            color: var(--accent-std);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* TABLES */
+        .std-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .std-table th {
+            text-align: left;
+            padding: 15px;
+            font-size: 12px;
+            text-transform: uppercase;
             color: #64748b;
+            border-bottom: 2px solid var(--glass-border);
         }
 
-        .access-btn {
-            font-weight: 700;
-            color: var(--accent-standards);
+        .std-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--glass-border);
             font-size: 14px;
         }
 
-        @media (max-width: 768px) {
-            .standards-grid { grid-template-columns: 1fr; }
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            font-size: 12px;
+            color: #475569;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumb a {
+            color: #475569;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-std);
         }
     </style>
+    <script src="../js/global-footer.js"></script>
 </head>
 
 <body>
     <nav class="navbar-pro">
         <a class="nav-brand" href="../../index.html">
-            <div class="logo-orb"></div>
+            <div class="logo-orb" style="background: radial-gradient(circle at 30% 30%, #8b5cf6, #5b21b6);"></div>
             <div class="logo-text">DCM <span>Core Institute</span></div>
         </a>
 
         <div class="nav-pillars">
+
             <!-- Dimension 1: Research Programs -->
             <div class="pillar-item">
                 <a href="/en/research-programs/index.html" class="pillar-link">Research Programs</a>
@@ -291,75 +313,126 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </a>
                 </div>
             </div>
-</div>
+        </div>
 
         <div class="nav-actions">
             <div class="lang-switcher">
-                <a href="index.html" class="lang-link active">🇬🇧 EN</a>
-                <a href="../../fr/standards/index.html" class="lang-link">🇫🇷 FR</a>
+                <a href="/en/standards/tfin-id.html" class="lang-link active" title="English">🇬🇧 EN</a>
+                <a href="/fr/standards/tfin-id.html" class="lang-link" title="Français">🇫🇷 FR</a>
             </div>
+            <a href="../../login.html" class="auth-btn">Auth</a>
+            <button class="connect-btn" style="background: var(--accent-std);">Connect</button>
         </div>
     </nav>
 
-    <div class="content-container">
-        <header class="hero-section" data-aos="fade-up">
-            <div class="standards-tag">Central Repository</div>
-            <h1>Institutional Standards Hub</h1>
-            <p style="color: #94a3b8; font-size: 19px; max-width: 800px; margin: 0 auto;">
-                A unified gateway to the frameworks, classifications, and technical standards defining the future of programmable capital markets.
-            </p>
-        </header>
-
-        <div class="standards-grid">
-            <!-- Taxonomy -->
-            <a href="../research/programmable-capital-markets/digital-capital-markets-taxonomy.html" class="standard-card" data-aos="fade-up">
-                <div class="card-icon"><i class="fas fa-project-diagram"></i></div>
-                <h3>Digital Capital Markets Taxonomy</h3>
-                <p>The core conceptual map dividing tokenized assets by nature, infrastructure, and regulatory perimeter. The foundation of the DCM architecture.</p>
-                <div class="card-footer">
-                    <span class="version-badge">v1.1 (Stable)</span>
-                    <span class="access-btn">View Standard <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
-                </div>
-            </a>
-
-            <!-- TFIC -->
-            <a href="../research/programmable-capital-markets/tfic-classification.html" class="standard-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="card-icon"><i class="fas fa-sitemap"></i></div>
-                <h3>TFIC Classification</h3>
-                <p>The hierarchical coding standard for identifying every type of financial instrument on-chain. Compatible with ISO 6166 principles.</p>
-                <div class="card-footer">
-                    <span class="version-badge">v2.0 (Institutional)</span>
-                    <span class="access-btn">View Standard <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
-                </div>
-            </a>
-
-            <!-- Smart Bonds -->
-            <a href="../research/programmable-capital-markets/smart-bond-framework.html" class="standard-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="card-icon"><i class="fas fa-file-contract"></i></div>
-                <h3>Smart Bond Framework</h3>
-                <p>Technical and legal framework for the issuance of programmable debt contracts, covering lifecycle events and on-chain settlement.</p>
-                <div class="card-footer">
-                    <span class="version-badge">v1.2 (Active)</span>
-                    <span class="access-btn">View Standard <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
-                </div>
-            </a>
-
-            <!-- Smart Derivatives -->
-            <a href="../research/programmable-capital-markets/smart-derivative-contracts.html" class="standard-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="card-icon"><i class="fas fa-calculator"></i></div>
-                <h3>Smart Derivative Contracts</h3>
-                <p>Standardized logic for on-chain derivatives, ensuring deterministic computation and collateral management for SDCs.</p>
-                <div class="card-footer">
-                    <span class="version-badge">v1.0 (Public Draft)</span>
-                    <span class="access-btn">View Standard <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></span>
-                </div>
-            </a>
-        </div>
+    <div class="breadcrumb">
+        <a href="../../index.html"><i class="fas fa-home"></i> Home</a>
+        <span>›</span>
+        <span style="opacity:0.6;">Standards</span>
+        <span>›</span>
+        <span style="color:var(--accent-std);">TFIN ID Specification</span>
     </div>
 
+    <header class="std-hero" data-aos="fade-up">
+        <div class="std-tag">Institutional Standard</div>
+        <h1 class="std-title">TFIN ID Standard</h1>
+        <p style="color: #94a3b8; max-width: 800px; margin: 0 auto; font-size: 20px; line-height: 1.6;">
+            The Tokenized Financial Instrument Number (TFIN) is a universal identifier designed to bridge Distributed Ledger Technology (DLT) with institutional capital markets.
+        </p>
+    </header>
+
+    <main class="spec-container">
+        <!-- THE IDENTIFIER -->
+        <div class="spec-card" data-aos="fade-up">
+            <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 30px;">Architecture Specification</h2>
+            <p style="color: #94a3b8; font-size: 16px; margin-bottom: 20px;">
+                The TFIN ID follows a deterministic structure that encodes primary asset characteristics directly within the identifier.
+            </p>
+            
+            <div class="spec-code-block">
+                <span class="spec-segment" title="Standard Prefix">TFIN</span>
+                <span>-</span>
+                <span class="spec-segment" title="Asset Class (Debt, Equity, Fund)">DEBT</span>
+                <span>-</span>
+                <span class="spec-segment" title="Blockchain Code (ETH, POL, STR)">ETH</span>
+                <span>-</span>
+                <span class="spec-segment" title="Issuance Year">2023</span>
+                <span>-</span>
+                <span class="spec-segment" title="Unique Sequence Number">0001</span>
+            </div>
+
+            <div class="segment-desc">
+                <div class="segment-item">
+                    <strong>Asset Class</strong>
+                    4-letter code mapping to the TFIC classification (DEBT, EQTY, FUND, DRVT).
+                </div>
+                <div class="segment-item">
+                    <strong>Blockchain</strong>
+                    3-letter code identifier for the target ledger (ETH, POL, STR, SOL).
+                </div>
+                <div class="segment-item">
+                    <strong>Sequence</strong>
+                    Institutional sequence number within the registry database.
+                </div>
+            </div>
+        </div>
+
+        <!-- MAPPING TABLES -->
+        <div class="spec-card" data-aos="fade-up">
+            <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 30px;">Standard Mappings</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div>
+                    <h3 style="font-size:16px; margin-bottom:15px; color:var(--accent-std);">Asset Class Codes</h3>
+                    <table class="std-table">
+                        <thead>
+                            <tr><th>Code</th><th>Classification</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>DEBT</td><td>Fixed Income / Bonds</td></tr>
+                            <tr><td>EQTY</td><td>Tokenized Equity</td></tr>
+                            <tr><td>FUND</td><td>Tokenized Funds / ETFs</td></tr>
+                            <tr><td>STRU</td><td>Structured Products</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="font-size:16px; margin-bottom:15px; color:var(--accent-std);">Blockchain Codes</h3>
+                    <table class="std-table">
+                        <thead>
+                            <tr><th>Code</th><th>Ledger</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>ETH</td><td>Ethereum Mainnet</td></tr>
+                            <tr><td>POL</td><td>Polygon PoS</td></tr>
+                            <tr><td>STR</td><td>Stellar Network</td></tr>
+                            <tr><td>APL</td><td>Avalanche P-Chain</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- RATIONALE -->
+        <div class="spec-card" data-aos="fade-up">
+            <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 25px;">Strategic Rationale</h2>
+            <div style="color: #94a3b8; line-height: 1.8; font-size: 16px;">
+                <p style="margin-bottom:20px;">
+                    Traditional identifiers like ISIN (ISO 6166) were designed for centralized custody. For tokenized assets, a new dimension is required: the <strong>technical substrate</strong> (Blockchain).
+                </p>
+                <p>
+                    By introducing the TFIN standard, the DCM Core Institute provides institutional stakeholders with a machine-readable format that instantly communicates both financial nature and technical portability, facilitating cross-ledger settling and academic tracking.
+                </p>
+            </div>
+        </div>
+    </main>
+
     <global-footer base-path="../"></global-footer>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ duration: 1000, once: true });</script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
 </body>
 
 </html>

@@ -12,16 +12,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-        content="Observatoire mondial de la finance tokenisée : cartographie en temps réel des institutions, obligations digitales, RWA et monnaies numériques (wCBDC, stablecoins)."
+        content="Registre Mondial des Titres Tokenisés (GTSR). Le standard institutionnel pour le suivi et l'identification des instruments financiers tokenisés. Registre de Recherche Beta."
         name="description" />
-    <title>Global Tokenized Finance Map — Observatoire Écosystème | DCM Core Institute</title>
-    <link rel="canonical" href="https://dcmcore.com/fr/research/global-map.html" />
+    <title>Registre Mondial des Titres Tokenisés (GTSR) | Observatoire | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/fr/observatory/registre-titres-tokenises.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/observatory/tokenized-securities-registry.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/observatory/registre-titres-tokenises.html" />
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
         rel="stylesheet" />
 
     <!-- Font Awesome -->
@@ -37,9 +39,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <style>
         :root {
-            --accent-map: #6366f1;
+            --accent-obs: #3b82f6;
+            --accent-gold: #c9a84c;
+            --accent-green: #10b981;
             --glass-bg: rgba(15, 23, 42, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         body {
@@ -49,126 +53,165 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             padding-top: 80px;
         }
 
-        .map-hero {
+        .hero-registry {
             padding: 100px 20px 60px;
             text-align: center;
-            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1), transparent 70%);
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
         }
 
-        .map-hero h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(32px, 5vw, 56px);
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .beta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(201, 168, 76, 0.1);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 100px;
+            color: var(--accent-gold);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
         }
 
-        .map-hero p {
-            font-size: 18px;
-            color: #94a3b8;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
+        /* DISCLAIMER BOX */
+        .disclaimer-box {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            padding: 24px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 16px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* FILTERS */
-        .map-filters {
+        .disclaimer-box::before {
+            content: 'STATUT BETA';
+            position: absolute;
+            top: 10px;
+            right: -20px;
+            background: var(--accent-gold);
+            color: #000;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 4px 30px;
+            transform: rotate(45deg);
+        }
+
+        .disclaimer-title {
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 10px;
             display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 60px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .registry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 80px;
             padding: 0 20px;
         }
 
-        .filter-btn {
+        .registry-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 10px 20px;
-            border-radius: 100px;
-            color: #94a3b8;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s ease;
         }
 
-        .filter-btn:hover, .filter-btn.active {
-            border-color: var(--accent-map);
+        .registry-card:hover {
+            border-color: var(--accent-obs);
+            transform: translateY(-5px);
+        }
+
+        .identifier-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            border-left: 4px solid var(--accent-obs);
+        }
+
+        .id-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .id-value {
+            font-size: 18px;
             color: #fff;
-            background: rgba(99, 102, 241, 0.1);
+            font-weight: 700;
         }
 
-        /* GRID */
-        .map-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
+        /* REGISTRY TABLE */
+        .registry-table-wrap {
             max-width: 1200px;
             margin: 0 auto 100px;
             padding: 0 20px;
         }
 
-        .map-card {
+        .registry-table {
+            width: 100%;
+            border-collapse: collapse;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 24px;
-            transition: all 0.3s;
-            position: relative;
+            border-radius: 16px;
             overflow: hidden;
         }
 
-        .map-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-map);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
-        }
-
-        .card-category {
-            font-size: 10px;
-            font-weight: 800;
+        .registry-table th {
+            text-align: left;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--accent-map);
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .card-title {
-            font-family: 'Outfit';
-            font-size: 20px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-
-        .card-desc {
-            font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .card-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .card-tag {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 600;
             color: #64748b;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .registry-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 14px;
+        }
+
+        /* SUBMISSION PORTAL */
+        .submission-section {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(2, 6, 23, 1) 100%);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .btn-premium {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            background: var(--accent-obs);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
         }
 
         /* BREADCRUMB */
@@ -183,8 +226,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             align-items: center;
         }
 
-        .breadcrumb a { color: #475569; text-decoration: none; }
-        .breadcrumb a:hover { color: var(--accent-map); }
+        .breadcrumb a {
+            color: #475569;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-obs);
+        }
     </style>
     <script src="../js/global-footer.js"></script>
 </head>
@@ -194,8 +243,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-                                <nav class="navbar-pro">
-        <a class="nav-brand" href="../../index.html">
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../fr/index.html">
             <div class="logo-orb"></div>
             <div class="logo-text">DCM <span>Core Institute</span></div>
         </a>
@@ -321,168 +370,135 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
 </div>
+
         <div class="nav-actions">
             <div class="lang-switcher">
-                <a href="/fr/research/global-map.html" class="lang-link active" title="Français">🇫🇷 FR</a>
-                <a href="/en/research/global-map.html" class="lang-link" title="English">🇬🇧 EN</a>
+                <a href="/en/observatory/tokenized-securities-registry.html" class="lang-link" title="English">🇬🇧 EN</a>
+                <a href="/fr/observatory/registre-titres-tokenises.html" class="lang-link active" title="Français">🇫🇷 FR</a>
             </div>
             <a href="../../login.html" class="auth-btn">Auth</a>
-            <button class="connect-btn">Connect</button>
+            <button class="connect-btn">Connexion</button>
         </div>
     </nav>
 
-    <nav class="breadcrumb" aria-label="fil d'ariane">
-        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Accueil</a>
-        <span style="opacity:0.4;">›</span>
-        <a href="index.html">Recherche</a>
-        <span style="opacity:0.4;">›</span>
-        <span style="color:var(--accent-map);">Global Tokenized Finance Map</span>
-    </nav>
-
-    <div class="map-hero" data-aos="fade-up">
-        <h1>Global Tokenized Finance Map</h1>
-        <p>L'observatoire institutionnel de l'écosystème financier programmable. Une cartographie structurée des piliers de l'infrastructure mondiale.</p>
+    <div class="breadcrumb">
+        <a href="../../fr/index.html"><i class="fas fa-home"></i> Accueil</a>
+        <span>›</span>
+        <a href="tokenized-markets.html">Observatoire</a>
+        <span>›</span>
+        <span style="color:var(--accent-obs);">Registre Mondial (GTSR)</span>
     </div>
 
-    <div class="map-filters" data-aos="fade-up">
-        <button class="filter-btn active" data-filter="all"><i class="fas fa-th-large"></i> Tous</button>
-        <button class="filter-btn" data-filter="central-banks"><i class="fas fa-landmark"></i> Banques Centrales (wCBDC)</button>
-        <button class="filter-btn" data-filter="market-infra"><i class="fas fa-network-wired"></i> Infrastructures de Marché</button>
-        <button class="filter-btn" data-filter="platforms"><i class="fas fa-microchip"></i> Plateformes Institutionnelles</button>
-        <button class="filter-btn" data-filter="assets"><i class="fas fa-coins"></i> Actifs Tokenisés (RWA)</button>
-    </div>
-
-    <div class="map-grid" id="mapGrid">
+    <header class="hero-registry" data-aos="fade-up">
+        <div class="beta-badge"><i class="fas fa-flask"></i> Registre de Recherche Beta</div>
+        <h1 class="obs-title">Registre Mondial des<br>Titres Tokenisés (GTSR)</h1>
+        <p style="color: #94a3b8; max-width: 800px; margin: 0 auto; font-size: 18px; line-height: 1.6;">
+            Le système d'enregistrement unifié pour les instruments financiers tokenisés. Établir un cadre de suivi standardisé pour les actifs numériques institutionnels mondiaux.
+        </p>
         
-        <!-- Central Banks -->
-        <article class="map-card" data-category="central-banks" data-aos="fade-up">
-            <span class="card-category">Banque Centrale / Cash</span>
-            <h3 class="card-title">Project Agora (BIS)</h3>
-            <p class="card-desc">Tokenisation des dépôts bancaires et de la monnaie centrale pour le règlement transfrontalier.</p>
-            <div class="card-tags">
-                <span class="card-tag">Cross-border</span>
-                <span class="card-tag">Unified Ledger</span>
-            </div>
-        </article>
+        <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px;">
+            <a href="methodologie-registre.html" style="color: var(--accent-obs); text-decoration: none; font-weight: 700; font-size: 14px;">
+                <i class="fas fa-book-medical"></i> Méthodologie du Registre
+            </a>
+            <span style="color: #334155;">|</span>
+            <a href="../standards/tfin-id.html" style="color: var(--accent-obs); text-decoration: none; font-weight: 700; font-size: 14px;">
+                <i class="fas fa-microchip"></i> Standard TFIN ID
+            </a>
+        </div>
+    </header>
 
-        <article class="map-card" data-category="central-banks" data-aos="fade-up" data-aos-delay="100">
-            <span class="card-category">Banque Centrale / Standard</span>
-            <h3 class="card-title">mBridge (BIS)</h3>
-            <p class="card-desc">Plateforme multi-wCBDC reliant plusieurs banques centrales pour un règlement atomique instantané.</p>
-            <div class="card-tags">
-                <span class="card-tag">wCBDC</span>
-                <span class="card-tag">Interoperability</span>
-            </div>
-        </article>
-
-        <!-- Market Infrastructure -->
-        <article class="map-card" data-category="market-infra" data-aos="fade-up">
-            <span class="card-category">Infrastructure / Exchange</span>
-            <h3 class="card-title">SDX (SIX Digital Exchange)</h3>
-            <p class="card-desc">Le premier exchange mondial au monde entièrement régulé proposant un cycle de vie complet en digital.</p>
-            <div class="card-tags">
-                <span class="card-tag">Suisse</span>
-                <span class="card-tag">Regulated</span>
-            </div>
-        </article>
-
-        <article class="map-card" data-category="market-infra" data-aos="fade-up" data-aos-delay="100">
-            <span class="card-category">Infrastructure / Network</span>
-            <h3 class="card-title">Canton Network</h3>
-            <p class="card-desc">Réseau DLT interopérable reliant les institutions financières mondiales pour le partage d'actifs.</p>
-            <div class="card-tags">
-                <span class="card-tag">Privacy</span>
-                <span class="card-tag">Standards</span>
-            </div>
-        </article>
-
-        <article class="map-card" data-category="market-infra" data-aos="fade-up" data-aos-delay="200">
-            <span class="card-category">Infrastructure / Germany</span>
-            <h3 class="card-title">SWIAT</h3>
-            <p class="card-desc">Infrastructure décentralisée pour les banques européennes visant la standardisation des titres digitaux.</p>
-            <div class="card-tags">
-                <span class="card-tag">Europe</span>
-                <span class="card-tag">Institutional</span>
-            </div>
-        </article>
-
-        <!-- Institutional Platforms -->
-        <article class="map-card" data-category="platforms" data-aos="fade-up">
-            <span class="card-category">Plateforme / Engine</span>
-            <h3 class="card-title">Onyx by J.P. Morgan</h3>
-            <p class="card-desc">Plateforme blockchain leader pour le règlement repos et les transferts d'actifs transfrontaliers.</p>
-            <div class="card-tags">
-                <span class="card-tag">JPM Coin</span>
-                <span class="card-tag">Repo</span>
-            </div>
-        </article>
-
-        <article class="map-card" data-category="platforms" data-aos="fade-up" data-aos-delay="100">
-            <span class="card-category">Plateforme / Issuance</span>
-            <h3 class="card-title">Forge (Société Générale)</h3>
-            <p class="card-desc">Pionnier européen de l'émission d'obligations digitales et de stablecoins régulés (EURCV).</p>
-            <div class="card-tags">
-                <span class="card-tag">MiCA</span>
-                <span class="card-tag">Digital Bonds</span>
-            </div>
-        </article>
-
-        <!-- Tokenized Assets -->
-        <article class="map-card" data-category="assets" data-aos="fade-up">
-            <span class="card-category">Actif / RWA</span>
-            <h3 class="card-title">BlackRock BUIDL Fund</h3>
-            <p class="card-desc">Le premier fonds tokenisé de BlackRock sur Ethereum, offrant accès aux bons du trésor US.</p>
-            <div class="card-tags">
-                <span class="card-tag">Treasuries</span>
-                <span class="card-tag">Ethereum</span>
-            </div>
-        </article>
-
-        <article class="map-card" data-category="assets" data-aos="fade-up" data-aos-delay="100">
-            <span class="card-category">Actif / Real Estate</span>
-            <h3 class="card-title">Franklin Templeton (FOBXX)</h3>
-            <p class="card-desc">Fonds monétaire tokenisé pionnier, enregistré auprès de la SEC et disponible sur DLT.</p>
-            <div class="card-tags">
-                <span class="card-tag">Institutional</span>
-                <span class="card-tag">SEC Registered</span>
-            </div>
-        </article>
-
+    <div class="disclaimer-box" data-aos="fade-up">
+        <div class="disclaimer-title">
+            <i class="fas fa-shield-halved"></i> STATUT : REGISTRE DE RECHERCHE BETA
+        </div>
+        <p style="color: #94a3b8; font-size: 13px; line-height: 1.6; margin: 0;">
+            Le Global Tokenized Securities Registry est une initiative de recherche du DCM Core Institute. Ce registre vise à documenter et analyser les instruments financiers tokenisés à des fins de transparence et de standardisation. Il est actuellement en phase Beta et ne constitue pas un registre légal ou réglementaire.
+        </p>
     </div>
 
-    <!-- CTA -->
-    <section style="background: rgba(99,102,241,0.05); padding: 80px 20px; text-align: center; border-top: 1px solid var(--glass-border);">
-        <h2 style="font-family: 'Outfit'; font-size: 28px; color: #fff; margin-bottom: 20px;">Votre initiative manque à l'appel ?</h2>
-        <p style="color: #94a3b8; max-width: 500px; margin: 0 auto 30px;">Nous mettons à jour cet observatoire mensuellement pour les membres DCM Core.</p>
-        <a href="mailto:dcmcoreinstitute@gmail.com" data-contact="main" style="display: inline-flex; align-items: center; gap: 10px; background: var(--accent-map); color: white; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 700; transition: 0.3s; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);">
-            Suggérer un acteur <i class="fas fa-paper-plane"></i>
-        </a>
+    <section class="registry-grid">
+        <!-- GTSR ID CARD -->
+        <div class="registry-card" data-aos="fade-right">
+            <h3 style="font-family: 'Outfit'; font-size: 24px; margin-bottom: 20px;">GTSR ID</h3>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 25px;">
+                Le numéro d'identification du registre. Utilisé pour référencer une entrée dans la base de données mondiale de DCM Core pour le suivi et la citation académique.
+            </p>
+            <div class="identifier-block">
+                <span class="id-label">Exemple de Format</span>
+                <span class="id-value">GTSR-DEBT-2023-001</span>
+            </div>
+        </div>
+
+        <!-- TFIN ID CARD -->
+        <div class="registry-card" data-aos="fade-left">
+            <h3 style="font-family: 'Outfit'; font-size: 24px; margin-bottom: 20px;">TFIN ID</h3>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 25px;">
+                Tokenized Financial Instrument Number. Un identifiant technique standardisant le lien entre la classe d'actif, la blockchain et l'année d'émission.
+            </p>
+            <div class="identifier-block" style="border-left-color: var(--accent-gold);">
+                <span class="id-label">Exemple de Format</span>
+                <span class="id-value">TFIN-DEBT-ETH-2023-0001</span>
+            </div>
+        </div>
     </section>
 
-    <!-- Scripts -->
+    <section class="registry-table-wrap" data-aos="fade-up">
+        <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 30px; text-align: center;">Entrées Récentes du Registre</h2>
+        <table class="registry-table">
+            <thead>
+                <tr>
+                    <th>GTSR ID</th>
+                    <th>TFIN ID</th>
+                    <th>Nom de l'Actif</th>
+                    <th>Émetteur</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--accent-obs);">GTSR-BOND-2023-01</td>
+                    <td style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--accent-gold);">TFIN-DEBT-ETH-2023-01</td>
+                    <td><strong>Obligation Verte Tokenisée</strong></td>
+                    <td>Société Générale FORGE</td>
+                    <td><span style="color: var(--accent-green); font-weight: 700; font-size: 11px;">● VALIDÉ</span></td>
+                </tr>
+                <tr>
+                    <td style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--accent-obs);">GTSR-FUND-2024-02</td>
+                    <td style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--accent-gold);">TFIN-FUND-STR-2024-02</td>
+                    <td><strong>Fonds Monétaire FOBXX</strong></td>
+                    <td>Franklin Templeton</td>
+                    <td><span style="color: var(--accent-green); font-weight: 700; font-size: 11px;">● VALIDÉ</span></td>
+                </tr>
+                <tr>
+                    <td style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--accent-obs);">GTSR-DEBT-2024-03</td>
+                    <td style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--accent-gold);">TFIN-DEBT-ETH-2024-03</td>
+                    <td><strong>Émission Obligataire Digitale</strong></td>
+                    <td>BEI</td>
+                    <td><span style="color: var(--accent-gold); font-weight: 700; font-size: 11px;">○ EN ATTENTE</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="submission-section" data-aos="fade-up">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <i class="fas fa-paper-plane" style="font-size: 40px; color: var(--accent-obs); margin-bottom: 30px;"></i>
+            <h2 style="font-family: 'Outfit'; font-size: 32px; margin-bottom: 20px;">Portail de Soumission Institutionnelle</h2>
+            <p style="color: #94a3b8; font-size: 18px; line-height: 1.6; margin-bottom: 40px;">
+                Vous êtes un émetteur institutionnel ou une plateforme de tokenisation ? Soumettez vos actifs pour validation et attribution d'un TFIN ID.
+            </p>
+            <a href="#" class="btn-premium">
+                Enregistrer un Titre Tokenisé <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <global-footer base-path="../"></global-footer>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 900, once: true });
-
-        // Simple filtering logic
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const filter = btn.dataset.filter;
-                document.querySelectorAll('.map-card').forEach(card => {
-                    if (filter === 'all' || card.dataset.category === filter) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
+        AOS.init({ duration: 1000, once: true });
     </script>
-
-        <global-footer base-path="../"></global-footer>
 </body>
 
 </html>

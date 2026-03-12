@@ -20,6 +20,7 @@ class GlobalFooter extends HTMLElement {
                         <div class="footer-col">
                             <h4>Recherche</h4>
                             <ul class="footer-links">
+                                <li><a href="${this.basePath}research/rapport-mondial-tokenisation-2026.html">Rapport Mondial 2026</a></li>
                                 <li><a href="${this.basePath}research-programs/index.html">Programmes</a></li>
                                 <li><a href="${this.basePath}research-papers/index.html">Working Papers</a></li>
                                 <li><a href="${this.basePath}methodology/index.html">Méthodologie</a></li>
@@ -29,6 +30,7 @@ class GlobalFooter extends HTMLElement {
                             <h4>Données</h4>
                             <ul class="footer-links">
                                 <li><a href="${this.basePath}observatory/tokenized-markets.html">Observatoire</a></li>
+                                <li><a href="${this.basePath}data/jeu-de-donnees-actifs-tokenises.html">Open Data</a></li>
                                 <li><a href="${this.basePath}indices/index.html">Indices & GDARI</a></li>
                             </ul>
                         </div>
@@ -36,6 +38,7 @@ class GlobalFooter extends HTMLElement {
                             <h4>Institution</h4>
                             <ul class="footer-links">
                                 <li><a href="${this.basePath}about.html">À propos</a></li>
+                                <li><a href="${this.basePath}about/conseil-consultatif.html">Conseil Consultatif</a></li>
                                 <li><a href="${this.basePath}global-forum/index.html">Global Forum</a></li>
                                 <li><a href="${this.basePath}fellowships/index.html">Fellowships</a></li>
                                 <li><a href="${this.basePath}collaborations.html">Collaborations</a></li>

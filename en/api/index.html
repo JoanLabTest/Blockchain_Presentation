@@ -672,6 +672,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
 
+        <!-- Endpoint 3: GTSR -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
+            <div>
+                <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/registry/entries</span>
+                <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Accesses the Global Tokenized Securities Registry (GTSR) entries. Provides access to GTSR IDs and validated asset metadata.</p>
+            </div>
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
+                <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
+  "object": "registry_entries",
+  "data": [
+    {
+      "gtsr_id": "GTSR-BOND-2023-01",
+      "tfin_id": "TFIN-DEBT-ETH-2023-01",
+      "name": "Tokenized Green Bond",
+      "status": "validated"
+    }
+  ]
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Endpoint 4: TFIN -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
+            <div>
+                <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/standards/tfin/{tfin_id}</span>
+                <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Resolves a TFIN ID to its full technical context, including blockchain contract details and TFIC asset classification.</p>
+            </div>
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
+                <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
+  "tfin_id": "TFIN-DEBT-ETH-2023-01",
+  "segments": {
+    "class": "DEBT",
+    "blockchain": "ETH",
+    "year": "2023",
+    "sequence": "01"
+  },
+  "tfic_uri": "https://dcmcore.com/standards/tfic/debt"
+}</code></pre>
+            </div>
+        </div>
+
     </section>
 
     <!-- CITATION SECTION -->
