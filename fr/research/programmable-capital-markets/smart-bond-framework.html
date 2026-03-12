@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Smart Bond Contract Framework : Architecture institutionnelle pour la dette programmable. Analyse de l'émission modulaire, de l'automatisation du servicing et du règlement atomique."
+        name="description" />
+    <title>Smart Bond Contract Framework | Architecture de Dette Programmable | DCM Core Institute</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../../styles.css" rel="stylesheet" />
+    <link href="../../styles-megamenu.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-sb: #f59e0b;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+        }
+
+        .content-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px 100px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .institutional-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 100px;
+            color: var(--accent-sb);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        .lead-text {
+            font-size: 20px;
+            color: #94a3b8;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 100px;
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .arch-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: 0.3s;
+        }
+
+        .arch-card:hover {
+            border-color: var(--accent-sb);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .arch-card i {
+            font-size: 24px;
+            color: var(--accent-sb);
+            margin-bottom: 20px;
+        }
+
+        .lifecycle-flow {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--accent-sb);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-family: 'Outfit';
+            font-weight: 700;
+            color: var(--accent-sb);
+        }
+
+        .citation-box {
+            background: #0f172a;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 25px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 80px;
+            position: relative;
+        }
+
+        .citation-box::before {
+            content: 'COMMENT CITER';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #3b82f6;
+            color: #fff;
+            padding: 2px 10px;
+            font-size: 10px;
+            font-weight: 800;
+            border-radius: 4px;
+        }
+    </style>
+    <link rel="canonical" href="https://dcmcore.com/fr/research/programmable-capital-markets/smart-bond-framework.html" />
+    <script src="../../js/global-footer.js"></script>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="../../../en/research/programmable-capital-markets/smart-bond-framework.html" class="lang-link">🇬🇧 EN</a>
+                <a href="smart-bond-framework.html" class="lang-link active">🇫🇷 FR</a>
+            </div>
+            <button class="connect-btn" onclick="openWalletModal()">Connecter</button>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <header class="hero-section" data-aos="fade-up">
+            <div class="institutional-tag">Cadre de Recherche</div>
+            <h1>Smart Bond Contracts :<br>L'Architecture de la Dette Programmable</h1>
+            <p class="lead-text">
+                Définition d'un cadre conceptuel standardisé pour la nouvelle génération d'instruments de dette, 
+                où les obligations légales sont traduites en code autonome et auto-exécutant.
+            </p>
+        </header>
+
+        <!-- SECTION 1: LE CONCEPT -->
+        <section data-aos="fade-up">
+            <h2>01 — Concept : La Dette Programmable</h2>
+            <p>
+                Un Smart Bond n'est pas une simple représentation tokenisée d'une obligation traditionnelle ; c'est un <strong>instrument financier nativement numérique</strong>. 
+                Contrairement aux systèmes hérités où l'obligation est un registre statique et le "servicing" un processus manuel, un Smart Bond intègre ses propres règles de cycle de vie 
+                au sein d'un Smart Contract.
+            </p>
+            <div style="background:rgba(245,158,11,0.05); padding:30px; border-radius:16px; border-left:4px solid var(--accent-sb); margin:30px 0;">
+                <p style="margin:0; font-style:italic; color:#cbd5e1;">
+                    "La transition des actifs basés sur l'information vers des actifs basés sur l'exécution représente le changement le plus significatif des marchés de capitaux depuis la dématérialisation des années 1970."
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ARCHITECTURE -->
+        <section data-aos="fade-up">
+            <h2>02 — Architecture Technique</h2>
+            <p>Le Smart Bond Framework (SBF) du DCM Core repose sur une architecture modulaire garantissant flexibilité et conformité.</p>
+            <div class="architecture-grid">
+                <div class="arch-card">
+                    <i class="fas fa-file-contract"></i>
+                    <h3>Module d'Émission</h3>
+                    <p>Gère la création sur le marché primaire, définissant les paramètres tels que l'ISIN, la valeur nominale et la devise.</p>
+                </div>
+                <div class="arch-card">
+                    <i class="fas fa-gears"></i>
+                    <h3>Moteur de Coupon</h3>
+                    <p>Logique automatisée pour le calcul et le déclenchement des paiements d'intérêts via des oracles externes.</p>
+                </div>
+                <div class="arch-card">
+                    <i class="fas fa-shield-halved"></i>
+                    <h3>Couche de Conformité</h3>
+                    <p>Standards ERC-3643 intégrés pour appliquer le white-listing et les contraintes réglementaires transfrontalières.</p>
+                </div>
+                <div class="arch-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Logique de Règlement</h3>
+                    <p>Permet le règlement atomique (DvP) en wCBDC ou en dépôts bancaires tokenisés.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CYCLE DE VIE -->
+        <section data-aos="fade-up">
+            <h2>03 — Le Cycle de Vie en 5 Phases</h2>
+            <div class="lifecycle-flow">
+                <div class="flow-step">
+                    <div class="step-num">1</div>
+                    <div style="font-weight:700; margin-bottom:5px;">Structuration</div>
+                    <p style="font-size:12px; color:#94a3b8;">Code des termes & KYC</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">2</div>
+                    <div style="font-weight:700; margin-bottom:5px;">Émission</div>
+                    <p style="font-size:12px; color:#94a3b8;">Minting primaire</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">3</div>
+                    <div style="font-weight:700; margin-bottom:5px;">Transfert</div>
+                    <p style="font-size:12px; color:#94a3b8;">Trading secondaire T+0</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">4</div>
+                    <div style="font-weight:700; margin-bottom:5px;">Servicing</div>
+                    <p style="font-size:12px; color:#94a3b8;">Paiements auto-coupons</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">5</div>
+                    <div style="font-weight:700; margin-bottom:5px;">Remboursement</div>
+                    <p style="font-size:12px; color:#94a3b8;">Burn & remboursement auto</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: ÉTUDES DE CAS -->
+        <section data-aos="fade-up">
+            <h2>04 — Études de Cas Institutionnelles</h2>
+            <div class="architecture-grid">
+                <div class="arch-card">
+                    <div style="color:var(--accent-sb); font-weight:800; margin-bottom:10px;">BEI Digital Bond</div>
+                    <p style="font-size:14px; color:#94a3b8;">La Banque Européenne d'Investissement a émis sa première obligation numérique sur blockchain publique, démontrant le règlement T+0.</p>
+                </div>
+                <div class="arch-card">
+                    <div style="color:var(--accent-sb); font-weight:800; margin-bottom:10px;">Siemens AG</div>
+                    <p style="font-size:14px; color:#94a3b8;">Une obligation de 60M€ émise sous la loi allemande eWpG, réduisant les coûts d'intermédiation et les risques de règlement.</p>
+                </div>
+                <div class="arch-card">
+                    <div style="color:var(--accent-sb); font-weight:800; margin-bottom:10px;">SocGen Forge</div>
+                    <p style="font-size:14px; color:#94a3b8;">Émission du premier stablecoin institutionnel (EURCV) utilisé pour le règlement atomique d'obligations numériques.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: IMPLICATIONS -->
+        <section data-aos="fade-up">
+            <h2>05 — Implications de Marché</h2>
+            <ul style="line-height:1.8; color:#94a3b8;">
+                <li><strong style="color:#fff;">Mobilité du Collatéral :</strong> Les smart bonds peuvent être utilisés comme actifs liquides de haute qualité (HQLA) dans des marchés repo en temps réel.</li>
+                <li><strong style="color:#fff;">Efficience Opérationnelle :</strong> L'élimination de la réconciliation manuelle permet d'économiser jusqu'à 40% des coûts de back-office.</li>
+                <li><strong style="color:#fff;">ESG Programmable :</strong> Les coupons peuvent s'ajuster dynamiquement selon des données ESG vérifiées par Oracle.</li>
+            </ul>
+        </section>
+
+        <!-- CITATION -->
+        <div class="citation-box" data-aos="fade-up">
+            DCM Core Institute (2025). "Smart Bond Contract Framework : L'Architecture de la Dette Programmable". 
+            Pilier de Recherche - Programmable Capital Markets. Disponible sur : dcmcore.com/fr/research/programmable-capital-markets/smart-bond-framework.html
+            <br><br>
+            @techreport{dcmcore2025smartbond,<br>
+            &nbsp;&nbsp;author = {Lyczak, Joan},<br>
+            &nbsp;&nbsp;title = {Smart Bond Contract Framework},<br>
+            &nbsp;&nbsp;institution = {DCM Core Institute},<br>
+            &nbsp;&nbsp;year = {2025},<br>
+            &nbsp;&nbsp;url = {https://dcmcore.com/research/smart-bond-framework}<br>
+            }
+        </div>
+    </div>
+
+    <global-footer base-path="../../"></global-footer>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 1000, once: true });</script>
+</body>
+</html>
