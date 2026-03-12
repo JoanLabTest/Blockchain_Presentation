@@ -126,13 +126,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             font-family: 'Outfit';
             font-size: 28px;
             color: #fff;
-            margin-bottom: 20px;
+            margin: 0;
+        }
+
+        .concept-header {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .kb-content h2 i { color: var(--accent-kb); font-size: 20px; }
+        .concept-header i { 
+            color: var(--accent-kb); 
+            font-size: 24px; 
+        }
 
         .kb-content p {
             font-size: 16px;
@@ -319,7 +326,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <a href="/fr/knowledge/index.html" class="lang-link" title="Français">🇫🇷 FR</a>
             </div>
             <a href="../../login.html" class="auth-btn">Auth</a>
-            <button class="connect-btn">Connect</button>
+            <button class="connect-btn" onclick="openWalletModal()">Connect</button>
+
         </div>
     </nav>
 
@@ -330,10 +338,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </nav>
 
     <header class="kb-hero" data-aos="fade-up">
-        <h1 class="kb-title">Knowledge Base</h1>
-        <p style="color: #94a3b8; max-width: 700px; margin: 0 auto; font-size: 18px;">
-            The academic and technical repository of the programmable financial infrastructure.
-        </p>
+        <div class="kb-hero">
+            <h1>Knowledge Hub</h1>
+            <p>The nerve center for mastering tomorrow's financial infrastructures.</p>
+            
+            <!-- Search Hub Integration -->
+            <div class="kb-search-container" style="max-width: 600px; margin: 30px auto 0 auto; position: relative;">
+                <input type="text" id="kb-search-input" placeholder="Search a concept (ex: DvP, MiCA, RWA)..." 
+                    style="width: 100%; padding: 15px 25px 15px 50px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; color: #fff; font-size: 16px; outline: none; transition: 0.3s; backdrop-filter: blur(5px);">
+                <i class="fas fa-search" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #64748b;"></i>
+                <div id="kb-results-dropdown" style="display: none; position: absolute; top: 110%; left: 0; width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; z-index: 100; max-height: 400px; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5);"></div>
+            </div>
+        </div>
     </header>
 
     <div class="kb-container">
@@ -345,12 +361,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <li class="kb-nav-item"><a class="kb-nav-link" href="#smart-bonds">Smart Bonds</a></li>
                 <li class="kb-nav-item"><a class="kb-nav-link" href="#rwa">Tokenized Assets (RWA)</a></li>
                 <li class="kb-nav-item"><a class="kb-nav-link" href="#monetary">Monetary Infrastructure</a></li>
+                <li class="kb-nav-item"><a class="kb-nav-link" href="#governance">Governance & Method</a></li>
+
             </ul>
         </aside>
 
         <main class="kb-content">
             <section id="atomic" data-aos="fade-up">
-                <h2><i class="fas fa-bolt"></i> Atomic Settlement (DvP)</h2>
+                <div class="concept-header">
+                    <i class="fas fa-bolt"></i>
+                    <h2>Atomic Settlement</h2>
+                </div>
+
+                <div class="kb-keywords" style="margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span style="padding: 4px 10px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); border-radius: 4px; font-size: 11px; color: #3b82f6; font-weight: 600;">#DvP</span>
+                    <span style="padding: 4px 10px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); border-radius: 4px; font-size: 11px; color: #3b82f6; font-weight: 600;">#T+0</span>
+                    <span style="padding: 4px 10px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); border-radius: 4px; font-size: 11px; color: #3b82f6; font-weight: 600;">#Real-time</span>
+                </div>
                 <p>
                     Atomic settlement, or atomic Delivery-versus-Payment (DvP), is a mechanism where the transfer of a financial security and the transfer of its payment occur simultaneously on a shared ledger (DLT).
                 </p>
@@ -366,7 +393,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </section>
 
             <section id="unified" data-aos="fade-up">
-                <h2><i class="fas fa-layer-group"></i> Unified Ledger</h2>
+                <div class="concept-header">
+                    <i class="fas fa-link"></i>
+                    <h2>Unified Ledger</h2>
+                </div>
+
+                <div class="kb-keywords" style="margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span style="padding: 4px 10px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); border-radius: 4px; font-size: 11px; color: #10b981; font-weight: 600;">#DLT</span>
+                    <span style="padding: 4px 10px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); border-radius: 4px; font-size: 11px; color: #10b981; font-weight: 600;">#Canton</span>
+                    <span style="padding: 4px 10px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); border-radius: 4px; font-size: 11px; color: #10b981; font-weight: 600;">#Interoperability</span>
+                </div>
                 <p>
                     A concept promoted by the BIS (Bank for International Settlements), the Unified Ledger is a common digital infrastructure where central bank money, bank deposits, and financial assets coexist on the same ledger.
                 </p>
@@ -379,7 +415,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </section>
 
             <section id="smart-bonds" data-aos="fade-up">
-                <h2><i class="fas fa-file-signature"></i> Smart Bonds</h2>
+                <div class="concept-header">
+                    <i class="fas fa-file-contract"></i>
+                    <h2>Smart Bonds</h2>
+                </div>
+
+                <div class="kb-keywords" style="margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span style="padding: 4px 10px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); border-radius: 4px; font-size: 11px; color: #f59e0b; font-weight: 600;">#DigitalBonds</span>
+                    <span style="padding: 4px 10px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); border-radius: 4px; font-size: 11px; color: #f59e0b; font-weight: 600;">#AutoCoupon</span>
+                </div>
                 <p>
                     A Smart Bond is a debt instrument whose terms (coupons, maturity, clauses) are inscribed as self-executing code (Smart Contract).
                 </p>
@@ -392,7 +436,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </section>
 
             <section id="rwa" data-aos="fade-up">
-                <h2><i class="fas fa-cube"></i> Tokenized Assets (RWA)</h2>
+                <div class="concept-header">
+                    <i class="fas fa-cubes"></i>
+                    <h2>RWA Tokenization</h2>
+                </div>
+
+                <div class="kb-keywords" style="margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span style="padding: 4px 10px; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); border-radius: 4px; font-size: 11px; color: #a855f7; font-weight: 600;">#RWA</span>
+                    <span style="padding: 4px 10px; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); border-radius: 4px; font-size: 11px; color: #a855f7; font-weight: 600;">#Tokenization</span>
+                </div>
                 <p>
                     Real-World Asset (RWA) tokenization involves representing tangible assets (real estate, commodities) or financial assets (stocks, bonds) on a blockchain.
                 </p>
@@ -405,7 +457,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </section>
 
             <section id="monetary" data-aos="fade-up">
-                <h2><i class="fas fa-university"></i> Monetary Infrastructure</h2>
+                <div class="concept-header">
+                    <i class="fas fa-coins"></i>
+                    <h2>Monetary System</h2>
+                </div>
+
+                <div class="kb-keywords" style="margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span style="padding: 4px 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 4px; font-size: 11px; color: #ef4444; font-weight: 600;">#CBDC</span>
+                    <span style="padding: 4px 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 4px; font-size: 11px; color: #ef4444; font-weight: 600;">#MiCA</span>
+                </div>
                 <p>
                     Programmable monetary infrastructure relies on the convergence of wholesale CBDCs (wCBDC) and tokenized bank deposits.
                 </p>
@@ -416,21 +476,86 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     Infrastructure Details <i class="fas fa-arrow-right"></i>
                 </a>
             </section>
-            <section id="policy" data-aos="fade-up">
-                <h2><i class="fas fa-gavel"></i> Research Governance</h2>
+            <section id="governance" data-aos="fade-up">
+                <div class="concept-header">
+                    <i class="fas fa-gavel"></i>
+                    <h2>Governance</h2>
+                </div>
+                <div class="kb-keywords" style="margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span style="padding: 4px 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; font-size: 11px; color: #fff; font-weight: 600;">#DAO</span>
+                    <span style="padding: 4px 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; font-size: 11px; color: #fff; font-weight: 600;">#Transparency</span>
+                </div>
                 <p>
-                    All DCM Core Institute publications are governed by our rigorous 
-                    <a href="../research-policy.html" style="color: var(--accent-kb); text-decoration: none; font-weight: 600;">Research & Publications Policy</a>.
+                    The independence and rigor of the DCM Core Institute are guaranteed by our specialized committees and our strict methodological framework.
                 </p>
-                <p>
-                    This policy ensures our academic independence, methodological transparency, and ethical standards in the study of programmable finance.
-                </p>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a class="kb-link-box" href="../editorial-board.html">
+                        <i class="fas fa-users-gear"></i> Editorial Board
+                    </a>
+                    <a class="kb-link-box" href="../research-methodology.html">
+                        <i class="fas fa-microscope"></i> Methodological Framework
+                    </a>
+                    <a class="kb-link-box" href="../research-policy.html">
+                        <i class="fas fa-file-shield"></i> Research Policy
+                    </a>
+                </div>
             </section>
+
         </main>
     </div>
 
-                    <global-footer base-path="../"></global-footer>
-
+                    <global-footer base-path=""></global-footer>
+    <script src="../../search-engine.js"></script>
+    <script>
+        // KB Specific search logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('kb-search-input');
+            const resultsDropdown = document.getElementById('kb-results-dropdown');
+            
+            if (searchInput && resultsDropdown) {
+                searchInput.addEventListener('input', () => {
+                    const query = searchInput.value.trim().toUpperCase();
+                    if (query.length < 2) {
+                        resultsDropdown.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Simple highlight filter on sections
+                    const sections = document.querySelectorAll('.kb-container section');
+                    let resultsHTML = '';
+                    
+                    sections.forEach(section => {
+                        const h2 = section.querySelector('h2');
+                        if (!h2) return;
+                        const title = h2.innerText;
+                        const text = section.innerText;
+                        if (title.toUpperCase().includes(query) || text.toUpperCase().includes(query)) {
+                            resultsHTML += `
+                                <div onclick="document.getElementById('${section.id}').scrollIntoView({behavior:'smooth'}); resultsDropdown.style.display='none';" 
+                                    style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s;">
+                                    <div style="font-weight: 600; color: #fff;">${title}</div>
+                                    <div style="font-size: 12px; color: #94a3b8;">Knowledge Hub Sector</div>
+                                </div>`;
+                        }
+                    });
+                    
+                    if (resultsHTML) {
+                        resultsDropdown.innerHTML = resultsHTML;
+                        resultsDropdown.style.display = 'block';
+                    } else {
+                        resultsDropdown.style.display = 'none';
+                    }
+                });
+                
+                // Close dropdown on click outside
+                window.addEventListener('click', (e) => {
+                    if (!searchInput.contains(e.target) && !resultsDropdown.contains(e.target)) {
+                        resultsDropdown.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 900, once: true });

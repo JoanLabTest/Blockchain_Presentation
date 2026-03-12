@@ -724,7 +724,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <a href="../fr/guide.html" class="lang-link" title="Français">🇫🇷 FR</a>
             </div>
             <a href="login.html" class="auth-btn">Auth</a>
-            <button class="connect-btn">Connect</button>
+            <button class="connect-btn" onclick="openWalletModal()">Connect</button>
+
         </div>
     </nav>
     <!-- Hero Section (Audit Optimized) -->
@@ -6566,7 +6567,33 @@ Réponds à la question suivante de manière concise et professionnelle (max 150
     </script>
     <!-- AI PROFESSOR INTEGRATION (PHASE 33) -->
     <script src="utils/ai_professor.js"></script>
+    <!-- WALLET MODAL (GTM TRACKING READY) -->
+    <div id="walletModalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2,6,23,0.85); backdrop-filter:blur(10px); z-index:10000; justify-content:center; align-items:center;">
+        <div style="background:#0f172a; border:1px solid rgba(59,130,246,0.3); border-radius:24px; width:100%; max-width:400px; padding:40px; position:relative; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+            <button onclick="closeWalletModal()" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#64748b; cursor:pointer; font-size:20px;"><i class="fas fa-times"></i></button>
+            <h2 style="font-family:'Outfit', sans-serif; color:#fff; margin-bottom:10px; text-align:center;">Connect a Wallet</h2>
+            <p style="color:#94a3b8; font-size:14px; text-align:center; margin-bottom:30px;">Select your provider to interact with the protocol.</p>
+            
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <button class="wallet-option" onclick="simulateConnection('MetaMask')" style="display:flex; align-items:center; gap:15px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:15px; color:#fff; cursor:pointer; font-weight:600; transition:0.3s; width:100%; justify-content:flex-start;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Logo.svg" style="width:24px; height:24px;">
+                    MetaMask
+                </button>
+                <button class="wallet-option" onclick="simulateConnection('Ledger')" style="display:flex; align-items:center; gap:15px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:15px; color:#fff; cursor:pointer; font-weight:600; transition:0.3s; width:100%; justify-content:flex-start;">
+                    <i class="fas fa-microchip" style="font-size:24px; color:#94a3b8;"></i>
+                    Ledger
+                </button>
+                <button class="wallet-option" onclick="simulateConnection('Safe')" style="display:flex; align-items:center; gap:15px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:15px; color:#fff; cursor:pointer; font-weight:600; transition:0.3s; width:100%; justify-content:flex-start;">
+                    <i class="fas fa-shield-halved" style="font-size:24px; color:#3b82f6;"></i>
+                    Gnosis Safe
+                </button>
+            </div>
+            
+            <div id="walletStatus" style="margin-top:25px; text-align:center; font-size:13px; font-weight:600; color:#3b82f6;"></div>
+        </div>
+    </div>
     <!-- MAIN FOOTER -->
+
     <global-footer base-path=""></global-footer>
 </body>
 

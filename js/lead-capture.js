@@ -25,8 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // UI Loading state
         submitBtn.disabled = true;
-        submitBtn.innerText = 'Envoi en cours...';
+        const isEn = window.location.pathname.includes('/en/');
+        submitBtn.innerText = isEn ? 'Sending...' : 'Envoi en cours...';
         submitBtn.style.opacity = '0.7';
+
 
         try {
             const response = await fetch(`${window.SUPABASE_CONFIG.url}/rest/v1/leads`, {
@@ -57,7 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Lead capture error:', error);
-            alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+            const isEn = window.location.pathname.includes('/en/');
+            alert(isEn ? 'An error occurred. Please try again later.' : 'Une erreur est survenue. Veuillez réessayer plus tard.');
+
 
             // Re-enable button
             submitBtn.disabled = false;
