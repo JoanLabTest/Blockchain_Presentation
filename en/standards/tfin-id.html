@@ -354,11 +354,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </header>
 
     <main class="spec-container">
-        <!-- THE IDENTIFIER -->
+        <!-- ARCHITECTURE DEEP DIVE -->
         <div class="spec-card" data-aos="fade-up">
             <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 30px;">Architecture Specification</h2>
             <p style="color: #94a3b8; font-size: 16px; margin-bottom: 20px;">
-                The TFIN ID follows a deterministic structure that encodes primary asset characteristics directly within the identifier.
+                The TFIN ID follows a deterministic structure that encodes primary asset characteristics directly within the identifier. This human-readable yet machine-parseable format ensures interoperability across the institutional 5-layer stack.
             </p>
             
             <div class="spec-code-block">
@@ -368,7 +368,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <span>-</span>
                 <span class="spec-segment" title="Blockchain Code (ETH, POL, STR)">ETH</span>
                 <span>-</span>
-                <span class="spec-segment" title="Issuance Year">2023</span>
+                <span class="spec-segment" title="Issuance Year">2026</span>
                 <span>-</span>
                 <span class="spec-segment" title="Unique Sequence Number">0001</span>
             </div>
@@ -376,66 +376,71 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="segment-desc">
                 <div class="segment-item">
                     <strong>Asset Class</strong>
-                    4-letter code mapping to the TFIC classification (DEBT, EQTY, FUND, DRVT).
+                    4-letter code mapping to the institutional TFIC classification standard (DEBT, EQTY, FUND, DRVT).
                 </div>
                 <div class="segment-item">
-                    <strong>Blockchain</strong>
-                    3-letter code identifier for the target ledger (ETH, POL, STR, SOL).
+                    <strong>Ledger Type</strong>
+                    3-letter code identifying the underlying DLT infrastructure (Public: ETH, POL | Private: HYP, CRD).
                 </div>
                 <div class="segment-item">
-                    <strong>Sequence</strong>
-                    Institutional sequence number within the registry database.
+                    <strong>Temporal Marker & Seq</strong>
+                    Issuance year and registry sequence number ensuring global uniqueness within the DCM Observatory.
                 </div>
             </div>
         </div>
 
         <!-- MAPPING TABLES -->
         <div class="spec-card" data-aos="fade-up">
-            <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 30px;">Standard Mappings</h2>
+            <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 30px;">Standard Reference Mappings</h2>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
                 <div>
-                    <h3 style="font-size:16px; margin-bottom:15px; color:var(--accent-std);">Asset Class Codes</h3>
+                    <h3 style="font-size:16px; margin-bottom:15px; color:var(--accent-std);">Asset Class (TFIC)</h3>
                     <table class="std-table">
                         <thead>
                             <tr><th>Code</th><th>Classification</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>DEBT</td><td>Fixed Income / Bonds</td></tr>
-                            <tr><td>EQTY</td><td>Tokenized Equity</td></tr>
+                            <tr><td>DEBT</td><td>Fixed Income / Smart Bonds</td></tr>
+                            <tr><td>EQTY</td><td>Tokenized Equity / RWA</td></tr>
                             <tr><td>FUND</td><td>Tokenized Funds / ETFs</td></tr>
-                            <tr><td>STRU</td><td>Structured Products</td></tr>
+                            <tr><td>STRU</td><td>Programmable Structured Products</td></tr>
                         </tbody>
                     </table>
                 </div>
                 <div>
-                    <h3 style="font-size:16px; margin-bottom:15px; color:var(--accent-std);">Blockchain Codes</h3>
+                    <h3 style="font-size:16px; margin-bottom:15px; color:var(--accent-std);">Ledger Infrastructure</h3>
                     <table class="std-table">
                         <thead>
-                            <tr><th>Code</th><th>Ledger</th></tr>
+                            <tr><th>Code</th><th>Ledger Protocol</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>ETH</td><td>Ethereum Mainnet</td></tr>
-                            <tr><td>POL</td><td>Polygon PoS</td></tr>
-                            <tr><td>STR</td><td>Stellar Network</td></tr>
-                            <tr><td>APL</td><td>Avalanche P-Chain</td></tr>
+                            <tr><td>ETH</td><td>Ethereum Mainnet (L1)</td></tr>
+                            <tr><td>POL</td><td>Polygon CDK (L2 AppChain)</td></tr>
+                            <tr><td>STR</td><td>Stellar Asset Hub</td></tr>
+                            <tr><td>HYP</td><td>Hyperledger Besu (Private)</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- RATIONALE -->
-        <div class="spec-card" data-aos="fade-up">
-            <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 25px;">Strategic Rationale</h2>
-            <div style="color: #94a3b8; line-height: 1.8; font-size: 16px;">
-                <p style="margin-bottom:20px;">
-                    Traditional identifiers like ISIN (ISO 6166) were designed for centralized custody. For tokenized assets, a new dimension is required: the <strong>technical substrate</strong> (Blockchain).
-                </p>
-                <p>
-                    By introducing the TFIN standard, the DCM Core Institute provides institutional stakeholders with a machine-readable format that instantly communicates both financial nature and technical portability, facilitating cross-ledger settling and academic tracking.
-                </p>
+        <!-- CITATION -->
+        <div class="spec-card" data-aos="fade-up" style="background: rgba(15, 23, 42, 0.4); border-style: dashed;">
+            <div style="font-family: 'JetBrains Mono'; font-size: 11px; color: var(--accent-std); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700;">How to cite this standard</div>
+            <div style="font-size: 14px; line-height: 1.6; color: #cbd5e1; margin-bottom: 20px;">
+                DCM Core Institute (2026). "TFIN ID: Tokenized Financial Instrument Number Specification". 
+                Institutional Standards - Technical Series. Available at: dcmcore.com/en/standards/tfin-id.html
             </div>
+            <code style="display: block; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #94a3b8; line-height: 1.5; border: 1px solid var(--glass-border);">
+                @techreport{dcmcore2026tfin,<br>
+                &nbsp;&nbsp;author = {DCM Core Institute},<br>
+                &nbsp;&nbsp;title = {TFIN ID Standard Specification},<br>
+                &nbsp;&nbsp;institution = {DCM Core Institute},<br>
+                &nbsp;&nbsp;year = {2026},<br>
+                &nbsp;&nbsp;url = {https://dcmcore.com/en/standards/tfin-id.html}<br>
+                }
+            </code>
         </div>
     </main>
 
