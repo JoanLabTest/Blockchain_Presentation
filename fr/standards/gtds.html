@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Spécification du Global Tokenization Data Standard (GTDS). Le standard de données universel pour l'interopérabilité des actifs financiers tokenisés."
+        name="description" />
+    <title>Standard GTDS v1.0 | Standards du DCM Core Institute</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-gtds: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.3);
+            --glass-bg: rgba(15, 23, 42, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+        }
+
+        .gtds-hero {
+            padding: 120px 20px 80px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 50%, var(--accent-glow) 0%, transparent 60%);
+        }
+
+        .gtds-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 100px;
+            color: var(--accent-gtds);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-family: 'Outfit';
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .spec-container {
+            max-width: 1100px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        /* 4-LAYER INFOBOX */
+        .layer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 60px 0;
+        }
+
+        .layer-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: 0.3s;
+        }
+
+        .layer-card:hover {
+            border-color: var(--accent-gtds);
+            transform: translateY(-5px);
+        }
+
+        .layer-num {
+            font-family: 'JetBrains Mono';
+            font-size: 12px;
+            color: var(--accent-gtds);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .layer-card h3 {
+            font-family: 'Outfit';
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        /* DATA DENSITY SECTION */
+        .bloomberg-panel {
+            background: #000;
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            margin-top: 80px;
+        }
+
+        .data-schema-viewer {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .schema-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .schema-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            padding: 15px 20px;
+            border-radius: 12px;
+            color: #94a3b8;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+            font-size: 14px;
+        }
+
+        .schema-btn.active {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--accent-gtds);
+            color: #fff;
+        }
+
+        .schema-content {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--glass-border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .schema-key { color: #818cf8; }
+        .schema-string { color: #34d399; }
+        .schema-comment { color: #475569; }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            font-size: 12px;
+            color: #64748b;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumb a { color: #64748b; text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent-gtds); }
+
+        @media (max-width: 992px) {
+            .layer-grid { grid-template-columns: repeat(2, 1fr); }
+            .data-schema-viewer { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../js/navigation-hub.js"></script>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+        <div class="nav-pillars">
+            <div class="pillar-item">
+                <a href="../research-programs/index.html" class="pillar-link">Programmes</a>
+            </div>
+            <div class="pillar-item">
+                <a href="../standards/index.html" class="pillar-link">Standards</a>
+            </div>
+            <div class="pillar-item">
+                <a href="../observatory/index.html" class="pillar-link">Observatoire</a>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="../index.html" class="lang-link active">🇫🇷 FR</a>
+                <a href="../../en/standards/gtds.html" class="lang-link">🇬🇧 EN</a>
+            </div>
+            <button class="connect-btn">Connect</button>
+        </div>
+    </nav>
+
+    <nav class="breadcrumb">
+        <a href="../index.html">Accueil</a>
+        <span>›</span>
+        <a href="index.html">Standards</a>
+        <span>›</span>
+        <span style="color:var(--accent-gtds);">Global Tokenization Data Standard</span>
+    </nav>
+
+    <header class="gtds-hero" data-aos="fade-up">
+        <div class="gtds-tag">Standard d'Autorité Mondiale</div>
+        <h1>Global Tokenization Data Standard</h1>
+        <p style="color: #94a3b8; max-width: 850px; margin: 0 auto; font-size: 20px; line-height: 1.6;">
+            Le GTDS est la spécification de données universelle du DCM Core Institute. Il définit la structure de vérité unique pour les actifs financiers tokenisés, assurant l'interopérabilité entre émetteurs, bourses et régulateurs.
+        </p>
+    </header>
+
+    <main class="spec-container">
+        <!-- THE 4 LAYERS -->
+        <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 40px; text-align: center;">L'Architecture des 4 Couches du GTDS (v1.0)</h2>
+        
+        <div class="layer-grid">
+            <div class="layer-card" data-aos="fade-up">
+                <span class="layer-num">01. METADATA LAYER</span>
+                <h3>Attributs d'Actif</h3>
+                <p style="font-size: 14px; color: #94a3b8; line-height: 1.5;">Structure des données descriptives : ISIN lié, devise, pays de l'émetteur et classification TFIC.</p>
+            </div>
+            <div class="layer-card" data-aos="fade-up" data-aos-delay="100">
+                <span class="layer-num">02. TECHNICAL LAYER</span>
+                <h3>Stack Blockchain</h3>
+                <p style="font-size: 14px; color: #94a3b8; line-height: 1.5;">Spécification de l'infrastructure : TFIN ID, adresse du Smart Contract et standard de token (ERC-3643, etc.).</p>
+            </div>
+            <div class="layer-card" data-aos="fade-up" data-aos-delay="200">
+                <span class="layer-num">03. COMPLIANCE LAYER</span>
+                <h3>Gouvernance & KYC</h3>
+                <p style="font-size: 14px; color: #94a3b8; line-height: 1.5;">Schéma des restrictions de transfert, registres d'investisseurs et reporting réglementaire automatisé.</p>
+            </div>
+            <div class="layer-card" data-aos="fade-up" data-aos-delay="300">
+                <span class="layer-num">04. SETTLEMENT LAYER</span>
+                <h3>Cycle de Règlement</h3>
+                <p style="font-size: 14px; color: #94a3b8; line-height: 1.5;">Logique de DvP (Delivery vs Payment), ponts de liquidité wholesale CBDC et actifs de cash tokenisés.</p>
+            </div>
+        </div>
+
+        <!-- BLOOMBERG STYLE PANEL -->
+        <div class="bloomberg-panel" data-aos="fade-up">
+            <h2 style="font-family: 'Outfit'; font-size: 24px; margin-bottom: 10px;">Explorateur de Schéma Technique</h2>
+            <p style="color: #64748b; font-size: 14px;">Modèle de données institutionnel unifié pour l'intégration de marché.</p>
+
+            <div class="data-schema-viewer">
+                <div class="schema-nav">
+                    <button class="schema-btn active">Asset_Metadata_Payload</button>
+                    <button class="schema-btn">Technical_Infrastructure</button>
+                    <button class="schema-btn">Compliance_Restrictions</button>
+                    <button class="schema-btn">Settlement_Logic</button>
+                </div>
+                <div class="schema-content">
+                    <span class="schema-comment">// GTDS Asset Metadata Payload (JSON Standard)</span><br>
+                    {<br>
+                    &nbsp;&nbsp;<span class="schema-key">"tfin_id"</span>: <span class="schema-string">"TFIN-DEBT-ETH-2026-0001"</span>,<br>
+                    &nbsp;&nbsp;<span class="schema-key">"asset_details"</span>: {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="schema-key">"name"</span>: <span class="schema-string">"5-Year Green Digital Bond"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="schema-key">"tfic_code"</span>: <span class="schema-string">"D-B-G-01"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="schema-key">"issuer_entity"</span>: <span class="schema-string">"Société Générale Forge"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="schema-key">"currency"</span>: <span class="schema-string">"EUR"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="schema-key">"isin_link"</span>: <span class="schema-string">"FR001400A123"</span><br>
+                    &nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;<span class="schema-key">"verification_status"</span>: <span class="schema-string">"GTSR_Institutional_Confirmed"</span><br>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- CALL TO ACTION / CITATION -->
+        <div style="margin-top: 80px; padding: 60px; background: rgba(16, 185, 129, 0.05); border: 1px dashed var(--accent-gtds); border-radius: 24px; text-align: center;">
+            <h3 style="font-family: 'Outfit'; font-size: 24px; margin-bottom: 20px;">Devenir un "GTDS Data Proponent"</h3>
+            <p style="color: #94a3b8; max-width: 600px; margin: 0 auto 30px;">
+                Rejoignez le groupe de travail GTDS pour influencer les futurs schémas de données de la finance mondiale.
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a href="#" class="connect-btn" style="background: var(--accent-gtds); color: #000; padding: 12px 30px;">Rejoindre le Working Group</a>
+                <a href="../api/index.html" style="color: #fff; text-decoration: none; padding: 12px 30px; font-weight: 700;">Documentation API <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <!-- BIBTEX -->
+        <div style="margin-top: 40px; padding: 30px; background: #000; border-radius: 16px; border: 1px solid var(--glass-border);">
+            <div style="font-family: 'JetBrains Mono'; font-size: 11px; color: var(--accent-gtds); margin-bottom: 15px; text-transform: uppercase;">Citation Académique (BibTeX)</div>
+            <pre style="font-family: 'JetBrains Mono'; font-size: 12px; color: #64748b; margin: 0;">
+@standard{dcmcore2026gtds,
+  title = {Global Tokenization Data Standard (GTDS) v1.0},
+  author = {DCM Core Institute},
+  year = {2026},
+  url = {https://dcmcore.com/fr/standards/gtds.html},
+  institution = {DCM Core Institute}
+}</pre>
+        </div>
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+
+</html>

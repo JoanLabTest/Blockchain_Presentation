@@ -182,6 +182,79 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             opacity: 0.6;
         }
 
+        /* BLOOMBERG TERMINAL UI */
+        .terminal-container {
+            background: #000;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 0;
+            margin: 40px auto;
+            max-width: 1400px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(16, 185, 129, 0.1);
+        }
+
+        .terminal-header {
+            background: #1e293b;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .terminal-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            height: 500px;
+        }
+
+        .term-sidebar {
+            background: #0f172a;
+            border-right: 1px solid #1e293b;
+            padding: 15px;
+        }
+
+        .term-main {
+            background: #020617;
+            padding: 20px;
+            position: relative;
+        }
+
+        .term-info {
+            background: #0f172a;
+            border-left: 1px solid #1e293b;
+            padding: 15px;
+        }
+
+        .term-item {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .term-item:hover { background: rgba(255,255,255,0.05); }
+        .term-item.active { background: rgba(16, 185, 129, 0.1); color: var(--accent-green); }
+
+        .term-label { color: #64748b; }
+        .term-value { color: #fff; font-weight: 700; }
+        .term-value.up { color: #10b981; }
+
+        .term-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #475569;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            font-weight: 800;
+        }
+
         /* TABLE */
         .obs-table-container {
             max-width: 1400px;
@@ -610,6 +683,82 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 10px;">Active Blockchains</div>
                 <div style="font-family: 'Outfit'; font-size: 42px; font-weight: 800; color: #fff;">14</div>
                 <div style="font-size: 13px; color: #94a3b8; margin-top: 5px;">Public & Private</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOOMBERG TERMINAL INTEGRATION -->
+    <section class="terminal-container" style="max-width: 1400px; margin: 0 auto 60px; padding: 0;" data-aos="fade-up">
+        <div class="terminal-header">
+            <div><i class="fas fa-terminal" style="margin-right: 8px;"></i> DCM CORE MARKET TERMINAL v2.0.4</div>
+            <div>MARKET STATUS: <span style="color: #10b981;">● OPEN</span> | SESSION: 2026-03-15 | EUR/USD: 1.0942</div>
+        </div>
+        <div class="terminal-grid">
+            <!-- Sidebar: Watchlist -->
+            <div class="term-sidebar">
+                <div class="term-title">Market Watchlist</div>
+                <div class="term-item active"><span>SGF-EURCV</span> <span class="term-value up">+0.02%</span></div>
+                <div class="term-item"><span>EIB-DIGI2</span> <span class="term-value">98.45</span></div>
+                <div class="term-item"><span>FRNK-FOBXX</span> <span class="term-value up">5.24%</span></div>
+                <div class="term-item"><span>JPM-ONYX-S</span> <span class="term-value">1.0001</span></div>
+                <div class="term-item"><span>HKMA-GOLD</span> <span class="term-value">2,142.5</span></div>
+                <div class="term-item"><span>ECB-wCBDC</span> <span class="term-value up">STABLE</span></div>
+            </div>
+            <!-- Main: GTDS Data Explorer -->
+            <div class="term-main">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px; align-items: baseline;">
+                    <h3 style="font-size: 18px; color: #fff;">GTDS Asset Intelligence</h3>
+                    <span style="font-size: 11px; color: #64748b;">PROVIDER: DCM_CORE_INSTITUTE</span>
+                </div>
+                
+                <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <div class="term-label" style="font-size: 10px;">TFIN ID</div>
+                            <div style="font-size: 16px; color: var(--accent-green); font-weight: 700;">TFIN-DEBT-ETH-2026-0001</div>
+                        </div>
+                        <div>
+                            <div class="term-label" style="font-size: 10px;">GTDS COMPLIANCE</div>
+                            <div style="font-size: 16px; color: #fff; font-weight: 700;">STANDARD V1.0 - CERTIFIED</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div>
+                        <div class="term-title">Metadata Layer</div>
+                        <div class="term-item"><span class="term-label">ISIN Reference</span> <span class="term-value">FR001400A123</span></div>
+                        <div class="term-item"><span class="term-label">TFIC Classification</span> <span class="term-value">D-B-G-01</span></div>
+                        <div class="term-item"><span class="term-label">Jurisdiction</span> <span class="term-value">France (EU)</span></div>
+                    </div>
+                    <div>
+                        <div class="term-title">Technical Layer</div>
+                        <div class="term-item"><span class="term-label">Infrastructure</span> <span class="term-value">Ethereum Mainnet</span></div>
+                        <div class="term-item"><span class="term-label">Token Standard</span> <span class="term-value">ERC-3643 (TREX)</span></div>
+                        <div class="term-item"><span class="term-label">Settlement Mode</span> <span class="term-value">Atomic DvP</span></div>
+                    </div>
+                </div>
+                
+                <!-- Decorative Icon -->
+                <div style="position: absolute; bottom: 20px; right: 20px; text-align: right;">
+                    <i class="fas fa-shield-halved" style="font-size: 60px; color: rgba(16, 185, 129, 0.1);"></i>
+                </div>
+            </div>
+            <!-- Info: Intelligence -->
+            <div class="term-info">
+                <div class="term-title">Market Intelligence</div>
+                <p style="font-size: 11px; line-height: 1.6; color: #94a3b8; margin-bottom: 20px;">
+                    The analyzed asset shows a GTDS compliance score of 98%. Eligible for institutional collateral via the DCM Core Registry.
+                </p>
+                <div style="border-top: 1px solid #1e293b; padding-top: 15px;">
+                    <div class="term-label" style="font-size: 10px; margin-bottom: 10px;">Regulatory Alert</div>
+                    <div style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 10px; border-radius: 4px; font-size: 11px;">
+                        <i class="fas fa-triangle-exclamation"></i> MiCAR Compliance Verified
+                    </div>
+                </div>
+                <div style="margin-top: 50px;">
+                    <button style="width: 100%; background: #10b981; color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: 800; font-size: 12px; cursor: pointer;">EXPLORE DATASET</button>
+                </div>
             </div>
         </div>
     </section>
