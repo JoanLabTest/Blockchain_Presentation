@@ -16,7 +16,12 @@ high_priority = [
     "buidl.html",
     "yield-mechanics.html",
     "pricing.html",
-    "whitepaper-gate.html"
+    "whitepaper-gate.html",
+    "knowledge/index.html",
+    "methodology/index.html",
+    "research/programmable-capital-markets/index.html",
+    "research/programmable-capital-markets/smart-bond-framework.html",
+    "research/programmable-capital-markets/smart-derivative-contracts.html"
 ]
 
 medium_priority = [
@@ -26,26 +31,37 @@ medium_priority = [
     "risk-register.html",
     "guide.html",
     "dashboard.html",
-    "sandbox.html"
+    "sandbox.html",
+    "research/ecosystem-map.html",
+    "research/global-map.html"
 ]
 
 def create_sitemap(files, filename, directory=""):
     urlset = ET.Element('urlset', xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
-    prefix = f"{directory}/" if directory else ""
     
     for f_path in files:
+        # Get relative path from the language root (fr/ or en/)
+        if directory:
+            rel_path = os.path.relpath(f_path, directory)
+        else:
+            rel_path = f_path
+            
         basename = os.path.basename(f_path)
         if "backup" in basename or "quiz" in basename or "admin" in basename or "login" in basename:
             continue
             
         url = ET.SubElement(urlset, 'url')
         loc = ET.SubElement(url, 'loc')
-        loc.text = f"{base_url}{prefix}{basename}"
+        
+        # Build the final URL
+        prefix = f"{directory}/" if directory else ""
+        loc.text = f"{base_url}{prefix}{rel_path}"
         
         priority = ET.SubElement(url, 'priority')
-        if basename in high_priority:
+        # Check if basename OR the relative path is in priorities
+        if basename in high_priority or rel_path in high_priority:
             priority.text = "1.0"
-        elif basename in medium_priority:
+        elif basename in medium_priority or rel_path in medium_priority:
             priority.text = "0.8"
         else:
             priority.text = "0.5"
