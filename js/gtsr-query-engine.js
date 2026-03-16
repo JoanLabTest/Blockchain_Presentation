@@ -1,6 +1,6 @@
 /**
  * DCM Core Institute - Global Tokenization Query Engine
- * Interactive Market Intelligence Layer
+ * Interactive Market Intelligence Layer (v2.2 - Bloomberg Upgrade)
  */
 
 const GTSR_DATABASE = [
@@ -90,12 +90,70 @@ const GTSR_DATABASE = [
     }
 ];
 
+// PROGRAMMABLE TERMINAL API (Bloomberg-style for researchers)
+window.DCM_CORE_DATABASE = GTSR_DATABASE;
+window.DCM = {
+    query: (criteria) => {
+        console.log("%c DCM Terminal %c Running institutional query...", "background:#10b981; color:black; font-weight:bold; padding:2px 5px; border-radius:3px;", "color:#10b981;");
+        return GTSR_DATABASE.filter(asset => {
+            let match = true;
+            for (let key in criteria) {
+                if (!asset[key] || !asset[key].toLowerCase().includes(criteria[key].toLowerCase())) {
+                    match = false;
+                }
+            }
+            return match;
+        });
+    },
+    stats: () => {
+        return {
+            total_assets_tracked: GTSR_DATABASE.length,
+            total_aum_verified: "$2.65B+",
+            top_infrastructure: "Ethereum (Mainnet)",
+            gtcm_index_status: "Stable / Growth"
+        };
+    },
+    help: () => {
+        console.table([
+            { Command: "DCM.query({issuer: 'BlackRock'})", Description: "Filter by issuer" },
+            { Command: "DCM.query({type: 'Bond'})", Description: "Filter by asset type" },
+            { Command: "DCM.stats()", Description: "System telemetry" }
+        ]);
+        return "Terminal API ready.";
+    }
+};
+
 function initQueryEngine() {
     const searchInput = document.getElementById('marketQueryInput');
     if (!searchInput) return;
 
     searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
+        const rawQuery = e.target.value;
+        const query = rawQuery.toLowerCase().trim();
+        
+        // CLI COMMAND HANDLING
+        if (query === 'help') {
+            displayTerminalMessage("DCM TERMINAL COMMANDS:\nhelp - Show this guide\n/all - List all assets\n/clear - Reset Terminal\n/stats - System telemetry", "#3b82f6");
+            return;
+        }
+
+        if (query === '/clear') {
+            resetTerminal();
+            searchInput.value = '';
+            return;
+        }
+
+        if (query === '/all') {
+            displayTerminalMessage("Showing all verified institutional assets (" + GTSR_DATABASE.length + " entries).", "#10b981");
+            return;
+        }
+
+        if (query === '/stats') {
+            const s = window.DCM.stats();
+            displayTerminalMessage(`TELEMETRY: AUM: ${s.total_aum_verified} | Assets: ${s.total_assets_tracked}`, "#f59e0b");
+            return;
+        }
+
         if (query.length < 2) {
             resetTerminal();
             return;
@@ -121,34 +179,41 @@ function initQueryEngine() {
             searchInput.dispatchEvent(new Event('input'));
         });
     });
+
+    // ESC to clear
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.activeElement === searchInput) {
+            resetTerminal();
+            searchInput.value = '';
+            searchInput.blur();
+        }
+    });
+}
+
+function displayTerminalMessage(msg, color) {
+    const assetTitle = document.querySelector('.terminal-grid .term-main h3');
+    if (assetTitle) {
+        assetTitle.innerHTML = `<span style="color:${color}; font-family:'JetBrains Mono'; font-size:14px; line-height:1.5;">${msg.replace(/\n/g, '<br>')}</span>`;
+    }
 }
 
 function updateTerminalWithAsset(asset) {
-    // Update Asset Intelligence Panel
     const tfinId = document.querySelector('.terminal-grid .term-main [style*="color: var(--accent-green)"]');
     const assetTitle = document.querySelector('.terminal-grid .term-main h3');
-    
-    // Metadata Layer mappings
-    const isinVal = document.querySelector('.term-item .term-label64748b')?.parentElement.querySelector('.term-value'); // This selector is tricky if structure variations occur
-
-    // More robust selectors for current Terminal UI
     const metadataValues = document.querySelectorAll('.term-main .term-item .term-value');
     
     if (tfinId) tfinId.textContent = asset.id;
     if (assetTitle) assetTitle.textContent = asset.name + " Intelligence";
 
-    // Assuming Metadata Layer: ISIN (0), TFIC (1), Jurisdiction (2)
-    // Assuming Technical Layer: Infra (3), Token (4), Settlement (5)
     if (metadataValues.length >= 6) {
         metadataValues[0].textContent = asset.isin;
         metadataValues[1].textContent = asset.tfic;
         metadataValues[2].textContent = asset.jurisdiction;
         metadataValues[3].textContent = asset.infrastructure;
-        metadataValues[4].textContent = asset.type; // Token type
+        metadataValues[4].textContent = asset.type;
         metadataValues[5].textContent = asset.settlement;
     }
 
-    // Update Status Pill in Info Panel
     const statusPill = document.querySelector('.term-info [style*="background: rgba(245, 158, 11, 0.1)"]');
     if (statusPill) {
         statusPill.innerHTML = `<i class="fas fa-check-circle"></i> Status: ${asset.status}`;
@@ -158,7 +223,6 @@ function updateTerminalWithAsset(asset) {
 }
 
 function resetTerminal() {
-    // Optional: Reset to default asset (SGF-EURCV)
     updateTerminalWithAsset(GTSR_DATABASE[0]);
 }
 
