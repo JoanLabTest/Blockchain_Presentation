@@ -220,3 +220,106 @@
         display: none;
     }
 }
+
+/* TELEMETRY TICKER STYLES (Phase 26) */
+.telemetry-ticker {
+    background: rgba(2, 6, 23, 0.95);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    height: 36px;
+    width: 100%;
+    z-index: 9999;
+    position: sticky;
+    top: 72px; /* Exactly below nav */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: background 0.5s ease;
+}
+
+.ticker-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.ticker-label {
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ticker-value {
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+}
+
+.ticker-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 10px;
+}
+
+.status-pulse {
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    animation: status-glow 2s infinite;
+}
+
+.status-text {
+    font-size: 10px;
+    font-weight: 800;
+    color: #10b981;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes status-glow {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Update Pulse */
+.ticker-pulse {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+@media (max-width: 768px) {
+    .ticker-content {
+        gap: 20px;
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 5px; /* for scrollbar space if any */
+    }
+    .ticker-content::-webkit-scrollbar {
+        display: none;
+    }
+    .ticker-label {
+        font-size: 10px;
+    }
+    .ticker-value {
+        font-size: 10px;
+    }
+}
