@@ -242,6 +242,67 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin-bottom: 15px;
         }
 
+        /* STYLES HUB QUANT & DEV */
+        .path-card.quant:hover {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .terminal-block {
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 20px 0;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .cmd-line { color: #94a3b8; margin-bottom: 8px; font-size: 14px; }
+        .cmd-prompt { color: #3b82f6; margin-right: 10px; }
+        .cmd-text { color: #f8fafc; }
+        .cmd-comment { color: #64748b; font-style: italic; }
+
+        .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .api-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .api-card:hover { border-color: #a855f7; background: rgba(30, 41, 59, 0.6); }
+
+        .code-inline {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
         /* AUDIT FIX: Sticky Navbar & Progress Bar */
         
 
@@ -812,6 +873,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                     <i class="fas fa-arrow-right path-arrow"></i>
                 </a>
+                <!-- PATH 4: QUANT & DÉVELOPPEUR -->
+                <a class="path-card quant" href="#terminal-cli" style="text-decoration: none; border: 1px solid rgba(59, 130, 246, 0.3); background: rgba(15, 23, 42, 0.6);">
+                    <div class="path-icon" style="color: #3b82f6;">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="path-title" style="color: #fff;">
+                        Quant & Dev
+                        <span class="path-badge" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">Terminal 2.2</span>
+                    </div>
+                    <div class="path-desc" style="color: #94a3b8;">
+                        Maîtrisez le CLI, les API Programmables et les requêtes GTSR.
+                    </div>
+                    <i class="fas fa-arrow-right path-arrow"></i>
+                </a>
             </div>
             <!-- ANCIENS BOUTONS (SUPPRIMÉS OU DÉPLACÉS SI BESOIN) -->
             <!-- Pour l'instant, on garde une action secondaire discrète -->
@@ -1003,6 +1078,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <li><a href="#strategy">15. Stratégie & Risques</a></li>
                     <li><a href="#glossaire">16. Glossaire</a></li>
                     <li><a href="#faq">17. FAQ</a></li>
+                    <li><a href="#terminal-cli">18. Terminal CLI</a></li>
+                    <li><a href="#programmable-api">19. API de Données</a></li>
                 </ul>
             </aside>
             <!-- CONTENU PRINCIPAL -->
@@ -5525,6 +5602,83 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <a class="cta-button" href="#hero">
                     ↑ Retour au début de la présentation
                 </a>
+            </div>
+        </section>
+
+        <!-- Module 18: Terminal Professionnel (CLI) -->
+        <section class="fade-in section-alternate" id="terminal-cli">
+            <div class="section-title">
+                <span class="section-number">18</span>
+                <h2>Terminal Professionnel DCM (v2.2)</h2>
+                <p>Exploration de données sans friction pour les quants institutionnels</p>
+            </div>
+            
+            <div class="content-block">
+                <p>La plateforme DCM intègre désormais une <strong>Interface en Ligne de Commande (CLI)</strong> complète. Cet environnement est conçu pour les risk managers et les analystes qui exigent un accès direct et rapide à la télémétrie de marché sans la surcharge d'une interface graphique.</p>
+                
+                <div class="terminal-block">
+                    <div class="terminal-header">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                        <span style="color: #64748b; font-size: 12px; margin-left: 10px;">dcm-terminal --v2.2</span>
+                    </div>
+                    <div class="cmd-line"><span class="cmd-prompt">></span> <span class="cmd-text">help</span></div>
+                    <div class="cmd-line" style="color: #10b981;">Commandes disponibles :</div>
+                    <div class="cmd-line">  <span class="code-inline">/stats</span> — Afficher la télémétrie GTCMI et AUM en temps réel</div>
+                    <div class="cmd-line">  <span class="code-inline">/all</span> — Lister tous les titres tokenisés à haute conviction</div>
+                    <div class="cmd-line">  <span class="code-inline">/search [query]</span> — Recherche rapide d'actifs</div>
+                    <div class="cmd-line">  <span class="code-inline">/registry</span> — Ouvrir le Registre Unifié Global</div>
+                    <div class="cmd-line">  <span class="code-inline">clear</span> — Effacer l'historique de la session terminal</div>
+                </div>
+            </div>
+            
+            <div class="api-grid">
+                <div class="api-card">
+                    <h4 style="color: #3b82f6; margin-bottom: 10px;"><i class="fas fa-bolt"></i> Accès Raccourci</h4>
+                    <p style="font-size: 14px; color: #94a3b8;">Cliquez sur la barre de recherche globale sur n'importe quelle page et tapez <span class="code-inline">/</span> pour activer instantanément le mode CLI.</p>
+                </div>
+                <div class="api-card">
+                    <h4 style="color: #10b981; margin-bottom: 10px;"><i class="fas fa-microscope"></i> Télémétrie en Direct</h4>
+                    <p style="font-size: 14px; color: #94a3b8;">Les données sont extraites directement de notre couche de consensus GTSR validée, garantissant une précision à la sous-seconde sur les calculs d'AUM.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 19: API de Données Programmable (JSON) -->
+        <section class="fade-in" id="programmable-api">
+            <div class="section-title">
+                <span class="section-number">19</span>
+                <h2>Couche de Données Programmable (window.DCM)</h2>
+                <p>Accès programmatique pour les systèmes internes institutionnels</p>
+            </div>
+            
+            <div class="content-block">
+                <p>Pour les architectes de données et les développeurs DLT, l'institut expose désormais une API au niveau du navigateur. Cela permet aux développeurs d'interroger nos jeux de données directement depuis la console développeur (F12) ou d'intégrer nos flux de données dans des scripts de reporting personnalisés.</p>
+                
+                <div class="terminal-block" style="border-color: #a855f7;">
+                    <div class="terminal-header">
+                        <span style="color: #a855f7; font-size: 12px;"><i class="fas fa-terminal"></i> Exemple de Requête Console</span>
+                    </div>
+                    <div class="cmd-line"><span class="cmd-comment">// Interroger tous les actifs émis par BlackRock avec un AUM > 100M</span></div>
+                    <div class="cmd-line"><span class="cmd-prompt">></span> <span class="cmd-text">DCM.query({ issuer: 'BlackRock', minAum: 100000000 });</span></div>
+                    <div class="cmd-line" style="color: #94a3b8; margin-top: 10px;">{ status: "success", results: 12, assets: [...] }</div>
+                </div>
+            </div>
+
+            <div class="premium-grid-3" style="margin-top: 40px;">
+                <div class="glass-card">
+                    <h3>window.DCM</h3>
+                    <p style="font-size: 14px;">L'objet API principal. Utilisez <span class="code-inline">DCM.query()</span> pour une récupération ciblée des données.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>DCM.export()</h3>
+                    <p style="font-size: 14px;">Déclenchez programmatiquement un export CSV ou JSON du jeu de données filtré pour les audits internes.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Flux en Direct</h3>
+                    <p style="font-size: 14px;">Des connexions Websocket sont disponibles pour une télémétrie de prix 24/7 via la méthode <span class="code-inline">DCM.connect()</span>.</p>
+                </div>
             </div>
         </section>
         <!-- Bouton Retour en Haut Flottant -->
