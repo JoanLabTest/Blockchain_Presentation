@@ -38,3 +38,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Social Insight Sharing Utility
+function shareInsight(title, data, url) {
+    const text = `Institutional Insight from DCM Core Institute: ${data}\n\nExplore real-time tokenization metrics:`;
+    const shareUrl = encodeURIComponent(url);
+    const shareText = encodeURIComponent(text);
+    
+    // Choose platform (simplified for this implementation - defaults to LinkedIn/X dialog)
+    const choice = confirm(`Share this insight?\n\n"${data}"\n\n[OK] Share on LinkedIn/X | [Cancel] Copy Link`);
+    
+    if (choice) {
+        // Direct to LinkedIn for professional distribution
+        const linkedin = `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`;
+        window.open(linkedin, '_blank');
+    } else {
+        navigator.clipboard.writeText(`${text} ${url}`);
+        alert("Institutional insight and link copied to clipboard.");
+    }
+}
