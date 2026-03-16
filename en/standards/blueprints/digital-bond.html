@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Digital Bond Reference Implementation - DCM Core Institute. Technical architecture for institutional debt tokenization."
+        name="description" />
+    <title>Digital Bond Blueprint | DCM Core Standards</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../../styles.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-blueprint: #10b981;
+            --accent-blue: #3b82f6;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+        }
+
+        .blueprint-hero {
+            padding: 100px 20px 60px;
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .tech-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            color: var(--accent-blueprint);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .bp-title {
+            font-family: 'Outfit';
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .bp-intro {
+            color: #94a3b8;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 800px;
+        }
+
+        .section-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 50px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-family: 'Outfit';
+            font-size: 28px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title i { color: var(--accent-blueprint); }
+
+        /* ARCHITECTURE DIAGRAM STYLING */
+        .arch-diagram {
+            background: #000;
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .diag-box {
+            width: 180px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            z-index: 2;
+        }
+
+        .diag-box.active {
+            border-color: var(--accent-blueprint);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .arrow-line {
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--glass-border), var(--accent-blueprint), var(--glass-border));
+            position: relative;
+        }
+
+        .arrow-line::after {
+            content: '\f105';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            top: -7px;
+            color: var(--accent-blueprint);
+        }
+
+        /* TABLE */
+        .bp-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .bp-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--glass-border);
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+
+        .bp-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 14px;
+        }
+
+        .code-pill {
+            font-family: 'JetBrains Mono';
+            background: rgba(0,0,0,0.3);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--accent-blueprint);
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            font-size: 11px;
+            color: #475569;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumb a {
+            color: #64748b;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-blueprint);
+        }
+    </style>
+    <script src="../../js/global-footer.js"></script>
+    <script src="../../../js/compliance-checker.js"></script>
+    <link href="../../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../../js/navigation-hub.js"></script>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+    </nav>
+
+    <div class="breadcrumb">
+        <a href="../../index.html"><i class="fas fa-home"></i> Home</a>
+        <span>›</span>
+        <a href="../tfin-id.html">Standards</a>
+        <span>›</span>
+        <a href="index.html">Blueprints</a>
+        <span>›</span>
+        <span style="color:var(--accent-blueprint);">Digital Bond Implementation</span>
+    </div>
+
+    <header class="blueprint-hero">
+        <div class="container" data-aos="fade-up">
+            <div class="tech-tag"><i class="fas fa-microchip"></i> Reference Implementation BP-01</div>
+            <h1 class="bp-title">Digital Bond<br>Implementation Architecture</h1>
+            <p class="bp-intro">
+                A standardized technical framework for the issuance, lifecycle management, and atomic settlement of 
+                tokenized debt instruments on Distributed Ledger Technology.
+            </p>
+        </div>
+    </header>
+
+    <main class="container" style="margin-top: 60px; margin-bottom: 100px;">
+        <!-- SECTION 1: SYSTEM ARCHITECTURE -->
+        <section class="section-card" data-aos="fade-up">
+            <h2 class="section-title"><i class="fas fa-diagram-project"></i> Executive Architecture</h2>
+            <p style="color: #94a3b8; margin-bottom: 30px;">
+                This blueprint assumes a hybrid institutional stack where legal term sheets are digitized via oracles and bridged to 
+                regulated DLT environments (Public-Permissioned or Private).
+            </p>
+            
+            <div class="arch-diagram">
+                <div class="diag-box">
+                    <strong style="color: #fff;">Legacy Systems</strong><br>
+                    <span style="font-size:10px; color:#64748b;">Internal Ledger / ERP</span>
+                </div>
+                <div class="arrow-line"></div>
+                <div class="diag-box active">
+                    <strong style="color: var(--accent-blueprint);">DCM GTDS Layer</strong><br>
+                    <span style="font-size:10px; color:var(--accent-blueprint);">Standardized Metadata</span>
+                </div>
+                <div class="arrow-line"></div>
+                <div class="diag-box">
+                    <strong style="color: #fff;">Smart Contract</strong><br>
+                    <span style="font-size:10px; color:#64748b;">ERC-3643 / TREX</span>
+                </div>
+            </div>
+
+            <p style="font-size: 14px; color: #64748b; line-height: 1.6; border-left: 2px solid var(--accent-blueprint); padding-left: 20px;">
+                <strong>Implementation Note:</strong> The standard ensures that the <code>Asset_Metadata</code> stored on-chain acts as the 
+                "Golden Record", synchronized with traditional CSD (Central Securities Depository) records for legal finality.
+            </p>
+        </section>
+
+        <!-- SECTION 2: DATA MAPPING -->
+        <section class="section-card" data-aos="fade-up">
+            <h2 class="section-title"><i class="fas fa-table"></i> GTDS Data Mapping</h2>
+            <p style="color: #94a3b8; margin-bottom: 30px;">
+                Mapping traditional financial identifiers to the DCM Global Token Data Standard (GTDS).
+            </p>
+
+            <table class="bp-table">
+                <thead>
+                    <tr>
+                        <th>Financial Data Point</th>
+                        <th>GTDS Field</th>
+                        <th>DLT Mapping Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>International Securities ID</td>
+                        <td><span class="code-pill">gtds_isin</span></td>
+                        <td>String (Off-chain Registry Ref)</td>
+                    </tr>
+                    <tr>
+                        <td>Annual Coupon Rate</td>
+                        <td><span class="code-pill">gtds_coupon_bps</span></td>
+                        <td>Uint256 (Basis Points)</td>
+                    </tr>
+                    <tr>
+                        <td>Maturity Date</td>
+                        <td><span class="code-pill">gtds_maturity_ts</span></td>
+                        <td>Epoch Timestamp</td>
+                    </tr>
+                    <tr>
+                        <td>Currency Identifier</td>
+                        <td><span class="code-pill">gtds_ccy_iso</span></td>
+                        <td>ISO-4217 (TFIN-MONY Ref)</td>
+                    </tr>
+                    <tr>
+                        <td>Wholesale Liquidity Provider</td>
+                        <td><span class="code-pill">gtds_agent_id</span></td>
+                        <td>DLT Address / ENS</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SECTION 3: LIFECYCLE LOGIC -->
+        <section class="section-card" data-aos="fade-up">
+            <h2 class="section-title"><i class="fas fa-code"></i> Lifecycle Interaction Logic</h2>
+            <div style="background: rgba(0,0,0,0.4); padding: 30px; border-radius: 16px; font-family: 'JetBrains Mono'; font-size: 13px; line-height: 1.6; border: 1px solid var(--glass-border);">
+                <div style="color: #64748b;">// Digital Bond Coupon Payment Trigger (Abstraction)</div>
+                <div style="margin-top:10px;">
+                    <span style="color: #f472b6;">function</span> <span style="color: #60a5fa;">executeCouponPayment</span>(bondId) {<br>
+                    &nbsp;&nbsp;<span style="color: #f472b6;">if</span> (block.timestamp >= registry[bondId].nextCouponDate) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;amount = calculateBps(registry[bondId].notional, registry[bondId].coupon_bps);<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;settlement.triggerAtomicPayment(holders[bondId], amount, registry[bondId].ccy);<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;registry[bondId].nextCouponDate += 365 days;<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+            </div>
+            <p style="color: #64748b; font-size: 14px; margin-top: 20px;">
+                This logic ensures that payments are triggered directly by the smart contract assets upon reaching the 
+                <code>gtds_maturity_ts</code> or coupon dates, eliminating manual reconciliation.
+            </p>
+        </section>
+
+        <!-- SECTION 4: COMPLIANCE CHECKLIST -->
+        <div id="complianceCheckerTarget" style="margin-top: 60px; max-width: 800px; margin-left: auto; margin-right: auto;" data-aos="fade-up">
+            <!-- Compliance checker injected here -->
+        </div>
+
+        <div style="text-align: center; margin-top: 60px;">
+            <h3 style="font-family: 'Outfit'; font-size: 24px; margin-bottom: 20px;">Ready to Start Your Implementation?</h3>
+            <p style="color: #94a3b8; margin-bottom: 40px;">Use our interactive tool above to verify if your project aligns with the Digital Bond standard.</p>
+        </div>
+    </main>
+
+    <global-footer base-path="../../"></global-footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+
+</html>
