@@ -11,19 +11,15 @@ class MarketActivityEngine {
               narrativeSubtitle: '72.4% of institutional assets are issued on Ethereum.' 
             },
             { id: 'TFIN-BR-01', name: 'BlackRock BUIDL', type: 'Tokenized Fund', infrastructure: 'Ethereum', aum: '$375M', issuer: 'BlackRock', jurisdiction: 'US', compliance: 'DORA / MiCA', isin: 'US123456789', settlement: 'T+0', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 1 - Institutional' },
+            { id: 'TFIN-BUIDL-001', name: 'BlackRock BUIDL (Alias)', type: 'Tokenized Fund', infrastructure: 'Ethereum', aum: '$375M', issuer: 'BlackRock', jurisdiction: 'US', compliance: 'DORA / MiCA', isin: 'US123456789', settlement: 'T+0', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 1 - Institutional' },
             { id: 'TFIN-GS-04', name: 'GS DAP Digital Bond', type: 'Digital Bond', infrastructure: 'Canton', aum: '$100M', issuer: 'Goldman Sachs', jurisdiction: 'Luxembourg', compliance: 'EU Pilot Regime', isin: 'LU987654321', settlement: 'T+0', status: 'LIVE', dora: 'Partial', liquidity: 'Tier 1 - Institutional' },
             { id: 'TFIN-SG-09', name: 'SG-Forge EURCV', type: 'Stablecoin', infrastructure: 'Ethereum', aum: '$12M', issuer: 'Société Générale', jurisdiction: 'France', compliance: 'MiCA Compliant', isin: 'FR001234567', settlement: 'Real-time', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 2 - Specialized' },
             { id: 'TFIN-DB-02', name: 'DWS Xtrackers DLT', type: 'ETF Token', infrastructure: 'SWIAT', aum: '$50M', issuer: 'DWS Group', jurisdiction: 'Germany', compliance: 'Kvg G', isin: 'DE000ABC123', settlement: 'T+0', status: 'PILOT', dora: 'In Progress', liquidity: 'Tier 2 - Specialized' }
         ];
 
-        this.database = (window.GTSR_DATABASE && window.GTSR_DATABASE.length > 0) ? window.GTSR_DATABASE : fallbackData;
+        const combinedDB = (window.GTSR_DATABASE || window.DCM_CORE_DATABASE || []);
+        this.database = (combinedDB.length > 0) ? combinedDB : fallbackData;
         this.currentEventIndex = 0;
-        // DEEP LINKING: Check for asset ID in URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const sharedAssetId = urlParams.get('asset') || urlParams.get('tfin');
-        if (sharedAssetId) {
-            setTimeout(() => this.drillDown(sharedAssetId), 1000);
-        }
         this.cyclingInterval = null;
         this.feedContainer = null;
         this.panel = null;
@@ -32,18 +28,36 @@ class MarketActivityEngine {
     }
 
     init() {
-        document.addEventListener('DOMContentLoaded', () => {
-            this.feedContainer = document.getElementById('market-activity-feed');
-            this.createSidePanel();
-            if (this.feedContainer) {
-                this.renderFeed();
-                this.startCycling();
-            }
-        });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.onReady());
+        } else {
+            this.onReady();
+        }
+    }
+
+    onReady() {
+        this.feedContainer = document.getElementById('market-activity-feed');
+        this.createSidePanel();
+        
+        if (this.feedContainer) {
+            this.renderFeed();
+            this.startCycling();
+        }
+
+        // DEEP LINKING: Check for asset ID in URL after panel is ready
+        const urlParams = new URLSearchParams(window.location.search);
+        const sharedAssetId = urlParams.get('asset') || urlParams.get('tfin') || urlParams.get('assetId');
+        if (sharedAssetId) {
+            setTimeout(() => this.drillDown(sharedAssetId), 500);
+        }
     }
 
     createSidePanel() {
-        if (document.getElementById('terminal-side-panel')) return;
+        const existing = document.getElementById('terminal-side-panel');
+        if (existing) {
+            this.panel = existing;
+            return;
+        }
         
         this.panel = document.createElement('div');
         this.panel.id = 'terminal-side-panel';
