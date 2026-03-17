@@ -14,6 +14,12 @@ class MarketActivityEngine {
 
         this.database = (window.GTSR_DATABASE && window.GTSR_DATABASE.length > 0) ? window.GTSR_DATABASE : fallbackData;
         this.currentEventIndex = 0;
+        // DEEP LINKING: Check for asset ID in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const sharedAssetId = urlParams.get('asset') || urlParams.get('tfin');
+        if (sharedAssetId) {
+            setTimeout(() => this.drillDown(sharedAssetId), 1000);
+        }
         this.cyclingInterval = null;
         this.feedContainer = null;
         this.panel = null;
@@ -129,8 +135,13 @@ class MarketActivityEngine {
                 <button class="panel-btn-primary" onclick="window.marketActivity.exportSnapshot('${asset.id}')">
                     <i class="fas fa-file-pdf"></i> Export Snapshot
                 </button>
-                <a href="en/observatory/registre-titres-tokenises.html" class="panel-btn-secondary">
-                    <i class="fas fa-database"></i> Registry Port
+                <button class="panel-btn-secondary" onclick="window.marketActivity.shareInsight('${asset.id}')">
+                    <i class="fas fa-share-nodes"></i> Share Insight
+                </button>
+            </div>
+            <div style="margin-top: 15px;">
+                <a href="en/observatory/registre-titres-tokenises.html" class="panel-btn-ghost">
+                    <i class="fas fa-database"></i> Access Registry Port
                 </a>
             </div>
         `;
@@ -159,8 +170,11 @@ class MarketActivityEngine {
         if (!asset) return;
 
         const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+        const insightRef = `DCM-CORE-INSIGHT-#${Math.floor(Math.random() * 9000) + 1000}`;
         const content = `
-DCM CORE - INSTITUTIONAL INTELLIGENCE SNAPSHOT
+${insightRef} | INSTITUTIONAL INTELLIGENCE SNAPSHOT
+--------------------------------------------------
+SOURCE: DCM Core Institute (GTSR Unified Registry)
 --------------------------------------------------
 ASSET NAME:     ${asset.name.toUpperCase()}
 ASSET TYPE:     ${asset.type}
@@ -177,8 +191,8 @@ INSTITUTIONAL METRICS:
 DORA READINESS: ${asset.dora || 'N/A'}
 LIQUIDITY TIER: ${asset.liquidity || 'N/A'}
 --------------------------------------------------
-SOURCE:         GTSR Unified Registry
 GENERATED AT:   ${timestamp} (UTC)
+VERIFY AT:      https://dcmcore.com/?tfin=${asset.id}
 --------------------------------------------------
 (c) 2026 DCM Core Institute. All rights reserved.
         `.trim();
@@ -192,6 +206,32 @@ GENERATED AT:   ${timestamp} (UTC)
         a.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
+    }
+
+    shareInsight(assetId) {
+        const asset = this.database.find(a => a.id === assetId);
+        if (!asset) return;
+
+        const shareUrl = `${window.location.origin}${window.location.pathname}?tfin=${asset.id}`;
+        const text = `📊 Institutional Intelligence: ${asset.name} (${asset.type})\n\n` +
+                     `🔹 Issuer: ${asset.issuer}\n` +
+                     `🔹 Infrastructure: ${asset.infrastructure}\n` +
+                     `🔹 AUM: ${asset.aum}\n` +
+                     `🔹 DORA: ${asset.dora || 'Compliant'}\n\n` +
+                     `👉 Open in Terminal to explore full institutional snapshot:\n${shareUrl}\n\n` +
+                     `#Tokenization #RWA #DCMCore #InstitutionalWeb3`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: `DCM Core Insight: ${asset.name}`,
+                text: text,
+                url: shareUrl
+            }).catch(console.error);
+        } else {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Viral Insight copied to clipboard! Ready to post on LinkedIn/X.");
+            });
+        }
     }
 
     exportJSON(assetId) {
