@@ -6,6 +6,10 @@
 class MarketActivityEngine {
     constructor() {
         const fallbackData = [
+            { id: 'ETH_DOM', name: 'Ethereum Dominance', type: 'Institutional Insight', infrastructure: 'Mainnet', aum: '72.4%', issuer: 'DCM Analysis', jurisdiction: 'Global', compliance: 'N/A', isin: 'N/A', settlement: 'Direct', status: 'LIVE', dora: 'N/A', liquidity: 'Dominant', 
+              narrativeTitle: 'Ethereum dominates tokenized finance', 
+              narrativeSubtitle: '72.4% of institutional assets are issued on Ethereum.' 
+            },
             { id: 'TFIN-BR-01', name: 'BlackRock BUIDL', type: 'Tokenized Fund', infrastructure: 'Ethereum', aum: '$375M', issuer: 'BlackRock', jurisdiction: 'US', compliance: 'DORA / MiCA', isin: 'US123456789', settlement: 'T+0', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 1 - Institutional' },
             { id: 'TFIN-GS-04', name: 'GS DAP Digital Bond', type: 'Digital Bond', infrastructure: 'Canton', aum: '$100M', issuer: 'Goldman Sachs', jurisdiction: 'Luxembourg', compliance: 'EU Pilot Regime', isin: 'LU987654321', settlement: 'T+0', status: 'LIVE', dora: 'Partial', liquidity: 'Tier 1 - Institutional' },
             { id: 'TFIN-SG-09', name: 'SG-Forge EURCV', type: 'Stablecoin', infrastructure: 'Ethereum', aum: '$12M', issuer: 'Société Générale', jurisdiction: 'France', compliance: 'MiCA Compliant', isin: 'FR001234567', settlement: 'Real-time', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 2 - Specialized' },
@@ -97,9 +101,29 @@ class MarketActivityEngine {
         if (!asset) return;
 
         const content = document.getElementById('panel-content');
+        
+        // GTM Tracking
+        console.log(`[DCM_ACTIVATION] TFIN_OPEN: ${assetId}`);
+        if (window.gtag) {
+            window.gtag('event', 'tfin_open', { 'asset_id': assetId, 'asset_name': asset.name });
+        }
+
+        const isFR = window.location.pathname.includes('/fr/');
+        const strings = {
+            explore: isFR ? 'Explorer le Marché' : 'Explore Full Market',
+            observatory: isFR ? 'Observatoire du Marché' : 'Market Observatory',
+            dominanceTitle: isFR ? 'Ethereum domine la finance tokenisée' : 'Ethereum dominates tokenized finance',
+            dominanceSub: isFR ? '72,4% des actifs institutionnels sont émis sur Ethereum.' : '72.4% of institutional assets are issued on Ethereum.'
+        };
+
+        const displayTitle = assetId === 'ETH_DOM' ? strings.dominanceTitle : (asset.narrativeTitle || asset.name);
+        const displaySub = assetId === 'ETH_DOM' ? strings.dominanceSub : (asset.narrativeSubtitle || asset.type);
+
         content.innerHTML = `
-            <h2 class="panel-title">${asset.name}</h2>
-            <p class="panel-subtitle">${asset.type}</p>
+            <div class="gtm-narrative" style="margin-bottom: 30px; border-bottom: 1px solid rgba(59, 130, 246, 0.2); padding-bottom: 20px;">
+                <h2 class="panel-title" style="color: #fff; font-size: 24px; line-height: 1.2;">${displayTitle}</h2>
+                <p class="panel-subtitle" style="color: var(--accent-obs); font-weight: 700; margin-top: 10px;">${displaySub}</p>
+            </div>
             
             <div class="panel-stats-grid">
                 <div class="stat-box">
@@ -133,15 +157,18 @@ class MarketActivityEngine {
 
             <div class="panel-actions-pro">
                 <button class="panel-btn-primary" onclick="window.marketActivity.exportSnapshot('${asset.id}')">
-                    <i class="fas fa-file-pdf"></i> Export Snapshot
+                    <i class="fas fa-file-pdf"></i> ${isFR ? 'Exporter Snapshot' : 'Export Snapshot'}
                 </button>
                 <button class="panel-btn-secondary" onclick="window.marketActivity.shareInsight('${asset.id}')">
-                    <i class="fas fa-share-nodes"></i> Share Insight
+                    <i class="fas fa-share-nodes"></i> ${isFR ? 'Partager Insight' : 'Share Insight'}
                 </button>
             </div>
-            <div style="margin-top: 15px;">
-                <a href="en/observatory/registre-titres-tokenises.html" class="panel-btn-ghost">
-                    <i class="fas fa-database"></i> Access Registry Port
+            <div style="margin-top: 25px; display: grid; gap: 10px;">
+                <a href="${isFR ? '/fr/observatory/registre-titres-tokenises.html' : '/en/observatory/tokenized-securities-registry.html'}" class="panel-btn-primary" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid #3b82f6;">
+                    <i class="fas fa-grid-horizontal"></i> ${strings.explore}
+                </a>
+                <a href="${isFR ? '/fr/observatory/tokenized-markets.html' : '/en/observatory/tokenized-markets.html'}" class="panel-btn-ghost">
+                    <i class="fas fa-chart-line"></i> ${strings.observatory}
                 </a>
             </div>
         `;

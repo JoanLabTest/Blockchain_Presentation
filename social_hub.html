@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCM Core | Social Hub Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #020617;
+            --card-bg: #0f172a;
+            --accent: #3b82f6;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --linkedin: #0077b5;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 18px;
+        }
+        .post-grid {
+            display: grid;
+            gap: 30px;
+        }
+        .post-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        .post-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .post-label {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(59, 132, 246, 0.1);
+            color: var(--accent);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .post-content {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        .post-actions {
+            display: flex;
+            gap: 15px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .btn-copy {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-linkedin {
+            background: var(--linkedin);
+            color: white;
+        }
+        .btn:hover {
+            filter: brightness(1.1);
+            transform: scale(1.02);
+        }
+        .asset-hint {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #64748b;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-paper-plane"></i> Social Media Launcher</h1>
+            <p class="subtitle">Préparez et publiez vos insights institutionnels en un clic.</p>
+        </header>
+
+        <div class="brand-kit">
+            <h2><i class="fab fa-linkedin"></i> LinkedIn Company Page setup</h2>
+            <p class="subtitle">Copiez les éléments ci-dessous pour configurer votre page institutionnelle.</p>
+            
+            <div class="post-card">
+                <span class="post-label">Slogan (Tagline)</span>
+                <div class="post-content" id="tagline">Standardizing digital asset governance & DLT infrastructure for Tier-1 institutions.</div>
+                <button class="btn btn-copy" onclick="copyPost('tagline')"><i class="fas fa-copy"></i> Copier le slogan</button>
+            </div>
+
+            <div class="post-card">
+                <span class="post-label">Description (À propos)</span>
+                <div class="post-content" id="about">DCM Core Institute is the European reference think-tank and infrastructure provider for Institutional Digital Asset Governance.
+
+As global financial markets transition towards Programmable Capital Markets (PCM), Tier-1 banks face a critical challenge: integrating DLT, tokenization, and wCBDC while maintaining strict compliance with evolving regulations like DORA, MiCA, and Basel III.
+
+We bridge the gap between regulatory theory and technical execution.
+
+🔹 **OUR PILLARS:**
+1. **Global Tokenized Securities Registry (GTSR):** A live data terminal tracking over $2.65B+ in verified institutional AUM.
+2. **Reference Implementation Hub:** Actionable Blueprints and smart contract architectures for Digital Bonds and Institutional Money.
+3. **Governance & Compliance:** Automated auditing tools and MRM (Model Risk Management) frameworks aligned with ESMA, EBA, and BIS standards.
+4. **Policy & Research:** Providing global regulatory tracking, white papers, and the Global Tokenization Report 2026.
+
+💡 **For CIOs, CROs, and Lead Architects:**
+Stop wondering how to build compliant DLT infrastructure. Use our GTDS (Global Token Data Standard) and our programmable API to execute your digital asset strategy safely.
+
+Explore our data, blueprints, and research at 🔗 dcmcore.com</div>
+                <button class="btn btn-copy" onclick="copyPost('about')"><i class="fas fa-copy"></i> Copier la description</button>
+            </div>
+            
+            <div class="post-card">
+                <span class="post-label">Checklist de Configuration</span>
+                <ul style="font-size: 14px; color: var(--text-dim); line-height: 1.8;">
+                    <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> <strong>Logo :</strong> 400x400 px, fond uni.</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> <strong>Bannière :</strong> 1128x191 px (Design premium suggéré ci-dessous).</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> <strong>Bouton CTA :</strong> Paramétrez le bouton sur "Learn more" pointant vers dcmcore.com.</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> <strong>Post Épinglé :</strong> Épinglez votre premier post sur le GTSR en haut du flux.</li>
+                </ul>
+            </div>
+
+            <div class="post-card">
+                <span class="post-label">Bannière Mockup (Suggérée)</span>
+                <img src="images/linkedin_banner_mockup.png" alt="LinkedIn Banner Mockup" class="mockup-img" id="banner-preview-img" style="width: 100%; border-radius: 12px; margin-top: 10px; border: 1px solid rgba(255,255,255,0.1);">
+                <p class="asset-hint">Utilisez cette image comme base pour votre couverture LinkedIn (1128x191 px).</p>
+            </div>
+            </div>
+        </div>
+
+        <div class="post-grid">
+            <h2 style="margin-top: 40px;"><i class="fas fa-paper-plane"></i> LinkedIn Post Templates</h2>
+            <!-- POST 1 -->
+            <div class="post-card">
+                <span class="post-label">Angle 1 : Data & Marché</span>
+                <div class="post-content" id="post1">**Le marché des actifs financiers tokenisés vient de franchir un cap. Et ce n'est plus au stade du "Proof of Concept".** 📊
+
+Notre registre mondial (GTSR) au sein du DCM Core Institute suit désormais plus de 2,65 milliards de dollars d'AUM institutionnel vérifié.
+
+Ce que nous observons en temps réel :
+1️⃣ Les fonds monétaires (ex: BlackRock BUIDL) dominent la liquidité on-chain.
+2️⃣ Les émissions de dette souveraine (EIB, KfW, SocGen) prouvent que le cycle de vie complet (émission, coupon, remboursement) peut être automatisé sans risque de contrepartie.
+3️⃣ Le règlement atomique (DvP) en T+0 devient le nouveau standard exigé par les acheteurs institutionnels.
+
+La question n'est plus "si" la tokenisation va transformer les marchés de capitaux, mais "à quelle vitesse" votre infrastructure pourra s'y connecter.
+
+💡 Quants et Analystes : notre Observatoire est désormais interrogeable en temps réel via notre terminal web ou notre API (tapez `DCM.query()` dans votre console).
+
+Explorez les données du Global Tokenized Securities Registry en direct ici :
+🔗 https://dcmcore.com/fr/observatory/registre-titres-tokenises.html
+
+#Tokenization #DigitalBonds #CapitalMarkets #DataAnalytics #DCMCore</div>
+                <div class="post-actions">
+                    <button class="btn btn-copy" onclick="copyPost('post1')"><i class="fas fa-copy"></i> Copier le texte</button>
+                    <a href="https://www.linkedin.com/feed/" target="_blank" class="btn btn-linkedin"><i class="fab fa-linkedin"></i> Ouvrir LinkedIn</a>
+                </div>
+                <p class="asset-hint"><i class="fas fa-image"></i> Image suggérée : Capture d'écran du dashboard GTSR (AUM $2.65B+)</p>
+            </div>
+
+            <!-- POST 2 -->
+            <div class="post-card">
+                <span class="post-label">Angle 2 : Douleur Réglementaire</span>
+                <div class="post-content" id="post2">**70% des banques européennes n'ont pas de framework d'évaluation du risque DLT conforme à DORA.** ⚠️
+
+Alors que l'écosystème migre vers les "Programmable Capital Markets", le risque se déplace du risque de crédit vers le risque technologique (Smart Contracts, Oracles, DLT).
+
+Si votre banque prépare une émission obligataire sur registre distribué en 2026, votre Board vous posera ces questions :
+🔒 Comment modélisons-nous le "Bug Risk" d'un Smart Bond Contract ?
+⚖️ Notre Tokenized Deposit est-il en conformité avec MiCA et Bâle III ?
+🛡️ Comment garantir l'immuabilité et la résilience opérationnelle (DORA) ?
+
+Chez DCM Core Institute, nous avons standardisé la gouvernance des actifs numériques pour les institutions Tier-1.
+
+🛠️ **Nouveau :** Nous venons de mettre en ligne notre Auditeur de Conformité Interactif. Testez l'alignement de vos projets DLT avec les standards institutionnels (GTDS) en 2 minutes.
+
+Évaluez votre infrastructure ici :
+🔗 https://dcmcore.com/fr/standards/blueprints/index.html
+
+#Compliance #DORA #MiCA #RiskManagement #Banking #FinTech</div>
+                <div class="post-actions">
+                    <button class="btn btn-copy" onclick="copyPost('post2')"><i class="fas fa-copy"></i> Copier le texte</button>
+                    <a href="https://www.linkedin.com/feed/" target="_blank" class="btn btn-linkedin"><i class="fab fa-linkedin"></i> Ouvrir LinkedIn</a>
+                </div>
+                <p class="asset-hint"><i class="fas fa-image"></i> Image suggérée : Texte "70% des banques EU..."</p>
+            </div>
+
+            <!-- POST 3 -->
+            <div class="post-card">
+                <span class="post-label">Angle 3 : Architecte IT</span>
+                <div class="post-content" id="post3">**Un standard n'est qu'une théorie tant qu'il n'y a pas de code pour l'exécuter.** 🏗️
+
+Jusqu'à présent, les pilotes DLT se sont concentrés sur des parties isolées de la chaîne de valeur, conduisant à un paysage fragmenté.
+
+C'est pourquoi le DCM Core Institute lance aujourd'hui son **Reference Implementation Hub**. Nous passons de l'Observatoire à l'Architecte d'Infrastructure.
+
+Ne vous demandez plus comment construire une obligation numérique (Digital Bond). Nous avons documenté l'architecture de référence :
+📝 Mapping GTDS (Global Token Data Standard) exhaustif.
+⚙️ Logique de cycle de vie des Smart Contracts intégrée.
+🔄 Schéma exécutif de l'émission on-chain au règlement DvP.
+
+Que vous travailliez sur des actifs réels (RWA) ou de la monnaie institutionnelle (wCBDC / Tokenized Deposits), nos Blueprints traduisent la réglementation en spécifications techniques.
+
+Accédez à notre galerie de Blueprints et accélérez votre "Time-to-Market" :
+🔗 https://dcmcore.com/fr/standards/blueprints/index.html
+
+#Web3 #EnterpriseBlockchain #SmartContracts #DigitalAssets #ITArchitecture</div>
+                <div class="post-actions">
+                    <button class="btn btn-copy" onclick="copyPost('post3')"><i class="fas fa-copy"></i> Copier le texte</button>
+                    <a href="https://www.linkedin.com/feed/" target="_blank" class="btn btn-linkedin"><i class="fab fa-linkedin"></i> Ouvrir LinkedIn</a>
+                </div>
+                <p class="asset-hint"><i class="fas fa-image"></i> Image suggérée : Schéma d'architecture Digital Bond</p>
+            </div>
+
+            <!-- POST 4 -->
+            <div class="post-card">
+                <span class="post-label">Angle 4 : Thought Leadership</span>
+                <div class="post-content" id="post4">**Qu'avons-nous appris de plus de 60 émissions pilotes d'obligations tokenisées à travers le monde ?** 🌍
+
+De la BCE au projet mBridge (BRI), en passant par Evergreen (HKMA), les institutions financières de Tier-1 ont posé les fondations du futur des marchés primaires.
+
+Au DCM Core Institute, nous avons synthétisé ces retours d'expérience en 8 enseignements opérationnels critiques :
+📉 La simplification de la chaîne de valeur (de 6 intermédiaires à 2) est bien réelle.
+💶 Le règlement en monnaie de banque centrale (wCBDC) ou dépôts tokenisés est non-négociable pour le T+0.
+🧩 L'interopérabilité des réseaux DLT reste le chantier numéro 1.
+
+Vous préparez votre stratégie 2026 ? Plongez dans nos Policy Briefs et nos rapports de recherche pour comprendre comment les marchés de capitaux deviennent programmables.
+
+📖 Lisez l'analyse complète "DLT Bonds Learnings" sur notre portail de recherche :
+🔗 https://dcmcore.com/fr/policy/dlt-bonds-learnings.html
+
+#InstitutionalFinance #DLT #wCBDC #InnovationBanking #DCMCore</div>
+                <div class="post-actions">
+                    <button class="btn btn-copy" onclick="copyPost('post4')"><i class="fas fa-copy"></i> Copier le texte</button>
+                    <a href="https://www.linkedin.com/feed/" target="_blank" class="btn btn-linkedin"><i class="fab fa-linkedin"></i> Ouvrir LinkedIn</a>
+                </div>
+                <p class="asset-hint"><i class="fas fa-image"></i> Image suggérée : Couverture du Global Tokenization Report 2026</p>
+            </div>
+        </div>
+
+        <footer style="margin-top: 80px; text-align: center; color: #475569; font-size: 13px;">
+            <p>&copy; 2026 DCM Core Institute - Internal Growth Tool</p>
+        </footer>
+    </div>
+
+        }
+    </script>
+</body>
+</html>

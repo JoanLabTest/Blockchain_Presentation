@@ -28,15 +28,54 @@ function openWalletModal() {
     }
 }
 
-// Language Switcher Logic (Intelligent redirect)
+// Language Switcher & Navigation Orchestration
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Language Switcher (Path Preservation)
     const langLinks = document.querySelectorAll('.lang-link');
     langLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            // Future implementation: map current page to direct translation
-            // For now, allow default href action
+            e.preventDefault();
+            const targetLang = link.textContent.trim().toLowerCase(); 
+            const currentPath = window.location.pathname;
+            const pathParts = currentPath.split('/');
+            const filename = pathParts[pathParts.length - 1] || 'index.html';
+            let newPath = '';
+            
+            const isInFR = currentPath.includes('/fr/');
+            const isInEN = currentPath.includes('/en/');
+            
+            if (isInFR) {
+                if (targetLang === 'en') newPath = currentPath.replace('/fr/', '/en/');
+                else return;
+            } else if (isInEN) {
+                if (targetLang === 'fr') newPath = currentPath.replace('/en/', '/fr/');
+                else return;
+            } else {
+                newPath = `/${targetLang}/${filename}`;
+            }
+
+            if (newPath) window.location.href = newPath;
         });
     });
+
+    // 2. Mobile Menu (Hamburger)
+    const hamburger = document.querySelector('.hamburger') || document.querySelector('.mobile-menu-toggle');
+    const navPillars = document.querySelector('.nav-pillars');
+    if (hamburger && navPillars) {
+        hamburger.addEventListener('click', () => {
+            navPillars.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+    }
+
+    // 3. Search Initialization (If exists)
+    const searchInput = document.getElementById('globalSearchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            console.log('Search triggered:', e.target.value);
+            // Logic for search results would go here or in gtsr-query-engine.js
+        });
+    }
 });
 
 // Social Insight Sharing Utility

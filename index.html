@@ -467,6 +467,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="js/navigation-hub.js"></script>
     <script src="js/gtsr-query-engine.js"></script>
     <script src="js/market-ticker.js"></script>
+    <script src="js/market-activity-engine.js"></script>
+    <script src="js/insight-generator.js"></script>
+    <script src="js/i18n-switcher.js"></script>
 </head>
 
 <body>
@@ -476,10 +479,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <!-- NAVIGATION (Hub Version) -->
     <nav class="navbar-pro">
+        <button class="mobile-menu-toggle" aria-label="Menu Mobile">
+            <i class="fas fa-bars"></i>
+        </button>
         <a class="nav-brand" href="index.html">
             <div class="logo-orb"></div>
             <div class="logo-text">DCM <span>Core Institute</span></div>
         </a>
+
+        <!-- GLOBAL SEARCH (Phase 56 Implementation) -->
+        <div class="nav-search">
+            <i class="fas fa-search nav-search-icon"></i>
+            <input type="text" id="globalSearchInput" class="nav-search-input" placeholder="Search MiCA, RWA, Yield...">
+            <div id="searchResults" class="search-results"></div>
+        </div>
 
         <div class="nav-pillars">
             <!-- Dimension 1: Research Programs -->
@@ -1176,6 +1189,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
             }
         });
+    </script>
 
     <!-- 1. CORE INTELLIGENCE -->
     <section class="hub-section" data-aos="fade-up" id="core" style="--pillar-color: #10b981;">
@@ -1602,15 +1616,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const searchResults = document.getElementById('searchResults');
 
         const modules = [
-            { name: 'MiCA Compliance', link: 'legal_pilot.html', icon: 'fa-scale-balanced' },
-            { name: 'Yield Mechanics', link: 'yield-mechanics.html', icon: 'fa-coins' },
-            { name: 'ROI Modeling', link: 'flux-comparison.html', icon: 'fa-calculator' },
-            { name: 'Smart Contracts Audit', link: 'smart-contracts.html', icon: 'fa-code' },
-            { name: 'ECB DLT Trials', link: 'ecb-dlt-trials.html', icon: 'fa-globe-europe' },
-            { name: 'BlackRock BUIDL Case', link: 'buidl.html', icon: 'fa-briefcase' },
-            { name: 'RWA Infrastructure', link: 'rwa.html', icon: 'fa-building' },
-            { name: 'Certification Center', link: 'quiz.html', icon: 'fa-award' },
-            { name: 'Developer Sandbox', link: 'sandbox.html', icon: 'fa-terminal' }
+            { name: 'MiCA Compliance & Regulation', link: 'legal_pilot.html', icon: 'fa-scale-balanced', keywords: ['mica', 'regulation', 'eu', 'legal'] },
+            { name: 'Yield Mechanics & Staking', link: 'yield-mechanics.html', icon: 'fa-coins', keywords: ['yield', 'staking', 'apr', 'apy'] },
+            { name: 'ROI Modeling & Comparison', link: 'flux-comparison.html', icon: 'fa-calculator', keywords: ['roi', 'flux', 'comparison'] },
+            { name: 'Smart Contracts Audit', link: 'smart-contracts.html', icon: 'fa-code', keywords: ['smart', 'contract', 'audit'] },
+            { name: 'ECB DLT Trials & Settlement', link: 'ecb-dlt-trials.html', icon: 'fa-globe-europe', keywords: ['ecb', 'dlt', 'trials', 'settlement'] },
+            { name: 'BlackRock BUIDL Case Study', link: 'buidl.html', icon: 'fa-briefcase', keywords: ['blackrock', 'buidl', 'tokenization'] },
+            { name: 'RWA Infrastructure', link: 'rwa.html', icon: 'fa-building', keywords: ['rwa', 'real', 'world', 'assets'] },
+            { name: 'Certification & Quiz Center', link: 'quiz.html', icon: 'fa-award', keywords: ['quiz', 'certification', 'exam'] },
+            { name: 'Developer Sandbox', link: 'sandbox.html', icon: 'fa-terminal', keywords: ['dev', 'sandbox', 'api'] }
         ];
 
         searchInput.addEventListener('input', (e) => {
@@ -1620,7 +1634,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 return;
             }
 
-            const filtered = modules.filter(m => m.name.toLowerCase().includes(val));
+            const filtered = modules.filter(m => 
+                m.name.toLowerCase().includes(val) || 
+                (m.keywords && m.keywords.some(k => k.includes(val)))
+            );
             if (filtered.length > 0) {
                 searchResults.innerHTML = filtered.map(m => `
                     <a href="${m.link}" class="search-item">
