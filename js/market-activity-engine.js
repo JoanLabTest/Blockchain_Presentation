@@ -6,10 +6,10 @@
 class MarketActivityEngine {
     constructor() {
         const fallbackData = [
-            { id: 'TFIN-BR-01', name: 'BlackRock BUIDL', type: 'Tokenized Fund', infrastructure: 'Ethereum', aum: '$375M', issuer: 'BlackRock', jurisdiction: 'US', compliance: 'DORA / MiCA', isin: 'US123456789', settlement: 'T+0', status: 'LIVE' },
-            { id: 'TFIN-GS-04', name: 'GS DAP Digital Bond', type: 'Digital Bond', infrastructure: 'Canton', aum: '$100M', issuer: 'Goldman Sachs', jurisdiction: 'Luxembourg', compliance: 'EU Pilot Regime', isin: 'LU987654321', settlement: 'T+0', status: 'LIVE' },
-            { id: 'TFIN-SG-09', name: 'SG-Forge EURCV', type: 'Stablecoin', infrastructure: 'Ethereum', aum: '$12M', issuer: 'Société Générale', jurisdiction: 'France', compliance: 'MiCA Compliant', isin: 'FR001234567', settlement: 'Real-time', status: 'LIVE' },
-            { id: 'TFIN-DB-02', name: 'DWS Xtrackers DLT', type: 'ETF Token', infrastructure: 'SWIAT', aum: '$50M', issuer: 'DWS Group', jurisdiction: 'Germany', compliance: 'Kvg G', isin: 'DE000ABC123', settlement: 'T+0', status: 'PILOT' }
+            { id: 'TFIN-BR-01', name: 'BlackRock BUIDL', type: 'Tokenized Fund', infrastructure: 'Ethereum', aum: '$375M', issuer: 'BlackRock', jurisdiction: 'US', compliance: 'DORA / MiCA', isin: 'US123456789', settlement: 'T+0', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 1 - Institutional' },
+            { id: 'TFIN-GS-04', name: 'GS DAP Digital Bond', type: 'Digital Bond', infrastructure: 'Canton', aum: '$100M', issuer: 'Goldman Sachs', jurisdiction: 'Luxembourg', compliance: 'EU Pilot Regime', isin: 'LU987654321', settlement: 'T+0', status: 'LIVE', dora: 'Partial', liquidity: 'Tier 1 - Institutional' },
+            { id: 'TFIN-SG-09', name: 'SG-Forge EURCV', type: 'Stablecoin', infrastructure: 'Ethereum', aum: '$12M', issuer: 'Société Générale', jurisdiction: 'France', compliance: 'MiCA Compliant', isin: 'FR001234567', settlement: 'Real-time', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 2 - Specialized' },
+            { id: 'TFIN-DB-02', name: 'DWS Xtrackers DLT', type: 'ETF Token', infrastructure: 'SWIAT', aum: '$50M', issuer: 'DWS Group', jurisdiction: 'Germany', compliance: 'Kvg G', isin: 'DE000ABC123', settlement: 'T+0', status: 'PILOT', dora: 'In Progress', liquidity: 'Tier 2 - Specialized' }
         ];
 
         this.database = (window.GTSR_DATABASE && window.GTSR_DATABASE.length > 0) ? window.GTSR_DATABASE : fallbackData;
@@ -98,7 +98,12 @@ class MarketActivityEngine {
             <div class="panel-stats-grid">
                 <div class="stat-box">
                     <span class="stat-label">IDENTIFIER (TFIN)</span>
-                    <span class="stat-value highlight">${asset.id}</span>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <span class="stat-value highlight">${asset.id}</span>
+                        <button class="copy-btn-mini" onclick="window.marketActivity.copyID('${asset.id}', this)" title="Copy TFIN-ID">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="stat-box">
                     <span class="stat-label">ASSET_VALUE (AUM)</span>
@@ -111,7 +116,8 @@ class MarketActivityEngine {
                 <div class="table-row"><span>Infrastructure</span><span class="val">${asset.infrastructure}</span></div>
                 <div class="table-row"><span>Jurisdiction</span><span class="val">${asset.jurisdiction}</span></div>
                 <div class="table-row"><span>Compliance</span><span class="val">${asset.compliance}</span></div>
-                <div class="table-row"><span>ISIN</span><span class="val">${asset.isin}</span></div>
+                <div class="table-row"><span>DORA Readiness</span><span class="val highlight-blue">${asset.dora || 'Unknown'}</span></div>
+                <div class="table-row"><span>Liquidity Tier</span><span class="val highlight-green">${asset.liquidity || 'N/A'}</span></div>
                 <div class="table-row"><span>Settlement</span><span class="val">${asset.settlement}</span></div>
             </div>
 
@@ -119,9 +125,13 @@ class MarketActivityEngine {
                 <i class="fas fa-circle"></i> Status: ${asset.status}
             </div>
 
-            <div class="panel-actions">
-                <a href="en/observatory/tokenized-securities-registry.html" class="panel-btn-primary">View in Registry</a>
-                <button class="panel-btn-secondary" onclick="window.marketActivity.exportJSON('${asset.id}')">Export Data</button>
+            <div class="panel-actions-pro">
+                <button class="panel-btn-primary" onclick="window.marketActivity.exportSnapshot('${asset.id}')">
+                    <i class="fas fa-file-pdf"></i> Export Snapshot
+                </button>
+                <a href="en/observatory/registre-titres-tokenises.html" class="panel-btn-secondary">
+                    <i class="fas fa-database"></i> Registry Port
+                </a>
             </div>
         `;
 
@@ -130,6 +140,58 @@ class MarketActivityEngine {
 
     closePanel() {
         this.panel.classList.remove('open');
+    }
+
+    copyID(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            btn.style.color = '#10b981';
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.color = '';
+            }, 2000);
+        });
+    }
+
+    exportSnapshot(assetId) {
+        const asset = this.database.find(a => a.id === assetId);
+        if (!asset) return;
+
+        const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+        const content = `
+DCM CORE - INSTITUTIONAL INTELLIGENCE SNAPSHOT
+--------------------------------------------------
+ASSET NAME:     ${asset.name.toUpperCase()}
+ASSET TYPE:     ${asset.type}
+TFIN-ID:        ${asset.id}
+ISIN:           ${asset.isin}
+--------------------------------------------------
+ISSUER:         ${asset.issuer}
+JURISDICTION:   ${asset.jurisdiction}
+INFRASTRUCTURE: ${asset.infrastructure}
+AUM / VALUE:    ${asset.aum}
+SETTLEMENT:     ${asset.settlement}
+--------------------------------------------------
+INSTITUTIONAL METRICS:
+DORA READINESS: ${asset.dora || 'N/A'}
+LIQUIDITY TIER: ${asset.liquidity || 'N/A'}
+--------------------------------------------------
+SOURCE:         GTSR Unified Registry
+GENERATED AT:   ${timestamp} (UTC)
+--------------------------------------------------
+(c) 2026 DCM Core Institute. All rights reserved.
+        `.trim();
+
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `DCM_SNAPSHOT_${assetId}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
     }
 
     exportJSON(assetId) {
