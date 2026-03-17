@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Technical deep dive into Atomic Settlement (DvP) on Distributed Ledgers. Understand T+0 settlement logic and liquidity optimization for institutions." name="description" />
+    <title>Atomic Settlement Explained | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/en/research/atomic-settlement-explained.html" />
+
+    <!-- Google Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+
+    <style>
+        body { background: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; padding-top: 100px; }
+        .article-container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .article-header { margin-bottom: 50px; }
+        .article-category { color: #f59e0b; text-transform: uppercase; font-size: 12px; font-weight: 800; letter-spacing: 1px; }
+        .article-title { font-family: 'Outfit'; font-size: clamp(32px, 4vw, 48px); font-weight: 800; line-height: 1.2; margin: 15px 0; }
+        
+        .article-body h2 { font-family: 'Outfit'; font-size: 28px; margin-top: 50px; margin-bottom: 20px; }
+        .article-body p { font-size: 18px; line-height: 1.7; color: #cbd5e1; margin-bottom: 25px; }
+
+        .logic-card { background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.1); border-radius: 16px; padding: 25px; margin: 40px 0; border-left: 4px solid #f59e0b; }
+        .logic-title { font-weight: 700; color: #f59e0b; margin-bottom: 10px; font-family: 'JetBrains Mono'; }
+
+        .breadcrumb { font-size: 12px; color: #475569; display: flex; gap: 8px; margin-bottom: 30px; }
+        .breadcrumb a { color: #475569; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+    </nav>
+
+    <div class="article-container">
+        <nav class="breadcrumb">
+            <a href="../../index.html">Home</a> <span>›</span>
+            <a href="#">Research</a> <span>›</span>
+            <span style="color:#f59e0b;">Atomic Settlement</span>
+        </nav>
+
+        <article class="article-body">
+            <header class="article-header">
+                <span class="article-category">Financial Infrastructure</span>
+                <h1 class="article-title">Atomic Settlement: The Logic of T+0 Finance</h1>
+                <p style="color:#64748b;">March 17, 2026 • 15 min read</p>
+            </header>
+
+            <p>
+                In traditional finance, the "settlement gap"—the time between trade execution and final asset transfer (T+2)—is a major source of counterparty risk and capital inefficiency. Atomic settlement, made possible by Distributed Ledger Technology (DLT), eliminates this gap by ensuring that the transfer of an asset and its payment leg occur simultaneously within a single, indivisible transaction.
+            </p>
+
+            <h2>Understanding 'Atomicity'</h2>
+            <p>
+                In computer science, an operation is "atomic" if it appears to the rest of the system to occur instantaneously. For financial markets, this means the **Delivery-versus-Payment (DvP)** occurs such that both legs either fully succeed or fail together. No partial state is possible.
+            </p>
+
+            <div class="logic-card">
+                <div class="logic-title">Condition: SUCCESS</div>
+                <p style="font-size:14px; font-family:'JetBrains Mono';">IF (Validate(Asset_Transfer) == TRUE && Validate(Cash_Payment) == TRUE)<br>THEN EXECUTE(Commit_State)<br>ELSE ROLLBACK(All_Balances)</p>
+            </div>
+
+            <h2>Institutional Implications</h2>
+            <p>
+                Atomic settlement enables the transition to T+0, effectively removing "trapped" collateral that otherwise must be held to cover settlement risk. This optimization can reduce global capital requirements by billions of dollars.
+            </p>
+
+            <p>
+                [Detailed analysis on Wholesale CBDC versus Tokenized Deposits as cash legs continues...]
+            </p>
+
+            <p>For a technical view of how this integrates into asset issuance, see our <a href="../guides/rwa-tokenization.html" style="color:#f59e0b;">Institutional RWA Framework</a>.</p>
+        </article>
+    </div>
+
+    <global-footer base-path=""></global-footer>
+    <script src="../../js/navigation-hub.js"></script>
+</body>
+</html>
