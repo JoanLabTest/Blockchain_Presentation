@@ -29,6 +29,6 @@ def fix_paths(file_path, levels_deep):
     
     print(f"Updated paths in {file_path}")
 
-fix_paths('en/learn/index.html', 1)
-fix_paths('en/expert/index.html', 1)
-fix_paths('en/academy/pro/index.html', 2)
+fix_paths('fr/learn/index.html', 1)
+fix_paths('fr/expert/index.html', 1)
+fix_paths('fr/academy/pro/index.html', 2)
