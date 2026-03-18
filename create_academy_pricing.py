@@ -1,0 +1,233 @@
+import os
+
+def create_academy_pricing(lang="en"):
+    base_dir = "/Users/joanl/blockchain-presentation"
+    file_path = f"{lang}/academy/pricing.html"
+    
+    title = "Academy Pricing | DCM Core Institute" if lang=="en" else "Tarification Academy | DCM Core Institute"
+    hero_title = "Invest in your Institutional Career" if lang=="en" else "Investissez dans votre Carrière Institutionnelle"
+    hero_sub = "Master the complexities of Tokenized Finance, from DLT basics to advanced RWA & DeFi strategies." if lang=="en" else "Maîtrisez la complexité de la Finance Tokenisée, des bases DLT aux stratégies RWA et DeFi avancées."
+    
+    btn_start_pro = "Start Academy Pro" if lang=="en" else "Démarrer Academy Pro"
+    btn_free = "Start Learning Free" if lang=="en" else "Apprentissage Gratuit"
+    
+    # Stripe Link (Placeholder per user request)
+    stripe_link = "https://buy.stripe.com/demo_academy_pro" 
+
+    html = f"""<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <link rel="canonical" href="https://dcmcore.com/{lang}/academy/pricing.html">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800;900&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="/css/navigation-hub.css" rel="stylesheet">
+    <style>
+        :root {{
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-gold: #f59e0b;
+            --border: rgba(255,255,255,0.08);
+        }}
+        body {{
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+        }}
+        .navbar-minimal {{
+            height: 70px;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+        }}
+        .pricing-hero {{
+            padding: 160px 20px 80px;
+            text-align: center;
+            background: radial-gradient(circle at top, rgba(139, 92, 246, 0.15), transparent);
+        }}
+        h1 {{
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }}
+        .subtitle {{
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }}
+        .pricing-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }}
+        .pricing-card {{
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }}
+        .pricing-card:hover {{
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.15);
+        }}
+        .pricing-card.premium {{
+            border-color: var(--accent-purple);
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.1);
+            position: relative;
+        }}
+        .badge-premium {{
+            background: var(--accent-purple);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-transform: uppercase;
+        }}
+        .price {{
+            font-size: 48px;
+            font-weight: 800;
+            margin: 20px 0;
+            font-family: 'Outfit', sans-serif;
+        }}
+        .price span {{
+            font-size: 16px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }}
+        .features {{
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+            flex-grow: 1;
+        }}
+        .features li {{
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+        }}
+        .features i {{
+            color: #10b981;
+            margin-top: 4px;
+        }}
+        .btn-pricing {{
+            display: inline-block;
+            text-align: center;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }}
+        .btn-free {{
+            background: rgba(255,255,255,0.05);
+            color: white;
+            border: 1px solid var(--border);
+        }}
+        .btn-pro {{
+            background: var(--accent-purple);
+            color: white;
+        }}
+        /* FOOTER */
+        footer {{
+            padding: 80px 40px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }}
+    </style>
+</head>
+<body>
+    <nav class="navbar-minimal">
+        <a href="/index.html" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 10px;">
+             <span style="font-weight: 900; letter-spacing: -0.5px;">DCM <span style="color:var(--accent-blue)">ACADEMY</span></span>
+        </a>
+        <a href="/{lang}/academy/index.html" style="color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 600;">BACK TO HUB</a>
+    </nav>
+
+    <section class="pricing-hero">
+        <h1>{hero_title}</h1>
+        <p class="subtitle">{hero_sub}</p>
+    </section>
+
+    <div class="pricing-grid">
+        <!-- ANALYST (FREE) -->
+        <div class="pricing-card">
+            <div style="font-size: 14px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Analyst</div>
+            <div class="price">€0<span>/mo</span></div>
+            <ul class="features">
+                <li><i class="fas fa-check"></i> Levels 1-4: Institutional Foundations</li>
+                <li><i class="fas fa-check"></i> Knowledge Base Access</li>
+                <li><i class="fas fa-check"></i> Public Observatory Maps</li>
+                <li style="opacity: 0.5;"><i class="fas fa-lock"></i> Advanced DeFi & RWA Modules</li>
+                <li style="opacity: 0.5;"><i class="fas fa-lock"></i> Mintable Certification Badge</li>
+            </ul>
+            <a href="/{lang}/academy/index.html" class="btn-pricing btn-free">{btn_free}</a>
+        </div>
+
+        <!-- ACADEMY PRO -->
+        <div class="pricing-card premium">
+            <div class="badge-premium">Recommended</div>
+            <div style="font-size: 14px; font-weight: 800; color: var(--accent-purple); text-transform: uppercase;">Academy Pro</div>
+            <div class="price">€49<span>/mo</span></div>
+            <ul class="features">
+                <li><i class="fas fa-check"></i> <strong>All 6 Certification Levels</strong></li>
+                <li><i class="fas fa-check"></i> Advanced RWA & DeFi Strategies</li>
+                <li><i class="fas fa-check"></i> <strong>Mintable On-Chain Badge</strong></li>
+                <li><i class="fas fa-check"></i> Fast-Track Assessment Modes</li>
+                <li><i class="fas fa-check"></i> Executive Performance Analytics</li>
+                <li><i class="fas fa-check"></i> Priority access to Research Briefs</li>
+            </ul>
+            <a href="{stripe_link}" class="btn-pricing btn-pro">{btn_start_pro}</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 DCM Core Institute. All rights reserved.</p>
+    </footer>
+</body>
+</html>"""
+    
+    abs_file_path = os.path.join(base_dir, file_path)
+    with open(abs_file_path, 'w', encoding='utf-8') as f:
+        f.write(html)
+    print(f"Created Academy Pricing: {file_path}")
+
+create_academy_pricing("en")
+create_academy_pricing("fr")

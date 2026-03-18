@@ -14,6 +14,7 @@ const QuizEngine = {
     BANK_PATH: './js/quiz-bank/',
     QUESTIONS_PER_SESSION: 20,
     PASS_SCORE: 80, // % required to unlock next level
+    ACCESS_CODES: ['DCM-PRO-2026', 'ACADEMY-49', 'PRO-UPGRADE-X'],
 
     LEVELS: [
         { id: 1, key: 'L1', file: 'level-1.json', name: 'Foundations of DLT Risk', color: '#10b981', icon: 'fa-seedling', requires: null },
@@ -56,14 +57,33 @@ const QuizEngine = {
 
     // ─── UNLOCK MANAGEMENT ──────────────────────────────────────────────────
     getUnlocks() {
-        if (this.isDevMode()) return [1, 2, 3, 4, 5, 'super'];
+        if (this.isDevMode()) return [1, 2, 3, 4, 5, 6, 'super'];
         return JSON.parse(localStorage.getItem(this.KEYS.UNLOCKS) || '[1]');
     },
 
     isLevelUnlocked(levelId) {
         if (this.isDevMode()) return true;
+        
+        // Level 6 is the monetized gate
+        if (levelId === 6) {
+            const hasProAccess = localStorage.getItem('dcm_pro_access') === 'true';
+            const unlocks = this.getUnlocks();
+            // Must have passed L5 AND have Pro Access code
+            return unlocks.includes(5) && hasProAccess;
+        }
+
         const unlocks = this.getUnlocks();
         return unlocks.includes(levelId);
+    },
+
+    validateAccessCode(code) {
+        const sanitized = code.trim().toUpperCase();
+        if (this.ACCESS_CODES.includes(sanitized)) {
+            localStorage.setItem('dcm_pro_access', 'true');
+            // If they already passed L5, they can now access L6
+            return true;
+        }
+        return false;
     },
 
     unlockLevel(levelId) {
@@ -1176,7 +1196,7 @@ const QuizEngine = {
                 unlocked = nextLevel;
             }
             // Handle super level unlock
-            if (currentLevel === 5) {
+            if (currentLevel === 6) {
                 this.unlockLevel('super');
                 localStorage.setItem(this.KEYS.SUPER, 'true');
             }
