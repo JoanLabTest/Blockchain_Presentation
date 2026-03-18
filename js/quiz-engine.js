@@ -21,7 +21,8 @@ const QuizEngine = {
         { id: 3, key: 'L3', file: 'level-3.json', name: 'Regulatory Mapping', color: '#f97316', icon: 'fa-scale-balanced', requires: 2 },
         { id: 4, key: 'L4', file: 'level-4.json', name: 'Infrastructure & Deployment', color: '#ef4444', icon: 'fa-server', requires: 3 },
         { id: 5, key: 'L5', file: 'level-5.json', name: 'Strategic Positioning', color: '#6366f1', icon: 'fa-chess-king', requires: 4 },
-        { id: 'super', key: 'SL', file: 'super-level.json', name: 'DCM Black Level', color: '#7c3aed', icon: 'fa-bolt', requires: 5, isSuper: true }
+        { id: 6, key: 'L6', file: 'level-6.json', name: 'DeFi & RWA Strategies', color: '#14b8a6', icon: 'fa-cubes', requires: 5 },
+        { id: 'super', key: 'SL', file: 'super-level.json', name: 'DCM Black Level', color: '#7c3aed', icon: 'fa-bolt', requires: 6, isSuper: true }
     ],
 
     // ─── LOCALSTORAGE KEYS ───────────────────────────────────────────────────
@@ -279,6 +280,434 @@ const QuizEngine = {
                 { id: "L5-030", question: "Le 'exit hypothesis' optimal pour les investisseurs d'une startup DLT institutionnelle Série A est :", choices: ["IPO sur le Nasdaq dans les 18 mois suivant la levée", "Acquisition stratégique par un acteur établi (SWIFT, Broadridge, Euroclear, grande banque) ou IPO à 5-7 ans", "Émission de tokens propres convertibles en equity", "Rachat par les fondateurs via un management buyout"], correct: 1, explanation: "Les exits réalistes: M&A stratégique (FIS, Broadridge, DTCC, une grande banque cherchant une brique DLT propriétaire) ou IPO si scale atteint. Le token exit est incompatible avec un VC institutionnel traditionnel.", theme: "VC Due Diligence", difficulty: "hard" }
             ]
         },
+        6: {
+            level: 6, name: "DeFi & RWA Strategies",
+            subtitle: "Decentralized Finance, Real World Asset Tokenization, Institutional Use Cases",
+            theme_color: "#14b8a6",
+            questions: [
+                {
+                                "id": "L6-001",
+                                "question": "What is the core pricing mechanism of a standard Automated Market Maker (AMM)?",
+                                "choices": [
+                                                "Central Limit Order Books (CLOB)",
+                                                "Constant product formula (x * y = k)",
+                                                "Dutch auctions",
+                                                "Algorithmic pegging to fiat"
+                                ],
+                                "correct": 1,
+                                "explanation": "AMMs rely on liquidity pools and a mathematical formula, typically x * y = k, to automatically balance assets and determine prices without needing a counterparty.",
+                                "theme": "DeFi Mechanics",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-002",
+                                "question": "In the context of Tokenized Real World Assets (RWAs), what role does an SPV (Special Purpose Vehicle) usually play?",
+                                "choices": [
+                                                "It is a smart contract that burns tokens",
+                                                "It holds the legal title to the physical asset being tokenized off-chain",
+                                                "It functions as a crypto exchange for the tokens",
+                                                "It acts as a decentralized oracle"
+                                ],
+                                "correct": 1,
+                                "explanation": "An SPV is a legal entity created specifically to hold the traditional asset (like real estate or bonds), bridging the gap between off-chain legal rights and on-chain tokens.",
+                                "theme": "RWA Structuring",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-003",
+                                "question": "What is 'Impermanent Loss' in Decentralized Finance?",
+                                "choices": [
+                                                "A permanent loss of funds due to a smart contract hack",
+                                                "The temporary loss of value when providing liquidity to an AMM compared to simply holding the assets",
+                                                "A fee charged by the network for failed transactions",
+                                                "The depreciation of a stablecoin against the US Dollar"
+                                ],
+                                "correct": 1,
+                                "explanation": "Impermanent loss occurs when the price ratio of deposited assets changes after deposit. It is 'impermanent' because the loss is only realized if the assets are withdrawn at the new price ratio.",
+                                "theme": "DeFi Risks",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-004",
+                                "question": "Which standard is predominantly used on Ethereum for representing non-fungible Real World Assets (like a specific property)?",
+                                "choices": [
+                                                "ERC-20",
+                                                "ERC-721 / ERC-1155",
+                                                "ERC-4337",
+                                                "ERC-3643"
+                                ],
+                                "correct": 1,
+                                "explanation": "ERC-721 and ERC-1155 are the standards for non-fungible tokens, ensuring each token represents a unique asset, which is ideal for distinct RWAs like real estate or fine art.",
+                                "theme": "Token Standards",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-005",
+                                "question": "What is the primary function of the ERC-3643 (T-REX) standard?",
+                                "choices": [
+                                                "To create meme coins with high liquidity",
+                                                "To establish universally compliant permissioned security tokens",
+                                                "To facilitate cross-chain bridging",
+                                                "To standardize NFT metadata"
+                                ],
+                                "correct": 1,
+                                "explanation": "ERC-3643 is tailored for security tokens, embedding compliance rules (like KYC/AML checks) directly into the token transfer functions via decentralized identity systems.",
+                                "theme": "Compliance Standards",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-006",
+                                "question": "How do Flash Loans differ from traditional loans?",
+                                "choices": [
+                                                "They require 150% over-collateralization",
+                                                "They are uncollateralized but must be borrowed and repaid within the same blockchain transaction",
+                                                "They are only available to institutional investors",
+                                                "They take several days to settle"
+                                ],
+                                "correct": 1,
+                                "explanation": "Flash loans allow users to borrow massive amounts of capital without collateral, provided the loan is returned (with fees) in the exact same transaction block. If not, the transaction reverts.",
+                                "theme": "DeFi Instruments",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-007",
+                                "question": "In DeFi lending protocols (e.g., Aave), what triggers a liquidation?",
+                                "choices": [
+                                                "The borrower manually closes their account",
+                                                "The Health Factor of the loan drops below 1 due to collateral depreciation",
+                                                "The protocol upgrades its smart contracts",
+                                                "Interest rates reach a predefined ceiling"
+                                ],
+                                "correct": 1,
+                                "explanation": "Liquidations occur automatically when the value of the collateral falls below the required threshold (Health Factor < 1), allowing liquidators to buy the collateral at a discount to repay the debt.",
+                                "theme": "DeFi Risk Management",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-008",
+                                "question": "What is the concept of 'Composability' in DeFi?",
+                                "choices": [
+                                                "The ability to compose legal contracts off-chain",
+                                                "The highly interoperable nature of smart contracts, allowing them to be combined like 'money legos'",
+                                                "The algorithm used to compose new blocks",
+                                                "The process of wrapping a token to move it to another chain"
+                                ],
+                                "correct": 1,
+                                "explanation": "Composability allows different DeFi protocols to interact seamlessly, enabling complex financial products to be built by plugging existing protocols together.",
+                                "theme": "DeFi Architecture",
+                                "difficulty": "easy"
+                },
+                {
+                                "id": "L6-009",
+                                "question": "Which of the following is a primary oracle risk for DeFi protocols?",
+                                "choices": [
+                                                "The oracle returning a historically accurate but outdated price",
+                                                "The oracle network demanding too much gas",
+                                                "A single oracle node being manipulated to feed incorrect asset prices, triggering cascading liquidations",
+                                                "Oracles refusing to connect to institutional APIs"
+                                ],
+                                "correct": 2,
+                                "explanation": "Since smart contracts execute blindly based on data, a manipulated oracle can artificially trigger liquidations or bad loans, representing a massive systemic risk.",
+                                "theme": "Oracle Risks",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-010",
+                                "question": "Tokenized US Treasuries act in the crypto ecosystem primarily to:",
+                                "choices": [
+                                                "Bypass SEC regulations",
+                                                "Provide a native yield-bearing alternative to fiat-backed stablecoins",
+                                                "Facilitate illicit cross-border transfers",
+                                                "Replace Bitcoin as a store of value"
+                                ],
+                                "correct": 1,
+                                "explanation": "Tokenized US Treasuries bring 'risk-free' real-world yield on-chain, offering investors a compliant, yield-generating alternative to 0%-yield stablecoins like USDC or USDT.",
+                                "theme": "RWA Use Cases",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-011",
+                                "question": "What is 'Yield Farming'?",
+                                "choices": [
+                                                "Staking tokens to secure a Proof of Stake network",
+                                                "Maximizing returns by leveraging multiple DeFi protocols to earn interest and token rewards",
+                                                "Tokenizing agricultural assets",
+                                                "Buying and holding Bitcoin for a long period"
+                                ],
+                                "correct": 1,
+                                "explanation": "Yield farming involves strategically moving assets across different liquidity pools and lending protocols to maximize total yield, often combining standard interest with governance token rewards.",
+                                "theme": "DeFi Strategies",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-012",
+                                "question": "A protocol utilizing a 'veToken' (voter-escrowed token) model is attempting to:",
+                                "choices": [
+                                                "Increase liquidity fragmentation",
+                                                "Align long-term incentives by giving more voting power and yield to users who lock their tokens longer",
+                                                "Bypass standard SEC security classifications",
+                                                "Create an algorithmic stablecoin"
+                                ],
+                                "correct": 1,
+                                "explanation": "Pioneered by Curve, the veToken model requires users to lock up their tokens (e.g., up to 4 years) to gain voting power and boosted yields, heavily discouraging short-term mercenary capital.",
+                                "theme": "Tokenomics",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-013",
+                                "question": "What is the primary legal challenge facing the tokenization of real estate?",
+                                "choices": [
+                                                "The lack of fractionalization technology",
+                                                "Synchronizing on-chain token transfers with off-chain land registry updates to ensure legal finality",
+                                                "Finding blockchains fast enough to process the transactions",
+                                                "The inability to accept stablecoins for payment"
+                                ],
+                                "correct": 1,
+                                "explanation": "Blockchain transfers are instant, but legal ownership of real estate depends on local land registries. Keeping the on-chain token and the off-chain legal reality perfectly synchronized is the core friction.",
+                                "theme": "RWA Legal Risks",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-014",
+                                "question": "What is a 'Synthetic Asset' in DeFi?",
+                                "choices": [
+                                                "An asset backed 1:1 by physical gold",
+                                                "A tokenized representation that tracks the price of another asset without requiring physical backing of that asset",
+                                                "A completely fake token designed to scam investors",
+                                                "An asset exclusively created by a Central Bank"
+                                ],
+                                "correct": 1,
+                                "explanation": "Synthetics (like those on Synthetix) use over-collateralization of native crypto assets to track the price of off-chain assets (stocks, commodities) via oracle price feeds, offering exposure without physical replication.",
+                                "theme": "DeFi Instruments",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-015",
+                                "question": "How does 'MEV' (Maximal Extractable Value) impact DeFi users?",
+                                "choices": [
+                                                "It lowers their transaction fees",
+                                                "It can result in users getting worse prices through 'sandwich attacks' and front-running",
+                                                "It guarantees their transactions are private",
+                                                "It acts as an insurance fund against hacks"
+                                ],
+                                "correct": 1,
+                                "explanation": "MEV refers to the profit validators or searchers can make by reordering, including, or excluding transactions within a block, often at the expense of regular users via front-running.",
+                                "theme": "DeFi Risks",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-016",
+                                "question": "When an institution tokenizes a fund (e.g., BlackRock's BUIDL), what is a key benefit?",
+                                "choices": [
+                                                "It permanently hides user identities",
+                                                "Instant 24/7 settlement, fractional ownership, and automated dividend distribution",
+                                                "It removes the need for any underlying collateral",
+                                                "It completely bypasses KYC requirements"
+                                ],
+                                "correct": 1,
+                                "explanation": "Tokenized funds offer operational hyper-efficiency, allowing for T+0 settlement speeds, automated smart-contract dividend payouts, and access to a broader, global liquidity base.",
+                                "theme": "Institutional DeFi",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-017",
+                                "question": "What defines a 'Permissioned DeFi' protocol?",
+                                "choices": [
+                                                "It is deployed on a private blockchain",
+                                                "It uses public protocols like Aave but integrates KYC/AML gates at the smart contract or UI level (e.g., Aave ARC)",
+                                                "It only trades algorithmic stablecoins",
+                                                "It requires permission from anonymous DAO consensus to use"
+                                ],
+                                "correct": 1,
+                                "explanation": "Permissioned (or 'KYC'd') DeFi runs on public chains but restricts interaction (supplying, borrowing) to whitelisted, KYC-verified addresses to comply with institutional compliance rules.",
+                                "theme": "Institutional DeFi",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-018",
+                                "question": "Why is 'Liquidity Fragmentation' considered a major issue in the current DeFi landscape?",
+                                "choices": [
+                                                "It concentrates too much power in a single exchange",
+                                                "Capital is split across multiple Layer 1s and Layer 2s, leading to higher slippage and inefficient markets",
+                                                "It causes smart contracts to compile incorrectly",
+                                                "It forces users to hold too many different stablecoins"
+                                ],
+                                "correct": 1,
+                                "explanation": "As the ecosystem grows across various rollups and alternate L1s, deep liquidity is fractured, preventing large institutional trades without severe price impact (slippage).",
+                                "theme": "Market Structure",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-019",
+                                "question": "In RWA tokenization, what does the term 'Bankruptcy Remoteness' mean?",
+                                "choices": [
+                                                "The tokens cannot drop to zero value",
+                                                "The SPV holding the asset is legally structured so that if the parent tokenization company goes bankrupt, the underlying asset is protected for token holders",
+                                                "The blockchain cannot be shut down by bankruptcy courts",
+                                                "The underlying asset is heavily leveraged"
+                                ],
+                                "correct": 1,
+                                "explanation": "Bankruptcy remoteness ensures that the token holders' claim to the real-world asset is secure and ring-fenced, even if the tech provider or issuer goes into liquidation.",
+                                "theme": "RWA Structuring",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-020",
+                                "question": "What is the primary vulnerability of Cross-Chain Bridges in DeFi?",
+                                "choices": [
+                                                "They are too slow for retail users",
+                                                "They concentrate massive amounts of locked collateral in complex smart contracts, making them prime targets for exploits",
+                                                "They only support ERC-20 tokens",
+                                                "They require centralized KYC approvals"
+                                ],
+                                "correct": 1,
+                                "explanation": "Bridges use a 'lock and mint' mechanism. If a hacker finds a flaw in the bridge's smart contract on the source chain, they can drain the collateral, rendering the wrapped tokens on the destination chain worthless.",
+                                "theme": "DeFi Risks",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-021",
+                                "question": "What is a 'Liquid Staking Derivative' (LSD) like Lido's stETH?",
+                                "choices": [
+                                                "A token representing a stock on the NASDAQ",
+                                                "A token that represents staked ETH, providing liquidity to the staker while still earning staking rewards",
+                                                "An algorithmic stablecoin linked to ETH",
+                                                "A governance token for a Layer 2 network"
+                                ],
+                                "correct": 1,
+                                "explanation": "LSDs solve the capital inefficiency of staking. Instead of locking up ETH, users receive a derivative token (stETH) they can use in DeFi while the underlying ETH secures the network and accrues yield.",
+                                "theme": "DeFi Instruments",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-022",
+                                "question": "Which of the following best describes 'Real Yield' in DeFi?",
+                                "choices": [
+                                                "Yield paid exclusively in fiat currency in a bank account",
+                                                "Yield generated from actual protocol revenue (e.g., trading fees) rather than inflationary token emissions",
+                                                "Yield guaranteed by a central bank",
+                                                "Yield derived from algorithmic stablecoin arbitrage"
+                                ],
+                                "correct": 1,
+                                "explanation": "The 'Real Yield' narrative shifted focus away from artificially high APYs driven by printing governance tokens, towards sustainable models where yield comes from genuine organic usage fees.",
+                                "theme": "Tokenomics",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-023",
+                                "question": "How do Decentralized Identity (DID) systems interact with DeFi and RWAs?",
+                                "choices": [
+                                                "They replace traditional wallets with email addresses",
+                                                "They allow users to prove compliance (like KYC) via verifiable credentials without exposing underlying personal data to every protocol",
+                                                "They publicly broadcast all personal data to the blockchain",
+                                                "They prevent institutions from accessing public blockchains"
+                                ],
+                                "correct": 1,
+                                "explanation": "DIDs and Verifiable Credentials (VCs) acts as privacy-preserving compliance layers, allowing users to interact with permissioned RWA protocols using cryptographic proofs of identity, without doxxing themselves.",
+                                "theme": "Compliance Technology",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-024",
+                                "question": "What is an 'Over-Collateralized' lending protocol?",
+                                "choices": [
+                                                "A lending platform requiring borrowers to deposit assets worth less than the loan amount",
+                                                "A platform requiring borrowers to lock up assets worth more than the borrowed amount to account for price volatility",
+                                                "A platform requiring collateral to be held in a physical bank vault",
+                                                "A platform strictly lending fiat against real estate"
+                                ],
+                                "correct": 1,
+                                "explanation": "Because crypto is highly volatile and loans are generally pseudonymous (no credit scores), protocols like MakerDAO require excess collateral (e.g., 150%) to ensure solvency if the collateral's price drops.",
+                                "theme": "DeFi Mechanics",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-025",
+                                "question": "In tokenization, what is the role of an 'On-chain Custodian'?",
+                                "choices": [
+                                                "To manage the physical maintenance of a tokenized property",
+                                                "To secure the private keys governing the smart contracts and large token reserves using enterprise-grade security like MPC or HSMs",
+                                                "To act as a market maker on centralized exchanges",
+                                                "To provide legal counsel to the DAO"
+                                ],
+                                "correct": 1,
+                                "explanation": "Institutional adoption requires regulated, highly secure custodians applying Multi-Party Computation (MPC) or Hardware Security Modules (HSMs) to safeguard the massive value represented by tokenized assets.",
+                                "theme": "RWA Infrastructure",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-026",
+                                "question": "What does 'Slippage' mean in the context of an AMM trade?",
+                                "choices": [
+                                                "The fee paid to the liquidity providers",
+                                                "The difference between the expected price of a trade and the executed price, exacerbated by low liquidity pools",
+                                                "The time delay between transaction broadcast and finality",
+                                                "The automatic liquidation of a leveraged position"
+                                ],
+                                "correct": 1,
+                                "explanation": "When trading large volumes on an AMM, the trade itself changes the ratio of assets in the pool, driving the price up or down during the execution of the trade (price impact/slippage).",
+                                "theme": "DeFi Trading",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-027",
+                                "question": "Which RWA asset class is currently seeing the highest volume of on-chain institutional adoption?",
+                                "choices": [
+                                                "Fine Art and Collectibles",
+                                                "Commercial Real Estate",
+                                                "Short-term US Treasury Bills and Money Market Funds",
+                                                "Intellectual Property rights"
+                                ],
+                                "correct": 2,
+                                "explanation": "In high-interest-rate environments, short-term sovereign debt (Treasuries) became the dominant RWA beachhead, seamlessly injecting risk-free rate yield into the Web3 ecosystem (e.g., Franklin Templeton, BlackRock).",
+                                "theme": "RWA Market Trends",
+                                "difficulty": "medium"
+                },
+                {
+                                "id": "L6-028",
+                                "question": "What is a 'Smart Contract Audit' in DeFi?",
+                                "choices": [
+                                                "A check of the company's financial balance sheet by a Big 4 accounting firm",
+                                                "A rigorous review of the blockchain code by security researchers to identify vulnerabilities, logical errors, and exploit risks before deployment",
+                                                "An automated process that guarantees a contract will never be hacked",
+                                                "A regulatory review by the SEC"
+                                ],
+                                "correct": 1,
+                                "explanation": "Because smart contracts are immutable and handle immense value, thorough code-level audits by firms like Trail of Bits, CertiK, or Consensys Diligence are mandatory risk-management steps.",
+                                "theme": "Smart Contract Risk",
+                                "difficulty": "easy"
+                },
+                {
+                                "id": "L6-029",
+                                "question": "How do 'Auto-compounding Vaults' like Yearn Finance work?",
+                                "choices": [
+                                                "They lend fiat currency to traditional banks for fixed interest",
+                                                "They algorithmically harvest yield farming rewards, sell them, and reinvest them into the principal automatically, saving users gas fees",
+                                                "They lock users' funds permanently to decrease token supply",
+                                                "They generate yield by minting synthetic fiat currencies"
+                                ],
+                                "correct": 1,
+                                "explanation": "Vaults socialize gas costs. Instead of 1,000 users individually paying gas to harvest and reinvest yields, a central smart contract does it for the entire pool extremely efficiently.",
+                                "theme": "DeFi Strategies",
+                                "difficulty": "hard"
+                },
+                {
+                                "id": "L6-030",
+                                "question": "What distinguishes 'RegFi' (Regulated Finance) from pure 'DeFi'?",
+                                "choices": [
+                                                "RegFi only uses private, closed-loop ledger databases",
+                                                "RegFi leverages public DLT rails but enforces strict regulatory perimeters, KYC, and AML at the protocol level",
+                                                "RegFi is entirely governed by anonymous DAOs",
+                                                "RegFi cannot handle tokenized assets"
+                                ],
+                                "correct": 1,
+                                "explanation": "RegFi represents the convergence: using the superior technological rails of public blockchains (DeFi) while rigorously enforcing institutional compliance frameworks and identity verification.",
+                                "theme": "Future of Finance",
+                                "difficulty": "hard"
+                }
+            ]
+        },
+
         'super': {
             level: 'super',
             name: "DCM Black Level — Strategic Mastery",

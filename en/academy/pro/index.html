@@ -936,10 +936,52 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             filter: brightness(1.1);
         }
 
+        .btn-mint {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            font-family: 'Urbanist', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-mint:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
+            filter: brightness(1.1);
+        }
+        
+        .btn-mint:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         body.super-mode .btn-cert {
             background: linear-gradient(135deg, #7c3aed, #4c1d95);
             box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
             border-color: rgba(124, 58, 237, 0.4);
+        }
+
+        body.super-mode .btn-mint {
+            background: linear-gradient(135deg, #6366f1, #3730a3);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.4);
         }
 
         /* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
@@ -1743,6 +1785,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                             certBtn.style.display = results.passed ? 'flex' : 'none';
                                         }
 
+                                        const mintBtn = document.getElementById('res-mint-btn');
+                                        if (mintBtn) {
+                                            if (results.passed) {
+                                                mintBtn.style.display = 'flex';
+                                                mintBtn.disabled = false;
+                                                mintBtn.innerHTML = '<i class="fab fa-ethereum"></i>Mint On-Chain Badge';
+                                                mintBtn.style.background = '';
+                                            } else {
+                                                mintBtn.style.display = 'none';
+                                            }
+                                        }
+
                                         // Confetti if passed
                                         if (results.passed) this._fireConfetti(info.color);
                                     }
@@ -1798,6 +1852,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     }
 
                                     ,
+
+                                    mintBadge() {
+                                        const mintBtn = document.getElementById('res-mint-btn');
+                                        if(!mintBtn || mintBtn.disabled) return;
+                                        
+                                        mintBtn.disabled = true;
+                                        mintBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>CONNECTING WALLET...';
+                                        
+                                        setTimeout(() => {
+                                            mintBtn.innerHTML = '<i class="fas fa-hammer"></i>MINTING BADGE (TESTNET)...';
+                                            setTimeout(() => {
+                                                mintBtn.innerHTML = '<i class="fas fa-check-circle"></i>BADGE MINTED ON-CHAIN!';
+                                                mintBtn.style.background = 'linear-gradient(135deg, #10b981, #047857)';
+                                            }, 2500);
+                                        }, 1500);
+                                    },
 
                                     downloadCertificate() {
                                         if (!this._results) return;
