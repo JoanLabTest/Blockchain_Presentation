@@ -68,12 +68,74 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Search Initialization (If exists)
+    // 3. Search Initialization (Enhanced Autocomplete)
     const searchInput = document.getElementById('globalSearchInput');
-    if (searchInput) {
+    const searchResults = document.getElementById('searchResults');
+    
+    if (searchInput && searchResults) {
+        const institutionalKeywords = {
+            'ethereum': { id: 'ETH_DOM', title: 'Ethereum Dominance (Institutional Insight)' },
+            'eth': { id: 'ETH_DOM', title: 'Ethereum Dominance (Institutional Insight)' },
+            'blackrock': { id: 'TFIN-BUIDL-001', title: 'BlackRock BUIDL Catalyst (RWA)' },
+            'buidl': { id: 'TFIN-BUIDL-001', title: 'BlackRock BUIDL Catalyst (RWA)' },
+            'mica': { id: 'MICA_REG', title: 'MiCA Compliance Regulation (EU Policy)' },
+            'reg': { id: 'MICA_REG', title: 'MiCA Compliance Regulation (EU Policy)' },
+            'yield': { id: 'YIELD_STRUC', title: 'Yield Structures (On-chain vs TradFi)' },
+            't-bill': { id: 'YIELD_STRUC', title: 'Yield Structures (On-chain vs TradFi)' },
+            'conc': { id: 'MARKET_CONC', title: 'Market Concentration Analysis' }
+        };
+
         searchInput.addEventListener('input', (e) => {
-            console.log('Search triggered:', e.target.value);
-            // Logic for search results would go here or in gtsr-query-engine.js
+            const query = e.target.value.toLowerCase().trim();
+            searchResults.innerHTML = '';
+            
+            if (query.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            const matches = Object.keys(institutionalKeywords).filter(k => k.includes(query));
+            
+            if (matches.length > 0) {
+                searchResults.style.display = 'block';
+                const list = document.createElement('div');
+                list.className = 'search-list';
+                
+                matches.forEach(k => {
+                    const item = institutionalKeywords[k];
+                    const row = document.createElement('div');
+                    row.className = 'search-row';
+                    row.style.padding = '12px 15px';
+                    row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                    row.style.cursor = 'pointer';
+                    row.style.transition = 'background 0.2s';
+                    row.innerHTML = `
+                        <div style="font-size: 13px; font-weight: 700; color: #fff;">${item.title}</div>
+                        <div style="font-size: 10px; color: var(--accent-blue); text-transform: uppercase;">Institutional Intelligence</div>
+                    `;
+                    row.addEventListener('click', () => {
+                        console.log(`[SEARCH] Drilling down to: ${item.id}`);
+                        if (window.marketActivity) {
+                            window.marketActivity.drillDown(item.id);
+                            searchResults.style.display = 'none';
+                            searchInput.value = '';
+                        }
+                    });
+                    row.addEventListener('mouseover', () => row.style.background = 'rgba(59, 130, 246, 0.1)');
+                    row.addEventListener('mouseout', () => row.style.background = 'transparent');
+                    list.appendChild(row);
+                });
+                searchResults.appendChild(list);
+            } else {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        // Close search results on click outside
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
         });
     }
 });

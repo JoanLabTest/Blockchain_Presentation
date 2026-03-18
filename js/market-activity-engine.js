@@ -8,13 +8,26 @@ class MarketActivityEngine {
         const fallbackData = [
             { id: 'ETH_DOM', name: 'Ethereum Dominance', type: 'Institutional Insight', infrastructure: 'Mainnet', aum: '72.4%', issuer: 'DCM Analysis', jurisdiction: 'Global', compliance: 'N/A', isin: 'N/A', settlement: 'Direct', status: 'LIVE', dora: 'N/A', liquidity: 'Dominant', 
               narrativeTitle: 'Ethereum dominates tokenized finance', 
-              narrativeSubtitle: '72.4% of institutional assets are issued on Ethereum.' 
+              narrativeSubtitle: '72.4% of institutional assets are issued on Ethereum, making it the primary settlement layer for tokenized securities.' 
             },
-            { id: 'TFIN-BR-01', name: 'BlackRock BUIDL', type: 'Tokenized Fund', infrastructure: 'Ethereum', aum: '$375M', issuer: 'BlackRock', jurisdiction: 'US', compliance: 'DORA / MiCA', isin: 'US123456789', settlement: 'T+0', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 1 - Institutional' },
-            { id: 'TFIN-BUIDL-001', name: 'BlackRock BUIDL (Alias)', type: 'Tokenized Fund', infrastructure: 'Ethereum', aum: '$375M', issuer: 'BlackRock', jurisdiction: 'US', compliance: 'DORA / MiCA', isin: 'US123456789', settlement: 'T+0', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 1 - Institutional' },
+            { id: 'TFIN-BUIDL-001', name: 'BlackRock BUIDL', type: 'Tokenized Fund', infrastructure: 'Ethereum', aum: '$500M+', issuer: 'BlackRock', jurisdiction: 'US', compliance: 'DORA / MiCA', isin: 'US123456789', settlement: 'T+0', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 1 - Institutional',
+              narrativeTitle: 'BlackRock BUIDL Catalyst',
+              narrativeSubtitle: 'BUIDL has surpassed $500M, signaling a massive shift in institutional RWA adoption.'
+            },
+            { id: 'MARKET_CONC', name: 'Market Concentration', type: 'Institutional Insight', infrastructure: 'Multi-chain', aum: '85%', issuer: 'DCM Analysis', jurisdiction: 'Global', compliance: 'N/A', isin: 'N/A', settlement: 'N/A', status: 'LIVE', dora: 'N/A', liquidity: 'High Concentration',
+              narrativeTitle: '85% Market Concentration',
+              narrativeSubtitle: 'The top 5 issuers control the vast majority of non-stablecoin tokenized volume.'
+            },
+            { id: 'YIELD_STRUC', name: 'Yield Structures', type: 'Market Insight', infrastructure: 'Ethereum/Stellar', aum: '5.2%', issuer: 'Market Standard', jurisdiction: 'Global', compliance: 'Regulated', isin: 'N/A', settlement: 'T+0', status: 'LIVE', dora: 'N/A', liquidity: 'Tier 1',
+              narrativeTitle: 'Yield Competition: On-chain vs TradFi',
+              narrativeSubtitle: 'Tokenized T-Bills at 5.2% now compete directly with traditional high-yield instruments.'
+            },
+            { id: 'MICA_REG', name: 'Regulation (MiCA)', type: 'Policy Insight', infrastructure: 'EEA', aum: 'N/A', issuer: 'EU Council', jurisdiction: 'European Union', compliance: 'Mandatory', isin: 'N/A', settlement: 'N/A', status: 'ACTIVE', dora: 'Compliant', liquidity: 'N/A',
+              narrativeTitle: 'MiCA: The New License to Play',
+              narrativeSubtitle: 'Compliance is no longer optional for stablecoin issuers in the European Economic Area.'
+            },
             { id: 'TFIN-GS-04', name: 'GS DAP Digital Bond', type: 'Digital Bond', infrastructure: 'Canton', aum: '$100M', issuer: 'Goldman Sachs', jurisdiction: 'Luxembourg', compliance: 'EU Pilot Regime', isin: 'LU987654321', settlement: 'T+0', status: 'LIVE', dora: 'Partial', liquidity: 'Tier 1 - Institutional' },
-            { id: 'TFIN-SG-09', name: 'SG-Forge EURCV', type: 'Stablecoin', infrastructure: 'Ethereum', aum: '$12M', issuer: 'Société Générale', jurisdiction: 'France', compliance: 'MiCA Compliant', isin: 'FR001234567', settlement: 'Real-time', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 2 - Specialized' },
-            { id: 'TFIN-DB-02', name: 'DWS Xtrackers DLT', type: 'ETF Token', infrastructure: 'SWIAT', aum: '$50M', issuer: 'DWS Group', jurisdiction: 'Germany', compliance: 'Kvg G', isin: 'DE000ABC123', settlement: 'T+0', status: 'PILOT', dora: 'In Progress', liquidity: 'Tier 2 - Specialized' }
+            { id: 'TFIN-SG-09', name: 'SG-Forge EURCV', type: 'Stablecoin', infrastructure: 'Ethereum', aum: '$12M', issuer: 'Société Générale', jurisdiction: 'France', compliance: 'MiCA Compliant', isin: 'FR001234567', settlement: 'Real-time', status: 'LIVE', dora: 'Compliant', liquidity: 'Tier 2 - Specialized' }
         ];
 
         const combinedDB = (window.GTSR_DATABASE || window.DCM_CORE_DATABASE || []);
@@ -126,8 +139,12 @@ class MarketActivityEngine {
         const strings = {
             explore: isFR ? 'Explorer le Marché' : 'Explore Full Market',
             observatory: isFR ? 'Observatoire du Marché' : 'Market Observatory',
+            accessTerminal: isFR ? 'Accéder au Terminal Institutionnel' : 'Access Full Institutional Terminal',
+            getInsights: isFR ? 'Recevoir les Analyses Stratégiques' : 'Get weekly institutional insights',
+            emailPlaceholder: isFR ? 'votre@email.com' : 'your@email.com',
+            subscribe: isFR ? 'S\'abonner' : 'Subscribe',
             dominanceTitle: isFR ? 'Ethereum domine la finance tokenisée' : 'Ethereum dominates tokenized finance',
-            dominanceSub: isFR ? '72,4% des actifs institutionnels sont émis sur Ethereum.' : '72.4% of institutional assets are issued on Ethereum.'
+            dominanceSub: isFR ? '72,4% des actifs institutionnels sont émis sur Ethereum, en faisant la couche de règlement principale.' : '72.4% of institutional assets are issued on Ethereum, making it the primary settlement layer.'
         };
 
         const displayTitle = assetId === 'ETH_DOM' ? strings.dominanceTitle : (asset.narrativeTitle || asset.name);
@@ -178,16 +195,44 @@ class MarketActivityEngine {
                 </button>
             </div>
             <div style="margin-top: 25px; display: grid; gap: 10px;">
-                <a href="${isFR ? '/fr/observatory/registre-titres-tokenises.html' : '/en/observatory/tokenized-securities-registry.html'}" class="panel-btn-primary" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid #3b82f6;">
+                <a href="${isFR ? '/fr/observatory/registre-titres-tokenises.html' : '/en/observatory/tokenized-securities-registry.html'}" class="panel-btn-primary" style="background: var(--accent-blue); color: #fff; border: 1px solid var(--accent-blue); justify-content: center; font-weight: 700;">
                     <i class="fas fa-grid-horizontal"></i> ${strings.explore}
                 </a>
-                <a href="${isFR ? '/fr/observatory/tokenized-markets.html' : '/en/observatory/tokenized-markets.html'}" class="panel-btn-ghost">
-                    <i class="fas fa-chart-line"></i> ${strings.observatory}
+                <a href="${isFR ? '/fr/observatory/tokenized-markets.html' : '/en/observatory/tokenized-markets.html'}" class="panel-btn-primary" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid #3b82f6; justify-content: center;">
+                    <i class="fas fa-terminal"></i> ${strings.accessTerminal}
                 </a>
+            </div>
+
+            <!-- Soft Capture -->
+            <div class="panel-soft-capture" style="margin-top: 40px; padding: 20px; background: rgba(15, 23, 42, 0.5); border: 1px dashed rgba(59, 130, 246, 0.3); border-radius: 12px;">
+                <h4 style="font-size: 14px; color: #fff; margin-bottom: 10px;">${strings.getInsights}</h4>
+                <div style="display: flex; gap: 8px;">
+                    <input type="email" id="capture-email" placeholder="${strings.emailPlaceholder}" style="flex: 1; background: #020617; border: 1px solid #334155; border-radius: 6px; padding: 8px; color: #fff; font-size: 13px;">
+                    <button class="panel-btn-primary" onclick="window.marketActivity.handleCapture()" style="padding: 8px 15px; font-size: 12px;">${strings.subscribe}</button>
+                </div>
             </div>
         `;
 
         this.panel.classList.add('open');
+    }
+
+    handleCapture() {
+        const email = document.getElementById('capture-email')?.value;
+        if (!email || !email.includes('@')) {
+            alert(window.location.pathname.includes('/fr/') ? "Veuillez entrer une adresse email valide." : "Please enter a valid email address.");
+            return;
+        }
+        
+        console.log(`[DCM_CAPTURE] Email: ${email}`);
+        const captureBox = document.querySelector('.panel-soft-capture');
+        if (captureBox) {
+            captureBox.innerHTML = `
+                <div style="text-align: center; color: var(--accent-green);">
+                    <i class="fas fa-check-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                    <p style="margin: 0; font-weight: 700;">${window.location.pathname.includes('/fr/') ? "Inscription réussie !" : "Subscription successful!"}</p>
+                </div>
+            `;
+        }
     }
 
     closePanel() {
