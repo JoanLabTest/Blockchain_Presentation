@@ -35,26 +35,25 @@ document.addEventListener('DOMContentLoaded', () => {
     langLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const targetLang = link.textContent.trim().toLowerCase(); 
+            const targetLang = link.textContent.trim().toLowerCase().includes('en') ? 'en' : 'fr'; 
             const currentPath = window.location.pathname;
-            const pathParts = currentPath.split('/');
-            const filename = pathParts[pathParts.length - 1] || 'index.html';
+            const isInFR = currentPath.includes('/fr/') || currentPath.endsWith('/fr');
+            const isInEN = currentPath.includes('/en/') || currentPath.endsWith('/en');
+            
             let newPath = '';
-            
-            const isInFR = currentPath.includes('/fr/');
-            const isInEN = currentPath.includes('/en/');
-            
             if (isInFR) {
-                if (targetLang === 'en') newPath = currentPath.replace('/fr/', '/en/');
-                else return;
+                if (targetLang === 'en') newPath = currentPath.replace('/fr', '/en');
             } else if (isInEN) {
-                if (targetLang === 'fr') newPath = currentPath.replace('/en/', '/fr/');
-                else return;
+                if (targetLang === 'fr') newPath = currentPath.replace('/en', '/fr');
             } else {
-                newPath = `/${targetLang}/${filename}`;
+                // If not in a language folder, try to find the base path or just append
+                const pathParts = currentPath.split('/');
+                const filename = pathParts.pop() || 'index.html';
+                const base = pathParts.join('/') + '/';
+                newPath = `${base}${targetLang}/${filename}`;
             }
 
-            if (newPath) window.location.href = newPath;
+            if (newPath && newPath !== currentPath) window.location.href = newPath;
         });
     });
 

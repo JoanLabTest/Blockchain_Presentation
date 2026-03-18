@@ -20,6 +20,11 @@ const DevMode = {
     },
 
     injectUI: function () {
+        // Only inject if devMode is explicitly enabled in localStorage, securing it for production
+        if (localStorage.getItem('devMode') !== 'true') {
+            return;
+        }
+
         const uiHTML = `
             <button id="devModeBtn" class="dev-mode-btn">
                 <i class="fas fa-terminal"></i> Dev Access
