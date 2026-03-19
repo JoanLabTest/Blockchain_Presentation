@@ -147,13 +147,77 @@
             background: var(--accent-purple);
             color: white;
         }
-        /* FOOTER */
-        footer {
-            padding: 80px 40px;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            color: var(--text-muted);
+
+        /* TOGGLE SWITCH */
+        .billing-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .billing-label {
             font-size: 14px;
+            font-weight: 700;
+            color: #475569;
+            transition: 0.3s;
+        }
+        .billing-label.active {
+            color: white;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #1e293b;
+            transition: .4s;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--accent-purple);
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        .save-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            margin-left: 5px;
+        }
+
+        /* CARD ANIMATION */
+        .plan-price-group {
+            min-height: 80px;
         }
     </style>
 </head>
@@ -166,8 +230,18 @@
     </nav>
 
     <section class="pricing-hero">
+        <div style="color: var(--accent-purple); font-weight: 800; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;">7-Day Trial Included</div>
         <h1>Invest in your Institutional Career</h1>
         <p class="subtitle">Master the complexities of Tokenized Finance, from DLT basics to advanced RWA & DeFi strategies.</p>
+
+        <div class="billing-toggle">
+            <span class="billing-label active" id="label-monthly">Monthly</span>
+            <label class="switch">
+                <input type="checkbox" id="billing-switch" onchange="toggleBilling()">
+                <span class="slider"></span>
+            </label>
+            <span class="billing-label" id="label-yearly">Annual <span class="save-badge">Save 20%</span></span>
+        </div>
     </section>
 
     <div class="pricing-grid">
@@ -185,40 +259,52 @@
             <a href="/en/academy/index.html" class="btn-pricing btn-free">Start Learning Free</a>
         </div>
 
-        <!-- ACADEMY PRO - MONTHLY -->
-        <div class="pricing-card">
-            <div style="font-size: 14px; font-weight: 800; color: var(--accent-blue); text-transform: uppercase;">Academy Pro (Monthly)</div>
-            <div class="price">€49<span>/mo</span></div>
+        <!-- ACADEMY PRO -->
+        <div class="pricing-card premium">
+            <div class="badge-premium">Best Value</div>
+            <div style="font-size: 14px; font-weight: 800; color: var(--accent-purple); text-transform: uppercase;">Academy Pro</div>
+            <div class="plan-price-group">
+                <div class="price" id="price-display">€49<span>/mo</span></div>
+                <div id="annual-billing-text" style="font-size: 12px; color: var(--text-muted); margin-top: -15px; display: none;">Billed annually (€468/year)</div>
+            </div>
             <ul class="features">
                 <li><i class="fas fa-check"></i> <strong>7-Day Free Trial</strong></li>
                 <li><i class="fas fa-check"></i> Full Level 6 Access</li>
-                <li><i class="fas fa-check"></i> Mintable Certification Badge</li>
-                <li><i class="fas fa-check"></i> Cancel anytime (Flexible)</li>
+                <li><i class="fas fa-check"></i> Mintable On-Chain Badge</li>
+                <li><i class="fas fa-check"></i> Advanced RWA & DeFi Strategies</li>
                 <li><i class="fas fa-check"></i> Priority Research Briefs</li>
             </ul>
-            <a href="https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801" class="btn-pricing btn-free" style="border-color: var(--accent-blue); color: var(--accent-blue);">Start Free Trial</a>
-        </div>
-
-        <!-- ACADEMY PRO - ANNUAL -->
-        <div class="pricing-card premium">
-            <div class="badge-premium">Best Value</div>
-            <div style="font-size: 14px; font-weight: 800; color: var(--accent-purple); text-transform: uppercase;">Academy Pro (Annual)</div>
-            <div class="price">€39<span>/mo</span></div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: -15px;">Billed annually (€468/year)</p>
-            <ul class="features">
-                <li><i class="fas fa-check"></i> <strong>7-Day Free Trial</strong></li>
-                <li><i class="fas fa-check"></i> All 6 Certification Levels</li>
-                <li><i class="fas fa-check"></i> Advanced RWA & DeFi Strategies</li>
-                <li><i class="fas fa-check"></i> <strong>Mintable On-Chain Badge</strong></li>
-                <li><i class="fas fa-check"></i> Executive Performance Analytics</li>
-                <li><i class="fas fa-check"></i> Save 20% vs Monthly</li>
-            </ul>
-            <a href="https://buy.stripe.com/eVqfZjgIJ45OaUEfb604802" class="btn-pricing btn-pro">Start Free Trial & Save</a>
+            <a href="https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801" id="cta-pro" class="btn-pricing btn-pro">Start Free Trial</a>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2026 DCM Core Institute. All rights reserved.</p>
     </footer>
+
+    <script>
+        function toggleBilling() {
+            const isYearly = document.getElementById('billing-switch').checked;
+            const priceDisplay = document.getElementById('price-display');
+            const billingText = document.getElementById('annual-billing-text');
+            const ctaPro = document.getElementById('cta-pro');
+            const labelMonthly = document.getElementById('label-monthly');
+            const labelYearly = document.getElementById('label-yearly');
+
+            if (isYearly) {
+                priceDisplay.innerHTML = '€39<span>/mo</span>';
+                billingText.style.display = 'block';
+                ctaPro.href = 'https://buy.stripe.com/eVqfZjgIJ45OaUEfb604802';
+                labelYearly.classList.add('active');
+                labelMonthly.classList.remove('active');
+            } else {
+                priceDisplay.innerHTML = '€49<span>/mo</span>';
+                billingText.style.display = 'none';
+                ctaPro.href = 'https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801';
+                labelMonthly.classList.add('active');
+                labelYearly.classList.remove('active');
+            }
+        }
+    </script>
 </body>
 </html>
