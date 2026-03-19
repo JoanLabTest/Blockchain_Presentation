@@ -325,6 +325,73 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             border: 1px solid rgba(124, 58, 237, 0.3);
         }
 
+        .stats-dashboard {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .stat-card {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-card-val {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Outfit';
+            margin-bottom: 5px;
+        }
+        .stat-card-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+        }
+        .benchmark-line {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .benchmark-fill {
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 2px;
+            transition: width 1s ease-out;
+        }
+        .fast-track-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, transparent 100%);
+            border: 1px dashed rgba(139, 92, 246, 0.4);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 40px;
+            text-align: center;
+            display: none; /* Seul affichage si L1-5 non passé */
+        }
+        .btn-fast {
+            background: #8b5cf6;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            display: inline-block;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
         .level-name {
             font-size: 16px;
             font-weight: 800;
@@ -1126,9 +1193,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
 
             #level-map>div {
-                flex-direction: column !important;
+                flex-direction: column;
                 gap: 15px;
-                align-items: center !important;
+                align-items: center;
             }
 
             .question-text {
@@ -1340,6 +1407,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </nav>
         <!-- HERO -->
             <section class="quiz-hero" id="home-view">
+                <div class="section-label" style="text-align:center;">Performance Institutionnelle</div>
+                <h1 style="font-family:'Outfit'; font-size:42px; color:white; text-align:center; margin:15px 0 40px;">Tableau de Bord <span>Exécutif</span></h1>
+
+                <!-- EXECUTIVE ANALYTICS -->
+                <div class="stats-dashboard" id="exec-dashboard">
+                    <div class="stat-card">
+                        <div class="stat-card-val" id="stat-rank">Analyste</div>
+                        <div class="stat-card-label">Rang Institutionnel</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-val" id="stat-accuracy">--%</div>
+                        <div class="stat-card-label">Taux de Précision</div>
+                        <div class="benchmark-line"><div class="benchmark-fill" id="accuracy-fill" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-val" id="stat-domain">--</div>
+                        <div class="stat-card-label">Domaine de Prédilection</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-val" id="stat-certs">0</div>
+                        <div class="stat-card-label">Certifications</div>
+                    </div>
+                </div>
+
+                <!-- FAST TRACK BOX -->
+                <div class="fast-track-box" id="fast-track-box">
+                    <div style="font-size: 14px; font-weight: 700; color: white;">🚀 Débloquer le Fast-Track Professionnel</div>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 8px 0;">Déjà expert ? Passez les niveaux fondamentaux avec votre Code d'Accès Academy Pro.</p>
+                    <button class="btn-fast" onclick="QuizUI.fastTrack()">Appliquer l'Accès Fast-Track</button>
+                </div>
+
                 <div class="quiz-hero-label" data-aos="fade-down"><i class="fas fa-certificate"></i>DCM Institutional
                     Assessment Program </div>
                 <h1 data-aos="fade-up" data-aos-delay="100">Prouvez votre maîtrise<br />de la gouvernance DLT</h1>
@@ -1361,7 +1459,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <section id="level-map">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 30px; padding: 0 20px;">
-                        <div class="level-map-title" style="margin:0">— Choisir un niveau —</div>
+                        <div class="level-map-title" style="margin:0">— Choisissez un Niveau —</div>
                         <div class="fast-track-toggle-wrap"><span class="fast-track-label">Mode Exécutif <i
                                     class="fas fa-bolt" style="color:var(--yellow)"></i></span><label
                                 class="dcm-switch"><input type="checkbox" id="fast-track-mode"
@@ -1507,13 +1605,77 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                                     // ─── INIT ──────────────────────────────────────────────────────────────
                                     init() {
-
-                                        // Dev banner removed for security
-
+                                        this.renderExecutiveDashboard();
                                         this.renderLevelMap();
                                     }
 
                                     ,
+
+                                    // ─── RENDER EXECUTIVE DASHBOARD ───────────────────────────────────────
+                                    renderExecutiveDashboard() {
+                                        const engine = window.QuizEngine;
+                                        if (!engine) return;
+
+                                        const userStats = engine.getUserStats();
+                                        const totalLevels = Object.keys(this.LEVEL_INFO).filter(id => id !== 'super').length;
+
+                                        // Rang
+                                        let rank = 'Novice';
+                                        if (userStats.completedLevels === totalLevels) {
+                                            rank = 'Maître';
+                                        } else if (userStats.completedLevels >= 3) {
+                                            rank = 'Expert';
+                                        } else if (userStats.completedLevels >= 1) {
+                                            rank = 'Analyste';
+                                        }
+                                        document.getElementById('stat-rank').textContent = rank;
+
+                                        // Précision
+                                        const accuracy = userStats.totalQuestions > 0 ? Math.round((userStats.totalCorrect / userStats.totalQuestions) * 100) : 0;
+                                        document.getElementById('stat-accuracy').textContent = `${accuracy}%`;
+                                        document.getElementById('accuracy-fill').style.width = `${accuracy}%`;
+
+                                        // Domaine de prédilection
+                                        const topDomain = userStats.topTheme || '--';
+                                        document.getElementById('stat-domain').textContent = topDomain;
+
+                                        // Certifications
+                                        document.getElementById('stat-certs').textContent = userStats.completedLevels;
+
+                                        // Boîte de Fast Track
+                                        const fastTrackBox = document.getElementById('fast-track-box');
+                                        if (userStats.completedLevels < 5 && !engine.isFastTrackUnlocked()) {
+                                            fastTrackBox.style.display = 'block';
+                                        } else {
+                                            fastTrackBox.style.display = 'none';
+                                        }
+                                    },
+
+                                    // ─── FAST TRACK UNLOCK ────────────────────────────────────────────────
+                                    async fastTrack() {
+                                        const engine = window.QuizEngine;
+                                        if (!engine) return;
+
+                                        const code = prompt("Veuillez saisir votre Code d'Accès Academy Pro :");
+                                        if (!code) return;
+
+                                        this._show('loading-overlay');
+                                        try {
+                                            const success = await engine.fastTrackUnlock(code);
+                                            if (success) {
+                                                alert("Fast-Track débloqué ! Vous pouvez maintenant accéder à tous les niveaux.");
+                                                this.renderExecutiveDashboard();
+                                                this.renderLevelMap();
+                                            } else {
+                                                alert("Code d'Accès invalide. Veuillez vérifier votre code ou souscrire à un plan Pro.");
+                                            }
+                                        } catch (error) {
+                                            console.error("Erreur Fast-Track :", error);
+                                            alert("Une erreur est survenue lors du déblocage Fast-Track.");
+                                        } finally {
+                                            this._hide('loading-overlay');
+                                        }
+                                    },
 
                                     // ─── RENDER LEVEL MAP ─────────────────────────────────────────────────
                                     renderLevelMap() {
@@ -2044,17 +2206,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                             </script>
                             <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-                            <script src="/js/quiz-analytics.js"></script>
-                            <script src="/js/quiz-cert.js"></script>
-                            <script src="/js/quiz-engine.js"></script>
-                            <script>initQuiz();
-                            </script>
+                            <script src="../../js/quiz-analytics.js"></script>
+                            <script src="../../js/quiz-cert.js"></script>
+                            <script src="../../js/quiz-engine.js"></script>
+                            <script>initQuiz();</script>
                             </main>
                             <!-- Base Scripts -->
-                                <script src="/js/core/feature-flags.js"></script>
-                                <script src="/js/session-manager.js"></script>
-                                <script src="/js/ui/navigation.js"></script>
-                                <script src="/js/navigation-orchestrator.js"></script>
+                                <script src="../../../js/core/feature-flags.js"></script>
+                                <script src="../../../js/session-manager.js"></script>
+                                <script src="../../../js/ui/navigation.js"></script>
+                                <script src="../../../js/navigation-orchestrator.js"></script>
                                 
         <global-footer base-path=""></global-footer>
 </body>

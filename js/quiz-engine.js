@@ -1303,6 +1303,70 @@ const QuizEngine = {
         });
 
         return { history, scores, byLevel };
+    },
+
+    getUserStats() {
+        const history = JSON.parse(localStorage.getItem(this.KEYS.HISTORY) || '[]');
+        const scores = JSON.parse(localStorage.getItem(this.KEYS.SCORES) || '{}');
+        
+        let totalQuestions = 0;
+        let totalCorrect = 0;
+        const themeStats = {};
+        let completedLevels = 0;
+
+        // Count completed levels (score >= 80)
+        Object.values(scores).forEach(score => {
+            if (score >= this.PASS_SCORE) completedLevels++;
+        });
+
+        history.forEach(session => {
+            if (session.details) {
+                session.details.forEach(d => {
+                    totalQuestions++;
+                    if (d.correct) totalCorrect++;
+                    
+                    if (d.theme) {
+                        if (!themeStats[d.theme]) themeStats[d.theme] = { total: 0, correct: 0 };
+                        themeStats[d.theme].total++;
+                        if (d.correct) themeStats[d.theme].correct++;
+                    }
+                });
+            }
+        });
+
+        let topTheme = null;
+        let bestThemeAcc = -1;
+        Object.keys(themeStats).forEach(t => {
+            const acc = themeStats[t].correct / themeStats[t].total;
+            if (acc > bestThemeAcc) {
+                bestThemeAcc = acc;
+                topTheme = t;
+            }
+        });
+
+        return {
+            totalQuestions,
+            totalCorrect,
+            completedLevels,
+            topTheme,
+            themeStats
+        };
+    },
+
+    isFastTrackUnlocked() {
+        return localStorage.getItem('dcm_academy_fast_track') === 'true';
+    },
+
+    async fastTrackUnlock(code) {
+        // V1 simple validation: Case-insensitive match for the Pro code
+        const VALID_PRO_CODES = ['DCM-PRO-2026', 'ACADEMY-ELITE-2026', 'INSTITUTIONAL-ACCESS'];
+        if (VALID_PRO_CODES.includes(code.toUpperCase())) {
+            localStorage.setItem('dcm_academy_fast_track', 'true');
+            // Mocking a successful validation delay
+            await new Promise(r => setTimeout(r, 800));
+            return true;
+        }
+        return false;
     }
 };
 

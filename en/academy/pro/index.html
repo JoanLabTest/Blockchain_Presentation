@@ -18,20 +18,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DCM Institutional Assessment | DCM Digital</title>
     
-    <link href="/styles-footer.css" rel="stylesheet" />
+    <link href="../../../styles-footer.css" rel="stylesheet" />
     <meta name="description"
-        content="Évaluez votre expertise DLT institutionnelle à travers 5 niveaux de certification DCM Digital. Accès direct aux analyses Bloomberg et ECB." />
-    <meta property="og:title" content="DCM Institutional Assessment | Certification Blockchain" />
-    <meta property="og:description" content="Validez vos compétences out of les marchés financiers numériques." />
+        content="Assess your institutional DLT expertise through 5 DCM Digital certification levels. Direct access to Bloomberg and ECB analyses." />
+    <meta property="og:title" content="DCM Institutional Assessment | Blockchain Certification" />
+    <meta property="og:description" content="Validate your skills in digital financial markets." />
     <meta property="og:type" content="website" />
-    <link rel="canonical" href="https://dcmcore.com/quiz.html" />
+    <link rel="canonical" href="https://dcmcore.com/en/academy/pro/index.html" />
     <link
         href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <!-- DEV MASTER UNLOCK -->
-    <script src="/js/dev-unlock.js"></script>
+    <script src="../../../js/dev-unlock.js"></script>
     <style>
         :root {
             --bg: #020617;
@@ -311,6 +311,73 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             background: rgba(124, 58, 237, 0.15);
             color: #a78bfa;
             border: 1px solid rgba(124, 58, 237, 0.3);
+        }
+
+        .stats-dashboard {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .stat-card {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-card-val {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Outfit';
+            margin-bottom: 5px;
+        }
+        .stat-card-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+        }
+        .benchmark-line {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .benchmark-fill {
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 2px;
+            transition: width 1s ease-out;
+        }
+        .fast-track-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, transparent 100%);
+            border: 1px dashed rgba(139, 92, 246, 0.4);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 40px;
+            text-align: center;
+            display: none; /* Only show if L1-5 not passed */
+        }
+        .btn-fast {
+            background: #8b5cf6;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            display: inline-block;
+            margin-top: 15px;
+            cursor: pointer;
         }
 
         .level-name {
@@ -1114,9 +1181,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
 
             #level-map>div {
-                flex-direction: column !important;
+                flex-direction: column;
                 gap: 15px;
-                align-items: center !important;
+                align-items: center;
+                padding: 0 20px; /* Added padding for mobile */
             }
 
             .question-text {
@@ -1346,6 +1414,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </section>
             <!-- LEVEL MAP -->
                 <section id="level-map">
+                <div class="section-label" style="text-align:center;">Institutional Performance</div>
+                <h1 style="font-family:'Outfit'; font-size:42px; color:white; text-align:center; margin:15px 0 40px;">Academy <span>Executive Dashboard</span></h1>
+
+                <!-- EXECUTIVE ANALYTICS -->
+                <div class="stats-dashboard" id="exec-dashboard">
+                    <div class="stat-card">
+                        <div class="stat-card-val" id="stat-rank">Analyst</div>
+                        <div class="stat-card-label">Institutional Rank</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-val" id="stat-accuracy">--%</div>
+                        <div class="stat-card-label">Accuracy Rate</div>
+                        <div class="benchmark-line"><div class="benchmark-fill" id="accuracy-fill" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-val" id="stat-domain">--</div>
+                        <div class="stat-card-label">Top Domain</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-val" id="stat-certs">0</div>
+                        <div class="stat-card-label">Certifications</div>
+                    </div>
+                </div>
+
+                <!-- FAST TRACK BOX -->
+                <div class="fast-track-box" id="fast-track-box">
+                    <div style="font-size: 14px; font-weight: 700; color: white;">🚀 Unlock Professional Fast-Track</div>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 8px 0;">Already an expert? Skip foundational levels with your Academy Pro Access Code.</p>
+                    <button class="btn-fast" onclick="QuizUI.fastTrack()">Apply Fast-Track Access</button>
+                </div>
+
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 30px; padding: 0 20px;">
                         <div class="level-map-title" style="margin:0">— Choose a Level —</div>
@@ -1421,8 +1520,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     class="btn-primary" id="next-level-btn" style="display:none;"
                                     onclick="QuizUI.goToNextLevel()"><i class="fas fa-arrow-up"></i>Next Level
                                 </button><button class="btn-primary" id="retry-btn" onclick="QuizUI.retryLevel()"><i
-                                        class="fas fa-rotate-right"></i>Réessayer </button><button class="btn-secondary"
-                                    onclick="QuizUI.exitToMap()"><i class="fas fa-map"></i>Carte des niveaux </button>
+                                        class="fas fa-rotate-right"></i>Retry </button><button class="btn-secondary"
+                                    onclick="QuizUI.exitToMap()"><i class="fas fa-map"></i>Level Map </button>
                             </div>
                         </div>
                         <!-- LOADING OVERLAY -->
@@ -1443,7 +1542,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                                     LEVEL_INFO: {
                                         1: {
-                                            color: '#10b981', name: 'Foundations of DLT Risk', desc: 'MiCA, DORA, Tokenization, Basel crypto exposure.', audience: 'Analystes, Junior Consultants, VC Associates', questions: 30, session: 20
+                                            color: '#10b981', name: 'Foundations of DLT Risk', desc: 'MiCA, DORA, Tokenization, Basel crypto exposure.', audience: 'Analysts, Junior Consultants, VC Associates', questions: 30, session: 20
                                         }
 
                                         ,
@@ -1473,7 +1572,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                                         ,
                                         super: {
-                                            color: '#7c3aed', name: 'DCM Black Level', desc: 'Scénarios extrêmes. 8 choix par question. Réservé aux experts confirmés.', audience: 'Experts tous niveaux complétés', questions: 15, session: 15
+                                            color: '#7c3aed', name: 'DCM Black Level', desc: 'Extreme scenarios. 8 choices per question. Reserved for certified experts.', audience: 'Experts (all levels completed)', questions: 15, session: 15
                                         }
                                     }
 
@@ -1488,14 +1587,83 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                                     // ─── INIT ──────────────────────────────────────────────────────────────
                                     init() {
+                                        this.renderExecutiveDashboard();
                                         this.renderLevelMap();
                                     }
 
                                     ,
 
+                                    // ─── RENDER EXECUTIVE DASHBOARD ───────────────────────────────────────
+                                    renderExecutiveDashboard() {
+                                        const engine = window.QuizEngine;
+                                        if (!engine) return;
+
+                                        const userStats = engine.getUserStats();
+                                        const totalLevels = Object.keys(this.LEVEL_INFO).filter(id => id !== 'super').length;
+
+                                        // Rank
+                                        let rank = 'Novice';
+                                        if (userStats.completedLevels === totalLevels) {
+                                            rank = 'Master';
+                                        } else if (userStats.completedLevels >= 3) {
+                                            rank = 'Expert';
+                                        } else if (userStats.completedLevels >= 1) {
+                                            rank = 'Analyst';
+                                        }
+                                        document.getElementById('stat-rank').textContent = rank;
+
+                                        // Accuracy
+                                        const accuracy = userStats.totalQuestions > 0 ? Math.round((userStats.totalCorrect / userStats.totalQuestions) * 100) : 0;
+                                        document.getElementById('stat-accuracy').textContent = `${accuracy}%`;
+                                        document.getElementById('accuracy-fill').style.width = `${accuracy}%`;
+
+                                        // Top Domain
+                                        const topDomain = userStats.topTheme || '--';
+                                        document.getElementById('stat-domain').textContent = topDomain;
+
+                                        // Certifications
+                                        document.getElementById('stat-certs').textContent = userStats.completedLevels;
+
+                                        // Fast Track Box
+                                        const fastTrackBox = document.getElementById('fast-track-box');
+                                        if (userStats.completedLevels < 5 && !engine.isFastTrackUnlocked()) {
+                                            fastTrackBox.style.display = 'block';
+                                        } else {
+                                            fastTrackBox.style.display = 'none';
+                                        }
+                                    },
+
+                                    // ─── FAST TRACK UNLOCK ────────────────────────────────────────────────
+                                    async fastTrack() {
+                                        const engine = window.QuizEngine;
+                                        if (!engine) return;
+
+                                        const code = prompt("Please enter your Academy Pro Access Code:");
+                                        if (!code) return;
+
+                                        this._show('loading-overlay');
+                                        try {
+                                            const success = await engine.fastTrackUnlock(code);
+                                            if (success) {
+                                                alert("Fast-Track unlocked! You can now access all levels.");
+                                                this.renderExecutiveDashboard();
+                                                this.renderLevelMap();
+                                            } else {
+                                                alert("Invalid Access Code. Please check your code or purchase a Pro plan.");
+                                            }
+                                        } catch (error) {
+                                            console.error("Fast-Track error:", error);
+                                            alert("An error occurred during fast-track unlock.");
+                                        } finally {
+                                            this._hide('loading-overlay');
+                                        }
+                                    },
+
                                     // ─── RENDER LEVEL MAP ─────────────────────────────────────────────────
                                     renderLevelMap() {
                                         const engine = window.QuizEngine;
+                                        if (!engine) return; // Ensure engine is loaded
+
                                         const container = document.getElementById('levels-container');
                                         if (!container) return;
 
@@ -1511,9 +1679,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                             const completed = bestScore !== null && bestScore >= 80;
                                             const locked = !unlocked;
 
-                                            const badgeHtml = isSuper ? `<span class="level-badge badge-super"><i class="fas fa-fire"></i> BLACK LEVEL</span>` : completed ? `<span class="level-badge badge-completed"><i class="fas fa-star"></i> Validé</span>` : unlocked ? `<span class="level-badge badge-unlocked"><i class="fas fa-circle"></i> Disponible</span>` : `<span class="level-badge badge-locked"><i class="fas fa-lock"></i> Locked</span>`;
+                                            const badgeHtml = isSuper ? `<span class="level-badge badge-super"><i class="fas fa-fire"></i> BLACK LEVEL</span>` : completed ? `<span class="level-badge badge-completed"><i class="fas fa-star"></i> Validated</span>` : unlocked ? `<span class="level-badge badge-unlocked"><i class="fas fa-circle"></i> Available</span>` : `<span class="level-badge badge-locked"><i class="fas fa-lock"></i> Locked</span>`;
 
-                                            const scoreHtml = bestScore ? `<div class="level-score" style="color:${info.color}"><i class="fas fa-trophy"></i> Meilleur: ${bestScore}%</div>` : `<div class="level-meta-item"><i class="fas fa-list"></i> ${info.session}/${info.questions} questions</div>`;
+                                            const scoreHtml = bestScore ? `<div class="level-score" style="color:${info.color}"><i class="fas fa-trophy"></i> Best: ${bestScore}%</div>` : `<div class="level-meta-item"><i class="fas fa-list"></i> ${info.session}/${info.questions} questions</div>`;
 
                                             return `
                                                 <div class="level-card ${locked ? 'locked' : ''} ${completed ? 'completed' : ''} ${isSuper ? 'super-card' : ''}" style="--level-color: ${info.color};" onclick="${locked ? '' : `QuizUI.startLevel('${id}')`}">
@@ -1530,7 +1698,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                                     </div>
                                                     <div class="level-meta">
                                                         ${scoreHtml}
-                                                        <div class="level-meta-item"><i class="fas fa-crosshairs"></i> 80% requis</div>
+                                                        <div class="level-meta-item"><i class="fas fa-crosshairs"></i> 80% required</div>
                                                     </div>
                                                     <button class="start-btn" ${locked ? 'disabled' : ''} onclick="event.stopPropagation(); QuizUI.startLevel('${id}')">
                                                         ${locked ? '<i class="fas fa-lock"></i> Locked' : `<i class="fas fa-play"></i> ${completed ? 'Replay' : 'Start'}`}
@@ -2016,15 +2184,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                             </script>
                             <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-                            <script src="/js/quiz-analytics.js"></script>
-                            <script src="/js/quiz-cert.js"></script>
-                            <script src="/js/quiz-engine.js"></script>
-                            <script>initQuiz();
-                            </script>
-    <script src="/js/ui/navigation.js"></script>
-    <script src="/js/navigation-orchestrator.js"></script>
+                            <script src="../../../js/quiz-analytics.js"></script>
+                            <script src="../../../js/quiz-cert.js"></script>
+                            <script src="../../../js/quiz-engine.js"></script>
+                            <script>initQuiz();</script>
+    <script src="../../../js/ui/navigation.js"></script>
+    <script src="../../../js/navigation-orchestrator.js"></script>
 
-        <global-footer base-path=""></global-footer>
+        <global-footer base-path="../../../"></global-footer>
 </body>
 
 </html>
