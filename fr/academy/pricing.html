@@ -262,19 +262,40 @@
         <!-- ACADEMY PRO -->
         <div class="pricing-card popular">
             <div class="badge-premium">Meilleure Offre</div>
-            <div style="font-size: 14px; font-weight: 800; color: var(--accent-purple); text-transform: uppercase;">Academy Pro</div>
-            <div class="plan-price-group">
-                <div class="price" id="price-display">49€<span>/mois</span></div>
-                <div id="annual-billing-text" style="font-size: 12px; color: var(--text-muted); margin-top: -15px; display: none;">Facturé annuellement (468€/an)</div>
+            <div style="font-size: 14px; font-weight: 800; color: var(--accent-purple); text-transform: uppercase; margin-bottom: 20px;">Academy Pro</div>
+            
+            <!-- Toggle billing (User Brief Structure) -->
+            <div style="display:flex;justify-content:center;gap:12px;margin-bottom:24px;align-items:center;">
+                <span id="label-monthly" style="font-weight:700; color: white;">Mensuel</span>
+                <label class="switch">
+                    <input type="checkbox" id="billing-switch" onchange="toggleBilling()">
+                    <span class="slider"></span>
+                </label>
+                <span id="label-yearly" style="color:#888; font-weight:700;">Annuel <em style="font-size:12px;color:var(--accent-purple); font-style: normal;">Économisez 20%</em></span>
             </div>
-            <ul class="features">
+
+            <!-- Prix dynamique -->
+            <div id="price-monthly-box" class="plan-price-group">
+                <div class="price">49€<span>/mois</span></div>
+                <div style="font-size:13px;color:var(--text-muted);margin-top: -10px;">Essai gratuit de 7 jours · Sans engagement</div>
+            </div>
+            <div id="price-annual-box" class="plan-price-group" style="display:none;">
+                <div class="price">39€<span>/mois</span></div>
+                <div style="font-size:13px;color:var(--text-muted);margin-top: -10px;">Facturé 468€/an · Essai gratuit de 7 jours</div>
+            </div>
+
+            <ul class="features" style="margin-top: 20px;">
                 <li><i class="fas fa-check"></i> <strong>Essai Gratuit de 7 Jours</strong></li>
                 <li><i class="fas fa-check"></i> Accès complet au Niveau 6</li>
                 <li><i class="fas fa-check"></i> Badge On-Chain Mintable</li>
                 <li><i class="fas fa-check"></i> Stratégies RWA & DeFi Avancées</li>
                 <li><i class="fas fa-check"></i> Briefs de Recherche Prioritaires</li>
             </ul>
-            <a href="https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801" id="cta-pro" class="btn-pricing btn-pro">Démarrer l'essai</a>
+            
+            <!-- CTA dynamique -->
+            <a id="cta-pro" href="https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801" class="btn-pricing btn-pro">
+                Démarrer Academy Pro — Essai 7 Jours
+            </a>
         </div>
 
         <!-- ENTERPRISE -->
@@ -299,26 +320,25 @@
 
     <script>
         function toggleBilling() {
-            const isYearly = document.getElementById('billing-switch').checked;
-            const priceDisplay = document.getElementById('price-display');
-            const billingText = document.getElementById('annual-billing-text');
-            const ctaPro = document.getElementById('cta-pro');
-            const labelMonthly = document.getElementById('label-monthly');
-            const labelYearly = document.getElementById('label-yearly');
+            const toggle = document.getElementById('billing-switch');
+            const cta = document.getElementById('cta-pro');
+            const priceM = document.getElementById('price-monthly-box');
+            const priceA = document.getElementById('price-annual-box');
+            const labelM = document.getElementById('label-monthly');
+            const labelA = document.getElementById('label-yearly');
 
-            if (isYearly) {
-                priceDisplay.innerHTML = '39€<span>/mois</span>';
-                billingText.style.display = 'block';
-                ctaPro.href = 'https://buy.stripe.com/eVqfZjgIJ45OaUEfb604802';
-                labelYearly.classList.add('active');
-                labelMonthly.classList.remove('active');
-            } else {
-                priceDisplay.innerHTML = '49€<span>/mois</span>';
-                billingText.style.display = 'none';
-                ctaPro.href = 'https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801';
-                labelMonthly.classList.add('active');
-                labelYearly.classList.remove('active');
-            }
+            const LINK_MONTHLY = 'https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801';
+            const LINK_ANNUAL  = 'https://buy.stripe.com/eVqfZjgIJ45OaUEfb604802';
+
+            const isAnnual = toggle.checked;
+            priceM.style.display = isAnnual ? 'none' : 'block';
+            priceA.style.display = isAnnual ? 'block' : 'none';
+            labelM.style.color = isAnnual ? '#888' : '#fff';
+            labelA.style.color = isAnnual ? '#fff' : '#888';
+            cta.href = isAnnual ? LINK_ANNUAL : LINK_MONTHLY;
+            cta.textContent = isAnnual
+                ? 'Démarrer le Plan Annuel — Essai 7 Jours'
+                : 'Démarrer Academy Pro — Essai 7 Jours';
         }
     </script>
 </body>
