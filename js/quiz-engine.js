@@ -14,7 +14,6 @@ const QuizEngine = {
     BANK_PATH: './js/quiz-bank/',
     QUESTIONS_PER_SESSION: 20,
     PASS_SCORE: 80, // % required to unlock next level
-    ACCESS_CODES: ['DCM-PRO-2026', 'ACADEMY-49', 'PRO-UPGRADE-X'],
 
     LEVELS: [
         { id: 1, key: 'L1', file: 'level-1.json', name: 'Foundations of DLT Risk', color: '#10b981', icon: 'fa-seedling', requires: null },
@@ -67,8 +66,19 @@ const QuizEngine = {
         // Level 6 is the monetized gate
         if (levelId === 6) {
             const hasProAccess = localStorage.getItem('dcm_pro_access') === 'true';
+            
+            // Check trial expiration
+            const trialEndStr = localStorage.getItem('dcm_trial_end');
+            if (trialEndStr) {
+                const trialEnd = new Date(trialEndStr);
+                if (new Date() > trialEnd) {
+                    console.warn("Trial expired");
+                    return false; // Trial ended
+                }
+            }
+
             const unlocks = this.getUnlocks();
-            // Must have passed L5 AND have Pro Access code
+            // Must have passed L5 AND have Pro Access code (active)
             return unlocks.includes(5) && hasProAccess;
         }
 
@@ -76,14 +86,43 @@ const QuizEngine = {
         return unlocks.includes(levelId);
     },
 
-    validateAccessCode(code) {
+    async validateAccessCode(code) {
         const sanitized = code.trim().toUpperCase();
-        if (this.ACCESS_CODES.includes(sanitized)) {
-            localStorage.setItem('dcm_pro_access', 'true');
-            // If they already passed L5, they can now access L6
-            return true;
+        
+        // Use global Supabase client (from supabase-client.js)
+        if (!window.supabase) {
+            console.error("Supabase client not initialized");
+            return false;
         }
-        return false;
+
+        try {
+            const { data, error } = await window.supabase
+                .from('access_codes')
+                .select('*')
+                .eq('code', sanitized)
+                .single();
+
+            if (error || !data) {
+                console.error("Verification failed:", error?.message || "Code not found");
+                return false;
+            }
+
+            // Success: Store access and metadata
+            localStorage.setItem('dcm_pro_access', 'true');
+            localStorage.setItem('dcm_pro_code', sanitized); // For reference
+            localStorage.setItem('dcm_pro_plan', data.plan || 'monthly');
+            
+            if (data.trial_end) {
+                localStorage.setItem('dcm_trial_end', data.trial_end);
+            } else {
+                localStorage.removeItem('dcm_trial_end'); // Permanent access
+            }
+
+            return true;
+        } catch (err) {
+            console.error("Network error during validation:", err);
+            return false;
+        }
     },
 
     unlockLevel(levelId) {

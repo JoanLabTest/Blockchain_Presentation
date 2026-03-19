@@ -45,8 +45,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             --red: #ef4444;
             --indigo: #6366f1;
             --purple: #7c3aed;
-            --cyan: #06b6d4;
             --gold: #f59e0b;
+            --cyan: #06b6d4;
+            --pro-bg: rgba(99, 102, 241, 0.1);
+            --pro-border: rgba(99, 102, 241, 0.4);
         }
 
         * {
@@ -468,6 +470,65 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(2, 6, 23, 0.8));
             border-color: rgba(124, 58, 237, 0.3);
         }
+
+        /* ─── PRO BADGE ─────────────────────────────────────────────────────────── */
+        .pro-status-banner {
+            grid-column: 1 / -1;
+            background: var(--pro-bg);
+            border: 1px solid var(--pro-border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .pro-status-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pro-status-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--indigo);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        .pro-status-info h4 {
+            font-size: 13px;
+            font-weight: 800;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .pro-status-info p {
+            font-size: 11px;
+            color: var(--muted);
+            margin: 0;
+        }
+        .btn-manage-sub {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--indigo);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 12px;
+            border: 1px solid var(--pro-border);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .btn-manage-sub:hover {
+            background: var(--indigo);
+            color: white;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ─── QUIZ RUNNER ────────────────────────────────────────────────────────── */
         #quiz-runner {
@@ -1695,11 +1756,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                             const completed = bestScore !== null && bestScore >= 80;
                                             const locked = !unlocked;
 
+                                            // Prefixed Global Pro Status Badge logic
+                                            let proBannerHtml = '';
+                                            if (id === 1 && engine.isLevelUnlocked(6)) {
+                                                const plan = localStorage.getItem('dcm_pro_plan') || 'monthly';
+                                                const trialEnd = localStorage.getItem('dcm_trial_end');
+                                                const planLabel = plan === 'annual' ? 'Academy Pro (Annuel)' : 'Academy Pro (Mensuel)';
+                                                const statusText = trialEnd 
+                                                    ? `Essai gratuit actif jusqu'au ${new Date(trialEnd).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}` 
+                                                    : 'Accès Professionnel Actif';
+                                                
+                                                proBannerHtml = `
+                                                    <div class="pro-status-banner">
+                                                        <div class="pro-status-left">
+                                                            <div class="pro-status-icon"><i class="fas fa-crown"></i></div>
+                                                            <div class="pro-status-info">
+                                                                <h4>${planLabel}</h4>
+                                                                <p>${statusText}</p>
+                                                            </div>
+                                                        </div>
+                                                        <a href="../pricing.html" class="btn-manage-sub">Gérer l'abonnement</a>
+                                                    </div>
+                                                `;
+                                            }
+
                                             const badgeHtml = isSuper ? `<span class="level-badge badge-super"><i class="fas fa-fire"></i> BLACK LEVEL</span>` : completed ? `<span class="level-badge badge-completed"><i class="fas fa-star"></i> Validé</span>` : unlocked ? `<span class="level-badge badge-unlocked"><i class="fas fa-circle"></i> Disponible</span>` : `<span class="level-badge badge-locked"><i class="fas fa-lock"></i> Verrouillé</span>`;
 
                                             const scoreHtml = bestScore ? `<div class="level-score" style="color:${info.color}"><i class="fas fa-trophy"></i> Meilleur: ${bestScore}%</div>` : `<div class="level-meta-item"><i class="fas fa-list"></i> ${info.session}/${info.questions} questions</div>`;
 
-                                            return `
+                                            return proBannerHtml + `
                                                 <div class="level-card ${locked ? 'locked' : ''} ${completed ? 'completed' : ''} ${isSuper ? 'super-card' : ''}" style="--level-color: ${info.color};" onclick="${locked ? '' : `QuizUI.startLevel('${id}')`}">
                                                     <div class="level-card-top">
                                                         <div class="level-icon"><i class="fas ${this.LEVEL_ICONS[id]}"></i></div>
@@ -1748,7 +1833,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                                     this._hide('loading-overlay');
                                                     return;
                                                 }
-                                                if (!engine.validateAccessCode(code)) {
+                                                if (!engine.validateAccessCode) throw new Error("Méthode de validation non trouvée");
+                                                
+                                                const isValid = await engine.validateAccessCode(code);
+                                                
+                                                if (!isValid) {
                                                     alert("Code d'accès invalide. Veuillez souscrire à un pack Pro pour recevoir votre code.");
                                                     this._hide('loading-overlay');
                                                     return;
