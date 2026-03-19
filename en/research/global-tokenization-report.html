@@ -193,6 +193,83 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             .report-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; }
             .report-sidebar { display: none; }
         }
+
+        /* PRINT OPTIMIZATION (Robust Fix) */
+        @media print {
+            html, body { 
+                background: #fff !important; 
+                color: #000 !important; 
+                padding: 0 !important; 
+                margin: 0 !important;
+                overflow: visible !important;
+                height: auto !important;
+            }
+            
+            .navbar-pro, .global-footer, .social-share-bar, .breadcrumb, .report-sidebar, .connect-btn, .auth-btn { 
+                display: none !important; 
+            }
+            
+            .report-grid { 
+                display: block !important; 
+                padding: 0 !important; 
+                margin: 0 !important; 
+                max-width: 100% !important; 
+            }
+            
+            .report-chapter { 
+                page-break-inside: avoid; 
+                margin-bottom: 50px !important; 
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+            
+            .chapter-title, h1, h2, h3, .highlight-title { 
+                color: #000 !important; 
+                page-break-after: avoid; 
+            }
+            
+            .report-text, p, li, span, div { 
+                color: #222 !important; 
+                background: transparent !important;
+            }
+            
+            .data-highlight { 
+                background: #f8fafc !important; 
+                border: 1px solid #e2e8f0 !important; 
+                border-left: 5px solid #000 !important; 
+                page-break-inside: avoid; 
+                color: #000 !important;
+            }
+            
+            .institution-tag { 
+                border: 1px solid #000 !important; 
+                color: #000 !important; 
+                background: #fff !important;
+            }
+            
+            .report-hero { 
+                border-bottom: 3px solid #000 !important; 
+                background: none !important; 
+                padding: 60px 0 !important; 
+            }
+            
+            .report-hero h1 { 
+                font-size: 36pt !important; 
+                color: #000 !important; 
+                margin-top: 0;
+            }
+
+            /* AOS Animation Override */
+            [data-aos] {
+                opacity: 1 !important;
+                transform: none !important;
+                visibility: visible !important;
+                transition: none !important;
+            }
+            
+            /* Logo visibility */
+            .logo-text, .logo-orb { color: #000 !important; border-color: #000 !important; }
+        }
     </style>
     <script src="../js/global-footer.js"></script>
     <link href="../../css/navigation-hub.css" rel="stylesheet" />
