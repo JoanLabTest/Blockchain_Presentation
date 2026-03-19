@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ETF Covered Call | Analyse Institutionnelle et Guide Stratégique | DCM Core</title>
+    <meta content="Analyse institutionnelle approfondie des ETF Covered Call (JEPQ, QYLD, XYLD) : mécanismes de rendement, profils de payoff, coûts cachés et comparaison avec le haut rendement." name="description" />
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+    <script src="../js/core/feature-flags.js"></script>
+    <script src="../js/session-manager.js"></script>
+    <script src="../js/ui/navigation.js"></script>
+    <script src="../js/navigation-orchestrator.js"></script>
+    <script src="../js/global-footer.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../js/navigation-hub.js"></script>
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f3f4f6;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --border: #1e293b;
+        }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR (Phase 8 Design) */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 260px;
+            height: calc(100vh - 70px);
+            background: #020617;
+            border-right: 1px solid var(--border);
+            padding: 40px 20px;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding-left: 12px;
+        }
+        .toc-list { list-style: none; padding: 0; }
+        .toc-link {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+            transition: 0.2s;
+            margin-bottom: 4px;
+        }
+        .toc-link:hover, .toc-link.active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 100px 60px 80px;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .section-box {
+            margin-bottom: 100px;
+            scroll-margin-top: 100px;
+        }
+        h1 { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; color: #fff; }
+        h2 { font-size: 32px; color: #fff; margin-bottom: 30px; border-left: 4px solid var(--accent-green); padding-left: 20px; }
+        h3 { font-size: 20px; color: #fff; margin-bottom: 15px; }
+        p { color: var(--text-muted); font-size: 17px; margin-bottom: 20px; }
+
+        .card { background: var(--bg-card); border: 1px solid var(--border); padding: 30px; border-radius: 12px; margin-bottom: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+        /* DATA TABLE */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .data-table th { text-align: left; padding: 15px; background: #111; color: #fff; font-size: 12px; text-transform: uppercase; }
+        .data-table td { padding: 15px; border-bottom: 1px solid #222; color: var(--text-muted); font-size: 14px; }
+
+        /* CALLOUT */
+        .callout { padding: 25px; border-radius: 12px; background: rgba(59, 130, 246, 0.05); border-left: 4px solid var(--accent-blue); margin: 30px 0; }
+        .callout-inst { background: rgba(16, 185, 129, 0.1); border-color: var(--accent-green); }
+
+        .chart-container { position: relative; height: 400px; margin: 40px 0; background: #0b0f1a; border-radius: 12px; padding: 20px; border: 1px solid var(--border); }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
+        .faq-q { font-weight: 700; color: #fff; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { color: var(--text-muted); font-size: 15px; }
+
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 80px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav-hub current-lang="fr"></nav-hub>
+    </header>
+
+    <aside class="sidebar">
+        <strong class="sidebar-title">Sommaire de l'Analyse</strong>
+        <ul class="toc-list">
+            <li><a href="#section-1" class="toc-link active">1. Mécanisme Central</a></li>
+            <li><a href="#section-2" class="toc-link">2. Produits du Marché</a></li>
+            <li><a href="#section-3" class="toc-link">3. Profil de Payoff</a></li>
+            <li><a href="#section-4" class="toc-link">4. Coûts Cachés</a></li>
+            <li><a href="#section-5" class="toc-link">5. Crédit Synthétique</a></li>
+            <li><a href="#section-6" class="toc-link">6. Vol Harvesting</a></li>
+            <li><a href="#section-7" class="toc-link">7. Cadre Réglementaire</a></li>
+            <li><a href="#section-8" class="toc-link">8. FAQ Stratégiste</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- HERO -->
+            <div class="section-box" style="text-align: center;">
+                <div style="display: inline-block; padding: 6px 12px; background: rgba(16, 185, 129, 0.1); color: var(--accent-green); border-radius: 4px; font-size: 11px; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px;">
+                    STRATÉGIE INSTITUTIONNELLE 01
+                </div>
+                <h1>ETF Covered Call :<br />Extraire du Yield de la Volatilité</h1>
+                <p class="subtitle">Une analyse technique des véhicules d'investissement de vente d'options, leurs compromis structurels et leur rôle dans les portefeuilles de revenus modernes.</p>
+            </div>
+
+            <!-- SECTION 1 -->
+            <section class="section-box" id="section-1" data-aos="fade-up">
+                <h2>1. Mécanisme Central : Comment ça marche</h2>
+                <div class="grid-2">
+                    <div>
+                        <p>Un ETF Covered Call est une stratégie d'options "emballée". Le gestionnaire du fonds détient une position longue sur un panier d'actifs (ex : Nasdaq 100) et vend simultanément des options d'achat (calls) sur ces positions.</p>
+                        <h3>Les Trois Piliers des CC-ETF :</h3>
+                        <ul style="color: var(--text-muted); font-size: 15px;">
+                            <li style="margin-bottom: 10px;"><strong>Exposition Sous-jacente :</strong> Détention de l'indice ou des actions de base.</li>
+                            <li style="margin-bottom: 10px;"><strong>Vente d'Options :</strong> Vente systématique d'options call pour collecter des primes.</li>
+                            <li style="margin-bottom: 10px;"><strong>Distribution :</strong> Reversement de ces primes aux investisseurs sous forme de yield mensuel.</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="display: flex; align-items: center; justify-content: center; background: #020617;">
+                        <canvas id="payoffChart" style="max-height: 250px;"></canvas>
+                    </div>
+                </div>
+                <div class="callout">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Visualiser le Payoff :</strong> Le graphique ci-dessus représente un covered call standard. Vous échangez votre "upside illimité" contre un "revenu immédiat". Dans un marché stable, vous surperformez ; en cas de krach, vous avez un léger coussin ; dans un marché haussier vertical, vous restez à la traîne.
+                </div>
+            </section>
+
+            <!-- SECTION 2 -->
+            <section class="section-box" id="section-2" data-aos="fade-up">
+                <h2>2. Produits Clés et Spectre du Marché</h2>
+                <p>Tous les ETF covered call ne sont pas créés égaux. Le risque de la stratégie dépend du choix du gestionnaire de vendre des calls At-The-Money (ATM) ou Out-Of-The-Money (OTM).</p>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Ticker</th>
+                                <th>Émetteur</th>
+                                <th>Stratégie</th>
+                                <th>Yield Typique</th>
+                                <th>Cible</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>JEPQ</strong></td>
+                                <td>J.P. Morgan</td>
+                                <td>Nasdaq 100 ELNs</td>
+                                <td>9% - 11%</td>
+                                <td>Équilibre Revenu/Croissance</td>
+                            </tr>
+                            <tr>
+                                <td><strong>QYLD</strong></td>
+                                <td>Global X</td>
+                                <td>Nasdaq 100 (ATM)</td>
+                                <td>11% - 12%</td>
+                                <td>Revenu Pur</td>
+                            </tr>
+                            <tr>
+                                <td><strong>JEPI</strong></td>
+                                <td>J.P. Morgan</td>
+                                <td>S&P 500 ELNs</td>
+                                <td>7% - 8%</td>
+                                <td>Yield Conservateur</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DIVO</strong></td>
+                                <td>Amplify</td>
+                                <td>Dividende Actif + Call</td>
+                                <td>4% - 5%</td>
+                                <td>Focus Total Return</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 3 -->
+            <section class="section-box" id="section-3" data-aos="fade-up">
+                <h2>3. Le Compromis Structurel</h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3 style="color: var(--accent-green);">Le Piège du Bull Market</h3>
+                        <p style="font-size: 14px;">Parce que vous avez VENDU le droit à quelqu'un d'autre d'acheter vos actions à un prix fixe, si le marché s'envole de 20% en un mois, vous êtes arrêté à votre prix d'exercice. Vous gardez la prime de 1% mais manquez la hausse de 19%.</p>
+                    </div>
+                    <div class="card">
+                        <h3 style="color: var(--accent-blue);">Le Coussin du Bear Market</h3>
+                        <p style="font-size: 14px;">Si le marché baisse de 5% et que vous avez collecté une prime de 2%, votre perte nette n'est que de 3%. Bien que ce ne soit pas une couverture totale, cela réduit significativement la volatilité lors de baisses modérées.</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </section>
+
+            <!-- SECTION 4 -->
+            <section class="section-box" id="section-4" data-aos="fade-up">
+                <h2>4. Les Coûts Cachés du Yield</h2>
+                <p>99% des investisseurs particuliers ne regardent que le taux de dividende. Les analystes institutionnels examinent le <strong>Taux de Rendement Interne (TRI)</strong> et le <strong>Coût Total du Yield</strong>.</p>
+                <ul style="color: var(--text-muted); font-size: 16px; line-height: 2;">
+                    <li><i class="fas fa-times-circle" style="color: var(--accent-red); margin-right: 10px;"></i> <strong>Upside Plafonné :</strong> Le coût réel d'un yield de 11% lors d'une année où le Nasdaq rend 40%.</li>
+                    <li><i class="fas fa-times-circle" style="color: var(--accent-red); margin-right: 10px;"></i> <strong>Friction de Volatilité Implicite :</strong> Vendre de la volatilité lorsqu'elle est basse (peu chère) est souvent une transaction perdante pour le fonds.</li>
+                    <li><i class="fas fa-times-circle" style="color: var(--accent-red); margin-right: 10px;"></i> <strong>Inefficacité Fiscale :</strong> Dans de nombreuses juridictions, les distributions sont taxées comme des revenus plutôt que comme des plus-values.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 5 -->
+            <section class="section-box" id="section-5" data-aos="fade-up">
+                <h2>5. Crédit Synthétique : Perspective DCM Core</h2>
+                <div class="callout callout-inst">
+                    <h3>Penser comme un Gestionnaire d'Obligations</h3>
+                    <p>Chez DCM Core, nous analysons les CC-ETF non pas comme des vecteurs de croissance actionnariale, mais comme des <strong>Instruments de Crédit Synthétique</strong>. En vendant des calls, vous convertissez un risque actions (Beta) en un risque de revenus (Yield). Cela les rend comparables aux obligations High Yield, mais avec un profil de corrélation différent.</p>
+                </div>
+                <p>Lorsque les taux d'intérêt sont élevés, les obligations traditionnelles concurrencent les CC-ETF. Cependant, lors des périodes de forte volatilité, les CC-ETF surperforment souvent car les primes d'options augmentent avec la peur du marché.</p>
+            </section>
+
+            <!-- SECTION 6 -->
+            <section class="section-box" id="section-6" data-aos="fade-up">
+                <h2>6. Vol Harvesting vs Génération de Revenu</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3>L'Approche Particulier</h3>
+                        <p style="font-size: 15px;">Focus sur le "Revenu Passif." L'objectif est simplement de recevoir un chèque chaque mois pour payer des factures ou réinvestir. La sélection se base sur le pourcentage de yield le plus élevé.</p>
+                    </div>
+                    <div>
+                        <h3>L'Approche Institutionnelle</h3>
+                        <p style="font-size: 15px;">Focus sur le "Volatility Harvesting." L'objectif est de capturer la différence entre la <strong>Volatilité Implicite</strong> et la <strong>Volatilité Réalisée</strong>. Ces fonds sont utilisés comme "overlays" de portefeuille pour abaisser le Beta global.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 7 -->
+            <section class="section-box" id="section-7" data-aos="fade-up">
+                <h2>7. Paysage Réglementaire (UE/MiCA)</h2>
+                <p>Dans le contexte européen, ces ETF sont généralement structurés sous la réglementation <strong>UCITS VI</strong>. Avec l'évolution des cadres <strong>MiCA</strong> et des actifs numériques, des versions tokenisées de ces instruments générateurs de yield émergent.</p>
+                <p>Les allocataires institutionnels doivent s'assurer que ces fonds répondent à des exigences spécifiques de liquidité et de stress-testing. Consultez nos <a href="../insights/index.html" style="color: var(--accent-green);">Analyses Réglementaires</a> pour une étude plus approfondie des risques de modèle.</p>
+            </section>
+
+            <!-- SECTION 8 -->
+            <section class="section-box" id="section-8" data-aos="fade-up" style="border-bottom: none;">
+                <h2>8. FAQ Stratégiste</h2>
+                <div class="faq-item">
+                    <div class="faq-q">Les CC-ETF peuvent-ils remplacer les obligations ? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-a">Ils servent une fonction de revenu similaire mais se comportent différemment. Les obligations sont sensibles aux taux d'intérêt (risque de duration) ; les CC-ETF sont sensibles aux prix des actions et à la volatilité. Ils doivent être utilisés de manière complémentaire.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Pourquoi le QYLD perd-il parfois de la valeur ? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-a">Le QYLD vend des calls "At-The-Money". Cela maximise le revenu mais ne laisse AUCUNE place à l'appréciation des actions. Si le marché baisse de 10%, le revenu ne couvre qu'environ 1% de cette baisse, vous laissant avec une perte nette.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Quel est le meilleur marché pour cette stratégie ? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-a">Un marché "latéral" ou "crabe". Lorsque le marché évolue entre 0% et 5% par an, les CC-ETF ont tendance à surperformer massivement car ils conservent la prime tandis que l'action reste stable.</div>
+                </div>
+            </section>
+
+            <!-- FINAL NAV -->
+            <div style="padding: 60px; background: rgba(16, 185, 129, 0.05); border-radius: 20px; text-align: center; border: 1px dashed var(--accent-green);">
+                <h3 style="margin-bottom: 20px;">Approfondissez vos Connaissances</h3>
+                <p>Comprenez les mathématiques sous-jacentes qui alimentent ces rendements.</p>
+                <a href="../yield-mechanics.html" class="nav-link" style="display: inline-block; padding: 15px 30px; background: var(--accent-green); color: #000; border-radius: 50px; text-decoration: none; font-weight: 800;">DÉCOUVRIR LE YIELD MECHANICS</a>
+            </div>
+        </div>
+    </main>
+
+    <global-footer base-path="../"></global-footer>
+
+    <!-- JSON-LD SCHEMA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "ETF Covered Call : Analyse Institutionnelle et Guide Stratégique",
+      "description": "Analyse complète de la génération de rendement via les fonds de vente d'options (JEPQ, QYLD). Étude des profils de payoff et modélisation en crédit synthétique.",
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Core Institute"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "DCM Core Institute",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://dcmcore.com/logo.png"
+        }
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Les CC-ETF peuvent-ils remplacer les obligations ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ils servent une fonction de revenu similaire mais se comportent différemment. Les obligations sont sensibles aux taux d'intérêt ; les CC-ETF sont sensibles aux prix des actions et à la volatilité."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Quel est le meilleur marché pour cette stratégie ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Un marché latéral ou crabe où l'indice sous-jacent évolue entre 0% et 5% annuellement."
+        }
+      }]
+    }
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // --- CHARTS ---
+        const setupCharts = () => {
+            // Payoff Chart
+            const payoffCtx = document.getElementById('payoffChart').getContext('2d');
+            new Chart(payoffCtx, {
+                type: 'line',
+                data: {
+                    labels: [-20, -10, 0, 10, 20],
+                    datasets: [{
+                        label: 'Payoff Covered Call',
+                        data: [-18, -8, 2, 2, 2],
+                        borderColor: '#10b981',
+                        borderWidth: 3,
+                        pointRadius: 0
+                    }, {
+                        label: 'Action Seule',
+                        data: [-20, -10, 0, 10, 20],
+                        borderColor: '#94a3b8',
+                        borderDash: [5, 5],
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+
+            // Comparison Chart
+            const compCtx = document.getElementById('comparisonChart').getContext('2d');
+            new Chart(compCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                    datasets: [{
+                        label: 'Nasdaq 100 (Croissance)',
+                        data: [100, 105, 102, 108, 115, 112, 118, 125, 122, 128, 135, 140],
+                        borderColor: '#3b82f6',
+                        tension: 0.4
+                    }, {
+                        label: 'ETF Covered Call (Revenu)',
+                        data: [100, 101, 101.5, 102.5, 103, 103.5, 104, 104.5, 105, 105.5, 106, 106.5],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: 'Performance Bull Market : Nasdaq 100 vs CC-ETF', color: '#fff' }
+                    },
+                    scales: {
+                        y: { grid: { color: '#222' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+        };
+
+        window.addEventListener('load', setupCharts);
+
+        // --- TOC SCROLL SPY ---
+        const sections = document.querySelectorAll('.section-box');
+        const navLinks = document.querySelectorAll('.toc-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

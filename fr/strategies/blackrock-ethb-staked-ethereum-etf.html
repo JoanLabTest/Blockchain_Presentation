@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>BlackRock ETHB : iShares Staked Ethereum ETF — Analyse Institutionnelle | DCM Core</title>
+    <meta content="Analyse approfondie de l'ETF iShares Staked Ethereum Trust de BlackRock (ETHB, Nasdaq). Calcul du rendement, comparaison ETHB vs ETHA, contexte réglementaire du GENIUS Act et implications pour la tokenisation." name="description" />
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+    <script src="../js/core/feature-flags.js"></script>
+    <script src="../js/session-manager.js"></script>
+    <script src="../js/ui/navigation.js"></script>
+    <script src="../js/navigation-orchestrator.js"></script>
+    <script src="../js/global-footer.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../js/navigation-hub.js"></script>
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f3f4f6;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --border: #1e293b;
+        }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR (Phase 8 Design) */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 260px;
+            height: calc(100vh - 70px);
+            background: #020617;
+            border-right: 1px solid var(--border);
+            padding: 40px 20px;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding-left: 12px;
+        }
+        .toc-list { list-style: none; padding: 0; }
+        .toc-link {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+            transition: 0.2s;
+            margin-bottom: 4px;
+        }
+        .toc-link:hover, .toc-link.active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 100px 60px 80px;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .section-box {
+            margin-bottom: 100px;
+            scroll-margin-top: 100px;
+        }
+        h1 { font-size: 48px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; color: #fff; }
+        h2 { font-size: 32px; color: #fff; margin-bottom: 30px; border-left: 4px solid var(--accent-blue); padding-left: 20px; }
+        h3 { font-size: 20px; color: #fff; margin-bottom: 15px; }
+        p { color: var(--text-muted); font-size: 17px; margin-bottom: 20px; line-height: 1.6; }
+
+        .card { background: var(--bg-card); border: 1px solid var(--border); padding: 30px; border-radius: 12px; margin-bottom: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+        /* DATA TABLE */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .data-table th { text-align: left; padding: 15px; background: #111; color: #fff; font-size: 12px; text-transform: uppercase; }
+        .data-table td { padding: 15px; border-bottom: 1px solid #222; color: var(--text-muted); font-size: 14px; }
+
+        /* CALLOUT */
+        .callout { padding: 25px; border-radius: 12px; background: rgba(59, 130, 246, 0.05); border-left: 4px solid var(--accent-blue); margin: 30px 0; display: flex; gap: 20px; align-items: flex-start; }
+        .callout-inst { background: rgba(16, 185, 129, 0.1); border-color: var(--accent-green); }
+
+        .chart-container { position: relative; height: 350px; margin: 40px 0; background: #0b0f1a; border-radius: 12px; padding: 20px; border: 1px solid var(--border); }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
+        .faq-q { font-weight: 700; color: #fff; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { color: var(--text-muted); font-size: 15px; }
+
+        .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0; }
+        .metric-card { background: #020617; border: 1px solid var(--border); padding: 20px; border-radius: 8px; text-align: center; }
+        .metric-val { font-size: 28px; font-weight: 800; color: var(--accent-green); margin-bottom: 5px; }
+        .metric-lab { font-size: 12px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
+
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 80px 20px; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav-hub current-lang="fr"></nav-hub>
+    </header>
+
+    <aside class="sidebar">
+        <strong class="sidebar-title">Sommaire de l'Analyse</strong>
+        <ul class="toc-list">
+            <li><a href="#section-1" class="toc-link active">1. Qu'est-ce que l'ETHB ?</a></li>
+            <li><a href="#section-2" class="toc-link">2. Architecture Technique</a></li>
+            <li><a href="#section-3" class="toc-link">3. Calcul du Rendement Réel</a></li>
+            <li><a href="#section-4" class="toc-link">4. ETHB vs ETHA</a></li>
+            <li><a href="#section-5" class="toc-link">5. Contexte Réglementaire</a></li>
+            <li><a href="#section-6" class="toc-link">6. Implications de Tokenisation</a></li>
+            <li><a href="#section-7" class="toc-link">7. Risques Institutionnels</a></li>
+            <li><a href="#section-8" class="toc-link">8. FAQ Stratégiste</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- HERO -->
+            <div class="section-box" style="text-align: center;">
+                <div style="display: inline-block; padding: 6px 12px; background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); border-radius: 4px; font-size: 11px; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px;">
+                    ÉTUDE DE CAS : BLACKROCK iSHARES
+                </div>
+                <h1>iShares Staked ETH Trust (ETHB) :<br />L'ETF de Staking-as-a-Service</h1>
+                <p class="subtitle">Une analyse technique approfondie du nouveau véhicule institutionnel de BlackRock, décomposant le premier ETF Ethereum générateur de rendement sur le Nasdaq.</p>
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-val">107M$</div>
+                        <div class="metric-lab">Capital d'Amorçage</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-val">~2,2%</div>
+                        <div class="metric-lab">Objectif de Rendement Net</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-val">80%</div>
+                        <div class="metric-lab">Exposition Stakée</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 1 -->
+            <section class="section-box" id="section-1" data-aos="fade-up">
+                <h2>1. Qu'est-ce que l'ETHB ?</h2>
+                <div class="grid-2">
+                    <div>
+                        <p>Lancé le 12 mars 2026, l'iShares Staked ETH Trust (ETHB) représente un changement de paradigme. Contrairement aux ETF Ethereum spot classiques qui ne suivent que la valeur marchande, l'ETHB stake activement une grande partie de ses avoirs en Ether pour sécuriser le réseau et percevoir des récompenses.</p>
+                        <p>Cette structure "génératrice de rendement" permet aux investisseurs traditionnels de capturer la productivité native de l'actif sans avoir à gérer de nœuds validateurs ou de clés privées.</p>
+                    </div>
+                    <div class="card" style="background: #020617;">
+                        <h3 style="margin-top: 0;">Le Flux Opérationnel</h3>
+                        <ul style="color: var(--text-muted); font-size: 14px; padding-left: 20px;">
+                            <li style="margin-bottom: 10px;"><strong>Investisseur :</strong> Achète des actions sur le Nasdaq.</li>
+                            <li style="margin-bottom: 10px;"><strong>Dépositaire :</strong> Coinbase Prime gère les clés.</li>
+                            <li style="margin-bottom: 10px;"><strong>Validateurs :</strong> Figment & Galaxy stakent l'ETH.</li>
+                            <li style="margin-bottom: 10px;"><strong>Distribution :</strong> Yield mensuel en cash ou actions.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2 -->
+            <section class="section-box" id="section-2" data-aos="fade-up">
+                <h2>2. Architecture Technique</h2>
+                <p>Le Trust opère une stratégie d'allocation dynamique pour équilibrer la génération de rendement avec les exigences de liquidité d'un ETF à capital ouvert.</p>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3 style="color: var(--accent-green);">Le Cœur de Staking (70% - 95%)</h3>
+                        <p style="font-size: 14px;">La majorité de l'ETH du Trust est engagée sur la beacon chain. Ce cœur génère les récompenses de base du réseau (frais de priorité + MEV + émission de staking).</p>
+                    </div>
+                    <div class="card">
+                        <h3 style="color: var(--accent-blue);">La Réserve de Liquidité (5% - 30%)</h3>
+                        <p style="font-size: 14px;">Un tampon d'ETH non staké est maintenu pour garantir que les rachats quotidiens peuvent être honorés sans attendre la file d'attente de sortie d'Ethereum.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3 -->
+            <section class="section-box" id="section-3" data-aos="fade-up">
+                <h2>3. Le Calcul du Rendement Réel</h2>
+                <p>Les institutions doivent comprendre la "déperdition" entre le rendement brut du réseau et le rendement de distribution net.</p>
+                <div class="chart-container">
+                    <canvas id="yieldCalcChart"></canvas>
+                </div>
+                <div class="callout callout-inst">
+                    <i class="fas fa-calculator" style="color: var(--accent-green); font-size: 24px;"></i>
+                    <div>
+                        <strong>Décomposition Institutionnelle :</strong>
+                        <p style="font-size: 15px; margin-bottom: 0;">Rendement Réseau Ethereum (~3,1%) × 82% (Part investisseur) = 2,54% de rendement brut ETF. Après 0,12% de frais promotionnels et coûts opérationnels, le **rendement net réel** se situe entre **1,9% et 2,2%**.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4 -->
+            <section class="section-box" id="section-4" data-aos="fade-up">
+                <h2>4. ETHB vs ETHA : Sélection Stratégique</h2>
+                <p>BlackRock propose désormais deux instruments distincts. La sélection dépend du profil fiscal de l'investisseur et des exigences de rendement ajusté au risque.</p>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Caractéristique</th>
+                                <th>ETHA (Spot)</th>
+                                <th>ETHB (Staked)</th>
+                                <th>Contexte Institutionnel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Potentiel de Yield</strong></td>
+                                <td>0%</td>
+                                <td>1,9% - 2,2%</td>
+                                <td>L'ETHB capture le rendement total.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Statut Liquidité</strong></td>
+                                <td>Quotidien / T+1</td>
+                                <td>Quotidien / T+1</td>
+                                <td>Géré par la réserve de liquidité.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Profil de Risque</strong></td>
+                                <td>Risque Marché</td>
+                                <td>Marché + Slashing</td>
+                                <td>L'ETHB ajoute un risque opérationnel.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cas d'Usage</strong></td>
+                                <td>Trading / Hedge</td>
+                                <td>Revenu Long Terme</td>
+                                <td>L'ETHB agit comme une "Obligation Crypto".</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 5 -->
+            <section class="section-box" id="section-5" data-aos="fade-up">
+                <h2>5. Le Tournant Réglementaire : GENIUS Act</h2>
+                <p>Le lancement de l'ETHB a été accéléré par deux développements majeurs dans le paysage réglementaire américain en 2025-2026.</p>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>GENIUS Act (Juillet 2025)</h3>
+                        <p style="font-size: 14px;">Le *Generating Effective National Investments for Usable Stocks* (GENIUS) Act a codifié le staking de crypto-actifs comme un service administratif plutôt qu'un contrat d'investissement, levant les objections de la SEC.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Pivot de la SEC</h3>
+                        <p style="font-size: 14px;">Suite à l'adoption de la loi et à la nomination d'une nouvelle direction, la SEC a retiré ses prétentions sur le statut de titre financier du staking pour les structures ETF réglementées.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6 -->
+            <section class="section-box" id="section-6" data-aos="fade-up">
+                <h2>6. Modèle pour la Tokenisation Institutionnelle</h2>
+                <p>L'ETHB est plus qu'un ETF ; c'est un modèle pour le futur de la <strong>Finance Programmable</strong>.</p>
+                <div class="callout">
+                    <p style="margin: 0;">En "emballant" un actif Proof-of-Stake dans un véhicule réglementé versant des dividendes, BlackRock a créé un template qui sera inévitablement appliqué à <strong>Solana, Polkadot et Cardano</strong>. Cela comble le fossé entre consensus décentralisé et gestion de fortune institutionnelle.</p>
+                </div>
+                <p>Pour une vue d'ensemble de la stratégie de BlackRock, consultez notre analyse de l'étude de cas <a href="../insights/tokenization/blackrock-buidl-case-study.html" style="color: var(--accent-blue); text-decoration: underline;">BUIDL (Trésorerie Tokenisée)</a>.</p>
+            </section>
+
+            <!-- SECTION 7 -->
+            <section class="section-box" id="section-7" data-aos="fade-up">
+                <h2>7. Risques Institutionnels Critiques</h2>
+                <p>Les allocataires doivent prendre en compte les risques spécifiques à la structure de staking.</p>
+                <ul style="color: var(--text-muted); font-size: 16px; line-height: 2;">
+                    <li><i class="fas fa-exclamation-triangle" style="color: #f59e0b; margin-right: 10px;"></i> <strong>Risque de Slashing :</strong> Perte d'ETH due à une faute du validateur ou à une panne prolongée.</li>
+                    <li><i class="fas fa-clock" style="color: #f59e0b; margin-right: 10px;"></i> <strong>Délais de Sortie :</strong> La congestion du réseau peut ralentir la liquidation du cœur staké.</li>
+                    <li><i class="fas fa-percent" style="color: #f59e0b; margin-right: 10px;"></i> <strong>Variabilité du Rendement :</strong> À mesure que plus d'ETH est staké, les récompenses individuelles diminuent.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 8 -->
+            <section class="section-box" id="section-8" data-aos="fade-up" style="border-bottom: none;">
+                <h2>8. FAQ Stratégiste</h2>
+                <div class="faq-item">
+                    <div class="faq-q">Quelle est la différence majeure entre l'ETHA et l'ETHB ? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-a">L'ETHA est un ETF spot suivant uniquement le prix. L'ETHB est un ETF staké qui suit le prix ET redistribue les récompenses de staking du réseau Ethereum.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">L'ETHB est-il disponible pour les investisseurs européens ? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-a">L'ETHB est actuellement un produit côté au Nasdaq (USA). Les réglementations UCITS européennes sont différentes, mais des produits ETP similaires existent sur le marché de l'UE.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Comment BlackRock gère-t-il le risque de Slashing ? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-a">BlackRock utilise des partenaires de grade institutionnel (Coinbase, Figment) disposant d'assurances contre le slashing et d'infrastructures de validateurs diversifiées.</div>
+                </div>
+            </section>
+
+            <!-- FINAL NAV -->
+            <div style="padding: 60px; background: rgba(59, 130, 246, 0.05); border-radius: 20px; text-align: center; border: 1px dashed var(--accent-blue);">
+                <h3 style="margin-bottom: 20px;">Maîtrisez les Mécanismes de Yield</h3>
+                <p>Comprenez les mathématiques du réseau Ethereum qui alimentent les dividendes de l'ETHB.</p>
+                <a href="../yield-mechanics.html" class="nav-link" style="display: inline-block; padding: 15px 30px; background: var(--accent-blue); color: #fff; border-radius: 50px; text-decoration: none; font-weight: 800;">DÉCOUVRIR LE YIELD MECHANICS</a>
+            </div>
+        </div>
+    </main>
+
+    <global-footer base-path="../"></global-footer>
+
+    <!-- JSON-LD SCHEMA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "BlackRock ETHB : iShares Staked Ethereum ETF — Analyse Institutionnelle",
+      "description": "Analyse technique de l'ETF iShares Staked Ethereum Trust de BlackRock. Décomposition de l'architecture, calcul du rendement et contexte réglementaire.",
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Core Institute"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "DCM Core Institute",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://dcmcore.com/logo.png"
+        }
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Qu'est-ce que l'iShares Staked ETH Trust (ETHB) ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "L'ETHB est un ETF de BlackRock qui détient de l'Ethereum et le stake pour générer des récompenses réseau reversées aux actionnaires."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Quel est le rendement net de l'ETHB ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Le rendement net réel est estimé entre 1,9% et 2,2% par an après déduction des frais et coûts opérationnels."
+        }
+      }]
+    }
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // --- CHARTS ---
+        const setupCharts = () => {
+            const yieldCtx = document.getElementById('yieldCalcChart').getContext('2d');
+            new Chart(yieldCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Brut Réseau', 'Après Part Sponsor', 'Après Frais Gestion', 'Yield Net Final'],
+                    datasets: [{
+                        label: 'APR Estimé (%)',
+                        data: [3.1, 2.54, 2.42, 2.15],
+                        backgroundColor: [
+                            'rgba(148, 163, 184, 0.2)',
+                            'rgba(148, 163, 184, 0.4)',
+                            'rgba(59, 130, 246, 0.6)',
+                            'rgba(16, 185, 129, 0.9)'
+                        ],
+                        borderColor: [
+                            '#94a3b8',
+                            '#94a3b8',
+                            'var(--accent-blue)',
+                            'var(--accent-green)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { backgroundColor: '#0f172a', bodyFont: { family: 'Urbanist' } }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            max: 4,
+                            grid: { color: '#222' },
+                            ticks: { color: '#94a3b8', callback: value => value + '%' }
+                        },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+        };
+
+        window.addEventListener('load', setupCharts);
+
+        // --- TOC SCROLL SPY ---
+        const sections = document.querySelectorAll('.section-box');
+        const navLinks = document.querySelectorAll('.toc-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
