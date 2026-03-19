@@ -12,7 +12,7 @@ def create_academy_pricing(lang="en"):
     btn_free = "Start Learning Free" if lang=="en" else "Apprentissage Gratuit"
     
     # Stripe Link (Placeholder per user request)
-    stripe_link = "https://buy.stripe.com/demo_academy_pro" 
+    stripe_link = "https://buy.stripe.com/test_4gM3cxgIJf7fcqn7UhfUQ00" 
 
     html = f"""<!DOCTYPE html>
 <html lang="{lang}">
