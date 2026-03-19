@@ -24,7 +24,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta property="og:title" content="DCM Institutional Assessment | Blockchain Certification" />
     <meta property="og:description" content="Validate your skills in digital financial markets." />
     <meta property="og:type" content="website" />
-    <link rel="canonical" href="https://dcmcore.com/en/academy/pro/index.html" />
+    <link rel="canonical" href="https://dcmcore.com/en/academy/pro/" />
     <link
         href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet" />
@@ -32,6 +32,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <!-- DEV MASTER UNLOCK -->
     <script src="../../../js/dev-unlock.js"></script>
+    <script src="../../../js/navigation-hub.js"></script>
     <style>
         :root {
             --bg: #020617;
@@ -1799,7 +1800,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                             'H'];
 
                                         // Progress
-                                        document.getElementById('q-num').textContent = `QUESTION ${idx} SUR ${total}`;
+                                        document.getElementById('q-num').textContent = `QUESTION ${idx} OF ${total}`;
 
                                         document.getElementById('runner-q-label').textContent = `Question ${idx}/${total}`;
 
@@ -1887,7 +1888,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                         const nextBtn = document.getElementById('next-btn');
                                         nextBtn.style.display = 'flex';
                                         const isLast = !result.hasMore;
-                                        document.getElementById('next-btn-label').textContent = isLast ? 'Voir les résultats' : 'Question suivante';
+                                        document.getElementById('next-btn-label').textContent = isLast ? 'View Results' : 'Next Question';
                                     }
 
                                     ,
@@ -1926,11 +1927,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                                         // Title
                                         document.getElementById('results-title').textContent = results.passed ? '🏆 Level Passed!'
-                                            : '💪 Résultat insuffisant';
+                                            : '💪 Insufficient Result';
 
                                         document.getElementById('results-subtitle').textContent = results.passed
                                             ? `Score of ${results.score}% out of ${results.total} questions — next level unlocked.`
-                                            : `Score of ${results.score}% — ${engine.PASS_SCORE || 80}% requis. Réessayez avec une nouvelle rotation de questions.`;
+                                            : `Score of ${results.score}% — ${engine.PASS_SCORE || 80}% required. Retry with a new question rotation.`;
 
                                         // Stats
                                         document.getElementById('res-correct').textContent = `${results.correct}/${results.total}`;
@@ -1968,7 +1969,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                         if (results.passed && results.unlocked) {
                                             unlockBanner.style.display = 'block';
 
-                                            document.getElementById('unlock-text').textContent = `${results.unlocked.name} est maintenant accessible.`;
+                                            document.getElementById('unlock-text').textContent = `${results.unlocked.name} is now accessible.`;
                                             nextLevelBtn.style.display = 'flex';
                                         }
 
@@ -2067,8 +2068,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                                     downloadCertificate() {
                                         if (!this._results) return;
-                                        const userProfile = JSON.parse(localStorage.getItem('dcm_user_profile') || '{"name":"Utilisateur DCM"}');
-                                        const name = userProfile.name || 'Utilisateur DCM';
+                                        const userProfile = JSON.parse(localStorage.getItem('dcm_user_profile') || '{"name":"DCM User"}');
+                                        const name = userProfile.name || 'DCM User';
 
                                         if (window.QuizCert) {
                                             window.QuizCert.generate(name, this._currentLevelId, this._results.score);
@@ -2186,7 +2187,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
                             <script src="../../../js/quiz-analytics.js"></script>
                             <script src="../../../js/quiz-cert.js"></script>
-                            <script src="../../../js/quiz-engine.js"></script>
+                            <script src="../../js/quiz-engine.js"></script>
                             <script>initQuiz();</script>
     <script src="../../../js/ui/navigation.js"></script>
     <script src="../../../js/navigation-orchestrator.js"></script>
