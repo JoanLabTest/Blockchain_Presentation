@@ -578,7 +578,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <li class="feature-item"><i class="fa-solid fa-check"></i> <span>Certification & Quiz Profiling
                         illimité</span></li>
             </ul>
-            <button class="btn btn-primary" onclick="(typeof initiateCheckout !== 'undefined') ? initiateCheckout('pro') : alert('Initialisation du paiement...')">Démarrer l'essai Pro (14j)</button>
+            <button class="btn btn-primary" id="btn-pro" onclick="window.location.href='https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801'">Démarrer l'essai gratuit (7j)</button>
             <p style="font-size:12px; color:#888; text-align:center; margin-top:15px; margin-bottom:0;">Annulable à tout
                 moment. Sans engagement.</p>
         </div>
@@ -730,7 +730,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">Puis-je essayer la version Professional avant de
                 m'engager ? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">Oui. Nous proposons un essai entièrement gratuit de 14 jours pour le plan
+            <div class="faq-answer">Oui. Nous proposons un essai entièrement gratuit de 7 jours pour le plan
                 Professional. Aucune facturation ne sera émise avant la fin de cette période, et vous pouvez annuler à
                 n'importe quel moment depuis votre espace client.</div>
         </div>
@@ -775,14 +775,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const labelMonthly = document.getElementById('label-monthly');
             const labelYearly = document.getElementById('label-yearly');
 
+            const btnPro = document.getElementById('btn-pro');
             if (isYearly) {
                 pricePro.textContent = '39';
                 labelYearly.classList.add('active');
                 labelMonthly.classList.remove('active');
+                if (btnPro) btnPro.onclick = () => window.location.href = 'https://buy.stripe.com/eVqfZjgIJ45OaUEfb604802';
             } else {
                 pricePro.textContent = '49';
                 labelMonthly.classList.add('active');
                 labelYearly.classList.remove('active');
+                if (btnPro) btnPro.onclick = () => window.location.href = 'https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801';
             }
         }
 

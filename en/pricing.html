@@ -517,7 +517,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </ul>
             <!-- Stripe Checkout flow -->
             <button class="btn btn-primary" id="btn-pro"
-                onclick="(typeof initiateCheckout !== 'undefined') && initiateCheckout('pro')">Start Pro Trial</button>
+                onclick="window.location.href='https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801'">Start 7-Day Free Trial</button>
             <p style="font-size:10px; color:var(--text-muted); text-align:center; margin-top:10px;">Immediate access to
                 the Backtesting Workshop.</p>
         </div>
@@ -657,7 +657,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     style="font-size: 14px; color: var(--text-muted);"></i></div>
             <div class="faq-answer"
                 style="display:none; color: var(--text-muted); font-size: 15px; margin-top: 15px; line-height: 1.6;">
-                Yes. We offer a 14-day free trial for the Professional plan. You won't be charged until the end of this
+                Yes. We offer a 7-day free trial for the Professional plan. You won't be charged until the end of this
                 period, and you can cancel anytime from your client portal.</div>
         </div>
         <div class="faq-item" style="border-bottom: 1px solid #222; padding: 20px 0;">
@@ -724,6 +724,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             if (pricePro) {
                 pricePro.innerHTML = isYearly ? '€39<span>/mo</span>' : '€49<span>/mo</span>';
+            }
+
+            const btnPro = document.getElementById('btn-pro');
+            if (btnPro) {
+                btnPro.onclick = () => {
+                    window.location.href = isYearly 
+                        ? 'https://buy.stripe.com/eVqfZjgIJ45OaUEfb604802' 
+                        : 'https://buy.stripe.com/00wfZj8cdeKsd2Mfb604801';
+                };
             }
         }
         window.toggleBilling = toggleBilling;
