@@ -175,30 +175,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             border-color: white;
         }
 
-        /* SIDEBAR NAVIGATION */
+        /* SIDEBAR NAVIGATION (Redesigned Phase 8) */
         .sidebar {
             position: fixed;
-            top: 100px;
-            left: 20px;
-            width: 240px;
-            background: rgba(15, 23, 42, 0.9);
-            /* More opaque to hide content behind */
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            z-index: 9999;
-            /* Max Z-Index */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            top: 70px; /* Right below navbar */
+            left: 0;
+            width: 260px;
+            height: calc(100vh - 70px);
+            background: #020617;
+            border-right: 1px solid var(--border);
+            padding: 40px 20px;
+            z-index: 100;
+            overflow-y: auto;
+            border-radius: 0;
+            backdrop-filter: none;
+            box-shadow: none;
         }
 
         .sidebar-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 15px;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 25px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            padding-left: 12px;
         }
 
         .nav-link {
@@ -266,24 +267,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             padding-left: 20px;
         }
 
-        /* CONTAINER & WRAPPER REFACTOR */
+        /* CONTAINER & WRAPPER REFACTOR (Phase 8 Optimized) */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 100px 20px;
+            padding: 0;
         }
 
         .content-wrapper {
             display: flex;
-            gap: 40px;
-            position: relative;
+            min-height: 100vh;
         }
 
         .main-content {
             flex: 1;
-            min-width: 0;
-            max-width: 900px;
-            margin: 0 auto;
+            margin-left: 260px; /* Match sidebar width */
+            padding: 100px 60px 80px;
+            background: var(--bg-dark);
         }
 
         /* GENERAL TYPOGRAPHY */
@@ -747,47 +747,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+    <!-- SIDEBAR NAVIGATION (Desktop) -->
+    <aside class="sidebar">
+        <strong class="sidebar-title">Summary</strong>
+        <ul class="toc-list">
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-1">1. APR vs APY</a></li>
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-2">2. Staking Mechanics</a></li>
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-3">3. Yield Sources</a></li>
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-4">4. Risk Framework</a></li>
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-5">5. DeFi Illusions</a></li>
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-6">6. Comparative Analysis</a></li>
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-7">7. Institutional Perspective</a></li>
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-8">8. Real Yield Sim</a></li>
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-9">9. Advanced Analytics</a></li>
+            <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-10">10. Taxation &amp; Compliance</a></li>
+        </ul>
+    </aside>
+
     <main class="main-content">
         <div class="container" role="main">
-            <div class="content-wrapper">
-                <!-- TABLE OF CONTENTS (Desktop) -->
-                <aside class="toc-sidebar">
-                    <strong
-                        style="color: white; display: block; margin-bottom: 15px; letter-spacing: 1px;">SUMMARY</strong>
-                    <ul class="toc-list">
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-1">1. APR vs
-                                APY</a></li>
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-2">2.
-                                Staking
-                                Mechanics</a></li>
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-3">3.
-                                Yield
-                                Sources</a></li>
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-4">4.
-                                Risk
-                                Framework</a></li>
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-5">5.
-                                DeFi
-                                Illusions</a></li>
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-6">6.
-                                Comparative Analysis</a></li>
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-7">7.
-                                Institutional
-                                Perspective</a></li>
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-8">8.
-                                Real Yield Sim</a></li>
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-9">9.
-                                Advanced
-                                Analytics</a></li>
-                        <li class="toc-item"><a aria-label="Summary link" class="toc-link" href="#section-10">10.
-                                Taxation
-                                &amp; Compliance</a></li>
-                    </ul>
-                </aside>
-                <div class="main-content">
-                    <!-- HERO SECTION -->
-                    <div class="section-box" data-aos="fade-down"
-                        style="text-align: center; border-bottom: none; margin-bottom: 40px; padding-top: 40px;">
+            <!-- HERO SECTION -->
+            <div class="section-box" data-aos="fade-down"
+                style="text-align: center; border-bottom: none; margin-bottom: 40px; padding-top: 40px;">
                         <span
                             style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: bold; letter-spacing: 1px; border: 1px solid rgba(16, 185, 129, 0.2);">EDUCATIONAL
                             MODULE</span>
@@ -1385,7 +1366,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </ul>
                 </div>
             </div>
-        </div>
 
         <!-- PRO ANALYTICS CTA -->
         <section class="section-slide"
@@ -1639,7 +1619,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 });
             }, 500);
         </script>
-    </main>
+        </main>
 </body>
 
 </html>
