@@ -68,7 +68,7 @@
 
     function renderPersonaCard(p, index) {
         return `
-        <div class="dcm-persona-card" id="dcm-persona-${p.id}" style="--p-color: ${p.color}; --p-rgb: ${p.colorRgb}; animation-delay: ${0.1 + index * 0.1}s;" onclick="togglePersona('${p.id}')">
+        <div class="dcm-persona-card" id="dcm-persona-${p.id}" style="--p-color: ${p.color}; --p-rgb: ${p.colorRgb}; animation-delay: ${0.1 + index * 0.1}s;" onclick="window._dcmTogglePersona('${p.id}')">
             <div class="dcm-persona-top">
                 <div class="dcm-persona-icon"><i class="fas ${p.icon}"></i></div>
                 <div>
@@ -238,6 +238,7 @@
         overlay.innerHTML = html;
         document.body.appendChild(overlay);
         window._dcmDismiss = dismiss;
+        window._dcmTogglePersona = togglePersona;
 
         // ESC to close
         document.addEventListener('keydown', function(e) {
