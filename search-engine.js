@@ -34,9 +34,11 @@ class ResearchEngine {
     }
 
     injectStyles() {
+        const script = document.querySelector('script[src*="search-engine.js"]');
+        const basePath = script ? script.getAttribute('src').replace('search-engine.js', '') : '';
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'search-modal.css';
+        link.href = basePath + 'search-modal.css';
         document.head.appendChild(link);
     }
 
