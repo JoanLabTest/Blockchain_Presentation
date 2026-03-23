@@ -196,7 +196,7 @@
                     institution: institution || null,
                     persona: localStorage.getItem('dcm_active_role') || 'unknown',
                     source_page: window.location.pathname,
-                    trigger: currentTrigger,
+                    trigger_source: currentTrigger,
                     gdpr_consent: gdpr
                 })
             });
