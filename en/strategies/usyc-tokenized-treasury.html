@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>BlackRock ETHB: iShares Staked Ethereum ETF — Institutional Analysis | DCM Core</title>
-    <link rel="canonical" href="https://dcmcore.com/en/strategies/blackrock-ethb-staked-ethereum-etf" />
-    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/strategies/blackrock-ethb-staked-ethereum-etf" />
-    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/strategies/blackrock-ethb-staked-ethereum-etf" />
-    <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/en/strategies/blackrock-ethb-staked-ethereum-etf" />
-    <meta content="Deep-dive analysis of BlackRock's iShares Staked Ethereum Trust ETF (ETHB, Nasdaq). Yield calculus, ETHB vs ETHA comparison, GENIUS Act regulatory context, and institutional implications for tokenized markets." name="description" />
+    <title>USYC | Hashnote Tokenized Treasury — Institutional Analysis | DCM Core</title>
+    <link rel="canonical" href="https://dcmcore.com/en/strategies/usyc-tokenized-treasury" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/strategies/usyc-tokenized-treasury" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/strategies/usyc-tresor-tokenise" />
+    <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/en/strategies/usyc-tokenized-treasury" />
+    <meta content="Deep-dive analysis of Hashnote's USYC token. Tokenized US Treasury (T-Bills), institutional collateral infrastructure, and integration with Circle and the Canton Network." name="description" />
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
@@ -32,6 +32,7 @@
             --accent-blue: #3b82f6;
             --accent-purple: #a855f7;
             --border: #1e293b;
+            --accent-gold: #f59e0b;
         }
         body {
             background-color: var(--bg-dark);
@@ -307,8 +308,8 @@
 
         <div class="nav-actions">
             <div class="lang-switcher">
-                <a href="../../fr/strategies/blackrock-ethb-staked-ethereum-etf.html" class="lang-link">FR</a>
-                <a href="blackrock-ethb-staked-ethereum-etf.html" class="lang-link active">EN</a>
+                <a href="../../fr/strategies/usyc-tresor-tokenise.html" class="lang-link">FR</a>
+                <a href="usyc-tokenized-treasury.html" class="lang-link active">EN</a>
             </div>
             <a href="../login.html" class="auth-btn">Auth</a>
             <button class="connect-btn" onclick="openWalletModal()">Connect <span style="font-size: 8px; vertical-align: super; opacity: 0.7;">DEMO</span></button>
@@ -318,14 +319,14 @@
     <aside class="sidebar">
         <strong class="sidebar-title">Analysis Content</strong>
         <ul class="toc-list">
-            <li><a href="#section-1" class="toc-link active">1. What is ETHB?</a></li>
+            <li><a href="#section-1" class="toc-link active">1. What is USYC?</a></li>
             <li><a href="#section-2" class="toc-link">2. Technical Architecture</a></li>
-            <li><a href="#section-3" class="toc-link">3. Real Yield Calculus</a></li>
-            <li><a href="#section-4" class="toc-link">4. ETHB vs ETHA</a></li>
-            <li><a href="#section-5" class="toc-link">5. Regulatory Context</a></li>
-            <li><a href="#section-6" class="toc-link">6. Tokenization Implications</a></li>
-            <li><a href="#section-7" class="toc-link">7. Institutional Risks</a></li>
-            <li><a href="#section-8" class="toc-link">8. FAQ</a></li>
+            <li><a href="#section-3" class="toc-link">3. Real Yield Analysis</a></li>
+            <li><a href="#section-4" class="toc-link">4. Institutional Collateral</a></li>
+            <li><a href="#section-5" class="toc-link">5. Circle & Canton Synergy</a></li>
+            <li><a href="#section-6" class="toc-link">6. USYC vs BUIDL vs FOBXX</a></li>
+            <li><a href="#section-7" class="toc-link">7. Risks & Governance</a></li>
+            <li><a href="#section-8" class="toc-link">8. Strategist FAQ</a></li>
         </ul>
     </aside>
 
@@ -333,42 +334,42 @@
         <div class="container">
             <!-- HERO -->
             <div class="section-box" style="text-align: center;">
-                <div style="display: inline-block; padding: 6px 12px; background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); border-radius: 4px; font-size: 11px; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px;">
-                    CASE STUDY: BLACKROCK iSHARES
+                <div style="display: inline-block; padding: 6px 12px; background: rgba(245, 158, 11, 0.1); color: var(--accent-gold); border-radius: 4px; font-size: 11px; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px;">
+                    CASE STUDY: HASHNOTE USYC
                 </div>
-                <h1>iShares Staked ETH Trust (ETHB):<br />The Staking-as-a-Service ETF</h1>
-                <p class="subtitle">A technical deep-dive into BlackRock's newest institutional vehicle, decomposing the first regulated yield-generating Ethereum ETF on the Nasdaq.</p>
+                <h1>Hashnote USYC:<br />The Next-Gen Tokenized T-Bill Collateral</h1>
+                <p class="subtitle">A technical analysis of the world's largest tokenized short-duration Treasury fund, powering the convergence between Circle (USDC) and the Canton Network.</p>
                 <div class="metric-grid">
                     <div class="metric-card">
-                        <div class="metric-val">$107M</div>
-                        <div class="metric-lab">Seed Capital</div>
+                        <div class="metric-val">$2.45B</div>
+                        <div class="metric-lab">Market Cap (March 2026)</div>
                     </div>
                     <div class="metric-card">
-                        <div class="metric-val">~2.2%</div>
-                        <div class="metric-lab">Target Net Yield</div>
+                        <div class="metric-val">~3.93%</div>
+                        <div class="metric-lab">APY (7-day rolling)</div>
                     </div>
                     <div class="metric-card">
-                        <div class="metric-val">80%</div>
-                        <div class="metric-lab">Staked Exposure</div>
+                        <div class="metric-val">T+0</div>
+                        <div class="metric-lab">Redemption (Standard USDC)</div>
                     </div>
                 </div>
             </div>
 
             <!-- SECTION 1 -->
             <section class="section-box" id="section-1" data-aos="fade-up">
-                <h2>1. What is ETHB?</h2>
+                <h2>1. What is USYC?</h2>
                 <div class="grid-2">
                     <div>
-                        <p>Launched on March 12, 2026, the iShares Staked ETH Trust (ETHB) represents a paradigm shift in institutional crypto-assets. Unlike spot Ethereum ETFs that merely track price, ETHB actively stakes its underlying Ether to secure the Ethereum network and collect rewards.</p>
-                        <p>This "yield-bearing" structure allows traditional investors to capture the native productivity of the asset without managing validator nodes or private keys.</p>
+                        <p>USYC is a permissioned ERC-20 token representing shares in the **Hashnote International Short Duration Yield Fund (SDYF)**. The fund invests exclusively in short-term US Treasuries and repo/reverse-repo transactions.</p>
+                        <p>Unlike "rebase" models (such as Mountain USDM), USYC is a price-appreciating token. Yield accumulates directly within the token's value (rising from $1.00 at inception to ~$1.12 today), optimizing tax efficiency for institutional holders by avoiding frequent taxable distribution events.</p>
                     </div>
                     <div class="card" style="background: #020617;">
-                        <h3 style="margin-top: 0;">The Workflow</h3>
+                        <h3 style="margin-top: 0;">SDYF Fund (Hashnote)</h3>
                         <ul style="color: var(--text-muted); font-size: 14px; padding-left: 20px;">
-                            <li style="margin-bottom: 10px;"><strong>Investor:</strong> Buys shares on Nasdaq.</li>
-                            <li style="margin-bottom: 10px;"><strong>Custodian:</strong> Coinbase Prime manages keys.</li>
-                            <li style="margin-bottom: 10px;"><strong>Validators:</strong> Figment & Galaxy stake the ETH.</li>
-                            <li style="margin-bottom: 10px;"><strong>Distribution:</strong> Monthly cash or share yield.</li>
+                            <li style="margin-bottom: 10px;"><strong>Structure:</strong> Open-ended fund, offshore jurisdiction.</li>
+                            <li style="margin-bottom: 10px;"><strong>Assets:</strong> US T-Bills & Repos.</li>
+                            <li style="margin-bottom: 10px;"><strong>Mechanism:</strong> NAV Appreciation.</li>
+                            <li style="margin-bottom: 10px;"><strong>Access:</strong> Institutional KYC ($100k min).</li>
                         </ul>
                     </div>
                 </div>
@@ -377,73 +378,63 @@
             <!-- SECTION 2 -->
             <section class="section-box" id="section-2" data-aos="fade-up">
                 <h2>2. Technical Architecture</h2>
-                <p>The Trust operates a dynamic allocation strategy to balance yield generation with the liquidity requirements of an open-ended ETF.</p>
+                <p>USYC utilizes a segmented smart contract architecture to separate fund management from liquidity distribution.</p>
                 <div class="grid-2">
                     <div class="card">
-                        <h3 style="color: var(--accent-green);">The Staking Core (70% - 95%)</h3>
-                        <p style="font-size: 14px;">The majority of the Trust's ETH is committed to the beacon chain. This core generates the base network rewards (Priority fees + MEV + Staking issuance).</p>
+                        <h3 style="color: var(--accent-green);">"Teller" Smart Contract</h3>
+                        <p style="font-size: 14px;">Handles minting and redemption based on allowlisting. It interfaces directly with the on-chain NAV oracle, which is updated daily to reflect the underlying fund's performance.</p>
                     </div>
                     <div class="card">
-                        <h3 style="color: var(--accent-blue);">The Liquidity Sleeve (5% - 30%)</h3>
-                        <p style="font-size: 14px;">An "un-staked" buffer is maintained to ensure daily redemptions can be fulfilled without waiting for the Ethereum exit queue, which can vary from days to weeks.</p>
+                        <h3 style="color: var(--accent-blue);">Private Liquidity Teller</h3>
+                        <p style="font-size: 14px;">Enables atomic USYC ↔ USDC swaps for institutional partners, ensuring near-instant liquidity without waiting for traditional banking settlement cycles.</p>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION 3 -->
             <section class="section-box" id="section-3" data-aos="fade-up">
-                <h2>3. The Real Yield Calculus</h2>
-                <p>Institutions must understand the "leakage" between the gross network yield and the net distribution yield. Most retail investors confuse the two.</p>
+                <h2>3. Real Yield Analysis</h2>
+                <p>USYC's yield is derived from short-duration T-Bill rates, minus institutional management fees.</p>
                 <div class="chart-container">
-                    <canvas id="yieldCalcChart"></canvas>
+                    <canvas id="usycYieldChart"></canvas>
                 </div>
                 <div class="callout callout-inst">
-                    <i class="fas fa-calculator" style="color: var(--accent-green); font-size: 24px;"></i>
+                    <i class="fas fa-chart-line" style="color: var(--accent-green); font-size: 24px;"></i>
                     <div>
-                        <strong>Institutional Breakdown:</strong>
-                        <p style="font-size: 15px; margin-bottom: 0;">Ethereum Network Yield (~3.1%) × 82% (ETF Distribution Ratio) = 2.54% Gross ETF Yield. After 0.12% promotional fees and operational costs, the target **Real Net Yield** sits between **1.9% and 2.2%**.</p>
+                        <strong>Institutional Benchmark:</strong>
+                        <p style="font-size: 15px; margin-bottom: 0;">With an APY of **3.93%**, USYC outperforms traditional bank cash accounts while offering full DeFi composability for collateral management.</p>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION 4 -->
             <section class="section-box" id="section-4" data-aos="fade-up">
-                <h2>4. ETHB vs ETHA: Strategic Selection</h2>
-                <p>BlackRock now offers two distinct instruments. Selection depends on the investor's tax profile and risk-adjusted return requirements.</p>
+                <h2>4. USYC: The Collateral Infrastructure</h2>
+                <p>The true "moat" for USYC is not just the yield, but its function as **yield-bearing margin collateral** across institutional venues.</p>
                 <div class="card" style="padding: 0; overflow: hidden;">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Feature</th>
-                                <th>ETHA (Spot)</th>
-                                <th>ETHB (Staked)</th>
-                                <th>Institutional Context</th>
+                                <th>Platform</th>
+                                <th>USYC Usage</th>
+                                <th>Institutional Benefit</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Yield Potential</strong></td>
-                                <td>0%</td>
-                                <td>1.9% - 2.2%</td>
-                                <td>ETHB captures the total return.</td>
+                                <td><strong>Deribit / OKX</strong></td>
+                                <td>Cross-Margin</td>
+                                <td>Capture yield on idle collateral assets.</td>
                             </tr>
                             <tr>
-                                <td><strong>Liquidity Status</strong></td>
-                                <td>Daily / T+1</td>
-                                <td>Daily / T+1</td>
-                                <td>Managed by the Liquidity Sleeve.</td>
+                                <td><strong>Cumberland DRW</strong></td>
+                                <td>Market Making</td>
+                                <td>Capital efficiency optimization (Tokenized Repo).</td>
                             </tr>
                             <tr>
-                                <td><strong>Risk Profile</strong></td>
-                                <td>Market Risk</td>
-                                <td>Market + Slashing</td>
-                                <td>ETHB adds staking operational risk.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Use Case</strong></td>
-                                <td>Trading / Hedge</td>
-                                <td>Long-term Income</td>
-                                <td>ETHB acts as a "Crypto Bond."</td>
+                                <td><strong>Canton Network</strong></td>
+                                <td>Private Settlement</td>
+                                <td>Confidential inter-bank value transfer.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -452,63 +443,97 @@
 
             <!-- SECTION 5 -->
             <section class="section-box" id="section-5" data-aos="fade-up">
-                <h2>5. The Regulatory Watershed: GENIUS Act</h2>
-                <p>The launch of ETHB was accelerated by two critical developments in the US regulatory landscape in 2025-2026.</p>
+                <h2>5. The Circle-Canton-Cumberland Strategic Triangle</h2>
+                <p>Circle's acquisition of Hashnote in 2025 created a unique synergy aimed at unifying cash (USDC) and collateral (USYC).</p>
                 <div class="grid-2">
                     <div class="card">
-                        <h3>GENIUS Act (July 2025)</h3>
-                        <p style="font-size: 14px;">The *Generating Effective National Investments for Usable Stocks* (GENIUS) Act codified crypto-staking as an administrative service rather than an investment contract, removing the SEC's previous yield-blocking objections.</p>
+                        <h3>Native Circle Convertibility</h3>
+                        <p style="font-size: 14px;">Circle now enables seamless transitions between USDC and USYC via its own APIs, making USYC a native "yield-bearing account" for crypto-native treasuries.</p>
                     </div>
                     <div class="card">
-                        <h3>SEC Policy Shift</h3>
-                        <p style="font-size: 14px;">Following the adoption of the Act and the appointment of proactive leadership, the SEC retracted its "staking-as-a-security" claims for regulated ETF structures, allowing BlackRock to launch ETHB.</p>
+                        <h3>Canton Network Deployment</h3>
+                        <p style="font-size: 14px;">On Canton, USYC moves with advanced privacy properties. Only the issuer and designated counterparties see transaction amounts—a critical requirement for central and commercial banks.</p>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION 6 -->
             <section class="section-box" id="section-6" data-aos="fade-up">
-                <h2>6. Institutional Tokenization Blueprint</h2>
-                <p>ETHB is more than an ETF; it is a template for the future of <strong>Programmable Finance</strong>.</p>
-                <div class="callout">
-                    <p style="margin: 0;">By "wrapping" a Proof-of-Stake asset into a dividend-paying regulated vehicle, BlackRock has created a blueprint that will inevitably be applied to <strong>Solana, Polkadot, and Cardano</strong>. This bridges the gap between decentralized consensus and institutional wealth management.</p>
+                <h2>6. Tokenized Fund Comparison</h2>
+                <p>Comparative analysis of the three market leaders in "Tokenized Money Markets."</p>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>BlackRock BUIDL</th>
+                                <th>Hashnote USYC</th>
+                                <th>Franklin FOBXX</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Primary Network</strong></td>
+                                <td>Ethereum</td>
+                                <td>Multi-chain / Canton</td>
+                                <td>Stellar / Polygon</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Yield (Est.)</strong></td>
+                                <td>Fed Funds - Fees</td>
+                                <td>~3.93% APY</td>
+                                <td>~4.8% (Rebase)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Collateral Utility</strong></td>
+                                <td>Limited (Initial)</td>
+                                <td>Maximum (Institutional)</td>
+                                <td>Low (Retail focus)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Structure</strong></td>
+                                <td>ERC-20 (Rebase)</td>
+                                <td>ERC-20 (Accumulation)</td>
+                                <td>App-nav (Off-chain)</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <p>For a broader look at how this fits into the BlackRock ecosystem, see our analysis of the <a href="../insights/tokenization/blackrock-buidl-case-study.html" style="color: var(--accent-blue); text-decoration: underline;">BUIDL (Tokenized Treasury) Case Study</a>.</p>
             </section>
 
             <!-- SECTION 7 -->
             <section class="section-box" id="section-7" data-aos="fade-up">
-                <h2>7. Critical Institutional Risks</h2>
-                <p>Allocators must account for localized risks unique to the staking structure.</p>
+                <h2>7. Institutional Risks & Governance</h2>
+                <p>Allocators must account for specific risk vectors unique to the tokenized treasury model.</p>
                 <ul style="color: var(--text-muted); font-size: 16px; line-height: 2;">
-                    <li><i class="fas fa-exclamation-triangle" style="color: #f59e0b; margin-right: 10px;"></i> <strong>Slashing Risk:</strong> Loss of ETH due to validator misconduct or downtime.</li>
-                    <li><i class="fas fa-clock" style="color: #f59e0b; margin-right: 10px;"></i> <strong>Exit Queue Delays:</strong> Network congestion can slow the liquidation of the staked core.</li>
-                    <li><i class="fas fa-percent" style="color: #f59e0b; margin-right: 10px;"></i> <strong>Variable Staking Yield:</strong> As more ETH is staked globally, individual rewards decrease.</li>
+                    <li><i class="fas fa-exclamation-triangle" style="color: #f59e0b; margin-right: 10px;"></i> <strong>T-Bill Concentration:</strong> Systemic risk related to US sovereign debt markets.</li>
+                    <li><i class="fas fa-user-shield" style="color: #f59e0b; margin-right: 10px;"></i> <strong>Centralized Whitelisting:</strong> Potential for address freezing due to regulatory compliance.</li>
+                    <li><i class="fas fa-clock" style="color: #f59e0b; margin-right: 10px;"></i> <strong>Repo Operations:</strong> Counterparty risk on underlying short-term reverse-repo agreements.</li>
                 </ul>
             </section>
 
             <!-- SECTION 8 -->
             <section class="section-box" id="section-8" data-aos="fade-up" style="border-bottom: none;">
-                <h2>8. Strategist FAQ</h2>
+                <h2>8. USYC Strategist FAQ</h2>
                 <div class="faq-item">
-                    <div class="faq-q">What is the main difference between ETHA and ETHB? <i class="fas fa-chevron-down"></i></div>
-                    <div class="faq-a">ETHA is a spot ETF tracking only price. ETHB is a staked ETF that tracks price AND pays out staking rewards from the Ethereum network.</div>
+                    <div class="faq-q">Is USYC restricted to non-US investors? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-a">Yes, USYC is issued under Regulation S, making it accessible only to eligible non-US persons and institutions.</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-q">Is ETHB available for European investors? <i class="fas fa-chevron-down"></i></div>
-                    <div class="faq-a">ETHB is currently a US-listed product on the Nasdaq. European UCITS regulations have different requirements for staking, but similar ETP products exist in the EU market.</div>
+                    <div class="faq-q">What is the key difference between USYC and BUIDL? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-a">BUIDL (BlackRock) distributes yield by issuing new tokens ($1 constant), whereas USYC appreciating in value (increasing NAV). USYC is currently more widely adopted as institutional trading collateral.</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-q">How does BlackRock handle Slashing Risk? <i class="fas fa-chevron-down"></i></div>
-                    <div class="faq-a">BlackRock utilizes institutional-grade partners (Coinbase, Figment) with slashing insurance and diversified validator infrastructures to mitigate this risk.</div>
+                    <div class="faq-q">How does the instant USDC liquidity work? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-a">Through Hashnote's Private Liquidity Teller and Circle integrations, institutions can exit USYC positions into USDC 24/7 without waiting for T+1 Treasury settlement.</div>
                 </div>
             </section>
 
             <!-- FINAL NAV -->
             <div style="padding: 60px; background: rgba(59, 130, 246, 0.05); border-radius: 20px; text-align: center; border: 1px dashed var(--accent-blue);">
-                <h3 style="margin-bottom: 20px;">Master Staking Mechanics</h3>
-                <p>Understand the mathematics of the Ethereum network that powers ETHB's dividends.</p>
-                <a href="../yield-mechanics.html" class="nav-link" style="display: inline-block; padding: 15px 30px; background: var(--accent-blue); color: #fff; border-radius: 50px; text-decoration: none; font-weight: 800;">BROWSE YIELD MECHANICS</a>
+                <h3 style="margin-bottom: 20px;">Master the Canton Network</h3>
+                <p>Explore how USYC serves as the confidential settlement engine on Canton infrastructure.</p>
+                <a href="../networks/canton.html" class="nav-link" style="display: inline-block; padding: 15px 30px; background: var(--accent-blue); color: #fff; border-radius: 50px; text-decoration: none; font-weight: 800;">BROWSE CANTON ANALYSIS</a>
             </div>
         </div>
     </main>
@@ -520,8 +545,8 @@
     {
       "@context": "https://schema.org",
       "@type": "Article",
-      "headline": "BlackRock ETHB: iShares Staked Ethereum ETF — Institutional Analysis",
-      "description": "Comprehensive analysis of BlackRock's iShares Staked Ethereum Trust (ETHB). Decomposing architecture, net yield calculus, and the GENIUS Act regulatory context.",
+      "headline": "USYC | Hashnote Tokenized Treasury — Institutional Analysis",
+      "description": "Technical analysis of Hashnote's USYC token. T-Bills collateral infrastructure, Circle integration, and Canton Network synergy.",
       "author": {
         "@type": "Organization",
         "name": "DCM Core Institute"
@@ -536,27 +561,6 @@
       }
     }
     </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [{
-        "@type": "Question",
-        "name": "What is BlackRock ETHB?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "ETHB is the iShares Staked Ethereum Trust, an ETF that holds Ethereum and stakes it to earn network rewards, which are distributed to shareholders."
-        }
-      }, {
-        "@type": "Question",
-        "name": "How much yield does ETHB pay?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The real net yield is estimated between 1.9% and 2.2% annually, following fees and operational costs."
-        }
-      }]
-    }
-    </script>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
@@ -564,28 +568,20 @@
 
         // --- CHARTS ---
         const setupCharts = () => {
-            const yieldCtx = document.getElementById('yieldCalcChart').getContext('2d');
+            const yieldCtx = document.getElementById('usycYieldChart').getContext('2d');
             new Chart(yieldCtx, {
-                type: 'bar',
+                type: 'line',
                 data: {
-                    labels: ['Network Gross', 'After Sponsor Split', 'After Management Fee', 'Final Net Yield'],
+                    labels: ['Jan 26', 'Feb 26', 'Mar 26', 'Apr 26', 'May 26', 'Jun 26'],
                     datasets: [{
-                        label: 'Estimated APR (%)',
-                        data: [3.1, 2.54, 2.42, 2.15],
-                        backgroundColor: [
-                            'rgba(148, 163, 184, 0.2)',
-                            'rgba(148, 163, 184, 0.4)',
-                            'rgba(59, 130, 246, 0.6)',
-                            'rgba(16, 185, 129, 0.9)'
-                        ],
-                        borderColor: [
-                            '#94a3b8',
-                            '#94a3b8',
-                            'var(--accent-blue)',
-                            'var(--accent-green)'
-                        ],
-                        borderWidth: 1,
-                        borderRadius: 6
+                        label: 'USYC yield (APY %)',
+                        data: [3.85, 3.88, 3.93, 3.91, 3.94, 3.93],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#10b981'
                     }]
                 },
                 options: {
@@ -597,8 +593,9 @@
                     },
                     scales: {
                         y: { 
-                            beginAtZero: true, 
-                            max: 4,
+                            beginAtZero: false, 
+                            min: 3.5,
+                            max: 4.5,
                             grid: { color: '#222' },
                             ticks: { color: '#94a3b8', callback: value => value + '%' }
                         },
