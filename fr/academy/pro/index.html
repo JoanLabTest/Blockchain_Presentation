@@ -995,6 +995,78 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             color: #6ee7b7;
         }
 
+        /* ─── PERSONA INSIGHTS ─────────────────────────────────────────────── */
+        .results-persona-section {
+            display: none;
+            background: rgba(var(--level-color-rgb, 59, 130, 246), 0.08);
+            border: 1px solid rgba(var(--level-color-rgb, 59, 130, 246), 0.2);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 36px;
+            text-align: left;
+            animation: dcmFadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+            animation-delay: 0.4s;
+        }
+
+        .results-persona-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .results-persona-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--level-color);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+        }
+
+        .results-persona-label {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--level-color);
+            margin-bottom: 4px;
+        }
+
+        .results-persona-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+        }
+
+        .results-persona-text {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .results-persona-tip {
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 3px solid var(--level-color);
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        @keyframes dcmFadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #results-screen > * {
+            animation: dcmFadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+        }
+
         .results-actions {
             display: flex;
             gap: 12px;
@@ -1397,6 +1469,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         style="background:var(--accent-report); font-size:8px; vertical-align:middle; margin-left:5px;">LIVE</span></a>
                 <div class="mega-dropdown">
                     <div class="dropdown-header">Plateforme Mondiale de Données</div>
+                    <a href="/observatory/global-tokenization-monitor.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-tower-observation" style="color:#60a5fa;"></i></div>
+                        <div class="link-text"><span class="link-title">Global Monitor</span><span
+                                class="link-desc">Tableau de bord macro temps-réel RWA</span></div>
+                    </a>
+                    <a href="/observatory/gtsr-time-series.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-wave-square" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Séries Temporelles GTSR</span><span
+                                class="link-desc">Données historiques & analyse de volatilité</span></div>
+                    </a>
                     <a href="/observatory/tokenized-markets.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-chart-line" style="color:#3b82f6;"></i></div>
                         <div class="link-text"><span class="link-title">Tableau de Bord du Marché</span><span
@@ -1579,6 +1661,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     <div class="results-stat-label">Durée</div>
                                 </div>
                             </div>
+
+                            <div class="results-persona-section" id="res-persona-section">
+                                <div class="results-persona-header">
+                                    <div class="results-persona-icon" id="res-persona-icon"><i class="fas fa-user"></i></div>
+                                    <div>
+                                        <div class="results-persona-label">PROFIL PERSONA</div>
+                                        <h4 class="results-persona-name" id="res-persona-name">Spécialiste DCM</h4>
+                                    </div>
+                                </div>
+                                <p class="results-persona-text" id="res-persona-text"></p>
+                                <div class="results-persona-tip" id="res-persona-tip"></div>
+                            </div>
+
                             <div class="theme-breakdown" id="theme-breakdown-section">
                                 <div class="theme-breakdown-title">Performance par thème</div>
                                 <div id="theme-rows"></div>
@@ -1660,6 +1755,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     LEVEL_ICONS: {
                                         1: 'fa-seedling', 2: 'fa-building-columns', 3: 'fa-scale-balanced',
                                         4: 'fa-server', 5: 'fa-chess-king', 6: 'fa-cubes', super: 'fa-bolt'
+                                    }
+
+                                    ,
+                                    
+                                    PERSONA_DATA: {
+                                        analyst: {
+                                            name: 'Analyste Institutionnel',
+                                            icon: 'fa-chart-mixed',
+                                            text: 'Votre maîtrise des données techniques et fondamentales est le socle de la recherche institutionnelle. Votre performance dans les thèmes GTSR et PCM impacte directement la fidélité du registre.',
+                                            tip: 'Conseil d\'Expert : Concentrez-vous sur les modules "Infrastructure de Base" pour parfaire votre cartographie des risques réglementaires.'
+                                        },
+                                        bank: {
+                                            name: 'Cadre Bancaire',
+                                            icon: 'fa-building-columns',
+                                            text: 'En tant que leader institutionnel, votre compréhension de la conformité MiCA/DORA et des standards TFIN-ID est critique pour un déploiement DLT évolutif dans les cadres existants.',
+                                            tip: 'Conseil Stratégique : Consultez les blueprints "Smart Bond Framework" pour des insights sur le règlement transfrontalier.'
+                                        },
+                                        investor: {
+                                            name: 'Investisseur Stratégique',
+                                            icon: 'fa-briefcase',
+                                            text: 'Identifier l\'alpha dans les marchés tokenisés nécessite une vision profonde de la structuration RWA et des protocoles de liquidité. Votre expertise en optimisation de rendement est inégalée.',
+                                            tip: 'Conseil de Marché : Explorez l\'étude de cas "Hashnote USYC" pour comprendre la tokenisation des T-Bills institutionnels.'
+                                        }
                                     }
 
                                     ,
@@ -2064,6 +2182,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                                 </div>
                                             `;
                                         }).join('');
+
+                                        // Staggered Animations
+                                        const resultsScreen = document.getElementById('results-screen');
+                                        const children = resultsScreen.children;
+                                        for(let i=0; i<children.length; i++) {
+                                            children[i].style.animationDelay = `${0.1 * i}s`;
+                                        }
+
+                                        // Persona Insights
+                                        const personaId = localStorage.getItem('dcm_persona_id');
+                                        const personaSection = document.getElementById('res-persona-section');
+                                        if (personaId && this.PERSONA_DATA[personaId]) {
+                                            const p = this.PERSONA_DATA[personaId];
+                                            personaSection.style.display = 'block';
+                                            document.getElementById('res-persona-name').textContent = p.name;
+                                            document.getElementById('res-persona-icon').innerHTML = `<i class="fas ${p.icon}"></i>`;
+                                            document.getElementById('res-persona-text').textContent = p.text;
+                                            document.getElementById('res-persona-tip').textContent = p.tip;
+                                        } else {
+                                            personaSection.style.display = 'none';
+                                        }
 
                                         // Unlock banner
                                         const unlockBanner = document.getElementById('unlock-banner');

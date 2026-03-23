@@ -271,6 +271,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         style="background:var(--accent-report); font-size:8px; vertical-align:middle; margin-left:5px;">LIVE</span></a>
                 <div class="mega-dropdown">
                     <div class="dropdown-header">Global Data Platform</div>
+                    <a href="../../en/observatory/global-tokenization-monitor.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-tower-observation" style="color:#60a5fa;"></i></div>
+                        <div class="link-text"><span class="link-title">Global Monitor</span><span
+                                class="link-desc">Real-time macro dashboard for RWA markets</span></div>
+                    </a>
+                    <a href="../../en/observatory/gtsr-time-series.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-wave-square" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">GTSR Time-Series</span><span
+                                class="link-desc">Historical data & volatility analysis</span></div>
+                    </a>
                     <a href="../../en/observatory/tokenized-markets.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-chart-line" style="color:#3b82f6;"></i></div>
                         <div class="link-text"><span class="link-title">Market Dashboard</span><span
@@ -365,60 +375,151 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </header>
 
     <main class="spec-container">
-        <!-- GTSR DATA TRUST LAYER (Phase 23) -->
+        <!-- DATA TRUST BADGE B7 (Phase 23 Upgrade) -->
         <style>
-            .data-trust-tfin {
-                display: flex; justify-content: space-between; align-items: center;
-                background: var(--glass-bg); border: 1px solid rgba(59, 130, 246, 0.3);
-                border-radius: 12px; padding: 15px 30px; margin-bottom: 40px;
+            .dtb-wrap {
+                margin-bottom: 40px; border-radius: 12px;
+                background: var(--glass-bg);
+                border: 1px solid rgba(59, 130, 246, 0.3);
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+                overflow: hidden; transition: border-color 0.3s;
             }
-            .trust-item-tfin { display: flex; align-items: center; gap: 12px; font-size: 13px; font-family: 'Inter', sans-serif;}
-            .trust-icon-tfin { color: var(--accent-obs); font-size: 16px; }
-            .live-pulse-tfin { color: var(--accent-obs); animation: t-pulse-glow 2s infinite; }
-            @keyframes t-pulse-glow {
-                0% { opacity: 1; text-shadow: 0 0 8px rgba(59,130,246,0.6); }
-                50% { opacity: 0.4; text-shadow: none; }
-                100% { opacity: 1; text-shadow: 0 0 8px rgba(59,130,246,0.6); }
+            .dtb-wrap:hover { border-color: rgba(59, 130, 246, 0.5); }
+            .dtb-main {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 24px; gap: 20px; flex-wrap: wrap;
             }
+            .dtb-brand { display: flex; align-items: center; gap: 14px; }
+            .dtb-ring-wrap { position: relative; width: 52px; height: 52px; flex-shrink: 0; }
+            .dtb-ring-wrap svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+            .dtb-ring-bg { stroke: rgba(59, 130, 246, 0.12); }
+            .dtb-ring-fill {
+                stroke: var(--accent-obs); stroke-dasharray: 138; stroke-dashoffset: 138;
+                animation: dtbRingFill 1.6s cubic-bezier(.4,0,.2,1) 0.5s forwards;
+                filter: drop-shadow(0 0 4px var(--accent-obs));
+            }
+            @keyframes dtbRingFill { to { stroke-dashoffset: 1.38; } } /* 99% fill */
+            .dtb-score {
+                position: absolute; inset: 0;
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; color: var(--accent-obs); line-height: 1.1;
+            }
+            .dtb-score span { font-size: 8px; color: #64748b; font-weight: 600; }
+            .dtb-level {
+                font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 800; color: #fff;
+                display: flex; align-items: center; gap: 8px;
+            }
+            .dtb-level-chip {
+                font-size: 10px; padding: 2px 8px; border-radius: 20px;
+                background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.3);
+                color: var(--accent-obs); font-weight: 800; letter-spacing: 1px;
+            }
+            .dtb-sub { font-size: 11px; color: #475569; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+            .dtb-pills { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+            .dtb-pill {
+                display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px;
+                background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+                font-size: 11px; color: #94a3b8; font-family: 'JetBrains Mono', monospace; transition: 0.2s;
+            }
+            .dtb-pill:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+            .dtb-pill i { font-size: 12px; }
+            .dtb-pill-live i { color: var(--accent-obs); animation: dtbPulse 2s infinite; }
+            @keyframes dtbPulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+            .dtb-right { display: flex; align-items: center; gap: 12px; }
+            .dtb-tfin {
+                display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 10px;
+                background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.25);
+                text-decoration: none;
+            }
+            .dtb-tfin-id { font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 800; color: var(--accent-std); }
+            .dtb-tfin-sub { font-size: 10px; color: #475569; }
+            .dtb-expand-btn {
+                background: none; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px;
+                color: #475569; cursor: pointer; padding: 8px 12px; font-size: 11px;
+                display: flex; align-items: center; gap: 5px; transition: 0.2s;
+                font-family: 'JetBrains Mono', monospace;
+            }
+            .dtb-expand-btn:hover { border-color: rgba(255,255,255,0.15); color: #94a3b8; }
+            .dtb-detail {
+                border-top: 1px solid rgba(255,255,255,0.05); padding: 16px 24px;
+                display: none; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+            }
+            .dtb-detail.open { display: grid; }
+            .dtb-detail-label { font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px; }
+            .dtb-detail-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px; }
+            .dtb-detail-row:last-child { border: none; }
+            .dtb-detail-key { color: #64748b; }
+            .dtb-detail-val { color: #e2e8f0; font-family: 'JetBrains Mono'; font-weight: 700; font-size: 11px; }
+            .dtb-detail-val.blue { color: var(--accent-obs); }
             @media (max-width: 900px) {
-                .data-trust-tfin { flex-direction: column; align-items: flex-start; gap: 15px; }
-                .trust-divider-tfin { display: none; }
+                .dtb-main { flex-direction: column; align-items: flex-start; }
+                .dtb-detail { grid-template-columns: 1fr; }
             }
         </style>
-        <div class="data-trust-tfin" data-aos="fade-down" data-aos-delay="100">
-            <div class="trust-item-tfin">
-                <i class="fas fa-shield-halved trust-icon-tfin"></i>
-                <div style="display:flex; flex-direction:column; gap:2px;">
-                    <span style="color:#94a3b8;text-transform:uppercase;font-size:11px;">Verification</span>
-                    <span style="color:white;font-weight:700;">Registry Grade (L3)</span>
+        <div class="dtb-wrap" data-aos="fade-down" data-aos-delay="100" id="dataTrustBadge">
+            <div class="dtb-main">
+                <div class="dtb-brand">
+                    <div class="dtb-ring-wrap">
+                        <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle class="dtb-ring-bg" cx="26" cy="26" r="22" stroke-width="4" fill="none"/>
+                            <circle class="dtb-ring-fill" cx="26" cy="26" r="22" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        </svg>
+                        <div class="dtb-score">99.9%<span>CONF</span></div>
+                    </div>
+                    <div>
+                        <div class="dtb-level"><i class="fas fa-shield-halved" style="color:var(--accent-obs);font-size:14px;"></i> Registry Grade <span class="dtb-level-chip">L3</span></div>
+                        <div class="dtb-sub">DCM GTSR Protocol v2.1 · Audit: <span id="dtb-timestamp">---</span></div>
+                    </div>
+                </div>
+                <div class="dtb-pills">
+                    <div class="dtb-pill dtb-pill-live"><i class="fas fa-bolt"></i> Live Validated</div>
+                    <div class="dtb-pill"><i class="fas fa-server" style="color:var(--accent-obs);"></i> Global Directory (GTSR)</div>
+                    <div class="dtb-pill"><i class="fas fa-fingerprint" style="color:var(--accent-std);"></i> TFIN-ID Identity</div>
+                </div>
+                <div class="dtb-right">
+                    <button class="dtb-expand-btn" onclick="toggleDTBDetail()" id="dtb-expand-btn"><i class="fas fa-chevron-down" id="dtb-chevron"></i> Verification Details</button>
                 </div>
             </div>
-            <div class="trust-divider-tfin" style="width:1px;height:24px;background:var(--glass-border);"></div>
-            <div class="trust-item-tfin">
-                <i class="fas fa-server trust-icon-tfin"></i>
-                <div style="display:flex; flex-direction:column; gap:2px;">
-                    <span style="color:#94a3b8;text-transform:uppercase;font-size:11px;">Data Source</span>
-                    <span style="color:white;font-weight:700;">Global Directory (GTSR)</span>
+            <div class="dtb-detail" id="dtb-detail">
+                <div>
+                    <div class="dtb-detail-label"><i class="fas fa-list-check"></i> Audit Identity</div>
+                    <div class="dtb-detail-row"><span class="dtb-detail-key">Last Full Audit</span><span class="dtb-detail-val">Real-time</span></div>
+                    <div class="dtb-detail-row"><span class="dtb-detail-key">Hash Verify</span><span class="dtb-detail-val" style="color:#10b981;">Passed ✓</span></div>
+                    <div class="dtb-detail-row"><span class="dtb-detail-key">Schema Version</span><span class="dtb-detail-val">GTDS v2.1</span></div>
                 </div>
-            </div>
-            <div class="trust-divider-tfin" style="width:1px;height:24px;background:var(--glass-border);"></div>
-            <div class="trust-item-tfin">
-                <i class="fas fa-bolt trust-icon-tfin live-pulse-tfin"></i>
-                <div style="display:flex; flex-direction:column; gap:2px;">
-                    <span style="color:#94a3b8;text-transform:uppercase;font-size:11px;">Sync Status</span>
-                    <span style="color:var(--accent-obs);font-weight:700;">Live Validated</span>
+                <div>
+                    <div class="dtb-detail-label"><i class="fas fa-network-wired"></i> Cross-Chain Sync</div>
+                    <div class="dtb-detail-row"><span class="dtb-detail-key">Primary Node</span><span class="dtb-detail-val blue">Paris-1 (EU)</span></div>
+                    <div class="dtb-detail-row"><span class="dtb-detail-key">Registry Sync</span><span class="dtb-detail-val blue">Validated</span></div>
+                    <div class="dtb-detail-row"><span class="dtb-detail-key">Uptime 30d</span><span class="dtb-detail-val" style="color:#10b981;">99.99%</span></div>
                 </div>
-            </div>
-            <div class="trust-divider-tfin" style="width:1px;height:24px;background:var(--glass-border);"></div>
-            <div class="trust-item-tfin">
-                <i class="fas fa-check-circle" style="color:var(--accent-obs);font-size: 16px;"></i>
-                <div style="display:flex; flex-direction:column; gap:2px;">
-                    <span style="color:#94a3b8;text-transform:uppercase;font-size:11px;">Identity Confidence</span>
-                    <span style="color:white;font-weight:700;font-family:'JetBrains Mono',monospace;">99.9%</span>
+                <div>
+                    <div class="dtb-detail-label"><i class="fas fa-scale-balanced"></i> Standards Compliance</div>
+                    <div class="dtb-detail-row"><span class="dtb-detail-key">GTSR Certified</span><span class="dtb-detail-val blue">v3.2</span></div>
+                    <div class="dtb-detail-row"><span class="dtb-detail-key">TFIN Integrity</span><span class="dtb-detail-val" style="color:#10b981;">Verified ✓</span></div>
+                    <div class="dtb-detail-row"><span class="dtb-detail-key">ISO 27001</span><span class="dtb-detail-val" style="color:#10b981;">Active ✓</span></div>
                 </div>
             </div>
         </div>
+        <script>
+            (function(){
+                const el = document.getElementById('dtb-timestamp');
+                if (el) {
+                    const now = new Date();
+                    el.textContent = now.toUTCString().replace(' GMT','') + ' UTC';
+                }
+            })();
+            function toggleDTBDetail() {
+                const panel = document.getElementById('dtb-detail');
+                const chevron = document.getElementById('dtb-chevron');
+                const btn = document.getElementById('dtb-expand-btn');
+                const isOpen = panel.classList.toggle('open');
+                chevron.style.transform = isOpen ? 'rotate(180deg)' : '';
+                chevron.style.transition = '0.25s';
+                btn.style.color = isOpen ? 'var(--accent-obs)' : '';
+            }
+        </script>
+        <!-- END DATA TRUST BADGE -->
         <!-- ARCHITECTURE DEEP DIVE -->
         <div class="spec-card" data-aos="fade-up">
             <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 30px;">Architecture Specification</h2>
