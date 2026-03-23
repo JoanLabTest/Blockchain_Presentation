@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="description" content="GTSR Time-Series Layer — Historical series of global tokenization: RWA TVL, blockchain dominance, asset class breakdown. DCM Core Institute institutional data Q1 2026." />
+    <title>GTSR Time-Series | Observatory | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/en/observatory/gtsr-time-series.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/observatory/gtsr-time-series.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/observatory/gtsr-time-series.html" />
+
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+    <style>
+        :root {
+            --accent-blue:#3b82f6; --accent-green:#10b981;
+            --accent-purple:#8b5cf6; --accent-gold:#f59e0b;
+            --accent-red:#ef4444;
+            --glass-bg:rgba(15,23,42,0.85); --glass-border:rgba(255,255,255,0.08);
+        }
+        body { background:#020617; color:#f8fafc; font-family:'Inter',sans-serif; padding-top:80px; }
+        .ts-hero { padding:80px 20px 50px; text-align:center; max-width:900px; margin:0 auto; }
+        .ts-eyebrow { display:inline-flex; align-items:center; gap:8px; padding:6px 18px; border-radius:100px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:var(--accent-blue); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:2px; margin-bottom:22px; }
+        .ts-title { font-family:'Outfit',sans-serif; font-size:clamp(30px,5vw,58px); font-weight:800; margin:0 0 16px; letter-spacing:-1.5px; }
+        .ts-sub { color:#94a3b8; font-size:17px; line-height:1.6; margin:0 0 30px; }
+        .kpi-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; max-width:1200px; margin:0 auto 40px; padding:0 20px; }
+        @media(max-width:768px){ .kpi-bar{grid-template-columns:repeat(2,1fr);} }
+        .kpi-card { background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:16px; padding:24px 22px; position:relative; overflow:hidden; }
+        .kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--kpi-color,#3b82f6); }
+        .kpi-value { font-family:'Outfit',sans-serif; font-size:30px; font-weight:800; color:#fff; margin-bottom:6px; }
+        .kpi-label { font-size:12px; color:#64748b; text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+        .kpi-delta { font-size:12px; font-weight:700; margin-top:4px; }
+        .kpi-delta.up { color:var(--accent-green); }
+        .ts-grid { max-width:1400px; margin:0 auto; padding:0 20px 60px; display:grid; grid-template-columns:2fr 1fr; gap:24px; }
+        @media(max-width:1100px){ .ts-grid{grid-template-columns:1fr;} }
+        .ts-full { grid-column:1 / -1; }
+        .chart-card { background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:24px; padding:28px 28px 22px; box-shadow:0 10px 40px rgba(0,0,0,0.2); }
+        .chart-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; flex-wrap:wrap; gap:12px; }
+        .chart-card-title { font-family:'Outfit',sans-serif; font-size:18px; font-weight:700; color:#fff; display:flex; align-items:center; gap:10px; }
+        .chart-period-tabs { display:flex; gap:6px; }
+        .period-btn { padding:6px 14px; border-radius:8px; font-size:12px; font-weight:700; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); color:#64748b; cursor:pointer; transition:0.2s; }
+        .period-btn.active, .period-btn:hover { background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.3); color:#60a5fa; }
+        .asset-timeline { width:100%; border-collapse:collapse; }
+        .asset-timeline th { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; color:#475569; padding:10px 14px; text-align:left; border-bottom:1px solid var(--glass-border); }
+        .asset-timeline td { padding:12px 14px; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
+        .asset-timeline tr:hover td { background:rgba(255,255,255,0.02); }
+        .asset-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:8px; }
+        .trend-bar { height:4px; border-radius:2px; background:rgba(255,255,255,0.06); overflow:hidden; width:80px; }
+        .trend-fill { height:100%; border-radius:2px; background:var(--trend-color,#3b82f6); }
+        .live-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:6px; font-size:10px; font-weight:800; color:var(--accent-green); text-transform:uppercase; }
+        .live-dot { width:6px; height:6px; border-radius:50%; background:var(--accent-green); animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        .chain-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+        .legend-item { display:flex; align-items:center; gap:7px; font-size:12px; color:#94a3b8; }
+        .legend-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+        .data-source { font-size:11px; color:#334155; margin-top:14px; font-family:'JetBrains Mono',monospace; display:flex; align-items:center; gap:6px; }
+    </style>
+    <script src="../js/global-footer.js"></script>
+    <script src="../../js/navigation-hub.js"></script>
+</head>
+
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<nav class="navbar-pro">
+    <a class="nav-brand" href="../index.html">
+        <div class="logo-orb"></div>
+        <div class="logo-text">DCM <span>Core Institute</span></div>
+    </a>
+    <div class="nav-pillars">
+        <div class="pillar-item"><a href="../research-programs/index.html" class="pillar-link">Research</a></div>
+        <div class="pillar-item"><a href="../standards/tfin-id.html" class="pillar-link">Standards</a></div>
+        <div class="pillar-item"><a href="tokenized-markets.html" class="pillar-link active">Observatory</a></div>
+    </div>
+    <div class="nav-actions">
+        <div class="lang-switcher">
+            <a href="../../fr/observatory/gtsr-time-series.html" class="lang-link" title="Français">🇫🇷 FR</a>
+            <a href="gtsr-time-series.html" class="lang-link active" title="English">🇬🇧 EN</a>
+        </div>
+        <a href="../login.html" class="auth-btn">Auth</a>
+    </div>
+</nav>
+
+<header class="ts-hero" data-aos="fade-up">
+    <div class="ts-eyebrow"><div class="live-dot"></div> GTSR — Global Tokenization Securities Registry</div>
+    <h1 class="ts-title">Time-Series Layer</h1>
+    <p class="ts-sub">Institutional time-series data on global tokenization — RWA TVL, blockchain dominance, and asset class breakdown. Data Q1 2023 → Q1 2026.</p>
+    <div class="live-badge"><div class="live-dot"></div> Updated — Q1 2026</div>
+</header>
+
+<div class="kpi-bar">
+    <div class="kpi-card" style="--kpi-color:#f59e0b;" data-aos="fade-up" data-aos-delay="0">
+        <div class="kpi-value" id="kpi-tvl">$19.2B</div>
+        <div class="kpi-label">Global RWA TVL</div>
+        <div class="kpi-delta up">↑ +54.8% YoY</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:#3b82f6;" data-aos="fade-up" data-aos-delay="80">
+        <div class="kpi-value" id="kpi-assets">387</div>
+        <div class="kpi-label">Verified Tokenized Assets</div>
+        <div class="kpi-delta up">↑ +112 since Q1/25</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:#10b981;" data-aos="fade-up" data-aos-delay="160">
+        <div class="kpi-value" id="kpi-chains">14</div>
+        <div class="kpi-label">Institutional Blockchains</div>
+        <div class="kpi-delta up">↑ +4 since Q3/24</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:#8b5cf6;" data-aos="fade-up" data-aos-delay="240">
+        <div class="kpi-value" id="kpi-juris">37</div>
+        <div class="kpi-label">Active Jurisdictions</div>
+        <div class="kpi-delta up">↑ +9 since Q1/25</div>
+    </div>
+</div>
+
+<div class="ts-grid">
+    <!-- TVL Line Chart -->
+    <div class="chart-card ts-full" data-aos="fade-up">
+        <div class="chart-card-header">
+            <div class="chart-card-title"><i class="fas fa-chart-line" style="color:var(--accent-gold);"></i> Global RWA TVL — Historical Series (USD)</div>
+            <div style="display:flex;gap:12px;align-items:center;">
+                <div class="chart-period-tabs">
+                    <button class="period-btn active" id="btn-1y" onclick="setTVLPeriod('1y')">1 Year</button>
+                    <button class="period-btn" id="btn-2y" onclick="setTVLPeriod('2y')">2 Years</button>
+                    <button class="period-btn" id="btn-all" onclick="setTVLPeriod('all')">All</button>
+                </div>
+                <div class="live-badge"><div class="live-dot"></div> Live</div>
+            </div>
+        </div>
+        <canvas id="chartTVL" height="90"></canvas>
+        <div class="data-source"><i class="fas fa-database"></i> Sources: RWA.xyz · DefiLlama · Securitize · GTSR Registry v3.2 · DCM Core Research (2026)</div>
+    </div>
+
+    <!-- Chain Dominance -->
+    <div class="chart-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="chart-card-header">
+            <div class="chart-card-title"><i class="fas fa-layer-group" style="color:var(--accent-purple);"></i> Blockchain Dominance</div>
+        </div>
+        <canvas id="chartChains" height="200"></canvas>
+        <div class="chain-legend" id="chain-legend"></div>
+        <div class="data-source"><i class="fas fa-database"></i> DefiLlama + GTSR Q1/26</div>
+    </div>
+
+    <!-- Asset Class Donut -->
+    <div class="chart-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="chart-card-header">
+            <div class="chart-card-title"><i class="fas fa-chart-pie" style="color:var(--accent-green);"></i> Asset Class Breakdown</div>
+        </div>
+        <canvas id="chartAssets" height="200"></canvas>
+        <div class="chain-legend" id="asset-legend"></div>
+        <div class="data-source"><i class="fas fa-database"></i> GTSR Registry Q1/26 (387 assets)</div>
+    </div>
+
+    <!-- AUM Timeline -->
+    <div class="chart-card ts-full" data-aos="fade-up" data-aos-delay="100">
+        <div class="chart-card-header">
+            <div class="chart-card-title"><i class="fas fa-table-list" style="color:var(--accent-blue);"></i> AUM Evolution — Key Institutional Assets (USD)</div>
+            <a href="tokenized-securities-database.html" style="font-size:13px;color:var(--accent-blue);font-weight:700;text-decoration:none;">Full Registry <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="asset-timeline">
+                <thead>
+                    <tr>
+                        <th>Asset</th><th>Issuer</th><th>Category</th>
+                        <th>Q1 2024</th><th>Q3 2024</th><th>Q1 2025</th><th>Q3 2025</th><th>Q1 2026</th>
+                        <th>Trend</th><th>YoY Δ</th>
+                    </tr>
+                </thead>
+                <tbody id="asset-timeline-body"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<global-footer base-path="../../"></global-footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="../../js/supabase-config.js"></script>
+<script>
+AOS.init({ duration: 900, once: true });
+
+const TVL_DATA = {
+    all: { labels:['Q1/23','Q2/23','Q3/23','Q4/23','Q1/24','Q2/24','Q3/24','Q4/24','Q1/25','Q2/25','Q3/25','Q4/25','Q1/26'], values:[1.48,1.92,2.81,3.74,5.10,6.85,8.43,10.20,12.40,14.10,15.80,17.30,19.20] },
+    '2y': { labels:['Q1/24','Q2/24','Q3/24','Q4/24','Q1/25','Q2/25','Q3/25','Q4/25','Q1/26'], values:[5.10,6.85,8.43,10.20,12.40,14.10,15.80,17.30,19.20] },
+    '1y': { labels:['Q1/25','Q2/25','Q3/25','Q4/25','Q1/26'], values:[12.40,14.10,15.80,17.30,19.20] }
+};
+const CHAIN_DATA = {
+    labels:['Q1/24','Q2/24','Q3/24','Q4/24','Q1/25','Q2/25','Q3/25','Q4/25','Q1/26'],
+    chains:[
+        {name:'Ethereum',color:'#627EEA',values:[68,65,61,58,55,53,51,49,47]},
+        {name:'Polygon',color:'#8B5CF6',values:[9,10,11,12,12,12,11,11,10]},
+        {name:'Stellar',color:'#3B82F6',values:[7,7,7,7,8,8,8,8,8]},
+        {name:'Solana',color:'#9945FF',values:[3,4,4,5,6,7,8,9,10]},
+        {name:'Aptos',color:'#10B981',values:[1,1,2,2,3,3,4,4,5]},
+        {name:'Others',color:'#475569',values:[12,13,15,16,16,17,18,19,20]}
+    ]
+};
+const ASSET_DATA = {
+    labels:['Money Market Funds','Bonds/Debt','Real Estate','Private Equity','Trade Finance','Commodities','Others'],
+    values:[38,24,14,10,7,4,3],
+    colors:['#F59E0B','#3B82F6','#10B981','#8B5CF6','#EF4444','#EC4899','#64748B']
+};
+const ASSET_TIMELINE = [
+    {name:'BlackRock BUIDL',issuer:'BlackRock/Securitize',cat:'Money Market Fund',q124:'$242M',q324:'$542M',q125:'$1.10B',q325:'$1.65B',q126:'$2.20B',color:'#F59E0B',pct:90,delta:'+101% YoY'},
+    {name:'Franklin FOBXX',issuer:'Franklin Templeton',cat:'Tokenized Fund',q124:'$290M',q324:'$412M',q125:'$620M',q325:'$890M',q126:'$1.18B',color:'#3B82F6',pct:75,delta:'+90% YoY'},
+    {name:'JPM Onyx Coin',issuer:'J.P. Morgan',cat:'wCBDC / Settlement',q124:'$800M',q324:'$1.20B',q125:'$1.80B',q325:'$2.40B',q126:'$3.10B',color:'#10B981',pct:95,delta:'+72% YoY'},
+    {name:'SocGen EURCV',issuer:'SG Forge',cat:'E-Money Stablecoin',q124:'$210M',q324:'$384M',q125:'$510M',q325:'$680M',q126:'$820M',color:'#8B5CF6',pct:50,delta:'+61% YoY'},
+    {name:'EIB Digital Bond 2',issuer:'European Inv. Bank',cat:'Digital Bond',q124:'$100M',q324:'$100M',q125:'$140M',q325:'$140M',q126:'$200M',color:'#EC4899',pct:25,delta:'+43% YoY'},
+    {name:'Hamilton Lane Solar',issuer:'Hamilton Lane',cat:'Real Assets',q124:'$5M',q324:'$12.5M',q125:'$28M',q325:'$44M',q126:'$62M',color:'#EF4444',pct:18,delta:'+121% YoY'},
+];
+
+let tvlChart;
+function buildTVLChart(period='all'){
+    const ctx=document.getElementById('chartTVL').getContext('2d');
+    const data=TVL_DATA[period];
+    const gradient=ctx.createLinearGradient(0,0,0,350);
+    gradient.addColorStop(0,'rgba(245,158,11,0.25)');
+    gradient.addColorStop(1,'rgba(245,158,11,0.0)');
+    if(tvlChart) tvlChart.destroy();
+    tvlChart=new Chart(ctx,{type:'line',data:{labels:data.labels,datasets:[{label:'Global RWA TVL (USD Billions)',data:data.values,borderColor:'#F59E0B',backgroundColor:gradient,borderWidth:2.5,pointBackgroundColor:'#F59E0B',pointRadius:5,pointHoverRadius:8,fill:true,tension:0.4}]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(15,23,42,0.95)',borderColor:'rgba(255,255,255,0.1)',borderWidth:1,titleColor:'#94a3b8',bodyColor:'#fff',bodyFont:{family:'JetBrains Mono',size:13},callbacks:{label:ctx=>` $${ctx.parsed.y.toFixed(1)}B`}}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#64748b',font:{family:'JetBrains Mono',size:11}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#64748b',font:{family:'JetBrains Mono',size:11},callback:v=>`$${v}B`}}}}});
+}
+window.setTVLPeriod=function(p){
+    document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('btn-'+p).classList.add('active');
+    buildTVLChart(p);
+};
+function buildChainChart(){
+    const ctx=document.getElementById('chartChains').getContext('2d');
+    const datasets=CHAIN_DATA.chains.map(c=>({label:c.name,data:c.values,borderColor:c.color,backgroundColor:c.color+'22',borderWidth:2,fill:false,tension:0.3,pointRadius:3,pointHoverRadius:6}));
+    new Chart(ctx,{type:'line',data:{labels:CHAIN_DATA.labels,datasets},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(15,23,42,0.95)',borderColor:'rgba(255,255,255,0.1)',borderWidth:1,titleColor:'#94a3b8',bodyColor:'#fff',bodyFont:{family:'JetBrains Mono',size:12},callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y}%`}}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#64748b',font:{family:'JetBrains Mono',size:10}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#64748b',font:{family:'JetBrains Mono',size:10},callback:v=>v+'%'},max:80,min:0}}}});
+    const legend=document.getElementById('chain-legend');
+    CHAIN_DATA.chains.forEach(c=>{legend.innerHTML+=`<div class="legend-item"><span class="legend-dot" style="background:${c.color}"></span>${c.name}</div>`;});
+}
+function buildAssetChart(){
+    const ctx=document.getElementById('chartAssets').getContext('2d');
+    new Chart(ctx,{type:'doughnut',data:{labels:ASSET_DATA.labels,datasets:[{data:ASSET_DATA.values,backgroundColor:ASSET_DATA.colors,borderColor:'rgba(2,6,23,0.8)',borderWidth:3,hoverOffset:8}]},options:{responsive:true,cutout:'62%',plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(15,23,42,0.95)',borderColor:'rgba(255,255,255,0.1)',borderWidth:1,titleColor:'#94a3b8',bodyColor:'#fff',bodyFont:{family:'JetBrains Mono',size:12},callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}%`}}}}});
+    const legend=document.getElementById('asset-legend');
+    ASSET_DATA.labels.forEach((l,i)=>{legend.innerHTML+=`<div class="legend-item"><span class="legend-dot" style="background:${ASSET_DATA.colors[i]}"></span>${l} (${ASSET_DATA.values[i]}%)</div>`;});
+}
+function buildTimeline(){
+    const tbody=document.getElementById('asset-timeline-body');
+    ASSET_TIMELINE.forEach(a=>{tbody.innerHTML+=`<tr><td><span class="asset-dot" style="background:${a.color}"></span><strong style="color:#fff;">${a.name}</strong></td><td style="color:#94a3b8;">${a.issuer}</td><td><span style="font-size:11px;padding:3px 8px;border-radius:5px;background:rgba(255,255,255,0.05);color:#94a3b8;">${a.cat}</span></td><td style="font-family:'JetBrains Mono';font-size:12px;color:#64748b;">${a.q124}</td><td style="font-family:'JetBrains Mono';font-size:12px;color:#64748b;">${a.q324}</td><td style="font-family:'JetBrains Mono';font-size:12px;color:#94a3b8;">${a.q125}</td><td style="font-family:'JetBrains Mono';font-size:12px;color:#94a3b8;">${a.q325}</td><td style="font-family:'JetBrains Mono';font-size:13px;color:#fff;font-weight:700;">${a.q126}</td><td><div class="trend-bar"><div class="trend-fill" style="--trend-color:${a.color};width:${a.pct}%;"></div></div></td><td style="font-size:12px;font-weight:800;color:#10b981;">${a.delta}</td></tr>`;});
+}
+document.addEventListener('DOMContentLoaded',()=>{
+    buildTVLChart('all'); buildChainChart(); buildAssetChart(); buildTimeline();
+    function animateCount(el,target,suffix='',isFloat=false,duration=1800){
+        let start=0; const step=target/(duration/16);
+        const timer=setInterval(()=>{start=Math.min(start+step,target);el.textContent=(isFloat?'$'+start.toFixed(1)+'B':Math.floor(start)+suffix);if(start>=target)clearInterval(timer);},16);
+    }
+    setTimeout(()=>{
+        animateCount(document.getElementById('kpi-tvl'),19.2,'',true);
+        animateCount(document.getElementById('kpi-assets'),387);
+        animateCount(document.getElementById('kpi-chains'),14);
+        animateCount(document.getElementById('kpi-juris'),37);
+    },400);
+});
+</script>
+</body>
+</html>
