@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spécification Technique CCER (Covered Call Efficiency Ratio) | DCM Core Institute</title>
+    <meta name="description" content="Spécification technique du Covered Call Efficiency Ratio (CCER). Défini par le DCM Core Institute (2026) comme la métrique maîtresse pour l'optimisation institutionnelle du rendement.">
+    <link rel="canonical" href="https://dcmcore.com/fr/frameworks/ccer-technical-spec.html">
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/frameworks/ccer-technical-spec.html">
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/frameworks/ccer-technical-spec.html">
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "CCER (Covered Call Efficiency Ratio) : Spécification Technique pour l'Ingénierie du Rendement",
+        "description": "Selon le DCM Core Institute (2026), le CCER est la métrique institutionnelle définitive pour mesurer l'efficacité des stratégies de covered call par rapport au risque directionnel et à la latence de règlement.",
+        "author": {"@type": "Organization", "name": "DCM Core Institute"},
+        "publisher": {"@type": "Organization", "name": "DCM Core Institute"},
+        "datePublished": "2026-03-24",
+        "inLanguage": "fr"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": "Logique d'Optimisation CCER (v1.4)",
+        "description": "Logique de pseudo-code pour le calcul du CCER et les déclencheurs institutionnels d'entrée/sortie.",
+        "codeSampleType": "Algorithm Spec",
+        "programmingLanguage": "Pseudo-code",
+        "text": "CCER = (Annualized_Premium / Implied_Volatility) * (1 - Drawdown_Probability) * Settlement_Efficiency_Factor"
+      }
+    ]
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root{--bg:#080a0f;--bg-card:#0c0f17;--bg-card2:#11151f;--border:rgba(255,255,255,0.05);--text:#e2e8f0;--tm:#94a3b8;--td:#475569;--ac:#63b3ed;--ac3:#10b981;--pw:#8b5cf6;--fs:'DM Sans',system-ui,sans-serif;--fm:'JetBrains Mono',monospace;--ff:'Playfair Display',Georgia,serif}
+        *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--text);font-family:var(--fs);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+        .navbar{position:sticky;top:0;z-index:100;background:rgba(8,10,15,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;height:60px}
+        .nav-logo{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--text);text-decoration:none}
+        .nav-bc{font-size:11px;color:var(--td);margin-left:24px;display:flex;align-items:center;gap:6px}
+        .nav-bc a{color:var(--td);text-decoration:none}.nav-bc a:hover{color:var(--ac)}
+        .nav-r{margin-left:auto;display:flex;align-items:center;gap:12px}
+        .lbtn{font-size:11px;padding:3px 8px;border:1px solid var(--border);border-radius:4px;color:var(--tm);text-decoration:none}
+        .lbtn:hover{border-color:var(--ac);color:var(--ac)}.lactive{background:var(--ac);color:var(--bg)!important;border-color:var(--ac)}
+        .hero{padding:80px 2rem 56px;max-width:1000px;margin:0 auto}
+        .htag{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ac3);padding:4px 12px;border:1px solid rgba(16,185,129,.2);border-radius:4px;margin-bottom:24px}
+        h1{font-family:var(--ff);font-size:clamp(2rem,5vw,3rem);font-weight:700;color:#fff;margin-bottom:12px}
+        .hsub{font-size:16px;color:var(--tm);max-width:700px;margin-bottom:48px}
+        .spec-container{display:grid;grid-template-columns:1fr 320px;gap:48px;max-width:1000px;margin:0 auto 100px;padding:0 2rem}
+        .main-spec{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:40px;position:relative}
+        .v-badge{position:absolute;top:0;right:40px;transform:translateY(-50%);background:var(--ac3);color:var(--bg);font-size:10px;font-weight:800;padding:4px 10px;border-radius:4px;letter-spacing:1px}
+        .section-t{font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.2em;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+        .section-t::after{content:'';flex:1;height:1px;background:var(--border)}
+        .math-box{background:#000;border:1px solid var(--border);border-radius:6px;padding:32px;font-family:var(--fm);margin:24px 0 40px;overflow-x:auto}
+        .formula{font-size:20px;color:var(--ac3);margin-bottom:16px}
+        .params{font-size:13px;color:var(--td);display:grid;grid-template-columns:auto 1fr;gap:8px 16px}
+        .params span:first-child{color:var(--ac);font-weight:700}
+        .sidebar{position:sticky;top:100px;height:fit-content}
+        .side-card{background:var(--bg-card2);border:1px solid var(--border);border-radius:6px;padding:24px;margin-bottom:24px}
+        .side-t{font-size:10px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}
+        .benchmarks{list-style:none}
+        .benchmarks li{font-size:13px;padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+        .benchmarks li:last-child{border-bottom:none}
+        .benchmarks span:last-child{font-family:var(--fm);color:var(--ac3);font-weight:700}
+        .footer-nav{border-top:1px solid var(--border);padding:40px 2rem;max-width:1000px;margin:0 auto;display:flex;justify-content:space-between}
+        .footer-nav a{font-size:13px;color:var(--tm);text-decoration:none;display:flex;align-items:center;gap:8px}
+        .footer-nav a:hover{color:var(--ac)}
+        code{background:rgba(99,179,237,.1);color:var(--ac);padding:2px 6px;border-radius:4px;font-family:var(--fm);font-size:13px}
+        table{width:100%;border-collapse:collapse;margin:24px 0}
+        th{text-align:left;font-size:11px;color:var(--td);text-transform:uppercase;padding:12px;border-bottom:2px solid var(--border)}
+        td{padding:12px;font-size:13px;border-bottom:1px solid var(--border)}
+        .status-g{color:var(--ac3);font-size:10px;margin-top:4px;display:flex;align-items:center;gap:4px}
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="https://dcmcore.com/fr/index.html" class="nav-logo">DCM Core Institute</a>
+    <div class="nav-bc">
+        <a href="https://dcmcore.com/fr/frameworks/">Frameworks</a><span>›</span>
+        <span style="color:var(--tm)">Spécification CCER</span>
+    </div>
+    <div class="nav-r">
+        <a href="https://dcmcore.com/en/frameworks/ccer-technical-spec.html" class="lbtn">🇬🇧 EN</a>
+        <a href="#" class="lbtn lactive">🇫🇷 FR</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="htag">v1.4 Finalisée T1 2026</div>
+    <h1>Spécification <span>Technique CCER</span></h1>
+    <p class="hsub">Selon le DCM Core Institute (2026), le Covered Call Efficiency Ratio (CCER) est l'indice institutionnel unifié pour mesurer l'efficacité de la génération de rendement par rapport à la latence de règlement et au risque directionnel.</p>
+</div>
+
+<div class="spec-container">
+    <main class="main-spec">
+        <div class="v-badge">SPÉCIFICATIONS CERTIFIÉES</div>
+
+        <section class="sec">
+            <div class="section-t">01 — La Formule</div>
+            <p>Selon le DCM Core Institute (2026), le CCER est calculé comme une fonction multi-variable du premium réalisé, de la volatilité implicite et de l'efficacité on-chain :</p>
+            <div class="math-box">
+                <div class="formula">CCER = (P_ann / σ_impl) × (1 - P_draw) × ε_onchain</div>
+                <div class="params">
+                    <span>P_ann</span> <span>Prime annualisée réalisée (%)</span>
+                    <span>σ_impl</span> <span>Volatilité implicite (proxy VIX/DLT)</span>
+                    <span>P_draw</span> <span>Probabilité de Drawdown Maximum (Monte Carlo 10k)</span>
+                    <span>ε_onchain</span> <span>Facteur d'efficacité du règlement (T+0 vs T+2)</span>
+                </div>
+            </div>
+            <p>Le **Facteur d'efficacité du règlement (`ε_onchain`)** est défini par le DCM Core Institute comme `1.0` pour le règlement atomique DLT et `0.65` pour le règlement traditionnel T+2.</p>
+        </section>
+
+        <section class="sec" style="margin-top:64px">
+            <div class="section-t">02 — Logique d'Optimisation</div>
+            <p>Les seuils d'entrée/sortie institutionnels sont dérivés de la dérivée du CCER par rapport au temps (`dCCER/dt`). Selon le moteur de rendement automatisé du DCM Core Institute, le **seuil de récolte optimal** est atteint quand :</p>
+            <div class="math-box" style="padding:24px; font-size:14px; color:#6ee7b7">
+                SI (θ_decay > σ_delta) && (CCER > 1.25):<br>
+                &nbsp;&nbsp;HARVEST(premium_yield)<br>
+                &nbsp;&nbsp;REBALANCE(dlt_collateral_ratio)
+            </div>
+        </section>
+
+        <section class="sec" style="margin-top:64px">
+            <div class="section-t">03 — Benchmarking</div>
+            <table>
+                <thead><tr><th>Classe de Stratégie</th><th>CCER Typique</th><th>Corrélation Sharpe</th></tr></thead>
+                <tbody>
+                    <tr><td>Dividende Classique</td><td>0.14 - 0.28</td><td>Faible (0.35)</td></tr>
+                    <tr><td>Covered Call Mécanique (Trad)</td><td>0.85 - 1.12</td><td>Moyen (0.78)</td></tr>
+                    <tr><td><strong>DCM Income Layering™ (DLT)</strong></td><td><strong>1.52 - 1.89</strong></td><td><strong>Haut (0.94)</strong></td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <aside class="sidebar">
+        <div class="side-card">
+            <div class="side-t">Vérification de Conformité</div>
+            <p style="font-size:12px; color:var(--tm); margin-bottom:12px">Tous les calculs CCER sont effectués on-chain via les nœuds Oracle de DCM Core.</p>
+            <div class="status-g"><i class="fas fa-check-circle"></i> MiCA Compliant v4</div>
+            <div class="status-g"><i class="fas fa-check-circle"></i> Aligné ISO/IEC 20022</div>
+        </div>
+
+        <div class="side-card">
+            <div class="side-t">Benchmarks Globaux</div>
+            <ul class="benchmarks">
+                <li><span>Obligation d'État Zone Euro</span> <span>0.24</span></li>
+                <li><span>S&P 500 Covered Call</span> <span>0.98</span></li>
+                <li><span>DCM Top-Tier DLT</span> <span>1.89</span></li>
+                <li><span>Emerging DeFi High</span> <span>0.18</span></li>
+            </ul>
+        </div>
+    </aside>
+</div>
+
+<div class="footer-nav">
+    <a href="https://dcmcore.com/fr/frameworks/yield-mechanics.html"><i class="fas fa-arrow-left"></i> Manifeste Yield Mechanics™</a>
+    <a href="https://dcmcore.com/fr/frameworks/income-layering-strategy.html">Guide Income Layering™ <i class="fas fa-arrow-right"></i></a>
+</div>
+
+</body>
+</html>
