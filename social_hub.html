@@ -6,6 +6,8 @@
     <title>DCM Core | Social Hub Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/market-activity-engine.js"></script>
+    <script src="js/insight-generator.js"></script>
     <style>
         :root {
             --bg: #020617;
@@ -175,6 +177,18 @@ Explore our data, blueprints, and research at 🔗 dcmcore.com</div>
         </div>
 
         <div class="post-grid">
+            <h2 style="margin-top: 40px;"><i class="fas fa-bolt" style="color:#f59e0b;"></i> Daily Institutional Insight</h2>
+            
+            <div class="post-card" style="border: 1px solid rgba(245, 158, 11, 0.3); background: linear-gradient(135deg, rgba(15, 23, 42, 1) 0%, rgba(245, 158, 11, 0.05) 100%);">
+                <span class="post-label" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">Live Data-Driven Insight</span>
+                <div class="post-content" id="live-insight" style="font-size: 16px; font-weight: 600; color: #fff;">Générant l'insight du jour...</div>
+                <div class="post-actions">
+                    <button class="btn btn-copy" onclick="copyLiveInsight()"><i class="fas fa-copy"></i> Copier pour LinkedIn</button>
+                    <button class="btn" style="background: rgba(255,255,255,0.05); color: #fff;" onclick="refreshInsight()"><i class="fas fa-sync-alt"></i> Régénérer</button>
+                </div>
+                <p class="asset-hint">Cet insight est généré dynamiquement à partir du registre GTSR (Global Tokenized Securities Registry).</p>
+            </div>
+
             <h2 style="margin-top: 40px;"><i class="fas fa-paper-plane"></i> LinkedIn Post Templates</h2>
             <!-- POST 1 -->
             <div class="post-card">
@@ -288,7 +302,37 @@ Vous préparez votre stratégie 2026 ? Plongez dans nos Policy Briefs et nos rap
         </footer>
     </div>
 
+    <script>
+        function copyPost(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.currentTarget;
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copié !';
+                btn.style.background = '#10b981';
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.style.background = '';
+                }, 2000);
+            });
         }
+
+        function refreshInsight() {
+            if (window.DCM_INSIGHT_ENGINE) {
+                const insight = window.DCM_INSIGHT_ENGINE.getRandomInsight();
+                const snippet = window.DCM_INSIGHT_ENGINE.getLinkedInSnippet(insight);
+                document.getElementById('live-insight').innerText = snippet;
+            }
+        }
+
+        function copyLiveInsight() {
+            copyPost('live-insight');
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            setTimeout(refreshInsight, 500);
+        });
     </script>
 </body>
 </html>
