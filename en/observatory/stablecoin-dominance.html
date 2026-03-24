@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Deep-dive observatory into stablecoin dominance, liquidity distribution, and peg stability across global markets. Monitoring USDT, USDC, and Yield-Bearing RWAs."
+        name="description" />
+    <title>Stablecoin Dominance Observatory | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/en/observatory/stablecoin-dominance.html" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../../css/certification-badges.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-stable: #10b981;
+            --accent-usdc: #2775ca;
+            --accent-usdt: #26a17b;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+        }
+
+        .obs-hero {
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+
+        .obs-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 100px;
+            color: var(--accent-stable);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .obs-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+        }
+
+        /* METRIC CARDS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .metric-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--card-color, var(--accent-stable));
+        }
+
+        .metric-value {
+            font-family: 'Outfit';
+            font-size: 32px;
+            font-weight: 800;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* DOMINANCE BAR */
+        .dominance-container {
+            max-width: 1400px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .dominance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .dominance-bar-wrap {
+            height: 60px;
+            display: flex;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #1e293b;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .dom-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            color: #fff;
+            transition: width 1s ease-in-out;
+            position: relative;
+        }
+
+        .dom-segment:hover {
+            filter: brightness(1.2);
+        }
+
+        /* CROSS-CHAIN DISTRIBUTION */
+        .chain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .chain-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            font-size: 12px;
+            color: #475569;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumb a {
+            color: #475569;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-obs);
+        }
+
+        /* TOOLTIP-LIKE INFO */
+        .info-pill {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .obs-title { font-size: 32px; }
+            .metrics-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script src="../js/global-footer.js"></script>
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../js/navigation-hub.js"></script>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="../../fr/index.html" class="lang-link">FR</a>
+                <a href="../../en/index.html" class="lang-link">EN</a>
+            </div>
+            <a href="../../en/login.html" class="auth-btn">Auth</a>
+        </div>
+    </nav>
+
+    <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Home</a>
+        <span style="opacity:0.4;">›</span>
+        <a href="tokenized-markets.html">Observatory</a>
+        <span style="opacity:0.4;">›</span>
+        <span style="color:var(--accent-stable);">Stablecoin Dominance</span>
+    </nav>
+
+    <header class="obs-hero" data-aos="fade-up">
+        <div class="obs-tag">Market Liquidity</div>
+        <h1 class="obs-title">Stablecoin Dominance<br>Observatory</h1>
+        <p style="color: #94a3b8; max-width: 800px; margin: 0 auto; font-size: 18px;">
+            Tracking the backbone of tokenized capital markets. Real-time monitoring of stablecoin supply, peg stability, and collateral transparency.
+        </p>
+    </header>
+
+    <!-- KEY STATS -->
+    <section class="metrics-grid" data-aos="fade-up">
+        <div class="metric-card" style="--card-color: #10b981;">
+            <span class="metric-label">Total Stablecoin Cap</span>
+            <span class="metric-value">$176.42B</span>
+            <span style="font-size: 11px; color: #10b981;"><i class="fas fa-caret-up"></i> +1.2% (24h)</span>
+        </div>
+        <div class="metric-card" style="--card-color: #26a17b;">
+            <span class="metric-label">USDT Dominance</span>
+            <span class="metric-value">68.4%</span>
+            <span style="font-size: 11px; color: #94a3b8;">Supply: $120.6B</span>
+        </div>
+        <div class="metric-card" style="--card-color: #2775ca;">
+            <span class="metric-label">USDC Market Share</span>
+            <span class="metric-value">21.8%</span>
+            <span style="font-size: 11px; color: #10b981;"><i class="fas fa-caret-up"></i> Institutional Inflow</span>
+        </div>
+        <div class="metric-card" style="--card-color: #f59e0b;">
+            <span class="metric-label">Yield-Bearing RWA Cap</span>
+            <span class="metric-value">$8.2B</span>
+            <span class="info-pill">Growth: +14% QoQ</span>
+        </div>
+    </section>
+
+    <!-- DOMINANCE VISUALIZER -->
+    <section class="dominance-container" data-aos="fade-up">
+        <div class="dominance-header">
+            <div>
+                <h3 style="font-family: 'Outfit'; font-size: 24px;">Stablecoin Market Share</h3>
+                <p style="font-size: 14px; color: #64748b;">Distribution by Circulating Supply (Aggregated)</p>
+            </div>
+            <div style="font-family: 'JetBrains Mono'; font-size: 13px; color: #94a3b8;">
+                Last Update: Mar 24, 2026 14:00 UTC
+            </div>
+        </div>
+        <div class="dominance-bar-wrap">
+            <div class="dom-segment" style="width: 68.4%; background: #26a17b;" title="USDT">USDT 68.4%</div>
+            <div class="dom-segment" style="width: 21.8%; background: #2775ca;" title="USDC">USDC 21.8%</div>
+            <div class="dom-segment" style="width: 4.2%; background: #f59e0b;" title="DAI/USDS">DAI 4.2%</div>
+            <div class="dom-segment" style="width: 5.6%; background: #475569;" title="Others">OTHERS 5.6%</div>
+        </div>
+
+        <!-- CHAIN DISTRIBUTION -->
+        <h4 style="margin-top: 40px; font-family: 'Outfit'; font-size: 18px;">Blockchain Distribution</h4>
+        <div class="chain-grid">
+            <div class="chain-item">
+                <span>Ethereum</span>
+                <span style="font-weight: 700;">$82.4B</span>
+            </div>
+            <div class="chain-item">
+                <span>Tron</span>
+                <span style="font-weight: 700;">$61.2B</span>
+            </div>
+            <div class="chain-item">
+                <span>Solana</span>
+                <span style="font-weight: 700;">$4.8B</span>
+            </div>
+            <div class="chain-item">
+                <span>Arbitrum</span>
+                <span style="font-weight: 700;">$3.9B</span>
+            </div>
+            <div class="chain-item">
+                <span>Base</span>
+                <span style="font-weight: 700;">$2.1B</span>
+            </div>
+            <div class="chain-item">
+                <span>Polygon</span>
+                <span style="font-weight: 700;">$1.8B</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- STABILITY MONITOR -->
+    <section class="metrics-grid" style="margin-top: 60px;">
+        <div style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(15, 23, 42, 0.4) 100%); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 24px; padding: 40px;" data-aos="fade-up">
+            <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 20px;">Institutional Peg Stability Monitor</h2>
+            <p style="color: #94a3b8; max-width: 600px; margin-bottom: 30px;">
+                DCM's proprietary Stability Score (0-100) measures how well a stablecoin maintains its parity based on 24h volatility, depth of liquidity, and redemption efficiency.
+            </p>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--glass-border); text-align: left; color: #64748b; font-size: 11px; text-transform: uppercase;">
+                            <th style="padding: 15px;">Asset</th>
+                            <th style="padding: 15px;">Target</th>
+                            <th style="padding: 15px;">Current PEG</th>
+                            <th style="padding: 15px;">Stability Score</th>
+                            <th style="padding: 15px;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 15px;"><strong>USDT</strong> (Tether)</td>
+                            <td style="padding: 15px;">$1.00</td>
+                            <td style="padding: 15px;">$1.0001</td>
+                            <td style="padding: 15px;">98/100</td>
+                            <td style="padding: 15px;"><span class="dcm-badge badge-tfin">Highly Stable</span></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 15px;"><strong>USDC</strong> (Circle)</td>
+                            <td style="padding: 15px;">$1.00</td>
+                            <td style="padding: 15px;">$0.9999</td>
+                            <td style="padding: 15px;">99/100</td>
+                            <td style="padding: 15px;"><span class="dcm-badge badge-tfin">Highly Stable</span></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 15px;"><strong>PYUSD</strong> (PayPal)</td>
+                            <td style="padding: 15px;">$1.00</td>
+                            <td style="padding: 15px;">$1.0000</td>
+                            <td style="padding: 15px;">97/100</td>
+                            <td style="padding: 15px;"><span class="dcm-badge badge-tfin">Stable</span></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 15px;"><strong>EURCV</strong> (Société Générale)</td>
+                            <td style="padding: 15px;">€1.00</td>
+                            <td style="padding: 15px;">€1.0000</td>
+                            <td style="padding: 15px;">100/100</td>
+                            <td style="padding: 15px;"><span class="dcm-badge badge-tfin">Institutional Grade</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <global-footer base-path="../"></global-footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+
+</html>

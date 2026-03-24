@@ -38,356 +38,164 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link href="../styles-footer.css" rel="stylesheet" />
 
     <style>
-        :root {
-            --accent-obs: #3b82f6;
-            --accent-green: #10b981;
-            --accent-purple: #8b5cf6;
-            --glass-bg: rgba(15, 23, 42, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.08);
-        }
-
-        body {
-            background-color: #020617;
-            color: #f8fafc;
-            font-family: 'Inter', sans-serif;
-            padding-top: 80px;
-        }
-
-        .obs-hero {
-            padding: 80px 20px 40px;
-            text-align: center;
-        }
-
-        .obs-tag {
-            display: inline-block;
-            padding: 6px 16px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 100px;
-            color: var(--accent-obs);
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-        }
-
-        .obs-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(32px, 5vw, 64px);
-            font-weight: 800;
-            margin-bottom: 20px;
-            letter-spacing: -1.5px;
-        }
-
-        /* DASHBOARD GRID */
-        .dash-grid {
+        /* API PORTAL ENHANCEMENTS */
+        .api-layout {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
             max-width: 1400px;
-            margin: 0 auto 60px;
-            padding: 20px;
+            margin: 40px auto 100px;
+            padding: 0 20px;
+            align-items: start;
         }
 
-        .dash-card {
-            background: var(--glass-bg);
+        .api-sidebar {
+            position: sticky;
+            top: 100px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .api-nav-group {
+            margin-bottom: 30px;
+        }
+
+        .api-nav-title {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+
+        .api-nav-link {
+            display: block;
+            padding: 10px 15px;
+            border-radius: 10px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .api-nav-link:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+        }
+
+        .api-nav-link.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-obs);
+            font-weight: 700;
+        }
+
+        .api-content {
+            background: rgba(15, 23, 42, 0.4);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
+            padding: 60px;
+            backdrop-filter: blur(20px);
+        }
+
+        /* PRICING GRID */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .price-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
             padding: 30px;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
-        .dash-card:hover {
+        .price-card.featured {
             border-color: var(--accent-obs);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(59, 130, 246, 0.05);
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .dash-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--card-accent, var(--accent-obs));
+        .price-tag {
+            font-family: 'Outfit';
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+            margin: 15px 0 10px;
         }
 
-        .dash-header {
+        .price-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 30px;
+            flex-grow: 1;
+        }
+
+        .price-features li {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .price-features i {
+            color: var(--accent-green);
+            font-size: 10px;
+        }
+
+        /* CODE ENHANCEMENTS */
+        .code-header {
+            background: rgba(255,255,255,0.03); 
+            padding: 10px 15px; 
+            font-family: 'JetBrains Mono'; 
+            font-size: 11px; 
+            color: #64748b; 
+            border-bottom: 1px solid #1e293b;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
         }
 
-        .dash-header i {
-            font-size: 24px;
-            color: var(--card-accent, var(--accent-obs));
-        }
-
-        .dash-value {
-            font-family: 'Outfit';
-            font-size: 42px;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        .dash-label {
-            font-size: 12px;
+        .copy-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
             color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-
-        .dash-trend {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 13px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 6px;
-            margin-top: 15px;
-        }
-
-        .trend-up {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-green);
-        }
-
-        /* CHART PLACEHOLDER */
-        .chart-placeholder {
-            height: 120px;
-            margin-top: 30px;
-            display: flex;
-            align-items: flex-end;
-            gap: 8px;
-        }
-
-        .bar {
-            flex: 1;
-            background: var(--card-accent, var(--accent-obs));
-            opacity: 0.3;
-            border-radius: 4px 4px 0 0;
-            transition: opacity 0.3s;
-        }
-
-        .dash-card:hover .bar {
-            opacity: 0.6;
-        }
-
-        /* TABLE */
-        .obs-table-container {
-            max-width: 1400px;
-            margin: 0 auto 100px;
-            padding: 0 20px;
-        }
-
-        .obs-table {
-            width: 100%;
-            background: var(--glass-bg);
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
-            border-collapse: collapse;
-        }
-
-        .obs-table th {
-            text-align: left;
-            padding: 20px 24px;
-            background: rgba(15, 23, 42, 0.4);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #64748b;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .obs-table td {
-            padding: 24px;
-            border-bottom: 1px solid var(--glass-border);
-            font-size: 14px;
-        }
-
-        .status-pill {
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 11px;
-            font-weight: 700;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* BREADCRUMB */
-        .breadcrumb {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px 20px 0;
-            font-size: 12px;
-            color: #475569;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .breadcrumb a {
-            color: #475569;
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            color: var(--accent-obs);
-        }
-
-        /* TICKER */
-        .obs-ticker-wrap {
-            background: rgba(15, 23, 42, 0.4);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 10px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-        }
-
-        .obs-ticker {
-            display: inline-block;
-            animation: ticker 60s linear infinite;
-            padding-left: 100%;
-        }
-
-        .ticker-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 15px;
-            margin-right: 50px;
-            font-size: 13px;
-            color: #94a3b8;
-            font-family: 'JetBrains Mono';
-        }
-
-        .ticker-symbol {
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .ticker-status {
             font-size: 10px;
-            padding: 2px 6px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-green);
+            padding: 4px 8px;
             border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-        @keyframes ticker {
-            0% {
-                transform: translate3d(0, 0, 0);
-            }
-
-            100% {
-                transform: translate3d(-100%, 0, 0);
-            }
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border-color: rgba(255,255,255,0.2);
         }
 
-        /* DATA FRESHNESS */
-        .freshness-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-green);
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 10px;
-            font-weight: 700;
-            margin-top: 15px;
-        }
-
-        .pulse-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            animation: pulse-ring 2s infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% {
-                transform: scale(1);
-                opacity: 1;
+        @media (max-width: 1100px) {
+            .api-layout {
+                grid-template-columns: 1fr;
             }
-
-            50% {
-                transform: scale(1.5);
-                opacity: 0.5;
-            }
-
-            100% {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-
-        /* MOBILE FIXES */
-        @media (max-width: 768px) {
-            html, body {
-                overflow-x: hidden;
-                width: 100%;
-            }
-            
-            .nav-pillars {
+            .api-sidebar {
                 display: none;
             }
-            .nav-actions {
-                width: 100%;
-                justify-content: center;
-                gap: 15px;
-            }
-            .obs-hero {
-                padding: 40px 15px;
-            }
-            .obs-title {
-                font-size: 28px !important;
-                line-height: 1.2;
-            }
-            .database-controls {
-                flex-direction: column;
-                gap: 15px;
-                align-items: stretch;
-            }
-            .search-box {
-                width: 100% !important;
-            }
-            .filter-group {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .obs-table-container {
-                padding: 0 10px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            .obs-table-wrapper {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                margin: 0;
-                width: 100%;
-            }
-            .obs-table {
-                min-width: 700px;
-            }
-            .cite-box {
-                margin: 15px;
-                padding: 15px;
-                font-size: 11px;
-            }
-            .obs-ticker-wrap {
-                width: 100vw;
-                overflow: hidden;
+            .pricing-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -590,48 +398,125 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="obs-tag">Portail Développeur</div>
         <h1 class="obs-title">API de Données des<br>Marchés Tokenisés</h1>
         <p style="color: #94a3b8; max-width: 800px; margin: 0 auto; font-size: 18px;">
-            API REST de qualité institutionnelle pour l'accès programmatique à notre base de données de titres tokenisés en temps réel. Conçue pour les quants, chercheurs et ingénieurs financiers.
+            Accès REST de qualité institutionnelle pour l'intégration programmatique de la base de données DCM Core. Flux de données en temps réel pour l'analyse quante et le reporting réglementaire.
         </p>
         <div class="freshness-badge" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
             <div class="pulse-dot" style="background: #8b5cf6;"></div>
-            STATUT : TOUS LES SYSTÈMES SONT OPÉRATIONNELS
+            STATUT : SYSTÈMES OPÉRATIONNELS
         </div>
     </header>
 
-    <!-- API Documentation Content -->
-    <section class="obs-table-container" style="margin-top: 50px;" data-aos="fade-up">
-        
-        <!-- Authentication Section -->
-        <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 20px; color: #fff;">1. Authentification</h2>
-        <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 30px; font-size: 15px;">Authentifiez vos requêtes API en incluant votre clé API dans l'en-tête `Authorization`. Vous pouvez générer une clé API depuis votre portail institutionnel.</p>
-        
-        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px; margin-bottom: 60px;">
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #fff; background: #020617; padding: 15px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); overflow-x: auto;">
-                Authorization: Bearer dcm_live_7x89z...
+    <div class="api-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="api-sidebar">
+            <div class="api-nav-group">
+                <div class="api-nav-title">Fondamentaux</div>
+                <a href="#section-auth" class="api-nav-link active">Authentification</a>
+                <a href="#section-pricing" class="api-nav-link">Tarification & Limites</a>
+                <a href="#section-webhooks" class="api-nav-link">Webhooks</a>
             </div>
-        </div>
+            <div class="api-nav-group">
+                <div class="api-nav-title">Données de Marché</div>
+                <a href="#endpoint-securities" class="api-nav-link">Actifs / Securities</a>
+                <a href="#endpoint-metrics" class="api-nav-link">Métriques / Metrics</a>
+                <a href="#endpoint-dominance" class="api-nav-link">Dominance Stablecoin</a>
+            </div>
+            <div class="api-nav-group">
+                <div class="api-nav-title">Gouvernance & Standards</div>
+                <a href="#endpoint-registry" class="api-nav-link">Registre GTSR</a>
+                <a href="#endpoint-certification" class="api-nav-link">Certification DORA/MiCA</a>
+                <a href="#endpoint-tfin" class="api-nav-link">Standard TFIN ID</a>
+            </div>
+        </aside>
 
-        <!-- Endpoints Grid -->
-        <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 20px; color: #fff;">2. Endpoints Principaux</h2>
-        
-        <!-- Endpoint 1 -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
-            <div>
-                <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
-                <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/securities</span>
-                <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Récupère une liste paginée de tous les titres tokenisés actifs sur les registres pris en charge. Renvoie les paramètres globaux dont les AUM, l'offre exacte on-chain et les métadonnées de l'émetteur principal.</p>
-                <div style="margin-top: 20px;">
-                    <strong style="font-size: 13px; text-transform: uppercase; color: #64748b; letter-spacing: 1px;">Filtres Supportés</strong>
-                    <ul style="color: #94a3b8; line-height: 1.8; font-size: 14px; margin-top: 10px; padding-left: 20px;">
-                        <li><code>asset_class</code> (ex. bond, equity, money_market_fund)</li>
-                        <li><code>blockchain</code> (ex. ethereum, polygon, stellar)</li>
-                        <li><code>min_aum</code> (en USD)</li>
-                    </ul>
+        <main class="api-content">
+            <!-- Authentication Section -->
+            <section id="section-auth" style="margin-bottom: 80px;">
+                <h2 style="font-family: 'Outfit'; font-size: 32px; margin-bottom: 20px; color: #fff;">1. Authentification</h2>
+                <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 30px; font-size: 16px;">
+                    Authentifiez vos requêtes en incluant votre clé API dans l'en-tête <code>Authorization</code>. 
+                    Les clés peuvent être générées dans votre <a href="../login.html" style="color: var(--accent-obs);">tableau de bord institutionnel</a>.
+                </p>
+                <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                    <div class="code-header">
+                        <span>HTTP HEADER</span>
+                        <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copier</button>
+                    </div>
+                    <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0;"><code>Authorization: Bearer dcm_live_7x89z...</code></pre>
                 </div>
-            </div>
-            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
-                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
-                <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
+            </section>
+
+            <!-- Pricing Section -->
+            <section id="section-pricing" style="margin-bottom: 80px;">
+                <h2 style="font-family: 'Outfit'; font-size: 32px; margin-bottom: 10px; color: #fff;">2. Niveaux d'Abonnement</h2>
+                <p style="color: #94a3b8; margin-bottom: 40px;">Sélectionnez le niveau d'accès correspondant à vos besoins institutionnels.</p>
+                
+                <div class="pricing-grid">
+                    <!-- Standard -->
+                    <div class="price-card">
+                        <div class="obs-tag" style="margin-bottom: 10px;">Standard</div>
+                        <div style="color: #64748b; font-size: 12px;">Pour chercheurs indépendants</div>
+                        <div class="price-tag">Gratuit</div>
+                        <ul class="price-features">
+                            <li><i class="fas fa-check"></i> Endpoints Publics</li>
+                            <li><i class="fas fa-check"></i> 1 000 requêtes / mois</li>
+                            <li><i class="fas fa-check"></i> Données différées (24h)</li>
+                        </ul>
+                        <a href="../login.html" class="connect-btn" style="text-align: center; text-decoration: none; font-size: 13px;">Commencer</a>
+                    </div>
+                    <!-- Pro -->
+                    <div class="price-card featured">
+                        <div class="obs-tag" style="margin-bottom: 10px; background: rgba(59,130,246,0.2);">Institutionnel</div>
+                        <div style="color: #64748b; font-size: 12px;">Pour Hedge Funds & Asset Managers</div>
+                        <div class="price-tag">$499<span style="font-size: 14px; color: #64748b;">/mois</span></div>
+                        <ul class="price-features">
+                            <li><i class="fas fa-check"></i> Tous les Endpoints</li>
+                            <li><i class="fas fa-check"></i> Flux temps réel</li>
+                            <li><i class="fas fa-check"></i> 1M de requêtes / mois</li>
+                            <li><i class="fas fa-check"></i> Support Prioritaire</li>
+                        </ul>
+                        <button class="connect-btn" style="width: 100%; font-size: 13px;">S'abonner Pro</button>
+                    </div>
+                    <!-- Enterprise -->
+                    <div class="price-card">
+                        <div class="obs-tag" style="margin-bottom: 10px; color: var(--accent-purple); border-color: rgba(139, 92, 246, 0.3); background: rgba(139, 92, 246, 0.1);">Entreprise</div>
+                        <div style="color: #64748b; font-size: 12px;">Pour banques & infrastructure</div>
+                        <div class="price-tag">Sur Mesure</div>
+                        <ul class="price-features">
+                            <li><i class="fas fa-check"></i> Requêtes illimitées</li>
+                            <li><i class="fas fa-check"></i> Infrastructure Dédiée</li>
+                            <li><i class="fas fa-check"></i> Reporting Personnalisé</li>
+                            <li><i class="fas fa-check"></i> Garantie de SLA</li>
+                        </ul>
+                        <button class="connect-btn" style="width: 100%; font-size: 13px; background: transparent; border: 1px solid var(--glass-border);">Contacter Ventes</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Endpoints Section -->
+            <section id="section-endpoints">
+                <h2 style="font-family: 'Outfit'; font-size: 32px; margin-bottom: 40px; color: #fff;">3. Documentation des Endpoints</h2>
+
+                <!-- Endpoint 1: Securities -->
+                <div id="endpoint-securities" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: start;">
+                    <div>
+                        <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/securities</span>
+                        <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Récupère une liste paginée de tous les titres tokenisés actifs. Renvoie l'AUM, l'offre on-chain et les métadonnées émetteur.</p>
+                        <div style="margin-top: 20px;">
+                            <strong style="font-size: 13px; text-transform: uppercase; color: #64748b;">Filtres</strong>
+                            <ul style="color: #94a3b8; line-height: 1.8; font-size: 14px; margin-top: 10px; padding-left: 20px;">
+                                <li><code>asset_class</code> (bond, equity, mmf)</li>
+                                <li><code>blockchain</code> (ethereum, polygon, stellar)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                        <div class="code-header">
+                            <span>RÉPONSE (200 OK)</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copier</button>
+                        </div>
+                        <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "object": "list",
   "data": [
     {
@@ -639,96 +524,122 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       "ticker": "BUIDL",
       "name": "BlackRock USD Institutional Digital Liquidity Fund",
       "issuer": "BlackRock",
-      "asset_class": "money_market_fund",
-      "total_supply": 526000000.0,
-      "decimals": 6,
-      "currency": "USD",
-      "blockchain": {
-        "network": "ethereum",
-        "contract": "0x7712c3420573719240217240f2be2e5b7fb25"
-      },
-      "last_updated": "2026-03-12T14:30:00Z"
+      "total_supply": 526000000.0
     }
-  ],
-  "has_more": true
+  ]
 }</code></pre>
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <!-- Endpoint 2 -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
-            <div>
-                <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
-                <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/metrics/markets</span>
-                <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Récupère les indicateurs macroéconomiques agrégés pour les marchés de capitaux programmables. Utile pour construire des tableaux de bord en temps réel ou des modèles de risque systémique de haut niveau.</p>
-            </div>
-            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
-                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
-                <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
-  "object": "market_metrics",
-  "snapshot_time": "2026-03-12T14:35:10Z",
+                <!-- Endpoint 2: Metrics -->
+                <div id="endpoint-metrics" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: start;">
+                    <div>
+                        <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/metrics/markets</span>
+                        <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Indicateurs macroéconomiques agrégés pour les marchés de capitaux programmables.</p>
+                    </div>
+                    <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                        <div class="code-header">
+                            <span>RÉPONSE (200 OK)</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copier</button>
+                        </div>
+                        <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "metrics": {
     "total_market_cap_usd": 176200000000,
-    "active_securities_count": 3420,
-    "institutional_participants_count": 184,
-    "volume_24h_usd": 4200000000
-  },
-  "asset_distribution": {
-    "bonds": 0.08,
-    "money_market": 0.02,
-    "stablecoins": 0.88,
-    "equities": 0.02
+    "active_securities_count": 3420
   }
 }</code></pre>
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <!-- Endpoint 3: GTSR -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
-            <div>
-                <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
-                <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/registry/entries</span>
-                <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Accède aux entrées du Global Tokenized Securities Registry (GTSR). Permet de consulter les GTSR IDs et les métadonnées validées des actifs.</p>
-            </div>
-            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
-                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
-                <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
-  "object": "registry_entries",
+                <!-- Endpoint 3: Dominance -->
+                <div id="endpoint-dominance" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: start;">
+                    <div>
+                        <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/metrics/dominance</span>
+                        <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Métriques de dominance des stablecoins et scores de stabilité du peg en temps réel.</p>
+                    </div>
+                    <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                        <div class="code-header">
+                            <span>RÉPONSE (200 OK)</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copier</button>
+                        </div>
+                        <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
+  "total_stable_cap": 162450000000,
+  "top_assets": [
+    { "symbol": "USDT", "dominance": 68.4 },
+    { "symbol": "USDC", "dominance": 21.2 }
+  ]
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Endpoint 4: Registry -->
+                <div id="endpoint-registry" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: start;">
+                    <div>
+                        <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/registry/entries</span>
+                        <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Accès aux entrées validées du Registre Global (GTSR). Permet la résolution des identifiants d'actifs.</p>
+                    </div>
+                    <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                        <div class="code-header">
+                            <span>RÉPONSE (200 OK)</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copier</button>
+                        </div>
+                        <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "data": [
     {
       "gtsr_id": "GTSR-BOND-2023-01",
-      "tfin_id": "TFIN-DEBT-ETH-2023-01",
-      "name": "Tokenized Green Bond",
       "status": "validated"
     }
   ]
 }</code></pre>
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <!-- Endpoint 4: TFIN -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
-            <div>
-                <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
-                <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/standards/tfin/{tfin_id}</span>
-                <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Résout un TFIN ID vers son contexte technique complet, incluant les détails du contrat blockchain et la classification d'actif TFIC.</p>
-            </div>
-            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
-                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
-                <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
+                <!-- Endpoint 5: Certification -->
+                <div id="endpoint-certification" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: start;">
+                    <div>
+                        <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/certification/status</span>
+                        <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Interroge le statut de conformité aux standards MiCA, DORA et GTDS.</p>
+                    </div>
+                    <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                        <div class="code-header">
+                            <span>RÉPONSE (200 OK)</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copier</button>
+                        </div>
+                        <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
+  "target_id": "sec_buidl123",
+  "certifications": [
+    { "type": "GTDS", "status": "certified" },
+    { "type": "DORA-COMPLIANCE", "status": "validated" }
+  ]
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Endpoint 6: TFIN -->
+                <div id="endpoint-tfin" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
+                    <div>
+                        <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/standards/tfin/{tfin_id}</span>
+                        <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Résout un TFIN ID vers son contexte technique complet et sa classification TFIC.</p>
+                    </div>
+                    <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                        <div class="code-header">
+                            <span>RÉPONSE (200 OK)</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copier</button>
+                        </div>
+                        <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "tfin_id": "TFIN-DEBT-ETH-2023-01",
-  "segments": {
-    "class": "DEBT",
-    "blockchain": "ETH",
-    "year": "2023",
-    "sequence": "01"
-  },
   "tfic_uri": "https://dcmcore.com/standards/tfic/debt"
 }</code></pre>
-            </div>
-        </div>
-
-    </section>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <!-- CITATION SECTION -->
     <div class="cite-box">
@@ -759,6 +670,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true });
+
+        function copyCode(btn) {
+            const code = btn.parentElement.nextElementSibling.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copié !';
+                btn.style.color = '#10b981';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.color = '';
+                }, 2000);
+            });
+        }
+
+        // Intersection Observer for Sidebar Navigation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    document.querySelectorAll('.api-nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section, [id^="endpoint-"]').forEach((section) => {
+            observer.observe(section);
+        });
     </script>
 </body>
 

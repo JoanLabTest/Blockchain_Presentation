@@ -332,7 +332,140 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         }
 
+        /* API LAYOUT */
+        .api-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            max-width: 1400px;
+            margin: 0 auto 100px;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .api-sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            border-right: 1px solid var(--glass-border);
+            padding-right: 20px;
+        }
+
+        .api-nav-group {
+            margin-bottom: 30px;
+        }
+
+        .api-nav-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        .api-nav-link {
+            display: block;
+            padding: 8px 0;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .api-nav-link:hover, .api-nav-link.active {
+            color: var(--accent-obs);
+        }
+
+        /* PRICING GRID */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 40px 0 80px;
+        }
+
+        .price-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .price-card.featured {
+            border-color: var(--accent-obs);
+            background: rgba(59, 130, 246, 0.03);
+        }
+
+        .price-card:hover {
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .price-tag {
+            font-family: 'Outfit';
+            font-size: 32px;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .price-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .price-features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .price-features i {
+            color: var(--accent-green);
+            font-size: 10px;
+        }
+
+        /* CODE BLOCK ENHANCEMENTS */
+        .code-header {
+            background: rgba(255,255,255,0.03);
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+            font-family: 'JetBrains Mono';
+            font-size: 10px;
+            color: #64748b;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+        }
+
         /* MOBILE FIXES */
+        @media (max-width: 1024px) {
+            .api-layout {
+                grid-template-columns: 1fr;
+            }
+            .api-sidebar {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
             html, body {
                 overflow-x: hidden;
@@ -354,40 +487,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 font-size: 28px !important;
                 line-height: 1.2;
             }
-            .database-controls {
-                flex-direction: column;
-                gap: 15px;
-                align-items: stretch;
-            }
-            .search-box {
-                width: 100% !important;
-            }
-            .filter-group {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
             .obs-table-container {
                 padding: 0 10px;
                 width: 100%;
                 box-sizing: border-box;
-            }
-            .obs-table-wrapper {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                margin: 0;
-                width: 100%;
-            }
-            .obs-table {
-                min-width: 700px;
-            }
-            .cite-box {
-                margin: 15px;
-                padding: 15px;
-                font-size: 11px;
-            }
-            .obs-ticker-wrap {
-                width: 100vw;
-                overflow: hidden;
             }
         }
     </style>
@@ -600,8 +703,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </header>
 
-    <!-- API Documentation Content -->
-    <section class="obs-table-container" style="margin-top: 50px;" data-aos="fade-up">
+    <!-- API Layout Wrapper -->
+    <div class="api-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="api-sidebar">
+            <div class="api-nav-group">
+                <div class="api-nav-title">Fundamentals</div>
+                <a href="#authentication" class="api-nav-link active">Authentication</a>
+                <a href="#pricing" class="api-nav-link">Pricing & Limits</a>
+                <a href="#webhooks" class="api-nav-link">Webhooks</a>
+            </div>
+            <div class="api-nav-group">
+                <div class="api-nav-title">Market Data</div>
+                <a href="#endpoint-securities" class="api-nav-link">/securities</a>
+                <a href="#endpoint-metrics" class="api-nav-link">/metrics/markets</a>
+                <a href="#endpoint-dominance" class="api-nav-link">/metrics/dominance</a>
+            </div>
+            <div class="api-nav-group">
+                <div class="api-nav-title">Governance & Standards</div>
+                <a href="#endpoint-registry" class="api-nav-link">/registry/entries</a>
+                <a href="#endpoint-certification" class="api-nav-link">/certification/status</a>
+                <a href="#endpoint-tfin" class="api-nav-link">/standards/tfin</a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="api-content">
+            <section id="authentication" data-aos="fade-up">
         
         <!-- Authentication Section -->
         <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 20px; color: #fff;">1. Authentication</h2>
@@ -613,11 +741,63 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
 
-        <!-- Endpoints Grid -->
-        <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 20px; color: #fff;">2. Core Endpoints</h2>
-        
-        <!-- Endpoint 1 -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
+            </div>
+
+            <!-- PRICING SECTION -->
+            <section id="pricing" style="margin-top: 80px;" data-aos="fade-up">
+                <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 10px; color: #fff;">Subscription Tiers</h2>
+                <p style="color: #94a3b8; font-size: 15px; margin-bottom: 30px;">Select the access level that matches your institutional requirements.</p>
+                
+                <div class="pricing-grid">
+                    <!-- Standard -->
+                    <div class="price-card">
+                        <div class="obs-tag" style="margin-bottom: 10px; font-size: 9px;">Standard</div>
+                        <div class="price-tag">Free</div>
+                        <p style="color: #64748b; font-size: 12px;">For independent researchers and hobbyists.</p>
+                        <ul class="price-features">
+                            <li><i class="fas fa-check"></i> Public Endpoints</li>
+                            <li><i class="fas fa-check"></i> 1,000 requests / month</li>
+                            <li><i class="fas fa-check"></i> 24h Delayed Data</li>
+                        </ul>
+                        <button class="auth-btn" style="width: 100%; padding: 12px;">Get Started</button>
+                    </div>
+
+                    <!-- Institutional -->
+                    <div class="price-card featured">
+                        <div class="obs-tag" style="margin-bottom: 10px; font-size: 9px; background: rgba(59, 130, 246, 0.2);">Institutional</div>
+                        <div class="price-tag">$499<span style="font-size: 14px; opacity: 0.5;">/mo</span></div>
+                        <p style="color: #64748b; font-size: 12px;">For hedge funds and asset managers.</p>
+                        <ul class="price-features">
+                            <li><i class="fas fa-check"></i> All Endpoints</li>
+                            <li><i class="fas fa-check"></i> Real-time Data Streams</li>
+                            <li><i class="fas fa-check"></i> 1M requests / month</li>
+                            <li><i class="fas fa-check"></i> Priority Support</li>
+                        </ul>
+                        <button class="connect-btn" style="width: 100%; border-radius: 8px; padding: 12px;">Subscribe Pro</button>
+                    </div>
+
+                    <!-- Enterprise -->
+                    <div class="price-card">
+                        <div class="obs-tag" style="margin-bottom: 10px; font-size: 9px;">Enterprise</div>
+                        <div class="price-tag">Custom</div>
+                        <p style="color: #64748b; font-size: 12px;">For global banks and infrastructure providers.</p>
+                        <ul class="price-features">
+                            <li><i class="fas fa-check"></i> Unlimited requests</li>
+                            <li><i class="fas fa-check"></i> Dedicated Infrastructure</li>
+                            <li><i class="fas fa-check"></i> Custom Reporting</li>
+                            <li><i class="fas fa-check"></i> SLA Guarantee</li>
+                        </ul>
+                        <button class="auth-btn" style="width: 100%; background: #fff; color: #000; padding: 12px;">Contact Sales</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Endpoints Grid -->
+            <section id="endpoints" style="margin-top: 50px;">
+                <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 40px; color: #fff;">Core Endpoints</h2>
+                
+                <!-- Endpoint 1 -->
+                <div id="endpoint-securities" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: start;">
             <div>
                 <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
                 <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/securities</span>
@@ -632,7 +812,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
             <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
-                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
+                <div class="code-header">
+                    <span>RESPONSE (200 OK)</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                </div>
                 <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "object": "list",
   "data": [
@@ -658,14 +841,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <!-- Endpoint 2 -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
+        <div id="endpoint-metrics" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: start;">
             <div>
                 <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
                 <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/metrics/markets</span>
                 <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Fetches the aggregated macroeconomic indicators for the programmable capital markets. Useful for building real-time dashboards or high-level systemic risk models.</p>
             </div>
             <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
-                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
+                <div class="code-header">
+                    <span>RESPONSE (200 OK)</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                </div>
                 <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "object": "market_metrics",
   "snapshot_time": "2026-03-12T14:35:10Z",
@@ -685,6 +871,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
 
+        <!-- Endpoint 2.5: Dominance -->
+        <div id="endpoint-dominance" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: start;">
+            <div>
+                <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/metrics/dominance</span>
+                <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Retrieves real-time stablecoin dominance metrics, including peg stability scores and chain-specific liquidity distribution.</p>
+            </div>
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                <div class="code-header">
+                    <span>RESPONSE (200 OK)</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                </div>
+                <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
+  "object": "dominance_metrics",
+  "total_stable_cap": 162450000000,
+  "top_assets": [
+    { "symbol": "USDT", "dominance": 68.4, "peg": 1.0002 },
+    { "symbol": "USDC", "dominance": 21.2, "peg": 0.9999 }
+  ],
+  "chain_distribution": {
+    "ethereum": 0.52,
+    "tron": 0.38,
+    "others": 0.10
+  }
+}</code></pre>
+            </div>
+        </div>
+
         <!-- Endpoint 3: GTSR -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
             <div>
@@ -693,7 +907,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Accesses the Global Tokenized Securities Registry (GTSR) entries. Provides access to GTSR IDs and validated asset metadata.</p>
             </div>
             <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
-                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
+                <div class="code-header">
+                    <span>RESPONSE (200 OK)</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                </div>
                 <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "object": "registry_entries",
   "data": [
@@ -708,15 +925,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
 
+        <!-- Endpoint 5: Certification -->
+        <div id="endpoint-certification" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: start;">
+            <div>
+                <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
+                <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/certification/status</span>
+                <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Queries the DCM Certification layer for a specific asset or issuer. Returns status of DORA, MIca, and GTDS compliance.</p>
+                <div style="margin-top:20px;">
+                    <code>?target_id=sec_buidl123</code>
+                </div>
+            </div>
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+                <div class="code-header">
+                    <span>RESPONSE (200 OK)</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                </div>
+                <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
+  "target_id": "sec_buidl123",
+  "certifications": [
+    { "type": "GTDS", "status": "certified", "expiry": "2027-01-01" },
+    { "type": "DORA-COMPLIANCE", "status": "validated", "score": 98 }
+  ]
+}</code></pre>
+            </div>
+        </div>
+
         <!-- Endpoint 4: TFIN -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
+        <div id="endpoint-tfin" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: start;">
             <div>
                 <div style="display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; margin-bottom: 15px;">GET</div>
                 <span style="font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700;">/v1/standards/tfin/{tfin_id}</span>
                 <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px; font-size: 15px;">Resolves a TFIN ID to its full technical context, including blockchain contract details and TFIC asset classification.</p>
             </div>
             <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
-                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b; border-bottom: 1px solid #1e293b;">RESPONSE (200 OK)</div>
+                <div class="code-header">
+                    <span>RESPONSE (200 OK)</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                </div>
                 <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "tfin_id": "TFIN-DEBT-ETH-2023-01",
   "segments": {
@@ -730,7 +975,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
 
-    </section>
+            </section>
+        </main>
+    </div> <!-- End api-layout -->
 
     <!-- CITATION SECTION -->
     <div class="cite-box">
@@ -761,6 +1008,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true });
+
+        // Copy Code Functionality
+        function copyCode(btn) {
+            const pre = btn.parentElement.nextElementSibling;
+            const code = pre.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+
+        // Active Link Highlighting
+        window.addEventListener('scroll', () => {
+            let current = "";
+            const sections = document.querySelectorAll('section[id], div[id]');
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.api-nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 

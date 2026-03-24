@@ -84,7 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
             'reg': { id: 'MICA_REG', title: 'MiCA Compliance Regulation (EU Policy)' },
             'yield': { id: 'YIELD_STRUC', title: 'Yield Structures (On-chain vs TradFi)' },
             't-bill': { id: 'YIELD_STRUC', title: 'Yield Structures (On-chain vs TradFi)' },
-            'conc': { id: 'MARKET_CONC', title: 'Market Concentration Analysis' }
+            'conc': { id: 'MARKET_CONC', title: 'Market Concentration Analysis' },
+            'stablecoin': { id: 'STABLE_DOM', title: 'Stablecoin Dominance & Peg Stability' },
+            'usdt': { id: 'STABLE_DOM', title: 'Tether (USDT) Market Share & Supply' },
+            'usdc': { id: 'STABLE_DOM', title: 'USD Coin (USDC) Institutional Flow' }
         };
 
         searchInput.addEventListener('input', (e) => {
