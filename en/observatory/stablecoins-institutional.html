@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Institutional Stablecoin Observatory: Advanced analysis of USDT and USDC market structure, reserve models, and regulatory compliance under MiCA and US frameworks."
+        name="description" />
+    <title>Institutional Stablecoins: Market Structure & Settlement Layer | DCM Core</title>
+    <link rel="canonical" href="https://dcmcore.com/en/observatory/stablecoins-institutional.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/observatory/stablecoins-institutional.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/observatory/stablecoins-institutionnels.html" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-stable: #0ea5e9;
+            --accent-usdc: #2775ca;
+            --accent-usdt: #26a17b;
+            --glass-bg: rgba(15, 23, 42, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+            background-image: radial-gradient(circle at 50% -20%, rgba(14, 165, 233, 0.15), transparent 50%);
+        }
+
+        .container-obs {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .hero-obs {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .badge-obs {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 100px;
+            color: var(--accent-stable);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: linear-gradient(to bottom, #fff 40%, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .meta-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 35px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-stable);
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-family: 'Outfit';
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        /* SECTION TILES */
+        .obs-section {
+            padding: 100px 0;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .section-header {
+            max-width: 800px;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            color: var(--accent-stable);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* INFRASTRUCTURE TABLE */
+        .infra-table-wrapper {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .infra-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .infra-table th {
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .infra-table td {
+            padding: 24px;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 15px;
+        }
+
+        .coin-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-family: 'Outfit';
+        }
+
+        .coin-logo i {
+            font-size: 24px;
+        }
+
+        .tag-pill {
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tag-usdc { background: rgba(39, 117, 202, 0.1); color: var(--accent-usdc); }
+        .tag-usdt { background: rgba(38, 161, 123, 0.1); color: var(--accent-usdt); }
+
+        /* TFIN BOX */
+        .tfin-card {
+            background: #000;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+        }
+
+        .tfin-card::after {
+            content: 'VERIFIED GTSR';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 10px;
+            color: #10b981;
+            border: 1px solid #10b981;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .tfin-id {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .terminal-text {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .container-obs { padding: 0 20px; }
+            h1 { font-size: 42px; }
+            h2 { font-size: 32px; }
+            .infra-table-wrapper { overflow-x: auto; }
+            .infra-table { min-width: 800px; }
+        }
+    </style>
+    <script src="../js/global-footer.js"></script>
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../js/navigation-hub.js"></script>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+
+        <div class="nav-pillars">
+            <!-- Dimension 1: Research Programs -->
+            <div class="pillar-item">
+                <a href="../../en/research-programs/index.html" class="pillar-link">Research Programs</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Flagship Research</div>
+                    <a href="../../en/research/global-tokenization-report.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-crown" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">Global Tokenization Report 2026</span><span
+                                class="link-desc">Our definitive institutional market audit</span></div>
+                    </a>
+                    <div class="dropdown-header">Frameworks & Protocols</div>
+                    <a href="../../en/research/programmable-capital-markets/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-microchip" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Programmable Capital Markets (PCM)</span><span
+                                class="link-desc">Conceptual framework and technical architecture</span></div>
+                    </a>
+                    <a href="../../en/research/the-emergence-of-tokenized-capital-markets.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-invoice" style="color:#6366f1;"></i></div>
+                        <div class="link-text"><span class="link-title">Whitepaper: The Emergence</span><span
+                                class="link-desc">Institutional analysis of tokenized markets</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 3: Observatory -->
+            <div class="pillar-item">
+                <a href="../../en/observatory/index.html" class="pillar-link">Observatory</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Global Data Platform</div>
+                    <a href="../../en/observatory/stablecoins-institutional.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-coins" style="color:var(--accent-stable);"></i></div>
+                        <div class="link-text"><span class="link-title">Institutional Stablecoins</span><span
+                                class="link-desc">Market structure & settlement layer monitor</span></div>
+                    </a>
+                    <a href="../../en/observatory/tokenized-markets.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-chart-line" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Market Dashboard</span><span
+                                class="link-desc">Live capitalization & volume tracking</span></div>
+                    </a>
+                    <a href="../../en/observatory/tokenized-securities-database.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-database" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Securities Database</span><span
+                                class="link-desc">Standardized multi-ledger asset directory</span></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="../../fr/observatory/stablecoins-institutionnels.html" class="lang-link">FR</a>
+                <a href="stablecoins-institutional.html" class="lang-link active">EN</a>
+            </div>
+            <a href="../../en/login.html" class="auth-btn">Auth</a>
+            <button class="connect-btn">Connect</button>
+        </div>
+    </nav>
+
+    <header class="hero-obs container-obs" data-aos="fade-up">
+        <div class="badge-obs"><i class="fas fa-landmark"></i> Monetary Layer Intelligence</div>
+        <h1>Institutional Stablecoins:<br>Structure & Settlement</h1>
+        <p style="color: #94a3b8; max-width: 800px; margin: 0 auto 40px; font-size: 19px; line-height: 1.6;">
+            The Institute’s primary observatory for Fiat-Collateralized Digital Currency. Monitoring the systemic infrastructure of USDT, USDC, and regulated Euro-stablecoins for global banks and regulators.
+        </p>
+    </header>
+
+    <main class="container-obs">
+        <!-- BRICK 1: MARKET OVERVIEW -->
+        <div class="meta-stats" data-aos="fade-up">
+            <div class="stat-card">
+                <span class="stat-value">$162.4B</span>
+                <span class="stat-label">Total Stablecoin Liquidity</span>
+            </div>
+            <div class="stat-card" style="border-top: 4px solid var(--accent-usdt);">
+                <span class="stat-value">68.2%</span>
+                <span class="stat-label">USDT Dominance Index</span>
+            </div>
+            <div class="stat-card" style="border-top: 4px solid var(--accent-usdc);">
+                <span class="stat-value">22.4%</span>
+                <span class="stat-label">USDC Institutional Weight</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">4.8x</span>
+                <span class="stat-label">Settlement Velocity vs CBDC</span>
+            </div>
+        </div>
+
+        <!-- SECTION 2: INFRASTRUCTURE ANALYSIS -->
+        <section class="obs-section" id="infrastructure" data-aos="fade-up">
+            <div class="section-header">
+                <span class="section-tag">Infrastructure Audit</span>
+                <h2>Global Reserve & Ledger Analysis</h2>
+                <p style="color: #94a3b8;">A comparative matrix of the world’s most liquid settlement instruments, evaluating reserve transparency, multi-chain resilience, and institutional utility.</p>
+            </div>
+
+            <div class="infra-table-wrapper">
+                <table class="infra-table">
+                    <thead>
+                        <tr>
+                            <th>Stablecoin</th>
+                            <th>Model</th>
+                            <th>Primary Reserve</th>
+                            <th>Blockchain Focus</th>
+                            <th>Institutional Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="coin-logo"><i class="fas fa-circle-nodes" style="color:var(--accent-usdt);"></i> USDT (Tether)</div>
+                            </td>
+                            <td><span class="tag-pill">Off-shore / Managed</span></td>
+                            <td>Mixed (Bonds, Cash, Loans)</td>
+                            <td>Tron / Ethereum / Solana</td>
+                            <td>High-Frequency Trading / Remittance</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="coin-logo"><i class="fas fa-dollar-sign" style="color:var(--accent-usdc);"></i> USDC (Circle)</div>
+                            </td>
+                            <td><span class="tag-pill tag-usdc">Regulated / Audited</span></td>
+                            <td>100% Cash & US Treasuries</td>
+                            <td>Ethereum / Base / Canton</td>
+                            <td>DeFi / Institutional Settlement</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="coin-logo"><i class="fas fa-euro-sign" style="color:#3b82f6;"></i> EURC (Circle)</div>
+                            </td>
+                            <td><span class="tag-pill tag-usdc">MiCA Compliant</span></td>
+                            <td>Regulated Euro Reserves</td>
+                            <td>Ethereum / Avalanche</td>
+                            <td>Cross-Border Trade Finance</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="coin-logo"><i class="fas fa-building-columns" style="color:var(--accent-stable);"></i> PYUSD (PayPal)</div>
+                            </td>
+                            <td><span class="tag-pill">Regulated / Retail</span></td>
+                            <td>Cash Equivalents</td>
+                            <td>Ethereum / Solana</td>
+                            <td>Merchant Payments / Treasury</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 3: REGULATORY POSITIONING -->
+        <section class="obs-section" id="regulation" data-aos="fade-up">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+                <div>
+                    <span class="section-tag">Regulatory Mapping</span>
+                    <h2>The MiCA / US GAAP Convergence</h2>
+                    <p style="color: #94a3b8; margin-bottom: 30px;">
+                        The institutionalization of stablecoins is defined by their regulatory "Finality." We track the divergence between off-shore liquidity models and audited, treasury-backed instruments.
+                    </p>
+                    <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 25px; border-radius: 16px;">
+                        <h4 style="color:#10b981; margin-bottom:10px;"><i class="fas fa-shield-check"></i> MiCA Compliance Matrix</h4>
+                        <ul style="color:#94a3b8; font-size:14px; padding-left:20px;">
+                            <li>Asset-Referenced Tokens (ART) status for USDC.</li>
+                            <li>E-Money Token (EMT) issuance requirements in the Eurozone.</li>
+                            <li>Reserve segregation and liquidity ratios (30-60% liquid assets).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="background: var(--glass-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--glass-border);">
+                    <h3 style="font-family:'Outfit'; font-size:24px; margin-bottom:20px;">Settlement Layer Role</h3>
+                    <p style="color: #94a3b8; font-size:15px; margin-bottom:25px;">
+                        Institutional stablecoins are bypassing traditional rails to become the **Programmable Settlement Layer** for RWAs.
+                    </p>
+                    <div style="display:flex; flex-direction:column; gap:15px;">
+                        <div style="display:flex; justify-content:space-between; font-size:13px;">
+                            <span>vs. CBDC (Retail)</span>
+                            <span style="color:var(--accent-stable);">Stablecoin Superiority +420%</span>
+                        </div>
+                        <div style="height:4px; background:rgba(255,255,255,0.05); border-radius:4px;">
+                            <div style="width:85%; height:100%; background:var(--accent-stable); border-radius:4px;"></div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:13px; margin-top:5px;">
+                            <span>vs. Tokenized Deposits</span>
+                            <span style="color:var(--accent-stable);">Open Interoperability</span>
+                        </div>
+                        <div style="height:4px; background:rgba(255,255,255,0.05); border-radius:4px;">
+                            <div style="width:65%; height:100%; background:var(--accent-stable); border-radius:4px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: GTDS / TFIN MAPPING -->
+        <section class="obs-section" id="standards" style="margin-bottom: 100px;" data-aos="fade-up">
+            <div class="section-header">
+                <span class="section-tag">DCM Standards</span>
+                <h2>TFIN Mapping for Monetary Assets</h2>
+                <p style="color: #94a3b8;">Standardizing stablecoin identification under the Tokenized Financial Instrument Number (TFIN) framework for institutional automated execution.</p>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:30px;">
+                <div class="tfin-card">
+                    <span class="terminal-text">// DCM-STABLE-MAP</span>
+                    <span class="tfin-id">TFIN-USDC-ETH-2024</span>
+                    <p class="terminal-text">Asset: Circle USD Coin<br>Network: Ethereum Mainnet<br>Audit: Deloitte (Monthly)</p>
+                </div>
+                <div class="tfin-card">
+                    <span class="terminal-text">// DCM-STABLE-MAP</span>
+                    <span class="tfin-id">TFIN-USDT-TRX-2024</span>
+                    <p class="terminal-text">Asset: Tether USDt<br>Network: TRON Network<br>Audit: BDO (Attestation)</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <global-footer base-path="../"></global-footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+
+</html>

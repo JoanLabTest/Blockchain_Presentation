@@ -117,6 +117,7 @@ window.DCM = {
         console.table([
             { Command: "DCM.query({issuer: 'BlackRock'})", Description: "Filter by issuer" },
             { Command: "DCM.query({type: 'Bond'})", Description: "Filter by asset type" },
+            { Command: "DCM.query({command: '/stablecoins'})", Description: "Stablecoin Dominance" },
             { Command: "DCM.stats()", Description: "System telemetry" }
         ]);
         return "Terminal API ready.";
@@ -133,7 +134,7 @@ function initQueryEngine() {
         
         // CLI COMMAND HANDLING
         if (query === 'help') {
-            displayTerminalMessage("DCM TERMINAL COMMANDS:\nhelp - Show this guide\n/all - List all assets\n/clear - Reset Terminal\n/stats - System telemetry", "#3b82f6");
+            displayTerminalMessage("DCM TERMINAL COMMANDS:\nhelp - Show this guide\n/all - List all assets\n/stablecoins - Market Dominance & Flows\n/clear - Reset Terminal\n/stats - System telemetry", "#3b82f6");
             return;
         }
 
@@ -145,6 +146,11 @@ function initQueryEngine() {
 
         if (query === '/all') {
             displayTerminalMessage("Showing all verified institutional assets (" + GTSR_DATABASE.length + " entries).", "#10b981");
+            return;
+        }
+
+        if (query === '/stablecoins') {
+            displayTerminalMessage("INSTITUTIONAL STABLECOIN MONITOR:\nDominance: USDT (71.2%) | USDC (19.4%) | PYUSD (1.8%)\nTotal MkCap: $164.2B | Active Flows: +8.4% MoM\nStatus: High Liquidity / MiCA Compliance Pending", "#a855f7");
             return;
         }
 
