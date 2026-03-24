@@ -85,22 +85,39 @@
     function showBanner() {
         if (document.getElementById('dcm-cookie-banner')) return;
 
+        // Detect language from URL or HTML lang attribute
+        const isFR = window.location.pathname.includes('/fr/') || document.documentElement.lang === 'fr';
+        
+        const content = isFR ? {
+            text: "Ce site utilise des cookies analytiques (GA4) pour mesurer l'audience et améliorer l'expérience.",
+            link: "En savoir plus",
+            refuse: "Refuser",
+            accept: "Accepter",
+            label: "Gestion des cookies"
+        } : {
+            text: "This site uses analytical cookies (GA4) to measure audience and improve your experience.",
+            link: "Learn more",
+            refuse: "Decline",
+            accept: "Accept",
+            label: "Cookie Management"
+        };
+
         const banner = document.createElement('div');
         banner.id = 'dcm-cookie-banner';
         banner.setAttribute('role', 'dialog');
-        banner.setAttribute('aria-label', 'Gestion des cookies');
+        banner.setAttribute('aria-label', content.label);
         banner.innerHTML = `
             <div class="dcm-cb-inner">
                 <div class="dcm-cb-text">
                     <i class="fas fa-shield-alt" style="color:#3b82f6; margin-right:8px;"></i>
                     <span>
-                        Ce site utilise des cookies analytiques (GA4) pour mesurer l'audience et améliorer l'expérience.
-                        <a href="cookies.html" style="color:#3b82f6; text-decoration:underline;">En savoir plus</a>
+                        ${content.text}
+                        <a href="cookies.html" style="color:#3b82f6; text-decoration:underline;">${content.link}</a>
                     </span>
                 </div>
                 <div class="dcm-cb-actions">
-                    <button id="dcm-cb-refuse" class="dcm-cb-btn dcm-cb-btn-secondary">Refuser</button>
-                    <button id="dcm-cb-accept" class="dcm-cb-btn dcm-cb-btn-primary">Accepter</button>
+                    <button id="dcm-cb-refuse" class="dcm-cb-btn dcm-cb-btn-secondary">${content.refuse}</button>
+                    <button id="dcm-cb-accept" class="dcm-cb-btn dcm-cb-btn-primary">${content.accept}</button>
                 </div>
             </div>
         `;
