@@ -40,7 +40,7 @@
         :root {
             --accent-board: #3b82f6;
             --accent-science: #a855f7;
-            --glass-bg: rgba(15, 23, 42, 0.85);
+            --glass-bg: rgba(15, 23, 42, 0.6);
             --glass-border: rgba(255, 255, 255, 0.08);
             --slate-800: #1e293b;
             --slate-900: #0f172a;
@@ -50,33 +50,37 @@
             background-color: #020617;
             color: #f8fafc;
             font-family: 'Inter', sans-serif;
-            padding-top: 80px;
+            padding-top: 100px;
         }
 
         .gov-hero {
-            padding: 120px 20px 80px;
+            padding: 80px 20px 80px;
             text-align: center;
             background: radial-gradient(circle at center, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
         }
 
         .section-label {
-            font-family: 'JetBrains Mono';
+            font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             color: var(--accent-board);
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: inline-block;
         }
 
         .page-title {
-            font-family: 'Outfit';
+            font-family: 'Outfit', sans-serif;
             font-size: clamp(40px, 6vw, 72px);
             font-weight: 800;
             letter-spacing: -3px;
             margin-bottom: 24px;
             color: #fff;
+            background: linear-gradient(to bottom, #fff, #94a3b8);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .page-subtitle {
@@ -88,14 +92,6 @@
             font-weight: 300;
         }
 
-        /* Expert Grid */
-        .board-container {
-            max-width: 1200px;
-            margin: 0 auto 120px;
-            padding: 0 20px;
-        }
-
-        /* Institutional Network Grid */
         .institutional-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -104,21 +100,33 @@
         }
 
         .inst-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 30px;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            backdrop-filter: blur(20px);
         }
 
         .inst-card:hover {
-            background: rgba(59, 130, 246, 0.05);
+            background: rgba(59, 130, 246, 0.08);
             border-color: var(--accent-board);
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .inst-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
         }
 
         .inst-logo {
