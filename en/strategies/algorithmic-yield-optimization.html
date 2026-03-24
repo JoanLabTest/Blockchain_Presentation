@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Algorithmic Yield Optimization | DCM Core Institute</title>
-  <meta name="description" content="Institutional analysis of volatility harvesting models and systematic carry trade strategies on tokenized liquidity pools. DCM Core Institute 2026.">
-  <link rel="canonical" href="https://dcmcore.com/en/strategies/algorithmic-yield-optimization.html">
-  <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/strategies/optimisation-algorithmique-yield.html">
-  <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/strategies/algorithmic-yield-optimization.html">
 
-  <script type="application/ld+json">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithmic Yield Optimization | DCM Core Institute</title>
+    <meta name="description"
+        content="Institutional analysis of volatility harvesting models and systematic carry trade strategies on tokenized liquidity pools. DCM Core Institute 2026.">
+    <link rel="canonical" href="https://dcmcore.com/en/strategies/algorithmic-yield-optimization.html">
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/strategies/optimisation-algorithmique-yield.html">
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/strategies/algorithmic-yield-optimization.html">
+
+    <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -21,7 +23,7 @@
   }
   </script>
 
-  <script type="application/ld+json">
+    <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -55,709 +57,1248 @@
   }
   </script>
 
-  <style>
-    :root {
-      --bg: #0a0e1a;
-      --bg-card: #0f1524;
-      --bg-card2: #131929;
-      --border: rgba(99, 179, 237, 0.12);
-      --border-bright: rgba(99, 179, 237, 0.3);
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --accent: #63b3ed;
-      --accent2: #7c3aed;
-      --accent3: #10b981;
-      --accent-warm: #f59e0b;
-      --red: #ef4444;
-      --font-sans: 'DM Sans', 'IBM Plex Sans', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
-      --font-serif: 'Playfair Display', Georgia, serif;
-    }
+    <style>
+        :root {
+            --bg: #0a0e1a;
+            --bg-card: #0f1524;
+            --bg-card2: #131929;
+            --border: rgba(99, 179, 237, 0.12);
+            --border-bright: rgba(99, 179, 237, 0.3);
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --accent: #63b3ed;
+            --accent2: #7c3aed;
+            --accent3: #10b981;
+            --accent-warm: #f59e0b;
+            --red: #ef4444;
+            --font-sans: 'DM Sans', 'IBM Plex Sans', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+            --font-serif: 'Playfair Display', Georgia, serif;
+        }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-sans);
-      font-size: 16px;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            font-size: 16px;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    /* NAV */
-    .navbar {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(10,14,26,0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex; align-items: center; gap: 2rem; height: 56px;
-    }
-    .nav-logo { font-size: 13px; font-weight: 600; color: var(--text); text-decoration: none; white-space: nowrap; }
-    .nav-breadcrumb { font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
-    .nav-breadcrumb a { color: var(--text-dim); text-decoration: none; }
-    .nav-breadcrumb a:hover { color: var(--accent); }
-    .nav-sep { color: var(--text-dim); }
-    .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-    .lang-btn { font-size: 12px; padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); text-decoration: none; }
-    .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .lang-active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        /* NAV */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 14, 26, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            height: 56px;
+        }
 
-    /* HERO */
-    .hero {
-      padding: 72px 2rem 56px;
-      max-width: 960px; margin: 0 auto;
-      position: relative;
-    }
-    .hero-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); padding: 5px 12px;
-      border: 1px solid rgba(99,179,237,0.25); border-radius: 99px;
-      margin-bottom: 24px;
-    }
-    .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .nav-logo {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            white-space: nowrap;
+        }
 
-    .hero h1 {
-      font-family: var(--font-serif);
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 700;
-      line-height: 1.2;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-    .hero h1 span { color: var(--accent); }
+        .nav-breadcrumb {
+            font-size: 12px;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-    .hero-sub {
-      font-size: 17px; color: var(--text-muted);
-      max-width: 640px; margin-bottom: 36px; line-height: 1.7;
-    }
+        .nav-breadcrumb a {
+            color: var(--text-dim);
+            text-decoration: none;
+        }
 
-    .hero-metrics {
-      display: flex; gap: 32px; flex-wrap: wrap;
-      padding: 24px 28px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 48px;
-    }
-    .metric { text-align: center; }
-    .metric-val { font-size: 22px; font-weight: 700; color: var(--accent); font-family: var(--font-mono); }
-    .metric-val.green { color: var(--accent3); }
-    .metric-val.amber { color: var(--accent-warm); }
-    .metric-lbl { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+        .nav-breadcrumb a:hover {
+            color: var(--accent);
+        }
 
-    /* TOC */
-    .toc {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 20px 24px; margin-bottom: 48px;
-    }
-    .toc-title { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
-    .toc-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 20px; }
-    .toc-list li a { font-size: 13px; color: var(--text-muted); text-decoration: none; }
-    .toc-list li a:hover { color: var(--accent); }
+        .nav-sep {
+            color: var(--text-dim);
+        }
 
-    /* CONTENT */
-    .content { max-width: 960px; margin: 0 auto; padding: 0 2rem 80px; }
+        .nav-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    .section { margin-bottom: 64px; scroll-margin-top: 72px; }
+        .lang-btn {
+            font-size: 12px;
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-muted);
+            text-decoration: none;
+        }
 
-    .section-label {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 12px;
-    }
-    .section h2 {
-      font-family: var(--font-serif);
-      font-size: 1.75rem; font-weight: 700; color: #fff;
-      margin-bottom: 16px; line-height: 1.3;
-    }
-    .section p { color: var(--text-muted); margin-bottom: 16px; }
-    .section strong { color: var(--text); font-weight: 600; }
+        .lang-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
 
-    /* CARDS GRID */
-    .cards-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
-    .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
-    @media (max-width: 700px) { .cards-2, .cards-3 { grid-template-columns: 1fr; } }
+        .lang-active {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
 
-    .card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 20px 22px;
-    }
-    .card:hover { border-color: var(--border-bright); }
-    .card-icon { font-size: 20px; margin-bottom: 10px; }
-    .card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-    .card-body { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
-    .card-tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
-    .tag-blue { background: rgba(99,179,237,0.12); color: var(--accent); border: 1px solid rgba(99,179,237,0.2); }
-    .tag-green { background: rgba(16,185,129,0.1); color: var(--accent3); border: 1px solid rgba(16,185,129,0.2); }
-    .tag-amber { background: rgba(245,158,11,0.1); color: var(--accent-warm); border: 1px solid rgba(245,158,11,0.2); }
-    .tag-purple { background: rgba(124,58,237,0.1); color: #a78bfa; border: 1px solid rgba(124,58,237,0.2); }
-    .tag-red { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+        /* HERO */
+        .hero {
+            padding: 72px 2rem 56px;
+            max-width: 960px;
+            margin: 0 auto;
+            position: relative;
+        }
 
-    /* FORMULA BLOCK */
-    .formula {
-      background: #0d1117; border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 8px; padding: 20px 24px;
-      font-family: var(--font-mono); font-size: 14px;
-      color: #93c5fd; margin: 20px 0; overflow-x: auto;
-    }
-    .formula-title { font-size: 11px; color: var(--text-dim); font-family: var(--font-sans); margin-bottom: 10px; letter-spacing: 0.06em; text-transform: uppercase; }
-    .formula-var { color: #7dd3fc; }
-    .formula-op { color: #f9a8d4; }
-    .formula-comment { color: #475569; }
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            padding: 5px 12px;
+            border: 1px solid rgba(99, 179, 237, 0.25);
+            border-radius: 99px;
+            margin-bottom: 24px;
+        }
 
-    /* TABLE */
-    .table-wrap { overflow-x: auto; margin: 20px 0; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { background: var(--bg-card2); color: var(--text-dim); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
-    td { padding: 10px 14px; border-bottom: 1px solid rgba(99,179,237,0.06); color: var(--text-muted); vertical-align: top; }
-    tr:last-child td { border-bottom: none; }
-    td strong { color: var(--text); }
+        .hero-tag::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
 
-    /* RISK MATRIX */
-    .risk-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin: 20px 0; }
-    .risk-cell {
-      padding: 12px 14px;
-      border-radius: 4px;
-      font-size: 12px;
-    }
-    .risk-low { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); }
-    .risk-med { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.15); }
-    .risk-high { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); }
-    .risk-cell .risk-name { font-weight: 600; color: var(--text); margin-bottom: 3px; }
-    .risk-cell .risk-desc { color: var(--text-dim); font-size: 11px; }
+        @keyframes pulse {
 
-    /* COMING SOON BANNER */
-    .coming-soon {
-      background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(99,179,237,0.06));
-      border: 1px solid rgba(124,58,237,0.2);
-      border-radius: 12px; padding: 32px 36px; margin: 32px 0;
-      text-align: center;
-    }
-    .coming-soon h3 { font-size: 18px; color: #fff; margin-bottom: 10px; }
-    .coming-soon p { font-size: 14px; color: var(--text-muted); max-width: 520px; margin: 0 auto 20px; }
-    .coming-soon-features { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
-    .cs-feature { font-size: 12px; padding: 6px 14px; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2); border-radius: 99px; color: #a78bfa; }
-    .cs-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 4px 12px; background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3); border-radius: 99px; color: #a78bfa; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+            0%,
+            100% {
+                opacity: 1;
+            }
 
-    /* HIGHLIGHT BOX */
-    .highlight {
-      background: rgba(99,179,237,0.05); border: 1px solid rgba(99,179,237,0.15);
-      border-left: 3px solid var(--accent);
-      border-radius: 8px; padding: 16px 20px; margin: 20px 0;
-    }
-    .highlight p { color: var(--text-muted); font-size: 14px; margin: 0; }
-    .highlight strong { color: var(--accent); }
+            50% {
+                opacity: 0.4;
+            }
+        }
 
-    /* REGULATORY BOX */
-    .reg-box {
-      background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.15);
-      border-radius: 10px; padding: 20px 24px; margin: 24px 0;
-    }
-    .reg-box-title { font-size: 13px; font-weight: 600; color: var(--accent-warm); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-    .reg-box p { font-size: 13px; color: var(--text-muted); margin: 0; }
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: #fff;
+            margin-bottom: 20px;
+        }
 
-    /* FAQ */
-    .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
-    .faq-item:last-child { border-bottom: none; }
-    .faq-q { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; cursor: pointer; }
-    .faq-q:hover { color: var(--accent); }
-    .faq-a { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+        .hero h1 span {
+            color: var(--accent);
+        }
 
-    /* FOOTER NAV */
-    .footer-nav {
-      border-top: 1px solid var(--border); padding: 32px 2rem;
-      max-width: 960px; margin: 0 auto;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-    }
-    .footer-nav a { font-size: 13px; color: var(--text-muted); text-decoration: none; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; }
-    .footer-nav a:hover { border-color: var(--accent); color: var(--accent); }
+        .hero-sub {
+            font-size: 17px;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin-bottom: 36px;
+            line-height: 1.7;
+        }
 
-    /* DIVIDER */
-    hr.sec-div { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+        .hero-metrics {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            padding: 24px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 48px;
+        }
 
-    /* INTERACTIVE CHART PLACEHOLDER */
-    .chart-placeholder {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 24px;
-      margin: 20px 0; position: relative; overflow: hidden;
-    }
-    .chart-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
-    .chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 100px; }
-    .bar {
-      flex: 1; border-radius: 4px 4px 0 0;
-      background: var(--accent); opacity: 0.7;
-      transition: opacity 0.2s;
-      cursor: pointer;
-    }
-    .bar:hover { opacity: 1; }
-    .bar.green { background: var(--accent3); }
-    .bar.amber { background: var(--accent-warm); }
-    .bar.red { background: var(--red); }
-    .chart-labels { display: flex; gap: 8px; margin-top: 8px; }
-    .chart-label { flex: 1; font-size: 10px; color: var(--text-dim); text-align: center; }
-    .chart-overlay {
-      position: absolute; top: 8px; right: 12px;
-      font-size: 10px; padding: 3px 8px;
-      background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2);
-      border-radius: 99px; color: var(--accent-warm);
-    }
-  </style>
+        .metric {
+            text-align: center;
+        }
+
+        .metric-val {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: var(--font-mono);
+        }
+
+        .metric-val.green {
+            color: var(--accent3);
+        }
+
+        .metric-val.amber {
+            color: var(--accent-warm);
+        }
+
+        .metric-lbl {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+
+        /* TOC */
+        .toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 48px;
+        }
+
+        .toc-title {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+        }
+
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 20px;
+        }
+
+        .toc-list li a {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .toc-list li a:hover {
+            color: var(--accent);
+        }
+
+        /* CONTENT */
+        .content {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 2rem 80px;
+        }
+
+        .section {
+            margin-bottom: 64px;
+            scroll-margin-top: 72px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .section h2 {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .section p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .section strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* CARDS GRID */
+        .cards-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .cards-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 700px) {
+
+            .cards-2,
+            .cards-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 22px;
+        }
+
+        .card:hover {
+            border-color: var(--border-bright);
+        }
+
+        .card-icon {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .card-body {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .card-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 99px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .tag-blue {
+            background: rgba(99, 179, 237, 0.12);
+            color: var(--accent);
+            border: 1px solid rgba(99, 179, 237, 0.2);
+        }
+
+        .tag-green {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent3);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .tag-amber {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-warm);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .tag-purple {
+            background: rgba(124, 58, 237, 0.1);
+            color: #a78bfa;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .tag-red {
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        /* FORMULA BLOCK */
+        .formula {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 20px 24px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: #93c5fd;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .formula-title {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-family: var(--font-sans);
+            margin-bottom: 10px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .formula-var {
+            color: #7dd3fc;
+        }
+
+        .formula-op {
+            color: #f9a8d4;
+        }
+
+        .formula-comment {
+            color: #475569;
+        }
+
+        /* TABLE */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            background: var(--bg-card2);
+            color: var(--text-dim);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(99, 179, 237, 0.06);
+            color: var(--text-muted);
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td strong {
+            color: var(--text);
+        }
+
+        /* RISK MATRIX */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            margin: 20px 0;
+        }
+
+        .risk-cell {
+            padding: 12px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .risk-low {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .risk-med {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+
+        .risk-high {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+        }
+
+        .risk-cell .risk-name {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+
+        .risk-cell .risk-desc {
+            color: var(--text-dim);
+            font-size: 11px;
+        }
+
+        /* COMING SOON BANNER */
+        .coming-soon {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(99, 179, 237, 0.06));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .coming-soon h3 {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .coming-soon p {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 520px;
+            margin: 0 auto 20px;
+        }
+
+        .coming-soon-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .cs-feature {
+            font-size: 12px;
+            padding: 6px 14px;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 99px;
+            color: #a78bfa;
+        }
+
+        .cs-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 99px;
+            color: #a78bfa;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        /* HIGHLIGHT BOX */
+        .highlight {
+            background: rgba(99, 179, 237, 0.05);
+            border: 1px solid rgba(99, 179, 237, 0.15);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 20px 0;
+        }
+
+        .highlight p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .highlight strong {
+            color: var(--accent);
+        }
+
+        /* REGULATORY BOX */
+        .reg-box {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 24px 0;
+        }
+
+        .reg-box-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-warm);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reg-box p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* FAQ */
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-q {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .faq-q:hover {
+            color: var(--accent);
+        }
+
+        .faq-a {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* FOOTER NAV */
+        .footer-nav {
+            border-top: 1px solid var(--border);
+            padding: 32px 2rem;
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav a {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .footer-nav a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* DIVIDER */
+        hr.sec-div {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 48px 0;
+        }
+
+        /* INTERACTIVE CHART PLACEHOLDER */
+        .chart-placeholder {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 100px;
+        }
+
+        .bar {
+            flex: 1;
+            border-radius: 4px 4px 0 0;
+            background: var(--accent);
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            cursor: pointer;
+        }
+
+        .bar:hover {
+            opacity: 1;
+        }
+
+        .bar.green {
+            background: var(--accent3);
+        }
+
+        .bar.amber {
+            background: var(--accent-warm);
+        }
+
+        .bar.red {
+            background: var(--red);
+        }
+
+        .chart-labels {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .chart-label {
+            flex: 1;
+            font-size: 10px;
+            color: var(--text-dim);
+            text-align: center;
+        }
+
+        .chart-overlay {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 10px;
+            padding: 3px 8px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 99px;
+            color: var(--accent-warm);
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <a href="https://dcmcore.com/en/index.html" class="nav-logo">DCM Core Institute</a>
-  <div class="nav-breadcrumb">
-    <a href="https://dcmcore.com/en/index.html">Home</a>
-    <span class="nav-sep">›</span>
-    <a href="https://dcmcore.com/en/strategies/index.html">Strategies</a>
-    <span class="nav-sep">›</span>
-    <span style="color: var(--text-muted);">Algorithmic Yield Optimization</span>
-  </div>
-  <div class="nav-right">
-    <a href="https://dcmcore.com/en/strategies/algorithmic-yield-optimization.html" class="lang-btn lang-active">🇬🇧 EN</a>
-    <a href="https://dcmcore.com/fr/strategies/optimisation-algorithmique-yield.html" class="lang-btn">🇫🇷 FR</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-tag">Structured · Quantitative · Institutional</div>
-  <h1>Algorithmic <span>Yield</span><br>Optimization</h1>
-  <p class="hero-sub">
-    Advanced <strong style="color:var(--text)">volatility harvesting</strong> models and systematic
-    <strong style="color:var(--text)">carry trade</strong> strategies on tokenized liquidity pools.
-    A quantitative approach to income generation across digital assets.
-  </p>
-
-  <div class="hero-metrics">
-    <div class="metric">
-      <div class="metric-val">2–12%</div>
-      <div class="metric-lbl">Target APY (net of fees)</div>
-    </div>
-    <div class="metric">
-      <div class="metric-val green">Δ-Neutral</div>
-      <div class="metric-lbl">Directional exposure</div>
-    </div>
-    <div class="metric">
-      <div class="metric-val amber">T+0</div>
-      <div class="metric-lbl">AMM Pool Liquidity</div>
-    </div>
-    <div class="metric">
-      <div class="metric-val">MiCA</div>
-      <div class="metric-lbl">EU Regulatory Framework</div>
-    </div>
-  </div>
-
-  <!-- TOC -->
-  <div class="toc">
-    <div class="toc-title">Analysis Overview</div>
-    <ul class="toc-list">
-      <li><a href="#section-1">1. Theoretical Foundations</a></li>
-      <li><a href="#section-2">2. Volatility Harvesting</a></li>
-      <li><a href="#section-3">3. Tokenized Carry Trade</a></li>
-      <li><a href="#section-4">4. Delta-Neutral Strategies</a></li>
-      <li><a href="#section-5">5. Impermanent Loss</a></li>
-      <li><a href="#section-6">6. Risk Matrix</a></li>
-      <li><a href="#section-7">7. MiCA Regulatory Framework</a></li>
-      <li><a href="#section-8">8. FAQ</a></li>
-    </ul>
-  </div>
-</div>
-
-<!-- CONTENT -->
-<div class="content">
-
-  <!-- SECTION 1 -->
-  <div class="section" id="section-1">
-    <div class="section-label">Foundations</div>
-    <h2>1. Principles of Algorithmic Optimization</h2>
-    <p>
-      Algorithmic yield optimization is based on a fundamental principle:
-      <strong>tokenized financial markets create structural inefficiencies
-      that systematic quantitative models can capture repeatedly</strong>,
-      regardless of price direction.
-    </p>
-    <p>
-      Unlike directional strategies (buying ETH and hoping it goes up),
-      algorithmic approaches aim to extract value from <em>market mechanics</em>:
-      implied/realized volatility spreads, interest rate differentials between protocols,
-      and liquidity premiums on AMM pools.
-    </p>
-
-    <div class="cards-3">
-      <div class="card">
-        <div class="card-tag tag-blue">Theoretical</div>
-        <div class="card-title">Variance Premium</div>
-        <div class="card-body">Implied volatility systematically exceeds realized volatility on crypto assets. This spread constitutes a premium captureable by systematic option selling.</div>
-      </div>
-      <div class="card">
-        <div class="card-tag tag-green">Structural</div>
-        <div class="card-title">Rate Differential</div>
-        <div class="card-body">DeFi protocols exhibit variable rates determined by liquidity supply/demand. Systematic arbitrage between protocols generates positive carry.</div>
-      </div>
-      <div class="card">
-        <div class="card-tag tag-amber">Mechanical</div>
-        <div class="card-title">AMM Liquidity Premium</div>
-        <div class="card-body">AMM pools pay 100% of transaction fees to liquidity providers. In volatile markets, these fees can significantly exceed bond yields.</div>
-      </div>
-    </div>
-  </div>
-
-  <hr class="sec-div">
-
-  <!-- SECTION 2 -->
-  <div class="section" id="section-2">
-    <div class="section-label">Core Strategy</div>
-    <h2>2. Volatility Harvesting on Tokenized Assets</h2>
-    <p>
-      <strong>Volatility harvesting</strong> exploits the variance risk premium —
-      the fact that markets systematically pay more for implied volatility
-      than volatility realized ex-post. On tokenized crypto markets,
-      this spread is particularly pronounced due to the high demand for hedging.
-    </p>
-
-    <div class="formula">
-      <div class="formula-title">Variance Premium Capture Model</div>
-      <span class="formula-var">P_variance</span> <span class="formula-op">=</span> <span class="formula-var">σ_impl²</span> <span class="formula-op">−</span> <span class="formula-var">σ_real²</span><br>
-      <br>
-      <span class="formula-comment">// On ETH: σ_impl ≈ 65–80% annualized vs σ_real ≈ 55–65%</span><br>
-      <span class="formula-comment">// Structural premium ≈ 10–15 variance points</span><br>
-      <br>
-      <span class="formula-var">Yield_VH</span> <span class="formula-op">=</span> <span class="formula-var">P_variance</span> <span class="formula-op">×</span> <span class="formula-var">N_contracts</span> <span class="formula-op">×</span> <span class="formula-var">V_notional</span>
-    </div>
-
-    <div class="chart-placeholder">
-      <div class="chart-overlay">DCM Core Simulation</div>
-      <div class="chart-title">Implied vs Realized Volatility — ETH (simulated)</div>
-      <div class="chart-bars">
-        <div class="bar" style="height:75%"></div>
-        <div class="bar green" style="height:62%"></div>
-        <div class="bar" style="height:80%"></div>
-        <div class="bar green" style="height:67%"></div>
-        <div class="bar" style="height:72%"></div>
-        <div class="bar green" style="height:58%"></div>
-        <div class="bar" style="height:85%"></div>
-        <div class="bar green" style="height:70%"></div>
-        <div class="bar" style="height:78%"></div>
-        <div class="bar green" style="height:63%"></div>
-        <div class="bar" style="height:68%"></div>
-        <div class="bar green" style="height:55%"></div>
-      </div>
-      <div class="chart-labels">
-        <div class="chart-label">Jan</div><div class="chart-label">Feb</div>
-        <div class="chart-label">Mar</div><div class="chart-label">Apr</div>
-        <div class="chart-label">May</div><div class="chart-label">Jun</div>
-        <div class="chart-label">Jul</div><div class="chart-label">Aug</div>
-        <div class="chart-label">Sep</div><div class="chart-label">Oct</div>
-        <div class="chart-label">Nov</div><div class="chart-label">Dec</div>
-      </div>
-      <div style="margin-top:12px; display:flex; gap:16px;">
-        <span style="font-size:12px; color:var(--accent);">■ Implied Vol.</span>
-        <span style="font-size:12px; color:var(--accent3);">■ Realized Vol.</span>
-        <span style="font-size:12px; color:var(--text-dim);">The spread (premium) is the capturable value</span>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <p><strong>Key institutional insight:</strong> The variance premium on ETH has been positive 78% of the months over the last 3 years, making it a structurally persistent source of yield — comparable to the credit risk premium in traditional bond markets.</p>
-    </div>
-  </div>
-
-  <hr class="sec-div">
-
-  <!-- SECTION 3 -->
-  <div class="section" id="section-3">
-    <div class="section-label">Carry Trade</div>
-    <h2>3. Systematic Carry Trade on Tokenized Pools</h2>
-    <p>
-      <strong>Tokenized carry trade</strong> exploits the differential between the borrowing cost
-      of a stable asset (USDC, DAI) and the yield generated by providing liquidity
-      on AMM protocols or lending on DeFi money markets.
-    </p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Protocol</th>
-            <th>Carry Type</th>
-            <th>Typical APY</th>
-            <th>Borrowing Cost</th>
-            <th>Net Spread</th>
-            <th>Main Risk</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Uniswap V3</strong></td>
-            <td>Concentrated liquidity provision</td>
-            <td>8–25%</td>
-            <td>3–6% (AAVE)</td>
-            <td><span style="color:var(--accent3)">+5–19%</span></td>
-            <td>Impermanent Loss</td>
-          </tr>
-          <tr>
-            <td><strong>Curve Finance</strong></td>
-            <td>Stablecoin LP + CRV rewards</td>
-            <td>4–12%</td>
-            <td>3–5%</td>
-            <td><span style="color:var(--accent3)">+1–7%</span></td>
-            <td>Low (stables)</td>
-          </tr>
-          <tr>
-            <td><strong>Aave V3</strong></td>
-            <td>Isolated multi-collateral lending</td>
-            <td>3–8%</td>
-            <td>2–4%</td>
-            <td><span style="color:var(--accent3)">+1–4%</span></td>
-            <td>Oracle liquidation</td>
-          </tr>
-          <tr>
-            <td><strong>Pendle Finance</strong></td>
-            <td>Principal/yield separation</td>
-            <td>6–15%</td>
-            <td>3–5%</td>
-            <td><span style="color:var(--accent3)">+3–10%</span></td>
-            <td>Yield duration</td>
-          </tr>
-          <tr>
-            <td><strong>USYC / BUIDL</strong></td>
-            <td>Tokenized T-Bills (collateral)</td>
-            <td>3.9–4.7%</td>
-            <td>0% (own)</td>
-            <td><span style="color:var(--accent3)">+3.9–4.7%</span></td>
-            <td>Very low</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <hr class="sec-div">
-
-  <!-- SECTION 4 -->
-  <div class="section" id="section-4">
-    <div class="section-label">Delta-Neutral</div>
-    <h2>4. Delta-Neutral Strategies on AMM</h2>
-    <p>
-      A <strong>delta-neutral</strong> strategy aims to generate yield
-      without directional exposure to the price of the underlying asset.
-      On AMM pools, this involves continuously hedging the delta
-      of the LP position with short positions in derivative markets.
-    </p>
-
-    <div class="formula">
-      <div class="formula-title">Delta-neutrality condition on Uniswap V3 pool</div>
-      <span class="formula-var">Δ_LP</span> <span class="formula-op">=</span> <span class="formula-var">∂V_LP</span> <span class="formula-op">/</span> <span class="formula-var">∂P</span>  <span class="formula-comment">// Delta of the LP position</span><br>
-      <br>
-      <span class="formula-var">H_short</span> <span class="formula-op">=</span> <span class="formula-op">−</span><span class="formula-var">Δ_LP</span>  <span class="formula-comment">// Short hedging position</span><br>
-      <br>
-      <span class="formula-var">P&L_net</span> <span class="formula-op">=</span> <span class="formula-var">Fees_AMM</span> <span class="formula-op">−</span> <span class="formula-var">Hedging_cost</span> <span class="formula-op">−</span> <span class="formula-var">Residual_IL</span>
-    </div>
-
-    <div class="cards-2">
-      <div class="card">
-        <div class="card-tag tag-green">Advantages</div>
-        <div class="card-title">Stable Yield Profile</div>
-        <div class="card-body">
-          Independence from directional market movements.<br>
-          Pure capture of AMM transaction fees.<br>
-          Positive yield even in a bear market.<br>
-          Low correlation with crypto indices.
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="https://dcmcore.com/en/index.html" class="nav-logo">DCM Core Institute</a>
+        <div class="nav-breadcrumb">
+            <a href="https://dcmcore.com/en/index.html">Home</a>
+            <span class="nav-sep">›</span>
+            <a href="https://dcmcore.com/en/strategies/index.html">Strategies</a>
+            <span class="nav-sep">›</span>
+            <span style="color: var(--text-muted);">Algorithmic Yield Optimization</span>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-tag tag-red">Constraints</div>
-        <div class="card-title">Operational Complexity</div>
-        <div class="card-body">
-          Frequent rebalancing required (gas cost).<br>
-          Need for access to derivative markets (Deribit, GMX).<br>
-          Hedging cost can erode the spread.<br>
-          Requires automated execution infrastructure.
+        <div class="nav-right">
+            <a href="https://dcmcore.com/en/strategies/algorithmic-yield-optimization.html"
+                class="lang-btn lang-active">🇬🇧 EN</a>
+            <a href="https://dcmcore.com/fr/strategies/optimisation-algorithmique-yield.html" class="lang-btn">🇫🇷
+                FR</a>
         </div>
-      </div>
-    </div>
-  </div>
+    </nav>
 
-  <hr class="sec-div">
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-tag">Structured · Quantitative · Institutional</div>
+        <h1>Algorithmic <span>Yield</span><br>Optimization</h1>
+        <p class="hero-sub">
+            Advanced <strong style="color:var(--text)">volatility harvesting</strong> models and systematic
+            <strong style="color:var(--text)">carry trade</strong> strategies on tokenized liquidity pools.
+            A quantitative approach to income generation across digital assets.
+        </p>
 
-  <!-- SECTION 5 -->
-  <div class="section" id="section-5">
-    <div class="section-label">Risk Management</div>
-    <h2>5. Impermanent Loss — Quantification and Mitigation</h2>
-    <p>
-      <strong>Impermanent loss (IL)</strong> is the opportunity cost incurred by a
-      liquidity provider when the ratio of assets in the pool diverges
-      from the ratio at entry. It is the central structural risk of any LP strategy.
-    </p>
+        <div class="hero-metrics">
+            <div class="metric">
+                <div class="metric-val">2–12%</div>
+                <div class="metric-lbl">Target APY (net of fees)</div>
+            </div>
+            <div class="metric">
+                <div class="metric-val green">Δ-Neutral</div>
+                <div class="metric-lbl">Directional exposure</div>
+            </div>
+            <div class="metric">
+                <div class="metric-val amber">T+0</div>
+                <div class="metric-lbl">AMM Pool Liquidity</div>
+            </div>
+            <div class="metric">
+                <div class="metric-val">MiCA</div>
+                <div class="metric-lbl">EU Regulatory Framework</div>
+            </div>
+        </div>
 
-    <div class="formula">
-      <div class="formula-title">Impermanent Loss Formula (AMM x*y=k)</div>
-      <span class="formula-var">IL</span> <span class="formula-op">=</span> <span class="formula-op">2</span> <span class="formula-op">×</span> <span class="formula-op">√</span><span class="formula-var">r</span> <span class="formula-op">/</span> (<span class="formula-var">1</span> <span class="formula-op">+</span> <span class="formula-var">r</span>) <span class="formula-op">−</span> <span class="formula-op">1</span><br>
-      <br>
-      <span class="formula-comment">// r = price variation ratio (P_final / P_initial)</span><br>
-      <span class="formula-comment">// Ex: r=2 (price doubles) → IL = -5.7%</span><br>
-      <span class="formula-comment">// Ex: r=4 (price quadruples) → IL = -20%</span><br>
-      <span class="formula-comment">// Ex: r=0.5 (price halves) → IL = -5.7%</span>
-    </div>
-
-    <div class="highlight">
-      <p><strong>Institutional Rule:</strong> An LP strategy is profitable if and only if <code style="background:rgba(99,179,237,0.1); padding:2px 6px; border-radius:3px; font-family:var(--font-mono); font-size:12px;">Collected_Fees &gt; Realized_IL</code>. On high-volume, low-price correlation pools (e.g., USDC/ETH), this balance is favorable ~65-70% of the time on 30+ day positions.</p>
-    </div>
-  </div>
-
-  <hr class="sec-div">
-
-  <!-- SECTION 6 — RISK MATRIX -->
-  <div class="section" id="section-6">
-    <div class="section-label">Risk Analysis</div>
-    <h2>6. Institutional Risk Matrix</h2>
-    <p>Assessment of specific risks for algorithmic yield strategies on tokenized assets.</p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Risk</th>
-            <th>Type</th>
-            <th>Severity</th>
-            <th>Mitigation</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Impermanent Loss</strong></td>
-            <td>AMM Mechanical</td>
-            <td><span style="color:var(--accent-warm)">⬤ Medium</span></td>
-            <td>Range concentration (V3), delta hedging, correlated pairs</td>
-          </tr>
-          <tr>
-            <td><strong>Smart Contract Exploit</strong></td>
-            <td>Technical</td>
-            <td><span style="color:var(--red)">⬤ High</span></td>
-            <td>Audited protocols (Uniswap, AAVE, Curve), exposure limits</td>
-          </tr>
-          <tr>
-            <td><strong>Oracle Manipulation</strong></td>
-            <td>Infrastructure</td>
-            <td><span style="color:var(--accent-warm)">⬤ Medium</span></td>
-            <td>TWAP vs spot, Chainlink + UNI V3 dual oracle</td>
-          </tr>
-          <tr>
-            <td><strong>Pool Liquidity</strong></td>
-            <td>Market</td>
-            <td><span style="color:var(--accent3)">⬤ Low</span></td>
-            <td>Pools > $50M TVL only, automatic slippage caps</td>
-          </tr>
-          <tr>
-            <td><strong>Gas / Execution Cost</strong></td>
-            <td>Operational</td>
-            <td><span style="color:var(--accent3)">⬤ Low</span></td>
-            <td>L2 arbitrage (Arbitrum, Optimism), batched rebalancing</td>
-          </tr>
-          <tr>
-            <td><strong>Regulatory Risk</strong></td>
-            <td>Legal (MiCA)</td>
-            <td><span style="color:var(--accent-warm)">⬤ Medium</span></td>
-            <td>CASP qualification if managing for third parties, KYC/AML permissioned pools</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <hr class="sec-div">
-
-  <!-- SECTION 7 — REGULATORY -->
-  <div class="section" id="section-7">
-    <div class="section-label">Compliance</div>
-    <h2>7. MiCA Regulatory Framework — Implications for Algorithmic Strategies</h2>
-
-    <div class="reg-box">
-      <div class="reg-box-title">⚠ Regulatory Vigilance Point</div>
-      <p>Under MiCA (in effect since December 2024), algorithmic yield strategies managed for third parties may qualify as <strong>crypto-asset portfolio management services</strong>, requiring a CASP (Crypto-Asset Service Provider) authorization from the competent authority (AMF for France, BaFin for Germany).</p>
+        <!-- TOC -->
+        <div class="toc">
+            <div class="toc-title">Analysis Overview</div>
+            <ul class="toc-list">
+                <li><a href="#section-1">1. Theoretical Foundations</a></li>
+                <li><a href="#section-2">2. Volatility Harvesting</a></li>
+                <li><a href="#section-3">3. Tokenized Carry Trade</a></li>
+                <li><a href="#section-4">4. Delta-Neutral Strategies</a></li>
+                <li><a href="#section-5">5. Impermanent Loss</a></li>
+                <li><a href="#section-6">6. Risk Matrix</a></li>
+                <li><a href="#section-7">7. MiCA Regulatory Framework</a></li>
+                <li><a href="#section-8">8. FAQ</a></li>
+            </ul>
+        </div>
     </div>
 
-    <div class="cards-2">
-      <div class="card">
-        <div class="card-tag tag-green">Own Account</div>
-        <div class="card-title">Proprietary Account Strategies</div>
-        <div class="card-body">A financial institution deploying its own funds on algorithmic DeFi strategies remains within its usual prudential regulatory framework (CRD5/CRR2). No CASP authorization required. DeFi assets are classified as "other assets" under Basel III with RWA 1250%.</div>
-      </div>
-      <div class="card">
-        <div class="card-tag tag-amber">Third-Party Account</div>
-        <div class="card-title">Third-Party Portfolio Management</div>
-        <div class="card-body">Managing algorithmic crypto-assets on behalf of clients requires CASP authorization (Articles 60-76 MiCA). Obligations include: algorithmic transparency, performance reporting, client asset segregation, and conflict of interest management procedures.</div>
-      </div>
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- SECTION 1 -->
+        <div class="section" id="section-1">
+            <div class="section-label">Foundations</div>
+            <h2>1. Principles of Algorithmic Optimization</h2>
+            <p>
+                Algorithmic yield optimization is based on a fundamental principle:
+                <strong>tokenized financial markets create structural inefficiencies
+                    that systematic quantitative models can capture repeatedly</strong>,
+                regardless of price direction.
+            </p>
+            <p>
+                Unlike directional strategies (buying ETH and hoping it goes up),
+                algorithmic approaches aim to extract value from <em>market mechanics</em>:
+                implied/realized volatility spreads, interest rate differentials between protocols,
+                and liquidity premiums on AMM pools.
+            </p>
+
+            <div class="cards-3">
+                <div class="card">
+                    <div class="card-tag tag-blue">Theoretical</div>
+                    <div class="card-title">Variance Premium</div>
+                    <div class="card-body">Implied volatility systematically exceeds realized volatility on crypto
+                        assets. This spread constitutes a premium captureable by systematic option selling.</div>
+                </div>
+                <div class="card">
+                    <div class="card-tag tag-green">Structural</div>
+                    <div class="card-title">Rate Differential</div>
+                    <div class="card-body">DeFi protocols exhibit variable rates determined by liquidity supply/demand.
+                        Systematic arbitrage between protocols generates positive carry.</div>
+                </div>
+                <div class="card">
+                    <div class="card-tag tag-amber">Mechanical</div>
+                    <div class="card-title">AMM Liquidity Premium</div>
+                    <div class="card-body">AMM pools pay 100% of transaction fees to liquidity providers. In volatile
+                        markets, these fees can significantly exceed bond yields.</div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="sec-div">
+
+        <!-- SECTION 2 -->
+        <div class="section" id="section-2">
+            <div class="section-label">Core Strategy</div>
+            <h2>2. Volatility Harvesting on Tokenized Assets</h2>
+            <p>
+                <strong>Volatility harvesting</strong> exploits the variance risk premium —
+                the fact that markets systematically pay more for implied volatility
+                than volatility realized ex-post. On tokenized crypto markets,
+                this spread is particularly pronounced due to the high demand for hedging.
+            </p>
+
+            <div class="formula">
+                <div class="formula-title">Variance Premium Capture Model</div>
+                <span class="formula-var">P_variance</span> <span class="formula-op">=</span> <span
+                    class="formula-var">σ_impl²</span> <span class="formula-op">−</span> <span
+                    class="formula-var">σ_real²</span><br>
+                <br>
+                <span class="formula-comment">// On ETH: σ_impl ≈ 65–80% annualized vs σ_real ≈ 55–65%</span><br>
+                <span class="formula-comment">// Structural premium ≈ 10–15 variance points</span><br>
+                <br>
+                <span class="formula-var">Yield_VH</span> <span class="formula-op">=</span> <span
+                    class="formula-var">P_variance</span> <span class="formula-op">×</span> <span
+                    class="formula-var">N_contracts</span> <span class="formula-op">×</span> <span
+                    class="formula-var">V_notional</span>
+            </div>
+
+            <div class="chart-placeholder">
+                <div class="chart-overlay">DCM Core Simulation</div>
+                <div class="chart-title">Implied vs Realized Volatility — ETH (simulated)</div>
+                <div class="chart-bars">
+                    <div class="bar" style="height:75%"></div>
+                    <div class="bar green" style="height:62%"></div>
+                    <div class="bar" style="height:80%"></div>
+                    <div class="bar green" style="height:67%"></div>
+                    <div class="bar" style="height:72%"></div>
+                    <div class="bar green" style="height:58%"></div>
+                    <div class="bar" style="height:85%"></div>
+                    <div class="bar green" style="height:70%"></div>
+                    <div class="bar" style="height:78%"></div>
+                    <div class="bar green" style="height:63%"></div>
+                    <div class="bar" style="height:68%"></div>
+                    <div class="bar green" style="height:55%"></div>
+                </div>
+                <div class="chart-labels">
+                    <div class="chart-label">Jan</div>
+                    <div class="chart-label">Feb</div>
+                    <div class="chart-label">Mar</div>
+                    <div class="chart-label">Apr</div>
+                    <div class="chart-label">May</div>
+                    <div class="chart-label">Jun</div>
+                    <div class="chart-label">Jul</div>
+                    <div class="chart-label">Aug</div>
+                    <div class="chart-label">Sep</div>
+                    <div class="chart-label">Oct</div>
+                    <div class="chart-label">Nov</div>
+                    <div class="chart-label">Dec</div>
+                </div>
+                <div style="margin-top:12px; display:flex; gap:16px;">
+                    <span style="font-size:12px; color:var(--accent);">■ Implied Vol.</span>
+                    <span style="font-size:12px; color:var(--accent3);">■ Realized Vol.</span>
+                    <span style="font-size:12px; color:var(--text-dim);">The spread (premium) is the capturable
+                        value</span>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Key institutional insight:</strong> The variance premium on ETH has been positive 78% of the
+                    months over the last 3 years, making it a structurally persistent source of yield — comparable to
+                    the credit risk premium in traditional bond markets.</p>
+            </div>
+        </div>
+
+        <hr class="sec-div">
+
+        <!-- SECTION 3 -->
+        <div class="section" id="section-3">
+            <div class="section-label">Carry Trade</div>
+            <h2>3. Systematic Carry Trade on Tokenized Pools</h2>
+            <p>
+                <strong>Tokenized carry trade</strong> exploits the differential between the borrowing cost
+                of a stable asset (USDC, DAI) and the yield generated by providing liquidity
+                on AMM protocols or lending on DeFi money markets.
+            </p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Protocol</th>
+                            <th>Carry Type</th>
+                            <th>Typical APY</th>
+                            <th>Borrowing Cost</th>
+                            <th>Net Spread</th>
+                            <th>Main Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Uniswap V3</strong></td>
+                            <td>Concentrated liquidity provision</td>
+                            <td>8–25%</td>
+                            <td>3–6% (AAVE)</td>
+                            <td><span style="color:var(--accent3)">+5–19%</span></td>
+                            <td>Impermanent Loss</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Curve Finance</strong></td>
+                            <td>Stablecoin LP + CRV rewards</td>
+                            <td>4–12%</td>
+                            <td>3–5%</td>
+                            <td><span style="color:var(--accent3)">+1–7%</span></td>
+                            <td>Low (stables)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aave V3</strong></td>
+                            <td>Isolated multi-collateral lending</td>
+                            <td>3–8%</td>
+                            <td>2–4%</td>
+                            <td><span style="color:var(--accent3)">+1–4%</span></td>
+                            <td>Oracle liquidation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pendle Finance</strong></td>
+                            <td>Principal/yield separation</td>
+                            <td>6–15%</td>
+                            <td>3–5%</td>
+                            <td><span style="color:var(--accent3)">+3–10%</span></td>
+                            <td>Yield duration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>USYC / BUIDL</strong></td>
+                            <td>Tokenized T-Bills (collateral)</td>
+                            <td>3.9–4.7%</td>
+                            <td>0% (own)</td>
+                            <td><span style="color:var(--accent3)">+3.9–4.7%</span></td>
+                            <td>Very low</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <hr class="sec-div">
+
+        <!-- SECTION 4 -->
+        <div class="section" id="section-4">
+            <div class="section-label">Delta-Neutral</div>
+            <h2>4. Delta-Neutral Strategies on AMM</h2>
+            <p>
+                A <strong>delta-neutral</strong> strategy aims to generate yield
+                without directional exposure to the price of the underlying asset.
+                On AMM pools, this involves continuously hedging the delta
+                of the LP position with short positions in derivative markets.
+            </p>
+
+            <div class="formula">
+                <div class="formula-title">Delta-neutrality condition on Uniswap V3 pool</div>
+                <span class="formula-var">Δ_LP</span> <span class="formula-op">=</span> <span
+                    class="formula-var">∂V_LP</span> <span class="formula-op">/</span> <span
+                    class="formula-var">∂P</span> <span class="formula-comment">// Delta of the LP position</span><br>
+                <br>
+                <span class="formula-var">H_short</span> <span class="formula-op">=</span> <span
+                    class="formula-op">−</span><span class="formula-var">Δ_LP</span> <span class="formula-comment">//
+                    Short hedging position</span><br>
+                <br>
+                <span class="formula-var">P&L_net</span> <span class="formula-op">=</span> <span
+                    class="formula-var">Fees_AMM</span> <span class="formula-op">−</span> <span
+                    class="formula-var">Hedging_cost</span> <span class="formula-op">−</span> <span
+                    class="formula-var">Residual_IL</span>
+            </div>
+
+            <div class="cards-2">
+                <div class="card">
+                    <div class="card-tag tag-green">Advantages</div>
+                    <div class="card-title">Stable Yield Profile</div>
+                    <div class="card-body">
+                        Independence from directional market movements.<br>
+                        Pure capture of AMM transaction fees.<br>
+                        Positive yield even in a bear market.<br>
+                        Low correlation with crypto indices.
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-tag tag-red">Constraints</div>
+                    <div class="card-title">Operational Complexity</div>
+                    <div class="card-body">
+                        Frequent rebalancing required (gas cost).<br>
+                        Need for access to derivative markets (Deribit, GMX).<br>
+                        Hedging cost can erode the spread.<br>
+                        Requires automated execution infrastructure.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="sec-div">
+
+        <!-- SECTION 5 -->
+        <div class="section" id="section-5">
+            <div class="section-label">Risk Management</div>
+            <h2>5. Impermanent Loss — Quantification and Mitigation</h2>
+            <p>
+                <strong>Impermanent loss (IL)</strong> is the opportunity cost incurred by a
+                liquidity provider when the ratio of assets in the pool diverges
+                from the ratio at entry. It is the central structural risk of any LP strategy.
+            </p>
+
+            <div class="formula">
+                <div class="formula-title">Impermanent Loss Formula (AMM x*y=k)</div>
+                <span class="formula-var">IL</span> <span class="formula-op">=</span> <span class="formula-op">2</span>
+                <span class="formula-op">×</span> <span class="formula-op">√</span><span class="formula-var">r</span>
+                <span class="formula-op">/</span> (<span class="formula-var">1</span> <span class="formula-op">+</span>
+                <span class="formula-var">r</span>) <span class="formula-op">−</span> <span
+                    class="formula-op">1</span><br>
+                <br>
+                <span class="formula-comment">// r = price variation ratio (P_final / P_initial)</span><br>
+                <span class="formula-comment">// Ex: r=2 (price doubles) → IL = -5.7%</span><br>
+                <span class="formula-comment">// Ex: r=4 (price quadruples) → IL = -20%</span><br>
+                <span class="formula-comment">// Ex: r=0.5 (price halves) → IL = -5.7%</span>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Institutional Rule:</strong> An LP strategy is profitable if and only if <code
+                        style="background:rgba(99,179,237,0.1); padding:2px 6px; border-radius:3px; font-family:var(--font-mono); font-size:12px;">Collected_Fees &gt; Realized_IL</code>.
+                    On high-volume, low-price correlation pools (e.g., USDC/ETH), this balance is favorable ~65-70% of
+                    the time on 30+ day positions.</p>
+            </div>
+        </div>
+
+        <hr class="sec-div">
+
+        <!-- SECTION 6 — RISK MATRIX -->
+        <div class="section" id="section-6">
+            <div class="section-label">Risk Analysis</div>
+            <h2>6. Institutional Risk Matrix</h2>
+            <p>Assessment of specific risks for algorithmic yield strategies on tokenized assets.</p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Risk</th>
+                            <th>Type</th>
+                            <th>Severity</th>
+                            <th>Mitigation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Impermanent Loss</strong></td>
+                            <td>AMM Mechanical</td>
+                            <td><span style="color:var(--accent-warm)">⬤ Medium</span></td>
+                            <td>Range concentration (V3), delta hedging, correlated pairs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Smart Contract Exploit</strong></td>
+                            <td>Technical</td>
+                            <td><span style="color:var(--red)">⬤ High</span></td>
+                            <td>Audited protocols (Uniswap, AAVE, Curve), exposure limits</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Oracle Manipulation</strong></td>
+                            <td>Infrastructure</td>
+                            <td><span style="color:var(--accent-warm)">⬤ Medium</span></td>
+                            <td>TWAP vs spot, Chainlink + UNI V3 dual oracle</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pool Liquidity</strong></td>
+                            <td>Market</td>
+                            <td><span style="color:var(--accent3)">⬤ Low</span></td>
+                            <td>Pools > $50M TVL only, automatic slippage caps</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gas / Execution Cost</strong></td>
+                            <td>Operational</td>
+                            <td><span style="color:var(--accent3)">⬤ Low</span></td>
+                            <td>L2 arbitrage (Arbitrum, Optimism), batched rebalancing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Regulatory Risk</strong></td>
+                            <td>Legal (MiCA)</td>
+                            <td><span style="color:var(--accent-warm)">⬤ Medium</span></td>
+                            <td>CASP qualification if managing for third parties, KYC/AML permissioned pools</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <hr class="sec-div">
+
+        <!-- SECTION 7 — REGULATORY -->
+        <div class="section" id="section-7">
+            <div class="section-label">Compliance</div>
+            <h2>7. MiCA Regulatory Framework — Implications for Algorithmic Strategies</h2>
+
+            <div class="reg-box">
+                <div class="reg-box-title">⚠ Regulatory Vigilance Point</div>
+                <p>Under MiCA (in effect since December 2024), algorithmic yield strategies managed for third parties
+                    may qualify as <strong>crypto-asset portfolio management services</strong>, requiring a CASP
+                    (Crypto-Asset Service Provider) authorization from the competent authority (AMF for France, BaFin
+                    for Germany).</p>
+            </div>
+
+            <div class="cards-2">
+                <div class="card">
+                    <div class="card-tag tag-green">Own Account</div>
+                    <div class="card-title">Proprietary Account Strategies</div>
+                    <div class="card-body">A financial institution deploying its own funds on algorithmic DeFi
+                        strategies remains within its usual prudential regulatory framework (CRD5/CRR2). No CASP
+                        authorization required. DeFi assets are classified as "other assets" under Basel III with RWA
+                        1250%.</div>
+                </div>
+                <div class="card">
+                    <div class="card-tag tag-amber">Third-Party Account</div>
+                    <div class="card-title">Third-Party Portfolio Management</div>
+                    <div class="card-body">Managing algorithmic crypto-assets on behalf of clients requires CASP
+                        authorization (Articles 60-76 MiCA). Obligations include: algorithmic transparency, performance
+                        reporting, client asset segregation, and conflict of interest management procedures.</div>
+                </div>
+            </div>
+
+            <p style="margin-top:16px;">For a deeper dive into the regulatory framework:
+                <a href="https://dcmcore.com/en/insights/mica/digital-assets-governance-eu.html"
+                    style="color:var(--accent)">Full EU MiCA Governance Guide →</a>
+            </p>
+        </div>
+
+        <hr class="sec-div">
+
+        <!-- COMING SOON -->
+        <div class="section" id="coming-soon">
+            <div class="coming-soon">
+                <div class="cs-badge">Under Development — Q2 2026</div>
+                <h3>DCM Core Quantitative Tools — Coming Soon</h3>
+                <p>DCM Core Institute is developing a suite of advanced analytical tools for algorithmic yield
+                    optimization on tokenized assets.</p>
+                <div class="coming-soon-features">
+                    <span class="cs-feature">Volatility Harvesting Simulator</span>
+                    <span class="cs-feature">Uniswap V3 Range Optimizer</span>
+                    <span class="cs-feature">Real-time Impermanent Loss Calculator</span>
+                    <span class="cs-feature">Carry Trade Strategy Back-tester</span>
+                    <span class="cs-feature">Automated Delta-Neutral Dashboard</span>
+                </div>
+                <p style="font-size:13px; color:var(--text-dim);">Available for early access to <a
+                        href="https://dcmcore.com/en/academy/pricing.html" style="color:var(--accent)">DCM Academy
+                        Pro</a> subscribers.</p>
+            </div>
+        </div>
+
+        <hr class="sec-div">
+
+        <!-- FAQ -->
+        <div class="section" id="section-8">
+            <div class="section-label">FAQ</div>
+            <h2>8. Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-q">What is volatility harvesting in tokenized finance?</div>
+                <div class="faq-a">Volatility harvesting involves systematically selling implied volatility on tokenized
+                    assets to capture the variance risk premium, independent of market direction. On AMM pools, this
+                    translates into systematically capturing transaction fees during episodes of high volatility. The
+                    premium is structurally positive because markets pay more for hedging than the realized volatility
+                    effectively occurs.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">How does carry trade work on tokenized liquidity pools?</div>
+                <div class="faq-a">Tokenized carry trade exploits the differential between the borrowing rate and the
+                    yield generated by providing liquidity. On protocols like Uniswap V3 or Curve, an institutional
+                    operator can borrow USDC at 4% on AAVE and deploy into pools generating 8-12% fees, capturing a net
+                    spread of 4-8%. Profitability depends on yield stability and impermanent loss management.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">What is the difference between a delta-neutral strategy and a covered call on
+                    tokenized assets?</div>
+                <div class="faq-a">A delta-neutral strategy on AMM pools aims to eliminate directional price exposure by
+                    continuously rebalancing positions, capturing only transaction fees. A covered call holds the
+                    underlying asset and sells call options against it, capping the upside in exchange for an immediate
+                    income premium. Delta-neutrality is more operationally intensive but offers better yield profile
+                    stability.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">What is impermanent loss and how to optimize it algorithmically?</div>
+                <div class="faq-a">Impermanent loss occurs when the ratio of assets in an AMM pool diverges from the
+                    ratio at entry. For example, if ETH doubles in price, an LP loses ~5.7% compared to simply holding
+                    the assets. Algorithmic optimization models seek to maximize collected fees while minimizing
+                    exposure duration to divergence episodes, via dynamic range management (Uniswap V3) and automated
+                    stop-loss mechanisms.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Are algorithmic yield strategies compatible with MiCA?</div>
+                <div class="faq-a">For own accounts, they remain within the institution's usual prudential framework.
+                    For third-party accounts, they may require CASP authorization under MiCA (Articles 60-76).
+                    Qualification depends on the degree of management discretion and the nature of the client
+                    relationship. Specialized legal consultation is recommended before any large-scale institutional
+                    deployment.</div>
+            </div>
+        </div>
+
+        <!-- FOOTER NAV -->
+        <div class="footer-nav">
+            <a href="https://dcmcore.com/en/strategies/index.html">← Back to Strategies</a>
+            <a href="https://dcmcore.com/en/strategies/usyc-tokenized-treasury.html">Hashnote USYC →</a>
+        </div>
+
     </div>
-
-    <p style="margin-top:16px;">For a deeper dive into the regulatory framework:
-      <a href="https://dcmcore.com/en/insights/mica/digital-assets-governance-eu.html" style="color:var(--accent)">Full EU MiCA Governance Guide →</a>
-    </p>
-  </div>
-
-  <hr class="sec-div">
-
-  <!-- COMING SOON -->
-  <div class="section" id="coming-soon">
-    <div class="coming-soon">
-      <div class="cs-badge">Under Development — Q2 2026</div>
-      <h3>DCM Core Quantitative Tools — Coming Soon</h3>
-      <p>DCM Core Institute is developing a suite of advanced analytical tools for algorithmic yield optimization on tokenized assets.</p>
-      <div class="coming-soon-features">
-        <span class="cs-feature">Volatility Harvesting Simulator</span>
-        <span class="cs-feature">Uniswap V3 Range Optimizer</span>
-        <span class="cs-feature">Real-time Impermanent Loss Calculator</span>
-        <span class="cs-feature">Carry Trade Strategy Back-tester</span>
-        <span class="cs-feature">Automated Delta-Neutral Dashboard</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-dim);">Available for early access to <a href="https://dcmcore.com/en/academy/pricing.html" style="color:var(--accent)">DCM Academy Pro</a> subscribers.</p>
-    </div>
-  </div>
-
-  <hr class="sec-div">
-
-  <!-- FAQ -->
-  <div class="section" id="section-8">
-    <div class="section-label">FAQ</div>
-    <h2>8. Frequently Asked Questions</h2>
-
-    <div class="faq-item">
-      <div class="faq-q">What is volatility harvesting in tokenized finance?</div>
-      <div class="faq-a">Volatility harvesting involves systematically selling implied volatility on tokenized assets to capture the variance risk premium, independent of market direction. On AMM pools, this translates into systematically capturing transaction fees during episodes of high volatility. The premium is structurally positive because markets pay more for hedging than the realized volatility effectively occurs.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">How does carry trade work on tokenized liquidity pools?</div>
-      <div class="faq-a">Tokenized carry trade exploits the differential between the borrowing rate and the yield generated by providing liquidity. On protocols like Uniswap V3 or Curve, an institutional operator can borrow USDC at 4% on AAVE and deploy into pools generating 8-12% fees, capturing a net spread of 4-8%. Profitability depends on yield stability and impermanent loss management.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">What is the difference between a delta-neutral strategy and a covered call on tokenized assets?</div>
-      <div class="faq-a">A delta-neutral strategy on AMM pools aims to eliminate directional price exposure by continuously rebalancing positions, capturing only transaction fees. A covered call holds the underlying asset and sells call options against it, capping the upside in exchange for an immediate income premium. Delta-neutrality is more operationally intensive but offers better yield profile stability.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">What is impermanent loss and how to optimize it algorithmically?</div>
-      <div class="faq-a">Impermanent loss occurs when the ratio of assets in an AMM pool diverges from the ratio at entry. For example, if ETH doubles in price, an LP loses ~5.7% compared to simply holding the assets. Algorithmic optimization models seek to maximize collected fees while minimizing exposure duration to divergence episodes, via dynamic range management (Uniswap V3) and automated stop-loss mechanisms.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Are algorithmic yield strategies compatible with MiCA?</div>
-      <div class="faq-a">For own accounts, they remain within the institution's usual prudential framework. For third-party accounts, they may require CASP authorization under MiCA (Articles 60-76). Qualification depends on the degree of management discretion and the nature of the client relationship. Specialized legal consultation is recommended before any large-scale institutional deployment.</div>
-    </div>
-  </div>
-
-  <!-- FOOTER NAV -->
-  <div class="footer-nav">
-    <a href="https://dcmcore.com/en/strategies/index.html">← Back to Strategies</a>
-    <a href="https://dcmcore.com/en/strategies/usyc-tokenized-treasury.html">Hashnote USYC →</a>
-  </div>
-
-</div>
 
 </body>
+
 </html>
