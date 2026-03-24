@@ -20,8 +20,33 @@ const AuthManager = (() => {
             supabaseClient = supabase.createClient(DCM_CONFIG.supabaseUrl, DCM_CONFIG.supabaseKey);
         }
 
-        // 3. Check Session
+        // 3. Check Session (Supabase first)
         const { data: { session } } = await supabaseClient.auth.getSession();
+        let sessionUser = session?.user || null;
+
+        // GUEST MODE FALLBACK
+        if (!sessionUser) {
+            const guestProfile = localStorage.getItem('dcm_user_profile');
+            if (guestProfile) {
+                try {
+                    const profile = JSON.parse(guestProfile);
+                    // Standardize guest as a user object for internal logic
+                    sessionUser = {
+                        id: 'guest-' + (profile.name || 'user'),
+                        email: 'guest@dcm-institute.com',
+                        user_metadata: {
+                            full_name: profile.name || 'Invité',
+                            first_name: profile.name || 'Invité',
+                            role: profile.role || 'Visiteur'
+                        },
+                        is_guest: true
+                    };
+                    console.log("AuthManager: Guest profile detected in localStorage");
+                } catch (e) {
+                    console.warn("AuthManager: Failed to parse guest profile", e);
+                }
+            }
+        }
 
         let isSuperDev = (typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true');
 
@@ -55,7 +80,7 @@ const AuthManager = (() => {
             // Mock getSessionToken for agents
             AuthManager.getSessionToken = async () => session ? session.access_token : "mock-dev-token";
         } else {
-            currentUser = session?.user || null;
+            currentUser = sessionUser;
 
             // Standard getSessionToken
             AuthManager.getSessionToken = async () => {
@@ -117,16 +142,21 @@ const AuthManager = (() => {
                 authBtnPlaceholder.onclick = signOut;
                 authBtnPlaceholder.href = "#"; // Prevent navigation
 
-                const name = currentUser.user_metadata?.first_name || currentUser.email.split('@')[0];
+                const userMeta = currentUser?.user_metadata || {};
+                const name = userMeta.first_name || userMeta.full_name || currentUser.email.split('@')[0];
 
                 if (userDisplay) {
                     userDisplay.innerText = name;
+                    userDisplay.style.display = 'inline-block';
                 }
 
                 // Handle Dashboard Welcome Title if present
                 const welcomeTitle = document.getElementById('welcome-title');
                 if (welcomeTitle) {
-                    welcomeTitle.innerText = `Bienvenue, ${name} !`;
+                    welcomeTitle.innerText = `Welcome, ${name}!`;
+                    if (document.documentElement.lang === 'fr') {
+                        welcomeTitle.innerText = `Bienvenue, ${name} !`;
+                    }
                 }
             } else {
                 authBtnPlaceholder.innerHTML = '<i class="fas fa-user"></i> Connexion';
@@ -134,7 +164,8 @@ const AuthManager = (() => {
                 authBtnPlaceholder.onclick = null;
 
                 if (userDisplay) {
-                    userDisplay.innerText = "Invité";
+                    userDisplay.innerText = "";
+                    userDisplay.style.display = 'none';
                 }
             }
         }
@@ -142,13 +173,25 @@ const AuthManager = (() => {
 
     async function signOut(e) {
         if (e) e.preventDefault();
-        const { error } = await supabaseClient.auth.signOut();
-        if (!error) {
-            window.location.href = "index.html"; // Go home after logout
-        } else {
-            console.error("Logout Error:", error);
-            alert("Erreur lors de la déconnexion");
+        
+        console.log("AuthManager: Signing out...");
+
+        // 1. Supabase Sign Out (if client exists)
+        if (supabaseClient) {
+            try {
+                await supabaseClient.auth.signOut();
+            } catch (err) {
+                console.warn("Supabase signOut error (likely already signed out or CORS):", err);
+            }
         }
+        
+        // 2. Clear DCM session markers (Always clear local state)
+        localStorage.removeItem('dcm_auth_token');
+        localStorage.removeItem('dcm_user_profile');
+        localStorage.removeItem('is_super_dev');
+        
+        // Redirect home
+        window.location.href = "index.html"; 
     }
 
     // Public API
