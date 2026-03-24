@@ -50,6 +50,24 @@ window.QuizAnalytics = {
         data.sessions.push(session);
         QuizAnalytics._saveData(data);
         console.log(`🏆 Analytics: Quiz session complete [${levelKey}] - ${score}/${total}`);
+
+        // Sync to Supabase
+        if (window.supabase) {
+            window.supabase.auth.getSession().then(({ data: { session: sbSession } }) => {
+                if (sbSession && sbSession.user) {
+                    window.supabase.from('quiz_results').insert([{
+                        user_id: sbSession.user.id,
+                        quiz_type: String(levelKey),
+                        score_percent: session.pct,
+                        time_taken_seconds: durationSeconds,
+                        passed: session.pct >= 80
+                    }]).then(({error}) => {
+                        if (error) console.error('Quiz sync error:', error);
+                        else console.log('✅ Quiz session synced to Supabase');
+                    });
+                }
+            });
+        }
     },
 
     /**

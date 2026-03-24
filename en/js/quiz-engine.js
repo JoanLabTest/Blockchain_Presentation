@@ -21,7 +21,8 @@ const QuizEngine = {
         { id: 3, key: 'L3', file: 'level-3.json', name: 'Regulatory Mapping', color: '#f97316', icon: 'fa-scale-balanced', requires: 2 },
         { id: 4, key: 'L4', file: 'level-4.json', name: 'Infrastructure & Deployment', color: '#ef4444', icon: 'fa-server', requires: 3 },
         { id: 5, key: 'L5', file: 'level-5.json', name: 'Strategic Positioning', color: '#6366f1', icon: 'fa-chess-king', requires: 4 },
-        { id: 'super', key: 'SL', file: 'super-level.json', name: 'DCM Black Level', color: '#7c3aed', icon: 'fa-bolt', requires: 5, isSuper: true }
+        { id: 6, key: 'PRO', file: 'level-6-pro.json', name: 'Certified DCM Expert', color: '#f59e0b', icon: 'fa-certificate', requires: 5, isPro: true },
+        { id: 'super', key: 'SL', file: 'super-level.json', name: 'DCM Black Level', color: '#7c3aed', icon: 'fa-bolt', requires: 6, isSuper: true }
     ],
 
     // ─── LOCALSTORAGE KEYS ───────────────────────────────────────────────────
@@ -55,21 +56,97 @@ const QuizEngine = {
 
     // ─── UNLOCK MANAGEMENT ──────────────────────────────────────────────────
     getUnlocks() {
-        if (this.isDevMode()) return [1, 2, 3, 4, 5, 'super'];
+        if (this.isDevMode()) return [1, 2, 3, 4, 5, 6, 'super'];
+        
+        // Priority to SessionManager profile (Supabase-backed)
+        const profile = window.SessionManager ? window.SessionManager.getCurrentUser() : null;
+        if (profile && profile.unlocked_levels) {
+            return profile.unlocked_levels;
+        }
+
         return JSON.parse(localStorage.getItem(this.KEYS.UNLOCKS) || '[1]');
     },
 
     isLevelUnlocked(levelId) {
         if (this.isDevMode()) return true;
+        
+        // Level 6 is the monetized gate
+        if (levelId === 6) {
+            const hasProAccess = localStorage.getItem('dcm_pro_access') === 'true';
+            
+            // Check trial expiration
+            const trialEndStr = localStorage.getItem('dcm_trial_end');
+            if (trialEndStr) {
+                const trialEnd = new Date(trialEndStr);
+                if (new Date() > trialEnd) {
+                    console.warn("Trial expired");
+                    return false; // Trial ended
+                }
+            }
+
+            const unlocks = this.getUnlocks();
+            // Must have passed L5 AND have Pro Access code (active)
+            return unlocks.includes(5) && hasProAccess;
+        }
+
         const unlocks = this.getUnlocks();
         return unlocks.includes(levelId);
     },
 
-    unlockLevel(levelId) {
+    async validateAccessCode(code) {
+        const sanitized = code.trim().toUpperCase();
+        
+        // Use global Supabase client (from supabase-client.js)
+        if (!window.supabase) {
+            console.error("Supabase client not initialized");
+            return false;
+        }
+
+        try {
+            const { data, error } = await window.supabase
+                .from('access_codes')
+                .select('*')
+                .eq('code', sanitized)
+                .single();
+
+            if (error || !data) {
+                console.error("Verification failed:", error?.message || "Code not found");
+                return false;
+            }
+
+            // Success: Store access and metadata
+            localStorage.setItem('dcm_pro_access', 'true');
+            localStorage.setItem('dcm_pro_code', sanitized); // For reference
+            localStorage.setItem('dcm_pro_plan', data.plan || 'monthly');
+            
+            if (data.trial_end) {
+                localStorage.setItem('dcm_trial_end', data.trial_end);
+            } else {
+                localStorage.removeItem('dcm_trial_end'); // Permanent access
+            }
+
+            return true;
+        } catch (err) {
+            console.error("Network error during validation:", err);
+            return false;
+        }
+    },
+
+    async unlockLevel(levelId) {
         const unlocks = this.getUnlocks();
         if (!unlocks.includes(levelId)) {
             unlocks.push(levelId);
             localStorage.setItem(this.KEYS.UNLOCKS, JSON.stringify(unlocks));
+
+            // Sync with Supabase via SessionManager
+            if (window.SessionManager) {
+                try {
+                    await window.SessionManager.updateProfile({ unlocked_levels: unlocks });
+                    console.log(`🔓 Level ${levelId} synchronized to Supabase profile.`);
+                } catch (err) {
+                    console.warn("⚠️ Failed to sync level unlock to Supabase:", err.message);
+                }
+            }
         }
     },
 
@@ -717,7 +794,7 @@ const QuizEngine = {
     },
 
     // ─── END SESSION & CALCULATE RESULTS ────────────────────────────────────
-    endSession() {
+    async endSession() {
         const { answers, _state, sessionId } = this;
         const { currentLevel, levelMeta, session, startTime } = this._state;
 
@@ -743,16 +820,16 @@ const QuizEngine = {
         if (passed) {
             const nextLevel = this.LEVELS.find(l => l.requires === currentLevel);
             if (nextLevel) {
-                this.unlockLevel(nextLevel.id);
+                await this.unlockLevel(nextLevel.id);
                 unlocked = nextLevel;
             }
-            // Handle super level unlock
-            if (currentLevel === 5) {
-                this.unlockLevel('super');
+            // Handle super level unlock from Level 6
+            if (currentLevel === 6) {
+                await this.unlockLevel('super');
                 localStorage.setItem(this.KEYS.SUPER, 'true');
             }
             // Handle certification
-            this._issueCertificate(levelMeta, scorePercent);
+            await this._issueCertificate(levelMeta, scorePercent);
         }
 
         // Save to history
@@ -798,13 +875,14 @@ const QuizEngine = {
     },
 
     // ─── CERTIFICATION ───────────────────────────────────────────────────────
-    _issueCertificate(levelMeta, score) {
+    async _issueCertificate(levelMeta, score) {
         const certLevel = {
             1: null,          // No cert for L1
             2: null,          // No cert for L2
             3: 'Governance Practitioner',
             4: null,
             5: 'Institutional Expert',
+            6: 'Certified DCM Expert',
             'super': 'Black Level'
         }[levelMeta.id];
 
@@ -813,14 +891,29 @@ const QuizEngine = {
         const certs = JSON.parse(localStorage.getItem(this.KEYS.CERTS) || '[]');
         const existing = certs.find(c => c.level === levelMeta.id);
         if (!existing) {
-            certs.push({
+            const newCert = {
                 level: levelMeta.id,
                 certName: certLevel,
                 score,
                 date: new Date().toISOString(),
                 certId: `DCM-${levelMeta.key}-${Date.now().toString(36).toUpperCase()}`
-            });
+            };
+            certs.push(newCert);
             localStorage.setItem(this.KEYS.CERTS, JSON.stringify(certs));
+
+            // Sync with Supabase profile
+            if (window.SessionManager) {
+                try {
+                    const profile = window.SessionManager.getCurrentUser();
+                    if (profile && !profile.id.startsWith('guest')) {
+                        const updatedCerts = [...(profile.certifications || []), newCert];
+                        await window.SessionManager.updateProfile({ certifications: updatedCerts });
+                        console.log(`🎓 Certificate [${certLevel}] synchronized to Supabase.`);
+                    }
+                } catch (err) {
+                    console.warn("⚠️ Failed to sync certification to Supabase:", err.message);
+                }
+            }
         }
     },
 

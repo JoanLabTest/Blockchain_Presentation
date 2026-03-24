@@ -118,39 +118,46 @@ const SessionManager = {
             role: profileData?.role || 'Analyste',
             org_id: profileData?.org_id || null,
             jurisdiction: profileData?.jurisdiction || 'EU (France)',
-            subscription_tier: profileData?.subscription_tier || 'free',
+            subscription_tier: profileData?.subscription_tier || profileData?.subscription_plan || 'free',
+            subscription_status: profileData?.subscription_status || 'active',
+            admin_override: profileData?.admin_override || false,
+            unlocked_levels: profileData?.unlocked_levels || [1],
+            certifications: profileData?.certifications || [],
             lastLogin: new Date().toISOString()
         };
 
-        // 🎭 MASTER ACCESS — only for confirmed Supabase email
+        // 🛡️ ACCESS PRIORITY LOGIC (Phase 62)
         const MASTER_EMAIL = 'joanlyczak@gmail.com';
         const userEmail = user.email ? user.email.toLowerCase() : '';
         
+        // 1. Master Fail-Safe
         if (userEmail === MASTER_EMAIL.toLowerCase()) {
             console.info('SessionManager: 🎭 MASTER ACCESS for ' + userEmail);
             profile.role = 'ADMIN';
             profile.subscription_tier = 'enterprise';
+            profile.subscription_status = 'active';
+            profile.admin_override = true;
             profile.org_id = 'dcm-master-org';
 
-            // Activate master patches via dev-unlock hook (conditional, post-auth)
             if (typeof window.__activateMasterMode === 'function') {
                 window.__activateMasterMode(userEmail);
             }
-        } else {
-            // 🧹 SECURITY: Wipe any stale dev/master flags from localStorage on every normal login.
-            const STALE_KEYS = ['is_super_dev', 'dcm_user_role', 'dcm_active_role', 'dcm_segment', 'dcm_org_id', 'userRole', 'userTier'];
-            STALE_KEYS.forEach(k => localStorage.removeItem(k));
-            sessionStorage.removeItem('dcm_master_active');
-
-            // 🧹 SECURITY: Explicitly deactivate any active master UI patches
-            if (typeof window.__deactivateMasterMode === 'function') {
-                window.__deactivateMasterMode();
-            }
-
+        } 
+        // 2. Admin Role or Override
+        else if (profile.role?.toUpperCase() === 'ADMIN' || profile.admin_override === true) {
+            console.info('SessionManager: 🛡️ ADMIN/OVERRIDE ACCESS granted for ' + userEmail);
+            profile.subscription_status = 'active'; // Force active status for overrides
+            
+            // Clean legacy flags
+            SessionManager._clearStaleAuthItems();
+        }
+        else {
+            // 🧹 SECURITY: Wipe any stale dev/master flags
+            SessionManager._clearStaleAuthItems();
             if (window.DCM_CONFIG) window.DCM_CONFIG.DEV_MODE = false;
         }
 
-        // Cache locally for offline fallback
+        // Cache locally
         localStorage.setItem(SessionManager.KEYS.AUTH_TOKEN, accessToken);
         localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(profile));
         localStorage.setItem(SessionManager.KEYS.SESSION_START, Date.now());
@@ -160,10 +167,64 @@ const SessionManager = {
             localStorage.setItem('dcm_segment', profile.subscription_tier || 'student');
             localStorage.setItem('dcm_active_role', profile.subscription_tier || 'student');
 
-            // 📣 Notify components that the verified profile is ready
+            // --- PHASE 85: SYNC LEGACY DATA ---
+            setTimeout(() => SessionManager.syncLegacyData(profile), 1000);
+
             window.dispatchEvent(new CustomEvent('dcm-profile-ready', { detail: profile }));
         }
         return profile;
+    },
+
+    /**
+     * SYNC LEGACY DATA (Phase 85)
+     * Migrates localStorage progress to Supabase for newly authenticated users.
+     */
+    syncLegacyData: async (profile) => {
+        const sb = _supabase();
+        if (!sb || !profile || profile.id.startsWith('guest')) return;
+
+        console.info('🔄 Checking for legacy localStorage data to promote...');
+
+        // 1. Sync Quiz Unlocks
+        const localUnlocks = JSON.parse(localStorage.getItem('dcm_quiz_unlocks') || '[]');
+        if (localUnlocks.length > profile.unlocked_levels.length) {
+            console.log('📈 Promoting Quiz Unlocks to Supabase...');
+            const merged = [...new Set([...profile.unlocked_levels, ...localUnlocks])];
+            await sb.from('profiles').update({ unlocked_levels: merged }).eq('id', profile.id);
+            profile.unlocked_levels = merged;
+            localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(profile));
+        }
+
+        // 2. Sync Simulations
+        const localSims = JSON.parse(localStorage.getItem('dcm_simulations') || '[]');
+        if (localSims.length > 0) {
+            console.log(`💾 Promoting ${localSims.length} legacy simulations...`);
+            for (const sim of localSims) {
+                if (sim.id && sim.id.startsWith('LOCAL-')) {
+                    await sb.from('simulations').insert([{
+                        user_id: profile.id,
+                        org_id: profile.org_id,
+                        scenario_name: sim.name,
+                        simulation_type: sim.type || 'UNKNOWN',
+                        input_data: sim.params,
+                        results: sim.results,
+                        created_at: sim.timestamp
+                    }]);
+                }
+            }
+            localStorage.removeItem('dcm_simulations');
+        }
+
+        console.info('✅ Legacy data sync complete.');
+    },
+
+    _clearStaleAuthItems: () => {
+        const STALE_KEYS = ['is_super_dev', 'dcm_user_role', 'dcm_active_role', 'dcm_segment', 'dcm_org_id', 'userRole', 'userTier'];
+        STALE_KEYS.forEach(k => localStorage.removeItem(k));
+        sessionStorage.removeItem('dcm_master_active');
+        if (typeof window.__deactivateMasterMode === 'function') {
+            window.__deactivateMasterMode();
+        }
     },
 
     // =============================================
@@ -297,6 +358,38 @@ const SessionManager = {
             }
         }, 60000);
     },
+
+    /**
+     * Update user profile in Supabase and local cache
+     */
+    updateProfile: async (updates) => {
+        const sb = _supabase();
+        const profile = SessionManager.getCurrentUser();
+        if (!sb || !profile || profile.id.startsWith('guest')) {
+            // Local update for guests
+            const newProfile = { ...profile, ...updates };
+            localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(newProfile));
+            return newProfile;
+        }
+
+        const { data, error } = await sb
+            .from('profiles')
+            .update(updates)
+            .eq('id', profile.id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error("❌ Profile Update Error:", error.message);
+            throw error;
+        }
+
+        // Update local cache
+        const updatedProfile = { ...profile, ...updates };
+        localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(updatedProfile));
+        window.dispatchEvent(new CustomEvent('dcm-profile-updated', { detail: updatedProfile }));
+        return updatedProfile;
+    },
     // =============================================
     //  DATA SYNC — Write activity to Supabase
     // =============================================
@@ -398,47 +491,70 @@ const SessionManager = {
 
     checkAccess: (permission) => {
         const profile = SessionManager.getCurrentUser() || {};
-        const role = profile.role || 'Viewer';
-        const tier = profile.subscription_tier || 'free';
         const email = profile.email || '';
+        const role = (profile.role || '').toUpperCase();
+        const tier = (profile.subscription_tier || 'free').toLowerCase();
+        const status = (profile.subscription_status || 'inactive').toLowerCase();
+        const override = profile.admin_override === true;
 
-        // 🎭 MASTER ACCESS — only if confirmed via Supabase session email
-        // NOTE: We do NOT read localStorage flags (is_super_dev, dcm_user_role)
-        // to prevent auth bypass from stale session data.
+        // 🛡️ PRIORITY ACCESS CHECK
+        
+        // 1. MASTER FAIL-SAFE
         const MASTER_EMAIL = 'joanlyczak@gmail.com';
-        const isMaster = email === MASTER_EMAIL;
-        if (isMaster) {
-            console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (master)`);
+        if (email.toLowerCase() === MASTER_EMAIL.toLowerCase()) return true;
+
+        // 2. ADMIN ROLE OR OVERRIDE
+        if (role === 'ADMIN' || override) {
+            console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (Admin/Override)`);
             return true;
         }
 
         /**
-         * Institutional Permission Matrix
-         * Maps permissions to required roles and tiers.
+         * Tier-Based Permission Matrix (Refined Architecture)
          */
-        const PERMISSION_MATRIX = {
-            'REPORT_EXPORT': { roles: ['Admin', 'Analyst'], tiers: ['pro', 'enterprise'] },
-            'AUDIT_VIEW': { roles: ['Admin'], tiers: ['enterprise'] },
-            'BENCHMARK_DETAIL': { roles: ['Admin', 'Analyst'], tiers: ['pro', 'enterprise'] },
-            'USER_MANAGEMENT': { roles: ['Admin'], tiers: ['enterprise'] },
-            'RISK_MODEL_EDIT': { roles: ['Admin'], tiers: ['enterprise'] },
-            'BASIC_DASHBOARD': { roles: ['Admin', 'Analyst', 'Viewer'], tiers: ['free', 'pro', 'enterprise'] }
+        const TIER_PERMISSIONS = {
+            'free': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH'
+            ],
+            'pro': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH',
+                'REPORT_EXPORT',
+                'BENCHMARK_DETAIL',
+                'PREMIUM_RESEARCH'
+            ],
+            'enterprise': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH',
+                'REPORT_EXPORT',
+                'BENCHMARK_DETAIL',
+                'PREMIUM_RESEARCH',
+                'AUDIT_VIEW',
+                'USER_MANAGEMENT',
+                'RISK_MODEL_EDIT',
+                'API_ACCESS'
+            ]
         };
 
-        const rule = PERMISSION_MATRIX[permission];
-        if (!rule) {
-            console.warn(`⚠️ Unknown permission requested: ${permission}. Defaulting to DENY.`);
-            return false;
-        }
-
-        // Role & Tier Check
-        const isGranted = rule.roles.some(r => r.toLowerCase() === role.toLowerCase())
-            && rule.tiers.includes(tier.toLowerCase());
-
-        if (!isGranted) {
+        // 3. STRIPE STATUS CHECK (Must be active for paid tiers)
+        const isPaidTier = tier === 'pro' || tier === 'enterprise';
+        if (isPaidTier && status !== 'active') {
+            console.warn(`[RBAC] ❌ checkAccess("${permission}") → DENIED (Paid tier but status is ${status})`);
             SessionManager.showPaywall(permission, role);
             return false;
         }
+
+        const allowedFeatures = TIER_PERMISSIONS[tier] || TIER_PERMISSIONS['free'];
+        const isGranted = allowedFeatures.includes(permission.toUpperCase());
+
+        if (!isGranted) {
+            console.warn(`[RBAC] ❌ checkAccess("${permission}") → DENIED (Tier ${tier} mission)`);
+            SessionManager.showPaywall(permission, role);
+            return false;
+        }
+
+        console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (Tier ${tier})`);
         return true;
     },
 
@@ -514,6 +630,9 @@ if (typeof window !== 'undefined') {
     SessionManager.startTracking();
     setTimeout(() => SessionManager.checkAndShowNotifications(), 1500);
 }
+
+export { SessionManager };
+export default SessionManager;
 
 // =============================================
 //  STORAGE MIGRATION v2 — Auto-cleanup legacy dev keys

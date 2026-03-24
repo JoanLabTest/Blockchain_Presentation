@@ -119,8 +119,10 @@ const SessionManager = {
             org_id: profileData?.org_id || null,
             jurisdiction: profileData?.jurisdiction || 'EU (France)',
             subscription_tier: profileData?.subscription_tier || profileData?.subscription_plan || 'free',
-            subscription_status: profileData?.subscription_status || 'inactive',
+            subscription_status: profileData?.subscription_status || 'active',
             admin_override: profileData?.admin_override || false,
+            unlocked_levels: profileData?.unlocked_levels || [1],
+            certifications: profileData?.certifications || [],
             lastLogin: new Date().toISOString()
         };
 
@@ -164,9 +166,56 @@ const SessionManager = {
         if (profile) {
             localStorage.setItem('dcm_segment', profile.subscription_tier || 'student');
             localStorage.setItem('dcm_active_role', profile.subscription_tier || 'student');
+
+            // --- PHASE 85: SYNC LEGACY DATA ---
+            setTimeout(() => SessionManager.syncLegacyData(profile), 1000);
+
             window.dispatchEvent(new CustomEvent('dcm-profile-ready', { detail: profile }));
         }
         return profile;
+    },
+
+    /**
+     * SYNC LEGACY DATA (Phase 85)
+     * Migrates localStorage progress to Supabase for newly authenticated users.
+     */
+    syncLegacyData: async (profile) => {
+        const sb = _supabase();
+        if (!sb || !profile || profile.id.startsWith('guest')) return;
+
+        console.info('🔄 Checking for legacy localStorage data to promote...');
+
+        // 1. Sync Quiz Unlocks
+        const localUnlocks = JSON.parse(localStorage.getItem('dcm_quiz_unlocks') || '[]');
+        if (localUnlocks.length > profile.unlocked_levels.length) {
+            console.log('📈 Promoting Quiz Unlocks to Supabase...');
+            const merged = [...new Set([...profile.unlocked_levels, ...localUnlocks])];
+            await sb.from('profiles').update({ unlocked_levels: merged }).eq('id', profile.id);
+            profile.unlocked_levels = merged;
+            localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(profile));
+        }
+
+        // 2. Sync Simulations
+        const localSims = JSON.parse(localStorage.getItem('dcm_simulations') || '[]');
+        if (localSims.length > 0) {
+            console.log(`💾 Promoting ${localSims.length} legacy simulations...`);
+            for (const sim of localSims) {
+                if (sim.id && sim.id.startsWith('LOCAL-')) {
+                    await sb.from('simulations').insert([{
+                        user_id: profile.id,
+                        org_id: profile.org_id,
+                        scenario_name: sim.name,
+                        simulation_type: sim.type || 'UNKNOWN',
+                        input_data: sim.params,
+                        results: sim.results,
+                        created_at: sim.timestamp
+                    }]);
+                }
+            }
+            localStorage.removeItem('dcm_simulations');
+        }
+
+        console.info('✅ Legacy data sync complete.');
     },
 
     _clearStaleAuthItems: () => {
@@ -308,6 +357,38 @@ const SessionManager = {
                 SessionManager.logout();
             }
         }, 60000);
+    },
+
+    /**
+     * Update user profile in Supabase and local cache
+     */
+    updateProfile: async (updates) => {
+        const sb = _supabase();
+        const profile = SessionManager.getCurrentUser();
+        if (!sb || !profile || profile.id.startsWith('guest')) {
+            // Local update for guests
+            const newProfile = { ...profile, ...updates };
+            localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(newProfile));
+            return newProfile;
+        }
+
+        const { data, error } = await sb
+            .from('profiles')
+            .update(updates)
+            .eq('id', profile.id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error("❌ Profile Update Error:", error.message);
+            throw error;
+        }
+
+        // Update local cache
+        const updatedProfile = { ...profile, ...updates };
+        localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(updatedProfile));
+        window.dispatchEvent(new CustomEvent('dcm-profile-updated', { detail: updatedProfile }));
+        return updatedProfile;
     },
     // =============================================
     //  DATA SYNC — Write activity to Supabase

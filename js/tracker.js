@@ -81,8 +81,26 @@ class ResearchTracker {
 
         // Simple Scoring Algo (Demo)
         let maturityScore = Math.min(100, (pagesVisited * 10) + (totalTime / 60));
-        localStorage.setItem('dcm_research_score', Math.round(maturityScore));
+        const finalScore = Math.round(maturityScore);
+        localStorage.setItem('dcm_research_score', finalScore);
         localStorage.setItem('dcm_research_data', JSON.stringify(history));
+
+        // Sync to Supabase
+        if (window.supabase) {
+            window.supabase.auth.getSession().then(({ data: { session } }) => {
+                if (session && session.user) {
+                    window.supabase.from('research_scores').upsert({
+                        user_id: session.user.id,
+                        snapshot_date: new Date().toISOString().split('T')[0],
+                        total_score: finalScore,
+                        sub_score_legal: finalScore,
+                        sub_score_tech: finalScore,
+                        sub_score_risk: finalScore,
+                        sub_score_engagement: finalScore
+                    }, { onConflict: 'user_id,snapshot_date' }).then(() => {});
+                }
+            });
+        }
     }
 }
 

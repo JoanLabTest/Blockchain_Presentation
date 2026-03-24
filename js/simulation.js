@@ -8,16 +8,18 @@ export class SimulationEngine {
 
     async save(type, name, params, results) {
         const { data: { session } } = await supabase.auth.getSession();
+        const profile = window.SessionManager ? window.SessionManager.getCurrentUser() : null;
+
         if (!session) {
             console.warn("🔐 No real session, saving locally.");
-            // Fallback for demo
             return this._saveLocal(type, name, params, results);
         }
 
         const scenario = {
             user_id: session.user.id,
-            org_id: this.orgId,
+            org_id: profile?.org_id || this.orgId,
             scenario_name: name,
+            simulation_type: type,
             input_data: params,
             results: results,
             score_delta: 5 // Bonus research score
@@ -34,6 +36,9 @@ export class SimulationEngine {
         }
 
         console.log("💾 Simulation Persisted on Server:", data[0].id);
+
+        // Sync Research Score (Phase 85)
+        await this.persist();
 
         // Log Audit (Phase 79)
         if (window.AuditLogger) {
@@ -52,8 +57,10 @@ export class SimulationEngine {
             params,
             results
         };
-        this.simulations.unshift(scenario);
-        localStorage.setItem('dcm_simulations', JSON.stringify(this.simulations.slice(0, 20)));
+        // Keep a short local cache for performance
+        let history = JSON.parse(localStorage.getItem('dcm_simulations')) || [];
+        history.unshift(scenario);
+        localStorage.setItem('dcm_simulations', JSON.stringify(history.slice(0, 10)));
         return scenario;
     }
 
@@ -75,7 +82,7 @@ export class SimulationEngine {
         return data.map(s => ({
             id: s.id,
             timestamp: s.created_at,
-            type: s.scenario_name.includes('Yield') ? 'YIELD' : 'RISK', // Simplified mapping
+            type: s.simulation_type || (s.scenario_name.includes('Yield') ? 'YIELD' : 'RISK'),
             name: s.scenario_name,
             params: s.input_data,
             results: s.results
@@ -84,14 +91,37 @@ export class SimulationEngine {
 
     clear() {
         this.simulations = [];
-        this.persist();
+        localStorage.removeItem('dcm_simulations');
     }
 
-    persist() {
-        // Research mapping (simplified for front-end evolution display)
-        let currentScore = parseInt(localStorage.getItem('dcm_research_score') || 0);
-        if (currentScore < 100) {
-            localStorage.setItem('dcm_research_score', currentScore + 5);
+    async persist() {
+        const profile = window.SessionManager ? window.SessionManager.getCurrentUser() : null;
+        if (!profile || profile.id.startsWith('guest')) {
+            let currentScore = parseInt(localStorage.getItem('dcm_research_score') || 0);
+            if (currentScore < 100) {
+                localStorage.setItem('dcm_research_score', currentScore + 2);
+            }
+            return;
+        }
+
+        // Sync maturity score to Supabase via research_scores table
+        try {
+            const today = new Date().toISOString().split('T')[0];
+            const currentScore = parseInt(localStorage.getItem('dcm_research_score') || 50);
+            
+            const { error } = await supabase
+                .from('research_scores')
+                .upsert({
+                    user_id: profile.id,
+                    snapshot_date: today,
+                    total_score: Math.min(100, currentScore + 2),
+                    sub_score_engagement: 10 // Increment engagement
+                }, { onConflict: 'user_id,snapshot_date' });
+
+            if (error) throw error;
+            console.log("📈 Research maturity score synced to Supabase.");
+        } catch (err) {
+            console.warn("⚠️ Score sync failed:", err.message);
         }
     }
 }

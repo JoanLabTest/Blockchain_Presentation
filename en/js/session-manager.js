@@ -292,11 +292,44 @@ const SessionManager = {
             const lastActivity = parseInt(localStorage.getItem(SessionManager.KEYS.LAST_ACTIVITY) || Date.now().toString());
             if (Date.now() - lastActivity > SessionManager.SESSION_TIMEOUT_MS) {
                 console.warn('🔒 Session Timeout reached (30 min inactivity). Logging out.');
-                alert("Session expirée pour inactivité. Veuillez vous reconnecter.");
+                alert("Session expired due to inactivity. Please log in again.");
                 SessionManager.logout();
             }
         }, 60000);
     },
+
+    /**
+     * Update user profile in Supabase and local cache
+     */
+    updateProfile: async (updates) => {
+        const sb = _supabase();
+        const profile = SessionManager.getCurrentUser();
+        if (!sb || !profile || profile.id.startsWith('guest')) {
+            // Local update for guests
+            const newProfile = { ...profile, ...updates };
+            localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(newProfile));
+            return newProfile;
+        }
+
+        const { data, error } = await sb
+            .from('profiles')
+            .update(updates)
+            .eq('id', profile.id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error("❌ Profile Update Error:", error.message);
+            throw error;
+        }
+
+        // Update local cache
+        const updatedProfile = { ...profile, ...updates };
+        localStorage.setItem(SessionManager.KEYS.USER_PROFILE, JSON.stringify(updatedProfile));
+        window.dispatchEvent(new CustomEvent('dcm-profile-updated', { detail: updatedProfile }));
+        return updatedProfile;
+    },
+
     // =============================================
     //  DATA SYNC — Write activity to Supabase
     // =============================================
@@ -378,7 +411,7 @@ const SessionManager = {
     },
 
     // =============================================
-    //  SMART NOTIFICATIONS (Phase 28 — unchanged)
+    //  SMART NOTIFICATIONS (Phase 28 — English)
     // =============================================
     checkAndShowNotifications: () => {
         if (!window.location.pathname.includes('dashboard.html')) return;
@@ -388,68 +421,89 @@ const SessionManager = {
             const pct = Math.round((last.score / last.total) * 100);
             const icon = pct < 80 ? '💪' : '🏆';
             const msg = pct < 80
-                ? `Votre dernier score était de ${pct}%. Prêt à réessayer ?`
-                : `Vous avez validé le dernier module avec ${pct}%. Cap sur le prochain niveau ?`;
-            SessionManager.showToast(icon, 'Bienvenue', msg);
+                ? `Your last score was ${pct}%. Ready to try again?`
+                : `You validated the last module with ${pct}%. Heading for the next level?`;
+            SessionManager.showToast(icon, 'Welcome', msg);
         } else {
-            SessionManager.showToast('👋', 'Bienvenue', 'Votre cockpit est prêt. Commencez par le Quiz ou explorez les données.');
+            SessionManager.showToast('👋', 'Welcome', 'Your cockpit is ready. Start with the Quiz or explore the data.');
         }
     },
 
     checkAccess: (permission) => {
         const profile = SessionManager.getCurrentUser() || {};
-        const role = profile.role || 'Viewer';
-        const tier = profile.subscription_tier || 'free';
+        const role = (profile.role || '').toUpperCase();
+        const tier = (profile.subscription_tier || 'free').toLowerCase();
         const email = profile.email || '';
+        const status = (profile.subscription_status || 'inactive').toLowerCase();
+        const override = profile.admin_override === true;
 
-        // 🎭 MASTER ACCESS — only if confirmed via Supabase session email
-        // NOTE: We do NOT read localStorage flags (is_super_dev, dcm_user_role)
-        // to prevent auth bypass from stale session data.
+        // 🎭 MASTER ACCESS — confirmed via Supabase email
         const MASTER_EMAIL = 'joanlyczak@gmail.com';
-        const isMaster = email === MASTER_EMAIL;
-        if (isMaster) {
-            console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (master)`);
+        if (email.toLowerCase() === MASTER_EMAIL.toLowerCase()) return true;
+
+        // 🛡️ ADMIN ROLE OR OVERRIDE
+        if (role === 'ADMIN' || override) {
+            console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (Admin/Override)`);
             return true;
         }
 
         /**
          * Institutional Permission Matrix
-         * Maps permissions to required roles and tiers.
          */
-        const PERMISSION_MATRIX = {
-            'REPORT_EXPORT': { roles: ['Admin', 'Analyst'], tiers: ['pro', 'enterprise'] },
-            'AUDIT_VIEW': { roles: ['Admin'], tiers: ['enterprise'] },
-            'BENCHMARK_DETAIL': { roles: ['Admin', 'Analyst'], tiers: ['pro', 'enterprise'] },
-            'USER_MANAGEMENT': { roles: ['Admin'], tiers: ['enterprise'] },
-            'RISK_MODEL_EDIT': { roles: ['Admin'], tiers: ['enterprise'] },
-            'BASIC_DASHBOARD': { roles: ['Admin', 'Analyst', 'Viewer'], tiers: ['free', 'pro', 'enterprise'] }
+        const TIER_PERMISSIONS = {
+            'free': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH'
+            ],
+            'pro': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH',
+                'REPORT_EXPORT',
+                'BENCHMARK_DETAIL',
+                'PREMIUM_RESEARCH'
+            ],
+            'enterprise': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH',
+                'REPORT_EXPORT',
+                'BENCHMARK_DETAIL',
+                'PREMIUM_RESEARCH',
+                'AUDIT_VIEW',
+                'USER_MANAGEMENT',
+                'RISK_MODEL_EDIT',
+                'API_ACCESS'
+            ]
         };
 
-        const rule = PERMISSION_MATRIX[permission];
-        if (!rule) {
-            console.warn(`⚠️ Unknown permission requested: ${permission}. Defaulting to DENY.`);
-            return false;
-        }
-
-        // Role & Tier Check
-        const isGranted = rule.roles.some(r => r.toLowerCase() === role.toLowerCase())
-            && rule.tiers.includes(tier.toLowerCase());
-
-        if (!isGranted) {
+        // 🛡️ STRIPE STATUS CHECK (Must be active for paid tiers)
+        const isPaidTier = tier === 'pro' || tier === 'enterprise';
+        if (isPaidTier && status !== 'active') {
+            console.warn(`[RBAC] ❌ checkAccess("${permission}") → DENIED (Paid tier but status is ${status})`);
             SessionManager.showPaywall(permission, role);
             return false;
         }
+
+        const allowedFeatures = TIER_PERMISSIONS[tier] || TIER_PERMISSIONS['free'];
+        const isGranted = allowedFeatures.includes(permission.toUpperCase());
+
+        if (!isGranted) {
+            console.warn(`[RBAC] ❌ checkAccess("${permission}") → DENIED (Tier ${tier} mission)`);
+            SessionManager.showPaywall(permission, role);
+            return false;
+        }
+
+        console.log(`[RBAC] ✅ checkAccess("${permission}") → GRANTED (Tier ${tier})`);
         return true;
     },
 
     showPaywall: (permission, currentRole) => {
         const messages = {
-            'REPORT_EXPORT': 'Exportation PDF institutionnelle (Droits Analyst+ requis).',
-            'AUDIT_VIEW': 'Accès aux Logs d\'Audit (Droits Admin requis).',
-            'USER_MANAGEMENT': 'Gestion des accès (Droits Admin requis).',
-            'RISK_MODEL_EDIT': 'Modification du modèle de risque (Droits Admin requis).'
+            'REPORT_EXPORT': 'Institutional PDF Export (Analyst+ required).',
+            'AUDIT_VIEW': 'Access to Audit Logs (Admin required).',
+            'USER_MANAGEMENT': 'Access Management (Admin required).',
+            'RISK_MODEL_EDIT': 'Risk Model Modification (Admin required).'
         };
-        const displayName = messages[permission] || 'cette fonctionnalité experte';
+        const displayName = messages[permission] || 'this expert feature';
 
         const modalId = 'premium-upgrade-modal';
         if (document.getElementById(modalId)) return;
@@ -469,15 +523,15 @@ const SessionManager = {
                     <i class="fas fa-crown" style="font-size:30px;color:var(--accent-purple);"></i>
                 </div>
                 
-                <h2 style="color:white;margin-bottom:12px;font-size:24px;font-weight:800;">Accès Limité</h2>
-                <p style="color:#a1a1aa;margin-bottom:30px;font-size:15px;line-height:1.5;">Vous utilisez actuellement l'édition <strong style="color:white">Analyst Free</strong>. Débloquez <strong>${displayName}</strong> et les données temps réel avec le plan Pro.</p>
+                <h2 style="color:white;margin-bottom:12px;font-size:24px;font-weight:800;">Limited Access</h2>
+                <p style="color:#a1a1aa;margin-bottom:30px;font-size:15px;line-height:1.5;">You are currently using the <strong style="color:white">Analyst Free</strong> edition. Unlock <strong>${displayName}</strong> and real-time data with the Pro plan.</p>
                 
                 <div style="display:flex;flex-direction:column;gap:15px">
                     <button onclick="window.location.href='pricing.html'" style="padding:14px;background:var(--accent-purple);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:700;font-size:16px;box-shadow:0 10px 20px rgba(139, 92, 246, 0.3);transition:transform 0.2s;">
-                        Voir les abonnements Pro 🚀
+                        View Pro Subscriptions 🚀
                     </button>
                     <button onclick="this.closest('#${modalId}').remove()" style="padding:14px;background:transparent;border:1px solid #333;color:#888;border-radius:12px;cursor:pointer;font-weight:600;transition:0.2s;">
-                        Continuer en mode gratuit
+                        Continue in free mode
                     </button>
                 </div>
             </div>
@@ -554,3 +608,4 @@ if (typeof window !== 'undefined') {
     localStorage.setItem(MIGRATION_KEY, '1');
     console.info('[SessionManager] ✅ Storage migration v2 complete.');
 })();
+

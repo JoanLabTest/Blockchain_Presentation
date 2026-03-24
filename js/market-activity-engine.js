@@ -190,8 +190,11 @@ class MarketActivityEngine {
                 <button class="panel-btn-primary" onclick="window.marketActivity.exportSnapshot('${asset.id}')">
                     <i class="fas fa-file-pdf"></i> ${isFR ? 'Exporter Snapshot' : 'Export Snapshot'}
                 </button>
+                <button class="panel-btn-secondary" onclick="window.marketActivity.saveToWatchlist('${asset.id}', this)" style="border-color: rgba(168, 85, 247, 0.4); color: #c084fc;">
+                    <i class="fas fa-bookmark"></i> ${isFR ? 'Watchlist' : 'Watchlist'}
+                </button>
                 <button class="panel-btn-secondary" onclick="window.marketActivity.shareInsight('${asset.id}')">
-                    <i class="fas fa-share-nodes"></i> ${isFR ? 'Partager Insight' : 'Share Insight'}
+                    <i class="fas fa-share-nodes"></i> ${isFR ? 'Partager' : 'Share'}
                 </button>
             </div>
             <div style="margin-top: 25px; display: grid; gap: 10px;">
@@ -232,6 +235,57 @@ class MarketActivityEngine {
                     <p style="margin: 0; font-weight: 700;">${window.location.pathname.includes('/fr/') ? "Inscription réussie !" : "Subscription successful!"}</p>
                 </div>
             `;
+        }
+    }
+
+    async saveToWatchlist(assetId, btnElement) {
+        if (!window.supabase) {
+            alert(window.location.pathname.includes('/fr/') ? "Authentification Institutionnelle requise. Redirection..." : "Institutional Authentication Required. Redirecting...");
+            window.location.href = window.location.pathname.includes('/fr/') ? '/fr/login.html' : '/en/login.html';
+            return;
+        }
+
+        try {
+            const { data: { session } } = await window.supabase.auth.getSession();
+            if (!session) {
+                alert(window.location.pathname.includes('/fr/') ? "Veuillez vous connecter pour sauvegarder aux favoris." : "Please login to save to your Watchlist.");
+                window.location.href = window.location.pathname.includes('/fr/') ? '/fr/login.html' : '/en/login.html';
+                return;
+            }
+
+            const userId = session.user.id;
+            
+            const { error } = await window.supabase
+                .from('user_watchlists')
+                .insert([
+                    { user_id: userId, tfin_id: assetId }
+                ]);
+
+            if (error) {
+                if (error.code === '23505') {
+                    alert(window.location.pathname.includes('/fr/') ? "Cet actif est déjà dans votre Watchlist." : "This asset is already in your Institutional Watchlist.");
+                } else {
+                    console.error("Watchlist save error:", error);
+                    alert(window.location.pathname.includes('/fr/') ? "Erreur lors de la sauvegarde." : "Failed to save to Watchlist. Please try again.");
+                }
+                return;
+            }
+
+            const originalHTML = btnElement.innerHTML;
+            btnElement.innerHTML = '<i class="fas fa-check"></i> ' + (window.location.pathname.includes('/fr/') ? 'Sauvegardé' : 'Saved');
+            btnElement.style.color = '#10b981';
+            btnElement.style.borderColor = '#10b981';
+            btnElement.disabled = true;
+
+            setTimeout(() => {
+                btnElement.innerHTML = originalHTML;
+                btnElement.style.color = '';
+                btnElement.style.borderColor = '';
+                btnElement.disabled = false;
+            }, 2000);
+
+        } catch (err) {
+            console.error("Watchlist error:", err);
         }
     }
 
@@ -299,23 +353,29 @@ VERIFY AT:      https://dcmcore.com/?tfin=${asset.id}
         if (!asset) return;
 
         const shareUrl = `${window.location.origin}${window.location.pathname}?tfin=${asset.id}`;
-        const text = `📊 Institutional Intelligence: ${asset.name} (${asset.type})\n\n` +
-                     `🔹 Issuer: ${asset.issuer}\n` +
-                     `🔹 Infrastructure: ${asset.infrastructure}\n` +
-                     `🔹 AUM: ${asset.aum}\n` +
-                     `🔹 DORA: ${asset.dora || 'Compliant'}\n\n` +
-                     `👉 Open in Terminal to explore full institutional snapshot:\n${shareUrl}\n\n` +
-                     `#Tokenization #RWA #DCMCore #InstitutionalWeb3`;
+        const isFR = window.location.pathname.includes('/fr/');
+        
+        const header = `⚡ [DCM CORE ALERT] TFIN VALIDATION`;
+        const action = isFR ? `Actif Institutionnel vérifié sur le Global Tokenized Securities Registry (GTSR).` : `Institutional Asset verified on the Global Tokenized Securities Registry (GTSR).`;
+        
+        const text = `${header}\n${action}\n\n` +
+                     `◩ ASSET: ${asset.name} (${asset.type})\n` +
+                     `◩ ISSUER: ${asset.issuer}\n` +
+                     `◩ INFRASTRUCTURE: ${asset.infrastructure}\n` +
+                     `◩ AUM / METRIC: ${asset.aum}\n` +
+                     `◩ DORA READINESS: ${asset.dora || 'N/A'}\n\n` +
+                     `🔍 ${isFR ? "Code d'identification" : "TFIN Identifier"}: ${asset.id}\n\n` +
+                     `🔗 ${isFR ? "Accéder au Scan Intégral du Terminal" : "Access Full Terminal Scan"}:\n${shareUrl}\n\n` +
+                     `#Tokenization #RWA #DCMCore #InstitutionalWeb3 #DigitalAssets`;
 
         if (navigator.share) {
             navigator.share({
                 title: `DCM Core Insight: ${asset.name}`,
                 text: text,
-                url: shareUrl
             }).catch(console.error);
         } else {
             navigator.clipboard.writeText(text).then(() => {
-                alert("Viral Insight copied to clipboard! Ready to post on LinkedIn/X.");
+                alert(isFR ? "Alerte copié dans le presse-papier ! Prêt pour LinkedIn/X." : "Insight Alert copied to clipboard! Ready to post on LinkedIn/X.");
             });
         }
     }

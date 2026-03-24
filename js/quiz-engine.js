@@ -57,6 +57,13 @@ const QuizEngine = {
     // ─── UNLOCK MANAGEMENT ──────────────────────────────────────────────────
     getUnlocks() {
         if (this.isDevMode()) return [1, 2, 3, 4, 5, 6, 'super'];
+        
+        // Priority to SessionManager profile (Supabase-backed)
+        const profile = window.SessionManager ? window.SessionManager.getCurrentUser() : null;
+        if (profile && profile.unlocked_levels) {
+            return profile.unlocked_levels;
+        }
+
         return JSON.parse(localStorage.getItem(this.KEYS.UNLOCKS) || '[1]');
     },
 
@@ -125,11 +132,21 @@ const QuizEngine = {
         }
     },
 
-    unlockLevel(levelId) {
+    async unlockLevel(levelId) {
         const unlocks = this.getUnlocks();
         if (!unlocks.includes(levelId)) {
             unlocks.push(levelId);
             localStorage.setItem(this.KEYS.UNLOCKS, JSON.stringify(unlocks));
+
+            // Sync with Supabase via SessionManager
+            if (window.SessionManager) {
+                try {
+                    await window.SessionManager.updateProfile({ unlocked_levels: unlocks });
+                    console.log(`🔓 Level ${levelId} synchronized to Supabase profile.`);
+                } catch (err) {
+                    console.warn("⚠️ Failed to sync level unlock to Supabase:", err.message);
+                }
+            }
         }
     },
 
@@ -1205,7 +1222,7 @@ const QuizEngine = {
     },
 
     // ─── END SESSION & CALCULATE RESULTS ────────────────────────────────────
-    endSession() {
+    async endSession() {
         const { answers, _state, sessionId } = this;
         const { currentLevel, levelMeta, session, startTime } = this._state;
 
@@ -1231,16 +1248,16 @@ const QuizEngine = {
         if (passed) {
             const nextLevel = this.LEVELS.find(l => l.requires === currentLevel);
             if (nextLevel) {
-                this.unlockLevel(nextLevel.id);
+                await this.unlockLevel(nextLevel.id);
                 unlocked = nextLevel;
             }
             // Handle super level unlock
             if (currentLevel === 6) {
-                this.unlockLevel('super');
+                await this.unlockLevel('super');
                 localStorage.setItem(this.KEYS.SUPER, 'true');
             }
             // Handle certification
-            this._issueCertificate(levelMeta, scorePercent);
+            await this._issueCertificate(levelMeta, scorePercent);
         }
 
         // Save to history
@@ -1286,7 +1303,7 @@ const QuizEngine = {
     },
 
     // ─── CERTIFICATION ───────────────────────────────────────────────────────
-    _issueCertificate(levelMeta, score) {
+    async _issueCertificate(levelMeta, score) {
         const certLevel = {
             1: null,          // No cert for L1
             2: null,          // No cert for L2
@@ -1301,14 +1318,29 @@ const QuizEngine = {
         const certs = JSON.parse(localStorage.getItem(this.KEYS.CERTS) || '[]');
         const existing = certs.find(c => c.level === levelMeta.id);
         if (!existing) {
-            certs.push({
+            const newCert = {
                 level: levelMeta.id,
                 certName: certLevel,
                 score,
                 date: new Date().toISOString(),
                 certId: `DCM-${levelMeta.key}-${Date.now().toString(36).toUpperCase()}`
-            });
+            };
+            certs.push(newCert);
             localStorage.setItem(this.KEYS.CERTS, JSON.stringify(certs));
+
+            // Sync with Supabase profile
+            if (window.SessionManager) {
+                try {
+                    const profile = window.SessionManager.getCurrentUser();
+                    if (profile && !profile.id.startsWith('guest')) {
+                        const updatedCerts = [...(profile.certifications || []), newCert];
+                        await window.SessionManager.updateProfile({ certifications: updatedCerts });
+                        console.log(`🎓 Certificate [${certLevel}] synchronized to Supabase.`);
+                    }
+                } catch (err) {
+                    console.warn("⚠️ Failed to sync certification to Supabase:", err.message);
+                }
+            }
         }
     },
 
