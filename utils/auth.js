@@ -6,13 +6,15 @@ const AuthManager = (() => {
     let supabaseClient = null;
 
     async function init() {
-        console.log("AuthManager: Initializing...");
-
-        // 1. Check Config
-        if (typeof DCM_CONFIG === 'undefined' || typeof supabase === 'undefined') {
-            console.error("AuthManager Error: Config or Supabase SDK missing");
-            return;
-        }
+        console.group("🔐 AuthManager: Initializing...");
+        
+        try {
+            // 1. Check Config
+            if (typeof DCM_CONFIG === 'undefined' || typeof supabase === 'undefined') {
+                console.error("AuthManager Error: Config or Supabase SDK missing");
+                console.groupEnd();
+                return;
+            }
 
         // 2. Init Supabase
         // Ensure supabaseClient is ready (might be already init in another script, but let's be safe)
@@ -107,10 +109,17 @@ const AuthManager = (() => {
                 return;
             }
 
-            currentUser = session?.user || null;
+            currentUser = sessionUser;
             handleRouteGuard();
             updateUI();
         });
+
+            console.log("AuthManager: User is", currentUser ? (currentUser.is_guest ? "Guest" : "Logged In") : "Not Authenticated");
+            console.groupEnd();
+        } catch (err) {
+            console.error("AuthManager: Critical Initialization Error:", err);
+            console.groupEnd();
+        }
     }
 
     function handleRouteGuard() {
@@ -202,15 +211,22 @@ const AuthManager = (() => {
     };
 })();
 
-// Auto-init only after DOM is ready
+// Auto-init with safety retries
 document.addEventListener('DOMContentLoaded', () => {
-    // Wait a tiny bit to ensure supabase script is loaded if deferred
-    if (typeof supabase !== 'undefined') {
-        AuthManager.init();
-    } else {
-        // Retry once after 500ms
-        setTimeout(() => {
-            if (typeof supabase !== 'undefined') AuthManager.init();
-        }, 500);
+    let initAttempts = 0;
+    const maxAttempts = 5;
+
+    function tryInit() {
+        initAttempts++;
+        if (typeof supabase !== 'undefined' && typeof DCM_CONFIG !== 'undefined') {
+            AuthManager.init();
+        } else if (initAttempts < maxAttempts) {
+            console.warn(`AuthManager: Dependencies not ready (attempt ${initAttempts}/${maxAttempts}), retrying in 500ms...`);
+            setTimeout(tryInit, 500);
+        } else {
+            console.error("AuthManager: Failed to initialize after multiple attempts. Is config.js loaded?");
+        }
     }
+
+    tryInit();
 });

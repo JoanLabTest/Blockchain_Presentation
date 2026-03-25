@@ -13,7 +13,7 @@ class GlobalFooter extends HTMLElement {
                             <div class="logo-orb"></div>
                             <h3>DCM Core Institute</h3>
                             <p>L'infrastructure de recherche indépendante pour la finance programmable.</p>
-                            <a href="https://www.linkedin.com/in/joan-lyczak-6b58ab49/" target="_blank" class="linkedin-link" title="LinkedIn">
+                            <a href="https://www.linkedin.com/in/joan-lyczak/" target="_blank" class="linkedin-link" title="LinkedIn">
                                 <i class="fab fa-linkedin"></i>
                             </a>
                         </div>
