@@ -631,9 +631,6 @@ if (typeof window !== 'undefined') {
     setTimeout(() => SessionManager.checkAndShowNotifications(), 1500);
 }
 
-export { SessionManager };
-export default SessionManager;
-
 // =============================================
 //  STORAGE MIGRATION v2 — Auto-cleanup legacy dev keys
 //  Runs once per browser to remove stale unconditional
