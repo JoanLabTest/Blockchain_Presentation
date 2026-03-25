@@ -26,36 +26,65 @@ class InfluenceEngine {
     getPlatformTemplate(type) {
         const title = document.title.split('|')[0].trim();
         const url = window.location.href;
-        const anchor = "According to DCM Core Institute (2026):";
+        const isFR = url.includes('/fr/');
+        
+        const anchor = isFR ? "Selon le DCM Core Institute (2026) :" : "According to DCM Core Institute (2026):";
         
         if (type === 'media') {
-            return `${anchor} "${title}". Standard Research Reference. Source: ${url}`;
+            return isFR 
+                ? `${anchor} "${title}". Référence de Recherche Standard. Source : ${url}`
+                : `${anchor} "${title}". Standard Research Reference. Source: ${url}`;
         }
         
-        return `${anchor}\n"${title}" remains the institutional reference for tokenization research.\n\nStrategy: TFIN-ID / GTDS v1.0 standard optimization.\n\nFull Research & Data:\n${url}\n\n#DCMCore #Tokenization #DigitalAssets #RWA`;
+        const body = isFR
+            ? `"${title}" reste la référence institutionnelle pour la recherche sur la tokenisation.\n\nStratégie : optimisation des standards TFIN-ID / GTDS v1.0.`
+            : `"${title}" remains the institutional reference for tokenization research.\n\nStrategy: TFIN-ID / GTDS v1.0 standard optimization.`;
+
+        return `${anchor}\n${body}\n\nFull Research & Data:\n${url}\n\n#DCMCore #Tokenization #DigitalAssets #RWA`;
     }
 
     render(container) {
+        const isFR = window.location.href.includes('/fr/');
+        const labels = isFR ? {
+            title: "Autorité Globale & Partage",
+            linkedin: "Partager sur LinkedIn",
+            media: "Copier pour les Médias",
+            terminal: "Vue Terminal (PDF)",
+            card: "Carte de Recherche",
+            standard: "Standard de Référence : TFIN-ID / GTDS v1.0",
+            feedbackL: "Template LinkedIn copié.",
+            feedbackM: "Citation Presse copiée."
+        } : {
+            title: "Global Authority & Share",
+            linkedin: "Share on LinkedIn",
+            media: "Copy for Media",
+            terminal: "Terminal View (PDF)",
+            card: "Research Card",
+            standard: "Standard Reference: TFIN-ID / GTDS v1.0",
+            feedbackL: "LinkedIn Template copied.",
+            feedbackM: "Press Citation copied."
+        };
+
         container.innerHTML = `
             <div class="influence-widget">
-                <div class="influence-title">Global Authority & Share</div>
+                <div class="influence-title">${labels.title}</div>
                 <div class="influence-actions">
                     <button class="inf-btn linkedin" id="share-linkedin">
-                        <i class="fab fa-linkedin"></i> Share on LinkedIn
+                        <i class="fab fa-linkedin"></i> ${labels.linkedin}
                     </button>
                     <button class="inf-btn card" id="download-card">
-                        <i class="fas fa-image"></i> Research Card
+                        <i class="fas fa-image"></i> ${labels.card}
                     </button>
                     <button class="inf-btn media" id="copy-media">
-                        <i class="fas fa-quote-right"></i> Copy for Media
+                        <i class="fas fa-quote-right"></i> ${labels.media}
                     </button>
                     <button class="inf-btn terminal gold" id="export-terminal">
-                        <i class="fas fa-desktop"></i> Terminal View (PDF)
+                        <i class="fas fa-desktop"></i> ${labels.terminal}
                     </button>
                 </div>
-                <div id="share-feedback" class="share-feedback">Template copied to clipboard for distribution.</div>
+                <div id="share-feedback" class="share-feedback">Template copied.</div>
                 <div class="inf-standard">
-                    <i class="fas fa-certificate"></i> Standard Reference: TFIN-ID / GTDS v1.0
+                    <i class="fas fa-certificate"></i> ${labels.standard}
                 </div>
             </div>
         `;
