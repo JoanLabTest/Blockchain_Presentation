@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Methodology & Technical Framework (2026) | DCM Core Institute</title>
+    <meta name="description" content="Technical documentation of the DCM Core Alpha Model, CCER™ framework, and institutional yield simulation methodologies (2021-2025).">
+    <link rel="canonical" href="https://dcmcore.com/en/methodology/model-methodology.html">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root{--bg:#05070a;--bg-card:#0a0c14;--border:rgba(99,179,237,0.1);--text:#e2e8f0;--tm:#94a3b8;--td:#64748b;--ac:#63b3ed;--ac3:#10b981;--mono:'JetBrains Mono',monospace;--fs:'DM Sans',serif}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{background:var(--bg);color:var(--text);font-family:var(--fs);line-height:1.7;-webkit-font-smoothing:antialiased}
+        .navbar{position:sticky;top:0;z-index:100;background:rgba(5,7,10,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;height:60px}
+        .nav-logo{font-size:13px;font-weight:600;color:var(--text);text-decoration:none}
+        .container{max-width:900px;margin:0 auto;padding:80px 2rem}
+        h1{font-family:'Playfair Display';font-size:42px;margin-bottom:16px;color:#fff}
+        .subtitle{font-size:18px;color:var(--tm);margin-bottom:64px;border-left:2px solid var(--ac3);padding-left:24px}
+        h2{font-family:'Playfair Display';font-size:28px;color:#fff;margin:48px 0 24px}
+        p{margin-bottom:20px;color:var(--tm)}
+        .formula-box{background:var(--bg-card);border:1px solid var(--border);padding:32px;border-radius:12px;margin:32px 0;font-family:var(--mono);font-size:18px;color:var(--ac3);text-align:center}
+        .math-desc{font-size:14px;color:var(--td);text-align:center;margin-top:-24px;margin-bottom:32px}
+        .dataset-table{width:100%;border-collapse:collapse;margin:32px 0}
+        .dataset-table th,.dataset-table td{text-align:left;padding:12px;border-bottom:1px solid var(--border);font-size:14px}
+        .dataset-table th{color:var(--ac);text-transform:uppercase;letter-spacing:1px}
+        .disclosure-box{background:rgba(99,179,237,0.05);border:1px solid var(--ac);padding:24px;border-radius:8px;margin:48px 0}
+        .disclosure-box h4{color:var(--ac);margin-bottom:12px;text-transform:uppercase;font-size:13px}
+        .disclosure-box p{font-size:14px;margin-bottom:0}
+        code{font-family:var(--mono);background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--ac)}
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="../index.html" class="nav-logo">DCM Core Institute</a>
+</nav>
+
+<div class="container">
+    <h1>Model Methodology</h1>
+    <p class="subtitle">Academic framework for the recalibration of yield benchmarks in tokenized institutional markets (v2.0, 2026).</p>
+
+    <section>
+        <h2>1. The CCER™ Framework</h2>
+        <p>The <strong>Covered Call Efficiency Ratio (CCER™)</strong> is a proprietary primary metric developed by DCM Core to quantify the impact of DLT-native settlement on option overlay strategies. Unlike the standard Omega or Sharpe ratios, CCER accounts for the <code>atomic-delta</code> provided by instant liquidity.</p>
+        
+        <div class="formula-box">
+            CCER = [ (μ_DLT - r_f) / σ_DLT ] × η_settlement
+        </div>
+        <div class="math-desc">Where η represents the settlement efficiency factor (1.00 base + 0.14 DLT premium).</div>
+    </section>
+
+    <section>
+        <h2>2. Sharpe Ratio Recalibration</h2>
+        <p>Traditional Sharpe calculations (Targeting 0.4 - 0.5 for simple yield) neglect the reduced cost-of-carry in tokenized environments. DCM Core models a theoretical baseline of <strong>~1.1</strong> for institutional covered call overlays on RWA collateral.</p>
+        
+        <div class="formula-box">
+            Sharpe_DCM = (R_p - R_f) / (σ_p + σ_tech)
+        </div>
+        <p>Note: <code>σ_tech</code> represents the smart-contract and oracle risk premium, currently modeled at 15-25 bps depending on the registrar (DORA compliant).</p>
+    </section>
+
+    <section>
+        <h2>3. Simulation Parameters (2021-2025)</h2>
+        <p>All model outputs presented on this site are derived from 5-year longitudinal backtesting using the following datasets:</p>
+        
+        <table class="dataset-table">
+            <thead>
+                <tr>
+                    <th>Asset Class</th>
+                    <th>Source Dataset</th>
+                    <th>Volatility Proxy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Digital Bonds</td>
+                    <td>DCM Internal Registry (GTSR)</td>
+                    <td>Bloomberg Barclays US Agg (Adj)</td>
+                </tr>
+                <tr>
+                    <td>Institutional RWA</td>
+                    <td>Chainalysis / Blockworks Research</td>
+                    <td>Modeled 10-Year Treasury Yield</td>
+                </tr>
+                <tr>
+                    <td>Option Premia</td>
+                    <td>Deribit / CBOE VIX Data</td>
+                    <td>DCM Core Volatility Model</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>4. Institutional Disclosures & Biases</h2>
+        <div class="disclosure-box">
+            <h4>Survival Bias & Simulation Limits</h4>
+            <p>Our models assume 99.9% uptime of the underlying DLT settlement layer. High-frequency smart contract failures or systemic oracle lags are not fully reflected in the baseline Sharpe ~1.1. Backtest results (2021-2025) incorporate periods of extreme market volatility; however, past simulated performance is not an indicator of future audited results.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>5. Institutional Inquiries</h2>
+        <p>For a full detailed Whitepaper including regression analysis and raw dataset snapshots, please contact the <a href="../expert/index.html" style="color:var(--ac3)">DCM Research Council</a>.</p>
+    </section>
+</div>
+
+<div style="text-align:center; padding:40px; color:var(--td); font-size:12px; border-top:1px solid var(--border)">
+    &copy; 2026 DCM Core Institute | Research Division | Version 2.0.4
+</div>
+
+</body>
+</html>

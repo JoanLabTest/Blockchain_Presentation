@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Méthodologie du Modèle & Cadre Technique (2026) | DCM Core Institute</title>
+    <meta name="description" content="Documentation technique du Modèle Alpha DCM Core, du framework CCER™ et des méthodologies de simulation institutionnelles (2021-2025).">
+    <link rel="canonical" href="https://dcmcore.com/fr/methodology/model-methodology.html">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root{--bg:#05070a;--bg-card:#0a0c14;--border:rgba(99,179,237,0.1);--text:#e2e8f0;--tm:#94a3b8;--td:#64748b;--ac:#63b3ed;--ac3:#10b981;--mono:'JetBrains Mono',monospace;--fs:'DM Sans',serif}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{background:var(--bg);color:var(--text);font-family:var(--fs);line-height:1.7;-webkit-font-smoothing:antialiased}
+        .navbar{position:sticky;top:0;z-index:100;background:rgba(5,7,10,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;height:60px}
+        .nav-logo{font-size:13px;font-weight:600;color:var(--text);text-decoration:none}
+        .container{max-width:900px;margin:0 auto;padding:80px 2rem}
+        h1{font-family:'Playfair Display';font-size:42px;margin-bottom:16px;color:#fff}
+        .subtitle{font-size:18px;color:var(--tm);margin-bottom:64px;border-left:2px solid var(--ac3);padding-left:24px}
+        h2{font-family:'Playfair Display';font-size:28px;color:#fff;margin:48px 0 24px}
+        p{margin-bottom:20px;color:var(--tm)}
+        .formula-box{background:var(--bg-card);border:1px solid var(--border);padding:32px;border-radius:12px;margin:32px 0;font-family:var(--mono);font-size:18px;color:var(--ac3);text-align:center}
+        .math-desc{font-size:14px;color:var(--td);text-align:center;margin-top:-24px;margin-bottom:32px}
+        .dataset-table{width:100%;border-collapse:collapse;margin:32px 0}
+        .dataset-table th,.dataset-table td{text-align:left;padding:12px;border-bottom:1px solid var(--border);font-size:14px}
+        .dataset-table th{color:var(--ac);text-transform:uppercase;letter-spacing:1px}
+        .disclosure-box{background:rgba(99,179,237,0.05);border:1px solid var(--ac);padding:24px;border-radius:8px;margin:48px 0}
+        .disclosure-box h4{color:var(--ac);margin-bottom:12px;text-transform:uppercase;font-size:13px}
+        .disclosure-box p{font-size:14px;margin-bottom:0}
+        code{font-family:var(--mono);background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--ac)}
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="../index.html" class="nav-logo">DCM Core Institute</a>
+</nav>
+
+<div class="container">
+    <h1>Méthodologie du Modèle</h1>
+    <p class="subtitle">Cadre académique pour la recalibration des benchmarks de rendement sur les marchés institutionnels tokenisés (v2.0, 2026).</p>
+
+    <section>
+        <h2>1. Le Framework CCER™</h2>
+        <p>Le <strong>Ratio d'Efficience Covered Call (CCER™)</strong> est un indicateur propriétaire développé par DCM Core pour quantifier l'impact du règlement natif DLT sur les stratégies d'options. Contrairement aux ratios Omega ou Sharpe standards, le CCER intègre le <code>delta-atomique</code> apporté par la liquidité instantanée.</p>
+        
+        <div class="formula-box">
+            CCER = [ (μ_DLT - r_f) / σ_DLT ] × η_règlement
+        </div>
+        <div class="math-desc">Où η représente le facteur d'efficience du règlement (base 1.00 + premium DLT 0.14).</div>
+    </section>
+
+    <section>
+        <h2>2. Recalibration du Ratio de Sharpe</h2>
+        <p>Les calculs de Sharpe traditionnels (ciblant 0.4 - 0.5) négligent la réduction du coût de portage (cost-of-carry) dans les environnements tokenisés. Les modèles DCM Core établissent une base théorique de <strong>~1.1</strong> pour les overlays institutionnels sur collatéral RWA.</p>
+        
+        <div class="formula-box">
+            Sharpe_DCM = (R_p - R_f) / (σ_p + σ_tech)
+        </div>
+        <p>Note : <code>σ_tech</code> représente la prime de risque liée aux smart contracts et aux oracles, actuellement modélisée entre 15 et 25 bps (conforme DORA).</p>
+    </section>
+
+    <section>
+        <h2>3. Paramètres de Simulation (2021-2025)</h2>
+        <p>Tous les indicateurs présentés sur ce site sont issus de backtests longitudinaux sur 5 ans utilisant les jeux de données suivants :</p>
+        
+        <table class="dataset-table">
+            <thead>
+                <tr>
+                    <th>Classe d'Actif</th>
+                    <th>Source des Données</th>
+                    <th>Proxy de Volatilité</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Obligations Digitales</td>
+                    <td>Registre Interne DCM (GTSR)</td>
+                    <td>Bloomberg Barclays US Agg (Adj)</td>
+                </tr>
+                <tr>
+                    <td>RWA Institutionnels</td>
+                    <td>Chainalysis / Blockworks Research</td>
+                    <td>Modèle Yield Treasury 10 ans</td>
+                </tr>
+                <tr>
+                    <td>Primes d'Options</td>
+                    <td>Données Deribit / CBOE VIX</td>
+                    <td>Modèle de Volatilité DCM Core</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>4. Disclosures & Biais Institutionnels</h2>
+        <div class="disclosure-box">
+            <h4>Biais de Survie & Limites de Simulation</h4>
+            <p>Nos modèles assument un uptime de 99,9% de la couche de règlement DLT sous-jacente. Les défaillances de smart contracts à haute fréquence ou les délais systémiques des oracles ne sont pas intégralement reflétés dans le Sharpe ~1.1. Les résultats passés simulés ne constituent pas un indicateur des résultats futurs audités.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>5. Demandes Institutionnelles</h2>
+        <p>Pour un livre blanc détaillé incluant les analyses de régression, veuillez contacter le <a href="../expert/index.html" style="color:var(--ac3)">Conseil de Recherche DCM</a>.</p>
+    </section>
+</div>
+
+</body>
+</html>
