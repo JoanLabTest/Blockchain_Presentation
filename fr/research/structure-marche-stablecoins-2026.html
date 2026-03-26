@@ -60,6 +60,10 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
+    <!-- Institutional Backend (Phase 110) -->
+    <script src="../config.js"></script>
+    <script src="../js/supabase-client.js" type="module"></script>
+    
     <style>
         :root {
             --bg: #05070a;
@@ -429,6 +433,33 @@ function subscribeGateway() {
     // Success Logic
     errorEl.style.display = 'none';
     showToast('Accès demandé. Vérification de l\'autorité du domaine...');
+    
+    // ⚡ SUPABASE LEAD CAPTURE (Phase 110)
+    if (window.supabase) {
+        window.supabase.from('institutional_leads').upsert({
+            email: email,
+            report_context: 'Stablecoin 2026 Audit',
+            language: 'FR',
+            metadata: { 
+                source: 'Research Gateway',
+                user_language: navigator.language,
+                timestamp: new Date().toISOString()
+            }
+        }, { onConflict: 'email' }).then(({ error }) => {
+            if (error) console.error("Supabase Sync Error:", error);
+            else console.log("Lead Capturé dans Supabase 🚀");
+        });
+    }
+
+    // ⚡ WEBHOOK REDUNDANCY (Phase 110)
+    if (window.DCM_CONFIG && window.DCM_CONFIG.sendWebhook) {
+        window.DCM_CONFIG.sendWebhook({
+            event: 'lead_captured',
+            email: email,
+            report: 'Stablecoin 2026',
+            language: 'FR'
+        });
+    }
     
     // GA4 Tracking (generate_lead)
     window.dataLayer = window.dataLayer || [];
