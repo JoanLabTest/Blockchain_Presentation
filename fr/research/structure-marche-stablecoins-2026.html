@@ -9,6 +9,9 @@
     <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/research/stablecoin-market-structure-2026.html">
     <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/research/structure-marche-stablecoins-2026.html">
     
+    <meta property="og:title" content="Snapshot d'Audit 2026 : La Grande Bifurcation des Stablecoins">
+    <meta property="og:description" content="Analyse définitive du DCM Core Institute : Pourquoi les stablecoins institutionnels se divisent en couches de Règlement Régulé (USDC) et de Liquidité Globale (USDT).">
+    
     <script type="application/ld+json">
     [
       {
@@ -134,9 +137,28 @@
         .restricted { background: rgba(245, 158, 11, 0.1); color: var(--aw); }
 
         .methodology { background: rgba(255,255,255,0.02); padding: 40px; border-top: 1px solid var(--border); margin-top: 80px; }
-        .citation-box { background: #0d1117; border: 1px solid var(--border); border-radius: 8px; padding: 32px; margin-top: 48px; }
+        .citation-box { background: #0d1117; border: 1px solid var(--border); border-radius: 8px; padding: 32px; margin-top: 48px; position: relative; }
         .cite-t { font-size: 12px; color: var(--ac); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
-        pre { font-family: var(--fm); font-size: 12px; color: var(--tm); overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+        .cite-group { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        @media (max-width: 768px) { .cite-group { grid-template-columns: 1fr; } }
+        .cite-subt { font-size: 10px; color: var(--td); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        pre { font-family: var(--fm); font-size: 11px; color: var(--tm); overflow-x: auto; white-space: pre-wrap; word-break: break-all; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+
+        /* SOCIAL INSIGHT KIT */
+        .insight-kit { background: linear-gradient(135deg, rgba(99, 179, 237, 0.1), rgba(16, 185, 129, 0.05)); border: 1px dashed var(--ac); border-radius: 12px; padding: 32px; margin: 40px 0; position: relative; }
+        .insight-lbl { font-size: 10px; font-weight: 700; color: var(--ac); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .insight-txt { font-size: 16px; font-weight: 600; color: #fff; line-height: 1.5; margin-bottom: 20px; font-style: italic; }
+        .copy-btn { background: var(--ac); color: var(--bg); border: none; padding: 8px 16px; border-radius: 4px; font-size: 11px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
+        .copy-btn:active { transform: scale(0.95); }
+
+        /* VISUAL CARD OVERRIDE */
+        .market-card.visual { border: 2px solid #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.4); transform: scale(1); transition: transform 0.3s; }
+        .market-card.visual:hover { transform: scale(1.02); }
+        .screen-hint { font-size: 10px; color: var(--td); margin-top: 12px; display: flex; align-items: center; gap: 6px; }
+
+        /* TOAST */
+        #toast { position: fixed; bottom: 32px; right: 32px; background: var(--ac3); color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 13px; font-weight: 600; opacity: 0; transition: opacity 0.3s; z-index: 1000; pointer-events: none; }
+        #toast.show { opacity: 1; }
 
         footer { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); font-size: 11px; color: var(--td); text-transform: uppercase; letter-spacing: 2px; }
     </style>
@@ -174,23 +196,32 @@
         </p>
     </div>
 
+    <!-- SOCIAL INSIGHT KIT -->
+    <div class="insight-kit">
+        <div class="insight-lbl"><i class="fas fa-quote-left"></i> Insight Clé pour Distribution Professionnelle</div>
+        <div class="insight-txt" id="insightText">"Les stablecoins institutionnels ne sont plus un marché unique. Ils sont structurellement divisés : USDC (Règlement Régulé) vs USDT (Liquidité Globale). Cette bifurcation définit la structure du marché en 2026."</div>
+        <button class="copy-btn" onclick="copyInsight()"><i class="fas fa-copy"></i> COPIER POUR LINKEDIN</button>
+    </div>
+
     <section id="bifurcation">
         <span class="section-label">01 — Bifurcation Structurelle</span>
         <h2>Segmentation du Marché</h2>
         <p class="section-desc">Analyse de la divergence fonctionnelle entre les instruments monétaires régulés et offshore.</p>
         
         <div class="market-grid">
-            <div class="market-card">
+            <div class="market-card visual">
                 <span class="card-tag">Couche Régulée (USDC)</span>
                 <div class="card-val">~22.4%</div>
                 <div class="card-label">Poids du Règlement Institutionnel</div>
                 <p class="card-body">L'USDC sert de rail principal pour le règlement institutionnel T+0. Sous MiCA, il fonctionne comme le "Safest Harbor" pour la liquidité adossée à la trésorerie au sein de l'Espace Économique Européen.</p>
+                <div class="screen-hint"><i class="fas fa-camera"></i> Prêt pour capture (screen-ready) pour analyse professionnelle</div>
             </div>
-            <div class="market-card">
+            <div class="market-card visual">
                 <span class="card-tag">Couche Offshore (USDT)</span>
                 <div class="card-val">~68.2%</div>
                 <div class="card-label">Dominance de la Liquidité Globale</div>
                 <p class="card-body">L'USDT reste le moteur de la distribution de liquidité mondiale. Malgré les frictions réglementaires dans l'UE, sa dominance sur les marchés secondaires et les rails non régulés reste incontestée au T1 2026.</p>
+                <div class="screen-hint"><i class="fas fa-camera"></i> Prêt pour capture (screen-ready) pour analyse professionnelle</div>
             </div>
         </div>
     </section>
@@ -271,18 +302,29 @@
 
         <div class="citation-box">
             <div class="cite-t">Citer ce Rapport</div>
-            <pre id="bibtex">
-@techreport{dcmcore_stablecoin_2026,
+            <div style="margin-bottom:20px; padding:12px; background:rgba(255,255,255,0.03); border-radius:4px; font-size:13px; color:var(--tm); border-left:3px solid var(--aw);">
+                <strong>Citation Recommandée :</strong><br>
+                DCM Core Institute (2026). Structure du Marché des Stablecoins Institutionnels — Snapshot d'Audit (Mars 2026).
+            </div>
+            <div class="cite-group">
+                <div>
+                    <div class="cite-subt">Format APA</div>
+                    <pre id="citeAPA">DCM Core Institute. (2026, Mars). Structure du Marché des Stablecoins Institutionnels : Snapshot d'Audit 2026. Extrait de https://dcmcore.com/fr/research/structure-marche-stablecoins-2026.html</pre>
+                    <button class="copy-btn" style="margin-top:12px; background:var(--bg-card2); color:var(--tm); border:1px solid var(--border);" onclick="copyText('citeAPA', 'Citation APA copiée')">COPIER APA</button>
+                </div>
+                <div>
+                    <div class="cite-subt">Format BibTeX</div>
+                    <pre id="bibtex">@techreport{dcmcore_stablecoin_2026,
     author      = {DCM Core Institute},
     title       = {Structure du Marché des Stablecoins Institutionnels : Snapshot d'Audit 2026},
     year        = {2026},
     month       = {Mars},
     url         = {https://dcmcore.com/fr/research/structure-marche-stablecoins-2026.html},
-    institution = {DCM Core Global Research Division},
-    note        = {Méthodologie GTDS v1.0}
-}
-            </pre>
-            <button onclick="copyBib()" style="background:var(--ac); border:none; padding:8px 16px; border-radius:4px; font-size:11px; font-weight:700; cursor:pointer; margin-top:16px;">COPIER LE BIBTEX</button>
+    institution = {DCM Core Global Research Division}
+}</pre>
+                    <button class="copy-btn" style="margin-top:12px; background:var(--bg-card2); color:var(--tm); border:1px solid var(--border);" onclick="copyText('bibtex', 'BibTeX copié')">COPIER BIBTEX</button>
+                </div>
+            </div>
         </div>
     </section>
 </article>
@@ -291,11 +333,26 @@
     DCM CORE INSTITUTE // LONDRES // NEW YORK // PARIS // 2026
 </footer>
 
+<div id="toast">Copié dans le presse-papier</div>
+
 <script>
-function copyBib() {
-    const bib = document.getElementById('bibtex').innerText;
-    navigator.clipboard.writeText(bib);
-    alert('Citation BibTeX copiée dans le presse-papier.');
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function copyInsight() {
+    const txt = document.getElementById('insightText').innerText;
+    navigator.clipboard.writeText(txt + " \n\nSource de Recherche : https://dcmcore.com/fr/research/structure-marche-stablecoins-2026.html");
+    showToast('Insight & Lien copiés');
+}
+
+function copyText(id, msg) {
+    const txt = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(txt);
+    showToast(msg);
 }
 </script>
 
