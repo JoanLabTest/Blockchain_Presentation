@@ -164,6 +164,50 @@ class InfluenceEngine {
         terminalBtn.addEventListener('click', () => {
             window.print();
         });
+
+        // Phase 105: Proactive Hook
+        this.renderPostPreview(container, labels, isFR);
+    }
+
+    renderPostPreview(container, labels, isFR) {
+        const previewId = 'inf-post-preview';
+        const existing = container.querySelector(`#${previewId}`);
+        if (existing) existing.remove();
+
+        const previewDiv = document.createElement('div');
+        previewDiv.id = previewId;
+        previewDiv.className = 'post-preview-hook';
+        
+        const hookTitle = isFR ? "PRÊT À PUBLIER" : "READY TO POST";
+        const hookDesc = isFR ? "Insight viral généré pour votre réseau." : "Viral insight generated for your network.";
+        const cta = isFR ? "Copier & Ouvrir LinkedIn" : "Copy & Open LinkedIn";
+
+        previewDiv.innerHTML = `
+            <div class="pp-header">
+                <i class="fas fa-bolt"></i>
+                <div>
+                    <div class="pp-title">${hookTitle}</div>
+                    <div class="pp-desc">${hookDesc}</div>
+                </div>
+            </div>
+            <div class="pp-card-preview">
+                <div class="pp-mock-image">
+                    <i class="fas fa-chart-line"></i>
+                    <span>DCM CORE INSIGHT: ${document.title.split('|')[0]}</span>
+                </div>
+                <div class="pp-mock-text">${this.getPlatformTemplate('linkedin').substring(0, 100)}...</div>
+            </div>
+            <button class="pp-btn" id="pp-trigger">
+                ${cta} <i class="fas fa-external-link-alt"></i>
+            </button>
+        `;
+
+        container.appendChild(previewDiv);
+
+        previewDiv.querySelector('#pp-trigger').addEventListener('click', () => {
+            navigator.clipboard.writeText(this.getPlatformTemplate('linkedin'));
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank');
+        });
     }
 
     downloadData(msg) {

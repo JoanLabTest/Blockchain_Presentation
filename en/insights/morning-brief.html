@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../../css/citation-engine.css">
     <link rel="stylesheet" href="../../css/influence-engine.css">
+    <link rel="stylesheet" href="../../css/trust-layer.css">
     <script src="../../js/components/citation-engine.js" defer></script>
     <script src="../../js/components/influence-engine.js" defer></script>
+    <script src="../../js/components/trust-layer.js" defer></script>
     <style>
         :root{--bg:#05070a;--bg-card:#0a0c14;--border:rgba(99,179,237,0.1);--text:#e2e8f0;--tm:#94a3b8;--td:#64748b;--ac:#63b3ed;--ac3:#10b981;--mono:'JetBrains Mono',monospace;--fs:'DM Sans',serif}
         *{box-sizing:border-box;margin:0;padding:0}
@@ -51,6 +53,12 @@
 </nav>
 
 <div class="container">
+    <div class="shock-banner-dominance">
+        <div class="sb-tag">MARKET DOMINANCE REPORT 2026</div>
+        <div class="sb-stat">92% ETHEREUM SETTLEMENT</div>
+        <div class="sb-label">The Inevitable Transition from T+2 to T+0 is Complete.</div>
+    </div>
+
     <header class="brief-header">
         <div>
             <div class="brief-meta">Institutional Daily // ID: DCBR-2026-084</div>
@@ -134,11 +142,26 @@
 
     <!-- INFLUENCE ENGINE -->
     <div class="influence-container"></div>
+
+    <!-- TRUST LAYER (PHASE 105) -->
+    <div class="trust-container"></div>
 </div>
 
 <div style="text-align:center; padding:40px; color:var(--td); font-size:12px; border-top:1px solid var(--border)">
     &copy; 2026 DCM Core Institute | Research Division | Morning Briefing Service
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const citeContainer = document.querySelector('.cite-container');
+        const influenceContainer = document.querySelector('.influence-container');
+        const trustContainer = document.querySelector('.trust-container');
+
+        if (window.CitationEngine) window.CitationEngine.render(citeContainer);
+        if (window.InfluenceEngine) window.InfluenceEngine.render(influenceContainer);
+        if (window.TrustLayer) window.TrustLayer.render(trustContainer);
+    });
+</script>
 
 </body>
 </html>

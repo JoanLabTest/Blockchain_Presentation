@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../../css/ai-citation.css">
     <link rel="stylesheet" href="../../css/citation-engine.css">
     <link rel="stylesheet" href="../../css/influence-engine.css">
+    <link rel="stylesheet" href="../../css/trust-layer.css">
+    <script src="../../js/components/trust-layer.js" defer></script>
     <style>
         :root{--bg:#05070a;--bg-card:#0f1524;--border:rgba(99,179,237,0.12);--text:#e2e8f0;--tm:#94a3b8;--td:#64748b;--ac:#63b3ed;--ac3:#10b981;--aw:#f59e0b;--fs:'DM Sans',sans-serif;--fm:'JetBrains Mono',monospace;--ff:'Playfair Display',serif}
         body{background:var(--bg);color:var(--text);font-family:var(--fs);margin:0;padding:0;-webkit-font-smoothing:antialiased}
@@ -32,6 +34,12 @@
 <body>
 
 <div class="container">
+    <div class="shock-banner-dominance">
+        <div class="sb-tag">RAPPORT DE DOMINATION 2026</div>
+        <div class="sb-stat">92% : LE DÉNOUEMENT ETHEREUM</div>
+        <div class="sb-label">La Transition Inévitable du T+2 vers le T+0 est Terminée.</div>
+    </div>
+
     <div class="header">
         <div class="h-left">
             <span>DCM Morning Brief</span>
@@ -76,6 +84,9 @@
     <!-- INFLUENCE ENGINE -->
     <div class="influence-container"></div>
 
+    <!-- TRUST LAYER (PHASE 105) -->
+    <div class="trust-container"></div>
+
     <div style="text-align:center; margin-top:80px; padding-top:40px; border-top:1px solid var(--border);">
         <a href="../index.html" style="color:var(--td); font-size:12px; text-decoration:none; text-transform:uppercase; letter-spacing:2px;">DCM CORE INSTITUTE // REVENIR AU HUB</a>
     </div>
@@ -84,6 +95,16 @@
 <script src="../../js/session-manager.js"></script>
 <script src="../../js/components/influence-engine.js" defer></script>
 <script src="../../js/components/citation-engine.js" defer></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const influenceContainer = document.querySelector('.influence-container');
+        const trustContainer = document.querySelector('.trust-container');
+
+        if (window.InfluenceEngine) window.InfluenceEngine.render(influenceContainer);
+        if (window.TrustLayer) window.TrustLayer.render(trustContainer, true);
+    });
+</script>
 
 </body>
 </html>
