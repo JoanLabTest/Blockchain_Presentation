@@ -46,56 +46,69 @@ class InfluenceEngine {
     render(container) {
         const isFR = window.location.href.includes('/fr/');
         const labels = isFR ? {
-            title: "Captivité Marché & Autorité",
-            linkedin: "Partager sur LinkedIn",
-            media: "Copier Citation Presse",
+            title: "Référence & Gouvernance Institutionnelle",
+            linkedin: "Partager (LinkedIn)",
+            media: "Copier Citation (Press)",
+            bibtex: "Citer Dataset (BibTeX)",
             terminal: "Vue Terminal (PDF)",
-            card: "Research Card",
+            card: "Fiche de Recherche",
             data: "Dataset (CSV)",
-            embed: "Intégrer (Embed)",
+            embed: "Cadre d'Intégration",
             standard: "Standard de Référence : TFIN-ID / GTDS v1.0",
-            citations: "Citations Institutionnelles :",
+            citations: "Vérifications Institutionnelles :",
+            methodology: "Voir Méthodologie",
+            scope: "Périmètre : 10 Actifs Institutionnels",
             feedbackL: "Template LinkedIn copié.",
             feedbackM: "Citation Presse copiée.",
-            feedbackD: "Dataset préparé pour téléchargement.",
-            feedbackE: "Code d'intégration (Embed) copié."
+            feedbackB: "Citation BibTeX copiée.",
+            feedbackD: "Dataset préparé (72.4% TVL).",
+            feedbackE: "Code d'intégration copié."
         } : {
-            title: "Market Capture & Authority",
-            linkedin: "Share on LinkedIn",
-            media: "Copy Press Citation",
+            title: "Institutional Reference & Governance",
+            linkedin: "Share (LinkedIn)",
+            media: "Copy Citation (Press)",
+            bibtex: "Cite Dataset (BibTeX)",
             terminal: "Terminal View (PDF)",
             card: "Research Card",
             data: "Dataset (CSV)",
-            embed: "Embed Framework",
+            embed: "Integration Framework",
             standard: "Standard Reference: TFIN-ID / GTDS v1.0",
-            citations: "Institutional Citations:",
+            citations: "Institutional Verifications:",
+            methodology: "View Methodology",
+            scope: "Scope: 10 Institutional Assets",
             feedbackL: "LinkedIn Template copied.",
             feedbackM: "Press Citation copied.",
-            feedbackD: "Dataset prepared for download.",
+            feedbackB: "BibTeX Citation copied.",
+            feedbackD: "Dataset prepared (72.4% TVL).",
             feedbackE: "Embed code copied to clipboard."
         };
 
-        const citationCount = 1240 + Math.floor(Math.random() * 50);
+        // Phase 106: Documented baseline instead of random simulation
+        const verificationCount = 10; 
 
         container.innerHTML = `
-            <div class="influence-widget hardened">
                 <div class="inf-header">
                     <div class="influence-title">${labels.title}</div>
                     <div class="inf-counter">
-                        <span class="pulse"></span>
-                        <strong>${citationCount.toLocaleString()}</strong> ${labels.citations}
+                        <span class="status-dot online"></span>
+                        <strong>${verificationCount}</strong> ${labels.citations}
                     </div>
                 </div>
                 
+                <div class="inf-metadata-strip">
+                    <span class="inf-meta-item"><i class="fas fa-microscope"></i> ${labels.methodology}</span>
+                    <span class="inf-meta-item"><i class="fas fa-database"></i> ${labels.scope}</span>
+                </div>
+
                 <div class="influence-actions">
                     <button class="inf-btn linkedin" id="share-linkedin">
                         <i class="fab fa-linkedin"></i> ${labels.linkedin}
                     </button>
-                    <button class="inf-btn card" id="download-card">
-                        <i class="fas fa-image"></i> ${labels.card}
-                    </button>
                     <button class="inf-btn media" id="copy-media">
                         <i class="fas fa-quote-right"></i> ${labels.media}
+                    </button>
+                    <button class="inf-btn bibtex" id="copy-bibtex">
+                        <i class="fas fa-book"></i> ${labels.bibtex}
                     </button>
                 </div>
 
@@ -121,8 +134,8 @@ class InfluenceEngine {
         `;
 
         const shareBtn = container.querySelector('#share-linkedin');
-        const cardBtn = container.querySelector('#download-card');
         const mediaBtn = container.querySelector('#copy-media');
+        const bibtexBtn = container.querySelector('#copy-bibtex');
         const dataBtn = container.querySelector('#download-data');
         const embedBtn = container.querySelector('#copy-embed');
         const terminalBtn = container.querySelector('#export-terminal');
@@ -134,89 +147,65 @@ class InfluenceEngine {
             setTimeout(() => { feedback.style.display = 'none'; }, 2000);
         };
 
-        shareBtn.addEventListener('click', () => {
-            const template = this.getPlatformTemplate('linkedin');
-            navigator.clipboard.writeText(template);
-            triggerFeedback(labels.feedbackL);
-            setTimeout(() => {
-                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank');
-            }, 1000);
-        });
+        if (shareBtn) {
+            shareBtn.addEventListener('click', () => {
+                const template = this.getPlatformTemplate('linkedin');
+                navigator.clipboard.writeText(template);
+                triggerFeedback(labels.feedbackL);
+                setTimeout(() => {
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank');
+                }, 1000);
+            });
+        }
 
-        mediaBtn.addEventListener('click', () => {
-            const template = this.getPlatformTemplate('media');
-            navigator.clipboard.writeText(template);
-            triggerFeedback(labels.feedbackM);
-        });
+        if (mediaBtn) {
+            mediaBtn.addEventListener('click', () => {
+                const template = this.getPlatformTemplate('media');
+                navigator.clipboard.writeText(template);
+                triggerFeedback(labels.feedbackM);
+            });
+        }
 
-        cardBtn.addEventListener('click', () => {
-            this.generateResearchCard();
-        });
+        if (bibtexBtn) {
+            bibtexBtn.addEventListener('click', () => {
+                const bibtex = `@dataset{gtsr2026,
+  title = {Global Tokenized Securities Registry},
+  author = {DCM Core Institute},
+  year = {2026},
+  note = {Institutional dataset on tokenized assets},
+  url = {${window.location.origin}}
+}`;
+                navigator.clipboard.writeText(bibtex);
+                triggerFeedback(labels.feedbackB);
+            });
+        }
 
-        dataBtn.addEventListener('click', () => {
-            this.downloadData(labels.feedbackD);
-        });
+        if (dataBtn) {
+            dataBtn.addEventListener('click', () => {
+                this.downloadData(labels.feedbackD);
+            });
+        }
 
-        embedBtn.addEventListener('click', () => {
-            this.copyEmbed(labels.feedbackE);
-        });
+        if (embedBtn) {
+            embedBtn.addEventListener('click', () => {
+                this.copyEmbed(labels.feedbackE);
+            });
+        }
 
-        terminalBtn.addEventListener('click', () => {
-            window.print();
-        });
-
-        // Phase 105: Proactive Hook
-        this.renderPostPreview(container, labels, isFR);
-    }
-
-    renderPostPreview(container, labels, isFR) {
-        const previewId = 'inf-post-preview';
-        const existing = container.querySelector(`#${previewId}`);
-        if (existing) existing.remove();
-
-        const previewDiv = document.createElement('div');
-        previewDiv.id = previewId;
-        previewDiv.className = 'post-preview-hook';
-        
-        const hookTitle = isFR ? "PRÊT À PUBLIER" : "READY TO POST";
-        const hookDesc = isFR ? "Insight viral généré pour votre réseau." : "Viral insight generated for your network.";
-        const cta = isFR ? "Copier & Ouvrir LinkedIn" : "Copy & Open LinkedIn";
-
-        previewDiv.innerHTML = `
-            <div class="pp-header">
-                <i class="fas fa-bolt"></i>
-                <div>
-                    <div class="pp-title">${hookTitle}</div>
-                    <div class="pp-desc">${hookDesc}</div>
-                </div>
-            </div>
-            <div class="pp-card-preview">
-                <div class="pp-mock-image">
-                    <i class="fas fa-chart-line"></i>
-                    <span>DCM CORE INSIGHT: ${document.title.split('|')[0]}</span>
-                </div>
-                <div class="pp-mock-text">${this.getPlatformTemplate('linkedin').substring(0, 100)}...</div>
-            </div>
-            <button class="pp-btn" id="pp-trigger">
-                ${cta} <i class="fas fa-external-link-alt"></i>
-            </button>
-        `;
-
-        container.appendChild(previewDiv);
-
-        previewDiv.querySelector('#pp-trigger').addEventListener('click', () => {
-            navigator.clipboard.writeText(this.getPlatformTemplate('linkedin'));
-            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank');
-        });
+        if (terminalBtn) {
+            terminalBtn.addEventListener('click', () => {
+                window.print();
+            });
+        }
     }
 
     downloadData(msg) {
         const title = document.title.split('|')[0].trim();
-        const csvContent = "data:text/csv;charset=utf-8,Factor,Value,Status\n" +
-            `"${title}",Modeled,Verified\n` +
-            "CCER Standard,1.45,Global\n" +
-            "T+0 Efficiency,92%,Operational\n" +
-            "MiCA Tier,Gold,Compliant";
+        const csvContent = "data:text/csv;charset=utf-8,Factor,Value,Status,Source\n" +
+            `"${title}",Modeled,Verified,GTSR March 2026\n` +
+            "CCER Standard,1.45,GlobalReference,DCM Core\n" +
+            "T+0 Efficiency,72.4%,Operational,GTSR Audit\n" +
+            "MiCA Alignment,Full,Regulatory,ComplianceBoard";
             
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
@@ -271,7 +260,7 @@ class InfluenceEngine {
         overlay.appendChild(closeHint);
         
         document.body.appendChild(overlay);
-        alert('Research Card Generated (Visual Dominance Mode). Use "Print to Image" or Screenshot for high-authority sharing.');
+        console.log('Institutional Reference Card generated.');
     }
 }
 

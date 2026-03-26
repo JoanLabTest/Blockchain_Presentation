@@ -1,10 +1,10 @@
 class TrustLayer {
     constructor() {
         this.logos = [
-            { name: "Global Custodian (Research)", type: "Citation" },
-            { name: "Tier-1 Investment Bank", type: "Pilot TFIN-01" },
-            { name: "EU Regulatory Board (Assoc)", type: "Compliance" },
-            { name: "Sovereign Wealth Fund", type: "Institutional Reference" }
+            { name: "Evaluated by Institutional Participants", type: "Framework Review" },
+            { name: "Methodology Reference (Academic)", type: "Citation Standard" },
+            { name: "Risk Compliance Assessment", type: "MiCA/DORA Alignment" },
+            { name: "Institutional Data Registry (GTSR)", type: "Operational Standard" }
         ];
     }
 
