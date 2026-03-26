@@ -152,6 +152,22 @@
         .copy-btn { background: var(--ac); color: var(--bg); border: none; padding: 8px 16px; border-radius: 4px; font-size: 11px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
         .copy-btn:active { transform: scale(0.95); }
 
+        /* RESEARCH GATEWAY (PHASE 109) */
+        .research-gateway { background: #0a0e17; border-top: 1px solid var(--ac); padding: 60px 40px; margin: 80px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+        @media (max-width: 850px) { .research-gateway { flex-direction: column; text-align: center; padding: 40px 20px; } }
+        .rg-content { flex: 1; }
+        .rg-form { flex: 1; width: 100%; max-width: 450px; }
+        .rg-title { font-family: var(--ff); font-size: 28px; color: #fff; margin-bottom: 12px; line-height: 1.2; }
+        .rg-desc { font-size: 15px; color: var(--tm); line-height: 1.5; }
+        .rg-input-group { display: flex; gap: 12px; margin-top: 24px; position: relative; }
+        @media (max-width: 500px) { .rg-input-group { flex-direction: column; } }
+        .rg-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 4px; padding: 12px 16px; color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .rg-input:focus { border-color: var(--ac); }
+        .rg-btn { background: var(--ac); color: var(--bg); border: none; padding: 12px 24px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+        .rg-btn:hover { background: #90cdf4; }
+        .rg-micro { font-size: 11px; color: var(--td); font-style: italic; margin-top: 12px; display: block; }
+        .rg-error { color: var(--aw); font-size: 12px; margin-top: 8px; display: none; font-weight: 600; }
+
         /* VISUAL CARD OVERRIDE */
         .market-card.visual { border: 2px solid #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.4); transform: scale(1); transition: transform 0.3s; }
         .market-card.visual:hover { transform: scale(1.02); }
@@ -294,6 +310,22 @@
         </div>
     </section>
 
+    <!-- RESEARCH GATEWAY (PHASE 109) -->
+    <section class="research-gateway">
+        <div class="rg-content">
+            <h3 class="rg-title">Institutional Research Briefing</h3>
+            <p class="rg-desc">Join 2,400+ Quants, Risk Officers, and Tier-1 Analysts. Receive our architectural deep-dives and market snapshots 48 hours before public release.</p>
+        </div>
+        <div class="rg-form">
+            <div class="rg-input-group">
+                <input type="email" id="rgEmail" class="rg-input" placeholder="Enter your institutional email (e.g., @bank.com)">
+                <button class="rg-btn" onclick="subscribeGateway()">REQUEST ACCESS</button>
+            </div>
+            <div id="rgError" class="rg-error"></div>
+            <span class="rg-micro">No noise. One high-density brief per month. One-click unsubscribe.</span>
+        </div>
+    </section>
+
     <section class="methodology">
         <span class="section-label">Methodology</span>
         <h2>GTDS v1.0 Standard</h2>
@@ -372,6 +404,44 @@ function copyText(id, msg) {
         'report_name': 'Stablecoin Bifurcation 2026',
         'user_language': 'EN'
     });
+}
+
+function subscribeGateway() {
+    const emailInput = document.getElementById('rgEmail');
+    const errorEl = document.getElementById('rgError');
+    const email = emailInput.value.trim().toLowerCase();
+    
+    // Simple professional filter
+    const personalProviders = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com', 'yahoo.fr', 'orange.fr', 'wanadoo.fr'];
+    const domain = email.split('@')[1];
+    
+    if (!email || !email.includes('@')) {
+        errorEl.innerText = "Please enter a valid email address.";
+        errorEl.style.display = 'block';
+        return;
+    }
+    
+    if (personalProviders.includes(domain)) {
+        errorEl.innerText = "Institutional access requires a corporate email address.";
+        errorEl.style.display = 'block';
+        return;
+    }
+    
+    // Success Logic
+    errorEl.style.display = 'none';
+    showToast('Access Requested. Verifying domain authority...');
+    
+    // GA4 Tracking (generate_lead)
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'generate_lead',
+        'lead_type': 'Institutional Briefing',
+        'report_context': 'Stablecoin 2026',
+        'user_language': 'EN'
+    });
+    
+    // Reset input
+    emailInput.value = '';
 }
 </script>
 
