@@ -347,12 +347,30 @@ function copyInsight() {
     const txt = document.getElementById('insightText').innerText;
     navigator.clipboard.writeText(txt + " \n\nSource de Recherche : https://dcmcore.com/fr/research/structure-marche-stablecoins-2026.html");
     showToast('Insight & Lien copiés');
+    
+    // GA4 Tracking
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'insight_card_shared',
+        'insight_type': 'The Great Bifurcation',
+        'report_name': 'Stablecoin Bifurcation 2026',
+        'user_language': 'FR'
+    });
 }
 
 function copyText(id, msg) {
     const txt = document.getElementById(id).innerText;
     navigator.clipboard.writeText(txt);
     showToast(msg);
+    
+    // GA4 Tracking
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'citation_copied',
+        'citation_format': (id === 'citeAPA') ? 'APA' : 'BibTeX',
+        'report_name': 'Stablecoin Bifurcation 2026',
+        'user_language': 'FR'
+    });
 }
 </script>
 
