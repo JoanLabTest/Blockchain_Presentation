@@ -43,6 +43,7 @@ const NavigationManager = {
             icon: 'fa-toolbox',
             links: [
                 { id: 'nav-roi', name: 'ROI Calculator', link: 'flux-comparison.html', icon: 'fa-calculator' },
+                { id: 'nav-api', name: 'API & Integration', link: 'dashboard.html?tab=api', icon: 'fa-key', feature: 'API_ACCESS' },
                 { id: 'nav-sandbox', name: 'Dev Sandbox', link: 'sandbox.html', icon: 'fa-terminal' },
                 { id: 'nav-workflows', name: 'Workflows', link: 'workflow-center.html', icon: 'fa-bolt', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-compare', name: 'Market Benchmarks', link: 'comparateur.html', icon: 'fa-code-compare' }

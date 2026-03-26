@@ -125,6 +125,23 @@ const SupabaseData = {
 
         if (error) { console.error('❌ Simulation save error:', error); return null; }
         return data[0];
+    },
+
+    /**
+     * Fetch API Keys for the current user (Phase 111).
+     */
+    getApiKeys: async (userId) => {
+        const sb = _sb();
+        if (!sb) return null;
+        const { data, error } = await sb
+            .from('api_keys')
+            .select('*')
+            .eq('user_id', userId)
+            .eq('revoked', false)
+            .order('created_at', { ascending: false });
+
+        if (error) { console.warn('⚠️ API Keys fetch error:', error); return null; }
+        return data;
     }
 };
 
@@ -726,7 +743,8 @@ const DashboardEngine = {
             'simulations': document.getElementById('simulations-section'),
             'reports': document.getElementById('reports-section'),
             'validation': document.getElementById('validation-section'),
-            'admin': document.getElementById('admin-section')
+            'admin': document.getElementById('admin-section'),
+            'api': document.getElementById('api-section')
         };
         const bcModule = document.getElementById('bc-module');
         const topCards = [
@@ -750,7 +768,7 @@ const DashboardEngine = {
         });
 
         // 2. Logic Branching
-        if (tab === 'reports' || tab === 'validation' || tab === 'admin') {
+        if (tab === 'reports' || tab === 'validation' || tab === 'admin' || tab === 'api') {
             topCards.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
@@ -760,10 +778,16 @@ const DashboardEngine = {
             if (target) {
                 target.style.display = (tab === 'admin') ? 'grid' : 'block';
                 if (bcModule) {
-                    const labels = { 'reports': 'RAPPORTS', 'validation': 'VALIDATION', 'admin': 'CORPORATE ADMIN' };
+                    const labels = {
+                        'reports': 'RAPPORTS',
+                        'validation': 'VALIDATION',
+                        'admin': 'CORPORATE ADMIN',
+                        'api': 'API & INTEGRATION'
+                    };
                     bcModule.innerText = labels[tab];
                 }
             }
+            if (tab === 'api') DashboardEngine.loadApiTab();
         } else {
             topCards.forEach(id => {
                 const el = document.getElementById(id);
@@ -1126,7 +1150,6 @@ const DashboardEngine = {
         `;
         document.body.appendChild(modal);
     },
-
     renderTimeline: (events) => {
         const container = document.getElementById('activity-timeline');
         if (!container) return;
@@ -1138,6 +1161,55 @@ const DashboardEngine = {
                 <div style="font-size:12px; color:#94a3b8">${ev.detail}</div>
             </div>
         `).join('');
+    },
+
+    // --- API MANAGEMENT HUB (Phase 111) ---
+    renderApiTable: (keys) => {
+        const tbody = document.getElementById('api-keys-table-body');
+        if (!tbody) return;
+
+        if (!keys || keys.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted); font-size:13px; font-style:italic;">Aucune clé active. Générez votre première clé pour commencer l'intégration.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = keys.map(k => `
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:15px 10px; font-weight:600; color:white;">${k.name}</td>
+                <td style="padding:15px 10px; font-family:'JetBrains Mono',monospace; color:var(--api-gold); font-size:12px;">${k.prefix}••••</td>
+                <td style="padding:15px 10px; color:var(--text-muted); font-size:12px;">${new Date(k.created_at).toLocaleDateString()}</td>
+                <td style="padding:15px 10px; color:var(--text-muted); font-size:12px;">${k.last_used ? new Date(k.last_used).toLocaleDateString() : 'Jamais'}</td>
+                <td style="padding:15px 10px;">
+                    <button class="btn-glass" onclick="DashboardEngine.handleRevokeKey('${k.id}')" style="color:#ef4444; font-size:11px; padding:5px 10px;">
+                        <i class="fas fa-trash-can"></i> Révoker
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    },
+
+    loadApiTab: async () => {
+        const profile = window.SessionManager.getCurrentUser();
+        if (!profile) return;
+
+        console.log('🏗️ Loading API Management Hub...');
+        const keys = await SupabaseData.getApiKeys(profile.id);
+        DashboardEngine.renderApiTable(keys);
+    },
+
+    handleRevokeKey: async (id) => {
+        if (!confirm('Êtes-vous sûr de vouloir révoquer cette clé ? L\'accès utilisant cette clé sera immédiatement coupé.')) return;
+        
+        try {
+            const success = await window.APIManagement.revokeKey(id);
+            if (success) {
+                window.SessionManager.showToast('🗑️', 'Clé Révokée', 'La clé a été désactivée avec succès.');
+                DashboardEngine.loadApiTab();
+            }
+        } catch (e) {
+            console.error('Revoke error:', e);
+            alert('Erreur lors de la révocation.');
+        }
     },
 
     // --- SAAS MANAGER MODE (Phase 50) ---
@@ -1231,6 +1303,39 @@ const DashboardEngine = {
 
     // --- PUBLIC API for external modules ---
     SupabaseData
+};
+
+// ============================================================
+//  GLOBAL UI HANDLERS (Phase 111)
+// ============================================================
+
+window.showCreateKeyModal = () => {
+    const name = prompt("Entrez un nom pour cette clé (ex: Production Server):");
+    if (!name) return;
+
+    window.APIManagement.createKey(name)
+        .then(result => {
+            const modal = document.getElementById('api-key-modal');
+            const display = document.getElementById('new-api-key-display');
+            if (modal && display) {
+                display.innerText = result.raw_key;
+                window.__LAST_RAW_KEY = result.raw_key;
+                modal.style.display = 'flex';
+                // Refresh table
+                DashboardEngine.loadApiTab();
+            }
+        })
+        .catch(err => {
+            console.error("API Key Generation Error:", err);
+            alert("Erreur lors de la génération de la clé.");
+        });
+};
+
+window.copyNewApiKey = () => {
+    const key = window.__LAST_RAW_KEY || document.getElementById('new-api-key-display').innerText;
+    navigator.clipboard.writeText(key).then(() => {
+        window.SessionManager.showToast('📋', 'Copié', 'Clé API copiée dans le presse-papier.');
+    });
 };
 
 // Expose globally

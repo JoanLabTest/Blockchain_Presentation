@@ -64,6 +64,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="js/core/feature-flags.js"></script>
     <script src="js/session-manager.js"></script>
     <script src="js/quiz-analytics.js"></script>
+    <script src="js/api-management.js"></script>
     <script src="js/dashboard-engine.js"></script>
     <script src="js/market-ticker.js"></script>
     <script src="js/ui/audit-logger.js"></script>
@@ -1185,6 +1186,88 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
 
+
+        <!-- API MANAGEMENT HUB (Phase 111) -->
+        <div class="card span-4" data-aos="fade-up" id="api-section" style="display:none;">
+            <div class="card-header" style="border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px;">
+                <div class="card-title">
+                    <i class="fas fa-key" style="color:var(--api-gold);"></i> API & Programmable Access
+                </div>
+                <div style="font-size:12px; color:var(--text-muted); padding-top:5px;">
+                    Gérez vos clés d'accès institutionnelles et intégrez les données DCM Core dans vos infrastructures.
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:30px;">
+                <!-- Left: Key Management -->
+                <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:12px; padding:25px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                        <h3 style="font-size:16px; font-weight:700;">Clés d'API Actives</h3>
+                        <button class="btn-primary" onclick="window.showCreateKeyModal()" style="font-size:12px; padding:8px 16px;">
+                            <i class="fas fa-plus"></i> Générer une Clé
+                        </button>
+                    </div>
+                    
+                    <div style="overflow-x:auto;">
+                        <table style="width:100%; border-collapse:collapse; text-align:left;">
+                            <thead style="border-bottom:1px solid var(--border);">
+                                <tr>
+                                    <th style="padding:10px; color:#888; font-size:11px; text-transform:uppercase;">Nom</th>
+                                    <th style="padding:10px; color:#888; font-size:11px; text-transform:uppercase;">Préfixe</th>
+                                    <th style="padding:10px; color:#888; font-size:11px; text-transform:uppercase;">Créée le</th>
+                                    <th style="padding:10px; color:#888; font-size:11px; text-transform:uppercase;">Dernier Usage</th>
+                                    <th style="padding:10px; color:#888; font-size:11px; text-transform:uppercase;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="api-keys-table-body">
+                                <tr>
+                                    <td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted); font-size:13px; font-style:italic;">
+                                        Aucune clé active. Générez votre première clé pour commencer l'intégration.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right: Quick Start Guide -->
+                <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:12px; padding:25px;">
+                    <h3 style="font-size:16px; font-weight:700; margin-bottom:20px;"><i class="fas fa-code-branch" style="color:var(--api-gold);"></i> Intégration Rapide</h3>
+                    
+                    <div style="margin-bottom:15px;">
+                        <div style="font-size:11px; color:#888; font-weight:700; text-transform:uppercase; margin-bottom:8px;">cURL Example</div>
+                        <div style="background:#020617; padding:15px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); font-family:'JetBrains Mono', monospace; font-size:11px; color:#60a5fa; overflow-x:auto;">
+                            curl -X GET "https://api.dcmcore.com/v1/stablecoins" \<br>
+                            &nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY"
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:15px;">
+                        <div style="font-size:11px; color:#888; font-weight:700; text-transform:uppercase; margin-bottom:8px;">Node.js (Axios)</div>
+                        <div style="background:#020617; padding:15px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); font-family:'JetBrains Mono', monospace; font-size:10px; color:#10b981; overflow-x:auto;">
+                            const res = await axios.get('...', {<br>
+                            &nbsp;&nbsp;headers: { 'auth': 'YOUR_API_KEY' }<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW KEY REVEAL MODAL -->
+        <div id="api-key-modal" style="display:none; position:fixed; inset:0; background:rgba(2,6,23,0.9); z-index:60000; backdrop-filter:blur(10px); align-items:center; justify-content:center;">
+            <div style="background:#1e293b; border:2px solid var(--api-gold); border-radius:20px; padding:40px; max-width:500px; width:90%; position:relative;">
+                <h2 style="font-family:'Outfit',sans-serif; font-size:24px; color:white; margin-bottom:15px;">Nouvelle Clé d'API</h2>
+                <div style="background:rgba(212,175,55,0.1); border:1px solid var(--api-gold); color:var(--api-gold); padding:15px; border-radius:10px; font-size:13px; margin-bottom:20px;">
+                    <i class="fas fa-exclamation-triangle"></i> <strong>IMPORTANT</strong>: Copiez cette clé maintenant. Pour votre sécurité, elle ne pourra plus être affichée après la fermeture de cette fenêtre.
+                </div>
+                <div style="background:#020617; border:1px solid #334155; padding:15px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+                    <div id="new-api-key-display" style="font-family:'JetBrains Mono',monospace; color:#10b981; font-weight:700; font-size:14px; word-break:break-all;">dcm_live_xxxx...</div>
+                    <button onclick="window.copyNewApiKey()" style="background:none; border:none; color:white; cursor:pointer;"><i class="fas fa-copy"></i></button>
+                </div>
+                <button onclick="document.getElementById('api-key-modal').style.display='none'" style="width:100%; padding:15px; background:var(--api-gold); color:#020617; border:none; border-radius:10px; font-weight:800; cursor:pointer;">J'ai sauvegardé ma clé</button>
+            </div>
+        </div>
 
         <!-- REPORTS CENTER (Phase 108) -->
         <div class="card span-4" data-aos="fade-up" id="reports-section" style="display:none;">
