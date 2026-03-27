@@ -1,106 +1,118 @@
 /**
- * DCM CORE — API DOCS ENGINE
- * Phase 113: Institutional Developer Experience
- * Handles interaction for the "Try It Out" console and multi-language code switchers.
+ * DCM Core API Documentation Engine (Phase 112)
+ * Handles interactivity, code snippets, and 'Try It Out' simulations.
  */
 
 const ApiDocsEngine = {
-    // MOCK DATA FOR THE CONSOLE
-    MOCK_RESPONSES: {
+    MOCKS: {
         '/v1/registry/assets': {
             status: 200,
             data: [
-                { id: "bond-eur-t1", tfin: "TFIN-EUR-001", issuer: "DCM Treasury", grade: "Investment" },
-                { id: "rwa-immo-fr", tfin: "TFIN-RE-082", issuer: "PropChain SAS", grade: "Prime" }
-            ],
-            meta: { total: 142, page: 1 }
+                {
+                    tfin: "TFIN-ETH-BND-2026-001",
+                    name: "Ethereum Sovereign Bond Token",
+                    issuer: "DCM Treasury",
+                    asset_class: "Fixed Income",
+                    isin_reference: "US4590581017",
+                    ledger: "Ethereum Mainnet",
+                    status: "ACTIVE",
+                    mica_assessment: "Compliant (Art. 60)"
+                },
+                {
+                    tfin: "TFIN-SOL-RED-2026-042",
+                    name: "Solar Energy RWA Index",
+                    issuer: "GreenLedger Infra",
+                    asset_class: "Real World Asset",
+                    ledger: "Solana",
+                    status: "PENDING_AUDIT",
+                    mica_assessment: "Under Review"
+                }
+            ]
         },
         '/v1/stablecoins/liquidity': {
             status: 200,
-            metrics: {
-                bifurcation_index: 0.72,
-                dominant_issuer: "Circle (USDC)",
-                mica_compliant_volume: "84.2%",
-                venue_count: 24
+            data: {
+                pair: "USDC/USDT",
+                bifurcation_index: 0.12,
+                liquidity_score: 98.4,
+                mica_readiness: {
+                    USDC: "High (Electronic Money Token)",
+                    USDT: "Medium (Asset-Referenced Token)"
+                },
+                volatility_24h: "0.02%",
+                arbitrage_opportunity: "None"
             }
         },
         '/v1/risk/dora-mapping': {
             status: 200,
-            framework: "DORA",
-            coverage: "94%",
-            critical_flags: 2
-        },
-        '/v1/insights/snapshots': {
-            status: 200,
-            audit_id: "DC-STR-2026-004",
-            summary: "Market structure shift detected in Tier-1 Euro settlement layers.",
-            timestamp: new Date().toISOString()
+            data: {
+                framework: "DORA (Digital Operational Resilience Act)",
+                coverage: "84%",
+                critical_ict_third_party: ["DCM Cloud", "LedgerVault"],
+                resilience_score: 9.2,
+                last_stress_test: "2026-03-26T14:22:00Z",
+                compliance_status: "ADM_APPROVED"
+            }
         }
     },
 
-    init() {
+    init: function() {
         console.log("🚀 DCM API Docs Engine Initialized");
-        this.setupCodeSwitchers();
+        this.setupTabSwitching();
         this.setupTryItOut();
-        this.setupAutoHeaderLinks();
+        this.setupSidebarSpy();
     },
 
-    // 1. CODE SNIPET SWITCHER
-    setupCodeSwitchers() {
-        document.querySelectorAll('.code-tabs').forEach(tabGroup => {
-            const btns = tabGroup.querySelectorAll('.tab-btn');
-            btns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const lang = btn.dataset.lang;
-                    // Switch all snippets globally for consistent DX
-                    this.switchGlobalLanguage(lang);
+    setupTabSwitching: function() {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const container = e.target.closest('.endpoint-body');
+                const lang = e.target.getAttribute('data-lang');
+
+                // Update buttons
+                container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+
+                // Update snippets
+                container.querySelectorAll('.snippet-block').forEach(block => {
+                    block.style.display = block.getAttribute('data-lang') === lang ? 'block' : 'none';
                 });
             });
         });
     },
 
-    switchGlobalLanguage(lang) {
-        // Update all buttons
-        document.querySelectorAll(`.tab-btn`).forEach(b => {
-            b.classList.toggle('active', b.dataset.lang === lang);
-        });
-        // Update all snippet blocks
-        document.querySelectorAll('.snippet-block').forEach(s => {
-            s.style.display = s.dataset.lang === lang ? 'block' : 'none';
-        });
-    },
-
-    // 2. INTERACTIVE CONSOLE (Mock)
-    setupTryItOut() {
+    setupTryItOut: function() {
         document.querySelectorAll('.btn-try-it').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                const endpoint = btn.dataset.endpoint;
-                const responseBox = document.getElementById(`res-${endpoint.replace(/\//g, '-')}`);
-                
-                if (!responseBox) return;
+            btn.addEventListener('click', async (e) => {
+                const endpoint = e.target.getAttribute('data-endpoint');
+                const resConsole = e.target.nextElementSibling; // console-res
 
                 // Loading state
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Executing...';
-                responseBox.innerHTML = '<span class="comment">// Connecting to api.dcmcore.com...</span>';
-                responseBox.parentElement.style.display = 'block';
+                e.target.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Executing...';
+                e.target.disabled = true;
 
-                // Simulate network latency (Phase 113)
-                await new Promise(r => setTimeout(r, 600));
+                // Simulate Network Latency
+                await new Promise(r => setTimeout(r, 800));
 
-                const mockResponse = this.MOCK_RESPONSES[endpoint] || { error: "Endpoint not found" };
-                
-                responseBox.innerHTML = this.formatJSON(mockResponse);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-play"></i> Try It Out';
+                const mock = this.MOCKS[endpoint] || { status: 404, error: "Endpoint not found in sandbox" };
+
+                // Render JSON with highlighting
+                resConsole.innerHTML = this.syntaxHighlight(mock);
+                resConsole.style.display = 'block';
+
+                // Reset button
+                e.target.innerHTML = '<i class="fas fa-play"></i> Try It Out';
+                e.target.disabled = false;
             });
         });
     },
 
-    // 3. UTILITY: JSON Formatter
-    formatJSON(obj) {
-        const json = JSON.stringify(obj, null, 2);
-        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
+    syntaxHighlight: function(json) {
+        if (typeof json != 'string') {
+            json = JSON.stringify(json, undefined, 2);
+        }
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
             let cls = 'num';
             if (/^"/.test(match)) {
                 if (/:$/.test(match)) {
@@ -117,21 +129,25 @@ const ApiDocsEngine = {
         });
     },
 
-    // 4. AUTO-GENERATED ANCHORS
-    setupAutoHeaderLinks() {
-        document.querySelectorAll('.api-section-title, .endpoint-path').forEach(el => {
-            const id = el.innerText.toLowerCase().replace(/[^a-z0-9]/g, '-');
-            el.id = id;
-            el.style.cursor = 'pointer';
-            el.title = "Click to copy deep link";
-            el.onclick = () => {
-                const url = window.location.origin + window.location.pathname + '#' + id;
-                navigator.clipboard.writeText(url).then(() => {
-                    if (window.SessionManager) window.SessionManager.showToast('🔗', 'Link Copied', 'Deep link saved to clipboard.');
-                });
-            };
-        });
+    setupSidebarSpy: function() {
+        // Basic intersection observer for active link highlighting
+        const options = { threshold: 0.5 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    if (id) {
+                        document.querySelectorAll('.sidebar-link').forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                        });
+                    }
+                }
+            });
+        }, options);
+
+        document.querySelectorAll('[id]').forEach(section => observer.observe(section));
     }
 };
 
+// Start logic
 document.addEventListener('DOMContentLoaded', () => ApiDocsEngine.init());

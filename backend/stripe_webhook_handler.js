@@ -1,94 +1,73 @@
 /**
- * STRIPE WEBHOOK HANDLER — Phase 111 (Automated Revenue)
- * Reference logic for Supabase Edge Functions.
- * Synchronizes Stripe Subscription events with the DCM Core user database.
+ * DCM Core Institute: Stripe Webhook Handler (Phase 113)
+ * Handles €499/mo Institutional Subscription Lifecycle
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import Stripe from 'https://esm.sh/stripe@12';
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { createClient } = require('@supabase/supabase-js');
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'), {
-  apiVersion: '2022-11-15',
-});
-
+// Initialize Supabase with Service Role for privileged backend actions
 const supabase = createClient(
-  Deno.env.get('SUPABASE_URL'),
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-export default async function handler(req) {
-  const signature = req.headers.get('stripe-signature');
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  try {
-    const body = await req.text();
-    const event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      Deno.env.get('STRIPE_WEBHOOK_SECRET')
-    );
+async function handleStripeWebhook(req, res) {
+    const sig = req.headers['stripe-signature'];
+    let event;
 
-    console.log(`🔔 Received Stripe Event: ${event.type}`);
-
-    switch (event.type) {
-      case 'checkout.session.completed':
-        await handleCheckoutComplete(event.data.object);
-        break;
-      case 'customer.subscription.deleted':
-        await handleSubscriptionDeleted(event.data.object);
-        break;
-      default:
-        console.log(`Unhandled event type: ${event.type}`);
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    } catch (err) {
+        console.error(`❌ Webhook Error: ${err.message}`);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    return new Response(JSON.stringify({ received: true }), { status: 200 });
-  } catch (err) {
-    console.error(`❌ Webhook Error: ${err.message}`);
-    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
-  }
+    // Handle the event
+    switch (event.type) {
+        case 'checkout.session.completed':
+            const session = event.data.object;
+            await handleSuccessfulSubscription(session);
+            break;
+        case 'customer.subscription.deleted':
+            const subscription = event.data.object;
+            await handleCancelledSubscription(subscription);
+            break;
+        default:
+            console.log(`ℹ️ Unhandled event type ${event.type}`);
+    }
+
+    res.json({ received: true });
 }
 
-async function handleCheckoutComplete(session) {
-  const userId = session.client_reference_id;
-  const customerId = session.customer;
-  const subscriptionId = session.subscription;
+async function handleSuccessfulSubscription(session) {
+    const userId = session.client_reference_id; // Passed during checkout
+    const customerEmail = session.customer_details.email;
 
-  console.log(`✅ Subscription Activated for User: ${userId}`);
+    console.log(`✅ Subscription successful for user ${userId || customerEmail}`);
 
-  // 1. Update Subscriptions table
-  const { error: subError } = await supabase
-    .from('subscriptions')
-    .upsert({
-      user_id: userId,
-      stripe_customer_id: customerId,
-      stripe_subscription_id: subscriptionId,
-      status: 'active',
-      plan_type: 'institutional_api',
-      updated_at: new Date().toISOString()
-    });
+    // Update User Profile to 'INSTITUTIONAL'
+    const { error } = await supabase
+        .from('profiles')
+        .update({ tier: 'institutional', stripe_customer_id: session.customer })
+        .eq('id', userId);
 
-  if (subError) throw subError;
+    if (error) console.error("❌ Error updating profile:", error);
 
-  // 2. Grant API_ACCESS via metadata/profile
-  const { error: profileError } = await supabase
-    .from('user_profiles')
-    .update({ 
-      subscription_tier: 'institutional',
-      api_access_granted: true 
-    })
-    .eq('id', userId);
-
-  if (profileError) throw profileError;
+    // TODO: Trigger automated onboarding email or API Key generation event
 }
 
-async function handleSubscriptionDeleted(subscription) {
-  const customerId = subscription.customer;
+async function handleCancelledSubscription(subscription) {
+    const customerId = subscription.customer;
+    console.log(`⚠️ Subscription cancelled for customer ${customerId}`);
 
-  console.log(`⚠️ Subscription Canceled for Customer: ${customerId}`);
-
-  const { error } = await supabase
-    .from('subscriptions')
-    .update({ status: 'canceled' })
-    .eq('stripe_customer_id', customerId);
-
-  if (error) throw error;
+    // Downgrade User to 'BASIC'
+    await supabase
+        .from('profiles')
+        .update({ tier: 'basic' })
+        .eq('stripe_customer_id', customerId);
 }
+
+module.exports = { handleStripeWebhook };

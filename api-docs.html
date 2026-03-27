@@ -393,22 +393,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <button class="tab-btn active" data-lang="curl">cURL</button>
                     <button class="tab-btn" data-lang="nodejs">Node.js</button>
                     <button class="tab-btn" data-lang="python">Python</button>
+                    <button class="tab-btn" data-lang="go">Go</button>
                 </div>
 
-                <!-- Snippets -->
                 <div class="snippet-block" data-lang="curl">
                     <div class="code-block">curl -X GET "https://api.dcmcore.com/v1/registry/assets" \<br>
                     &nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY"</div>
                 </div>
                 <div class="snippet-block" data-lang="nodejs" style="display:none;">
-                    <div class="code-block">const res = await axios.get('https://api.dcmcore.com/v1/registry/assets', {<br>
+                    <div class="code-block">const axios = require('axios');<br>
+                    const res = await axios.get('https://api.dcmcore.com/v1/registry/assets', {<br>
                     &nbsp;&nbsp;headers: { 'Authorization': 'Bearer YOUR_API_KEY' }<br>
                     });</div>
                 </div>
                 <div class="snippet-block" data-lang="python" style="display:none;">
                     <div class="code-block">import requests<br>
-                    response = requests.get('https://api.dcmcore.com/v1/registry/assets', headers={'Authorization': 'Bearer YOUR_API_KEY'})<br>
+                    response = requests.get('https://api.dcmcore.com/v1/registry/assets', <br>
+                    &nbsp;&nbsp;headers={'Authorization': 'Bearer YOUR_API_KEY'})<br>
                     print(response.json())</div>
+                </div>
+                <div class="snippet-block" data-lang="go" style="display:none;">
+                    <div class="code-block">req, _ := http.NewRequest("GET", url, nil)<br>
+                    req.Header.Add("Authorization", "Bearer YOUR_API_KEY")</div>
                 </div>
 
                 <button class="btn-try-it" data-endpoint="/v1/registry/assets"><i class="fas fa-play"></i> Try It Out</button>
@@ -453,7 +459,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
                 <div class="snippet-block" data-lang="curl">
                     <div class="code-block">curl -G "https://api.dcmcore.com/v1/stablecoins/liquidity" \ <br>
-                    &nbsp;&nbsp;-d "pair=USDC/USDT"</div>
+                    &nbsp;&nbsp;-d "pair=USDC/USDT" -H "Authorization: Bearer YOUR_KEY"</div>
+                </div>
+                <div class="snippet-block" data-lang="nodejs" style="display:none;">
+                    <div class="code-block">const res = await axios.get('https://api.dcmcore.com/v1/stablecoins/liquidity?pair=USDC/USDT');</div>
+                </div>
+                <div class="snippet-block" data-lang="python" style="display:none;">
+                    <div class="code-block">res = requests.get('https://api.dcmcore.com/v1/stablecoins/liquidity', params={'pair': 'USDC/USDT'})</div>
                 </div>
                 <button class="btn-try-it" data-endpoint="/v1/stablecoins/liquidity"><i class="fas fa-play"></i> Try It Out</button>
                 <div class="console-res" id="res--v1-stablecoins-liquidity"></div>
@@ -477,9 +489,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="code-tabs">
                     <button class="tab-btn active" data-lang="curl">cURL</button>
                     <button class="tab-btn" data-lang="nodejs">Node.js</button>
+                    <button class="tab-btn" data-lang="python">Python</button>
                 </div>
                 <div class="snippet-block" data-lang="curl">
-                    <div class="code-block">curl -X GET "https://api.dcmcore.com/v1/risk/dora-mapping"</div>
+                    <div class="code-block">curl -X GET "https://api.dcmcore.com/v1/risk/dora-mapping" \ <br>
+                    &nbsp;&nbsp;-H "Authorization: Bearer YOUR_KEY"</div>
+                </div>
+                <div class="snippet-block" data-lang="nodejs" style="display:none;">
+                    <div class="code-block">const res = await axios.get('https://api.dcmcore.com/v1/risk/dora-mapping');</div>
+                </div>
+                <div class="snippet-block" data-lang="python" style="display:none;">
+                    <div class="code-block">res = requests.get('https://api.dcmcore.com/v1/risk/dora-mapping')</div>
                 </div>
                 <button class="btn-try-it" data-endpoint="/v1/risk/dora-mapping"><i class="fas fa-play"></i> Try It Out</button>
                 <div class="console-res" id="res--v1-risk-dora-mapping"></div>

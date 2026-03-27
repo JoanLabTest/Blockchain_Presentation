@@ -175,6 +175,10 @@ const MockData = {
             impactScore: 42,
             alerts: ['Verify CASP License', 'T+1 Settlement Check']
         },
+        apiKeys: [
+            { id: 'k1', name: 'Aladdin Integration', prefix: 'dcm_sk_live_f8', created_at: '2026-03-10', last_used: '2026-03-27' },
+            { id: 'k2', name: 'Internal Risk Hub', prefix: 'dcm_sk_live_a4', created_at: '2026-03-22', last_used: null }
+        ],
         timeline: [
             { date: 'Today', time: '10:42', action: 'Simulation Run', detail: 'High Yield ETH Strategy' },
             { date: 'Yesterday', time: '15:30', action: 'Quiz Completed', detail: 'Level 2: Smart Contracts' },
@@ -429,9 +433,28 @@ Object.assign(DashboardEngine, {
             lastGrade: quizAdapted.lastGrade || 'A-',
             radarData: scoreAdapted.radarData || mock.radarData,
             complianceProfile: mock.complianceProfile,
+            apiKeys: mock.apiKeys, // Phase 113: Demo Keys
             timeline: logsAdapted || mock.timeline,
             riskProfile: riskAdapted
         };
+    },
+
+    // Initialize Surveillance Monitoring (Phase 114)
+    initSurveillance: function() {
+        if (window.SurveillanceEngine) {
+            window.SurveillanceEngine.init();
+        }
+    },
+
+    // Global initialization for various dashboard components
+    initGlobalHooks: function() {
+        try {
+            if (window.DashboardTour) window.DashboardTour.init();
+            if (window.MarketTicker) window.MarketTicker.initTicker();
+            if (window.DashboardEngine.initSurveillance) window.DashboardEngine.initSurveillance();
+        } catch (globalErr) {
+            console.error("Error initializing global dashboard hooks:", globalErr);
+        }
     },
 
     // --- BENCHMARK DATA (Phase 58) ---
@@ -841,6 +864,11 @@ Object.assign(DashboardEngine, {
         
         // Store for certification (Phase 115)
         DashboardEngine.lastSimulationResult = result;
+
+        // --- PHASE 114: Surveillance Monitoring Hook ---
+        if (window.SurveillanceEngine) {
+            window.SurveillanceEngine.updateFromStressTest(result);
+        }
 
         // --- PHASE 116: Audit Logging ---
         if (window.AuditLogger) {
@@ -1366,31 +1394,77 @@ Object.assign(DashboardEngine, {
             .join('');
     },
 
-    // --- PHASE 115: Institutional Certification ---
+    // --- PHASE 115/116: Institutional Certification ---
     generateCertificate: function() {
-        if (!this.lastSimulationResult) return;
+        const lastRes = this.lastSimulationResult;
+        if (!lastRes) {
+            window.SessionManager.showToast('⚠️', 'No Data', 'Please run a Stress Test (Phase 84) before certifying.');
+            return;
+        }
         
-        const res = this.lastSimulationResult;
         const modal = document.getElementById('certification-modal');
         const activeOrg = window.TenantManager ? window.TenantManager.getActiveOrg().name : "Institutional Client";
         
-        // Populate Modal (Phase 115)
-        document.getElementById('cert-org-name').innerText = activeOrg;
-        document.getElementById('cert-asset-id').innerText = `TFIN-${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
-        document.getElementById('cert-resilience').innerText = res.resilience;
-        document.getElementById('cert-class').innerText = res.micaStatus;
-        document.getElementById('cert-hash').innerText = `0x${Math.random().toString(16).substr(2, 40)}`;
+        // 1. Map real results to UI
+        const certData = {
+            org: activeOrg,
+            asset: "TFIN-DCM-CORE-" + Math.random().toString(36).substr(2, 4).toUpperCase(),
+            resilience: lastRes.resilience || 'VERIFIED',
+            class: lastRes.micaStatus || 'EMT (MiCA Title III)',
+            hash: lastRes.metrics?.infraRiskScore ? `0x${Math.random().toString(16).substr(2, 40)}` : "INCOMPLETE_CHAIN"
+        };
+
+        // 2. Populate Modal (Phase 116)
+        const elements = {
+            'cert-org-name': certData.org,
+            'cert-asset-id': certData.asset,
+            'cert-resilience': certData.resilience,
+            'cert-class': certData.class,
+            'cert-hash': certData.hash
+        };
+
+        Object.entries(elements).forEach(([id, val]) => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = val;
+        });
 
         if (modal) {
             modal.style.display = 'flex';
             window.SessionManager.showToast('🏛️', 'Certificate Generated', 'Ready for internal audit submission.');
             
             // --- PHASE 116: Audit Logging ---
-            if (window.AuditLogger) {
-                window.AuditLogger.logInstitutionalEvent('CERTIFICATION_DOWNLOAD', { 
-                    asset: document.getElementById('cert-asset-id').innerText,
+            if (window.AuditLogger && window.AuditLogger.log) {
+                window.AuditLogger.log('CERTIFICATION_GENERATED', { 
+                    asset: certData.asset,
+                    resilience: certData.resilience,
                     org: activeOrg 
-                });
+                }, 'security');
+            }
+        }
+    },
+
+    /**
+     * EXPORT CURRENT CERTIFICATE (Phase 116)
+     * Collects data from the active modal and triggers the high-fidelity PDF generator.
+     */
+    exportCurrentCertificate: function() {
+        const certData = {
+            org: document.getElementById('cert-org-name')?.innerText || 'Unknown',
+            asset: document.getElementById('cert-asset-id')?.innerText || 'N/A',
+            resilience: document.getElementById('cert-resilience')?.innerText || 'N/A',
+            class: document.getElementById('cert-class')?.innerText || 'N/A',
+            hash: document.getElementById('cert-hash')?.innerText || 'N/A'
+        };
+
+        if (window.ReportEngine) {
+            window.ReportEngine.exportInstitutionCertificate(certData);
+            
+            // Log Export Event (Phase 116)
+            if (window.AuditLogger) {
+                window.AuditLogger.log('CERTIFICATE_EXPORT_PDF', { 
+                    asset: certData.asset,
+                    format: 'High-Fidelity PDF'
+                }, 'security');
             }
         }
     },

@@ -126,6 +126,99 @@ const ReportEngine = {
     },
 
     /**
+     * EXPORT INSTITUTIONAL CERTIFICATE (Phase 116)
+     * Generates a high-fidelity, board-ready certificate view.
+     */
+    exportInstitutionCertificate: (certData) => {
+        console.log('📜 Generating High-Fidelity Certification...');
+        
+        const win = window.open('', '_blank');
+        if (!win) return alert('Please allow popups for certification export.');
+
+        win.document.write(`
+            <html>
+            <head>
+                <title>DCM_Certification_Resilience_${certData.asset}</title>
+                <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700;900&display=swap" rel="stylesheet">
+                <style>
+                    @page { size: A4; margin: 0; }
+                    body { font-family: 'Urbanist', sans-serif; margin: 0; padding: 0; background: #020617; color: #f8fafc; }
+                    .cert-container { width: 210mm; height: 297mm; padding: 20mm; box-sizing: border-box; position: relative; border: 15px solid #0f172a; overflow: hidden; }
+                    .cert-border { position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; border: 2px solid #c9a84c; pointer-events: none; }
+                    .header { text-align: center; margin-bottom: 60px; padding-top: 20px; }
+                    .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; margin-bottom: 5px; }
+                    .sub-logo { font-size: 10px; font-weight: 700; color: #c9a84c; letter-spacing: 3px; text-transform: uppercase; }
+                    h1 { font-size: 42px; font-weight: 900; margin: 60px 0 20px; text-align: center; color: white; }
+                    .desc { text-align: center; font-size: 16px; color: #94a3b8; max-width: 80%; margin: 0 auto 50px; line-height: 1.6; }
+                    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+                    .metric-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 25px; border-radius: 4px; }
+                    .m-label { font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; margin-bottom: 10px; }
+                    .m-val { font-size: 22px; font-weight: 900; color: #f8fafc; }
+                    .stamp-container { position: absolute; bottom: 100px; right: 80px; text-align: center; opacity: 0.8; transform: rotate(-15deg); }
+                    .compliance-stamp { border: 4px double #10b981; color: #10b981; padding: 15px 30px; font-weight: 900; font-size: 24px; border-radius: 10px; text-transform: uppercase; }
+                    .footer { position: absolute; bottom: 40px; width: calc(100% - 40mm); display: flex; justify-content: space-between; align-items: flex-end; font-size: 10px; color: #475569; }
+                    .hash { font-family: monospace; letter-spacing: 1px; }
+                    @media print { body { -webkit-print-color-adjust: exact; } .no-print { display: none; } }
+                </style>
+            </head>
+            <body>
+                <div class="cert-container">
+                    <div class="cert-border"></div>
+                    <div class="header">
+                        <div class="logo">DCM CORE INSTITUTE</div>
+                        <div class="sub-logo">Institutional Governance Hub</div>
+                    </div>
+
+                    <h1>CERTIFICATE OF RESILIENCE</h1>
+                    <div class="desc">
+                        This document verifies that the digital asset referenced below has undergone 
+                        <strong>High-Fidelity Stress Testing</strong> and achieved full alignment with 
+                        the DCM Institutional Methodology v4.0.
+                    </div>
+
+                    <div class="metrics-grid" style="padding: 0 40px;">
+                        <div class="metric-box">
+                            <div class="m-label">Issuing Organization</div>
+                            <div class="m-val">${certData.org}</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="m-label">Asset Identifier</div>
+                            <div class="m-val">${certData.asset}</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="m-label">Resilience Index (Simulated)</div>
+                            <div class="m-val" style="color:#10b981;">${certData.resilience}</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="m-label">Regulatory Class</div>
+                            <div class="m-val" style="color:#c9a84c;">${certData.class}</div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 0 40px; font-size: 13px; line-height: 1.8; color: #64748b; text-align: center; margin-top: 40px;">
+                        Validated Article 23 (Asset Reserves) // Validated Article 17 (DORA IT Resilience)<br>
+                        This audit was conducted using the SWIAT & Canton Infrastructure Overlays.
+                    </div>
+
+                    <div class="stamp-container">
+                        <div class="compliance-stamp">CERTIFIED<br><span style="font-size:12px;">REGULATOR READY</span></div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="hash">PROOF: ${certData.hash}</div>
+                        <div>GEN: ${new Date().toISOString()}</div>
+                    </div>
+                </div>
+                <div class="no-print" style="position:fixed; bottom:20px; right:20px;">
+                    <button onclick="window.print()" style="padding:15px 40px; background:#c9a84c; color:black; border:none; border-radius:30px; font-weight:900; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.5);">DOWNLOAD AS PDF</button>
+                </div>
+            </body>
+            </html>
+        `);
+        win.document.close();
+    },
+
+    /**
      * SCHEDULE REPORT: Mocks the scheduling logic
      */
     scheduleReport: (frequency, email) => {
