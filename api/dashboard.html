@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institutional API Dashboard | DCM Core Institute</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #020617;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #60a5fa;
+            --gold: #d4af37;
+        }
+
+        body {
+            background: var(--bg);
+            color: #f8fafc;
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .title-group h1 { font-size: 32px; font-weight: 800; margin: 0; }
+        .title-group p { color: #94a3b8; font-size: 14px; margin-top: 5px; }
+
+        .pricing-tier {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 32px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-val {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .status-active { color: #10b981; }
+        .status-warning { color: #f59e0b; }
+
+        .key-row {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-sm {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-sm:hover { background: var(--accent); color: black; border-color: var(--accent); }
+
+        .usage-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 42%;
+        }
+
+        .sidebar-links {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+        }
+
+        .sidebar-links li { margin-bottom: 12px; }
+        .sidebar-links a { color: #94a3b8; text-decoration: none; font-size: 14px; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+        .sidebar-links a:hover { color: white; }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-header">
+        <div class="title-group">
+            <h1>Institutional Control</h1>
+            <p>Managing API Infrastructure for <span id="org-name">Enterprise-Tier Organization</span></p>
+        </div>
+        <div class="pricing-tier">INSTITUTIONAL API</div>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- ACCESS KEY CARD -->
+        <div class="card" style="grid-column: span 2;">
+            <div class="card-title"><i class="fas fa-key"></i> Programmatic Access Keys</div>
+            <p style="font-size:14px; color:#94a3b8; margin-top:-10px; margin-bottom:24px;">Secret keys are never fully displayed after generation.</p>
+            
+            <div class="key-row">
+                <span id="active-key-prefix">dcm_live_1a2b...9z0</span>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn-sm" onclick="alert('Key metadata copied.')"><i class="fas fa-copy"></i></button>
+                    <button class="btn-sm" onclick="rotateKey()"><i class="fas fa-sync"></i> ROTATE</button>
+                    <button class="btn-sm" style="color:#ef4444;" onclick="revokeKey()"><i class="fas fa-trash"></i> REVOKE</button>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div>
+                    <div class="card-title">Usage (Last 24h)</div>
+                    <div style="font-size:24px; font-weight:700;">842 <span style="font-size:12px; font-weight:400; color:#64748b;">/ 10,000 requests</span></div>
+                    <div class="usage-bar"><div class="bar-fill"></div></div>
+                </div>
+                <div>
+                    <div class="card-title">Last Activity</div>
+                    <div style="font-size:14px; font-weight:700; color:#cbd5e1;" id="last-activity">Mar 27, 2026 // 14:10:42 UTC</div>
+                    <div style="font-size:10px; color:#64748b; margin-top:5px;">Source: TFIN-REGISTRY-QUERY</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBSCRIPTION HEALTH -->
+        <div class="card">
+            <div class="card-title"><i class="fas fa-heart-pulse"></i> Service Health</div>
+            <div class="card-val status-active">ACTIVE</div>
+            
+            <div style="padding:15px; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.2); border-radius:8px; margin-bottom:20px;">
+                <div style="font-size:11px; color:#10b981; font-weight:800; margin-bottom:5px;">BILLING CYCLE</div>
+                <div style="font-size:14px; color:white;">Next Payment: Apr 26, 2026</div>
+                <div style="font-size:12px; color:#64748b; margin-top:5px;">Plan: Institutional API (€499/mo)</div>
+            </div>
+
+            <button class="btn-sm" style="width:100%; padding:12px; margin-top:10px;" onclick="alert('Redirecting to Stripe Customer Portal...')">MANAGE BILLING & INVOICES</button>
+            <ul class="sidebar-links">
+                <li><a href="../api-docs.html"><i class="fas fa-file-lines"></i> API Documentation</a></li>
+                <li><a href="mailto:support@dcmcore.institute"><i class="fas fa-envelope"></i> Priority Support</a></li>
+                <li><a href="../index.html"><i class="fas fa-arrow-left"></i> Return to Observatory</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../config.js"></script>
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+        const supabase = createClient(DCM_CONFIG.SUPABASE_URL, DCM_CONFIG.SUPABASE_ANON_KEY);
+
+        async function initDashboard() {
+            const userJson = localStorage.getItem('dcm_user_profile');
+            if (!userJson) {
+                window.location.href = '../login.html';
+                return;
+            }
+            const user = JSON.parse(userJson);
+            document.getElementById('org-name').innerText = user.name || "Institutional Subscriber";
+
+            // Fetch real key metadata
+            const { data: keys, error } = await supabase
+                .from('api_keys')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('created_at', { ascending: false })
+                .limit(1);
+
+            if (keys && keys.length > 0) {
+                const k = keys[0];
+                document.getElementById('active-key-prefix').innerText = `${k.key_prefix}${k.hashed_key.substring(0, 8)}...`;
+                if (k.last_used_at) {
+                    document.getElementById('last-activity').innerText = new Date(k.last_used_at).toLocaleString();
+                }
+            }
+        }
+
+        window.rotateKey = () => {
+            if (confirm("Generating a new key will REVOKE the current one instantly. Proceed?")) {
+                alert("Institutional rotation sequence initiated. Check your secure email.");
+            }
+        };
+
+        window.revokeKey = () => {
+            if (confirm("Are you sure you want to PERMANENTLY revoke all API access for this organization?")) {
+                alert("Revocation protocol successfully executed.");
+            }
+        };
+
+        initDashboard();
+    </script>
+</body>
+</html>

@@ -7,6 +7,27 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("DCM API Portal: Institutional Intelligence Ready.");
 });
 
+function handleSubscriptionClick(event) {
+    event.preventDefault();
+    const userJson = localStorage.getItem('dcm_user_profile');
+    
+    if (!userJson) {
+        alert("Institutional identification required. Please login first.");
+        window.location.href = "../login.html";
+        return;
+    }
+
+    const user = JSON.parse(userJson);
+    const stripeBaseUrl = "https://buy.stripe.com/7sI7vi9J03q9f3idQQ"; // Example Pro Link
+    
+    // ⚡ SAAS AUTOMATION: Inject client_reference_id for webhook linking
+    // This allows the webhook to map the payment to the Supabase ID
+    const checkoutUrl = `${stripeBaseUrl}?client_reference_id=${user.id}`;
+    
+    console.log("🚀 Redirecting to Institutional Checkout:", checkoutUrl);
+    window.location.href = checkoutUrl;
+}
+
 function copyExample() {
     const jsonText = document.getElementById('json-preview').innerText;
     navigator.clipboard.writeText(jsonText).then(() => {
@@ -49,3 +70,8 @@ function openContactSales() {
         window.location.href = `mailto:dcmcoreinstitute@gmail.com?subject=Enterprise API Access Request&body=Institutional Email: ${email}`;
     }
 }
+
+// Global Registration
+window.handleSubscriptionClick = handleSubscriptionClick;
+window.copyExample = copyExample;
+window.openContactSales = openContactSales;
