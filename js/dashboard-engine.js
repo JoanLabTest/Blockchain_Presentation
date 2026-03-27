@@ -11,6 +11,11 @@ const _sb = () => window.supabase;
 //  SUPABASE DATA LAYER
 // ============================================================
 
+const DashboardEngine = {
+    // Phase 117: Exporting early to prevent 'undefined' on local file protocol failures
+};
+window.DashboardEngine = DashboardEngine;
+
 const SupabaseData = {
 
     /**
@@ -269,7 +274,7 @@ const Adapters = {
 //  MAIN DASHBOARD ENGINE
 // ============================================================
 
-const DashboardEngine = {
+Object.assign(DashboardEngine, {
 
     /**
      * Institutional Stress Test Trigger (Phase 127)
@@ -811,7 +816,17 @@ const DashboardEngine = {
         const placeholder = document.getElementById('stress-results-placeholder');
         const resultsCard = document.getElementById('stress-results-card');
 
-        placeholder.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:40px; margin-bottom:15px;"></i><p>Simulation du stress en cours...</p>';
+        // Institutional Scanning Animation (Phase 112)
+        placeholder.innerHTML = `
+            <div style="text-align:center;">
+                <div class="scanner" style="width:60px; height:60px; border:2px solid var(--accent-purple); border-radius:50%; margin:0 auto 15px; position:relative; overflow:hidden;">
+                    <div style="position:absolute; width:100%; height:2px; background:var(--accent-purple); top:0; left:0; animation:scan 1.5s infinite;"></div>
+                </div>
+                <p style="font-size:13px; font-weight:600; color:white;">Institutional MiCA Surveillance v1.4...</p>
+                <div style="font-size:10px; color:var(--text-muted); font-family:monospace; margin-top:5px;">Analyzing Article 23 Compliance: ${scenario}...</div>
+            </div>
+            <style>@keyframes scan { from { top:0% } to { top:100% } }</style>
+        `;
 
         // Mock asset metrics for the test
         const mockMetrics = {
@@ -823,26 +838,76 @@ const DashboardEngine = {
         const BE = window.BacktestingEngine;
         if (!BE) { console.warn('BacktestingEngine not loaded'); return; }
         const result = BE.runSensitivityAudit(mockMetrics, scenario);
+        
+        // Store for certification (Phase 115)
+        DashboardEngine.lastSimulationResult = result;
+
+        // --- PHASE 116: Audit Logging ---
+        if (window.AuditLogger) {
+            window.AuditLogger.logInstitutionalEvent('SIMULATION_RUN', { 
+                scenario, 
+                resilience: result.resilience,
+                mica: result.micaStatus 
+            });
+        }
 
         setTimeout(() => {
             placeholder.style.display = 'none';
             resultsCard.style.display = 'block';
 
-            document.getElementById('res-baseline').innerText = Math.round(result.baseline);
-            document.getElementById('res-shocked').innerText = Math.round(result.shocked);
-            document.getElementById('res-variance').innerText = result.variance;
+            // UI Elements
+            const baselineEl = document.getElementById('res-baseline');
+            const shockedEl = document.getElementById('res-shocked');
+            const varianceEl = document.getElementById('res-variance');
+            const recoveryEl = document.getElementById('res-recovery');
+            const badgeEl = document.getElementById('res-index-badge');
+            const micaEl = document.getElementById('res-mica-status');
 
-            // Phase 121: Proactive Signal Flag
+            // Set Values
+            baselineEl.innerText = Math.round(result.baseline);
+            shockedEl.innerText = Math.round(result.shocked);
+            varianceEl.innerText = result.variance;
+            recoveryEl.innerText = result.recoveryProbability;
+            if (micaEl) {
+                micaEl.innerText = result.micaStatus;
+                micaEl.style.color = result.micaStatus.includes('NON-COMPLIANT') ? '#ef4444' : 
+                                    result.micaStatus.includes('RESTRICTED') ? '#f59e0b' : '#c9a84c';
+            }
+
+            // --- PHASE 115: Certification Logic ---
+            const btnCert = document.getElementById('btn-download-cert');
+            if (btnCert) {
+                const isCompliant = result.micaStatus.includes('COMPLIANT');
+                btnCert.style.display = isCompliant ? 'flex' : 'none';
+            }
+            
+            // Resilience Badge Logic (Phase 112)
+            badgeEl.innerText = result.resilience;
+            if (result.resilience === 'CRITICAL') {
+                badgeEl.style.color = '#ef4444';
+                badgeEl.style.borderColor = '#ef4444';
+                badgeEl.style.background = 'rgba(239, 68, 68, 0.1)';
+            } else if (result.resilience === 'MEDIUM') {
+                badgeEl.style.color = '#f59e0b';
+                badgeEl.style.borderColor = '#f59e0b';
+                badgeEl.style.background = 'rgba(245, 158, 11, 0.1)';
+            } else {
+                badgeEl.style.color = '#10b981';
+                badgeEl.style.borderColor = '#10b981';
+                badgeEl.style.background = 'rgba(16, 185, 129, 0.1)';
+            }
+
+            // Phase 121 / 112: Proactive Signal Flag
             const drop = result.baseline - result.shocked;
-            if (drop >= 15) {
-                DashboardEngine.triggerCopilotSignal("Unusual deviation detected in regulatory buffer. Generate summary?");
+            if (drop >= 15 || result.resilience === 'CRITICAL') {
+                DashboardEngine.triggerCopilotSignal(`Alerte Résilience: Chute de ${result.variance} détectée. Risque MiCA critique.`);
             }
 
             // Log the test in the audit trail if available
             if (window.AuditLogger) {
-                window.AuditLogger.log('STRESS_TEST', { scenario, variance: result.variance });
+                window.AuditLogger.log('STRESS_TEST', { scenario, resilience: result.resilience, variance: result.variance });
             }
-        }, 1500);
+        }, 2000); // 2s simulated computation
     },
 
     triggerCopilotSignal: (message) => {
@@ -1301,44 +1366,155 @@ const DashboardEngine = {
             .join('');
     },
 
+    // --- PHASE 115: Institutional Certification ---
+    generateCertificate: function() {
+        if (!this.lastSimulationResult) return;
+        
+        const res = this.lastSimulationResult;
+        const modal = document.getElementById('certification-modal');
+        const activeOrg = window.TenantManager ? window.TenantManager.getActiveOrg().name : "Institutional Client";
+        
+        // Populate Modal (Phase 115)
+        document.getElementById('cert-org-name').innerText = activeOrg;
+        document.getElementById('cert-asset-id').innerText = `TFIN-${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
+        document.getElementById('cert-resilience').innerText = res.resilience;
+        document.getElementById('cert-class').innerText = res.micaStatus;
+        document.getElementById('cert-hash').innerText = `0x${Math.random().toString(16).substr(2, 40)}`;
+
+        if (modal) {
+            modal.style.display = 'flex';
+            window.SessionManager.showToast('🏛️', 'Certificate Generated', 'Ready for internal audit submission.');
+            
+            // --- PHASE 116: Audit Logging ---
+            if (window.AuditLogger) {
+                window.AuditLogger.logInstitutionalEvent('CERTIFICATION_DOWNLOAD', { 
+                    asset: document.getElementById('cert-asset-id').innerText,
+                    org: activeOrg 
+                });
+            }
+        }
+    },
+
+    // --- PHASE 117: Institutional Role Management ---
+    applyRoleVisibility: function() {
+        const SM = window.SessionManager;
+        if (!SM) return;
+
+        console.log(`[RBAC] 🛡️ Applying UI Gating... Active Role: ${SM.getCurrentUser()?.role}`);
+
+        const permissions = {
+            'SIMULATION_RUN': ['stress-test-controls', 'stress-results-placeholder'],
+            'AUDIT_VIEW': ['institutional-section', 'audit-trail-container'],
+            'DOWNLOAD_CERT': ['btn-download-cert']
+        };
+
+        for (const [perm, ids] of Object.entries(permissions)) {
+            const isGranted = SM.checkAccess(perm);
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.display = isGranted ? '' : 'none';
+                    // If it was a block element, don't force 'inline'
+                    if (isGranted && (id === 'institutional-section' || id === 'stress-results-placeholder')) {
+                        el.style.display = 'block';
+                    }
+                }
+            });
+        }
+    },
+
+    switchInstitutionalRole: function(role) {
+        const SM = window.SessionManager;
+        if (!SM) return;
+        
+        const profile = SM.getCurrentUser();
+        if (profile) {
+            profile.role = role.toUpperCase();
+            localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
+            
+            // Re-apply visibility
+            this.applyRoleVisibility();
+            
+            // Show toast
+            SM.showToast('🎭', 'Role Switched', `Désormais en mode : ${role}`);
+            
+            // Re-render audit trail if Auditor/Officer
+            if (window.AuditLogger) {
+                window.AuditLogger.logInstitutionalEvent('SYSTEM_START', { detail: `Role switched to ${role}` });
+            }
+        }
+    },
+
+    // --- PHASE 117: Institutional Role Management ---
+    applyRoleVisibility: function() {
+        const SM = window.SessionManager;
+        if (!SM) return;
+
+        console.log(`[RBAC] 🛡️ Applying UI Gating... Active Role: ${SM.getCurrentUser()?.role}`);
+
+        const permissions = {
+            'SIMULATION_RUN': ['stress-test-controls', 'stress-results-placeholder'],
+            'AUDIT_VIEW': ['institutional-section', 'audit-trail-container', 'nav-audit'],
+            'DOWNLOAD_CERT': ['btn-download-cert', 'btn-nav-cert']
+        };
+
+        for (const [perm, ids] of Object.entries(permissions)) {
+            const isGranted = SM.checkAccess(perm);
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (isGranted) {
+                        el.style.display = 'block'; // Force block for sections/containers
+                        if (id === 'btn-download-cert' || id === 'btn-nav-cert') el.style.display = 'flex';
+                        if (id === 'nav-audit') el.style.display = 'list-item';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Global Overrides for specific combinations
+        const userRole = (SM.getCurrentUser()?.role || '').toUpperCase();
+        
+        // --- Specific Fix for Analyst ---
+        if (userRole === 'ANALYST') {
+            ['btn-download-cert', 'btn-nav-cert'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+        }
+    },
+
+    switchInstitutionalRole: function(role) {
+        const SM = window.SessionManager;
+        if (!SM) return;
+        
+        const profile = SM.getCurrentUser();
+        if (profile) {
+            profile.role = role.toUpperCase();
+            localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
+            
+            // Phase 117 Fix: Re-render sidebar to apply role-based link visibility
+            if (window.NavigationManager) {
+                window.NavigationManager.renderSidebar(role.toLowerCase(), document.getElementById('side-nav-menu'));
+            }
+
+            // Re-apply visibility for static dashboard elements
+            this.applyRoleVisibility();
+            
+            // Show toast
+            SM.showToast('🎭', 'Role Switched', `Désormais en mode : ${role}`);
+            
+            // Re-log event
+            if (window.AuditLogger) {
+                window.AuditLogger.logInstitutionalEvent('SYSTEM_START', { detail: `Role switched to ${role}` });
+            }
+        }
+    },
+
     // --- PUBLIC API for external modules ---
     SupabaseData
-};
+});
 
-// ============================================================
-//  GLOBAL UI HANDLERS (Phase 111)
-// ============================================================
-
-window.showCreateKeyModal = () => {
-    const name = prompt("Entrez un nom pour cette clé (ex: Production Server):");
-    if (!name) return;
-
-    window.APIManagement.createKey(name)
-        .then(result => {
-            const modal = document.getElementById('api-key-modal');
-            const display = document.getElementById('new-api-key-display');
-            if (modal && display) {
-                display.innerText = result.raw_key;
-                window.__LAST_RAW_KEY = result.raw_key;
-                modal.style.display = 'flex';
-                // Refresh table
-                DashboardEngine.loadApiTab();
-            }
-        })
-        .catch(err => {
-            console.error("API Key Generation Error:", err);
-            alert("Erreur lors de la génération de la clé.");
-        });
-};
-
-window.copyNewApiKey = () => {
-    const key = window.__LAST_RAW_KEY || document.getElementById('new-api-key-display').innerText;
-    navigator.clipboard.writeText(key).then(() => {
-        window.SessionManager.showToast('📋', 'Copié', 'Clé API copiée dans le presse-papier.');
-    });
-};
-
-// Expose globally
-if (typeof window !== 'undefined') {
-    window.DashboardEngine = DashboardEngine;
-}
+// Expose globally - Moved to top for Phase 117 hardening

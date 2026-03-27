@@ -510,42 +510,45 @@ const SessionManager = {
         }
 
         /**
-         * Tier-Based Permission Matrix (Refined Architecture)
+         * Institutional RBAC Matrix (Phase 117)
+         * Roles: RISK_OFFICER, AUDITOR, ANALYST
          */
-        const TIER_PERMISSIONS = {
-            'free': [
-                'BASIC_DASHBOARD',
-                'PUBLIC_RESEARCH'
-            ],
-            'pro': [
+        const INSTITUTIONAL_PERMISSIONS = {
+            'ANALYST': [
                 'BASIC_DASHBOARD',
                 'PUBLIC_RESEARCH',
-                'REPORT_EXPORT',
-                'BENCHMARK_DETAIL',
-                'PREMIUM_RESEARCH'
+                'SIMULATION_RUN',
+                'ORG_MANAGEMENT' // Analysts need this for validation tab
             ],
-            'enterprise': [
+            'AUDITOR': [
                 'BASIC_DASHBOARD',
                 'PUBLIC_RESEARCH',
-                'REPORT_EXPORT',
-                'BENCHMARK_DETAIL',
-                'PREMIUM_RESEARCH',
                 'AUDIT_VIEW',
+                'EXPORT_DATASET',
+                'REPORT_EXPORT',
+                'ORG_MANAGEMENT' // Auditors need this for reports/validation view
+            ],
+            'RISK_OFFICER': [
+                'BASIC_DASHBOARD',
+                'PUBLIC_RESEARCH',
+                'SIMULATION_RUN',
+                'AUDIT_VIEW',
+                'EXPORT_DATASET',
+                'REPORT_EXPORT',
+                'DOWNLOAD_CERT',
                 'USER_MANAGEMENT',
-                'RISK_MODEL_EDIT',
-                'API_ACCESS'
+                'API_ACCESS',
+                'ORG_MANAGEMENT'
             ]
         };
 
-        // 3. STRIPE STATUS CHECK (Must be active for paid tiers)
-        const isPaidTier = tier === 'pro' || tier === 'enterprise';
-        if (isPaidTier && status !== 'active') {
-            console.warn(`[RBAC] ❌ checkAccess("${permission}") → DENIED (Paid tier but status is ${status})`);
-            SessionManager.showPaywall(permission, role);
-            return false;
-        }
+        // 3. Fallback to Legacy/Tiered permissions if role not in Institutional matrix
+        const legacyTier = tier === 'enterprise' ? 'RISK_OFFICER' : tier === 'pro' ? 'ANALYST' : 'free';
+        const activeRole = (profile.role || legacyTier).toUpperCase();
+        
+        const allowedFeatures = INSTITUTIONAL_PERMISSIONS[activeRole] || 
+                                (tier === 'pro' ? ['BASIC_DASHBOARD', 'PUBLIC_RESEARCH', 'REPORT_EXPORT'] : ['BASIC_DASHBOARD']);
 
-        const allowedFeatures = TIER_PERMISSIONS[tier] || TIER_PERMISSIONS['free'];
         const isGranted = allowedFeatures.includes(permission.toUpperCase());
 
         if (!isGranted) {

@@ -32,7 +32,7 @@ const NavigationManager = {
                 { id: 'nav-admin', name: 'Corporate Admin', link: 'dashboard.html?tab=admin', icon: 'fa-building-user', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-mica', name: 'Simulateur MiCA', link: 'mica-simulator.html', icon: 'fa-scale-balanced' },
                 { id: 'nav-validation', name: 'Model Validation', link: 'dashboard.html?tab=validation', icon: 'fa-microscope', feature: 'ORG_MANAGEMENT' },
-                { id: 'nav-audit', name: 'Audit Trails', link: 'audit-trail.html', icon: 'fa-fingerprint', feature: 'AUDIT_VIEW' },
+                { id: 'nav-audit', name: 'Audit Trails', link: 'audit-trail.html', icon: 'fa-fingerprint', feature: 'AUDIT_VIEW', style: 'display:none;' },
                 { id: 'nav-reports', name: 'Rapports Certifiés', link: 'dashboard.html?tab=reports', icon: 'fa-file-signature', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-org', name: 'Paramètres Org', link: 'org-settings.html', icon: 'fa-users-gear', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-security', name: 'Security Center', link: 'security.html', icon: 'fa-lock' }
@@ -100,6 +100,9 @@ const NavigationManager = {
             pro: ['CORE', 'TOOLKIT', 'GOVERNANCE', 'ACADEMIC'],
             enterprise: ['CORE', 'GOVERNANCE', 'TOOLKIT', 'ACADEMIC'],
             institutional: ['CORE', 'GOVERNANCE', 'TOOLKIT', 'ACADEMIC'],
+            risk_officer: ['CORE', 'GOVERNANCE', 'TOOLKIT', 'ACADEMIC'],
+            auditor: ['GOVERNANCE', 'CORE', 'TOOLKIT'],
+            analyst: ['CORE', 'TOOLKIT', 'GOVERNANCE'],
             free: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE'],
             guest: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE'],
             Guest: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE']

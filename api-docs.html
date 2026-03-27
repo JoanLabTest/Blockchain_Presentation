@@ -28,265 +28,110 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link href="styles-navigation.css" rel="stylesheet" />
     <link href="styles-footer.css" rel="stylesheet" />
     <style>
-        body {
-            background-color: #020617;
-            font-family: 'Inter', sans-serif;
-            color: #cbd5e1;
-            overflow-x: hidden;
-        }
-    .api-hero {
-            padding: 160px 20px 80px;
-            text-align: center;
-            background: radial-gradient(circle at top, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-    .api-hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 18px;
-            background: rgba(168, 85, 247, 0.08);
-            border: 1px solid rgba(168, 85, 247, 0.2);
-            border-radius: 100px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #c084fc;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 24px;
-        }
-    .api-hero h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 52px;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-    .api-hero h1 span {
-            color: #c084fc;
-        }
-    .api-hero p {
-            color: #94a3b8;
-            font-size: 18px;
-            max-width: 650px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-    .api-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 60px 40px 100px;
-        }
-    /* Base URL */
-        .base-url-box {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 18px 24px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(168, 85, 247, 0.2);
-            border-radius: 12px;
-            margin-bottom: 50px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-    .base-url-label {
-            font-size: 11px;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-            font-family: 'Inter', sans-serif;
-        }
-    .base-url-value {
-            font-size: 15px;
-            color: #c084fc;
-        }
-    /* Section */
-        .api-section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 14px;
-            background: rgba(168, 85, 247, 0.06);
-            border: 1px solid rgba(168, 85, 247, 0.15);
-            border-radius: 100px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #c084fc;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 16px;
-        }
-    .api-section-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 30px;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 12px;
-        }
-    .api-section-desc {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            max-width: 700px;
-        }
-    /* Endpoint cards */
-        .endpoint-card {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            margin-bottom: 16px;
-            overflow: hidden;
-            transition: border-color 0.3s;
-        }
-    .endpoint-card:hover {
-            border-color: rgba(168, 85, 247, 0.2);
-        }
-    .endpoint-header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 18px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-    .method-badge {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-        }
-    .method-get {
-            background: rgba(16, 185, 129, 0.12);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.25);
-        }
-    .method-post {
-            background: rgba(59, 130, 246, 0.12);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.25);
-        }
-    .endpoint-path {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            color: white;
-        }
-    .endpoint-desc {
-            font-size: 13px;
-            color: #64748b;
-            margin-left: auto;
-        }
-    .endpoint-body {
-            padding: 20px 24px;
-        }
-    .endpoint-body h4 {
-            font-size: 12px;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-    /* Code blocks */
-        .code-block {
-            background: rgba(2, 6, 23, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 18px 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.6;
-            overflow-x: auto;
-            margin-bottom: 20px;
-        }
-    .code-block .key {
-            color: #c084fc;
-        }
-    .code-block .str {
-            color: #34d399;
-        }
-    .code-block .num {
-            color: #60a5fa;
-        }
-    .code-block .comment {
-            color: #475569;
-            font-style: italic;
-        }
-    /* Auth info */
-        .auth-card {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(245, 158, 11, 0.15);
-            border-left: 4px solid #f59e0b;
-            border-radius: 16px;
-            padding: 28px 30px;
-            margin-bottom: 50px;
-        }
-    .auth-card h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px;
-            color: #fbbf24;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-    .auth-card p {
-            font-size: 14px;
-            color: #94a3b8;
-            line-height: 1.7;
-        }
-    .auth-card code {
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: #c084fc;
-            font-size: 13px;
-        }
-    /* Rate limit table */
-        .rate-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: rgba(15, 23, 42, 0.3);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 50px;
-        }
-    .rate-table th,
-        .rate-table td {
-            text-align: left;
-            padding: 14px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 14px;
-        }
-    .rate-table th {
-            background: rgba(255, 255, 255, 0.04);
-            color: white;
-            font-weight: 700;
-        }
-    .rate-table td {
-            color: #94a3b8;
-        }
-    @media (max-width: 768px) {
-            .api-hero h1 {
-                font-size: 36px;
-            }
-    .api-content {
-                padding: 40px 20px 80px;
-            }
-    .endpoint-header {
-                flex-wrap: wrap;
-            }
-    .endpoint-desc {
-                margin-left: 0;
-                width: 100%;
-                margin-top: 8px;
-            }
-        }
+    /* Documentation Sidebar (Phase 113) */
+    .docs-container {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        max-width: 1400px;
+        margin: 0 auto;
+        gap: 40px;
+    }
+    .sticky-sidebar {
+        position: sticky;
+        top: 100px;
+        height: calc(100vh - 120px);
+        padding: 40px 20px;
+        overflow-y: auto;
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .sidebar-link {
+        display: block;
+        padding: 8px 12px;
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: 0.2s;
+        margin-bottom: 4px;
+    }
+    .sidebar-link:hover, .sidebar-link.active {
+        color: white;
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .sidebar-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #64748b;
+        font-weight: 800;
+        margin: 25px 0 10px 12px;
+    }
+
+    /* Code Switcher & Console (Phase 113) */
+    .code-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 8px;
+    }
+    .tab-btn {
+        background: none;
+        border: none;
+        color: #64748b;
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        text-transform: uppercase;
+    }
+    .tab-btn.active {
+        color: #fbbf24;
+        background: rgba(251, 191, 36, 0.1);
+    }
+    .btn-try-it {
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border: 1px solid #c9a84c;
+        color: #c9a84c;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+    .btn-try-it:hover {
+        background: #c9a84c;
+        color: #020617;
+    }
+    .console-res {
+        display: none;
+        margin-top: 15px;
+        background: #020617;
+        border: 1px solid rgba(251, 191, 36, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    /* Syntax Highlighting */
+    .key { color: #94a3b8; }
+    .str { color: #10b981; }
+    .num { color: #60a5fa; }
+    .bool { color: #f59e0b; }
+    .null { color: #ef4444; }
+
+    @media (max-width: 1024px) {
+        .docs-container { grid-template-columns: 1fr; }
+        .sticky-sidebar { display: none; }
+    }
     </style>
     <script src="js/cookie-consent.js"></script>
     <script src="js/cta-tracker.js"></script>
@@ -453,24 +298,61 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 </div>
 
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+
+        <div class="nav-pillars">
+            <!-- Dimension 1: Research Programs -->
+            <div class="pillar-item">
+                <a href="en/research-programs/index.html" class="pillar-link">Research Programs</a>
+            </div>
+            <!-- Dimension 2: Observatory -->
+            <div class="pillar-item">
+                <a href="en/observatory/tokenized-markets.html" class="pillar-link">Observatory</a>
+            </div>
+            <!-- Dimension 3: API Portal (Current) -->
+            <div class="pillar-item">
+                <a href="en/api/index.html" class="pillar-link active">Institutional API</a>
+            </div>
+        </div>
+
         <div class="nav-actions">
             <div class="lang-switcher">
                 <a href="fr/index.html" class="lang-link">FR</a>
                 <a href="en/index.html" class="lang-link">EN</a>
             </div>
             <a href="en/login.html" class="auth-btn">Auth</a>
-            <button class="connect-btn" onclick="openWalletModal()">Connect</button>
         </div>
     </nav>
 
-    <section class="api-hero">
-        <div class="api-hero-badge"><i class="fas fa-code"></i> Developer Docs</div>
-        <h1>Documentation <span>API</span></h1>
-        <p>API REST pour l'intégration des scores, métriques de risque et données de flux DLT dans vos systèmes de
-            gouvernance.</p>
-    </section>
+    <header class="api-hero" style="background: radial-gradient(circle at top, rgba(201, 168, 76, 0.1) 0%, transparent 60%);">
+        <div class="api-hero-badge" style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:#c9a84c;"><i class="fas fa-code"></i> Institutional Developer Docs</div>
+        <h1>Documentation <span>API v1.0</span></h1>
+        <p>Integrate DCM Core intelligence directly into your institutional risk engines, settlement layers, and compliance frameworks.</p>
+    </header>
 
-    <div class="api-content">
+    <div class="docs-container">
+        <!-- STICKY SIDEBAR (Phase 113) -->
+        <aside class="sticky-sidebar" data-aos="fade-right">
+            <div class="sidebar-label">Getting Started</div>
+            <a href="#introduction" class="sidebar-link active">Introduction</a>
+            <a href="#authentification" class="sidebar-link">Authentification</a>
+            
+            <div class="sidebar-label">Resources</div>
+            <a href="#registry-api" class="sidebar-link">Registry API</a>
+            <a href="#stablecoin-api" class="sidebar-link">Stablecoin API</a>
+            <a href="#risk-metrics-api" class="sidebar-link">Risk Metrics API</a>
+            <a href="#compliance-api" class="sidebar-link">Compliance Mapping</a>
+
+            <div class="sidebar-label">Support</div>
+            <a href="#rate-limiting" class="sidebar-link">Rate Limiting</a>
+            <a href="mailto:dcmcoreinstitute@gmail.com" class="sidebar-link">Institutional Support</a>
+        </aside>
+
+        <div class="api-content" style="max-width: 100%;">
 
         <!-- Base URL -->
         <div class="base-url-box" data-aos="fade-up">
@@ -493,157 +375,150 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <!-- Endpoints: Scores -->
-        <div data-aos="fade-up">
-            <div class="api-section-label"><i class="fas fa-chart-bar"></i> Scores</div>
-            <h2 class="api-section-title">DCM Score API</h2>
-            <p class="api-section-desc">Accédez aux scores multicritères et métriques de maturité pour l'ensemble des
-                actifs indexés.</p>
+        <div data-aos="fade-up" id="registry-api">
+            <div class="api-section-label" style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:#c9a84c;"><i class="fas fa-chart-bar"></i> Registry & Identification</div>
+            <h2 class="api-section-title">GTSR Asset API</h2>
+            <p class="api-section-desc">Access the Global Tokenized Securities Registry. Identify institutional assets via TFIN numbers and technical metadata.</p>
         </div>
 
-        <div class="endpoint-card" data-aos="fade-up" data-aos-delay="50">
+        <!-- /v1/registry/assets -->
+        <div class="endpoint-card" data-aos="fade-up">
             <div class="endpoint-header">
                 <span class="method-badge method-get">GET</span>
-                <span class="endpoint-path">/scores</span>
-                <span class="endpoint-desc">Liste tous les scores</span>
+                <span class="endpoint-path">/v1/registry/assets</span>
+                <span class="endpoint-desc">Explore the tokenized instrument registry</span>
             </div>
             <div class="endpoint-body">
-                <h4>Réponse exemple</h4>
-                <div class="code-block">
-                    {<br />
-                    &nbsp;&nbsp;<span class="key">"data"</span>: [<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"asset"</span>: <span class="str">"Digital
-                        Bond EUR Tier-1"</span>,<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"score"</span>: <span
-                        class="num">88</span>,<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"grade"</span>: <span class="str">"Investment
-                        Grade"</span>,<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"breakdown"</span>: {<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"technical"</span>: <span
-                        class="num">91</span>,<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"legal"</span>: <span
-                        class="num">85</span>,<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"market"</span>: <span
-                        class="num">82</span>,<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"esg"</span>: <span
-                        class="num">90</span><br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-                    &nbsp;&nbsp;],<br />
-                    &nbsp;&nbsp;<span class="key">"meta"</span>: { <span class="key">"total"</span>: <span
-                        class="num">142</span>, <span class="key">"page"</span>: <span class="num">1</span> }<br />
-                    }
+                <div class="code-tabs">
+                    <button class="tab-btn active" data-lang="curl">cURL</button>
+                    <button class="tab-btn" data-lang="nodejs">Node.js</button>
+                    <button class="tab-btn" data-lang="python">Python</button>
                 </div>
+
+                <!-- Snippets -->
+                <div class="snippet-block" data-lang="curl">
+                    <div class="code-block">curl -X GET "https://api.dcmcore.com/v1/registry/assets" \<br>
+                    &nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY"</div>
+                </div>
+                <div class="snippet-block" data-lang="nodejs" style="display:none;">
+                    <div class="code-block">const res = await axios.get('https://api.dcmcore.com/v1/registry/assets', {<br>
+                    &nbsp;&nbsp;headers: { 'Authorization': 'Bearer YOUR_API_KEY' }<br>
+                    });</div>
+                </div>
+                <div class="snippet-block" data-lang="python" style="display:none;">
+                    <div class="code-block">import requests<br>
+                    response = requests.get('https://api.dcmcore.com/v1/registry/assets', headers={'Authorization': 'Bearer YOUR_API_KEY'})<br>
+                    print(response.json())</div>
+                </div>
+
+                <button class="btn-try-it" data-endpoint="/v1/registry/assets"><i class="fas fa-play"></i> Try It Out</button>
+                <div class="console-res" id="res--v1-registry-assets"></div>
             </div>
         </div>
 
-        <div class="endpoint-card" data-aos="fade-up" data-aos-delay="100">
+        <!-- /v1/registry/assets/{id} -->
+        <div class="endpoint-card" data-aos="fade-up">
             <div class="endpoint-header">
                 <span class="method-badge method-get">GET</span>
-                <span class="endpoint-path">/scores/{asset_id}</span>
-                <span class="endpoint-desc">Score détaillé d'un actif</span>
+                <span class="endpoint-path">/v1/registry/assets/{tfin}</span>
+                <span class="endpoint-desc">Query specific asset identification</span>
             </div>
             <div class="endpoint-body">
-                <h4>Paramètres de requête</h4>
-                <div class="code-block">
-                    <span class="key">asset_id</span> <span class="comment">// (string) Identifiant unique de l'actif —
-                        ex: "bond-eur-t1"</span><br />
-                    <span class="key">include</span> <span class="comment">// (string) Champs additionnels — "history",
-                        "benchmark", "all"</span>
+                <h4>Parameters</h4>
+                <div style="font-size:12px; color:#94a3b8; margin-bottom:15px;">
+                    <code>tfin</code> (string) — The unique Tokenized Financial Instrument Number.
                 </div>
+                <button class="btn-try-it" data-endpoint="/v1/registry/assets" style="opacity:0.5; cursor:not-allowed;" disabled>Requires TFIN</button>
+            </div>
+        </div>
+
+        <!-- Endpoints: Stablecoins (RESTORED & UPGRADED) -->
+        <div data-aos="fade-up" id="stablecoin-api" style="margin-top:60px;">
+            <div class="api-section-label" style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); color:#3b82f6;"><i class="fas fa-bridge"></i> Stablecoin Intelligence</div>
+            <h2 class="api-section-title">Liquidity & Bifurcation</h2>
+            <p class="api-section-desc">Access high-fidelity metrics on stablecoin market structure, MiCA compliance, and cross-venue liquidity.</p>
+        </div>
+
+        <div class="endpoint-card" data-aos="fade-up">
+            <div class="endpoint-header">
+                <span class="method-badge method-get">GET</span>
+                <span class="endpoint-path">/v1/stablecoins/liquidity</span>
+                <span class="endpoint-desc">Market structure & bifurcation metrics</span>
+            </div>
+            <div class="endpoint-body">
+                <div class="code-tabs">
+                    <button class="tab-btn active" data-lang="curl">cURL</button>
+                    <button class="tab-btn" data-lang="nodejs">Node.js</button>
+                    <button class="tab-btn" data-lang="python">Python</button>
+                </div>
+                <div class="snippet-block" data-lang="curl">
+                    <div class="code-block">curl -G "https://api.dcmcore.com/v1/stablecoins/liquidity" \ <br>
+                    &nbsp;&nbsp;-d "pair=USDC/USDT"</div>
+                </div>
+                <button class="btn-try-it" data-endpoint="/v1/stablecoins/liquidity"><i class="fas fa-play"></i> Try It Out</button>
+                <div class="console-res" id="res--v1-stablecoins-liquidity"></div>
             </div>
         </div>
 
         <!-- Endpoints: Risk -->
-        <div data-aos="fade-up" style="margin-top:50px;">
-            <div class="api-section-label"><i class="fas fa-shield-halved"></i> Risk</div>
-            <h2 class="api-section-title">Risk Metrics API</h2>
-            <p class="api-section-desc">Indicateurs de risque calibrés sur les cadres réglementaires DORA, MiCA et Bâle
-                III.</p>
+        <div data-aos="fade-up" id="risk-metrics-api" style="margin-top:60px;">
+            <div class="api-section-label" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); color:#ef4444;"><i class="fas fa-shield-halved"></i> Risk & Compliance</div>
+            <h2 class="api-section-title">Institutional Risk API</h2>
+            <p class="api-section-desc">Technical endpoints for mapping DLT assets to regulatory frameworks (DORA, MiCA) and executing remote stress tests.</p>
         </div>
 
-        <div class="endpoint-card" data-aos="fade-up" data-aos-delay="50">
+        <div class="endpoint-card" data-aos="fade-up">
             <div class="endpoint-header">
                 <span class="method-badge method-get">GET</span>
-                <span class="endpoint-path">/risk/dora-mapping</span>
-                <span class="endpoint-desc">Mapping DORA complet</span>
+                <span class="endpoint-path">/v1/risk/dora-mapping</span>
+                <span class="endpoint-desc">ICT risk coverage & regulatory mapping</span>
             </div>
             <div class="endpoint-body">
-                <h4>Réponse exemple</h4>
-                <div class="code-block">
-                    {<br />
-                    &nbsp;&nbsp;<span class="key">"framework"</span>: <span class="str">"DORA"</span>,<br />
-                    &nbsp;&nbsp;<span class="key">"articles_mapped"</span>: <span class="num">64</span>,<br />
-                    &nbsp;&nbsp;<span class="key">"coverage"</span>: <span class="str">"94%"</span>,<br />
-                    &nbsp;&nbsp;<span class="key">"risk_indicators"</span>: [<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="key">"id"</span>: <span class="str">"ICT-001"</span>, <span
-                        class="key">"severity"</span>: <span class="str">"medium"</span>, <span
-                        class="key">"article"</span>: <span class="str">"Art. 17"</span> }<br />
-                    &nbsp;&nbsp;]<br />
-                    }
+                <div class="code-tabs">
+                    <button class="tab-btn active" data-lang="curl">cURL</button>
+                    <button class="tab-btn" data-lang="nodejs">Node.js</button>
                 </div>
-            </div>
-        </div>
-
-        <div class="endpoint-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="endpoint-header">
-                <span class="method-badge method-post">POST</span>
-                <span class="endpoint-path">/risk/simulate</span>
-                <span class="endpoint-desc">Simulation de stress test</span>
-            </div>
-            <div class="endpoint-body">
-                <h4>Corps de la requête</h4>
-                <div class="code-block">
-                    {<br />
-                    &nbsp;&nbsp;<span class="key">"scenario"</span>: <span class="str">"liquidity_shock"</span>,<br />
-                    &nbsp;&nbsp;<span class="key">"confidence_level"</span>: <span class="num">0.99</span>,<br />
-                    &nbsp;&nbsp;<span class="key">"horizon_days"</span>: <span class="num">30</span>,<br />
-                    &nbsp;&nbsp;<span class="key">"assets"</span>: [<span class="str">"bond-eur-t1"</span>, <span
-                        class="str">"rwa-immo-fr"</span>]<br />
-                    }
+                <div class="snippet-block" data-lang="curl">
+                    <div class="code-block">curl -X GET "https://api.dcmcore.com/v1/risk/dora-mapping"</div>
                 </div>
+                <button class="btn-try-it" data-endpoint="/v1/risk/dora-mapping"><i class="fas fa-play"></i> Try It Out</button>
+                <div class="console-res" id="res--v1-risk-dora-mapping"></div>
             </div>
         </div>
 
         <!-- Rate Limits -->
-        <div data-aos="fade-up" style="margin-top:50px;">
-            <div class="api-section-label"><i class="fas fa-gauge-high"></i> Limites</div>
-            <h2 class="api-section-title">Rate Limiting</h2>
-            <p class="api-section-desc">Les limites de taux varient selon votre plan d'abonnement.</p>
+        <div data-aos="fade-up" id="rate-limiting" style="margin-top:60px;">
+            <div class="api-section-label"><i class="fas fa-gauge-high"></i> Infrastructure</div>
+            <h2 class="api-section-title">Rate Limiting & SLAs</h2>
+            <p class="api-section-desc">Tiered limits ensured specifically for high-frequency institutional access.</p>
         </div>
 
-        <table class="rate-table" data-aos="fade-up" data-aos-delay="100">
+        <table class="rate-table" data-aos="fade-up">
             <thead>
                 <tr>
-                    <th>Plan</th>
-                    <th>Requêtes / minute</th>
-                    <th>Requêtes / jour</th>
-                    <th>Endpoints</th>
+                    <th>Tier</th>
+                    <th>Rate Limit</th>
+                    <th>Availability</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong style="color:white;">Sandbox</strong></td>
-                    <td>10</td>
-                    <td>500</td>
-                    <td>Scores (read-only)</td>
+                    <td><strong style="color:#c9a84c;">Institutional</strong></td>
+                    <td>1,200 req/min</td>
+                    <td>99.9% Uptime SLA</td>
                 </tr>
                 <tr>
-                    <td><strong style="color:white;">Professional</strong></td>
-                    <td>60</td>
-                    <td>10 000</td>
-                    <td>Scores + Risk</td>
-                </tr>
-                <tr>
-                    <td><strong style="color:white;">Enterprise</strong></td>
-                    <td>300</td>
-                    <td>Illimité</td>
-                    <td>Tous les endpoints</td>
+                    <td><strong style="color:#94a3b8;">Standard</strong></td>
+                    <td>60 req/min</td>
+                    <td>Best effort</td>
                 </tr>
             </tbody>
         </table>
 
-    </div>
+        </div> <!-- End api-content -->
+    </div> <!-- End docs-container -->
+
+    <script src="js/api-docs-engine.js"></script>
 
     <!-- MAIN FOOTER -->
     <footer class="super-footer">
