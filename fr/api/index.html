@@ -187,6 +187,66 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             border-color: rgba(255,255,255,0.2);
         }
 
+        .obs-ticker-wrap {
+            background: #020617;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            padding: 12px 0;
+            z-index: 10;
+        }
+        .obs-ticker {
+            display: inline-flex;
+            animation: tickerSlide 40s linear infinite;
+            gap: 0;
+        }
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 50px;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #64748b;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .ticker-symbol { color: #fff; font-weight: 700; }
+        .ticker-status { 
+            font-size: 9px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            background: rgba(59, 130, 246, 0.1); 
+            color: #60a5fa; 
+        }
+        .ticker-amount { color: #10b981; font-weight: 600; }
+
+        @keyframes tickerSlide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+            font-size: 12px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .breadcrumb a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .breadcrumb a:hover {
+            color: #fff;
+        }
+
         @media (max-width: 1100px) {
             .api-layout {
                 grid-template-columns: 1fr;
@@ -391,6 +451,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             <div class="ticker-item"><span class="ticker-symbol">SOCIETE-GENERALE-FORGE</span> <span
                     class="ticker-status">Redeemed</span> <span class="ticker-amount">€5M EURCV</span></div>
+            <!-- Duplicated for Loop -->
+            <div class="ticker-item"><span class="ticker-symbol">ECB-WDLT</span> <span
+                    class="ticker-status">Settled</span> <span class="ticker-amount">€250M</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">JPM-TCN</span> <span
+                    class="ticker-status">Active</span> <span class="ticker-amount">$1.2B Transfer</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">EIB-DBOND</span> <span
+                    class="ticker-status">Issued</span> <span class="ticker-amount">£100M</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">HKMA-mBridge</span> <span
+                    class="ticker-status">Validated</span> <span class="ticker-amount">$50M FX</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">GS-DAP</span> <span class="ticker-status">Live</span>
+                <span class="ticker-amount">Green Bond Lifecycle</span>
+            </div>
+            <div class="ticker-item"><span class="ticker-symbol">SOCIETE-GENERALE-FORGE</span> <span
+                    class="ticker-status">Redeemed</span> <span class="ticker-amount">€5M EURCV</span></div>
         </div>
     </div>
 
@@ -475,7 +549,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <li><i class="fas fa-check"></i> 1M de requêtes / mois</li>
                             <li><i class="fas fa-check"></i> Support Prioritaire</li>
                         </ul>
-                        <button class="connect-btn" style="width: 100%; font-size: 13px;">S'abonner Pro</button>
+                        <a href="../subscribe/index.html" class="connect-btn" style="width: 100%; font-size: 13px; text-align: center; text-decoration: none; display: block;">S'abonner Pro</a>
                     </div>
                     <!-- Enterprise -->
                     <div class="price-card">
@@ -488,7 +562,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <li><i class="fas fa-check"></i> Reporting Personnalisé</li>
                             <li><i class="fas fa-check"></i> Garantie de SLA</li>
                         </ul>
-                        <button class="connect-btn" style="width: 100%; font-size: 13px; background: transparent; border: 1px solid var(--glass-border);">Contacter Ventes</button>
+                        <a href="../contact/index.html" class="connect-btn" style="width: 100%; font-size: 13px; background: transparent; border: 1px solid var(--glass-border); text-align: center; text-decoration: none; display: block;">Contacter Ventes</a>
                     </div>
                 </div>
             </section>
@@ -523,10 +597,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       "id": "sec_buidl123",
       "ticker": "BUIDL",
       "name": "BlackRock USD Institutional Digital Liquidity Fund",
+      "isin": "US1234567890",
       "issuer": "BlackRock",
-      "total_supply": 526000000.0
+      "total_supply": 526000000.0,
+      "nav": 1.00,
+      "currency": "USD",
+      "last_updated": "2026-03-28T05:00:00Z"
     }
-  ]
+  ],
+  "timestamp_utc": "2026-03-28T05:45:12Z",
+  "data_hash": "sha256:7f83...a1b2"
 }</code></pre>
                     </div>
                 </div>
@@ -546,7 +626,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "metrics": {
     "total_market_cap_usd": 176200000000,
-    "active_securities_count": 3420
+    "active_securities_count": 3420,
+    "total_value_locked": 89450000000,
+    "market_sentiment": "stable",
+    "timestamp_utc": "2026-03-28T05:45:12Z"
   }
 }</code></pre>
                     </div>
@@ -567,9 +650,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "total_stable_cap": 162450000000,
   "top_assets": [
-    { "symbol": "USDT", "dominance": 68.4 },
-    { "symbol": "USDC", "dominance": 21.2 }
-  ]
+    { "symbol": "USDT", "dominance": 68.4, "peg_variance": 0.0001 },
+    { "symbol": "USDC", "dominance": 21.2, "peg_variance": 0.0000 }
+  ],
+  "transparency_score": 0.98,
+  "timestamp_utc": "2026-03-28T05:45:12Z"
 }</code></pre>
                     </div>
                 </div>
@@ -590,7 +675,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   "data": [
     {
       "gtsr_id": "GTSR-BOND-2023-01",
-      "status": "validated"
+      "isin": "US1234567890",
+      "status": "validated",
+      "audit_date": "2026-03-26",
+      "verification_hash": "v_7x89..."
     }
   ]
 }</code></pre>
@@ -633,12 +721,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </div>
                         <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "tfin_id": "TFIN-DEBT-ETH-2023-01",
-  "tfic_uri": "https://dcmcore.com/standards/tfic/debt"
+  "tfic_uri": "https://dcmcore.com/standards/tfic/debt",
+  "technical_metadata": {
+    "ledger": "ethereum",
+    "standard": "ERC-3643",
+    "compliance_ready": true
+  }
 }</code></pre>
                     </div>
                 </div>
             </section>
+
+            <!-- INFRASTRUCTURE SECTION -->
+            <section id="infrastructure" style="margin-top: 100px;" data-aos="fade-up">
+                <h2 style="font-family: 'Outfit'; font-size: 32px; margin-bottom: 30px; color: #fff;">4. Infrastructure & Limites</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px;">
+                        <h3 style="font-size: 18px; color: #fff; margin-bottom: 20px;">Limites de Débit (Rate Limits)</h3>
+                        <p style="color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                            L'API utilise des en-têtes HTTP standards pour communiquer les limites de quota en temps réel.
+                        </p>
+                        <div style="font-family: 'JetBrains Mono'; font-size: 12px; color: #60a5fa; background: #020617; padding: 15px; border-radius: 8px;">
+                            X-RateLimit-Limit: 1000<br>
+                            X-RateLimit-Remaining: 985<br>
+                            X-RateLimit-Reset: 1711674000
+                        </div>
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px;">
+                        <h3 style="font-size: 18px; color: #fff; margin-bottom: 20px;">Webhooks Enterprise</h3>
+                        <p style="color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                            Abonnez-vous aux événements de marché critiques via nos Webhooks pour une intégration temps réel.
+                        </p>
+                        <ul style="color: #94a3b8; font-size: 13px; line-height: 1.8;">
+                            <li><i class="fas fa-bolt" style="color: #f59e0b; margin-right: 10px;"></i> Alertes de Perte de Parité (Stablecoins)</li>
+                            <li><i class="fas fa-check-double" style="color: #10b981; margin-right: 10px;"></i> Validation de Nouvelles Entrées GTSR</li>
+                            <li><i class="fas fa-shield-alt" style="color: #3b82f6; margin-right: 10px;"></i> Alertes de Conformité DORA</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
         </main>
+
     </div>
 
     <!-- CITATION SECTION -->

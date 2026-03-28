@@ -246,51 +246,63 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         /* TICKER */
         .obs-ticker-wrap {
-            background: rgba(15, 23, 42, 0.4);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 10px 0;
+            background: #020617;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
             overflow: hidden;
             white-space: nowrap;
             position: relative;
+            padding: 12px 0;
+            z-index: 10;
         }
-
         .obs-ticker {
-            display: inline-block;
-            animation: ticker 60s linear infinite;
-            padding-left: 100%;
-        }
-
-        .ticker-item {
             display: inline-flex;
+            animation: tickerSlide 40s linear infinite;
+            gap: 0;
+        }
+        .ticker-item {
+            display: flex;
             align-items: center;
-            gap: 15px;
-            margin-right: 50px;
-            font-size: 13px;
+            gap: 10px;
+            padding: 0 50px;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #64748b;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .ticker-symbol { color: #fff; font-weight: 700; }
+        .ticker-status { 
+            font-size: 9px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            background: rgba(16, 185, 129, 0.1); 
+            color: #10b981; 
+        }
+        .ticker-amount { color: #10b981; font-weight: 600; }
+
+        @keyframes tickerSlide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+            font-size: 12px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .breadcrumb a {
             color: #94a3b8;
-            font-family: 'JetBrains Mono';
+            text-decoration: none;
+            transition: 0.2s;
         }
-
-        .ticker-symbol {
+        .breadcrumb a:hover {
             color: #fff;
-            font-weight: 700;
-        }
-
-        .ticker-status {
-            font-size: 10px;
-            padding: 2px 6px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-green);
-            border-radius: 4px;
-        }
-
-        @keyframes ticker {
-            0% {
-                transform: translate3d(0, 0, 0);
-            }
-
-            100% {
-                transform: translate3d(-100%, 0, 0);
-            }
         }
 
         /* DATA FRESHNESS */
@@ -688,6 +700,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             <div class="ticker-item"><span class="ticker-symbol">SOCIETE-GENERALE-FORGE</span> <span
                     class="ticker-status">Redeemed</span> <span class="ticker-amount">€5M EURCV</span></div>
+            <!-- Duplicated for Loop -->
+            <div class="ticker-item"><span class="ticker-symbol">ECB-WDLT</span> <span
+                    class="ticker-status">Settled</span> <span class="ticker-amount">€250M</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">JPM-TCN</span> <span
+                    class="ticker-status">Active</span> <span class="ticker-amount">$1.2B Transfer</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">EIB-DBOND</span> <span
+                    class="ticker-status">Issued</span> <span class="ticker-amount">£100M</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">HKMA-mBridge</span> <span
+                    class="ticker-status">Validated</span> <span class="ticker-amount">$50M FX</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">GS-DAP</span> <span class="ticker-status">Live</span>
+                <span class="ticker-amount">Green Bond Lifecycle</span>
+            </div>
+            <div class="ticker-item"><span class="ticker-symbol">SOCIETE-GENERALE-FORGE</span> <span
+                    class="ticker-status">Redeemed</span> <span class="ticker-amount">€5M EURCV</span></div>
         </div>
     </div>
 
@@ -759,7 +785,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <li><i class="fas fa-check"></i> 1,000 requests / month</li>
                             <li><i class="fas fa-check"></i> 24h Delayed Data</li>
                         </ul>
-                        <button class="auth-btn" style="width: 100%; padding: 12px;">Get Started</button>
+                        <a href="../login.html" class="auth-btn" style="width: 100%; padding: 12px; text-decoration: none; display: block; text-align: center;">Get Started</a>
                     </div>
 
                     <!-- Institutional -->
@@ -773,7 +799,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <li><i class="fas fa-check"></i> 1M requests / month</li>
                             <li><i class="fas fa-check"></i> Priority Support</li>
                         </ul>
-                        <button class="connect-btn" style="width: 100%; border-radius: 8px; padding: 12px;">Subscribe Pro</button>
+                        <a href="../subscribe/index.html" class="connect-btn" style="width: 100%; border-radius: 8px; padding: 12px; text-decoration: none; display: block; text-align: center;">Subscribe Pro</a>
                     </div>
 
                     <!-- Enterprise -->
@@ -787,7 +813,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <li><i class="fas fa-check"></i> Custom Reporting</li>
                             <li><i class="fas fa-check"></i> SLA Guarantee</li>
                         </ul>
-                        <button class="auth-btn" style="width: 100%; background: #fff; color: #000; padding: 12px;">Contact Sales</button>
+                        <a href="../contact/index.html" class="auth-btn" style="width: 100%; background: #fff; color: #000; padding: 12px; text-decoration: none; display: block; text-align: center;">Contact Sales</a>
                     </div>
                 </div>
             </section>
@@ -823,18 +849,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       "id": "sec_buidl123",
       "ticker": "BUIDL",
       "name": "BlackRock USD Institutional Digital Liquidity Fund",
+      "isin": "US1234567890",
       "issuer": "BlackRock",
       "asset_class": "money_market_fund",
       "total_supply": 526000000.0,
-      "decimals": 6,
+      "nav": 1.00,
       "currency": "USD",
       "blockchain": {
         "network": "ethereum",
         "contract": "0x7712c3420573719240217240f2be2e5b7fb25"
       },
-      "last_updated": "2026-03-12T14:30:00Z"
+      "last_updated": "2026-03-28T05:00:00Z"
     }
   ],
+  "timestamp_utc": "2026-03-28T05:45:12Z",
+  "data_hash": "sha256:7f83...a1b2",
   "has_more": true
 }</code></pre>
             </div>
@@ -854,11 +883,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
                 <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "object": "market_metrics",
-  "snapshot_time": "2026-03-12T14:35:10Z",
+  "snapshot_time": "2026-03-28T05:45:12Z",
   "metrics": {
     "total_market_cap_usd": 176200000000,
     "active_securities_count": 3420,
-    "institutional_participants_count": 184,
+    "total_value_locked": 89450000000,
+    "market_sentiment": "stable",
     "volume_24h_usd": 4200000000
   },
   "asset_distribution": {
@@ -887,14 +917,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   "object": "dominance_metrics",
   "total_stable_cap": 162450000000,
   "top_assets": [
-    { "symbol": "USDT", "dominance": 68.4, "peg": 1.0002 },
-    { "symbol": "USDC", "dominance": 21.2, "peg": 0.9999 }
+    { "symbol": "USDT", "dominance": 68.4, "peg_variance": 0.0001 },
+    { "symbol": "USDC", "dominance": 21.2, "peg_variance": 0.0000 }
   ],
-  "chain_distribution": {
-    "ethereum": 0.52,
-    "tron": 0.38,
-    "others": 0.10
-  }
+  "transparency_score": 0.98,
+  "timestamp_utc": "2026-03-28T05:45:12Z"
 }</code></pre>
             </div>
         </div>
@@ -916,9 +943,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   "data": [
     {
       "gtsr_id": "GTSR-BOND-2023-01",
-      "tfin_id": "TFIN-DEBT-ETH-2023-01",
-      "name": "Tokenized Green Bond",
-      "status": "validated"
+      "isin": "US1234567890",
+      "status": "validated",
+      "audit_date": "2026-03-26",
+      "verification_hash": "v_7x89..."
     }
   ]
 }</code></pre>
@@ -964,19 +992,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
                 <pre style="margin: 0; padding: 20px; font-family: 'JetBrains Mono'; font-size: 13px; color: #e2e8f0; overflow-x: auto;"><code>{
   "tfin_id": "TFIN-DEBT-ETH-2023-01",
-  "segments": {
-    "class": "DEBT",
-    "blockchain": "ETH",
-    "year": "2023",
-    "sequence": "01"
-  },
-  "tfic_uri": "https://dcmcore.com/standards/tfic/debt"
+  "tfic_uri": "https://dcmcore.com/standards/tfic/debt",
+  "technical_metadata": {
+    "ledger": "ethereum",
+    "standard": "ERC-3643",
+    "compliance_ready": true
+  }
 }</code></pre>
-            </div>
-        </div>
+                    </div>
+                </div>
+            </section>
 
+            <!-- DEVELOPER INFRASTRUCTURE SECTION -->
+            <section id="infrastructure" style="margin-top: 100px;" data-aos="fade-up">
+                <h2 style="font-family: 'Outfit'; font-size: 28px; margin-bottom: 30px; color: #fff;">4. Developer Infrastructure & Limits</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px;">
+                        <h3 style="font-size: 18px; color: #fff; margin-bottom: 20px;">Rate Limits</h3>
+                        <p style="color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                            The API utilizes standard HTTP headers to communicate quota limits and remaining usage in real-time.
+                        </p>
+                        <div style="font-family: 'JetBrains Mono'; font-size: 12px; color: #60a5fa; background: #020617; padding: 15px; border-radius: 8px;">
+                            X-RateLimit-Limit: 1000<br>
+                            X-RateLimit-Remaining: 985<br>
+                            X-RateLimit-Reset: 1711674000
+                        </div>
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px;">
+                        <h3 style="font-size: 18px; color: #fff; margin-bottom: 20px;">Enterprise Webhooks</h3>
+                        <p style="color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                            Subscribe to mission-critical market events via our low-latency Webhooks for real-time risk integration.
+                        </p>
+                        <ul style="color: #94a3b8; font-size: 13px; line-height: 1.8;">
+                            <li><i class="fas fa-bolt" style="color: #f59e0b; margin-right: 10px;"></i> Peg Stability Alerts (Stablecoins)</li>
+                            <li><i class="fas fa-check-double" style="color: #10b981; margin-right: 10px;"></i> New GTSR Registry Validations</li>
+                            <li><i class="fas fa-shield-alt" style="color: #3b82f6; margin-right: 10px;"></i> DORA Compliance Resilience Alerts</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
         </main>
+
     </div> <!-- End api-layout -->
 
     <!-- CITATION SECTION -->

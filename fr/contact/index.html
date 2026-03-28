@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Contact Solutions Entreprise | DCM Core Institute</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --accent-blue: #3b82f6;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .contact-card {
+            max-width: 650px;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 60px 50px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-orb {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+        }
+
+        .logo-text { font-family: 'Outfit'; font-weight: 800; font-size: 18px; }
+
+        .title {
+            font-family: 'Outfit';
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            margin-bottom: 45px;
+            line-height: 1.6;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .full-width { grid-column: span 2; }
+
+        .label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: white;
+            font-family: 'Inter';
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .input:focus {
+            border-color: var(--accent-blue);
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea.input {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            opacity: 0.5;
+        }
+
+        .badge {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #success-message {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contact-card">
+        <div id="contact-form-content">
+            <a href="../index.html" class="brand-logo">
+                <div class="logo-orb"></div>
+                <div class="logo-text">DCM <span>Core</span></div>
+            </a>
+
+            <h1 class="title">Solutions Entreprise</h1>
+            <p class="subtitle">Pour les banques globales, les bourses de valeurs et les régulateurs nécessitant des infrastructures sur-mesure ou une intégration MiCA complexe.</p>
+
+            <form id="salesForm" onsubmit="handleContact(event)">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label class="label">Nom Complet</label>
+                        <input type="text" class="input" placeholder="M. Jean Dupont" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="label">Institution</label>
+                        <input type="text" class="input" placeholder="Ex: Goldman Sachs" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="label">Poste</label>
+                        <input type="text" class="input" placeholder="Ex: Head of Digital Assets" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="label">Email Professionnel</label>
+                        <input type="email" class="input" placeholder="nom@institution.com" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label class="label">Domaine d'Intérêt</label>
+                        <select class="input" style="appearance: none;">
+                            <option>Données de Marché API (Volume Élevé)</option>
+                            <option>White-label Registry Infrastructure</option>
+                            <option>Simulation de Stress Réglementaire (DORA/MiCA)</option>
+                            <option>Conseil Stratégique Institutions Financières</option>
+                        </select>
+                    </div>
+                    <div class="input-group full-width">
+                        <label class="label">Message (Optionnel)</label>
+                        <textarea class="input" placeholder="Parlez-nous de vos besoins spécifiques..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span>Envoyer la Demande</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+
+            <div class="badge-row">
+                <div class="badge"><i class="fas fa-clock"></i> Réponse < 24h</div>
+                <div class="badge"><i class="fas fa-shield-halved"></i> Confidentiel</div>
+            </div>
+        </div>
+
+        <!-- Success State -->
+        <div id="success-message">
+            <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+                <i class="fas fa-check" style="color: #10b981; font-size: 40px;"></i>
+            </div>
+            <h2 class="title" style="font-size: 28px;">Demande Reçue</h2>
+            <p class="subtitle">Un membre de notre équipe de recherche institutionnelle vous contactera sous 24 heures pour planifier une démo personnalisée.</p>
+            <a href="../index.html" class="submit-btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); width: auto; padding: 14px 30px;">
+                Retour à l'Accueil
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function handleContact(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const formContent = document.getElementById('contact-form-content');
+            const successMsg = document.getElementById('success-message');
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                formContent.style.display = 'none';
+                successMsg.style.display = 'flex';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
