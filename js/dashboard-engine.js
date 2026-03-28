@@ -379,6 +379,26 @@ Object.assign(DashboardEngine, {
 
     // --- PRIMARY: Try Supabase, fallback to mock ---
     loadData: async () => {
+        // --- PHASE 148: STRIPE FULFILLMENT (GTM FINAL) ---
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('subscription') === 'success') {
+            console.log("💳 Stripe Success Detected. Provisioning Institutional Access...");
+            const curProfile = await SessionManager.init();
+            if (curProfile && window.SessionManager.updateProfile) {
+                await window.SessionManager.updateProfile({
+                    subscription_tier: 'enterprise',
+                    subscription_status: 'active'
+                });
+                window.SessionManager.showToast('🚀', 'Subscription Verified!', 'Welcome to the Institutional Tier. Your dashboard is now fully unlocked.');
+            } else {
+                localStorage.setItem('dcm_segment', 'enterprise');
+                localStorage.setItem('dcm_active_role', 'enterprise');
+            }
+            // Clean URL to prevent re-triggering on refresh
+            const cleanerUrl = window.location.pathname + window.location.hash;
+            window.history.replaceState({}, '', cleanerUrl);
+        }
+
         const { data: { session } } = window.supabase ? await window.supabase.auth.getSession() : { data: {} };
 
         if (!session) {

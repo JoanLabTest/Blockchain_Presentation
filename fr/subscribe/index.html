@@ -270,51 +270,26 @@
         </div>
 
         <!-- Form -->
-        <div class="payment-form">
-            <div class="form-title">Paiement Sécurisé</div>
+        <div class="payment-form" style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+            <div class="form-title">Finalisation de l'Accès</div>
             
-            <div class="input-group">
-                <label class="input-label">Email Professionnel</label>
-                <input type="email" class="input-field" placeholder="investor@institution.com" required>
-            </div>
+            <p style="color: #94a3b8; font-size: 15px; line-height: 1.6; margin-bottom: 40px;">
+                Vous allez être redirigé vers l'infrastructure de paiement sécurisée de **Stripe** pour finaliser votre abonnement institutionnel.
+            </p>
 
-            <div class="input-group">
-                <label class="input-label">Informations de Carte</label>
-                <div style="position: relative;">
-                    <input type="text" class="input-field" placeholder="4242 4242 4242 4242" style="padding-left: 45px;">
-                    <i class="fas fa-credit-card" style="position: absolute; left: 15px; top: 14px; color: #475569;"></i>
-                </div>
-            </div>
-
-            <div class="card-inputs">
-                <div class="input-group">
-                    <label class="input-label">Date d'Expiration</label>
-                    <input type="text" class="input-field" placeholder="MM / YY">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">CVC</label>
-                    <input type="text" class="input-field" placeholder="123">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label class="input-label">Pays</label>
-                <select class="input-field" style="appearance: none;">
-                    <option>France</option>
-                    <option>Luxembourg</option>
-                    <option>Suisse</option>
-                    <option>Royaume-Uni</option>
-                    <option>États-Unis</option>
-                </select>
-            </div>
-
-            <button class="pay-btn" onclick="processPayment()">
-                S'abonner maintenant — 499 €
+            <button class="pay-btn" onclick="redirectToStripe()">
+                <i class="fab fa-stripe" style="font-size: 24px; margin-right: 5px;"></i>
+                Procéder au Paiement — 499 €
             </button>
 
             <div class="secure-notice">
                 <i class="fas fa-lock"></i>
-                Chiffrement de niveau bancaire (AES-256)
+                Transaction sécurisée par Stripe Engineering
+            </div>
+
+            <div style="margin-top: 40px; padding: 20px; background: rgba(59, 130, 246, 0.05); border: 1px dashed var(--glass-border); border-radius: 12px; font-size: 12px; color: #64748b;">
+                <i class="fas fa-info-circle" style="color: var(--accent-blue); margin-right: 8px;"></i>
+                L'activation de vos accès API et Dashboard est instantanée après confirmation du paiement.
             </div>
         </div>
     </div>
@@ -326,22 +301,20 @@
     </div>
 
     <script>
-        function processPayment() {
+        function redirectToStripe() {
             const overlay = document.getElementById('loading-overlay');
             const status = document.getElementById('loading-status');
             overlay.style.display = 'flex';
+            
+            // Persist intent before redirecting
+            localStorage.setItem('dcm_checkout_pending', 'true');
 
             setTimeout(() => {
-                status.innerText = "CRÉATION DU COMPTE INSTITUTIONNEL...";
+                status.innerText = "CONNEXION À STRIPE...";
                 setTimeout(() => {
-                    status.innerText = "REDIRECTION VERS LE DASHBOARD...";
-                    localStorage.setItem('dcm_premium', 'true');
-                    localStorage.setItem('dcm_role', 'Institutional Demo');
-                    setTimeout(() => {
-                        window.location.href = '../dashboard.html';
-                    }, 1000);
-                }, 1500);
-            }, 2000);
+                    window.location.href = 'https://buy.stripe.com/aFafZj645aucbYI5Aw04804';
+                }, 800);
+            }, 1000);
         }
     </script>
 </body>
