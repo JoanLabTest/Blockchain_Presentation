@@ -181,7 +181,7 @@ const NavigationOrchestrator = {
     focusModule: (moduleId) => {
         const module = document.getElementById(moduleId) || document.querySelector(`[data-module="${moduleId}"]`);
         if (module) {
-            module.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            module.scrollIntoView({ behavior: 'auto', block: 'center' });
             module.style.border = '2px solid var(--accent-blue)';
             module.style.boxShadow = '0 0 30px rgba(59, 130, 246, 0.4)';
             setTimeout(() => {

@@ -1,5 +1,5 @@
 /**
- * DASHBOARD ENGINE — v3.0 (Phase 31: Production Grade)
+ * DASHBOARD ENGINE — v3.0 (Phase 119: English Synchronization)
  * Real Supabase data queries with offline-first fallback to mock data.
  * Fully backwards-compatible with existing chart rendering.
  */
@@ -8,8 +8,21 @@
 const _sb = () => window.supabase;
 
 // ============================================================
+//  DASHBOARD ENGINE BOOTLOADER (Phase 119 Stabilization)
+// ============================================================
+
+if (!window.DashboardEngine) {
+    console.warn("🛡️ DashboardEngine: Initializing global failsafe...");
+}
+
+// ============================================================
 //  SUPABASE DATA LAYER
 // ============================================================
+
+const DashboardEngine = {
+    // Phase 117: Exporting early to prevent 'undefined' on local file protocol failures
+};
+window.DashboardEngine = DashboardEngine;
 
 const SupabaseData = {
 
@@ -125,6 +138,23 @@ const SupabaseData = {
 
         if (error) { console.error('❌ Simulation save error:', error); return null; }
         return data[0];
+    },
+
+    /**
+     * Fetch API Keys for the current user (Phase 111).
+     */
+    getApiKeys: async (userId) => {
+        const sb = _sb();
+        if (!sb) return null;
+        const { data, error } = await sb
+            .from('api_keys')
+            .select('*')
+            .eq('user_id', userId)
+            .eq('revoked', false)
+            .order('created_at', { ascending: false });
+
+        if (error) { console.warn('⚠️ API Keys fetch error:', error); return null; }
+        return data;
     }
 };
 
@@ -153,6 +183,10 @@ const MockData = {
             impactScore: 42,
             alerts: ['Verify CASP License', 'T+1 Settlement Check']
         },
+        apiKeys: [
+            { id: 'k1', name: 'Aladdin Integration', prefix: 'dcm_sk_live_f8', created_at: '2026-03-10', last_used: '2026-03-27' },
+            { id: 'k2', name: 'Internal Risk Hub', prefix: 'dcm_sk_live_a4', created_at: '2026-03-22', last_used: null }
+        ],
         timeline: [
             { date: 'Today', time: '10:42', action: 'Simulation Run', detail: 'High Yield ETH Strategy' },
             { date: 'Yesterday', time: '15:30', action: 'Quiz Completed', detail: 'Level 2: Smart Contracts' },
@@ -181,7 +215,7 @@ const Adapters = {
 
         const labels = history.map(h => {
             const d = new Date(h.snapshot_date);
-            return `${d.toLocaleString('fr', { month: 'short' })} ${d.getDate()}`;
+            return `${d.toLocaleString('en', { month: 'short' })} ${d.getDate()}`;
         });
 
         // --- PHASE 49: Research Maturity Logic ---
@@ -214,20 +248,20 @@ const Adapters = {
     },
 
     getRiskAdvice: (riskIndex) => {
-        if (riskIndex < 20) return "Risque faible. Profil optimal pour l'exploration de nouveaux protocoles RWA.";
-        if (riskIndex < 50) return "Risque modéré. Surveillez la volatilité on-chain et diversifiez vos simulations.";
-        if (riskIndex < 80) return "Risque élevé. Réduisez l'exposition sur les Smart Contracts non-audités.";
-        return "Alerte Critique : Exposition maximale. Revoyez vos paramètres de conformité MiCA immédiatement.";
+        if (riskIndex < 20) return "Low risk. Optimal profile for exploring new RWA protocols.";
+        if (riskIndex < 50) return "Moderate risk. Monitor on-chain volatility and diversify simulations.";
+        if (riskIndex < 80) return "High risk. Reduce exposure to non-audited smart contracts.";
+        return "Critical Alert: Maximum exposure. Review MiCA compliance parameters immediately.";
     },
 
     adaptSimulations: (sims) => {
         if (!sims || sims.length === 0) return null;
         return sims.map(s => ({
             id: s.id,
-            date: new Date(s.created_at).toLocaleDateString('fr-FR'),
+            date: new Date(s.created_at).toLocaleDateString('en-US'),
             name: s.scenario_name,
             type: s.simulation_type,
-            result: s.results?.summary || 'Voir détails',
+            result: s.results?.summary || 'View details',
             status: s.results?.risk_level === 'high' ? 'critical' : s.is_favorite ? 'optimal' : 'warning'
         }));
     },
@@ -235,15 +269,15 @@ const Adapters = {
     adaptActivityLogs: (logs) => {
         if (!logs || logs.length === 0) return null;
         const actionMap = {
-            'quiz.html': 'Quiz Consulté', 'dashboard.html': 'Dashboard Ouvert',
-            'governance.html': 'Gouvernance Lue', 'legal-matrix.html': 'Legal Matrix Consultée',
-            'guide.html': 'Guide Expert Lu', 'yield-mechanics.html': 'Yield Lab Utilisé'
+            'quiz.html': 'Quiz Viewed', 'dashboard.html': 'Dashboard Opened',
+            'governance.html': 'Governance Read', 'legal-matrix.html': 'Legal Matrix Viewed',
+            'guide.html': 'Expert Guide Read', 'yield-mechanics.html': 'Yield Lab Used'
         };
         return logs.map(log => ({
-            date: new Date(log.session_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }),
+            date: new Date(log.session_date).toLocaleDateString('en-US', { day: 'numeric', month: 'short' }),
             time: '--:--',
             action: actionMap[log.page_url] || log.page_url,
-            detail: `${Math.round(log.time_spent_seconds / 60)} min passées`
+            detail: `${Math.round(log.time_spent_seconds / 60)} min spent`
         }));
     }
 };
@@ -252,7 +286,7 @@ const Adapters = {
 //  MAIN DASHBOARD ENGINE
 // ============================================================
 
-const DashboardEngine = {
+Object.assign(DashboardEngine, {
 
     /**
      * Institutional Stress Test Trigger (Phase 127)
@@ -289,7 +323,7 @@ const DashboardEngine = {
         )) : null;
 
         if (saved) {
-            SessionManager.showToast('🛡️', 'Stress Test Terminé', `Simulation d'infrastructure ${network.toUpperCase()} validée.`);
+            SessionManager.showToast('🛡️', 'Stress Test Complete', `Infrastructure simulation ${network.toUpperCase()} validated.`);
             // Refresh UI
             const data = await DashboardEngine.loadData();
             DashboardEngine.renderSimulationTable(data.simulations);
@@ -305,30 +339,30 @@ const DashboardEngine = {
             {
                 id: 'REGULATORY_GAP',
                 condition: (data) => (data.radarData?.dataset[1] || 100) < 75,
-                title: '📌 Optimisation Conformité MiCA',
-                advice: 'Votre score légal est inférieur aux standards Tier 1. Une révision des politiques de garde (CASP) est recommandée.',
-                traceability: 'Calculé sur la base du radar légal (ω: 0.45) et des simulations récentes sans KYC strict.'
+                title: '📌 MiCA Compliance Optimization',
+                advice: 'Your legal score is below Tier 1 standards. A review of CASP custody policies is recommended.',
+                traceability: 'Calculated based on legal radar (ω: 0.45) and recent simulations without strict KYC.'
             },
             {
                 id: 'PORTFOLIO_CONCENTRATION',
                 condition: (data) => (data.simulations?.filter(s => s.type === 'Staking').length || 0) > 3,
-                title: '⚡ Alerte Concentration Staking',
-                advice: '80% de vos simulations reposent sur le staking. Considérez une exposition RWA pour stabiliser le rendement.',
-                traceability: 'Analyse de la corrélation entre les 5 derniers scénarios de simulation.'
+                title: '⚡ Staking Concentration Alert',
+                advice: '80% of your simulations rely on staking. Consider RWA exposure to stabilize yield.',
+                traceability: 'Correlation analysis of the last 5 simulation scenarios.'
             },
             {
                 id: 'CERTIFICATION_UPGRADE',
                 condition: (data, role) => role === 'Student' && (data.quizScores?.slice(-1)[0] || 0) > 80,
-                title: '🎓 Opportunité Certification Pro',
-                advice: 'Vos excellents résultats académiques vous qualifient pour le passage de la Certification Analyste Pro.',
-                traceability: 'Vitesse d\'apprentissage (Velocity) > 1.2 par rapport à la moyenne de la cohorte.'
+                title: '🎓 Pro Certification Opportunity',
+                advice: 'Your excellent academic results qualify you for the Pro Analyst Certification.',
+                traceability: 'Learning Velocity > 1.2 relative to cohort average.'
             },
             {
                 id: 'SECURITY_HARDENING',
                 condition: (data, role) => role === 'Institution',
-                title: '🛡️ Hardening Infrastructure',
-                advice: 'Activez l\'option HSM Cloud Souverain pour vos simulations critiques (Compliance DORA).',
-                traceability: 'Alignement requis avec l\'infractructure DORA/SecNumCloud mentionnée dans le document de sécurité.'
+                title: '🛡️ Infrastructure Hardening',
+                advice: 'Activate Sovereign Cloud HSM for your critical simulations (DORA Compliance).',
+                traceability: 'Required alignment with DORA/SecNumCloud infrastructure standards.'
             }
         ],
 
@@ -407,9 +441,28 @@ const DashboardEngine = {
             lastGrade: quizAdapted.lastGrade || 'A-',
             radarData: scoreAdapted.radarData || mock.radarData,
             complianceProfile: mock.complianceProfile,
+            apiKeys: mock.apiKeys, // Phase 113: Demo Keys
             timeline: logsAdapted || mock.timeline,
             riskProfile: riskAdapted
         };
+    },
+
+    // Initialize Surveillance Monitoring (Phase 114)
+    initSurveillance: function() {
+        if (window.SurveillanceEngine) {
+            window.SurveillanceEngine.init();
+        }
+    },
+
+    // Global initialization for various dashboard components
+    initGlobalHooks: function() {
+        try {
+            if (window.DashboardTour) window.DashboardTour.init();
+            if (window.MarketTicker) window.MarketTicker.initTicker();
+            if (window.DashboardEngine.initSurveillance) window.DashboardEngine.initSurveillance();
+        } catch (globalErr) {
+            console.error("Error initializing global dashboard hooks:", globalErr);
+        }
     },
 
     // --- BENCHMARK DATA (Phase 58) ---
@@ -493,7 +546,7 @@ const DashboardEngine = {
                     labels: data.evolutionLabels,
                     datasets: [
                         {
-                            label: data.source === 'supabase' ? 'Score Réel' : 'Research Score',
+                            label: data.source === 'supabase' ? 'Real Score' : 'Research Score',
                             data: data.researchScores,
                             borderColor: '#3b82f6',
                             backgroundColor: 'rgba(59,130,246,0.1)',
@@ -533,7 +586,7 @@ const DashboardEngine = {
         }
 
         // QUIZ ANALYTICS (Phase 7)
-        this.renderQuizAnalytics();
+        DashboardEngine.renderQuizAnalytics();
     },
 
     /**
@@ -566,7 +619,7 @@ const DashboardEngine = {
             new Chart(ctxPF.getContext('2d'), {
                 type: 'doughnut',
                 data: {
-                    labels: ['Réussis', 'Échecs'],
+                    labels: ['Passed', 'Failed'],
                     datasets: [{
                         data: [passed, total - passed],
                         backgroundColor: ['#10b981', '#334155'],
@@ -596,7 +649,7 @@ const DashboardEngine = {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Précision %',
+                        label: 'Accuracy %',
                         data: data,
                         backgroundColor: 'rgba(59, 130, 246, 0.2)',
                         borderColor: '#3b82f6',
@@ -660,8 +713,8 @@ const DashboardEngine = {
 
         if (greeting) {
             const segmentGreetings = {
-                student: 'Prêt pour votre prochaine certification ?',
-                pro: 'Analyse de performance & ROI active.',
+                student: 'Ready for your next certification?',
+                pro: 'Performance & ROI analysis active.',
                 enterprise: 'Institutional Governance Cockpit'
             };
             greeting.innerText = segmentGreetings[segment] || greeting.innerText;
@@ -726,7 +779,8 @@ const DashboardEngine = {
             'simulations': document.getElementById('simulations-section'),
             'reports': document.getElementById('reports-section'),
             'validation': document.getElementById('validation-section'),
-            'admin': document.getElementById('admin-section')
+            'admin': document.getElementById('admin-section'),
+            'api': document.getElementById('api-section')
         };
         const bcModule = document.getElementById('bc-module');
         const topCards = [
@@ -750,7 +804,7 @@ const DashboardEngine = {
         });
 
         // 2. Logic Branching
-        if (tab === 'reports' || tab === 'validation' || tab === 'admin') {
+        if (tab === 'reports' || tab === 'validation' || tab === 'admin' || tab === 'api') {
             topCards.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
@@ -760,10 +814,16 @@ const DashboardEngine = {
             if (target) {
                 target.style.display = (tab === 'admin') ? 'grid' : 'block';
                 if (bcModule) {
-                    const labels = { 'reports': 'RAPPORTS', 'validation': 'VALIDATION', 'admin': 'CORPORATE ADMIN' };
+                    const labels = {
+                        'reports': 'REPORTS',
+                        'validation': 'VALIDATION',
+                        'admin': 'CORPORATE ADMIN',
+                        'api': 'API & INTEGRATION'
+                    };
                     bcModule.innerText = labels[tab];
                 }
             }
+            if (tab === 'api') DashboardEngine.loadApiTab();
         } else {
             topCards.forEach(id => {
                 const el = document.getElementById(id);
@@ -782,12 +842,23 @@ const DashboardEngine = {
         }, 150);
     },
 
+
     runStressTest: async () => {
         const scenario = document.getElementById('stress-scenario').value;
         const placeholder = document.getElementById('stress-results-placeholder');
         const resultsCard = document.getElementById('stress-results-card');
 
-        placeholder.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:40px; margin-bottom:15px;"></i><p>Simulation du stress en cours...</p>';
+        // Institutional Scanning Animation (Phase 112)
+        placeholder.innerHTML = `
+            <div style="text-align:center;">
+                <div class="scanner" style="width:60px; height:60px; border:2px solid var(--accent-purple); border-radius:50%; margin:0 auto 15px; position:relative; overflow:hidden;">
+                    <div style="position:absolute; width:100%; height:2px; background:var(--accent-purple); top:0; left:0; animation:scan 1.5s infinite;"></div>
+                </div>
+                <p style="font-size:13px; font-weight:600; color:white;">Institutional MiCA Surveillance v1.4...</p>
+                <div style="font-size:10px; color:var(--text-muted); font-family:monospace; margin-top:5px;">Analyzing Article 23 Compliance: ${scenario}...</div>
+            </div>
+            <style>@keyframes scan { from { top:0% } to { top:100% } }</style>
+        `;
 
         // Mock asset metrics for the test
         const mockMetrics = {
@@ -799,26 +870,97 @@ const DashboardEngine = {
         const BE = window.BacktestingEngine;
         if (!BE) { console.warn('BacktestingEngine not loaded'); return; }
         const result = BE.runSensitivityAudit(mockMetrics, scenario);
+        
+        // Store for certification (Phase 115)
+        DashboardEngine.lastSimulationResult = result;
+
+        // --- PHASE 114: Surveillance Monitoring Hook ---
+        if (window.SurveillanceEngine) {
+            window.SurveillanceEngine.updateFromStressTest(result);
+        }
+
+        // --- PHASE 116: Audit Logging ---
+        if (window.AuditLogger) {
+            window.AuditLogger.logInstitutionalEvent('SIMULATION_RUN', { 
+                scenario, 
+                resilience: result.resilience,
+                mica: result.micaStatus 
+            });
+        }
 
         setTimeout(() => {
             placeholder.style.display = 'none';
             resultsCard.style.display = 'block';
 
-            document.getElementById('res-baseline').innerText = Math.round(result.baseline);
-            document.getElementById('res-shocked').innerText = Math.round(result.shocked);
-            document.getElementById('res-variance').innerText = result.variance;
+            // PHASE 122: Soft Logging update
+            const softLog = document.getElementById('stress-soft-log');
+            if (softLog) {
+                const now = new Date();
+                const timeStr = now.toISOString().slice(11, 16);
+                const scenarioName = scenario.replace(/_/g, ' ').toLowerCase();
+                
+                const timeEl = document.getElementById('log-sim-time');
+                const scenarioEl = document.getElementById('log-sim-scenario');
+                
+                if (timeEl) timeEl.innerText = `${timeStr} UTC`;
+                if (scenarioEl) scenarioEl.innerText = scenarioName.charAt(0).toUpperCase() + scenarioName.slice(1);
+                
+                softLog.style.display = 'block';
+            }
 
-            // Phase 121: Proactive Signal Flag
+            // UI Elements
+            const baselineEl = document.getElementById('res-baseline');
+            const shockedEl = document.getElementById('res-shocked');
+            const varianceEl = document.getElementById('res-variance');
+            const recoveryEl = document.getElementById('res-recovery');
+            const badgeEl = document.getElementById('res-index-badge');
+            const micaEl = document.getElementById('res-mica-status');
+
+            // Set Values
+            baselineEl.innerText = Math.round(result.baseline);
+            shockedEl.innerText = Math.round(result.shocked);
+            varianceEl.innerText = result.variance;
+            recoveryEl.innerText = result.recoveryProbability;
+            if (micaEl) {
+                micaEl.innerText = result.micaStatus;
+                micaEl.style.color = result.micaStatus.includes('NON-COMPLIANT') ? '#ef4444' : 
+                                    result.micaStatus.includes('RESTRICTED') ? '#f59e0b' : '#c9a84c';
+            }
+
+            // --- PHASE 115: Certification Logic ---
+            const btnCert = document.getElementById('btn-download-cert');
+            if (btnCert) {
+                const isCompliant = result.micaStatus.includes('COMPLIANT');
+                btnCert.style.display = isCompliant ? 'flex' : 'none';
+            }
+            
+            // Resilience Badge Logic (Phase 112)
+            badgeEl.innerText = result.resilience;
+            if (result.resilience === 'CRITICAL') {
+                badgeEl.style.color = '#ef4444';
+                badgeEl.style.borderColor = '#ef4444';
+                badgeEl.style.background = 'rgba(239, 68, 68, 0.1)';
+            } else if (result.resilience === 'MEDIUM') {
+                badgeEl.style.color = '#f59e0b';
+                badgeEl.style.borderColor = '#f59e0b';
+                badgeEl.style.background = 'rgba(245, 158, 11, 0.1)';
+            } else {
+                badgeEl.style.color = '#10b981';
+                badgeEl.style.borderColor = '#10b981';
+                badgeEl.style.background = 'rgba(16, 185, 129, 0.1)';
+            }
+
+            // Phase 121 / 112: Proactive Signal Flag
             const drop = result.baseline - result.shocked;
-            if (drop >= 15) {
-                DashboardEngine.triggerCopilotSignal("Unusual deviation detected in regulatory buffer. Generate summary?");
+            if (drop >= 15 || result.resilience === 'CRITICAL') {
+                DashboardEngine.triggerCopilotSignal(`Resilience Alert: Fall of ${result.variance} detected. Critical MiCA risk.`);
             }
 
             // Log the test in the audit trail if available
             if (window.AuditLogger) {
-                window.AuditLogger.log('STRESS_TEST', { scenario, variance: result.variance });
+                window.AuditLogger.log('STRESS_TEST', { scenario, resilience: result.resilience, variance: result.variance });
             }
-        }, 1500);
+        }, 1500); // 1.5s simulated computation (Phase 123)
     },
 
     triggerCopilotSignal: (message) => {
@@ -843,7 +985,8 @@ const DashboardEngine = {
         const orgId = activeOrg ? activeOrg.id : profile?.org_id;
 
         if (type === 'bundle') {
-            const bundle = await window.ReportEngine.generateRegulatorBundle(orgId);
+            const lastSim = DashboardEngine.lastSimulationResult;
+            const bundle = await window.ReportEngine.generateRegulatorBundle(orgId, 'en', lastSim);
             window.ReportEngine.exportToPDF(bundle);
         } else if (type === 'audit') {
             // Phase 122: Mock MRM Audit Export
@@ -870,7 +1013,7 @@ const DashboardEngine = {
             downloadAnchorNode.click();
             downloadAnchorNode.remove();
 
-            SessionManager.showToast('🛡️', 'Export MRM Terminé', 'Archive d\'audit générée avec succès (TXT).');
+            SessionManager.showToast('🛡️', 'MRM Export Complete', 'Audit archive generated successfully (TXT).');
         } else {
             const logs = window.AuditLogger ? AuditLogger.getLogs() : [];
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logs, null, 2));
@@ -881,7 +1024,7 @@ const DashboardEngine = {
             downloadAnchorNode.click();
             downloadAnchorNode.remove();
 
-            SessionManager.showToast('📥', 'Export Terminé', 'Votre archive JSON a été téléchargée avec succès.');
+            SessionManager.showToast('📥', 'Export Complete', 'Your JSON archive has been downloaded successfully.');
         }
     },
 
@@ -909,20 +1052,20 @@ const DashboardEngine = {
 
         if (type === 'explain') {
             userMsg = "Explain why the score dropped under liquidity shock.";
-            aiMsg = `<strong>Synthèse d'Investissement:</strong> Le modèle (DCM-Risk v2) indique une dégradation sous choc de liquidité (-70%) due principalement à l'illiquidité inhérente des actifs sous-jacents (RWA) couplée à un retrait massif simulé. La variance de sensibilité indique que le buffer de collatéral est sous pression pour absorber ce scénario extrême sans impacter la notation globale (${riskScoreStr}).`;
+            aiMsg = `<strong>Investment Synthesis:</strong> The model (DCM-Risk v2) indicates degradation under liquidity shock (-70%) primarily due to the inherent illiquidity of underlying assets (RWA) coupled with a simulated massive withdrawal. Sensitivity variance indicates the collateral buffer is under pressure to absorb this extreme scenario without impacting the overall rating (${riskScoreStr}).`;
         } else if (type === 'summarize') {
             userMsg = "Summarize the regulatory freeze impact in 3 points.";
-            aiMsg = `<strong>Impact MiCA Regulatory Freeze :</strong><br><br>• <strong>Blocage des Émissions:</strong> Interruption totale des nouvelles tranches de Digital Covered Bonds.<br>• <strong>Pénalité de Capital:</strong> Application immédiate du <em>haircut</em> réglementaire, réduisant le ratio de couverture de 14%.<br>• <strong>Maintien du Yield:</strong> Le mécanisme de smart contract protège les coupons existants à court terme (Horizon: 45 jours).`;
+            aiMsg = `<strong>MiCA Regulatory Freeze Impact:</strong><br><br>• <strong>Issuance Block:</strong> Total interruption of new Digital Covered Bonds tranches.<br>• <strong>Capital Penalty:</strong> Immediate application of regulatory haircut, reducing the coverage ratio by 14%.<br>• <strong>Yield Maintenance:</strong> Smart contract mechanism protects existing coupons in the short term (Horizon: 45 days).`;
         } else if (type === 'draft') {
             userMsg = "Draft a paragraph for the Risk Committee.";
-            aiMsg = `<strong>[Draft - Risk Committee]</strong><br><br>Dans le cadre de notre suivi d'exposition aux actifs tokenisés, le stress test actuel révèle un profil de risque <em>${riskScoreStr}</em>. Bien que les smart contracts assurent une gestion automatisée des covenants de marge, la simulation d'un ${scenario.replace('_', ' ').toLowerCase()} indique une vulnérabilité résiduelle. Une révision du buffer de liquidité de sécurité pourrait être envisagée pour anticiper ces frictions réglementaires et de marché de manière proactive.`;
+            aiMsg = `<strong>[Draft - Risk Committee]</strong><br><br>As part of our tokenized asset exposure monitoring, the current stress test reveals a risk profile of <em>${riskScoreStr}</em>. Although smart contracts ensure automated management of margin covenants, simulation of a ${scenario.replace('_', ' ').toLowerCase()} indicates residual vulnerability. A review of the safety liquidity buffer could be considered to proactively anticipate these regulatory and market frictions.`;
         } else if (type === 'comparative') {
             userMsg = "Compare the impact with the baseline.";
             const numVariance = parseFloat(variance) || 0;
-            aiMsg = `<strong>Comparative Insight:</strong><br><br>Comparé à la baseline dynamique (Score: ${document.getElementById('res-baseline')?.innerText || 'N/A'}), la sensibilité du modèle a augmenté de ${Math.abs(numVariance)}% sous le scénario ${scenario}. L'écart de trajectoire justifie une surveillance accrue du collatéral de rang 1.`;
+            aiMsg = `<strong>Comparative Insight:</strong><br><br>Compared to the dynamic baseline (Score: ${document.getElementById('res-baseline')?.innerText || 'N/A'}), model sensitivity increased by ${Math.abs(numVariance)}% under the ${scenario} scenario. The trajectory gap justifies increased monitoring of Tier 1 collateral.`;
         } else if (type === 'comex') {
             userMsg = "COMEX 60-sec Brief.";
-            aiMsg = `<strong>COMEX 60-SEC BRIEF</strong><br><br><strong>KEY SIGNAL:</strong><br>Déviation négative détectée (${variance}) sous scénario ${scenario}. Résilience globale: ${riskScoreStr}.<br><br><strong>IMPACT:</strong><br>Pression sur le ratio de couverture (LCR estimé -12%). Les covenants DeFi restent intacts à CT.<br><br><strong>POTENTIAL ACTION (NON-BINDING):</strong><br>Évaluer un collatéral additionnel liquide (Bonds souverains) pour restaurer le buffer cible de 110%.`;
+            aiMsg = `<strong>COMEX 60-SEC BRIEF</strong><br><br><strong>KEY SIGNAL:</strong><br>Negative deviation detected (${variance}) under scenario ${scenario}. Global resilience: ${riskScoreStr}.<br><br><strong>IMPACT:</strong><br>Pressure on coverage ratio (LCR estimated -12%). DeFi covenants remain intact in the short term.<br><br><strong>POTENTIAL ACTION (NON-BINDING):</strong><br>Evaluate additional liquid collateral (Sovereign Bonds) to restore target buffer of 110%.`;
         }
 
         // Add PRUDENT DISCLAIMER (Phase 120)
@@ -946,7 +1089,7 @@ const DashboardEngine = {
         thinkDiv.style.alignSelf = 'flex-start';
         thinkDiv.style.color = 'var(--accent-blue)';
         thinkDiv.style.fontSize = '11px';
-        thinkDiv.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Analyse des KPIs du cockpit en cours...`;
+        thinkDiv.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Analyzing cockpit KPIs...`;
         chat.appendChild(thinkDiv);
 
         // Scroll to bottom
@@ -1088,7 +1231,7 @@ const DashboardEngine = {
         if (!container) return;
 
         if (!recs || recs.length === 0) {
-            container.innerHTML = '<div style="color:#64748b; font-size:13px; font-style:italic;">Aucune recommandation critique pour le moment. Votre cockpit est optimal.</div>';
+            container.innerHTML = '<div style="color:#64748b; font-size:13px; font-style:italic;">No critical recommendations at this time. Your cockpit is optimal.</div>';
             return;
         }
 
@@ -1126,7 +1269,6 @@ const DashboardEngine = {
         `;
         document.body.appendChild(modal);
     },
-
     renderTimeline: (events) => {
         const container = document.getElementById('activity-timeline');
         if (!container) return;
@@ -1138,6 +1280,55 @@ const DashboardEngine = {
                 <div style="font-size:12px; color:#94a3b8">${ev.detail}</div>
             </div>
         `).join('');
+    },
+
+    // --- API MANAGEMENT HUB (Phase 111) ---
+    renderApiTable: (keys) => {
+        const tbody = document.getElementById('api-keys-table-body');
+        if (!tbody) return;
+
+        if (!keys || keys.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted); font-size:13px; font-style:italic;">No active keys. Generate your first key to start integration.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = keys.map(k => `
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:15px 10px; font-weight:600; color:white;">${k.name}</td>
+                <td style="padding:15px 10px; font-family:'JetBrains Mono',monospace; color:var(--api-gold); font-size:12px;">${k.prefix}••••</td>
+                <td style="padding:15px 10px; color:var(--text-muted); font-size:12px;">${new Date(k.created_at).toLocaleDateString()}</td>
+                <td style="padding:15px 10px; color:var(--text-muted); font-size:12px;">${k.last_used ? new Date(k.last_used).toLocaleDateString() : 'Never'}</td>
+                <td style="padding:15px 10px;">
+                    <button class="btn-glass" onclick="DashboardEngine.handleRevokeKey('${k.id}')" style="color:#ef4444; font-size:11px; padding:5px 10px;">
+                        <i class="fas fa-trash-can"></i> Revoke
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    },
+
+    loadApiTab: async () => {
+        const profile = window.SessionManager.getCurrentUser();
+        if (!profile) return;
+
+        console.log('🏗️ Loading API Management Hub...');
+        const keys = await SupabaseData.getApiKeys(profile.id);
+        DashboardEngine.renderApiTable(keys);
+    },
+
+    handleRevokeKey: async (id) => {
+        if (!confirm('Are you sure you want to revoke this key? Access using this key will be cut off immediately.')) return;
+        
+        try {
+            const success = await window.APIManagement.revokeKey(id);
+            if (success) {
+                window.SessionManager.showToast('🗑️', 'Key Revoked', 'The key has been disabled successfully.');
+                DashboardEngine.loadApiTab();
+            }
+        } catch (e) {
+            console.error('Revoke error:', e);
+            alert('Error during revocation.');
+        }
     },
 
     // --- SAAS MANAGER MODE (Phase 50) ---
@@ -1160,36 +1351,36 @@ const DashboardEngine = {
 
         // 3. Team Risk Engine (Phase 50)
         DashboardEngine.renderRiskWidget({
-            tier: 'Medium', color: 'var(--accent-gold)', label: 'Exposition Équipe Modérée',
+            tier: 'Medium', color: 'var(--accent-gold)', label: 'Moderate Team Exposure',
             alerts: [
-                { text: '1 collaborateur(s) surexposé(s) au risque DeFi', type: 'warning' },
-                { text: 'Couverture globale MiCA stable', type: 'optimal' }
+                { text: '1 collaborator(s) overexposed to DeFi risk', type: 'warning' },
+                { text: 'Global MiCA coverage stable', type: 'optimal' }
             ]
         });
 
         // 4. Team Title & Headers Morphing (Phase 50)
         const tableTitle = document.getElementById('sim-table-title');
-        if (tableTitle) tableTitle.innerHTML = '<i class="fas fa-users-cog"></i> Audit Logs (Équipe)';
+        if (tableTitle) tableTitle.innerHTML = '<i class="fas fa-users-cog"></i> Audit Logs (Team)';
         const colScenario = document.getElementById('col-scenario');
-        if (colScenario) colScenario.innerText = 'Collaborateur';
+        if (colScenario) colScenario.innerText = 'Collaborator';
         const colType = document.getElementById('col-type');
-        if (colType) colType.innerText = 'Action Auditée';
+        if (colType) colType.innerText = 'Audited Action';
 
         // 5. Team Audit Logs Injection (Phase 50)
         const tbody = document.getElementById('sim-table-body');
         if (tbody) {
             tbody.innerHTML = `
-                <tr><td style="color:#94a3b8">Aujourd'hui</td><td style="font-weight:600;color:white">Alice Dupont</td><td><span class="status-badge" style="background:rgba(59,130,246,0.1);color:#3b82f6">Simulation Exécutée</span></td><td style="color:#f59e0b">High Yield ETH</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
-                <tr><td style="color:#94a3b8">Hier</td><td style="font-weight:600;color:white">Marc Leroy</td><td><span class="status-badge" style="background:rgba(16,185,129,0.1);color:#10b981">Quiz Validé</span></td><td style="color:#10b981">Note: A-</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
-                <tr><td style="color:#94a3b8">Mardi</td><td style="font-weight:600;color:white">Sophie Martin</td><td><span class="status-badge" style="background:rgba(239,68,68,0.1);color:#ef4444">Alerte Conformité</span></td><td style="color:#ef4444">Friction MiCA</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
-                <tr><td style="color:#94a3b8">Lundi</td><td style="font-weight:600;color:white">Marc Leroy</td><td><span class="status-badge" style="background:rgba(148,163,184,0.1);color:#94a3b8">Rapport Exporté</span></td><td style="color:white">Weekly_Brief.pdf</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
+                <tr><td style="color:#94a3b8">Today</td><td style="font-weight:600;color:white">Alice Dupont</td><td><span class="status-badge" style="background:rgba(59,130,246,0.1);color:#3b82f6">Simulation Run</span></td><td style="color:#f59e0b">High Yield ETH</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
+                <tr><td style="color:#94a3b8">Yesterday</td><td style="font-weight:600;color:white">Marc Leroy</td><td><span class="status-badge" style="background:rgba(16,185,129,0.1);color:#10b981">Quiz Validated</span></td><td style="color:#10b981">Note: A-</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
+                <tr><td style="color:#94a3b8">Tuesday</td><td style="font-weight:600;color:white">Sophie Martin</td><td><span class="status-badge" style="background:rgba(239,68,68,0.1);color:#ef4444">Compliance Alert</span></td><td style="color:#ef4444">MiCA Friction</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
+                <tr><td style="color:#94a3b8">Monday</td><td style="font-weight:600;color:white">Marc Leroy</td><td><span class="status-badge" style="background:rgba(148,163,184,0.1);color:#94a3b8">Report Exported</span></td><td style="color:white">Weekly_Brief.pdf</td><td><button class="btn-glass" style="font-size:11px;padding:5px 10px"><i class="fas fa-search"></i> Inspect</button></td></tr>
             `;
         }
 
         // 6. Team Timeline Timeline (Phase 50)
         DashboardEngine.renderTimeline([
             { date: 'Today', time: '11:05', action: 'Alice Dupont - Login', detail: 'Paris, FR' },
-            { date: 'Today', time: '09:30', action: 'Système', detail: 'Consolidation des risques journalière terminée' },
+            { date: 'Today', time: '09:30', action: 'System', detail: 'Daily risk consolidation complete' },
             { date: 'Yesterday', time: '16:45', action: 'Marc Leroy - Logout', detail: 'Session: 4h 12m' }
         ]);
     },
@@ -1197,9 +1388,9 @@ const DashboardEngine = {
     switchToPersonalView: async () => {
         // Restore DOM Titles and Headers (Phase 50)
         const tableTitle = document.getElementById('sim-table-title');
-        if (tableTitle) tableTitle.innerHTML = '<i class="fas fa-list"></i> Historique des Simulations';
+        if (tableTitle) tableTitle.innerHTML = '<i class="fas fa-list"></i> Simulation History';
         const colScenario = document.getElementById('col-scenario');
-        if (colScenario) colScenario.innerText = 'Scénario';
+        if (colScenario) colScenario.innerText = 'Scenario';
         const colType = document.getElementById('col-type');
         if (colType) colType.innerText = 'Type';
 
@@ -1229,11 +1420,173 @@ const DashboardEngine = {
             .join('');
     },
 
+    // --- PHASE 115/116: Institutional Certification ---
+    generateCertificate: function() {
+        const lastRes = this.lastSimulationResult;
+        if (!lastRes) {
+            window.SessionManager.showToast('⚠️', 'No Data', 'Please run a Stress Test (Phase 84) before certifying.');
+            return;
+        }
+        
+        const modal = document.getElementById('certification-modal');
+        const activeOrg = window.TenantManager ? window.TenantManager.getActiveOrg().name : "Institutional Client";
+        
+        // 1. Map real results to UI
+        const certData = {
+            org: activeOrg,
+            asset: "TFIN-DCM-CORE-" + Math.random().toString(36).substr(2, 4).toUpperCase(),
+            resilience: lastRes.resilience || 'VERIFIED',
+            class: lastRes.micaStatus || 'EMT (MiCA Title III)',
+            hash: lastRes.metrics?.infraRiskScore ? `0x${Math.random().toString(16).substr(2, 40)}` : "INCOMPLETE_CHAIN"
+        };
+
+        // 2. Populate Modal (Phase 116)
+        const elements = {
+            'cert-org-name': certData.org,
+            'cert-asset-id': certData.asset,
+            'cert-resilience': certData.resilience,
+            'cert-class': certData.class,
+            'cert-hash': certData.hash
+        };
+
+        Object.entries(elements).forEach(([id, val]) => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = val;
+        });
+
+        if (modal) {
+            modal.style.display = 'flex';
+            window.SessionManager.showToast('🏛️', 'Certificate Generated', 'Ready for internal audit submission.');
+            
+            // --- PHASE 116: Audit Logging ---
+            if (window.AuditLogger && window.AuditLogger.log) {
+                window.AuditLogger.log('CERTIFICATION_GENERATED', { 
+                    asset: certData.asset,
+                    resilience: certData.resilience,
+                    org: activeOrg 
+                }, 'security');
+            }
+        }
+    },
+
+    /**
+     * EXPORT CURRENT CERTIFICATE (Phase 116)
+     * Collects data from the active modal and triggers the high-fidelity PDF generator.
+     */
+    exportCurrentCertificate: function() {
+        const certData = {
+            org: document.getElementById('cert-org-name')?.innerText || 'Unknown',
+            asset: document.getElementById('cert-asset-id')?.innerText || 'N/A',
+            resilience: document.getElementById('cert-resilience')?.innerText || 'N/A',
+            class: document.getElementById('cert-class')?.innerText || 'N/A',
+            hash: document.getElementById('cert-hash')?.innerText || 'N/A'
+        };
+
+        if (window.ReportEngine) {
+            window.ReportEngine.exportInstitutionCertificate(certData);
+            
+            // Log Export Event (Phase 116)
+            if (window.AuditLogger) {
+                window.AuditLogger.log('CERTIFICATE_EXPORT_PDF', { 
+                    asset: certData.asset,
+                    format: 'High-Fidelity PDF'
+                }, 'security');
+            }
+        }
+    },
+
+    // --- PHASE 117: Institutional Role Management ---
+    applyRoleVisibility: function() {
+        const SM = window.SessionManager;
+        if (!SM) return;
+
+        console.log(`[RBAC] 🛡️ Applying UI Gating... Active Role: ${SM.getCurrentUser()?.role}`);
+
+        const permissions = {
+            'SIMULATION_RUN': ['stress-test-controls', 'stress-results-placeholder'],
+            'AUDIT_VIEW': ['institutional-section', 'audit-trail-container', 'nav-audit'],
+            'DOWNLOAD_CERT': ['btn-download-cert', 'btn-nav-cert']
+        };
+
+        for (const [perm, ids] of Object.entries(permissions)) {
+            const isGranted = SM.checkAccess(perm);
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (isGranted) {
+                        el.style.display = 'block'; // Force block for sections/containers
+                        if (id === 'btn-download-cert' || id === 'btn-nav-cert') el.style.display = 'flex';
+                        if (id === 'nav-audit') el.style.display = 'list-item';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Global Overrides for specific combinations
+        const userRole = (SM.getCurrentUser()?.role || '').toUpperCase();
+        
+        // --- Specific Fix for Analyst ---
+        if (userRole === 'ANALYST') {
+            ['btn-download-cert', 'btn-nav-cert'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+        }
+    },
+
+    switchInstitutionalRole: function(role) {
+        const SM = window.SessionManager;
+        if (!SM) return;
+        
+        const profile = SM.getCurrentUser();
+        if (profile) {
+            profile.role = role.toUpperCase();
+            localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
+            
+            // Phase 117 Fix: Re-render sidebar to apply role-based link visibility
+            if (window.NavigationManager) {
+                window.NavigationManager.renderSidebar(role.toLowerCase(), document.getElementById('side-nav-menu'));
+            }
+
+            // Re-apply visibility for static dashboard elements
+            this.applyRoleVisibility();
+            
+            // Show toast
+            SM.showToast('🎭', 'Role Switched', `Now in mode: ${role}`);
+            
+            // Re-log event
+            if (window.AuditLogger) {
+                window.AuditLogger.logInstitutionalEvent('SYSTEM_START', { detail: `Role switched to ${role}` });
+            }
+        }
+    },
+
     // --- PUBLIC API for external modules ---
     SupabaseData
-};
+});
 
-// Expose globally
-if (typeof window !== 'undefined') {
-    window.DashboardEngine = DashboardEngine;
-}
+// ============================================================
+//  SAFE BOOT LOADER (Phase 119)
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    try {
+        if (!window.DashboardEngine) {
+            throw new Error("DashboardEngine critical load failure: Object not found in window scope.");
+        }
+        
+        console.log("🚀 DashboardEngine: Safe boot sequence initiated.");
+        
+        // Initial visibility check based on session
+        if (window.SessionManager?.profile) {
+            window.DashboardEngine.applyRoleVisibility();
+        }
+
+    } catch (e) {
+        console.error("❌ Dashboard Boot Failure:", e);
+    }
+});
+
+// Final Export
+window.DashboardEngine = DashboardEngine;

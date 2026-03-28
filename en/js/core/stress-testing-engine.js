@@ -16,8 +16,8 @@ const StressTestingEngine = {
      * @param {number} currentPrice - Foundation price (e.g., tokenized bond par)
      * @param {Object} parameters - Volatility, Drift, and Network Type
      */
-    runStressTest(currentPrice, parameters) {
-        const { volatility = 0.45, drift = 0.15, network = 'none' } = parameters;
+    runStressTest(currentPrice, parameters = {}) {
+        const { volatility = 0.45, drift = 0.15, network = 'none' } = parameters || {};
         const dt = 1 / 365;
         const scenarios = [];
 

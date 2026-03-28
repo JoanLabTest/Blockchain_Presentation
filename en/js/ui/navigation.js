@@ -30,11 +30,11 @@ const NavigationManager = {
             icon: 'fa-gavel',
             links: [
                 { id: 'nav-admin', name: 'Corporate Admin', link: 'dashboard.html?tab=admin', icon: 'fa-building-user', feature: 'ORG_MANAGEMENT' },
-                { id: 'nav-mica', name: 'Simulateur MiCA', link: 'mica-simulator.html', icon: 'fa-scale-balanced' },
+                { id: 'nav-mica', name: 'MiCA Simulator', link: 'mica-simulator.html', icon: 'fa-scale-balanced' },
                 { id: 'nav-validation', name: 'Model Validation', link: 'dashboard.html?tab=validation', icon: 'fa-microscope', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-audit', name: 'Audit Trails', link: 'audit-trail.html', icon: 'fa-fingerprint', feature: 'AUDIT_VIEW' },
-                { id: 'nav-reports', name: 'Rapports Certifiés', link: 'dashboard.html?tab=reports', icon: 'fa-file-signature', feature: 'ORG_MANAGEMENT' },
-                { id: 'nav-org', name: 'Paramètres Org', link: 'org-settings.html', icon: 'fa-users-gear', feature: 'ORG_MANAGEMENT' },
+                { id: 'nav-reports', name: 'Board-Ready Reports', link: 'dashboard.html?tab=reports', icon: 'fa-file-signature', feature: 'ORG_MANAGEMENT' },
+                { id: 'nav-org', name: 'Org Settings', link: 'org-settings.html', icon: 'fa-users-gear', feature: 'ORG_MANAGEMENT' },
                 { id: 'nav-security', name: 'Security Center', link: 'security.html', icon: 'fa-lock' }
             ]
         },
@@ -53,8 +53,8 @@ const NavigationManager = {
             icon: 'fa-graduation-cap',
             links: [
                 { id: 'nav-academy', name: 'Learning Path', link: 'students.html', icon: 'fa-book-open' },
-                { id: 'nav-quiz', name: 'Examen Certifiant', link: 'quiz.html', icon: 'fa-award' },
-                { id: 'nav-review', name: 'Mon Historique', link: 'quiz-review.html', icon: 'fa-clock-rotate-left' }
+                { id: 'nav-quiz', name: 'Certification Exam', link: 'quiz.html', icon: 'fa-award' },
+                { id: 'nav-review', name: 'My History', link: 'quiz-review.html', icon: 'fa-clock-rotate-left' }
             ]
         }
     },
@@ -99,6 +99,9 @@ const NavigationManager = {
             pro: ['CORE', 'TOOLKIT', 'GOVERNANCE', 'ACADEMIC'],
             enterprise: ['CORE', 'GOVERNANCE', 'TOOLKIT', 'ACADEMIC'],
             institutional: ['CORE', 'GOVERNANCE', 'TOOLKIT', 'ACADEMIC'],
+            risk_officer: ['CORE', 'GOVERNANCE', 'TOOLKIT', 'ACADEMIC'],
+            auditor: ['GOVERNANCE', 'CORE', 'TOOLKIT'],
+            analyst: ['CORE', 'TOOLKIT', 'GOVERNANCE'],
             free: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE'],
             guest: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE'],
             Guest: ['CORE', 'ACADEMIC', 'TOOLKIT', 'GOVERNANCE']
@@ -118,7 +121,7 @@ const NavigationManager = {
             pillar.links.forEach(item => {
                 const isEnabled = !item.feature || _checkFeature(segment, item.feature);
                 const style = isEnabled ? '' : 'opacity:0.4; filter:grayscale(1); cursor:not-allowed;';
-                const title = isEnabled ? '' : 'title="Module réservé au plan supérieur"';
+                const title = isEnabled ? '' : 'title="Module reserved for higher plans"';
 
                 html += `
                     <li style="list-style: none;">
@@ -141,7 +144,7 @@ const NavigationManager = {
         const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
         const tierColor = tierColors[user.subscription_tier] || '#64748b';
         const tierLabel = (user.subscription_tier || 'free').toUpperCase();
-        const userName = user.name || user.email?.split('@')[0] || 'Utilisateur';
+        const userName = user.name || user.email?.split('@')[0] || 'User';
         const userEmail = user.email || '';
 
         html += `
@@ -168,7 +171,7 @@ const NavigationManager = {
             </li>
             <li style="list-style: none;">
                 <a href="#" class="nav-item" style="color:#ef4444" onclick="event.preventDefault(); SessionManager.logout()">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </li>
         `;

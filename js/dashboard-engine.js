@@ -8,6 +8,14 @@
 const _sb = () => window.supabase;
 
 // ============================================================
+//  DASHBOARD ENGINE BOOTLOADER (Phase 119 Stabilization)
+// ============================================================
+
+if (!window.DashboardEngine) {
+    console.warn("🛡️ DashboardEngine: Initializing global failsafe...");
+}
+
+// ============================================================
 //  SUPABASE DATA LAYER
 // ============================================================
 
@@ -578,7 +586,7 @@ Object.assign(DashboardEngine, {
         }
 
         // QUIZ ANALYTICS (Phase 7)
-        this.renderQuizAnalytics();
+        DashboardEngine.renderQuizAnalytics();
     },
 
     /**
@@ -883,6 +891,22 @@ Object.assign(DashboardEngine, {
             placeholder.style.display = 'none';
             resultsCard.style.display = 'block';
 
+            // PHASE 122: Soft Logging update
+            const softLog = document.getElementById('stress-soft-log');
+            if (softLog) {
+                const now = new Date();
+                const timeStr = now.toISOString().slice(11, 16);
+                const scenarioName = scenario.replace(/_/g, ' ').toLowerCase();
+                
+                const timeEl = document.getElementById('log-sim-time');
+                const scenarioEl = document.getElementById('log-sim-scenario');
+                
+                if (timeEl) timeEl.innerText = `${timeStr} UTC`;
+                if (scenarioEl) scenarioEl.innerText = scenarioName.charAt(0).toUpperCase() + scenarioName.slice(1);
+                
+                softLog.style.display = 'block';
+            }
+
             // UI Elements
             const baselineEl = document.getElementById('res-baseline');
             const shockedEl = document.getElementById('res-shocked');
@@ -935,7 +959,7 @@ Object.assign(DashboardEngine, {
             if (window.AuditLogger) {
                 window.AuditLogger.log('STRESS_TEST', { scenario, resilience: result.resilience, variance: result.variance });
             }
-        }, 2000); // 2s simulated computation
+        }, 1500); // 1.5s simulated computation (Phase 123)
     },
 
     triggerCopilotSignal: (message) => {
@@ -960,7 +984,8 @@ Object.assign(DashboardEngine, {
         const orgId = activeOrg ? activeOrg.id : profile?.org_id;
 
         if (type === 'bundle') {
-            const bundle = await window.ReportEngine.generateRegulatorBundle(orgId);
+            const lastSim = DashboardEngine.lastSimulationResult;
+            const bundle = await window.ReportEngine.generateRegulatorBundle(orgId, 'fr', lastSim);
             window.ReportEngine.exportToPDF(bundle);
         } else if (type === 'audit') {
             // Phase 122: Mock MRM Audit Export
@@ -1469,55 +1494,6 @@ Object.assign(DashboardEngine, {
         }
     },
 
-    // --- PHASE 117: Institutional Role Management ---
-    applyRoleVisibility: function() {
-        const SM = window.SessionManager;
-        if (!SM) return;
-
-        console.log(`[RBAC] 🛡️ Applying UI Gating... Active Role: ${SM.getCurrentUser()?.role}`);
-
-        const permissions = {
-            'SIMULATION_RUN': ['stress-test-controls', 'stress-results-placeholder'],
-            'AUDIT_VIEW': ['institutional-section', 'audit-trail-container'],
-            'DOWNLOAD_CERT': ['btn-download-cert']
-        };
-
-        for (const [perm, ids] of Object.entries(permissions)) {
-            const isGranted = SM.checkAccess(perm);
-            ids.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.style.display = isGranted ? '' : 'none';
-                    // If it was a block element, don't force 'inline'
-                    if (isGranted && (id === 'institutional-section' || id === 'stress-results-placeholder')) {
-                        el.style.display = 'block';
-                    }
-                }
-            });
-        }
-    },
-
-    switchInstitutionalRole: function(role) {
-        const SM = window.SessionManager;
-        if (!SM) return;
-        
-        const profile = SM.getCurrentUser();
-        if (profile) {
-            profile.role = role.toUpperCase();
-            localStorage.setItem('dcm_user_profile', JSON.stringify(profile));
-            
-            // Re-apply visibility
-            this.applyRoleVisibility();
-            
-            // Show toast
-            SM.showToast('🎭', 'Role Switched', `Désormais en mode : ${role}`);
-            
-            // Re-render audit trail if Auditor/Officer
-            if (window.AuditLogger) {
-                window.AuditLogger.logInstitutionalEvent('SYSTEM_START', { detail: `Role switched to ${role}` });
-            }
-        }
-    },
 
     // --- PHASE 117: Institutional Role Management ---
     applyRoleVisibility: function() {
@@ -1591,4 +1567,26 @@ Object.assign(DashboardEngine, {
     SupabaseData
 });
 
-// Expose globally - Moved to top for Phase 117 hardening
+// ============================================================
+//  SAFE BOOT LOADER (Phase 119)
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    try {
+        if (!window.DashboardEngine) {
+            throw new Error("DashboardEngine critical load failure: Object not found in window scope.");
+        }
+        
+        console.log("🚀 DashboardEngine: Safe boot sequence initiated.");
+        
+        // Initial visibility check based on session
+        if (window.SessionManager?.profile) {
+            window.DashboardEngine.applyRoleVisibility();
+        }
+
+    } catch (e) {
+        console.error("❌ Dashboard Boot Failure:", e);
+    }
+});
+
+// Final Export
+window.DashboardEngine = DashboardEngine;

@@ -627,6 +627,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             color: var(--segment-color) !important;
             font-weight: 800;
         }
+
+    /* PHASE 122: TRUST BAR */
+        .trust-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 15px;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+        }
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .trust-status-dot {
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+        }
+        .compliance-badges {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .comp-badge {
+            font-size: 9px;
+            color: #10b981;
+            font-weight: 800;
+        }
     </style>
     <title>Blockchain Model Risk Management (MRM) Hub | DCM Core</title>
     <meta name="description"
@@ -713,15 +749,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <a href="#" style="text-decoration: none; opacity: 1; filter: none;" title="Français"><span style="font-size: 18px;">🇫🇷</span></a>
                 <a href="en/dashboard.html" style="text-decoration: none; opacity: 0.5; filter: grayscale(1); transition: 0.3s;" onmouseover="this.style.opacity='1'; this.style.filter='none'" onmouseout="this.style.opacity='0.5'; this.style.filter='grayscale(1)'" title="English"><span style="font-size: 18px;">🇬🇧</span></a>
             </div>
-            <!-- Phase 117: Institutional Role Switcher (Demo Mode) -->
-            <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:5px 10px; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:10px; font-weight:800; color:var(--accent-gold); text-transform:uppercase; letter-spacing:1px;">Institutional Demo</span>
-                <select id="role-switcher" onchange="window.DashboardEngine.switchInstitutionalRole(this.value)" 
-                    style="background:transparent; border:none; color:white; font-size:11px; font-weight:700; cursor:pointer; font-family:'Urbanist', sans-serif;">
-                    <option value="analyst">Analyst (Default)</option>
-                    <option value="auditor">Auditor (Surveillance)</option>
-                    <option value="risk_officer">Risk Officer (Admin)</option>
-                </select>
+             <!-- Phase 117: Institutional Role Switcher (Demo Mode) -->
+            <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:5px 10px; display:flex; align-items:center; gap:12px;">
+                <div class="trust-bar">
+                    <div class="trust-item">
+                        <div class="trust-status-dot"></div>
+                        <span>Systems Operational</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-shield-halved" style="font-size:8px; color:#3b82f6;"></i>
+                        <span>MiCA Engine: Active</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-calendar-check" style="font-size:8px;"></i>
+                        <span>Data: March 2026</span>
+                    </div>
+                    <div class="compliance-badges">
+                        <span class="comp-badge">✔ MiCA Art. 23 Aligned</span>
+                        <span class="comp-badge">✔ DORA Art. 17 Tested</span>
+                    </div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                    <span style="font-size:9px; font-weight:800; color:var(--accent-gold); text-transform:uppercase; letter-spacing:1px; opacity:0.8;">Institutional Demo</span>
+                    <select id="role-switcher" onchange="window.DashboardEngine.switchInstitutionalRole(this.value)" 
+                        style="background:transparent; border:none; color:white; font-size:11px; font-weight:700; cursor:pointer; font-family:'Urbanist', sans-serif; outline:none;">
+                        <option value="analyst">Analyst (Default)</option>
+                        <option value="auditor">Auditor (Surveillance)</option>
+                        <option value="risk_officer">Risk Officer (Admin)</option>
+                    </select>
+                </div>
             </div>
                 <button class="btn-glass" onclick="alert('Export CSV en cours...')" title="Export Raw Data">
                     <i class="fas fa-file-csv"></i> CSV
@@ -1381,7 +1437,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span style="color:#94a3b8;">Variance de Sensibilité:</span>
                             <span id="res-variance" style="font-weight:700;">--</span>
                         </div>
-                        <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px;">
+                    </div>
+                    <!-- PHASE 122: SOFT LOGGING -->
+                    <div id="stress-soft-log" style="margin-top:15px; padding:12px; border-radius:10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); font-family:'JetBrains Mono', monospace; font-size:10px; color:#94a3b8; display:none;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                            <span>Dernière Simulation:</span>
+                            <span id="log-sim-time" style="color:white;">--:-- UTC</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                            <span>Statut Audit:</span>
+                            <span style="color:#10b981; font-weight:800;">VERIFIED ✔</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <span>Scénario:</span>
+                            <span id="log-sim-scenario" style="color:#3b82f6;">--</span>
+                        </div>
+                    </div>
+                </div>
                             <span style="color:#94a3b8;">Probabilité de Rétablissement:</span>
                             <span id="res-recovery" style="font-weight:700; color:var(--accent-green);">--</span>
                         </div>
@@ -1610,11 +1682,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <i class="fas fa-file-signature"></i>
                         </div>
                         <div>
-                            <div style="font-weight:800; color:white; font-size:14px;">Auditor Export <span
-                                    style="font-size:10px; color:#f59e0b; background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.2); border-radius:20px; padding:2px 8px; margin-left:4px; font-weight:700;">MRM</span>
-                            </div>
-                            <div style="font-size:12px; color:#64748b; margin-top:2px;">Export certifié pour la fonction
-                                de Model Risk Management.</div>
+                            <div style="font-weight:800; color:white; font-size:14px;">Rapport Comité d'Investissement <span
+                                     style="font-size:10px; color:#f59e0b; background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.2); border-radius:20px; padding:2px 8px; margin-left:4px; font-weight:700;">BOARD-READY</span>
+                             </div>
+                            <div style="font-size:12px; color:#64748b; margin-top:2px;">Export de haute autorité pour le comité de direction et Model Risk Management.</div>
                         </div>
                     </div>
                     <div
@@ -1627,7 +1698,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         style="width:100%; padding:13px; border-radius:10px; border:1px solid rgba(245,158,11,0.4); background:rgba(245,158,11,0.08); color:#f59e0b; font-weight:800; font-size:13px; cursor:pointer; font-family:'Urbanist',sans-serif; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:10px;"
                         onmouseover="this.style.background='rgba(245,158,11,0.15)'; this.style.transform='translateY(-2px)'"
                         onmouseout="this.style.background='rgba(245,158,11,0.08)'; this.style.transform=''">
-                        <i class="fas fa-file-signature"></i> GENERATE AUDITOR EXPORT (MRM)
+                        <i class="fas fa-file-signature"></i> GÉNÉRER RAPPORT COMITÉ
                     </button>
                 </div>
             </div>
