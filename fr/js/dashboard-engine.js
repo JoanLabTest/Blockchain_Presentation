@@ -653,18 +653,32 @@ const DashboardEngine = {
             }
         });
 
-        // Update Breadcrumb (Phase 99)
+        // Update Breadcrumb & Persona (Phase 119)
         const bcRole = document.getElementById('bc-role');
         const bcModule = document.getElementById('bc-module');
         const greeting = document.getElementById('user-greeting');
+        const sideUserName = document.getElementById('side-user-name');
+        const sideUserRole = document.getElementById('side-user-role');
+
+        const userProfile = window.SessionManager.getCurrentUser() || {};
+        let userName = (userProfile.name || 'Utilisateur').trim();
+        // Extract first name if it's a full name
+        if (userName && userName.includes(' ')) {
+            userName = userName.split(' ')[0];
+        }
+
+        const userRole = userProfile.role || (segment === 'enterprise' ? 'Institutional Analyst' : 'Analyste');
+
+        if (sideUserName) sideUserName.innerText = userName;
+        if (sideUserRole) sideUserRole.innerText = userRole;
 
         if (greeting) {
             const segmentGreetings = {
-                student: 'Prêt pour votre prochaine certification ?',
-                pro: 'Analyse de performance & ROI active.',
-                enterprise: 'Institutional Governance Cockpit'
+                student: `Bienvenue, ${userName} 👋`,
+                pro: `Performance ROI : Actif pour ${userName}`,
+                enterprise: `${userName} | Cockpit Institutionnel`
             };
-            greeting.innerText = segmentGreetings[segment] || greeting.innerText;
+            greeting.innerText = segmentGreetings[segment] || `Content de vous revoir, ${userName}`;
         }
 
         // --- TENANT INDICATOR (Phase 106) ---

@@ -734,19 +734,25 @@ Object.assign(DashboardEngine, {
         const sideUserRole = document.getElementById('side-user-role');
 
         const userProfile = window.SessionManager.getCurrentUser() || {};
-        const userName = userProfile.name || 'Utilisateur';
+        let userName = (userProfile.name || 'Utilisateur').trim();
+        // Extract first name if it's a full name
+        if (userName && userName.includes(' ')) {
+            userName = userName.split(' ')[0];
+        }
+
         const userRole = userProfile.role || (segment === 'enterprise' ? 'Institutional Analyst' : 'Analyste');
 
         if (sideUserName) sideUserName.innerText = userName;
         if (sideUserRole) sideUserRole.innerText = userRole;
 
         if (greeting) {
+            const isEnglish = document.documentElement.lang === 'en';
             const segmentGreetings = {
-                student: `Bienvenue, ${userName} 👋`,
-                pro: `Performance ROI : Actif pour ${userName}`,
-                enterprise: `${userName} | Institutional Cockpit`
+                student: isEnglish ? `Welcome, ${userName} 👋` : `Bienvenue, ${userName} 👋`,
+                pro: isEnglish ? `ROI Performance: Active for ${userName}` : `Performance ROI : Actif pour ${userName}`,
+                enterprise: isEnglish ? `${userName} | Institutional Cockpit` : `${userName} | Cockpit Institutionnel`
             };
-            greeting.innerText = segmentGreetings[segment] || `Welcome back, ${userName}`;
+            greeting.innerText = segmentGreetings[segment] || (isEnglish ? `Welcome back, ${userName}` : `Content de vous revoir, ${userName}`);
         }
 
         // --- TENANT INDICATOR (Phase 106) ---

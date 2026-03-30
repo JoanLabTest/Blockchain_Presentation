@@ -103,12 +103,11 @@ const NavigationOrchestrator = {
                 const verifiedTier = window.SessionManager?.__verifiedProfile?.subscription_tier;
                 const activeRole = verifiedTier || normalized;
 
-                // Priority 1: side-nav-menu (for pages like dashboard.html with legacy structure)
-                if (sideMenu && (sideMenu.children.length === 0 || sideMenu.innerHTML.replace(/<!--[\s\S]*?-->/g, "").trim() === '')) {
+                // ALWAYS re-render or at least allow re-render on profile ready
+                if (sideMenu) {
                     window.NavigationManager.renderSidebar(activeRole, sideMenu);
                 }
-                // Priority 2: sidebarContainer (for new standard pages where the whole sidebar is dynamic)
-                else if (sidebarContainer && (sidebarContainer.children.length === 0 || sidebarContainer.innerHTML.replace(/<!--[\s\S]*?-->/g, "").trim() === '')) {
+                else if (sidebarContainer) {
                     window.NavigationManager.renderSidebar(activeRole, sidebarContainer);
                 }
 

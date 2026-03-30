@@ -140,12 +140,14 @@ const NavigationManager = {
         });
 
         // Add Footer Logic
-        const user = window.SessionManager?.getCurrentUser?.() || window.SessionManager?.__verifiedProfile || {};
-        const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
-        const tierColor = tierColors[user.subscription_tier] || '#64748b';
-        const tierLabel = (user.subscription_tier || 'free').toUpperCase();
-        const userName = user.name || user.email?.split('@')[0] || 'User';
+        // Improve Name Display: extraction of first name / clean fallback
+        let userName = (user.name || user.email?.split('@')[0] || 'User').trim();
+        // If it's a full name, try to extract the first name (e.g. "John Smith" -> "John")
+        if (userName && userName.includes(' ')) {
+            userName = userName.split(' ')[0];
+        }
         const userEmail = user.email || '';
+        const tierLabel = (user.subscription_tier || 'free').toUpperCase();
 
         html += `
             <li style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05); list-style: none;">
@@ -155,8 +157,8 @@ const NavigationManager = {
                             <i class="fas fa-user" style="font-size:13px; color:#3b82f6;"></i>
                         </div>
                         <div style="overflow:hidden; flex:1;">
-                            <div style="font-size:12px; font-weight:700; color:white; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${userName}</div>
-                            <div style="font-size:10px; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${userEmail}</div>
+                            <div id="side-user-name" style="font-size:12px; font-weight:700; color:white; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${userName}</div>
+                            <div id="side-user-role" style="font-size:10px; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${userEmail}</div>
                         </div>
                     </div>
                     <div style="margin-top:8px;">
@@ -170,7 +172,7 @@ const NavigationManager = {
                 </a>
             </li>
             <li style="list-style: none;">
-                <a href="#" class="nav-item" style="color:#ef4444" onclick="event.preventDefault(); SessionManager.logout()">
+                <a href="#" class="nav-item" style="color:#ef4444" onclick="event.preventDefault(); window.SessionManager.logout()">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </li>
