@@ -726,18 +726,27 @@ Object.assign(DashboardEngine, {
             }
         });
 
-        // Update Breadcrumb (Phase 99)
+        // Update Breadcrumb & Persona (Phase 119)
         const bcRole = document.getElementById('bc-role');
         const bcModule = document.getElementById('bc-module');
         const greeting = document.getElementById('user-greeting');
+        const sideUserName = document.getElementById('side-user-name');
+        const sideUserRole = document.getElementById('side-user-role');
+
+        const userProfile = window.SessionManager.getCurrentUser() || {};
+        const userName = userProfile.name || 'Utilisateur';
+        const userRole = userProfile.role || (segment === 'enterprise' ? 'Institutional Analyst' : 'Analyste');
+
+        if (sideUserName) sideUserName.innerText = userName;
+        if (sideUserRole) sideUserRole.innerText = userRole;
 
         if (greeting) {
             const segmentGreetings = {
-                student: 'Prêt pour votre prochaine certification ?',
-                pro: 'Analyse de performance & ROI active.',
-                enterprise: 'Institutional Governance Cockpit'
+                student: `Bienvenue, ${userName} 👋`,
+                pro: `Performance ROI : Actif pour ${userName}`,
+                enterprise: `${userName} | Institutional Cockpit`
             };
-            greeting.innerText = segmentGreetings[segment] || greeting.innerText;
+            greeting.innerText = segmentGreetings[segment] || `Welcome back, ${userName}`;
         }
 
         // --- TENANT INDICATOR (Phase 106) ---

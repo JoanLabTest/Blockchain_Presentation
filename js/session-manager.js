@@ -304,8 +304,10 @@ const SessionManager = {
             window.__deactivateMasterMode();
         }
 
-        // 5. Redirect to login
-        window.location.href = 'login.html';
+        console.info('👋 Session terminated. Redirecting...');
+        
+        // 5. Hard Redirect to login
+        window.location.replace('login.html');
     },
 
     // =============================================
