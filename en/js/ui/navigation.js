@@ -140,6 +140,11 @@ const NavigationManager = {
         });
 
         // Add Footer Logic
+        const user = window.SessionManager?.getCurrentUser?.() || window.SessionManager?.__verifiedProfile || {};
+        const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
+        const tierColor = tierColors[user.subscription_tier] || '#64748b';
+        const tierLabel = (user.subscription_tier || 'free').toUpperCase();
+
         // Improve Name Display: extraction of first name / clean fallback
         let userName = (user.name || user.email?.split('@')[0] || 'User').trim();
         // If it's a full name, try to extract the first name (e.g. "John Smith" -> "John")
@@ -147,7 +152,6 @@ const NavigationManager = {
             userName = userName.split(' ')[0];
         }
         const userEmail = user.email || '';
-        const tierLabel = (user.subscription_tier || 'free').toUpperCase();
 
         html += `
             <li style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05); list-style: none;">
