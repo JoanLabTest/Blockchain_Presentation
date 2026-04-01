@@ -4,7 +4,7 @@
  */
 
 window.DCM_CONFIG = {
-    VERSION: '4.3.0',
+    VERSION: '4.3.2',
     ENV: 'production',
     API_URL: 'https://api.dcmcore.com',
     FEATURES: {

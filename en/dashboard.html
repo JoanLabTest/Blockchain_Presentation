@@ -63,13 +63,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="./js/core/scoring-engine.js?v=125"></script>
     <script src="./js/core/stress-testing-engine.js?v=125"></script>
     <script src="./js/core/feature-flags.js?v=125"></script>
-    <script src="./js/session-manager.js?v=127"></script>
-    <script src="./js/quiz-analytics.js?v=127"></script>
-    <script src="./js/dashboard-engine.js?v=127"></script>
-    <script src="./js/market-ticker.js?v=127"></script>
-    <script src="./js/ui/audit-logger.js?v=127"></script>
-    <script src="./js/ui/navigation.js?v=127"></script>
-    <script src="./js/navigation-orchestrator.js?v=127"></script>
+    <script src="./js/session-manager.js?v=128"></script>
+    <script src="./js/quiz-analytics.js?v=128"></script>
+    <script src="./js/dashboard-engine.js?v=128"></script>
+    <script src="./js/market-ticker.js?v=128"></script>
+    <script src="./js/ui/audit-logger.js?v=128"></script>
+    <script src="./js/ui/navigation.js?v=128"></script>
+    <script src="./js/navigation-orchestrator.js?v=128"></script>
     <script src="./js/dashboard-tour.js?v=125"></script>
     <!-- FONTS -->
     <link
@@ -2227,18 +2227,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             };
         };
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Priority: Identity Write (Phase 121.1 - Hardened Force)
-            const fastProfileStr = localStorage.getItem('dcm_user_profile');
-            const targetGreet = document.getElementById('user-greeting');
-            if (fastProfileStr && targetGreet) {
+        // --- IDENTITY FORCE (PHASE 121.2) ---
+        (function() {
+            const profileStr = localStorage.getItem('dcm_user_profile');
+            if (profileStr) {
                 try {
-                    const u = JSON.parse(fastProfileStr);
-                    const displayName = (u.email === 'joanlyczak@gmail.com') ? 'Joan' : (u.name || 'User');
-                    targetGreet.innerText = `Welcome back, ${displayName} 👋`;
-                    console.log('✅ Identity Force: Greeting updated to ' + displayName);
-                } catch(e) { console.warn('Identity Force Error:', e); }
+                    const u = JSON.parse(profileStr);
+                    const name = (u.email === 'joanlyczak@gmail.com') ? 'Joan' : (u.name || 'User');
+                    const greet = document.getElementById('user-greeting');
+                    if (greet) greet.innerText = `Welcome back, ${name} 👋`;
+                    console.log('💎 Flash Identity: Greeting forced to ' + name);
+                } catch(e) {}
             }
+        })();
+
+        document.addEventListener('DOMContentLoaded', async () => {
 
             // Always make body visible immediately
             document.body.classList.add('loaded');
