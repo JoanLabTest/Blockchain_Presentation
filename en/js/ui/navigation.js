@@ -140,6 +140,7 @@ const NavigationManager = {
         });
 
         // Add Footer
+        const user = window.SessionManager?.getCurrentUser?.() || window.SessionManager?.__verifiedProfile || {};
         const isJoan = (user.email === 'joanlyczak@gmail.com');
         const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
         const tierColor = tierColors[user.subscription_tier] || '#64748b';
