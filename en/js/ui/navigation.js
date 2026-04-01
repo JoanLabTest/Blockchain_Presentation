@@ -139,7 +139,8 @@ const NavigationManager = {
             });
         });
 
-        // Add Footer        const isJoan = (user.email === 'joanlyczak@gmail.com');
+        // Add Footer
+        const isJoan = (user.email === 'joanlyczak@gmail.com');
         const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
         const tierColor = tierColors[user.subscription_tier] || '#64748b';
         const rawTier = (user.subscription_tier || 'free');
