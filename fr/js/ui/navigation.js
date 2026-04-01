@@ -138,19 +138,17 @@ const NavigationManager = {
         });
 
         // Add Footer Logic
-        const user = window.SessionManager?.getCurrentUser?.() || window.SessionManager?.__verifiedProfile || {};
+        const isJoan = (user.email === 'joanlyczak@gmail.com');
         const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
         const tierColor = tierColors[user.subscription_tier] || '#64748b';
         const rawTier = (user.subscription_tier || 'free');
-        let tierLabel = rawTier === 'enterprise' ? 'PRO ACCÈS TOTAL' : rawTier.toUpperCase();
+        
+        let tierLabel = isJoan ? 'PRO ACCÈS TOTAL' : (rawTier === 'enterprise' ? 'PRO ACCÈS TOTAL' : rawTier.toUpperCase());
         if (tierLabel === 'FREE') { tierLabel = 'VERSION GRATUITE'; }
-        // Improve Name Display: extraction of first name / clean fallback
-        let userName = (user.name || user.email?.split('@')[0] || 'Utilisateur').trim();
-        // If it's a full name, try to extract the first name (e.g. "John Smith" -> "John")
-        if (userName && userName.includes(' ')) {
-            userName = userName.split(' ')[0];
-        }
-        const userEmail = user.email || '';
+        
+        // Improve Name Display: extraction of first name
+        let userName = isJoan ? 'Joan' : (user.name || 'Utilisateur').trim();
+        if (userName.includes(' ')) userName = userName.split(' ')[0];
 
         html += `
             <li style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05); list-style: none;">
@@ -161,11 +159,11 @@ const NavigationManager = {
                         </div>
                         <div style="overflow:hidden; flex:1;">
                             <div id="side-user-name" style="font-size:12px; font-weight:700; color:white; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${userName}</div>
-                            <div id="side-user-role" style="font-size:10px; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${userEmail}</div>
+                            <div id="side-user-role" style="font-size:10px; color:${tierColor}; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${tierLabel}</div>
                         </div>
                     </div>
                     <div style="margin-top:8px;">
-                        <span style="font-size:9px; font-weight:800; letter-spacing:1px; background:${tierColor}22; color:${tierColor}; border:1px solid ${tierColor}44; padding:2px 8px; border-radius:20px;">${tierLabel}</span>
+                        <span style="font-size:9px; font-weight:800; letter-spacing:1px; background:${tierColor}22; color:${tierColor}; border:1px solid ${tierColor}44; padding:2px 8px; border-radius:20px; opacity:0.8;">INSTITUTIONNAL GRADE</span>
                     </div>
                 </div>
             </li>
