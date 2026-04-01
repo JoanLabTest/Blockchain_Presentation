@@ -2102,9 +2102,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         };
 
         document.addEventListener('DOMContentLoaded', async () => {
-
             // Always make body visible immediately
             document.body.classList.add('loaded');
+
+            // --- IDENTITY HUD FORCE (PHASE 128: Resilience) ---
+            try {
+                const profileStr = localStorage.getItem('dcm_user_profile');
+                if (profileStr) {
+                    const u = JSON.parse(profileStr);
+                    const isJoan = (u.email === 'joanlyczak@gmail.com');
+                    const name = isJoan ? 'Joan' : (u.name || 'Utilisateur');
+                    const greetEl = document.getElementById('user-greeting');
+                    if (greetEl) greetEl.innerText = `Bienvenue, ${name} 👋`;
+                    const sideTier = document.getElementById('side-user-role');
+                    if (sideTier && isJoan) sideTier.innerText = 'PRO ACCÈS TOTAL';
+                }
+            } catch(e) { console.warn('Identity Force skipped:', e); }
 
             try {
                 const urlParams = new URLSearchParams(window.location.search);
@@ -2195,12 +2208,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     }
                 }
 
-                // 2. Populate Header (Phase 128: Joan-Aware)
+                // 2. Populate Header (Sync Done in Phase 128 Resilience)
                 if (user) {
-                    const isJoan = (user.email === 'joanlyczak@gmail.com');
-                    const name = isJoan ? 'Joan' : (user.name || 'Utilisateur');
-                    const greetEl = document.getElementById('user-greeting');
-                    if (greetEl) greetEl.innerText = `Bienvenue, ${name} 👋`;
                     const roleEl = document.getElementById('user-role');
                     if (roleEl) roleEl.innerHTML = `<i class="fas fa-user-shield"></i> ${user.role}`;
                     const jurisdEl = document.getElementById('user-jurisdiction');

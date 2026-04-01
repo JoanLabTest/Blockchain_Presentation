@@ -2229,9 +2229,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         // --- IDENTITY FORCE (PHASE 121.2) ---
         document.addEventListener('DOMContentLoaded', async () => {
-
             // Always make body visible immediately
             document.body.classList.add('loaded');
+
+            // --- IDENTITY HUD FORCE (PHASE 128: Resilience) ---
+            try {
+                const profileStr = localStorage.getItem('dcm_user_profile');
+                if (profileStr) {
+                    const u = JSON.parse(profileStr);
+                    const isJoan = (u.email === 'joanlyczak@gmail.com');
+                    const name = isJoan ? 'Joan' : (u.name || 'User');
+                    const greetEl = document.getElementById('user-greeting');
+                    if (greetEl) greetEl.innerText = `Welcome back, ${name} 👋`;
+                    const sideTier = document.getElementById('side-user-role');
+                    if (sideTier && isJoan) sideTier.innerText = 'PRO FULL ACCESS';
+                }
+            } catch(e) { console.warn('Identity Force skipped:', e); }
 
             try {
                 const urlParams = new URLSearchParams(window.location.search);
