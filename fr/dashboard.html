@@ -62,13 +62,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="js/core/scoring-engine.js"></script>
     <script src="js/core/stress-testing-engine.js"></script>
     <script src="js/core/feature-flags.js"></script>
-    <script src="js/session-manager.js"></script>
-    <script src="js/quiz-analytics.js"></script>
-    <script src="js/dashboard-engine.js"></script>
-    <script src="js/market-ticker.js"></script>
-    <script src="js/ui/audit-logger.js"></script>
-    <script src="js/ui/navigation.js"></script>
-    <script src="js/navigation-orchestrator.js"></script>
+    <script src="js/session-manager.js?v=126"></script>
+    <script src="js/quiz-analytics.js?v=126"></script>
+    <script src="js/dashboard-engine.js?v=126"></script>
+    <script src="js/market-ticker.js?v=126"></script>
+    <script src="js/ui/audit-logger.js?v=126"></script>
+    <script src="js/ui/navigation.js?v=126"></script>
+    <script src="js/navigation-orchestrator.js?v=126"></script>
     <script src="js/dashboard-tour.js"></script>
     <!-- FONTS -->
     <link
@@ -2102,6 +2102,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         };
 
         document.addEventListener('DOMContentLoaded', async () => {
+            // Priority: Identity Write (Phase 121)
+            const fastProfile = localStorage.getItem('dcm_user_profile');
+            if (fastProfile) {
+                try {
+                    const u = JSON.parse(fastProfile);
+                    if (u.name) document.getElementById('user-greeting').innerText = `Bienvenue, ${u.name} 👋`;
+                } catch(e) {}
+            }
+
             // Always make body visible immediately
             document.body.classList.add('loaded');
 

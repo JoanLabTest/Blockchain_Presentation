@@ -253,6 +253,8 @@ const Adapters = {
 // ============================================================
 
 const DashboardEngine = {
+    // Phase 121: Pre-Initialization Global Exposure
+    __version: "4.3.1",
 
     /**
      * Institutional Stress Test Trigger (Phase 127)

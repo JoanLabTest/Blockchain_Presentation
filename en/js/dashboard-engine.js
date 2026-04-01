@@ -20,6 +20,8 @@ if (!window.DashboardEngine) {
 // ============================================================
 
 const DashboardEngine = {
+    // Phase 121: Pre-Initialization Global Exposure
+    __version: "4.3.1",
     // Phase 117: Exporting early to prevent 'undefined' on local file protocol failures
 };
 window.DashboardEngine = DashboardEngine;
