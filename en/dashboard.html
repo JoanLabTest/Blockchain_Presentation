@@ -2228,19 +2228,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         };
 
         // --- IDENTITY FORCE (PHASE 121.2) ---
-        (function() {
-            const profileStr = localStorage.getItem('dcm_user_profile');
-            if (profileStr) {
-                try {
-                    const u = JSON.parse(profileStr);
-                    const name = (u.email === 'joanlyczak@gmail.com') ? 'Joan' : (u.name || 'User');
-                    const greet = document.getElementById('user-greeting');
-                    if (greet) greet.innerText = `Welcome back, ${name} 👋`;
-                    console.log('💎 Flash Identity: Greeting forced to ' + name);
-                } catch(e) {}
-            }
-        })();
-
         document.addEventListener('DOMContentLoaded', async () => {
 
             // Always make body visible immediately
@@ -2253,7 +2240,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 if (urlParams.get('upgrade') === 'success') {
                     isUpgradeRoute = true;
                     if (window.SessionManager) localStorage.removeItem(window.SessionManager.KEYS?.USER_PROFILE || 'dcm_user_profile');
-                    if (window.SessionManager) window.SessionManager.showToast('✨', 'Subscription Activated', 'Configuring your premium workspace in progress...');
+                    if (window.SessionManager) window.SessionManager.showToast('✨', 'Subscription Active', 'Configuring your premium space...');
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }
 
@@ -2285,9 +2272,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     if (instSection) instSection.style.display = 'block';
                     if (window.AuditLogger) AuditLogger.renderAuditTrail('audit-trail-container', segment);
                 }
-
-                // --- DEPRECATED: NavigationOrchestrator now handles the sequence ---
-                // if (window.NavigationManager) { ... }
 
                 // Sync Module Visibility (Postponed until profile check)
                 const syncUIVisibility = (seg) => {
@@ -2335,10 +2319,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     }
                 }
 
-                // 2. Populate Header
+                // 2. Populate Header (Phase 128: Joan-Aware)
                 if (user) {
+                    const isJoan = (user.email === 'joanlyczak@gmail.com');
+                    const name = isJoan ? 'Joan' : (user.name || 'User');
                     const greetEl = document.getElementById('user-greeting');
-                    if (greetEl) greetEl.innerText = `Welcome back, ${user.name} 👋`;
+                    if (greetEl) greetEl.innerText = `Welcome back, ${name} 👋`;
                     const roleEl = document.getElementById('user-role');
                     if (roleEl) roleEl.innerHTML = `<i class="fas fa-user-shield"></i> ${user.role}`;
                     const jurisdEl = document.getElementById('user-jurisdiction');
@@ -2346,16 +2332,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     const tierEl = document.getElementById('user-tier-badge');
                     if (tierEl) {
-                        const tier = user.subscription_tier || 'free';
+                        const tier = isJoan ? 'enterprise' : (user.subscription_tier || 'free');
                         let tierHtml = '';
                         if (tier === 'institutional' || tier === 'enterprise') {
                             tierHtml = `<span style="background:linear-gradient(135deg,#f59e0b,#b45309);color:white;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;"><i class="fas fa-crown"></i> INSTITUTIONAL</span>`;
                         } else if (tier === 'pro') {
                             tierHtml = `<span style="background:rgba(59,130,246,0.15);color:#3b82f6;border:1px solid #3b82f6;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;"><i class="fas fa-bolt"></i> PRO</span>`;
-                            tierHtml += `<a href="pricing.html" style="margin-left:10px;font-size:12px;color:#3b82f6;text-decoration:none;font-weight:bold;">Upgrade <i class="fas fa-arrow-right"></i></a>`;
                         } else {
                             tierHtml = `<span style="background:rgba(148,163,184,0.1);color:#94a3b8;border:1px solid #475569;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">FREE</span>`;
-                            tierHtml += `<a href="pricing.html" style="margin-left:10px;font-size:12px;color:#3b82f6;text-decoration:none;font-weight:bold;">Upgrade <i class="fas fa-arrow-right"></i></a>`;
                         }
                         tierEl.innerHTML = tierHtml;
                     }

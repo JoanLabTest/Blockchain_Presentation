@@ -2101,22 +2101,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             };
         };
 
-        // --- IDENTITY FORCE (PHASE 121.2) ---
-        (function() {
-            const profileStr = localStorage.getItem('dcm_user_profile');
-            if (profileStr) {
-                try {
-                    const u = JSON.parse(profileStr);
-                    const name = (u.email === 'joanlyczak@gmail.com') ? 'Joan' : (u.name || 'Utilisateur');
-                    const greet = document.getElementById('user-greeting');
-                    if (greet) {
-                        greet.innerText = `Bienvenue, ${name} 👋`;
-                        console.log('💎 Flash Identity: Greeting forced to ' + name);
-                    }
-                } catch(e) {}
-            }
-        })();
-
         document.addEventListener('DOMContentLoaded', async () => {
 
             // Always make body visible immediately
@@ -2211,10 +2195,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     }
                 }
 
-                // 2. Populate Header
+                // 2. Populate Header (Phase 128: Joan-Aware)
                 if (user) {
+                    const isJoan = (user.email === 'joanlyczak@gmail.com');
+                    const name = isJoan ? 'Joan' : (user.name || 'Utilisateur');
                     const greetEl = document.getElementById('user-greeting');
-                    if (greetEl) greetEl.innerText = `Bienvenue, ${user.name} 👋`;
+                    if (greetEl) greetEl.innerText = `Bienvenue, ${name} 👋`;
                     const roleEl = document.getElementById('user-role');
                     if (roleEl) roleEl.innerHTML = `<i class="fas fa-user-shield"></i> ${user.role}`;
                     const jurisdEl = document.getElementById('user-jurisdiction');
