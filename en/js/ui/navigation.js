@@ -144,7 +144,8 @@ const NavigationManager = {
         const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
         const tierColor = tierColors[user.subscription_tier] || '#64748b';
         const rawTier = (user.subscription_tier || 'free');
-        const tierLabel = rawTier === 'enterprise' ? 'PRO FULL ACCESS' : rawTier.toUpperCase();
+        let tierLabel = rawTier === 'enterprise' ? 'PRO FULL ACCESS' : rawTier.toUpperCase();
+        if (tierLabel === 'FREE') { tierLabel = 'FREE PLAN'; }
 
         // Improve Name Display: extraction of first name / clean fallback
         let userName = (user.name || user.email?.split('@')[0] || 'User').trim();
