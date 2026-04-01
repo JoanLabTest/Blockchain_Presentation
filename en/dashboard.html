@@ -2232,17 +2232,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             // Always make body visible immediately
             document.body.classList.add('loaded');
 
-            // --- IDENTITY HUD FORCE (PHASE 128: Resilience) ---
+            // --- IDENTITY HUD FORCE (PHASE 128: Dynamic Personalization) ---
             try {
                 const profileStr = localStorage.getItem('dcm_user_profile');
                 if (profileStr) {
                     const u = JSON.parse(profileStr);
                     const isJoan = (u.email === 'joanlyczak@gmail.com');
-                    const name = isJoan ? 'Joan' : (u.name || 'User');
+                    let name = isJoan ? 'Joan' : (u.name || 'User').trim();
+                    if (name.includes(' ')) name = name.split(' ')[0]; // First name logic
+                    
                     const greetEl = document.getElementById('user-greeting');
                     if (greetEl) greetEl.innerText = `Welcome back, ${name} 👋`;
+                    
+                    const sideNameEl = document.getElementById('side-user-name');
+                    if (sideNameEl) sideNameEl.innerText = name;
+
                     const sideTier = document.getElementById('side-user-role');
-                    if (sideTier && isJoan) sideTier.innerText = 'PRO FULL ACCESS';
+                    if (sideTier) sideTier.innerText = isJoan ? 'PRO FULL ACCESS' : (u.subscription_tier?.toUpperCase() || 'FREE');
                 }
             } catch(e) { console.warn('Identity Force skipped:', e); }
 
