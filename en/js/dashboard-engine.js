@@ -136,9 +136,11 @@ Object.assign(DashboardEngine, {
         const sideUserName = document.getElementById('side-user-name');
         const sideUserRole = document.getElementById('side-user-role');
 
+        const defaultRole = segment === 'enterprise' ? 'Institutional Analyst' : 'Analyst';
+        const displayRole = isJoan ? 'PRO FULL ACCESS' : (userProfile.subscription_tier?.toUpperCase() || userProfile.role?.toUpperCase() || defaultRole);
+
         if (sideUserName) sideUserName.innerText = userName;
-        if (sideUserRole) sideUserRole.innerText = isJoan ? 'PRO FULL ACCESS' : (userProfile.subscription_tier?.toUpperCase() || 'FREE');
-        
+        if (sideUserRole) sideUserRole.innerText = displayRole;
         if (greeting) {
             // Force master greeting
             if (isJoan) {
