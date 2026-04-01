@@ -11,6 +11,12 @@ const _sb = () => window.supabase;
 //  SUPABASE DATA LAYER
 // ============================================================
 
+const DashboardEngine = {
+    // Phase 122: Global Exposure (Absolute Priority)
+    __version: "4.3.2",
+};
+window.DashboardEngine = DashboardEngine;
+
 const SupabaseData = {
 
     /**
@@ -252,14 +258,12 @@ const Adapters = {
 //  MAIN DASHBOARD ENGINE
 // ============================================================
 
-const DashboardEngine = {
-    // Phase 121: Pre-Initialization Global Exposure
-    __version: "4.3.1",
-
+// Re-open object for population (preventing 'undefined' on early calls)
+Object.assign(DashboardEngine, {
     /**
      * Institutional Stress Test Trigger (Phase 127)
      */
-    runInstitutionalStressTest: async (network) => {
+    runInstitutionalStressTest: async function(network) {
         const activeUser = SessionManager.profile || { id: 'demo-user', org_id: 'dcm-demo' };
 
         // Paramètres de base (Bonds Tokenisés)
@@ -1247,7 +1251,4 @@ const DashboardEngine = {
 
     // --- PUBLIC API for external modules ---
     SupabaseData
-};
-
-// Expose globally
-window.DashboardEngine = DashboardEngine;
+});

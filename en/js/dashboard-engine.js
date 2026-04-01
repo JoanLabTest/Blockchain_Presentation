@@ -20,11 +20,14 @@ if (!window.DashboardEngine) {
 // ============================================================
 
 const DashboardEngine = {
-    // Phase 121: Pre-Initialization Global Exposure
-    __version: "4.3.1",
-    // Phase 117: Exporting early to prevent 'undefined' on local file protocol failures
+    // Phase 122: Global Exposure (Absolute Priority)
+    __version: "4.3.2",
 };
 window.DashboardEngine = DashboardEngine;
+
+const SupabaseData = {
+
+// Phase 117: Exporting early to prevent 'undefined' on local file protocol failures
 
 const SupabaseData = {
 
@@ -285,8 +288,12 @@ const Adapters = {
 };
 
 // ============================================================
-//  MAIN DASHBOARD ENGINE
-// ============================================================
+// Re-open object for population (preventing 'undefined' on early calls)
+Object.assign(DashboardEngine, {
+    /**
+     * Institutional Stress Test Trigger (Phase 127)
+     */
+    runInstitutionalStressTest: async function(network) {
 
 Object.assign(DashboardEngine, {
 
