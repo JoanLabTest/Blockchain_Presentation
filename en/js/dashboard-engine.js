@@ -170,9 +170,12 @@ Object.assign(DashboardEngine, {
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         console.log("🚀 DashboardEngine: Dynamic personalization active (v4.3.2-stable).");
+        
+        // Phase 128: Immediate Identity Force before data load
+        DashboardEngine.applyRoleVisibility(localStorage.getItem('dcm_segment') || 'student');
+        
         const data = await DashboardEngine.loadData();
         DashboardEngine.initCharts(data);
-        DashboardEngine.applyRoleVisibility(localStorage.getItem('dcm_segment') || 'student');
         DashboardEngine.renderSimulationTable(data.simulations);
         DashboardEngine.renderTimeline(data.timeline);
     } catch (e) {
