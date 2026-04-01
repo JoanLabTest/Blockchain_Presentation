@@ -45,11 +45,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script>
         // AUTH GUARD (Hardened Iteration 4)
         window.addEventListener('DOMContentLoaded', async () => {
-            // Failsafe: Ensure page is shown after 3 seconds even if script hangs
+            // Failsafe: Ensure page is shown after 8 seconds even if script hangs
             const failsafe = setTimeout(() => {
                 document.documentElement.style.visibility = '';
                 console.warn('⚠️ Auth guard timeout: Failsafe triggered.');
-            }, 3000);
+            }, 8000);
     if (window.SessionManager) {
                 await window.SessionManager.protectRoute();
                 clearTimeout(failsafe);
@@ -2260,7 +2260,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 const rawSegment = localStorage.getItem('dcm_user_role') === 'ADMIN' ? 'enterprise'
                     : localStorage.getItem('dcm_segment') || 'student';
 
-                const segment = window.SegmentManager?.detectSegment?.() || rawSegment;
+                let segment = window.SegmentManager?.detectSegment?.() || rawSegment;
                 document.body.setAttribute('data-segment', segment);
                 console.log(`🚀 SaaS Mode Active: ${segment.toUpperCase()}`);
 
@@ -2274,10 +2274,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 // --- DEPRECATED: NavigationOrchestrator now handles the sequence ---
                 // if (window.NavigationManager) { ... }
 
-                // Sync Module Visibility
-                if (window.DashboardEngine?.applyRoleVisibility) {
-                    window.DashboardEngine.applyRoleVisibility(segment);
-                }
+                // Sync Module Visibility (Postponed until profile check)
+                const syncUIVisibility = (seg) => {
+                    if (window.DashboardEngine?.applyRoleVisibility) {
+                        window.DashboardEngine.applyRoleVisibility(seg);
+                    }
+                };
 
                 // Stress Test Factory Gating
                 if (segment === 'enterprise') {
@@ -2290,11 +2292,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 if (window.SessionManager) {
                     try {
                         user = await window.SessionManager.init();
+                        // Synchronize segment immediately with initialized user
+                        segment = user.subscription_tier || 'free';
                         // Bridge: Ensure verified profile is exposed for immediate HUD/Sidebar reactive updates
                         window.SessionManager.__verifiedProfile = user;
+                        // Execute UI Visibility with verified segment
+                        syncUIVisibility(segment);
                     } catch (e) {
                         console.warn('Session init skipped:', e);
+                        syncUIVisibility(segment); // Fallback to current segment
                     }
+                } else {
+                    syncUIVisibility(segment);
                 }
 
                 // Upgrade polling
@@ -2314,7 +2323,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 // 2. Populate Header
                 if (user) {
                     const greetEl = document.getElementById('user-greeting');
-                    if (greetEl) greetEl.innerText = `Welcome back, ${user.name}`;
+                    if (greetEl) greetEl.innerText = `Welcome back, ${user.name} 👋`;
                     const roleEl = document.getElementById('user-role');
                     if (roleEl) roleEl.innerHTML = `<i class="fas fa-user-shield"></i> ${user.role}`;
                     const jurisdEl = document.getElementById('user-jurisdiction');

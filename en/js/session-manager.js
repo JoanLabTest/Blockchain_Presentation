@@ -122,18 +122,19 @@ const SessionManager = {
             lastLogin: new Date().toISOString()
         };
 
-        // 🎭 MASTER ACCESS — only for confirmed Supabase email
+        // 🎭 MASTER ACCESS — (Phase 62: Priority Restoration)
         const MASTER_EMAIL = 'joanlyczak@gmail.com';
         const userEmail = user.email ? user.email.toLowerCase() : '';
         
         if (userEmail === MASTER_EMAIL.toLowerCase()) {
             console.info('SessionManager: 🎭 MASTER ACCESS for ' + userEmail);
-            profile.name = 'Joan'; // Force display name for master
+            profile.name = 'Joan';
             profile.role = 'ADMIN';
             profile.subscription_tier = 'enterprise';
+            profile.subscription_status = 'active';
+            profile.admin_override = true;
             profile.org_id = 'dcm-master-org';
 
-            // Activate master patches via dev-unlock hook (conditional, post-auth)
             if (typeof window.__activateMasterMode === 'function') {
                 window.__activateMasterMode(userEmail);
             }

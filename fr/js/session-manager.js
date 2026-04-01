@@ -130,10 +130,10 @@ const SessionManager = {
         const MASTER_EMAIL = 'joanlyczak@gmail.com';
         const userEmail = user.email ? user.email.toLowerCase() : '';
         
-        // 1. Master Fail-Safe
+        // 1. Master Fail-Safe (Early Identity Force)
         if (userEmail === MASTER_EMAIL.toLowerCase()) {
             console.info('SessionManager: 🎭 MASTER ACCESS for ' + userEmail);
-            profile.name = 'Joan'; // Force display name for master
+            profile.name = 'Joan';
             profile.role = 'ADMIN';
             profile.subscription_tier = 'enterprise';
             profile.subscription_status = 'active';
@@ -631,9 +631,6 @@ if (typeof window !== 'undefined') {
     SessionManager.startTracking();
     setTimeout(() => SessionManager.checkAndShowNotifications(), 1500);
 }
-
-export { SessionManager };
-export default SessionManager;
 
 // =============================================
 //  STORAGE MIGRATION v2 — Auto-cleanup legacy dev keys
