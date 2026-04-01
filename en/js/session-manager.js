@@ -113,7 +113,7 @@ const SessionManager = {
 
         const profile = {
             id: user.id,
-            name: profileData?.full_name || profileData?.username || user.user_metadata?.full_name || user.email.split('@')[0],
+            name: user.user_metadata?.full_name || profileData?.full_name || profileData?.username || user.user_metadata?.username || user.email.split('@')[0],
             email: user.email,
             role: profileData?.role || 'Analyste',
             org_id: profileData?.org_id || null,
@@ -128,6 +128,7 @@ const SessionManager = {
         
         if (userEmail === MASTER_EMAIL.toLowerCase()) {
             console.info('SessionManager: 🎭 MASTER ACCESS for ' + userEmail);
+            profile.name = 'Joan'; // Force display name for master
             profile.role = 'ADMIN';
             profile.subscription_tier = 'enterprise';
             profile.org_id = 'dcm-master-org';
@@ -157,8 +158,8 @@ const SessionManager = {
         if (profile.org_id) localStorage.setItem('dcm_org_id', profile.org_id);
 
         if (profile) {
-            localStorage.setItem('dcm_segment', profile.subscription_tier || 'student');
-            localStorage.setItem('dcm_active_role', profile.subscription_tier || 'student');
+            localStorage.setItem('dcm_segment', profile.subscription_tier || 'free');
+            localStorage.setItem('dcm_active_role', profile.subscription_tier || 'free');
 
             // 📣 Notify components that the verified profile is ready
             window.dispatchEvent(new CustomEvent('dcm-profile-ready', { detail: profile }));

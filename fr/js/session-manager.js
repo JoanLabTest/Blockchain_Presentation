@@ -113,7 +113,7 @@ const SessionManager = {
 
         const profile = {
             id: user.id,
-            name: profileData?.full_name || profileData?.username || user.user_metadata?.full_name || user.email.split('@')[0],
+            name: user.user_metadata?.full_name || profileData?.full_name || profileData?.username || user.user_metadata?.username || user.email.split('@')[0],
             email: user.email,
             role: profileData?.role || 'Analyste',
             org_id: profileData?.org_id || null,
@@ -133,6 +133,7 @@ const SessionManager = {
         // 1. Master Fail-Safe
         if (userEmail === MASTER_EMAIL.toLowerCase()) {
             console.info('SessionManager: 🎭 MASTER ACCESS for ' + userEmail);
+            profile.name = 'Joan'; // Force display name for master
             profile.role = 'ADMIN';
             profile.subscription_tier = 'enterprise';
             profile.subscription_status = 'active';
@@ -164,8 +165,8 @@ const SessionManager = {
         if (profile.org_id) localStorage.setItem('dcm_org_id', profile.org_id);
 
         if (profile) {
-            localStorage.setItem('dcm_segment', profile.subscription_tier || 'student');
-            localStorage.setItem('dcm_active_role', profile.subscription_tier || 'student');
+            localStorage.setItem('dcm_segment', profile.subscription_tier || 'free');
+            localStorage.setItem('dcm_active_role', profile.subscription_tier || 'free');
 
             // --- PHASE 85: SYNC LEGACY DATA ---
             setTimeout(() => SessionManager.syncLegacyData(profile), 1000);

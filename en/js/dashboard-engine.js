@@ -713,7 +713,7 @@ Object.assign(DashboardEngine, {
         const sideUserName = document.getElementById('side-user-name');
         const sideUserRole = document.getElementById('side-user-role');
 
-        const userProfile = window.SessionManager.getCurrentUser() || {};
+        const userProfile = window.SessionManager?.getCurrentUser() || {};
         let userName = (userProfile.name || 'User').trim();
         // Extract first name if it's a full name
         if (userName && userName.includes(' ')) {
@@ -723,7 +723,7 @@ Object.assign(DashboardEngine, {
         const userRole = userProfile.role || (segment === 'enterprise' ? 'Institutional Analyst' : 'Analyst');
 
         if (sideUserName) sideUserName.innerText = userName;
-        if (sideUserRole) sideUserRole.innerText = userRole;
+        if (sideUserRole) sideUserRole.innerText = userProfile.email || userRole;
 
         if (greeting) {
             const segmentGreetings = {

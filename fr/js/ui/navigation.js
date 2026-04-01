@@ -141,7 +141,9 @@ const NavigationManager = {
         const user = window.SessionManager?.getCurrentUser?.() || window.SessionManager?.__verifiedProfile || {};
         const tierColors = { enterprise: '#f59e0b', institutional: '#f59e0b', pro: '#3b82f6', free: '#64748b' };
         const tierColor = tierColors[user.subscription_tier] || '#64748b';
-        const tierLabel = (user.subscription_tier || 'free').toUpperCase();
+        const rawTier = (user.subscription_tier || 'free');
+        const tierLabel = rawTier === 'enterprise' ? 'PRO ACCÈS TOTAL' : rawTier.toUpperCase();
+        if (tierLabel === 'FREE') { tierLabel = 'VERSION GRATUITE'; }
         // Improve Name Display: extraction of first name / clean fallback
         let userName = (user.name || user.email?.split('@')[0] || 'Utilisateur').trim();
         // If it's a full name, try to extract the first name (e.g. "John Smith" -> "John")
@@ -173,7 +175,7 @@ const NavigationManager = {
                 </a>
             </li>
             <li style="list-style: none;">
-                <a href="#" class="nav-item" style="color:#ef4444" onclick="event.preventDefault(); window.SessionManager.logout()">
+                <a href="#" class="nav-item" style="color:#ef4444" onclick="event.preventDefault(); if(window.SessionManager) { window.SessionManager.logout(); } else { console.error('SessionManager not found'); window.location.href='login.html'; }">
                     <i class="fas fa-sign-out-alt"></i> Déconnexion
                 </a>
             </li>
