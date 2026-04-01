@@ -451,7 +451,7 @@ const DashboardEngine = {
     // ============================================================
     //  CHART RENDERING (unchanged API, upgraded colors)
     // ============================================================
-    initCharts: (data) => {
+    initCharts(data) {
         // RADAR CHART
         const ctxRadar = document.getElementById('radarChart');
         if (ctxRadar) {
@@ -1143,7 +1143,7 @@ const DashboardEngine = {
         document.body.appendChild(modal);
     },
 
-    renderTimeline: (events) => {
+    renderTimeline(events) {
         const container = document.getElementById('activity-timeline');
         if (!container) return;
         container.innerHTML = events.map(ev => `

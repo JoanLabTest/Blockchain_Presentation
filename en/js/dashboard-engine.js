@@ -504,7 +504,7 @@ Object.assign(DashboardEngine, {
     // ============================================================
     //  CHART RENDERING (unchanged API, upgraded colors)
     // ============================================================
-    initCharts: (data) => {
+    initCharts(data) {
         // RADAR CHART
         const ctxRadar = document.getElementById('radarChart');
         if (ctxRadar) {
