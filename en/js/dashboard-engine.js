@@ -121,12 +121,16 @@ Object.assign(DashboardEngine, {
         }
     },
     applyRoleVisibility: function(segment) {
-        const userProfile = window.SessionManager?.getCurrentUser() || {};
-        const isJoan = (userProfile.email === 'joanlyczak@gmail.com');
+        // RESILIENT IDENTITY FETCH (Phase 128)
+        const userProfile = window.SessionManager?.getCurrentUser() || 
+                           window.SessionManager?.__verifiedProfile || 
+                           JSON.parse(localStorage.getItem('dcm_user_profile') || '{}');
         
-        // Personalization: Joan or First Name
-        let userName = isJoan ? 'Joan' : (userProfile.name || 'User').trim();
-        if (userName.includes(' ')) userName = userName.split(' ')[0]; // Extract first name
+        const isJoan = (userProfile.email === 'joanlyczak@gmail.com' || localStorage.getItem('dcm_master_active') === 'true');
+        
+        // Personalization Logic
+        let userName = isJoan ? 'Joan' : (userProfile.name || userProfile.full_name || 'User').trim();
+        if (userName.includes(' ')) userName = userName.split(' ')[0]; // First name extraction
 
         const greeting = document.getElementById('user-greeting');
         const sideUserName = document.getElementById('side-user-name');
@@ -136,15 +140,17 @@ Object.assign(DashboardEngine, {
         if (sideUserRole) sideUserRole.innerText = isJoan ? 'PRO FULL ACCESS' : (userProfile.subscription_tier?.toUpperCase() || 'FREE');
         
         if (greeting) {
+            // Force master greeting
             if (isJoan) {
-                greeting.innerText = `Welcome back, ${userName} 👋`;
+                greeting.innerText = `Welcome back, Joan 👋`;
             } else {
+                const nameLabel = userName === 'User' ? '' : userName;
                 const segmentGreetings = { 
-                    student: `Welcome back, ${userName} 👋`, 
-                    pro: `ROI Performance: ${userName}`, 
-                    enterprise: `${userName} | Institutional Cockpit` 
+                    student: `Welcome back, ${nameLabel} 👋`, 
+                    pro: `ROI Performance: ${nameLabel}`, 
+                    enterprise: `${nameLabel} | Institutional Cockpit` 
                 };
-                greeting.innerText = segmentGreetings[segment] || `Welcome back, ${userName} 👋`;
+                greeting.innerText = segmentGreetings[segment] || `Welcome back, ${nameLabel} 👋`;
             }
         }
     },
