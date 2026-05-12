@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="DCM Core Intelligence Hub — unified command center for the Institutional Market Monitor, Risk Radar, and Case Studies."/>
+    <title>Hub d'Intelligence DCM | Centre de Commande | DCM Core</title>
+    <link rel="canonical" href="https://dcmcore.com/en/intelligence/hub.html"/>
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/en/intelligence/hub.html"/>
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/intelligence/hub.html"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+    <link href="../../styles.css" rel="stylesheet"/>
+    <link href="../../css/navigation-hub.css" rel="stylesheet"/>
+    <link href="../../css/styles-monitor.css" rel="stylesheet"/>
+    <link href="../../css/styles-hub.css" rel="stylesheet"/>
+    <script src="../../js/navigation-hub.js"></script>
+    <script src="../js/global-footer.js"></script>
+</head>
+<body class="monitor-mode">
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- TOPNAV -->
+<nav class="navbar-pro" style="background:rgba(3,7,18,0.98);border-bottom:1px solid rgba(255,255,255,0.05);position:fixed;top:0;z-index:200;width:100%;">
+    <a class="nav-brand" href="../index.html">
+        <div class="logo-orb" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);"></div>
+        <div class="logo-text">DCM <span>Intelligence</span></div>
+    </a>
+    <div style="display:flex;align-items:center;gap:12px;">
+        <!-- Recherche trigger -->
+        <button id="search-trigger" onclick="document.getElementById('search-overlay').style.display='flex'" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid var(--term-border);border-radius:6px;padding:6px 14px;color:var(--term-text-muted);font-size:13px;cursor:pointer;font-family:var(--font-sans);">
+            <i class="fas fa-search" style="font-size:11px;"></i> Recherche
+            <span style="font-family:var(--font-mono);font-size:10px;background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:3px;">⌘K</span>
+        </button>
+        <div class="lang-switcher">
+            <a href="../../fr/intelligence/../../en/intelligence/hub.html" class="lang-link">EN</a>
+            <a href="hub.html" class="lang-link active">FR</a>
+        </div>
+    </div>
+</nav>
+
+<!-- SEARCH OVERLAY -->
+<div id="search-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;align-items:flex-start;justify-content:center;padding-top:120px;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
+    <div style="width:100%;max-width:640px;padding:0 20px;">
+        <div style="background:#111827;border:1px solid rgba(59,130,246,0.4);border-radius:12px;overflow:hidden;">
+            <div style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--term-border);">
+                <i class="fas fa-search" style="color:var(--term-text-sub);"></i>
+                <input id="hub-search-input" type="text" placeholder="Recherche entities, protocols, research…" style="flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:16px;font-family:var(--font-sans);" oninput="hubSearch(this.value)"/>
+                <kbd style="font-family:var(--font-mono);font-size:11px;color:var(--term-text-sub);border:1px solid var(--term-border);padding:2px 6px;border-radius:4px;">ESC</kbd>
+            </div>
+            <div id="search-results" style="padding:8px;max-height:400px;overflow-y:auto;">
+                <div style="padding:12px 16px;font-size:12px;color:var(--term-text-sub);">Recherchez dans Monitor, Radar de Risques, Entités et Recherches…</div>
+            </div>
+            <div style="padding:10px 20px;border-top:1px solid var(--term-border);display:flex;gap:16px;font-size:11px;color:var(--term-text-sub);">
+                <span><kbd style="font-family:var(--font-mono);border:1px solid var(--term-border);padding:1px 5px;border-radius:3px;">↑↓</kbd> navigate</span>
+                <span><kbd style="font-family:var(--font-mono);border:1px solid var(--term-border);padding:1px 5px;border-radius:3px;">↵</kbd> open</span>
+                <span><kbd style="font-family:var(--font-mono);border:1px solid var(--term-border);padding:1px 5px;border-radius:3px;">ESC</kbd> close</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- HUB LAYOUT -->
+<div class="hub-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="hub-sidebar">
+        <div class="hub-sidebar-section">
+            <div class="hub-sidebar-label">Intelligence</div>
+            <a href="hub.html" class="hub-nav-link active"><i class="fas fa-th-large"></i> Centre de Commande</a>
+            <a href="../observatory/global-tokenization-monitor.html" class="hub-nav-link"><i class="fas fa-chart-line"></i> Market Monitor</a>
+            <a href="../observatory/risk-radar.html" class="hub-nav-link"><i class="fas fa-radar"></i> Risk Radar</a>
+        </div>
+        <div class="hub-sidebar-section">
+            <div class="hub-sidebar-label">Research</div>
+            <a href="../case-studies/blackrock-buidl.html" class="hub-nav-link"><i class="fas fa-file-alt"></i> Case Studies</a>
+            <a href="../research-programs/index.html" class="hub-nav-link"><i class="fas fa-flask"></i> Research Programs</a>
+        </div>
+        <div class="hub-sidebar-section">
+            <div class="hub-sidebar-label">Entities</div>
+            <a href="#entities" class="hub-nav-link"><i class="fas fa-building"></i> Institutions</a>
+            <a href="#entities" class="hub-nav-link"><i class="fas fa-network-wired"></i> Networks</a>
+            <a href="#entities" class="hub-nav-link"><i class="fas fa-coins"></i> Assets</a>
+        </div>
+        <div class="hub-sidebar-section">
+            <div class="hub-sidebar-label">System</div>
+            <a href="../index.html" class="hub-nav-link"><i class="fas fa-globe"></i> DCM Core Site</a>
+            <a href="../login.html" class="hub-nav-link"><i class="fas fa-lock"></i> Terminal Login</a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="hub-main">
+
+        <!-- TOP BAR -->
+        <div class="hub-topbar">
+            <div>
+                <div class="hub-title">Hub d'Intelligence DCM</div>
+                <div class="hub-subtitle">Centre de commande unifié — Monitor · Risque · Recherche · Entités</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span class="method-badge" title="Données illustratives. Source : DCM Core Research Desk. Mise à jour : 12-05-2026.">
+                    <i class="fas fa-info-circle"></i> Méthodologie
+                </span>
+                <div class="status-indicator"><div class="live-dot"></div>Système Actif</div>
+            </div>
+        </div>
+
+        <!-- 3 PILLAR WIDGETS -->
+        <div class="hub-grid">
+            <!-- Market Monitor Widget -->
+            <a href="../observatory/global-tokenization-monitor.html" class="hub-widget">
+                <i class="hub-widget-arrow fas fa-arrow-up-right-from-square"></i>
+                <div class="hub-widget-icon" style="background:rgba(59,130,246,0.15);color:#3b82f6;"><i class="fas fa-chart-line"></i></div>
+                <div class="hub-widget-title">Institutional Market Monitor</div>
+                <div class="hub-widget-desc">Real-time macro view of tokenized assets, DLT issuances, and network activity.</div>
+                <div class="hub-widget-kpi" style="color:#3b82f6;">$12.44B</div>
+                <div class="hub-widget-meta">Actifs Tokenisés</div>
+            </a>
+
+            <!-- Risk Radar Widget -->
+            <a href="../observatory/risk-radar.html" class="hub-widget">
+                <i class="hub-widget-arrow fas fa-arrow-up-right-from-square"></i>
+                <div class="hub-widget-icon" style="background:rgba(245,158,11,0.15);color:#f59e0b;"><i class="fas fa-radar"></i></div>
+                <div class="hub-widget-title">Digital Asset Risk Radar</div>
+                <div class="hub-widget-desc">Institutional risk taxonomy across TECH · CUST · LEGAL · LIQ vectors.</div>
+                <div class="hub-widget-kpi" style="color:#f59e0b;">6 Assets</div>
+                <div class="hub-widget-meta">Sous Surveillance</div>
+            </a>
+
+            <!-- Case Studies Widget -->
+            <a href="../case-studies/blackrock-buidl.html" class="hub-widget">
+                <i class="hub-widget-arrow fas fa-arrow-up-right-from-square"></i>
+                <div class="hub-widget-icon" style="background:rgba(139,92,246,0.15);color:#8b5cf6;"><i class="fas fa-file-alt"></i></div>
+                <div class="hub-widget-title">Institutional Case Studies</div>
+                <div class="hub-widget-desc">Deep-dive autopsies of landmark tokenization projects and legal structures.</div>
+                <div class="hub-widget-kpi" style="color:#8b5cf6;">1 Active</div>
+                <div class="hub-widget-meta">DCM-CS-2026-01 · BUIDL</div>
+            </a>
+        </div>
+
+        <!-- SIGNALS + RECENT ISSUANCES -->
+        <div class="hub-signals">
+
+            <!-- DCM Insight -->
+            <div class="monitor-panel" style="border-left:3px solid #3b82f6;background:rgba(59,130,246,0.05);">
+                <div class="monitor-panel-header">
+                    <div class="monitor-panel-title"><i class="fas fa-bolt" style="color:#3b82f6;"></i> DCM Signal · 2026-05-12</div>
+                    <span class="method-badge" title="Analyse éditoriale hebdomadaire du Bureau de Recherche DCM Core."><i class="fas fa-info-circle"></i> Weekly</span>
+                </div>
+                <p style="font-size:14px;line-height:1.7;color:#e2e8f0;margin:0;">
+                    European institutional adoption shifts from proof-of-concept to production infrastructure. The surge in tokenized treasuries (&gt;$2B) is driving demand for atomic settlement layers and compliant wholesale stablecoins ahead of full MiCA implementation.
+                </p>
+                <div style="margin-top:12px;font-family:var(--font-mono);font-size:10px;color:var(--term-text-sub);">ANALYST: DCM RESEARCH DESK</div>
+            </div>
+
+            <!-- Émissions Récentes mini-table -->
+            <div class="monitor-panel">
+                <div class="monitor-panel-header">
+                    <div class="monitor-panel-title"><i class="fas fa-file-invoice-dollar"></i> Émissions Récentes</div>
+                    <a href="../observatory/global-tokenization-monitor.html" style="font-size:11px;color:var(--term-blue);text-decoration:none;font-weight:600;">Voir tout →</a>
+                </div>
+                <table class="term-table">
+                    <tbody>
+                        <tr>
+                            <td class="cell-mono" style="color:var(--term-text-sub);font-size:11px;">2026-05-10</td>
+                            <td style="font-size:13px;">SG Forge</td>
+                            <td class="cell-mono" style="text-align:right;color:var(--term-green);">€10M</td>
+                        </tr>
+                        <tr>
+                            <td class="cell-mono" style="color:var(--term-text-sub);font-size:11px;">2026-04-28</td>
+                            <td style="font-size:13px;">Siemens AG</td>
+                            <td class="cell-mono" style="text-align:right;color:var(--term-green);">€300M</td>
+                        </tr>
+                        <tr>
+                            <td class="cell-mono" style="color:var(--term-text-sub);font-size:11px;">2026-04-15</td>
+                            <td style="font-size:13px;">EIB</td>
+                            <td class="cell-mono" style="text-align:right;color:var(--term-green);">£50M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ENTITY QUICK ACCESS -->
+        <div id="entities" class="monitor-panel">
+            <div class="monitor-panel-header">
+                <div class="monitor-panel-title"><i class="fas fa-building"></i> Registre des Entités</div>
+                <span class="method-badge"><i class="fas fa-info-circle"></i> DCM-ENTITY-V1.0</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">
+
+                <div class="hub-entity-pill">
+                    <span class="hub-entity-type type-inst">INST</span>
+                    <div><div class="hub-entity-name">BlackRock</div><div style="font-size:10px;color:var(--term-text-sub);">Gestion d'Actifs</div></div>
+                    <span class="hub-entity-grade grade-a risk-grade-badge">A</span>
+                </div>
+                <div class="hub-entity-pill">
+                    <span class="hub-entity-type type-inst">INST</span>
+                    <div><div class="hub-entity-name">JPMorgan Onyx</div><div style="font-size:10px;color:var(--term-text-sub);">Banque Commerciale</div></div>
+                    <span class="hub-entity-grade grade-aa risk-grade-badge">AA</span>
+                </div>
+                <div class="hub-entity-pill">
+                    <span class="hub-entity-type type-inst">INST</span>
+                    <div><div class="hub-entity-name">Circle</div><div style="font-size:10px;color:var(--term-text-sub);">Infra Finance Digitale</div></div>
+                    <span class="hub-entity-grade grade-aa risk-grade-badge">AA</span>
+                </div>
+                <div class="hub-entity-pill">
+                    <span class="hub-entity-type type-inst">INST</span>
+                    <div><div class="hub-entity-name">SG Forge</div><div style="font-size:10px;color:var(--term-text-sub);">Banque d'Investissement</div></div>
+                    <span class="hub-entity-grade grade-a risk-grade-badge">A</span>
+                </div>
+                <div class="hub-entity-pill">
+                    <span class="hub-entity-type type-net">NET</span>
+                    <div><div class="hub-entity-name">Canton Network</div><div style="font-size:10px;color:var(--term-text-sub);">Infrastructure DLT</div></div>
+                    <span class="hub-entity-grade grade-aa risk-grade-badge">AA</span>
+                </div>
+                <div class="hub-entity-pill">
+                    <span class="hub-entity-type type-net">NET</span>
+                    <div><div class="hub-entity-name">Fnality</div><div style="font-size:10px;color:var(--term-text-sub);">Règlement de Gros</div></div>
+                    <span class="hub-entity-grade grade-a risk-grade-badge">A</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- METHODOLOGY FOOTER -->
+        <div class="methodology-bar" style="margin-top:20px;">
+            <div class="methodology-text">
+                <strong>Data Governance:</strong> All data displayed in the Hub d'Intelligence DCM is aggregated from an illustrative research dataset maintained by the DCM Core Research Desk. Figures are sourced from public pilot announcements, BIS working papers, ESMA registries, and modelled estimates. Updated weekly. Not financial advice.
+            </div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--term-text-sub);text-align:right;">
+                DCM-HUB-V1.0 · CONFIDENTIALITY: PUBLIC
+            </div>
+        </div>
+
+    </main>
+
+    <!-- RIGHT CONTEXT PANEL -->
+    <aside class="hub-context">
+        <div class="hub-context-title">Accès Rapide</div>
+
+        <div style="margin-bottom:20px;">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--term-text-sub);margin-bottom:10px;font-weight:700;">Notations de Risque</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 0;border-bottom:1px solid var(--term-border);">
+                    <span style="color:var(--term-text-main);">JPM Coin</span>
+                    <span class="risk-grade-badge grade-aa" style="width:32px;height:20px;font-size:11px;">AA</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 0;border-bottom:1px solid var(--term-border);">
+                    <span style="color:var(--term-text-main);">USDC</span>
+                    <span class="risk-grade-badge grade-aa" style="width:32px;height:20px;font-size:11px;">AA</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 0;border-bottom:1px solid var(--term-border);">
+                    <span style="color:var(--term-text-main);">BUIDL</span>
+                    <span class="risk-grade-badge grade-a" style="width:32px;height:20px;font-size:11px;">A</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 0;">
+                    <span style="color:var(--term-text-main);">USDT</span>
+                    <span class="risk-grade-badge grade-bb" style="width:32px;height:20px;font-size:11px;">BB</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--term-text-sub);margin-bottom:10px;font-weight:700;">Index de Recherche</div>
+            <a href="../case-studies/blackrock-buidl.html" style="display:block;padding:10px;background:rgba(255,255,255,0.02);border:1px solid var(--term-border);border-radius:6px;text-decoration:none;margin-bottom:8px;">
+                <div style="font-family:var(--font-mono);font-size:10px;color:var(--term-text-sub);margin-bottom:4px;">DCM-CS-2026-01</div>
+                <div style="font-size:12px;color:#e2e8f0;font-weight:500;line-height:1.4;">BlackRock BUIDL Autopsy</div>
+            </a>
+        </div>
+
+        <div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--term-text-sub);margin-bottom:10px;font-weight:700;">KPIs Marché</div>
+            <div style="font-family:var(--font-mono);font-size:11px;">
+                <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--term-border);color:var(--term-text-muted);">
+                    <span>RWA TVL</span><span style="color:var(--term-green);">$12.44B</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--term-border);color:var(--term-text-muted);">
+                    <span>Cap. Stablecoin</span><span style="color:#fff;">$148.2B</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:5px 0;color:var(--term-text-muted);">
+                    <span>Activité Réseau</span><span style="color:var(--term-green);">HIGH</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+</div><!-- end hub-layout -->
+
+<script>
+    // ⌘K / Ctrl+K shortcut
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('search-overlay').style.display = 'flex';
+            setTimeout(() => document.getElementById('hub-search-input').focus(), 50);
+        }
+        if (e.key === 'Escape') document.getElementById('search-overlay').style.display = 'none';
+    });
+
+    const SEARCH_INDEX = [
+        { title:'Market Monitor', category:'Monitor', url:'../observatory/global-tokenization-monitor.html', desc:'Real-time tokenized asset KPIs and DLT issuances' },
+        { title:'Risk Radar', category:'Monitor', url:'../observatory/risk-radar.html', desc:'Institutional risk taxonomy AAA–C' },
+        { title:'BlackRock BUIDL Autopsy', category:'Research', url:'../case-studies/blackrock-buidl.html', desc:'DCM-CS-2026-01 · Tokenized MMF architecture' },
+        { title:'BlackRock', category:'Entity', url:'#entities', desc:'BLACKROCK · Grade A · Gestion d'Actifs' },
+        { title:'Circle / USDC', category:'Entity', url:'#entities', desc:'CIRCLE · Grade AA · Infra Finance Digitale' },
+        { title:'JPMorgan Onyx', category:'Entity', url:'#entities', desc:'JPM-ONYX · Grade AA · Banque Commerciale' },
+        { title:'Canton Network', category:'Entity', url:'#entities', desc:'CANTON · Grade AA · Infrastructure DLT' },
+        { title:'USDC Risk Profile', category:'Risk', url:'../observatory/risk-radar.html', desc:'TECH:AAA CUST:AA LEGAL:A LIQ:AAA' },
+        { title:'BUIDL Risk Profile', category:'Risk', url:'../observatory/risk-radar.html', desc:'TECH:A CUST:AA LEGAL:A LIQ:BB' },
+    ];
+
+    function hubRecherche(q) {
+        const res = document.getElementById('search-results');
+        if (!q.trim()) { res.innerHTML = '<div style="padding:12px 16px;font-size:12px;color:var(--term-text-sub);">Tapez pour rechercher…</div>'; return; }
+        const hits = SEARCH_INDEX.filter(i => i.title.toLowerCase().includes(q.toLowerCase()) || i.desc.toLowerCase().includes(q.toLowerCase()));
+        if (!hits.length) { res.innerHTML = '<div style="padding:12px 16px;font-size:12px;color:var(--term-text-sub);">Aucun résultat trouvé.</div>'; return; }
+        res.innerHTML = hits.map(h => `
+            <a href="${h.url}" onclick="document.getElementById('search-overlay').style.display='none'" style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:6px;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:2px 6px;border-radius:3px;background:rgba(59,130,246,0.15);color:#3b82f6;white-space:nowrap;">${h.category}</span>
+                <div><div style="font-size:13px;color:#fff;font-weight:500;">${h.title}</div><div style="font-size:11px;color:var(--term-text-sub);">${h.desc}</div></div>
+            </a>`).join('');
+    }
+</script>
+</body>
+</html>

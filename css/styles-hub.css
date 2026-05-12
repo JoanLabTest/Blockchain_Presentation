@@ -1,0 +1,236 @@
+/* ==========================================================================
+   DCM INTELLIGENCE HUB — COCKPIT LAYOUT
+   ========================================================================== */
+
+.hub-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 280px;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+    background: var(--term-bg);
+    padding-top: 60px;
+}
+
+@media (max-width: 1200px) {
+    .hub-layout { grid-template-columns: 220px 1fr; }
+    .hub-context { display: none; }
+}
+
+@media (max-width: 768px) {
+    .hub-layout { grid-template-columns: 1fr; }
+    .hub-sidebar { display: none; }
+}
+
+/* ─── SIDEBAR ─────────────────────────────────────────────────── */
+.hub-sidebar {
+    grid-row: 1 / -1;
+    border-right: 1px solid var(--term-border);
+    padding: 20px 0;
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    background: rgba(0,0,0,0.2);
+}
+
+.hub-sidebar-section {
+    padding: 0 16px;
+    margin-bottom: 28px;
+}
+
+.hub-sidebar-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--term-text-sub);
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+
+.hub-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 6px;
+    color: var(--term-text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+}
+
+.hub-nav-link:hover {
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    border-color: var(--term-border);
+}
+
+.hub-nav-link.active {
+    background: rgba(59,130,246,0.1);
+    color: var(--term-blue);
+    border-color: rgba(59,130,246,0.2);
+}
+
+.hub-nav-link i { width: 16px; text-align: center; font-size: 12px; }
+
+/* ─── MAIN CONTENT ────────────────────────────────────────────── */
+.hub-main {
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.hub-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--term-border);
+}
+
+.hub-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+}
+
+.hub-subtitle { font-size: 12px; color: var(--term-text-muted); margin-top: 4px; }
+
+/* ─── WIDGET GRID ─────────────────────────────────────────────── */
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 992px) { .hub-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .hub-grid { grid-template-columns: 1fr; } }
+
+.hub-widget {
+    background: var(--term-panel-bg);
+    border: 1px solid var(--term-border);
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.hub-widget:hover {
+    border-color: rgba(59,130,246,0.4);
+    background: rgba(59,130,246,0.05);
+    transform: translateY(-1px);
+}
+
+.hub-widget-icon {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.hub-widget-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.hub-widget-desc { font-size: 11px; color: var(--term-text-muted); line-height: 1.4; margin-bottom: 12px; }
+.hub-widget-meta { font-family: var(--font-mono); font-size: 11px; color: var(--term-text-sub); }
+
+.hub-widget-kpi {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.hub-widget-arrow {
+    position: absolute;
+    top: 16px; right: 16px;
+    color: var(--term-text-sub);
+    font-size: 12px;
+    transition: 0.2s;
+}
+.hub-widget:hover .hub-widget-arrow { color: var(--term-blue); transform: translate(2px, -2px); }
+
+/* ─── SIGNALS ROW ─────────────────────────────────────────────── */
+.hub-signals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) { .hub-signals { grid-template-columns: 1fr; } }
+
+/* ─── CONTEXT PANEL ───────────────────────────────────────────── */
+.hub-context {
+    border-left: 1px solid var(--term-border);
+    padding: 20px 16px;
+    background: rgba(0,0,0,0.1);
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+}
+
+.hub-context-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--term-text-sub);
+    margin-bottom: 16px;
+}
+
+.hub-entity-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--term-border);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.15s;
+}
+
+.hub-entity-pill:hover { border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.05); }
+
+.hub-entity-type {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; padding: 2px 6px; border-radius: 3px;
+    font-family: var(--font-mono);
+}
+
+.type-inst { background: rgba(59,130,246,0.15); color: var(--term-blue); }
+.type-net  { background: rgba(139,92,246,0.15); color: var(--term-purple); }
+.type-asset{ background: rgba(16,185,129,0.15); color: var(--term-green); }
+
+.hub-entity-name { font-size: 12px; font-weight: 600; color: #fff; }
+.hub-entity-grade { font-family: var(--font-mono); font-size: 11px; margin-left: auto; }
+
+/* ─── METHODOLOGY BADGE ───────────────────────────────────────── */
+.method-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--term-text-sub);
+    border: 1px solid var(--term-border);
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: help;
+    position: relative;
+}
+
+.method-badge:hover { color: var(--term-text-muted); border-color: rgba(255,255,255,0.2); }
