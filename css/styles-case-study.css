@@ -1,0 +1,349 @@
+/* ==========================================================================
+   DCM CORE - INSTITUTIONAL CASE STUDIES (RESEARCH PAPER AESTHETIC)
+   ========================================================================== */
+
+   @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+   :root {
+       --cs-bg: #030712;
+       --cs-surface: #0f172a;
+       --cs-surface-alt: #1e293b;
+       --cs-border: rgba(255, 255, 255, 0.08);
+       
+       /* Academic Typography Setup */
+       --font-heading: 'Outfit', 'Inter', sans-serif;
+       --font-body: 'Lora', serif; /* Serif for high readability in long-form */
+       --font-mono: 'JetBrains Mono', monospace;
+       
+       --cs-text-main: #e2e8f0;
+       --cs-text-muted: #94a3b8;
+       --cs-text-light: #f8fafc;
+       
+       /* Semantic accents */
+       --cs-accent: #3b82f6; /* Trust Blue */
+       --cs-accent-subtle: rgba(59, 130, 246, 0.1);
+       --cs-risk-high: #ef4444;
+       --cs-risk-med: #f59e0b;
+       --cs-risk-low: #10b981;
+   }
+   
+   body.case-study-mode {
+       background-color: var(--cs-bg);
+       color: var(--cs-text-main);
+       font-family: var(--font-body);
+       line-height: 1.8;
+       font-size: 17px;
+       -webkit-font-smoothing: antialiased;
+   }
+   
+   /* ─── LAYOUT: THE PAPER ─────────────────────────────────────────────────── */
+   .cs-container {
+       max-width: 1100px;
+       margin: 120px auto 80px;
+       display: grid;
+       grid-template-columns: 1fr 3fr;
+       gap: 60px;
+       padding: 0 24px;
+   }
+   
+   @media (max-width: 992px) {
+       .cs-container {
+           grid-template-columns: 1fr;
+           gap: 40px;
+       }
+   }
+   
+   /* ─── SIDEBAR / METADATA ────────────────────────────────────────────────── */
+   .cs-sidebar {
+       position: sticky;
+       top: 100px;
+       height: max-content;
+       font-family: var(--font-heading);
+   }
+   
+   .cs-meta-block {
+       border-top: 2px solid var(--cs-accent);
+       padding-top: 16px;
+       margin-bottom: 30px;
+   }
+   
+   .cs-meta-label {
+       font-size: 11px;
+       text-transform: uppercase;
+       letter-spacing: 1.5px;
+       color: var(--cs-text-muted);
+       margin-bottom: 8px;
+       font-weight: 600;
+   }
+   
+   .cs-meta-value {
+       font-size: 14px;
+       color: var(--cs-text-light);
+       font-weight: 500;
+       margin-bottom: 16px;
+   }
+   
+   .cs-toc {
+       list-style: none;
+       padding: 0;
+       margin-top: 20px;
+       border-left: 1px solid var(--cs-border);
+   }
+   
+   .cs-toc li {
+       margin-bottom: 12px;
+   }
+   
+   .cs-toc a {
+       color: var(--cs-text-muted);
+       text-decoration: none;
+       font-size: 13px;
+       padding-left: 16px;
+       display: block;
+       transition: 0.2s;
+       position: relative;
+   }
+   
+   .cs-toc a:hover, .cs-toc a.active {
+       color: var(--cs-accent);
+       font-weight: 600;
+   }
+   
+   .cs-toc a.active::before {
+       content: '';
+       position: absolute;
+       left: -1px;
+       top: 0;
+       bottom: 0;
+       width: 2px;
+       background: var(--cs-accent);
+   }
+   
+   /* ─── MAIN CONTENT AREA ─────────────────────────────────────────────────── */
+   .cs-content {
+       max-width: 760px;
+   }
+   
+   .cs-header {
+       margin-bottom: 50px;
+       padding-bottom: 30px;
+       border-bottom: 1px solid var(--cs-border);
+       font-family: var(--font-heading);
+   }
+   
+   .cs-tag {
+       display: inline-block;
+       padding: 6px 14px;
+       border-radius: 4px;
+       background: var(--cs-surface);
+       border: 1px solid var(--cs-border);
+       color: var(--cs-text-muted);
+       font-size: 11px;
+       text-transform: uppercase;
+       letter-spacing: 1px;
+       font-family: var(--font-mono);
+       margin-bottom: 24px;
+   }
+   
+   .cs-title {
+       font-size: clamp(32px, 4vw, 52px);
+       font-weight: 800;
+       color: #ffffff;
+       line-height: 1.1;
+       margin-bottom: 20px;
+       letter-spacing: -1px;
+   }
+   
+   .cs-subtitle {
+       font-size: 20px;
+       color: var(--cs-text-muted);
+       font-weight: 400;
+       line-height: 1.5;
+   }
+   
+   /* Typography within content */
+   .cs-content h2 {
+       font-family: var(--font-heading);
+       font-size: 28px;
+       font-weight: 700;
+       color: #fff;
+       margin: 60px 0 24px;
+       padding-bottom: 12px;
+       border-bottom: 1px solid var(--cs-border);
+       letter-spacing: -0.5px;
+   }
+   
+   .cs-content h3 {
+       font-family: var(--font-heading);
+       font-size: 20px;
+       font-weight: 600;
+       color: var(--cs-text-light);
+       margin: 40px 0 16px;
+   }
+   
+   .cs-content p {
+       margin-bottom: 24px;
+       color: var(--cs-text-main);
+   }
+   
+   .cs-content ul, .cs-content ol {
+       margin-bottom: 24px;
+       padding-left: 20px;
+   }
+   
+   .cs-content li {
+       margin-bottom: 10px;
+   }
+   
+   .cs-content strong {
+       color: #fff;
+       font-weight: 600;
+   }
+   
+   /* ─── RESEARCH MODULES ──────────────────────────────────────────────────── */
+   
+   /* Executive Summary Box */
+   .cs-exec-summary {
+       background: var(--cs-surface);
+       border-left: 4px solid var(--cs-accent);
+       padding: 30px;
+       border-radius: 0 8px 8px 0;
+       margin-bottom: 50px;
+       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+   }
+   
+   .cs-exec-summary h3 {
+       margin-top: 0;
+       color: var(--cs-accent);
+       font-family: var(--font-heading);
+       text-transform: uppercase;
+       font-size: 13px;
+       letter-spacing: 1.5px;
+       margin-bottom: 16px;
+       border: none;
+       padding: 0;
+   }
+   
+   .cs-exec-summary p {
+       font-size: 18px;
+       line-height: 1.6;
+       margin-bottom: 0;
+       color: #fff;
+       font-weight: 500;
+   }
+   
+   /* Data / Architecture Table */
+   .cs-data-table {
+       width: 100%;
+       border-collapse: collapse;
+       margin: 40px 0;
+       font-family: var(--font-heading);
+       font-size: 14px;
+       background: var(--cs-surface);
+       border-radius: 8px;
+       overflow: hidden;
+       border: 1px solid var(--cs-border);
+   }
+   
+   .cs-data-table th, .cs-data-table td {
+       padding: 16px 24px;
+       text-align: left;
+       border-bottom: 1px solid var(--cs-border);
+   }
+   
+   .cs-data-table th {
+       background: var(--cs-surface-alt);
+       color: var(--cs-text-muted);
+       font-size: 12px;
+       text-transform: uppercase;
+       letter-spacing: 1px;
+       font-weight: 600;
+   }
+   
+   .cs-data-table tr:last-child td {
+       border-bottom: none;
+   }
+   
+   .cs-data-table td:first-child {
+       font-weight: 600;
+       color: #fff;
+       width: 30%;
+   }
+   
+   /* Risk Matrix Module */
+   .cs-risk-grid {
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       gap: 20px;
+       margin: 40px 0;
+   }
+   
+   @media (max-width: 640px) {
+       .cs-risk-grid { grid-template-columns: 1fr; }
+   }
+   
+   .cs-risk-card {
+       background: var(--cs-surface);
+       border: 1px solid var(--cs-border);
+       border-radius: 8px;
+       padding: 24px;
+   }
+   
+   .cs-risk-header {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-bottom: 16px;
+       font-family: var(--font-heading);
+   }
+   
+   .cs-risk-title {
+       font-weight: 600;
+       color: #fff;
+       font-size: 16px;
+   }
+   
+   .cs-risk-badge {
+       font-size: 10px;
+       text-transform: uppercase;
+       letter-spacing: 1px;
+       padding: 4px 10px;
+       border-radius: 4px;
+       font-family: var(--font-mono);
+       font-weight: 700;
+   }
+   
+   .risk-high { background: rgba(239, 68, 68, 0.1); color: var(--cs-risk-high); border: 1px solid rgba(239, 68, 68, 0.3); }
+   .risk-med { background: rgba(245, 158, 11, 0.1); color: var(--cs-risk-med); border: 1px solid rgba(245, 158, 11, 0.3); }
+   .risk-low { background: rgba(16, 185, 129, 0.1); color: var(--cs-risk-low); border: 1px solid rgba(16, 185, 129, 0.3); }
+   
+   .cs-risk-card p {
+       font-size: 14px;
+       margin: 0;
+       color: var(--cs-text-muted);
+   }
+   
+   /* Architecture Diagram Placeholder / Style */
+   .cs-architecture-diagram {
+       background: #fff; /* White background for diagrams for high contrast */
+       border-radius: 8px;
+       padding: 40px;
+       margin: 40px 0;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+   }
+   
+   /* Quote / Insight */
+   .cs-insight {
+       font-size: 20px;
+       font-weight: 400;
+       font-style: italic;
+       color: var(--cs-accent);
+       padding: 30px 0;
+       margin: 40px 0;
+       border-top: 1px solid var(--cs-border);
+       border-bottom: 1px solid var(--cs-border);
+       text-align: center;
+       line-height: 1.6;
+   }
