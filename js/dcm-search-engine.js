@@ -8,15 +8,70 @@
     if (window.dcmSearchEngineLoaded) return;
     window.dcmSearchEngineLoaded = true;
 
-    // 1. DATA GRAPH — High-density structured knowledge
-    const SEARCH_GRAPH = [
-        // ─── ENTITIES ─────────────────────────────────────────────────────────
+    // 1. DATA GRAPHS & ASYNC API INFRASTRUCTURE
+    let SEARCH_GRAPH = [];
+
+    // Resilient relative URL resolver for decoupling
+    function getApiPrefix() {
+        const path = window.location.pathname;
+        if (path.includes('/entities/') || path.includes('/observatory/') || path.includes('/case-studies/') || path.includes('/research/') || path.includes('/intelligence/')) {
+            return '../../api/v1/';
+        } else if (path.includes('/en/') || path.includes('/fr/')) {
+            return '../api/v1/';
+        }
+        return 'api/v1/';
+    }
+
+    // Async API pipeline Loader
+    async function hydrateKnowledgeGraph() {
+        const apiPrefix = getApiPrefix();
+        const endpoints = ['entities.json', 'narratives.json', 'research.json', 'risks.json', 'system.json'];
+        const urls = endpoints.map(f => apiPrefix + f);
+
+        try {
+            const fetches = urls.map(url => 
+                fetch(url)
+                    .then(res => {
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                        return res.json();
+                    })
+                    .catch(err => {
+                        console.warn(`[DCM API] Error fetching endpoint ${url}:`, err);
+                        return null; 
+                    })
+            );
+
+            const results = await Promise.all(fetches);
+            
+            // Hydrate from available responses
+            let hydratedCount = 0;
+            results.forEach((dataset, index) => {
+                if (dataset && dataset.data) {
+                    SEARCH_GRAPH.push(...dataset.data);
+                    hydratedCount++;
+                }
+            });
+
+            if (hydratedCount > 0) {
+                console.log(`[DCM API] Hypermedia Pipeline Connected. Successfully hydrated ${SEARCH_GRAPH.length} nodes from ${hydratedCount} endpoints.`);
+                return;
+            }
+            throw new Error("No endpoints resolved successfully.");
+
+        } catch (error) {
+            console.warn("[DCM API] Fail-safe triggered. Running on embedded static dataset fallback.", error);
+            SEARCH_GRAPH = FALLBACK_GRAPH;
+        }
+    }
+
+    // Embedded Fail-Safe Data Object (Ensures local filesystem browsing remains zero-friction)
+    const FALLBACK_GRAPH = [
         {
             id: 'entity-blackrock',
             category: 'entity',
             title: { en: 'BlackRock', fr: 'BlackRock' },
             desc: { en: 'Asset Management · Grade A · SEC registered issuer', fr: 'Gestion d\'Actifs · Note A · Émetteur SEC' },
-            keywords: ['blackrock', 'buidl', 'securitize', 'asset', 'etf', 'fink', 'ethereum', 'mmf'],
+            keywords: ['blackrock', 'buidl', 'securitize', 'asset', 'mmf'],
             urlPath: 'entities/blackrock.html',
             relatedIds: ['wp-buidl', 'risk-buidl']
         },
@@ -25,7 +80,7 @@
             category: 'entity',
             title: { en: 'JPMorgan Onyx', fr: 'JPMorgan Onyx' },
             desc: { en: 'Commercial Banking · Grade AA · Wholesale settlement ledger', fr: 'Banque Commerciale · Note AA · Registre de gros' },
-            keywords: ['jpmorgan', 'jpm', 'onyx', 'coin', 'wholesale', 'repo', 'dimon', 'guardian'],
+            keywords: ['jpmorgan', 'jpm', 'onyx', 'coin', 'repo'],
             urlPath: 'entities/jpm-onyx.html',
             relatedIds: ['risk-jpm']
         },
@@ -34,7 +89,7 @@
             category: 'entity',
             title: { en: 'Circle / USDC', fr: 'Circle / USDC' },
             desc: { en: 'Digital Infra · Grade AA · Atomic payment & CCTP rails', fr: 'Infra Digitale · Note AA · Paiement atomique & rails CCTP' },
-            keywords: ['circle', 'usdc', 'stablecoin', 'cctp', 'allaire', 'fiat', 'reserve'],
+            keywords: ['circle', 'usdc', 'stablecoin', 'cctp'],
             urlPath: 'entities/circle.html',
             relatedIds: ['risk-usdc']
         },
@@ -43,105 +98,45 @@
             category: 'entity',
             title: { en: 'SG Forge', fr: 'SG Forge' },
             desc: { en: 'Investment Banking · Grade A · Eur CoinVertible issuer', fr: 'Banque d\'Investissement · Note A · Émetteur Eur CoinVertible' },
-            keywords: ['societe generale', 'sg', 'forge', 'eurcv', 'coinvertible', 'mica', 'bond'],
-            urlPath: 'observatory/risk-radar.html', // Until full profile
+            keywords: ['societe generale', 'sg', 'forge', 'eurcv', 'mica'],
+            urlPath: 'observatory/risk-radar.html',
             relatedIds: []
         },
-        {
-            id: 'entity-canton',
-            category: 'entity',
-            title: { en: 'Canton Network', fr: 'Canton Network' },
-            desc: { en: 'DLT Infrastructure · Grade AA · Multi-institution interoperability', fr: 'Infrastructure DLT · Note AA · Interopérabilité multi-institution' },
-            keywords: ['canton', 'daml', 'goldman', 'privacy', 'interop'],
-            urlPath: 'observatory/global-tokenization-monitor.html',
-            relatedIds: []
-        },
-
-        // ─── RESEARCH & WORKING PAPERS ────────────────────────────────────────
         {
             id: 'wp-global',
             category: 'research',
             title: { en: 'Global Tokenization Report 2026', fr: 'Rapport de Tokenisation Mondial 2026' },
-            desc: { en: 'DCM-WP-2026-01 · 48-page quantitative institutional market audit', fr: 'DCM-WP-2026-01 · Audit de marché institutionnel quantitatif' },
-            keywords: ['report', '2026', 'audit', 'market', 'tvl', 'pdf', 'download', 'working paper', 'wp-2026-01'],
+            desc: { en: 'DCM-WP-2026-01 · Quantitative institutional market audit', fr: 'DCM-WP-2026-01 · Audit de marché institutionnel' },
+            keywords: ['report', 'audit', 'market', 'wp-2026-01'],
             urlPath: 'research/terminal.html',
             relatedIds: []
-        },
-        {
-            id: 'wp-buidl',
-            category: 'research',
-            title: { en: 'BlackRock BUIDL Autopsy', fr: 'Autopsie du Fonds BUIDL' },
-            desc: { en: 'DCM-WP-2026-02 · Legal SPV wrapper and ERC-20 compliance logic', fr: 'DCM-WP-2026-02 · Analyse SPV juridique et logique de conformité ERC-20' },
-            keywords: ['autopsy', 'buidl', 'case study', 'spv', 'securitize', 'rule 506c', 'wp-2026-02'],
-            urlPath: 'case-studies/blackrock-buidl.html',
-            relatedIds: ['entity-blackrock', 'risk-buidl']
-        },
-
-        // ─── RISK RADAR PROFILES ──────────────────────────────────────────────
-        {
-            id: 'risk-usdc',
-            category: 'risk',
-            title: { en: 'USDC Risk Profile', fr: 'Profil de Risque USDC' },
-            desc: { en: 'Grade AA · Vector scores: TECH:AAA CUST:AA LEGAL:A LIQ:AAA', fr: 'Note AA · Scores vectoriels : TECH:AAA CUST:AA LEGAL:A LIQ:AAA' },
-            keywords: ['risk', 'usdc', 'circle', 'grade', 'vector', 'score', 'reserve'],
-            urlPath: 'observatory/risk-radar.html',
-            relatedIds: ['entity-circle']
-        },
-        {
-            id: 'risk-jpm',
-            category: 'risk',
-            title: { en: 'JPM Coin Risk Profile', fr: 'Profil de Risque JPM Coin' },
-            desc: { en: 'Grade AA · Vector scores: TECH:AA CUST:AAA LEGAL:AA LIQ:A', fr: 'Note AA · Scores vectoriels : TECH:AA CUST:AAA LEGAL:AA LIQ:A' },
-            keywords: ['risk', 'jpm', 'onyx', 'coin', 'vector', 'score'],
-            urlPath: 'observatory/risk-radar.html',
-            relatedIds: ['entity-jpm']
         },
         {
             id: 'risk-buidl',
             category: 'risk',
             title: { en: 'BlackRock BUIDL Risk Profile', fr: 'Profil de Risque BUIDL' },
-            desc: { en: 'Grade A · Vector scores: TECH:A CUST:AA LEGAL:A LIQ:BB', fr: 'Note A · Scores vectoriels : TECH:A CUST:AA LEGAL:A LIQ:BB' },
-            keywords: ['risk', 'buidl', 'blackrock', 'vector', 'score', 'liquidity'],
+            desc: { en: 'Grade A · Vector scores: TECH:A CUST:AA LEGAL:A LIQ:BB', fr: 'Note A · Scores vectoriels : TECH:A CUST:AA' },
+            keywords: ['risk', 'buidl', 'blackrock'],
             urlPath: 'observatory/risk-radar.html',
-            relatedIds: ['entity-blackrock', 'wp-buidl']
-        },
-
-        // ─── MONITORS & SYSTEM ──────────────────────────────────────────────
-        {
-            id: 'monitor-live',
-            category: 'monitor',
-            title: { en: 'Global Tokenization Monitor', fr: 'Moniteur Mondial de Tokenisation' },
-            desc: { en: 'Live market capitalization dashboard and recent issuances', fr: 'Tableau de bord de capitalisation live et émissions récentes' },
-            keywords: ['monitor', 'live', 'issuances', 'siemens', 'eib', 'rwa', 'tvl', 'kpi'],
-            urlPath: 'observatory/global-tokenization-monitor.html',
             relatedIds: []
         },
         {
-            id: 'timeline-historical',
-            category: 'timeline',
-            title: { en: 'Institutional DLT Timeline', fr: 'Chronologie Institutionnelle DLT' },
-            desc: { en: 'Historical roadmap of key DLT milestones from 2018 to 2026', fr: 'Feuille de route historique des jalons DLT clés de 2018 à 2026' },
-            keywords: ['timeline', 'history', 'roadmap', '2018', '2020', '2023', '2025', '2026', 'bondi', 'eib', 'mica', 'siemens'],
-            urlPath: 'observatory/timeline.html',
-            relatedIds: []
+            id: 'narratives-thematic',
+            category: 'narrative',
+            title: { en: 'Market Narratives Matrix', fr: 'Thèses de Marché Institutionnelles' },
+            desc: { en: 'Thematic overlays linking macro drivers to token assets', fr: 'Couches thématiques reliant les vecteurs macro aux actifs' },
+            keywords: ['narratives', 'thesis', 'thèses', 'macro'],
+            urlPath: 'intelligence/narratives.html',
+            relatedIds: ['hub-central']
         },
         {
             id: 'hub-central',
             category: 'hub',
             title: { en: 'Command Center Hub', fr: 'Centre de Commande Intelligence' },
             desc: { en: 'Central dashboard orchestrating real-time market vectors', fr: 'Tableau de bord central pilotant les vecteurs en temps réel' },
-            keywords: ['hub', 'central', 'command', 'intelligence', 'orchestrator', 'portal', 'dashboard'],
+            keywords: ['hub', 'command', 'dashboard'],
             urlPath: 'intelligence/hub.html',
-            relatedIds: ['monitor-live', 'narratives-thematic']
-        },
-        {
-            id: 'narratives-thematic',
-            category: 'narrative',
-            title: { en: 'Market Narratives Matrix', fr: 'Thèses de Marché Institutionnelles' },
-            desc: { en: 'Systemic thematic overlays linking macro drivers to token assets', fr: 'Couches thématiques reliant les vecteurs macro aux actifs réels' },
-            keywords: ['narratives', 'thesis', 'thèses', 'thematic', 'macro', 'yield', 'composability', 'wholesale', 'settlement', 'interoperability', 'compliance'],
-            urlPath: 'intelligence/narratives.html',
-            relatedIds: ['wp-global', 'hub-central', 'entity-blackrock']
+            relatedIds: []
         }
     ];
 
@@ -324,7 +319,7 @@
         }
 
         // Step B: Sort / Rank direct hits (Entities first, then Research, then Risk)
-        const order = { 'entity': 0, 'research': 1, 'risk': 2, 'monitor': 3, 'timeline': 4 };
+        const order = { 'hub': 0, 'narrative': 1, 'entity': 2, 'research': 3, 'risk': 4, 'monitor': 5, 'timeline': 6 };
         matchedItems.sort((a, b) => order[a.category] - order[b.category]);
 
         // Step C: Detect if we need an "Intelligence Graph" group (if primary match is an Entity, inject related IDs immediately)
@@ -460,7 +455,9 @@
         window.location.href = targetUrl;
     }
 
-    // Boot engine when DOM lands
+    // Bootstrapping: Start Hydrating immediately (Network Thread), and wire DOM events
+    hydrateKnowledgeGraph();
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initSearchEngine);
     } else {
