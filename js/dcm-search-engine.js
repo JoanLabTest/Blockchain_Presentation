@@ -112,6 +112,18 @@
             relatedIds: []
         },
         {
+            id: 'wp-stablecoin-eu',
+            category: 'research',
+            title: { en: 'European Stablecoin Structure', fr: 'Structure Stablecoins Europe' },
+            desc: { en: 'DCM-WP-2026-04 · MiCA liquidity migration paper', fr: 'DCM-WP-2026-04 · Papier sur la migration de liquidité MiCA' },
+            keywords: ['stablecoin', 'mica', 'europe', 'wp-2026-04'],
+            urlPath: {
+                en: 'research/european-stablecoin-market-structure-2026.html',
+                fr: 'research/structure-marche-stablecoins-europeens-2026.html'
+            },
+            relatedIds: ['risk-mica']
+        },
+        {
             id: 'risk-buidl',
             category: 'risk',
             title: { en: 'BlackRock BUIDL Risk Profile', fr: 'Profil de Risque BUIDL' },
@@ -371,7 +383,8 @@
 
     // Generate Single Hit Markup
     function generateHitHtml(item) {
-        const fullUrl = baseUrl + item.urlPath;
+        const finalPath = (typeof item.urlPath === 'object' && item.urlPath[currentLang]) ? item.urlPath[currentLang] : item.urlPath;
+        const fullUrl = baseUrl + finalPath;
         const badgeClass = `badge-${item.category}`;
         const badgeText = labels[`badge_${item.category}`];
 
