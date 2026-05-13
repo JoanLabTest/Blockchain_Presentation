@@ -1,0 +1,210 @@
+/* ==========================================================================
+   DCM ENTITY-CENTRIC ARCHITECTURE — LAYOUT
+   ========================================================================== */
+
+.entity-container {
+    max-width: 1200px;
+    margin: 80px auto 40px;
+    padding: 0 24px;
+}
+
+/* ─── ENTITY HEADER ────────────────────────────────────────────── */
+.entity-header {
+    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.02), transparent);
+    border: 1px solid var(--term-border);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.entity-header::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.entity-meta-strip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.entity-title-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    .entity-title-group { flex-direction: column; gap: 16px; }
+}
+
+.entity-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+}
+
+.entity-type-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 4px 10px;
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--term-blue);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+}
+
+.entity-desc {
+    font-size: 14px;
+    color: var(--term-text-muted);
+    line-height: 1.6;
+    max-width: 800px;
+}
+
+.entity-global-risk {
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .entity-global-risk { text-align: left; }
+}
+
+.risk-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--term-text-sub);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.large-risk-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 36px;
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 18px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+/* ─── ENTITY KEY METRICS ──────────────────────────────────────── */
+.entity-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 992px) { .entity-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 576px) { .entity-kpi-grid { grid-template-columns: 1fr; } }
+
+.entity-kpi-card {
+    background: var(--term-panel-bg);
+    border: 1px solid var(--term-border);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.entity-kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--term-text-muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.entity-kpi-value {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* ─── RELATED INTELLIGENCE SECTIONS ────────────────────────────── */
+.entity-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 992px) {
+    .entity-content-grid { grid-template-columns: 1fr; }
+}
+
+.related-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--term-border);
+}
+
+.related-insight-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--term-border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+/* ─── INTERCONNECTION CARDS ────────────────────────────────────── */
+.connected-link-card {
+    background: var(--term-panel-bg);
+    border: 1px solid var(--term-border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    transition: 0.15s;
+}
+
+.connected-link-card:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    background: rgba(59, 130, 246, 0.02);
+}
+
+.connected-card-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--term-text-sub);
+}
+
+.connected-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.connected-card-arrow {
+    align-self: flex-end;
+    font-size: 12px;
+    color: var(--term-text-sub);
+    margin-top: 4px;
+}
+
+.connected-link-card:hover .connected-card-arrow {
+    color: var(--term-blue);
+    transform: translateX(2px);
+}
