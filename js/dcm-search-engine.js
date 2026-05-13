@@ -115,6 +115,15 @@
             keywords: ['monitor', 'live', 'issuances', 'siemens', 'eib', 'rwa', 'tvl', 'kpi'],
             urlPath: 'observatory/global-tokenization-monitor.html',
             relatedIds: []
+        },
+        {
+            id: 'timeline-historical',
+            category: 'timeline',
+            title: { en: 'Institutional DLT Timeline', fr: 'Chronologie Institutionnelle DLT' },
+            desc: { en: 'Historical roadmap of key DLT milestones from 2018 to 2026', fr: 'Feuille de route historique des jalons DLT clés de 2018 à 2026' },
+            keywords: ['timeline', 'history', 'roadmap', '2018', '2020', '2023', '2025', '2026', 'bondi', 'eib', 'mica', 'siemens'],
+            urlPath: 'observatory/timeline.html',
+            relatedIds: []
         }
     ];
 
@@ -138,24 +147,26 @@
             recent: 'Suggested Queries',
             related: 'Related Intelligence Graph',
             all: 'Search Results',
-            stats: 'Indexed: 12 Entities · 24 Research Papers · 6 Risk Models',
+            stats: 'Indexed: 12 Entities · 24 Research Papers · 6 Risk Models · 1 Historical Log',
             footer: '<span><kbd>↑↓</kbd> Select</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Dismiss</span>',
             badge_entity: 'Entity',
             badge_research: 'Research',
             badge_risk: 'Risk Profile',
-            badge_monitor: 'Live System'
+            badge_monitor: 'Live System',
+            badge_timeline: 'Timeline'
         },
         fr: {
             placeholder: 'Rechercher entités, documents, ou scores de risque...',
             recent: 'Requêtes Suggérées',
             related: 'Graphe d\'Intelligence Lié',
             all: 'Résultats de Recherche',
-            stats: 'Indexé : 12 Entités · 24 Rapports · 6 Modèles de Risque',
+            stats: 'Indexé : 12 Entités · 24 Rapports · 6 Modèles · 1 Registre Historique',
             footer: '<span><kbd>↑↓</kbd> Naviguer</span><span><kbd>↵</kbd> Ouvrir</span><span><kbd>Esc</kbd> Fermer</span>',
             badge_entity: 'Entité',
             badge_research: 'Recherche',
             badge_risk: 'Profil Risque',
-            badge_monitor: 'Système Live'
+            badge_monitor: 'Système Live',
+            badge_timeline: 'Chronologie'
         }
     }[currentLang];
 
@@ -291,7 +302,7 @@
         }
 
         // Step B: Sort / Rank direct hits (Entities first, then Research, then Risk)
-        const order = { 'entity': 0, 'research': 1, 'risk': 2, 'monitor': 3 };
+        const order = { 'entity': 0, 'research': 1, 'risk': 2, 'monitor': 3, 'timeline': 4 };
         matchedItems.sort((a, b) => order[a.category] - order[b.category]);
 
         // Step C: Detect if we need an "Intelligence Graph" group (if primary match is an Entity, inject related IDs immediately)
