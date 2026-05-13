@@ -124,6 +124,24 @@
             keywords: ['timeline', 'history', 'roadmap', '2018', '2020', '2023', '2025', '2026', 'bondi', 'eib', 'mica', 'siemens'],
             urlPath: 'observatory/timeline.html',
             relatedIds: []
+        },
+        {
+            id: 'hub-central',
+            category: 'hub',
+            title: { en: 'Command Center Hub', fr: 'Centre de Commande Intelligence' },
+            desc: { en: 'Central dashboard orchestrating real-time market vectors', fr: 'Tableau de bord central pilotant les vecteurs en temps réel' },
+            keywords: ['hub', 'central', 'command', 'intelligence', 'orchestrator', 'portal', 'dashboard'],
+            urlPath: 'intelligence/hub.html',
+            relatedIds: ['monitor-live', 'narratives-thematic']
+        },
+        {
+            id: 'narratives-thematic',
+            category: 'narrative',
+            title: { en: 'Market Narratives Matrix', fr: 'Thèses de Marché Institutionnelles' },
+            desc: { en: 'Systemic thematic overlays linking macro drivers to token assets', fr: 'Couches thématiques reliant les vecteurs macro aux actifs réels' },
+            keywords: ['narratives', 'thesis', 'thèses', 'thematic', 'macro', 'yield', 'composability', 'wholesale', 'settlement', 'interoperability', 'compliance'],
+            urlPath: 'intelligence/narratives.html',
+            relatedIds: ['wp-global', 'hub-central', 'entity-blackrock']
         }
     ];
 
@@ -147,26 +165,30 @@
             recent: 'Suggested Queries',
             related: 'Related Intelligence Graph',
             all: 'Search Results',
-            stats: 'Indexed: 12 Entities · 24 Research Papers · 6 Risk Models · 1 Historical Log',
+            stats: 'Indexed: 12 Entities · 24 Research Papers · 6 Risk Models · 4 System Overlays',
             footer: '<span><kbd>↑↓</kbd> Select</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Dismiss</span>',
             badge_entity: 'Entity',
             badge_research: 'Research',
             badge_risk: 'Risk Profile',
             badge_monitor: 'Live System',
-            badge_timeline: 'Timeline'
+            badge_timeline: 'Timeline',
+            badge_hub: 'Hub Portal',
+            badge_narrative: 'Narrative'
         },
         fr: {
             placeholder: 'Rechercher entités, documents, ou scores de risque...',
             recent: 'Requêtes Suggérées',
             related: 'Graphe d\'Intelligence Lié',
             all: 'Résultats de Recherche',
-            stats: 'Indexé : 12 Entités · 24 Rapports · 6 Modèles · 1 Registre Historique',
+            stats: 'Indexé : 12 Entités · 24 Rapports · 6 Modèles · 4 Couches Système',
             footer: '<span><kbd>↑↓</kbd> Naviguer</span><span><kbd>↵</kbd> Ouvrir</span><span><kbd>Esc</kbd> Fermer</span>',
             badge_entity: 'Entité',
             badge_research: 'Recherche',
             badge_risk: 'Profil Risque',
             badge_monitor: 'Système Live',
-            badge_timeline: 'Chronologie'
+            badge_timeline: 'Chronologie',
+            badge_hub: 'Centre Hub',
+            badge_narrative: 'Narratif'
         }
     }[currentLang];
 

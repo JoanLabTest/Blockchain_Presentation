@@ -1,0 +1,177 @@
+/* ==========================================================================
+   DCM MARKET NARRATIVES — THEMATIC MATRIX STYLES
+   ========================================================================== */
+
+.narratives-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 24px;
+    margin: 40px 0 60px;
+}
+
+@media (max-width: 768px) {
+    .narratives-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ─── THEMATIC CARD ──────────────────────────────────────────────── */
+.narrative-card {
+    background: var(--term-panel-bg);
+    border: 1px solid var(--term-border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.2s;
+}
+
+.narrative-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Top gradient indicator strip */
+.narrative-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent-grad, linear-gradient(to right, #3b82f6, #8b5cf6));
+    opacity: 0.8;
+}
+
+/* Header block */
+.narrative-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.narrative-title-group {
+    flex: 1;
+}
+
+.narrative-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--term-text-sub);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.narrative-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.4px;
+}
+
+/* Momentum Micro-Badge */
+.narrative-momentum {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--term-green);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.momentum-surging { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border-color: rgba(139, 92, 246, 0.25); }
+.momentum-stable { background: rgba(59, 130, 246, 0.1); color: var(--term-blue); border-color: rgba(59, 130, 246, 0.15); }
+
+/* Narrative body text */
+.narrative-thesis {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--term-text-muted);
+    margin-bottom: 20px;
+}
+
+/* Connected Nodes Group */
+.narrative-nodes {
+    border-top: 1px dashed var(--term-border);
+    padding-top: 16px;
+    margin-top: auto;
+}
+
+.nodes-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Asset / Research Pill links */
+.node-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.node-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--term-border);
+    color: var(--term-text-muted);
+    padding: 4px 8px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.node-pill:hover {
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    border-color: rgba(255,255,255,0.2);
+}
+
+.node-pill i {
+    font-size: 9px;
+}
+
+.node-pill.node-research i { color: #a78bfa; }
+.node-pill.node-entity i { color: #60a5fa; }
+.node-pill.node-risk i { color: #fbbf24; }
+
+/* Statistical Confidence Strip */
+.narrative-confidence {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    font-size: 11px;
+}
+
+.confidence-bar-bg {
+    width: 80px;
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.confidence-bar-fill {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 2px;
+}
