@@ -24,6 +24,7 @@ class GlobalFooter extends HTMLElement {
                                 <li><a href="${this.basePath}research-programs/index.html">Programmes</a></li>
                                 <li><a href="${this.basePath}research-papers/index.html">Working Papers</a></li>
                                 <li><a href="${this.basePath}methodology/index.html">Méthodologie</a></li>
+                                <li><a href="${this.basePath}methodology/gouvernance.html" style="font-weight: 600; color: #60a5fa;">Charte de Gouvernance</a></li>
                             </ul>
                         </div>
                         <div class="footer-col">
@@ -60,7 +61,7 @@ class GlobalFooter extends HTMLElement {
                                 <a href="${this.basePath}cgv.html">CGV</a>
                                 <a href="${this.basePath}tos.html">ToS</a>
                                 <a href="${this.basePath}research-policy.html">Politique de Recherche</a>
-                                <a href="${this.basePath}governance.html">Gouvernance</a>
+                                <a href="${this.basePath}methodology/gouvernance.html">Gouvernance</a>
                                 <a href="${this.basePath}research-methodology.html">Méthodologie</a>
                                 <a href="${this.basePath}privacy.html">Confidentialité</a>
                                 <a href="${this.basePath}cookies.html">Cookies</a>
