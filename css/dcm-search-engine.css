@@ -1,0 +1,261 @@
+/* ==========================================================================
+   DCM UNIVERSAL SEARCH ENGINE — GLASS ARCHITECTURE & TERMINAL HUD
+   ========================================================================== */
+
+/* ─── BACKDROP OVERLAY ─────────────────────────────────────────── */
+.dcm-search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 7, 18, 0.75);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    z-index: 99999; /* Max priority depth */
+    display: none; /* Toggled by JS */
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: clamp(40px, 12vh, 160px);
+    opacity: 0;
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dcm-search-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* ─── MODAL CONTAINER ──────────────────────────────────────────── */
+.dcm-search-container {
+    width: 100%;
+    max-width: 660px;
+    margin: 0 20px;
+    background: rgba(17, 24, 39, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.02),
+        0 20px 40px -15px rgba(0, 0, 0, 0.7),
+        0 0 20px 0px rgba(59, 130, 246, 0.1);
+    overflow: hidden;
+    transform: translateY(8px) scale(0.98);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dcm-search-overlay.active .dcm-search-container {
+    transform: translateY(0) scale(1);
+}
+
+/* ─── HEADER & INPUT ───────────────────────────────────────────── */
+.dcm-search-header {
+    display: flex;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 14px;
+}
+
+.dcm-search-icon {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.dcm-search-input {
+    flex: 1;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    font-family: var(--font-sans), 'Inter', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+}
+
+.dcm-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.dcm-search-kbd-escape {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 3px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+/* ─── SUGGESTIONS ROW (EMPTY STATE) ─────────────────────────────── */
+.dcm-search-empty-state {
+    padding: 24px;
+}
+
+.dcm-search-section-title {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 12px;
+}
+
+.dcm-search-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.dcm-search-suggestion-pill {
+    font-size: 12px;
+    color: var(--term-text-muted);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.dcm-search-suggestion-pill:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ─── RESULTS LIST ─────────────────────────────────────────────── */
+.dcm-search-results {
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 10px 12px;
+}
+
+/* Group labels (Related Intelligence grouping) */
+.dcm-search-group-header {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--term-blue);
+    letter-spacing: 1px;
+    padding: 12px 10px 6px 10px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dcm-search-group-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* Hit Row */
+.dcm-search-hit {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.1s ease;
+    outline: none;
+}
+
+.dcm-search-hit:hover,
+.dcm-search-hit.active {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dcm-search-hit.active {
+    box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.3);
+}
+
+/* Badges / Categories */
+.dcm-hit-badge {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    min-width: 65px;
+    text-align: center;
+}
+
+.dcm-hit-badge.badge-entity { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+.dcm-hit-badge.badge-research { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+.dcm-hit-badge.badge-risk { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.dcm-hit-badge.badge-monitor { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+.dcm-hit-meta {
+    flex: 1;
+}
+
+.dcm-hit-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 3px;
+}
+
+.dcm-hit-desc {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.dcm-search-hit.active .dcm-hit-desc {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Arrow visual cue for active element */
+.dcm-hit-action-icon {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transition: opacity 0.1s;
+}
+
+.dcm-search-hit.active .dcm-hit-action-icon {
+    opacity: 1;
+    color: var(--term-blue);
+}
+
+/* ─── COMMAND FOOTER ───────────────────────────────────────────── */
+.dcm-search-footer {
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.dcm-footer-instructions {
+    display: flex;
+    gap: 14px;
+}
+
+.dcm-footer-instructions kbd {
+    font-family: var(--font-mono);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.dcm-footer-stats {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(59, 130, 246, 0.5);
+    font-weight: 500;
+}

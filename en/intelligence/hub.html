@@ -29,7 +29,7 @@
     </a>
     <div style="display:flex;align-items:center;gap:12px;">
         <!-- Search trigger -->
-        <button id="search-trigger" onclick="document.getElementById('search-overlay').style.display='flex'" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid var(--term-border);border-radius:6px;padding:6px 14px;color:var(--term-text-muted);font-size:13px;cursor:pointer;font-family:var(--font-sans);">
+        <button id="search-trigger" onclick="window.dcmToggleGlobalSearch()" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid var(--term-border);border-radius:6px;padding:6px 14px;color:var(--term-text-muted);font-size:13px;cursor:pointer;font-family:var(--font-sans);">
             <i class="fas fa-search" style="font-size:11px;"></i> Search
             <span style="font-family:var(--font-mono);font-size:10px;background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:3px;">⌘K</span>
         </button>
@@ -40,26 +40,7 @@
     </div>
 </nav>
 
-<!-- SEARCH OVERLAY -->
-<div id="search-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;align-items:flex-start;justify-content:center;padding-top:120px;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
-    <div style="width:100%;max-width:640px;padding:0 20px;">
-        <div style="background:#111827;border:1px solid rgba(59,130,246,0.4);border-radius:12px;overflow:hidden;">
-            <div style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--term-border);">
-                <i class="fas fa-search" style="color:var(--term-text-sub);"></i>
-                <input id="hub-search-input" type="text" placeholder="Search entities, protocols, research…" style="flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:16px;font-family:var(--font-sans);" oninput="hubSearch(this.value)"/>
-                <kbd style="font-family:var(--font-mono);font-size:11px;color:var(--term-text-sub);border:1px solid var(--term-border);padding:2px 6px;border-radius:4px;">ESC</kbd>
-            </div>
-            <div id="search-results" style="padding:8px;max-height:400px;overflow-y:auto;">
-                <div style="padding:12px 16px;font-size:12px;color:var(--term-text-sub);">Type to search across Monitor, Risk Radar, Entities, and Research…</div>
-            </div>
-            <div style="padding:10px 20px;border-top:1px solid var(--term-border);display:flex;gap:16px;font-size:11px;color:var(--term-text-sub);">
-                <span><kbd style="font-family:var(--font-mono);border:1px solid var(--term-border);padding:1px 5px;border-radius:3px;">↑↓</kbd> navigate</span>
-                <span><kbd style="font-family:var(--font-mono);border:1px solid var(--term-border);padding:1px 5px;border-radius:3px;">↵</kbd> open</span>
-                <span><kbd style="font-family:var(--font-mono);border:1px solid var(--term-border);padding:1px 5px;border-radius:3px;">ESC</kbd> close</span>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- HUB LAYOUT -->
 <div class="hub-layout">
@@ -293,42 +274,6 @@
 
 </div><!-- end hub-layout -->
 
-<script>
-    // ⌘K / Ctrl+K shortcut
-    document.addEventListener('keydown', e => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-            e.preventDefault();
-            document.getElementById('search-overlay').style.display = 'flex';
-            setTimeout(() => document.getElementById('hub-search-input').focus(), 50);
-        }
-        if (e.key === 'Escape') document.getElementById('search-overlay').style.display = 'none';
-    });
 
-    const SEARCH_INDEX = [
-        { title:'Market Monitor', category:'Monitor', url:'../observatory/global-tokenization-monitor.html', desc:'Real-time tokenized asset KPIs and DLT issuances' },
-        { title:'Risk Radar', category:'Monitor', url:'../observatory/risk-radar.html', desc:'Institutional risk taxonomy AAA–C' },
-        { title:'Research Terminal', category:'Research', url:'../research/terminal.html', desc:'Institutional working papers and academic audit PDF downloads' },
-        { title:'Global Tokenization Report 2026', category:'Research', url:'../research/terminal.html', desc:'DCM-WP-2026-01 · Quantitative global audit' },
-        { title:'BlackRock BUIDL Autopsy', category:'Research', url:'../case-studies/blackrock-buidl.html', desc:'DCM-WP-2026-02 · Tokenized MMF architecture' },
-        { title:'BlackRock', category:'Entity', url:'../entities/blackrock.html', desc:'BLACKROCK · Grade A · Asset Management' },
-        { title:'Circle / USDC', category:'Entity', url:'../entities/circle.html', desc:'CIRCLE · Grade AA · Digital Finance Infra' },
-        { title:'JPMorgan Onyx', category:'Entity', url:'../entities/jpm-onyx.html', desc:'JPM-ONYX · Grade AA · Commercial Banking' },
-        { title:'Canton Network', category:'Entity', url:'#entities', desc:'CANTON · Grade AA · DLT Infrastructure' },
-        { title:'USDC Risk Profile', category:'Risk', url:'../observatory/risk-radar.html', desc:'TECH:AAA CUST:AA LEGAL:A LIQ:AAA' },
-        { title:'BUIDL Risk Profile', category:'Risk', url:'../observatory/risk-radar.html', desc:'TECH:A CUST:AA LEGAL:A LIQ:BB' },
-    ];
-
-    function hubSearch(q) {
-        const res = document.getElementById('search-results');
-        if (!q.trim()) { res.innerHTML = '<div style="padding:12px 16px;font-size:12px;color:var(--term-text-sub);">Type to search…</div>'; return; }
-        const hits = SEARCH_INDEX.filter(i => i.title.toLowerCase().includes(q.toLowerCase()) || i.desc.toLowerCase().includes(q.toLowerCase()));
-        if (!hits.length) { res.innerHTML = '<div style="padding:12px 16px;font-size:12px;color:var(--term-text-sub);">No results found.</div>'; return; }
-        res.innerHTML = hits.map(h => `
-            <a href="${h.url}" onclick="document.getElementById('search-overlay').style.display='none'" style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:6px;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
-                <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:2px 6px;border-radius:3px;background:rgba(59,130,246,0.15);color:#3b82f6;white-space:nowrap;">${h.category}</span>
-                <div><div style="font-size:13px;color:#fff;font-weight:500;">${h.title}</div><div style="font-size:11px;color:var(--term-text-sub);">${h.desc}</div></div>
-            </a>`).join('');
-    }
-</script>
 </body>
 </html>

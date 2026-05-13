@@ -143,6 +143,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 4. Central Search Overlay Injection
+    (function() {
+        const searchScript = document.createElement('script');
+        const path = window.location.pathname;
+        let scriptBase = './';
+        
+        if (path.includes('/entities/') || path.includes('/observatory/') || path.includes('/case-studies/') || path.includes('/research/') || path.includes('/intelligence/')) {
+            scriptBase = '../../';
+        } else if (path.includes('/en/') || path.includes('/fr/')) {
+            scriptBase = '../';
+        }
+        
+        searchScript.src = scriptBase + 'js/dcm-search-engine.js';
+        searchScript.async = true;
+        document.head.appendChild(searchScript);
+    })();
 });
 
 // Social Insight Sharing Utility
