@@ -24,7 +24,8 @@ class GlobalFooter extends HTMLElement {
                                 <li><a href="${this.basePath}research-programs/index.html">Programs</a></li>
                                 <li><a href="${this.basePath}research-papers/index.html">Working Papers</a></li>
                                 <li><a href="${this.basePath}methodology/index.html">Methodology</a></li>
-                                <li><a href="${this.basePath}methodology/governance.html" style="font-weight: 600; color: #60a5fa;">Governance Charter</a></li>
+                                <li><a href="${this.basePath}methodology/governance.html">Governance Charter</a></li>
+                                <li><a href="${this.basePath}research/cite-and-integrate.html" style="font-weight: 600; color: #60a5fa;">Cite & Integrate</a></li>
                             </ul>
                         </div>
                         <div class="footer-col">
