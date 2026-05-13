@@ -67,6 +67,18 @@
     // Embedded Fail-Safe Data Object (Ensures local filesystem browsing remains zero-friction)
     const FALLBACK_GRAPH = [
         {
+            id: 'sig-2026-12',
+            category: 'signal',
+            title: { en: 'Weekly Signal: Reserve Fragmentation', fr: 'Signal Hebdo : Fragmentation des Réserves' },
+            desc: { en: 'DCM-SIG-2026-12 · Structural arbitrage pivot under MiCA mandates', fr: 'DCM-SIG-2026-12 · Pivot d\'arbitrage structurel sous MiCA' },
+            keywords: ['signal', 'mica', 'reserve', 'custody', 'arbitrage', 'weekly'],
+            urlPath: {
+                en: 'intelligence/signals.html',
+                fr: 'intelligence/signaux.html'
+            },
+            relatedIds: ['entity-circle', 'risk-mica']
+        },
+        {
             id: 'entity-blackrock',
             category: 'entity',
             title: { en: 'BlackRock', fr: 'BlackRock' },
@@ -180,7 +192,8 @@
             badge_monitor: 'Live System',
             badge_timeline: 'Timeline',
             badge_hub: 'Hub Portal',
-            badge_narrative: 'Narrative'
+            badge_narrative: 'Narrative',
+            badge_signal: 'Signal'
         },
         fr: {
             placeholder: 'Rechercher entités, documents, ou scores de risque...',
@@ -195,7 +208,8 @@
             badge_monitor: 'Système Live',
             badge_timeline: 'Chronologie',
             badge_hub: 'Centre Hub',
-            badge_narrative: 'Narratif'
+            badge_narrative: 'Narratif',
+            badge_signal: 'Signal'
         }
     }[currentLang];
 

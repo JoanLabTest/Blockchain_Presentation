@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="DCM Signaux Hebdomadaires — Analyses macro institutionnelles haute densité concernant l'infrastructure financière tokenisée." name="description" />
+    <title>DCM Signaux Hebdomadaires | Note Macro Institutionnelle | DCM Core</title>
+    
+    <link rel="canonical" href="https://dcmcore.com/fr/intelligence/signaux.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/intelligence/signals.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/intelligence/signaux.html" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+    <link href="../../css/styles-monitor.css" rel="stylesheet" />
+    <link href="../../css/styles-hub.css" rel="stylesheet" />
+    
+    <style>
+        :root {
+            --color-structural: #6366f1;
+            --color-regulatory: #f59e0b;
+            --color-liquidity: #10b981;
+            --color-systemic: #ef4444;
+            --color-settlement: #8b5cf6;
+        }
+
+        .signal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-structural { background: rgba(99,102,241,0.15); color: var(--color-structural); border: 1px solid rgba(99,102,241,0.3); }
+        .badge-confidence { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+        .badge-reading { background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
+
+        .signal-apex-header {
+            border-bottom: 1px solid var(--term-border);
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+        .signal-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .signal-date-id {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--term-text-sub);
+            display: flex;
+            gap: 16px;
+        }
+        .signal-title {
+            font-family: 'Outfit', var(--font-sans);
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+        .signal-abstract {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-top: 20px;
+            font-style: italic;
+            border-left: 3px solid var(--color-structural);
+            padding-left: 20px;
+        }
+
+        /* Dense Visual Chart Grid */
+        .signal-chart-frame {
+            background: #050811;
+            border: 1px solid var(--term-border);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+            font-family: var(--font-mono);
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 11px;
+            color: #64748b;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 10px;
+        }
+        
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: rgba(255,255,255,0.05);
+            margin-bottom: 16px;
+        }
+        .matrix-cell {
+            background: #0a0f1d;
+            padding: 16px;
+        }
+        .cell-lbl { font-size: 9px; color: #64748b; text-transform: uppercase; margin-bottom: 8px; }
+        .cell-val { font-size: 22px; font-weight: 700; color: #fff; }
+        .cell-sub { font-size: 10px; color: var(--term-green); display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+
+        /* Evidence Block */
+        .evidence-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .evidence-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 6px;
+        }
+        .evidence-num {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--color-structural);
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .evidence-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .evidence-desc {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* Implications Panel */
+        .implications-panel {
+            background: rgba(99, 102, 241, 0.03);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+        .panel-title-row {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-structural);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .imp-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .imp-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .imp-bullet { color: var(--color-structural); font-size: 14px; font-weight: bold; margin-top: 2px; }
+        .imp-content strong { display: block; color: #fff; font-size: 14px; margin-bottom: 4px; }
+        .imp-content p { color: #94a3b8; font-size: 13px; line-height: 1.6; margin: 0; }
+
+        /* Actions Bar */
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid var(--term-border);
+            padding-top: 24px;
+            margin-bottom: 60px;
+        }
+        .action-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--term-border);
+            color: #cbd5e1;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        /* Archive Registry */
+        .archive-section {
+            margin-top: 60px;
+            border-top: 2px solid var(--term-border);
+            padding-top: 40px;
+        }
+        .archive-header {
+            font-family: 'Outfit';
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .archive-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.01);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .archive-row:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: var(--term-border);
+        }
+
+        /* Expandable Doctrine */
+        .doctrine-box {
+            background: #03050b;
+            border: 1px dashed rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 80px;
+        }
+        .doctrine-title {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 800;
+            color: #64748b;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .doctrine-content {
+            font-size: 11px;
+            color: #475569;
+            line-height: 1.6;
+            margin-top: 12px;
+            display: none;
+        }
+        .doctrine-box.open .doctrine-content { display: block; }
+
+        @media (max-width: 992px) {
+            .evidence-section, .matrix-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <script src="../../js/dev-unlock.js"></script>
+    <script src="../../js/navigation-hub.js"></script>
+    <script src="../js/global-footer.js"></script>
+</head>
+
+<body class="monitor-mode">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <!-- TOPNAV -->
+    <nav class="navbar-pro" style="background: rgba(3, 7, 18, 0.95); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <a class="nav-brand" href="hub.html">
+            <div class="logo-orb" style="background: linear-gradient(135deg, #8b5cf6, #3b82f6);"></div>
+            <div class="logo-text">DCM <span>Intelligence</span></div>
+        </a>
+
+        <div class="nav-actions">
+            <button class="nav-search-trigger" onclick="window.dcmToggleGlobalSearch()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--term-border); color: var(--term-text-muted); font-family: var(--font-mono); font-size: 11px; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-right: 12px;">
+                <i class="fas fa-search"></i> Rechercher Intelligence <span style="opacity: 0.5; border: 1px solid rgba(255,255,255,0.2); padding: 1px 4px; border-radius: 3px; font-size: 9px;">⌘K</span>
+            </button>
+            <div class="lang-switcher">
+                <a href="signaux.html" class="lang-link active">FR</a>
+                <a href="../../en/intelligence/signals.html" class="lang-link">EN</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hub-layout">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="hub-sidebar">
+            <div class="hub-sidebar-section">
+                <div class="hub-sidebar-label">Intelligence</div>
+                <a href="hub.html" class="hub-nav-link"><i class="fas fa-th-large"></i> Centre de Commande</a>
+                <a href="signaux.html" class="hub-nav-link active"><i class="fas fa-bolt"></i> Signaux Hebdomadaires</a>
+                <a href="../observatory/global-tokenization-monitor.html" class="hub-nav-link"><i class="fas fa-chart-line"></i> Moniteur de Marché</a>
+                <a href="../observatory/risk-radar.html" class="hub-nav-link"><i class="fas fa-radar"></i> Radar de Risque</a>
+                <a href="../observatory/timeline.html" class="hub-nav-link"><i class="fas fa-history"></i> Frise DLT</a>
+                <a href="narratives.html" class="hub-nav-link"><i class="fas fa-brain"></i> Narratifs de Marché</a>
+            </div>
+            <div class="hub-sidebar-section">
+                <div class="hub-sidebar-label">Recherche</div>
+                <a href="../research/terminal.html" class="hub-nav-link"><i class="fas fa-book-open"></i> Terminal de Recherche</a>
+                <a href="../case-studies/blackrock-buidl.html" class="hub-nav-link"><i class="fas fa-file-alt"></i> Études de Cas</a>
+            </div>
+        </aside>
+
+        <!-- MAIN BRIEFING PANEL -->
+        <main class="hub-main" style="max-width: 900px; margin: 0 auto; padding: 40px 24px;">
+            
+            <!-- Active Signal Frame -->
+            <article class="signal-entry">
+                <div class="signal-apex-header">
+                    <div class="signal-meta-row">
+                        <div class="signal-date-id">
+                            <span>DCM-SIG-2026-12</span>
+                            <span style="opacity:0.4;">|</span>
+                            <span>PUBLIÉ LE : 12/05/2026</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <span class="signal-badge badge-structural">STRUCTUREL</span>
+                            <span class="signal-badge badge-confidence" title="Méthodologie Vérifiée : Validation Desk Quantitatif."><i class="fas fa-shield-check"></i> Haute Conviction</span>
+                            <span class="signal-badge badge-reading"><i class="fas fa-clock"></i> 4 min de lecture</span>
+                        </div>
+                    </div>
+                    <h1 class="signal-title">L'Arbitrage de la Monnaie Électronique : Fragmentation des Réserves sous MiCA</h1>
+                    <div class="signal-abstract">
+                        La finalisation des mandats MiCA déclenche un pivot d'arbitrage structurel sur les marchés européens des stablecoins. Les banques commerciales de premier rang captent des pools critiques de conservation des réserves, entraînant une concentration sans précédent qui fragmente la vélocité sous-jacente des actifs liquides de haute qualité (HQLA).
+                    </div>
+                </div>
+
+                <!-- Quantitative Matrix Frame -->
+                <div class="signal-chart-frame">
+                    <div class="chart-header">
+                        <span><i class="fas fa-chart-bar"></i> MATRICE DES INDICATEURS CLÉS</span>
+                        <span>SOURCE : AUDIT QUANTITATIF DCM V2.4</span>
+                    </div>
+                    <div class="matrix-grid">
+                        <div class="matrix-cell">
+                            <div class="cell-lbl">Part de Conservation T1</div>
+                            <div class="cell-val">74.2%</div>
+                            <div class="cell-sub"><i class="fas fa-arrow-trend-up"></i> +18% T/T</div>
+                        </div>
+                        <div class="matrix-cell">
+                            <div class="cell-lbl">Vélocité Réserves HQLA</div>
+                            <div class="cell-val">0.42</div>
+                            <div class="cell-sub" style="color:#ef4444;"><i class="fas fa-arrow-trend-down"></i> -8.4%</div>
+                        </div>
+                        <div class="matrix-cell">
+                            <div class="cell-lbl">Collatéral Conforme</div>
+                            <div class="cell-val">4.2B €</div>
+                            <div class="cell-sub"><i class="fas fa-arrow-trend-up"></i> ATH</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 9px; color: #475569; text-align: right;">
+                        *Calculé selon le ratio d'allocation agrégé sur les canaux de conservation de Circle (EURC) et SG Forge (EURCV).
+                    </div>
+                </div>
+
+                <!-- Evidence Grid -->
+                <div class="evidence-section">
+                    <div class="evidence-card">
+                        <span class="evidence-num">01 / PREUVE</span>
+                        <h3 class="evidence-title">Migration de Liquidité</h3>
+                        <p class="evidence-desc">Les capitaux se regroupent agressivement vers les établissements de crédit européens agréés suite aux directives de mise en réserve obligatoire de 60%.</p>
+                    </div>
+                    <div class="evidence-card">
+                        <span class="evidence-num">02 / PREUVE</span>
+                        <h3 class="evidence-title">Concentration de Garde</h3>
+                        <p class="evidence-desc">Les 3 principaux conservateurs systémiques européens détiennent désormais plus des deux tiers de toutes les réserves de liquidités MiCA, créant un verrouillage de contrepartie.</p>
+                    </div>
+                    <div class="evidence-card">
+                        <span class="evidence-num">03 / PREUVE</span>
+                        <h3 class="evidence-title">Structures d'Arbitrage</h3>
+                        <p class="evidence-desc">Augmentation des wrappers offshore synthétiques utilisant des paniers de collatéral non-UE pour contourner les limites réglementaires d'exposition domestique dans les opérations de Repo.</p>
+                    </div>
+                </div>
+
+                <!-- Structural Implications -->
+                <div class="implications-panel">
+                    <div class="panel-title-row">
+                        <i class="fas fa-exclamation-triangle"></i> Implications Systémiques & Canaux de Transmission
+                    </div>
+                    
+                    <div class="imp-item">
+                        <span class="imp-bullet">Ⅰ</span>
+                        <div class="imp-content">
+                            <strong>Goulot d'étranglement de la Vélocité du Collatéral</strong>
+                            <p>Les exigences rigides de concentration des réserves séquestrent directement les titres à court terme de haute qualité, resserrant la liquidité repo au sein des fenêtres de compensation européennes traditionnelles.</p>
+                        </div>
+                    </div>
+
+                    <div class="imp-item">
+                        <span class="imp-bullet">Ⅱ</span>
+                        <div class="imp-content">
+                            <strong>Fragmentation de la Couche de Finalité</strong>
+                            <p>À mesure que les banques encapsulent les liquidités tokenisées dans des registres isolés, la finalité du règlement intra-journalier devient conditionnelle à des relais de blockchain privés distincts plutôt qu'aux réseaux publics.</p>
+                        </div>
+                    </div>
+
+                    <div class="imp-item">
+                        <span class="imp-bullet">Ⅲ</span>
+                        <div class="imp-content">
+                            <strong>Adossement au Crédit des Banques Commerciales</strong>
+                            <p>La robustesse des stablecoins n'est plus totalement distincte des bilans des banques commerciales de premier rang ; la survie de l'émetteur hérite de la vulnérabilité directe de la note de crédit du dépositaire.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sharing & Citation -->
+                <div class="action-bar">
+                    <button class="action-btn" onclick="copyCitation()"><i class="fas fa-quote-left"></i> Copier la Citation APA</button>
+                    <button class="action-btn" onclick="shareLinkedIn()"><i class="fab fa-linkedin"></i> Bloc de Signal LinkedIn</button>
+                    <span style="flex-grow:1;"></span>
+                    <button class="action-btn" style="opacity: 0.6;"><i class="fas fa-file-pdf"></i> Sauvegarder la Note</button>
+                </div>
+            </article>
+
+            <!-- Archives -->
+            <section class="archive-section">
+                <h2 class="archive-header">Historique & Archives des Signaux</h2>
+                
+                <div class="archive-row">
+                    <div>
+                        <div style="font-family:var(--font-mono); font-size:10px; color:var(--term-text-sub);">DCM-SIG-2026-11 | 28/04/2026</div>
+                        <div style="font-weight:700; color:#fff; font-size:14px; margin-top:4px;">Fragmentation du Collatéral sur les Rails de Bons du Trésor Tokenisés</div>
+                    </div>
+                    <span class="signal-badge" style="background:rgba(16, 185, 129, 0.1); color:var(--color-liquidity);">LIQUIDITÉ</span>
+                </div>
+
+                <div class="archive-row">
+                    <div>
+                        <div style="font-family:var(--font-mono); font-size:10px; color:var(--term-text-sub);">DCM-SIG-2026-10 | 14/04/2026</div>
+                        <div style="font-weight:700; color:#fff; font-size:14px; margin-top:4px;">Accumulation des Risques de Finalité de Règlement Multi-Chaînes</div>
+                    </div>
+                    <span class="signal-badge" style="background:rgba(239, 68, 68, 0.1); color:var(--color-systemic);">SYSTÉMIQUE</span>
+                </div>
+            </section>
+
+            <!-- Doctrine Expansion Section -->
+            <div class="doctrine-box" id="doctrineBox">
+                <div class="doctrine-title" onclick="toggleDoctrine()">
+                    <i class="fas fa-gavel"></i> Doctrine Éditoriale & Méthodologique DCM <i class="fas fa-chevron-down" style="margin-left:auto;"></i>
+                </div>
+                <div class="doctrine-content">
+                    <p>
+                        <strong>1. Position Non-Conseil :</strong> Les signaux hebdomadaires DCM sont des observations strictement structurelles et macroprudentielles. Ils ne contiennent aucune orientation retail, projection de sentiment de marché, ni sollicitation financière.
+                    </p>
+                    <p>
+                        <strong>2. Sourcing des Données :</strong> Les entrées de données sont limitées aux mesures de finalité on-chain auditées, aux registres officiels de publication de collatéral des banques centrales et aux déclarations validées des dépositaires commerciaux de premier rang. Les déductions spéculatives sous un seuil de confiance de 75 % sont exclues.
+                    </p>
+                    <p>
+                        <strong>3. Gouvernance & Révision :</strong> Chaque signal est examiné par deux coordinateurs de recherche seniors. Si les variables structurelles changent, une *Annexe de Rectification* officielle est rattachée en permanence au DOI du Signal.
+                    </p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function toggleDoctrine() {
+            document.getElementById('doctrineBox').classList.toggle('open');
+        }
+
+        function copyCitation() {
+            const text = 'DCM Core Institute. (2026). L\'Arbitrage de la Monnaie Électronique : Fragmentation des Réserves sous MiCA (DCM-SIG-2026-12). DCM Signaux Hebdomadaires. https://dcmcore.com/fr/intelligence/signaux.html';
+            navigator.clipboard.writeText(text);
+            alert("Citation APA copiée dans le presse-papier !");
+        }
+
+        function shareLinkedIn() {
+            const text = `🔍 [SIGNAL HEBDOMADAIRE DCM : DCM-SIG-2026-12]\nThématique : STRUCTUREL • Haute Conviction\n\n"L'Arbitrage de la Monnaie Électronique : Fragmentation des Réserves sous MiCA"\n\nChiffre Clé : Les 3 plus grands conservateurs européens captent 74.2% des réserves MiCA (+18% T/T).\n\nImplications pour les Marchés Institutionnels :\n1️⃣ Goulot d'étranglement de la Vélocité du Collatéral\n2️⃣ Fragmentation de la Couche de Finalité\n3️⃣ Adossement au Crédit Bancaire\n\nNote Complète & Méthodologie : https://dcmcore.com/fr/intelligence/signaux.html\n#Tokenization #MiCA #DLT #DCMCore`;
+            navigator.clipboard.writeText(text);
+            alert("Bloc de Signal LinkedIn copié dans le presse-papier ! Prêt pour le partage.");
+        }
+    </script>
+
+    <global-footer base-path="../"></global-footer>
+</body>
+</html>
