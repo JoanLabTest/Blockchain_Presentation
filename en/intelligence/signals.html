@@ -435,6 +435,7 @@
                 <!-- Sharing & Citation -->
                 <div class="action-bar">
                     <button class="action-btn" onclick="copyCitation()"><i class="fas fa-quote-left"></i> Copy APA Citation</button>
+                    <button class="action-btn" onclick="copyBibTeX()"><i class="fas fa-file-code"></i> Copy BibTeX</button>
                     <button class="action-btn" onclick="shareLinkedIn()"><i class="fab fa-linkedin"></i> LinkedIn Signal Block</button>
                     <a href="../../api/v1/signals.json" target="_blank" class="action-btn" style="border-color: rgba(59, 130, 246, 0.4); color: #60a5fa; text-decoration: none;"><i class="fas fa-code"></i> Access Raw JSON Stream</a>
                     <span style="flex-grow:1;"></span>
@@ -493,6 +494,19 @@
             const text = 'DCM Core Institute. (2026). The E-Money Arbitrage Pivot: Reserve Fragmentation Under MiCA (DCM-SIG-2026-12). DCM Weekly Signals. https://dcmcore.com/intelligence/signals.html';
             navigator.clipboard.writeText(text);
             alert("APA Citation copied to clipboard!");
+        }
+
+        function copyBibTeX() {
+            const text = `@techreport{dcm_sig_2026_12,
+  author = {DCM Core Institute},
+  title = {The E-Money Arbitrage Pivot: Reserve Fragmentation Under MiCA},
+  year = {2026},
+  number = {DCM-SIG-2026-12},
+  type = {DCM Weekly Signal},
+  url = {https://dcmcore.com/en/intelligence/signals.html}
+}`;
+            navigator.clipboard.writeText(text);
+            alert("BibTeX LaTeX record copied to clipboard!");
         }
 
         function shareLinkedIn() {

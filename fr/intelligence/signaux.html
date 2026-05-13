@@ -435,6 +435,7 @@
                 <!-- Sharing & Citation -->
                 <div class="action-bar">
                     <button class="action-btn" onclick="copyCitation()"><i class="fas fa-quote-left"></i> Copier la Citation APA</button>
+                    <button class="action-btn" onclick="copyBibTeX()"><i class="fas fa-file-code"></i> Copier le BibTeX</button>
                     <button class="action-btn" onclick="shareLinkedIn()"><i class="fab fa-linkedin"></i> Bloc de Signal LinkedIn</button>
                     <a href="../../api/v1/signals.json" target="_blank" class="action-btn" style="border-color: rgba(59, 130, 246, 0.4); color: #60a5fa; text-decoration: none;"><i class="fas fa-code"></i> Flux API JSON Brut</a>
                     <span style="flex-grow:1;"></span>
@@ -493,6 +494,19 @@
             const text = 'DCM Core Institute. (2026). L\'Arbitrage de la Monnaie Électronique : Fragmentation des Réserves sous MiCA (DCM-SIG-2026-12). DCM Signaux Hebdomadaires. https://dcmcore.com/fr/intelligence/signaux.html';
             navigator.clipboard.writeText(text);
             alert("Citation APA copiée dans le presse-papier !");
+        }
+
+        function copyBibTeX() {
+            const text = `@techreport{dcm_sig_2026_12,
+  author = {DCM Core Institute},
+  title = {L'Arbitrage de la Monnaie Électronique : Fragmentation des Réserves sous MiCA},
+  year = {2026},
+  number = {DCM-SIG-2026-12},
+  type = {DCM Weekly Signal},
+  url = {https://dcmcore.com/fr/intelligence/signaux.html}
+}`;
+            navigator.clipboard.writeText(text);
+            alert("Enregistrement BibTeX LaTeX copié dans le presse-papier !");
         }
 
         function shareLinkedIn() {
