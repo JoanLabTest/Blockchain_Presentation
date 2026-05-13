@@ -7,12 +7,15 @@
  */
 
 class DCMTopologyVisualizer {
-    constructor(containerId, dataset = null) {
+    constructor(containerId, dataset = null, topicalId = "DCM-SYS-2026") {
         this.container = document.getElementById(containerId);
         if (!this.container) {
             console.error(`[DCM Topology] Container #${containerId} not found.`);
             return;
         }
+
+        // Set systemic identifier
+        this.topicalId = topicalId;
 
         // Detect context language
         this.lang = (document.documentElement.lang === 'fr' || window.location.pathname.includes('/fr/')) ? 'fr' : 'en';
@@ -91,11 +94,16 @@ class DCMTopologyVisualizer {
                         <i class="fas fa-network-wired" style="color: #3b82f6;"></i>
                         <span>${this.lang === 'fr' ? 'EXPLORATEUR DE TOPOLOGIE SYSTÉMIQUE' : 'SYSTEMIC TOPOLOGY EXPLORER'}</span>
                     </div>
-                    <div class="topo-toolbar-legend">
-                        <span class="leg-item"><span class="dot cb"></span>CB</span>
-                        <span class="leg-item"><span class="dot cust"></span>Custody</span>
-                        <span class="leg-item"><span class="dot issuer"></span>Issuer</span>
-                        <span class="leg-item"><span class="dot rail"></span>Rail</span>
+                    <div style="display: flex; align-items: center; gap: 16px; margin-left: auto;">
+                        <div class="topo-toolbar-legend">
+                            <span class="leg-item"><span class="dot cb"></span>CB</span>
+                            <span class="leg-item"><span class="dot cust"></span>Custody</span>
+                            <span class="leg-item"><span class="dot issuer"></span>Issuer</span>
+                            <span class="leg-item"><span class="dot rail"></span>Rail</span>
+                        </div>
+                        <button id="topo-btn-export" class="topo-action-btn" title="${this.lang === 'fr' ? 'Exporter en SVG Vectoriel Haute Résolution' : 'Export High-Res Vector SVG'}">
+                            <i class="fas fa-download"></i> ${this.lang === 'fr' ? 'EXPORTER SVG' : 'EXPORT SVG'}
+                        </button>
                     </div>
                 </div>
                 <div class="topo-viewport-wrap">
@@ -124,6 +132,12 @@ class DCMTopologyVisualizer {
         this.connLayer = this.container.querySelector('#topo-connections-layer');
         this.nodeLayer = this.container.querySelector('#topo-nodes-layer');
         this.inspector = this.container.querySelector('#topo-inspector');
+        
+        // Bind Export Button
+        const exportBtn = this.container.querySelector('#topo-btn-export');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', () => this.exportAsSVG());
+        }
 
         this.render();
     }
@@ -258,6 +272,19 @@ class DCMTopologyVisualizer {
                 this.connLayer.appendChild(path);
             }
         });
+
+        // 3. Append Discrete Persistent Watermark for External Export Attributions
+        const watermark = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const currentYear = new Date().getFullYear();
+        const wX = this.svg.viewBox.baseVal.width - 40;
+        const wY = this.svg.viewBox.baseVal.height - 24;
+
+        watermark.setAttribute("x", wX);
+        watermark.setAttribute("y", wY);
+        watermark.setAttribute("class", "topo-watermark-text");
+        watermark.setAttribute("text-anchor", "end");
+        watermark.textContent = `DCM CORE INSTITUTE • DOI: 10.5281/dcm.topo.${this.topicalId.toLowerCase()} • ${currentYear} PROPRIETARY RESEARCH`;
+        this.nodeLayer.appendChild(watermark);
     }
 
     highlightPathways(nodeId) {
@@ -351,6 +378,47 @@ class DCMTopologyVisualizer {
         `;
     }
 
+    exportAsSVG() {
+        // Programmatically clone target viewport to inject serialized inline CSS preambles for cross-device rendering
+        const svgClone = this.svg.cloneNode(true);
+        
+        // Inline global static container styles for portable independent file viewers
+        const styleSheet = document.getElementById('dcm-topo-injected-styles');
+        if (styleSheet) {
+            const svgStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
+            svgStyle.textContent = styleSheet.textContent;
+            svgClone.insertBefore(svgStyle, svgClone.firstChild);
+        }
+
+        // Add inline explicit vector xmlns descriptors
+        svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        
+        // Serialize & construct independent binary blob
+        const serializer = new XMLSerializer();
+        let source = serializer.serializeToString(svgClone);
+
+        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        if (!source.match(/^<svg[^>]+xmlns\:xlink="http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+        }
+
+        const xmlPreamble = '<?xml version="1.0" standalone="no"?>\r\n';
+        const svgBlob = new Blob([xmlPreamble + source], {type: "image/svg+xml;charset=utf-8"});
+        const url = URL.createObjectURL(svgBlob);
+
+        // Dispatch browser download event frame
+        const triggerLink = document.createElement("a");
+        triggerLink.href = url;
+        triggerLink.download = `dcm-topology-${this.topicalId.toLowerCase()}-${new Date().toISOString().slice(0,10)}.svg`;
+        document.body.appendChild(triggerLink);
+        triggerLink.click();
+        document.body.removeChild(triggerLink);
+        
+        console.log(`[DCM Export] Topographic Asset '${this.topicalId}' successfully vectorized.`);
+    }
+
     findNodeName(id) {
         for (let l of this.data.layers) {
             const found = l.nodes.find(n => n.id === id);
@@ -390,6 +458,42 @@ class DCMTopologyVisualizer {
             .dot.cust { background: #f59e0b; }
             .dot.issuer { background: #3b82f6; }
             .dot.rail { background: #10b981; }
+
+            .topo-action-btn {
+                background: rgba(59, 130, 246, 0.08);
+                border: 1px solid rgba(59, 130, 246, 0.25);
+                color: #60a5fa;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 9px;
+                font-weight: 700;
+                padding: 6px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                transition: all 0.2s;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .topo-action-btn:hover {
+                background: rgba(59, 130, 246, 0.18);
+                border-color: rgba(59, 130, 246, 0.5);
+                color: #fff;
+                box-shadow: 0 0 12px rgba(59,130,246,0.15);
+            }
+            .topo-action-btn i { font-size: 10px; }
+
+            .topo-watermark-text {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 8px;
+                font-weight: 700;
+                fill: #475569;
+                letter-spacing: 1px;
+                opacity: 0.6;
+                user-select: none;
+                pointer-events: none;
+            }
 
             .topo-viewport-wrap {
                 overflow-x: auto;
@@ -547,6 +651,7 @@ class DCMTopologyVisualizer {
 document.addEventListener('DOMContentLoaded', () => {
     const mountTarget = document.getElementById('dcm-topology-container');
     if (mountTarget) {
-        new DCMTopologyVisualizer('dcm-topology-container');
+        const topicalId = mountTarget.getAttribute('data-topical-id') || "SYS-MAP-01";
+        new DCMTopologyVisualizer('dcm-topology-container', null, topicalId);
     }
 });
