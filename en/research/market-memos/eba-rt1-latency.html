@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EBA Clearing RT1 Latency | Market Memos | DCM Core</title>
+    <meta name="description" content="Micro-source analysis on EBA Clearing RT1 SLA performance metrics." />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="EBA Clearing RT1 Latency" />
+    
+    <link rel="canonical" href="https://dcmcore.com/en/research/market-memos/eba-rt1-latency.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/research/market-memos/eba-rt1-latency.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/research/market-memos/eba-rt1-latency.html" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    
+    <link href="../../../styles.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+    <script src="../../js/global-footer.js"></script>
+    <link href="../../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../../js/navigation-hub.js" defer></script>
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 100px;
+        }
+
+        .memo-container {
+            max-width: 700px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .memo-header {
+            margin-bottom: 30px;
+        }
+
+        .memo-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .memo-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 10px 0;
+            line-height: 1.3;
+        }
+
+        .memo-meta {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .memo-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #cbd5e1;
+        }
+
+        .memo-content p {
+            margin-bottom: 20px;
+        }
+
+        .memo-data {
+            background: #0f172a;
+            border-left: 3px solid #10b981;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .memo-data-title {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .memo-data-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            color: #fff;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core</span></div>
+        </a>
+
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="#" class="lang-link active" title="English">🇬🇧 EN</a>
+                <a href="../../../fr/research/market-memos/eba-rt1-latency.html" class="lang-link" title="Français">🇫🇷 FR</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="memo-container">
+        <header class="memo-header">
+            <span class="memo-badge">Market Memo</span>
+            <h1 class="memo-title">EBA Clearing RT1: The Silent Latency Tax</h1>
+            <div class="memo-meta">May 2026 • 2 min read</div>
+        </header>
+
+        <div class="memo-content">
+            <p>
+                As institutional stablecoins and tokenized bank deposits seek to achieve parity with traditional rails, the performance of the EBA Clearing RT1 system remains the primary benchmark for pan-European settlement. Recent metrics reveal an interesting discrepancy between expected and actual performance during peak trading hours.
+            </p>
+
+            <div class="memo-data">
+                <span class="memo-data-title">RT1 99th Percentile Latency (April 2026)</span>
+                <span class="memo-data-value">1,450 ms</span>
+            </div>
+
+            <p>
+                While the SLA targets sub-second processing, the 99th percentile latency occasionally spikes to nearly 1.5 seconds during high-volume periods. For traditional retail payments, this "latency tax" is negligible. However, for programmatic capital markets executing atomic swaps on-chain, a 1.5-second delay creates a non-trivial settlement risk window.
+            </p>
+
+            <p>
+                This observation underscores why true atomic settlement (DvP) demands ledger-native cash legs rather than API integrations bridging to legacy message-based systems. Relying on RT1 as the cash leg for high-frequency tokenized asset trading introduces an asynchronous variable that algorithmic market makers are currently pricing into their spreads.
+            </p>
+        </div>
+    </div>
+
+    <global-footer base-path="../../"></global-footer>
+</body>
+
+</html>

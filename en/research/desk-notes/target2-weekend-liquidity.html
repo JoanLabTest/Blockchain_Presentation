@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TARGET2 Weekend Settlement Friction — April Observation | DCM Core Desk Notes</title>
+    <meta name="description" content="Operational observation of TARGET2 weekend settlement latency and RT1 implications." />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="TARGET2 Weekend Settlement Friction — April Observation" />
+    
+    <link rel="canonical" href="https://dcmcore.com/en/research/desk-notes/target2-weekend-liquidity.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/research/desk-notes/target2-weekend-liquidity.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/research/desk-notes/target2-weekend-liquidity.html" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    
+    <link href="../../../styles.css" rel="stylesheet" />
+    <link href="../../styles-footer.css" rel="stylesheet" />
+    <script src="../../js/global-footer.js"></script>
+    <link href="../../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../../js/navigation-hub.js" defer></script>
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 100px;
+        }
+
+        .desk-note-container {
+            max-width: 800px;
+            margin: 0 auto 100px;
+            padding: 40px;
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .note-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .note-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .note-meta span {
+            background: rgba(255,255,255,0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .note-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 15px 0;
+            line-height: 1.2;
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .content-section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            color: #60a5fa;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-section p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            margin: 0;
+        }
+
+        .data-point {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: #fff;
+            margin: 20px 0;
+        }
+
+        .limitation-box {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px dashed rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .limitation-box h4 {
+            color: #f59e0b;
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .limitation-box p {
+            font-size: 14px;
+            color: #94a3b8;
+            margin: 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="../../index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core</span></div>
+        </a>
+
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="#" class="lang-link active" title="English">🇬🇧 EN</a>
+                <a href="../../../fr/research/desk-notes/target2-weekend-liquidity.html" class="lang-link" title="Français">🇫🇷 FR</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="desk-note-container">
+        <div class="note-header">
+            <div class="note-meta">
+                <span><i class="fas fa-clock"></i> April 2026</span>
+                <span><i class="fas fa-tag"></i> Market Note</span>
+                <span>Ref: DN-2026-04</span>
+            </div>
+            <h1 class="note-title">TARGET2 Weekend Settlement Friction — April Observation</h1>
+            <div style="font-size: 13px; color: #64748b; font-family: 'JetBrains Mono', monospace;">From the Settlement Desk</div>
+        </div>
+
+        <div class="content-section">
+            <h3>Observation</h3>
+            <p>
+                During the second weekend of April 2026, we observed a localized bottleneck in cross-border liquidity provisioning via the RT1 (Real-Time 1) clearing system. The friction did not originate from the DLT infrastructure itself, but rather from the synchronization gap between the continuous (24/7) nature of tokenized asset settlement and the discontinuous funding windows of traditional TARGET2 liquidity accounts.
+            </p>
+        </div>
+
+        <div class="data-point">
+            Latency metric: Peak queued transactions reached 412ms delay on Saturday 14:00 CET vs standard 15ms weekday baseline.
+        </div>
+
+        <div class="content-section">
+            <h3>Interpretation</h3>
+            <p>
+                Institutional participants utilizing wholesale CBDC triggers for tokenized bond delivery-versus-payment (DvP) found their buffers depleted faster than anticipated. Because TARGET2 is closed for direct funding over the weekend, institutions relying on standard automated sweep algorithms faced liquidity "dry spells" for up to 45 minutes before secondary liquidity protocols kicked in. This confirms that 24/7 tokenization requires fully preemptive liquidity staging prior to Friday close.
+            </p>
+        </div>
+
+        <div class="limitation-box">
+            <h4><i class="fas fa-exclamation-triangle"></i> Limitation</h4>
+            <p>
+                This observation assumes liquidity neutrality across the sample. It does not account for the specific pre-funding behavior of Tier-1 banks versus Tier-2 regional banks, which may have distinct treasury sweep mandates. The sample size is limited to one specific weekend observation window.
+            </p>
+        </div>
+    </div>
+
+    <global-footer base-path="../../"></global-footer>
+</body>
+
+</html>

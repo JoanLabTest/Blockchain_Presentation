@@ -302,75 +302,37 @@
                 </div>
             </div>
 
-            <!-- 3. NŒUD DE CITATION (GRAPHE ACADÉMIQUE) -->
+            <!-- 3. DISTRIBUTION OPEN RESEARCH & GITHUB -->
             <div class="portal-card">
-                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">03 / ESPACE CITATION (GRAPHE DE RECHERCHE)</span>
-                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Citations Académiques &amp; Matrice d'Adjacence</h2>
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">03 / DISTRIBUTION OPEN RESEARCH</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">GitHub &amp; Intégration Réseau Externe</h2>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
-                    Pour toute analyse de politique monétaire ou recherche fintech, utilisez les formats de citation BibTeX ci-dessous, classés comme thématiquement adjacents aux nœuds de recherche de l'Eurosystème.
+                    Pour accélérer l'adoption des standards, nous encourageons les développeurs et les chercheurs à intégrer nos données directement dans leurs dépôts GitHub, leurs fichiers readme et leurs documents de travail SSRN.
                 </p>
 
                 <!-- Navigation Tabs -->
                 <div style="margin-top: 16px; display: flex; border-bottom: 1px solid #1e293b; padding-bottom: 8px;">
-                    <button class="tab-btn active" id="btn-sepa" onclick="switchCitation('sepa')">Document SEPA Tokenisé</button>
-                    <button class="tab-btn" id="btn-report" onclick="switchCitation('report')">Rapport Global de Marché</button>
+                    <button class="tab-btn active" id="btn-github" onclick="switchCitation('github')"><i class="fab fa-github"></i> Markdown GitHub</button>
+                    <button class="tab-btn" id="btn-ssrn" onclick="switchCitation('ssrn')"><i class="fas fa-university"></i> Résumé SSRN</button>
                 </div>
 
-                <!-- Citation Display Area -->
-                <div id="citation-sepa-block" style="display: block;">
+                <!-- GitHub Markdown Display Area -->
+                <div id="citation-github-block" style="display: block;">
+                    <p style="font-size: 11px; color: #64748b; margin-top: 12px; font-style: italic;">Extrait Markdown prêt à l'emploi pour le fichier README.md de votre projet</p>
                     <div class="code-block">
-                        <button class="copy-badge" onclick="copyCitationText('bibtex-sepa', this)">Copier BibTeX</button>
-                        <pre id="bibtex-sepa" style="margin:0; white-space:pre-wrap;">@techreport{dcmsepa2026,
-  author      = {Recherche Globale DCM Core},
-  title       = {European Stablecoin Market Structure \& The Liquidity Migration Thesis},
-  institution = {DCM Core Institute},
-  year        = {2026},
-  number      = {DCM-WP-2026-04},
-  type        = {Working Paper},
-  url         = {https://dcmcore.com/fr/research/integration-sepa-tokenise.html}
-}</pre>
+                        <button class="copy-badge" onclick="copyCitationText('md-github', this)">Copier Markdown</button>
+                        <pre id="md-github" style="margin:0; white-space:pre-wrap;">## Données de Référence
+Ce projet utilise le [Jeu de données empirique de l'Eurosystème](https://dcmcore.com/data/eurosystem-baseline.json) fourni par le **DCM Core Institute** pour modéliser les frictions de règlement du week-end de TARGET2 et les profils de latence SCT Inst.</pre>
                     </div>
                 </div>
 
-                <div id="citation-report-block" style="display: none;">
+                <!-- SSRN Abstract Display Area -->
+                <div id="citation-ssrn-block" style="display: none;">
+                    <p style="font-size: 11px; color: #64748b; margin-top: 12px; font-style: italic;">Référence de résumé standardisée pour les documents de travail et les soumissions SSRN</p>
                     <div class="code-block">
-                        <button class="copy-badge" onclick="copyCitationText('bibtex-report', this)">Copier BibTeX</button>
-                        <pre id="bibtex-report" style="margin:0; white-space:pre-wrap;">@techreport{dcmglobal2026,
-  author      = {DCM Core Institute},
-  title       = {Global Tokenization Report 2026: Institutional Market Audit},
-  institution = {DCM Core Institute},
-  year        = {2026},
-  number      = {DCM-WP-2026-01},
-  type        = {Institutional Market Audit},
-  url         = {https://dcmcore.com/fr/research/rapport-mondial-tokenisation-2026.html}
-}</pre>
+                        <button class="copy-badge" onclick="copyCitationText('txt-ssrn', this)">Copier Résumé</button>
+                        <pre id="txt-ssrn" style="margin:0; white-space:pre-wrap;">S'appuyant sur les observations cliniques du DCM Core Institute (Signal 01 : Asymétrie de Liquidité de TARGET2 le Week-end, 2026), ce document élargit le cadre analytique entourant les contraintes de règlement des actifs tokenisés. Pour les métriques fondamentales, consultez dcmcore.com.</pre>
                     </div>
-                </div>
-
-                <!-- Adjacency Domain Matrix -->
-                <div style="margin-top: 24px; border-top: 1px solid #1e293b; padding-top: 20px;">
-                    <h4 style="color:#fff; font-size:12px; font-family:'JetBrains Mono'; margin-bottom:10px;"><i class="fas fa-link" style="color:var(--term-blue); margin-right:6px;"></i>Nœuds de Recherche Adjacents Thématiquement (Externes)</h4>
-                    <table class="citation-log-table">
-                        <thead>
-                            <tr>
-                                <th>Nœud de Recherche Adjacent</th>
-                                <th>Auteur Institutionnel</th>
-                                <th>Contexte de Divergence / Alignement Analytique</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="color:#fff; font-weight:600;">BCE WP-2840</td>
-                                <td>Banque Centrale Européenne</td>
-                                <td>Alignement sur l'impact de la tokenisation dans la zone euro ; divergence sur les déclencheurs de réserves de dépôts B2B.</td>
-                            </tr>
-                            <tr>
-                                <td style="color:#fff; font-weight:600;">BRI WP-1112</td>
-                                <td>Banque des Règlements Internationaux</td>
-                                <td>Alignement sur les modèles de dépôts tokenisés ; fournit les formules empiriques de risque de règlement.</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
@@ -515,17 +477,17 @@
 
         // Tab switches
         function switchCitation(type) {
-            document.getElementById('btn-sepa').classList.remove('active');
-            document.getElementById('btn-report').classList.remove('active');
-            document.getElementById('citation-sepa-block').style.display = 'none';
-            document.getElementById('citation-report-block').style.display = 'none';
+            document.getElementById('btn-github').classList.remove('active');
+            document.getElementById('btn-ssrn').classList.remove('active');
+            document.getElementById('citation-github-block').style.display = 'none';
+            document.getElementById('citation-ssrn-block').style.display = 'none';
 
-            if (type === 'sepa') {
-                document.getElementById('btn-sepa').classList.add('active');
-                document.getElementById('citation-sepa-block').style.display = 'block';
+            if (type === 'github') {
+                document.getElementById('btn-github').classList.add('active');
+                document.getElementById('citation-github-block').style.display = 'block';
             } else {
-                document.getElementById('btn-report').classList.add('active');
-                document.getElementById('citation-report-block').style.display = 'block';
+                document.getElementById('btn-ssrn').classList.add('active');
+                document.getElementById('citation-ssrn-block').style.display = 'block';
             }
         }
 
