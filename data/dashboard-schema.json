@@ -1,0 +1,77 @@
+{
+  "layers": {
+    "L1": {
+      "level": "Layer 1",
+      "type": "Verified External Data",
+      "type_fr": "Constante Empirique Vérifiée",
+      "description": "Direct Eurosystem audited stats and centralized clearing logs.",
+      "description_fr": "Statistiques auditées de l'Eurosystème et journaux de compensation."
+    },
+    "L2": {
+      "level": "Layer 2",
+      "type": "Modeled Theoretical Index",
+      "type_fr": "Indice de Modélisation Théorique",
+      "description": "Computed metrics using standardized economic formulations.",
+      "description_fr": "Indicateurs calculés via des formulations économiques standardisées."
+    },
+    "L3": {
+      "level": "Layer 3",
+      "type": "Sandbox Simulation",
+      "type_fr": "Simulation Isolée (Sandbox)",
+      "description": "Monte Carlo engines and dynamic transaction CSV uploaders.",
+      "description_fr": "Moteurs Monte Carlo et injecteurs de fichiers transactionnels CSV."
+    }
+  },
+  "metrics": {
+    "t2_exposure": {
+      "id": "t2_exposure",
+      "layer": "L1",
+      "formula": "G_{w} = \\text{TARGET2 Weekend Exposure Gap}",
+      "baseline_value": 0.14,
+      "unit": " bps",
+      "label": "TARGET2 Weekend Exposure Gap",
+      "label_fr": "Écart d'Exposition Weekend TARGET2",
+      "definition": "Measures transaction settlements delayed due to weekly central bank operating window closures.",
+      "definition_fr": "Mesure l'exposition aux règlements en attente suite aux fermetures hebdomadaires des fenêtres d'opération de la banque centrale.",
+      "source": "ECB TARGET2 Consolidated Reports (Q1-2026)",
+      "source_fr": "Rapports consolidés TARGET2 de la BCE (Q1-2026)",
+      "limit": "Computed Exposure > 0.50 bps",
+      "limit_fr": "Exposition calculée > 0,50 bps"
+    },
+    "sct_latency": {
+      "id": "sct_latency",
+      "layer": "L1",
+      "formula": "\\bar{\\lambda} = \\text{SCT Inst Latency Mean}",
+      "baseline_value": 4.80,
+      "unit": "s",
+      "label": "SCT Inst Latency Mean",
+      "label_fr": "Moyenne de Latence SCT Inst",
+      "definition": "Audited mean processing latency of instant credit transfers across active jurisdictions.",
+      "definition_fr": "Moyenne auditée des latences de traitement des virements instantanés à travers les juridictions actives.",
+      "source": "EBA Clearing SLA Performance Metrics (2026.04)",
+      "source_fr": "Métriques de performance SLA d'EBA Clearing (2026.04)",
+      "limit": "Mean Latency > 10.0s",
+      "limit_fr": "Latence moyenne > 10,0s"
+    },
+    "rail_fragmentation": {
+      "id": "rail_fragmentation",
+      "layer": "L2",
+      "formula": "F_{rail} = \\sqrt{\\frac{1}{N} \\sum_{i=1}^N (\\lambda_i - \\bar{\\lambda})^2}",
+      "baseline_value": 1.85,
+      "unit": "s",
+      "label": "EU Rail Fragmentation Index",
+      "label_fr": "Indice de Fragmentation des Rails UE",
+      "definition": "Weighted standard deviation of settlement latencies depicting cross-border liquidity bifurcation.",
+      "definition_fr": "Écart-type pondéré des latences de règlement représentant la bifurcation transfrontalière de la liquidité.",
+      "source": "DCM computed output via baseline.json telemetry",
+      "source_fr": "Calcul DCM via la télémétrie baseline.json",
+      "limit": "F_{rail} > 12.0s",
+      "limit_fr": "F_{rail} > 12,0s"
+    }
+  },
+  "confidence_decomposition": {
+    "L1_weight": 60,
+    "L2_weight": 25,
+    "L3_weight": 15
+  }
+}
