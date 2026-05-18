@@ -1,42 +1,18 @@
-# Backlink Tracker
+# Backlink & Conversation Tracker
 
-**Purpose:** Track every external citation seeding action. This log is operational intel — it tells us what landed, what was ignored, and what generated organic follow-on citations.
-
-**Last Updated:** 2026-05-18
+**Purpose:** Track active payment conversations where our baseline dataset serves as a concrete, helpful answer. This is an operational journal to monitor where payment researchers and developers are engaging with our observations.
 
 ---
 
-## Active Outreach Log
+## Active Conversation Log
 
-| ID | Target | Platform | URL | Script Used | Date Sent | Status | Notes |
-|----|--------|----------|-----|-------------|-----------|--------|-------|
-| B-001 | awesome-cbdc curated list | GitHub PR | — | Script C | — | `[ ] PENDING` | Submit PR adding dataset to "Settlement Data" section |
-| B-002 | DLT/TARGET2 simulation repo | GitHub Issue | — | Script A | — | `[ ] PENDING` | Find via search: `target2 sepa settlement` |
-| B-003 | EBA RT1 monitoring tool | GitHub Issue | — | Script A | — | `[ ] PENDING` | Find via search: `EBA RT1 latency monitoring` |
-| B-004 | awesome-tokenization list | GitHub PR | — | Script C | — | `[ ] PENDING` | Find via search: `awesome tokenization RWA` |
-| B-005 | MiCA stablecoin compliance repo | GitHub Discussion | — | Script B | — | `[ ] PENDING` | Only if Settlement/reserve discussion thread exists |
-| B-006 | Canton Network / Daml DvP repos | GitHub Discussion | — | Script E | — | `[ ] PENDING` | Find via search: `canton daml tokenized bond` |
-| B-007 | SSRN paper on SEPA Instant | SSRN Comment | — | Script D | — | `[ ] PENDING` | Target papers mentioning "settlement latency" or "liquidity windows" |
-| B-008 | Medium article on MiCA | Medium Comment | — | Script E | — | `[ ] PENDING` | Find recent articles on tokenized settlements |
-| B-009 | fintech-payments research wiki | GitHub PR | — | Script C | — | `[ ] PENDING` | Add Desk Note to "Settlement Observations" |
-
----
-
-## Confirmed Citations (External)
-
-*None yet — this section will be populated as citations are confirmed.*
-
-| ID | Source URL | Page Referencing | Citation Type | Confirmed Date |
-|----|-----------|-----------------|---------------|----------------|
-| — | — | — | — | — |
-
----
-
-## Rejected / Ignored
-
-| ID | Target | Reason | Date |
-|----|--------|--------|------|
-| — | — | — | — |
+| ID | Target Link / Active Thread | Platform | Relevance Score (1-10 Subjective) | Script Used | Date Sent | Status | Qualitative Feedback / Notes |
+|----|-----------------------------|----------|----------------------------------|-------------|-----------|--------|------------------------------|
+| B-001 | `[Insert Curated List PR]` | GitHub PR | 8/10 | Script C | — | `[ ] PENDING` | Genuinely adds a missing empirical payment rail category. |
+| B-002 | `[Insert Simulator Issue]` | GitHub Issue | 9/10 | Script A | — | `[ ] PENDING` | Addressing simulation latency parameter question directly. |
+| B-003 | `[Insert Monitoring Issue]` | GitHub Issue | 7/10 | Script A | — | `[ ] PENDING` | Connecting RT1 telemetry to active monitoring metrics discussion. |
+| B-004 | `[Insert Tokenization PR]` | GitHub PR | 8/10 | Script C | — | `[ ] PENDING` | Placing real-world asset settlement metrics in RWA lists. |
+| B-005 | `[Insert Stablecoin Discussion]` | GitHub Discussion | 9/10 | Script B | — | `[ ] PENDING` | Pointing out the 0.14 bps TARGET2 gap for reserve modeling. |
 
 ---
 
@@ -44,28 +20,13 @@
 
 | Status | Meaning |
 |--------|---------|
-| `[ ] PENDING` | Not yet sent |
-| `[→] SENT` | Sent, awaiting response |
-| `[✓] CITED` | External entity has linked/cited our data |
-| `[✗] IGNORED` | No response after 14 days |
-| `[✗] REJECTED` | Explicitly declined or removed |
+| `[ ] PENDING` | Thread identified, waiting for context review. |
+| `[→] ENGAGED` | Contextual reply submitted to the active discussion. |
+| `[✓] INTEGRATED` | The community accepted the data reference or linked it. |
+| `[✗] DISMISSED` | The comment or PR was ignored or closed without conversation. |
 
 ---
 
-## Velocity Target (Weeks 1–3)
+## Strategic Rule
 
-| Week | Goal |
-|------|------|
-| Week 1 | Submit GitHub README (own repo) + 2 PR outreaches |
-| Week 2 | 3 GitHub Issue/Discussion replies + 1 SSRN comment |
-| Week 3 | 1 Medium article published + 2 follow-up replies |
-
----
-
-## Organic Detection Log
-
-> Track any mentions that happen WITHOUT direct outreach — these are the highest-value signals.
-
-| Date | Source | Mention URL | Context |
-|------|--------|-------------|---------|
-| — | — | — | — |
+> **Seed strictly on demand.** A conversation seeding action is only successful if it directly advances or resolves an active problem in the host thread. If the comment is perceived as pure link drops, it is considered a failure.
