@@ -391,17 +391,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
     <header class="std-hero" data-aos="fade-up">
-        <div class="std-tag">Institutional Standard</div>
-        <h1 class="std-title">TFIN ID Standard: Specifying the Unified Tokenized Asset Identifier</h1>
+        <div class="std-tag">Technical Schema Specification // TFIN-v1</div>
+        <h1 class="std-title">TFIN ID Encoding Spec &amp; Validation Regex</h1>
         <p style="color: #94a3b8; max-width: 800px; margin: 0 auto; font-size: 20px; line-height: 1.6;">
-            The Tokenized Financial Instrument Number (TFIN) is a universal identifier designed to bridge Distributed Ledger Technology (DLT) with institutional capital markets.
+            Regular Expression syntax and JSON Schema blueprints for tokenized debt securities under the DCM GTSR protocol.
         </p>
-        <div class="why-it-matters-box" style="margin: 30px auto 0; max-width: 700px; padding: 20px; border-radius: 12px; background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.15); text-align: left;">
-            <div style="font-family: 'Outfit'; font-size: 14px; font-weight: 700; color: var(--accent-std); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;"><i class="fas fa-circle-info"></i> Why this matters</div>
-            <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1; margin: 0;">
-                The lack of a unified identifier for tokenized debt creates high cross-ledger friction and blocks liquidity routing. Standardizing on TFIN-ID enables instant, deterministic multi-chain security tracking and automated settlement across disparate ledgers.
-            </p>
+        
+        <div style="margin: 30px auto 0; max-width: 700px; padding: 20px; border-radius: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(139, 92, 246, 0.2); text-align: left; font-family:'JetBrains Mono', monospace; font-size:13px;">
+            <div style="color: var(--accent-std); font-weight: 700; margin-bottom: 8px;">[REGEX PATTERN VALIDATION]</div>
+            <code style="color:#fff; font-size:14px; display:block; background:#111; padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.05); margin-bottom:10px;">
+                /^TFIN-[A-Z]{4}-[A-Z]{3}-[0-9]{4}-[0-9]{4}$/
+            </code>
+            <span style="color:#64748b; font-size:11px; display:block;">
+                *Note: Case-sensitive. Segment 1 must match the TFIC asset classification rules. Segment 2 maps to verified ledger keys. Segment 3 maps to the ISO issuance year.
+            </span>
         </div>
+
         <div style="margin-top: 30px;">
             <a href="../observatory/tokenized-securities-registry.html" style="color: var(--accent-obs); text-decoration: none; font-weight: 700; font-size: 14px;">
                 <i class="fas fa-list-check"></i> View TFINs in the GTSR Registry
@@ -587,6 +592,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <strong>Institutional Registry</strong>
                     All issued TFINs are recorded in the <a href="../observatory/tokenized-securities-registry.html" style="color:var(--accent-obs);">Global Tokenized Securities Registry (GTSR)</a> for cross-chain traceability.
                 </div>
+            </div>
+
+            <div style="margin-top:30px;">
+                <strong style="color:var(--accent-std); font-family:'Outfit'; font-size:16px; display:block; margin-bottom:12px;">JSON Schema Definition (tfin-schema.json)</strong>
+                <pre style="background:#000; border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:12px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#a9b1d6; overflow-x:auto; margin:0;">
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TokenizedFinancialInstrumentNumber",
+  "type": "object",
+  "properties": {
+    "tfinId": {
+      "type": "string",
+      "pattern": "^TFIN-[A-Z]{4}-[A-Z]{3}-[0-9]{4}-[0-9]{4}$"
+    },
+    "classification": {
+      "type": "string",
+      "enum": ["DEBT", "EQTY", "FUND", "STRU"]
+    },
+    "ledger": {
+      "type": "string",
+      "enum": ["ETH", "POL", "STR", "HYP"]
+    }
+  },
+  "required": ["tfinId", "classification", "ledger"]
+}</pre>
+            </div>
+
+            <div style="background:rgba(245, 158, 11, 0.03); border:1px dashed rgba(245, 158, 11, 0.2); padding:15px; border-radius:6px; font-size:13px; color:#94a3b8; line-height:1.5; margin-top:30px;">
+                <strong>Technical Disclaimer:</strong> 
+                The regex syntax is optimized for ECMAScript RegExp engines. Certain DLT environments or SQL-based indexing engines might require escape parameter adjustments (e.g. omitting the boundary markers <code>^</code> and <code>$</code> in specific PostgreSQL schemas). Schema synchronization with offline ledgers is subject to syncing window latencies.
             </div>
         </div>
 

@@ -1,0 +1,26 @@
+{
+  "api_version": "1.0.0",
+  "last_updated": "2026-05-18T16:00:00Z",
+  "license": "ODbL-1.0",
+  "source": "DCM Core Telemetry",
+  "data": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "TokenizedFinancialInstrumentNumber",
+    "type": "object",
+    "properties": {
+      "tfinId": {
+        "type": "string",
+        "pattern": "^TFIN-[A-Z]{4}-[A-Z]{3}-[0-9]{4}-[0-9]{4}$"
+      },
+      "classification": {
+        "type": "string",
+        "enum": ["DEBT", "EQTY", "FUND", "STRU"]
+      },
+      "ledger": {
+        "type": "string",
+        "enum": ["ETH", "POL", "STR", "HYP"]
+      }
+    },
+    "required": ["tfinId", "classification", "ledger"]
+  }
+}

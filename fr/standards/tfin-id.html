@@ -375,17 +375,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </nav>
 
     <header class="std-hero" data-aos="fade-up">
-        <div class="std-tag">Standard Institutionnel</div>
-        <h1 class="std-title">Standard TFIN ID : Spécification Technique de l'Identifiant RWA</h1>
+        <div class="std-tag">Spécification Technique // TFIN-v1</div>
+        <h1 class="std-title">Spécification Technique et RegEx de Validation TFIN ID</h1>
         <p style="color: #94a3b8; max-width: 800px; margin: 0 auto; font-size: 20px; line-height: 1.6;">
-            Le Tokenized Financial Instrument Number (TFIN) est un identifiant universel conçu pour faire le pont entre la technologie des registres distribués (DLT) et les marchés de capitaux institutionnels.
+            Syntaxe d'Expression Régulière (RegEx) et schémas JSON de validation pour l'identification des actifs réels sous protocole DCM GTSR.
         </p>
 
-        <div class="why-it-matters-box" style="margin: 30px auto 0; max-width: 800px; padding: 20px; border-radius: 12px; background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.15); text-align: left;">
-            <div style="font-family: 'Outfit'; font-size: 14px; font-weight: 700; color: var(--accent-std); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;"><i class="fas fa-circle-info"></i> Pourquoi c'est important</div>
-            <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1; margin: 0;">
-                Sans identifiant standardisé, les actifs tokenisés restent prisonniers de silos technologiques incompatibles. L'adoption du format TFIN ID automatise les contrôles de conformité transfrontaliers et fluidifie instantanément le transfert de propriété sur les marchés secondaires.
-            </p>
+        <div style="margin: 30px auto 0; max-width: 700px; padding: 20px; border-radius: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(139, 92, 246, 0.2); text-align: left; font-family:'JetBrains Mono', monospace; font-size:13px;">
+            <div style="color: var(--accent-std); font-weight: 700; margin-bottom: 8px;">[EXPRESSION RÉGULIÈRE DE VALIDATION]</div>
+            <code style="color:#fff; font-size:14px; display:block; background:#111; padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.05); margin-bottom:10px;">
+                /^TFIN-[A-Z]{4}-[A-Z]{3}-[0-9]{4}-[0-9]{4}$/
+            </code>
+            <span style="color:#64748b; font-size:11px; display:block;">
+                *Note : Sensible à la casse. Le segment 1 doit strictement respecter la classification TFIC. Le segment 2 désigne l'identifiant du registre blockchain. Le segment 3 correspond à l'année ISO d'émission.
+            </span>
         </div>
 
         <div style="margin-top: 30px;">
@@ -573,6 +576,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <strong>Registre Institutionnel</strong>
                     Tous les TFIN émis sont répertoriés dans le <a href="../observatory/registre-titres-tokenises.html" style="color:var(--accent-obs);">Global Tokenized Securities Registry (GTSR)</a> pour une traçabilité multi-chaînes.
                 </div>
+            </div>
+
+            <div style="margin-top:30px;">
+                <strong style="color:var(--accent-std); font-family:'Outfit'; font-size:16px; display:block; margin-bottom:12px;">Définition de Schéma JSON (tfin-schema.json)</strong>
+                <pre style="background:#000; border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:12px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#a9b1d6; overflow-x:auto; margin:0;">
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TokenizedFinancialInstrumentNumber",
+  "type": "object",
+  "properties": {
+    "tfinId": {
+      "type": "string",
+      "pattern": "^TFIN-[A-Z]{4}-[A-Z]{3}-[0-9]{4}-[0-9]{4}$"
+    },
+    "classification": {
+      "type": "string",
+      "enum": ["DEBT", "EQTY", "FUND", "STRU"]
+    },
+    "ledger": {
+      "type": "string",
+      "enum": ["ETH", "POL", "STR", "HYP"]
+    }
+  },
+  "required": ["tfinId", "classification", "ledger"]
+}</pre>
+            </div>
+
+            <div style="background:rgba(245, 158, 11, 0.03); border:1px dashed rgba(245, 158, 11, 0.2); padding:15px; border-radius:6px; font-size:13px; color:#94a3b8; line-height:1.5; margin-top:30px;">
+                <strong>Avertissement Technique :</strong> 
+                La syntaxe regex est optimisée pour les moteurs RegExp ECMAScript. Certains environnements DLT ou bases de données SQL peuvent exiger des ajustements de paramètres d'échappement (ex: omission des marqueurs de limites <code>^</code> et <code>$</code> dans les schémas PostgreSQL spécifiques). La synchronisation avec des registres hors ligne est soumise à des latences de mise à jour.
             </div>
         </div>
 

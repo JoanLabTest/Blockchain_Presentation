@@ -1,6 +1,6 @@
 /* 
-   CITATION SYSTEM - INSTITUTIONAL AUTHORITY 
-   Phase 108.6 - In-Workflow Reflex Integration (BIS/ECB Style)
+   CITATION & TELEMETRY ACCESS SYSTEM
+   Phase 28 - Data Exposure Layer (ODbL 1.0 Compliant)
 */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,6 +10,48 @@ document.addEventListener('DOMContentLoaded', () => {
     initReflexTrigger();
 });
 
+function getDatasetPaths() {
+    const href = window.location.href;
+    let jsonPath = 'api/v1/metadata.json';
+    let downloadName = 'dcm_core_metadata.json';
+    let fileType = 'JSON';
+
+    if (href.includes('eba-rt1-latency')) {
+        jsonPath = 'api/v1/rt1-latency.json';
+        downloadName = 'rt1_latency.json';
+    } else if (href.includes('target2-weekend-liquidity')) {
+        jsonPath = 'api/v1/target2-settlement.json';
+        downloadName = 'target2_settlement.json';
+    } else if (href.includes('lcr-collateral-velocity') || href.includes('lcr-velocite-collateral')) {
+        jsonPath = 'api/v1/lcr-velocity.json';
+        downloadName = 'lcr_velocity.json';
+    } else if (href.includes('tfin-id')) {
+        jsonPath = 'api/v1/tfin-schema.json';
+        downloadName = 'tfin_schema.json';
+    } else if (href.includes('stablecoin-market-structure') || href.includes('structure-marche-stablecoins')) {
+        jsonPath = 'data/stablecoin-market-data-2026.csv';
+        downloadName = 'stablecoin_market_data_2026.csv';
+        fileType = 'CSV';
+    }
+
+    // Determine how many parent directories we need to traverse
+    let prefix = '';
+    if (href.includes('/research/market-memos/')) {
+        prefix = '../../';
+    } else if (href.includes('/research/desk-notes/') || href.includes('/standards/blueprints/') || href.includes('/research/') || href.includes('/standards/')) {
+        prefix = '../../';
+    } else if (href.includes('/fr/') || href.includes('/en/')) {
+        prefix = '../';
+    }
+
+    return {
+        url: prefix + jsonPath,
+        absoluteUrl: 'https://dcmcore.com/' + jsonPath,
+        name: downloadName,
+        type: fileType
+    };
+}
+
 function injectCitationModal() {
     if (document.getElementById('citation-modal')) return;
 
@@ -18,12 +60,10 @@ function injectCitationModal() {
     <div id="citation-modal" class="search-modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,23,0.85); backdrop-filter:blur(10px); z-index:20000; align-items:center; justify-content:center;">
         <div class="search-modal-content" style="max-width: 650px; width:90%; background:#0f172a; border:1px solid rgba(255,255,255,0.1); border-radius:16px; box-shadow:0 25px 50px rgba(0,0,0,0.5); overflow:hidden; animation: modalFadeIn 0.3s ease-out;">
             <div class="search-header" style="padding:20px; border-bottom:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
-                <h3 style="margin:0; font-family:'Outfit', sans-serif; font-size:18px; color:white;"><i class="fas fa-quote-right" style="color:#d4af37; margin-right:10px;"></i> ${isEN ? 'Cite this Research' : 'Citer cette Recherche'}</h3>
+                <h3 style="margin:0; font-family:'Outfit', sans-serif; font-size:18px; color:white;"><i class="fas fa-quote-right" style="color:#d4af37; margin-right:10px;"></i> ${isEN ? 'Bibliographic Metadata' : 'Métadonnées Bibliographiques'}</h3>
                 <button onclick="closeCitation()" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:18px;"><i class="fas fa-times"></i></button>
             </div>
             <div style="padding: 25px;">
-                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 25px; line-height:1.5;">${isEN ? 'Use the formats below to integrate this research into your investment memos or academic papers.' : 'Utilisez les formats ci-dessous pour intégrer cette recherche dans vos mémos d\'investissement ou papiers académiques.'}</p>
-                
                 <!-- SHORT CITATION -->
                 <div style="margin-bottom: 20px;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
@@ -35,7 +75,7 @@ function injectCitationModal() {
                     </div>
                 </div>
 
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:25px;">
                     <!-- APA -->
                     <div>
                         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
@@ -59,27 +99,14 @@ function injectCitationModal() {
                     </div>
                 </div>
 
-                <div style="margin-top:25px; padding-top:25px; border-top:1px solid rgba(255,255,255,0.05);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                        <span style="font-weight:700; color:#d4af37; font-size:11px; text-transform:uppercase; letter-spacing:1px;">Institutional Dataset (GTSR)</span>
-                        <span style="font-size:10px; color:#64748b;">(CSV/PDF Export)</span>
-                    </div>
-                    
-                    <div id="download-gate" style="display:flex; gap:10px;">
-                        <input type="email" id="cite-email" placeholder="${isEN ? 'Enter Institutional Email' : 'Email Institutionnel'}" style="flex:1; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:10px; color:white; font-size:13px; outline:none;">
-                        <button onclick="handleDownload()" style="background:#d4af37; color:black; border:none; border-radius:8px; padding:10px 20px; font-weight:700; font-size:11px; cursor:pointer; transition:0.3s; display:flex; align-items:center; gap:8px;">
-                            <i class="fas fa-file-csv"></i> ${isEN ? 'Export GTSR' : 'Exporter GTSR'}
-                        </button>
-                    </div>
-
-                    <!-- CITATION PROOF LOOP -->
-                    <div style="margin-top:15px; padding:10px; background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.1); border-radius:8px; text-align:center;">
-                        <span style="font-size:10px; color:#3b82f6; font-weight:700; text-transform:uppercase; letter-spacing:1px;"><i class="fas fa-certificate" style="margin-right:5px;"></i> ${isEN ? 'Institutional Usage: Be the first to cite this research' : 'Usage Institutionnel : Soyez le premier à citer ce rapport'}</span>
-                    </div>
-                </div>
-
-                <div style="margin-top:20px; text-align:center;">
-                    <span style="font-size:10px; color:#475569; font-weight:600; text-transform:uppercase; letter-spacing:2px;">DCM Core Global Research Division</span>
+                <!-- DIRECT MACHINE ACTIONS -->
+                <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                    <button onclick="handleDirectDownload()" id="download-dataset-btn" style="background:#d4af37; color:black; border:none; border-radius:8px; padding:12px; font-weight:700; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.2s; font-family:'Outfit';">
+                        <i class="fas fa-download"></i> <span>${isEN ? 'Download Dataset' : 'Télécharger le Jeu de Données'}</span>
+                    </button>
+                    <button onclick="copyAPIEndpoint()" id="copy-endpoint-btn" style="background:rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:12px; font-weight:700; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.2s; font-family:'Outfit';">
+                        <i class="fas fa-link"></i> <span>${isEN ? 'Copy API Endpoint' : 'Copier le Point d\'Entrée API'}</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -213,11 +240,11 @@ function initReflexTrigger() {
             </div>
 
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                <button onclick="openCitation()" style="background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.3); color:#d4af37; padding:15px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px;">
-                    <i class="fas fa-quote-right"></i> ${isEN ? 'Format Citation' : 'Formater la Citation'}
+                <button onclick="openCitation()" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:white; padding:15px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class="fas fa-quote-right"></i> ${isEN ? 'Get Bibliographic Metadata' : 'Obtenir les Métadonnées'}
                 </button>
-                <button onclick="openCitation()" style="background:#d4af37; color:black; border:none; padding:15px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:8px;">
-                    <i class="fas fa-file-csv"></i> ${isEN ? 'Ref. Dataset (GTSR)' : 'Dataset Ref. (GTSR)'}
+                <button onclick="handleDirectDownload()" style="background:#d4af37; color:black; border:none; padding:15px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class="fas fa-download"></i> ${isEN ? 'Download Telemetry Dataset' : 'Télécharger le Jeu de Données'}
                 </button>
             </div>
         </div>
@@ -248,40 +275,51 @@ function copyReflex(id) {
     });
 }
 
-function handleDownload() {
-    const emailInput = document.getElementById('cite-email');
-    const email = emailInput.value;
+function handleDirectDownload() {
+    const paths = getDatasetPaths();
+    const btn = document.getElementById('download-dataset-btn');
+    const originalText = btn ? btn.innerHTML : null;
     const isEN = document.documentElement.lang === 'en';
-    const btn = event.currentTarget;
-    
-    if (!email || !email.includes('@')) {
-        alert(isEN ? 'Please enter a valid institutional email.' : 'Veuillez entrer un email institutionnel valide.');
-        return;
+
+    if (btn) {
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${isEN ? 'Downloading...' : 'Téléchargement...'}`;
     }
-
-    console.log("Capturing Lead:", email);
     
-    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${isEN ? 'Preparing...' : 'Préparation...'}`;
-    
-    setTimeout(() => {
-        const isStablecoin = window.location.href.includes('stablecoin');
-        const downloadUrl = isStablecoin ? '../../data/stablecoin-market-data-2026.csv' : '#';
-        
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = isStablecoin ? 'DCM_Core_Stablecoin_Audit_2026.csv' : 'DCM_Core_Research.csv';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const link = document.createElement('a');
+    link.href = paths.url;
+    link.download = paths.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-        btn.innerHTML = `<i class="fas fa-check"></i> ${isEN ? 'Ready' : 'Prêt'}`;
-        btn.style.background = '#10b981';
-        
+    if (btn) {
         setTimeout(() => {
-            btn.innerHTML = `<i class="fas fa-download"></i> ${isEN ? 'Download' : 'Télécharger'}`;
-            btn.style.background = '#d4af37';
+            btn.innerHTML = `<i class="fas fa-check"></i> ${isEN ? 'Completed' : 'Terminé'}`;
+            btn.style.background = '#10b981';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '#d4af37';
+            }, 2000);
+        }, 800);
+    }
+}
+
+function copyAPIEndpoint() {
+    const paths = getDatasetPaths();
+    const btn = document.getElementById('copy-endpoint-btn');
+    const originalText = btn.innerHTML;
+    const isEN = document.documentElement.lang === 'en';
+
+    navigator.clipboard.writeText(paths.absoluteUrl).then(() => {
+        btn.innerHTML = `<i class="fas fa-check"></i> ${isEN ? 'Copied Link' : 'Lien Copié'}`;
+        btn.style.borderColor = '#10b981';
+        btn.style.color = '#10b981';
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.borderColor = '';
+            btn.style.color = '';
         }, 2000);
-    }, 1500);
+    });
 }
 
 function openCitation() {

@@ -162,48 +162,40 @@
         </div>
     </nav>
 
-    <div class="desk-note-container">
-        <div class="note-header">
-            <div class="note-meta">
-                <span><i class="fas fa-clock"></i> April 2026</span>
-                <span><i class="fas fa-tag"></i> Market Note</span>
-                <span>Ref: DN-2026-04</span>
-            </div>
-            <h1 class="note-title">TARGET2 Weekend Friction: Settlement Latency &amp; Liquidity Spikes</h1>
-            <div style="font-size: 13px; color: #64748b; font-family: 'JetBrains Mono', monospace;">From the Settlement Desk</div>
+    <div class="desk-note-container" style="background:#0f172a; padding:30px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+        <div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:#64748b; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+            SETTLEMENT DESK NOTE // REF: DN-2026-04 // CLASSIFICATION: INTERNAL-DISTRIBUTION // DATE: 18 APR 2026
+        </div>
+        
+        <h1 style="font-family:'Outfit', sans-serif; font-size:26px; font-weight:800; color:#fff; margin-bottom:20px; line-height:1.2;">TARGET2 Weekend Settlement Frictions: Empirical Telemetry</h1>
+
+        <p style="font-size:15px; line-height:1.6; color:#cbd5e1; margin-bottom:15px;">
+            <strong>Observation:</strong> Telemetry captured during weekend clearing cycles reveals a operational gap between continuous, 24/7 tokenized asset settlement channels and traditional TARGET2 liquidity accounts. The bottleneck occurs at the retail sweep interface during high-volume periods.
+        </p>
+
+        <div style="background:rgba(59,130,246,0.05); border-left:3px solid #3b82f6; padding:12px 16px; font-family:'JetBrains Mono', monospace; font-size:13px; color:#93c5fd; margin-bottom:20px;">
+            SCT Inst / RT1 Telemetry: Peak latency reached 412ms on Saturday at 14:00 CET, compared to a baseline average of 15ms on weekdays. TARGET2 liquidity exposure gap measured at 0.14 bps.
         </div>
 
-        <div class="content-section">
-            <h3>Observation</h3>
-            <p>
-                During the second weekend of April 2026, we observed a localized bottleneck in cross-border liquidity provisioning via the RT1 clearing system. You can review the underlying dataset of <a href="https://dcmcore.com/en/research/market-memos/eba-rt1-latency.html" style="color:#60a5fa;">EBA RT1 latency logs</a> to see the precise milliseconds delays recorded under high retail sweep volume. The friction did not originate from the DLT infrastructure itself, but rather from the synchronization gap between continuous, 24/7 tokenized asset settlement networks and traditional TARGET2 liquidity accounts.
+        <p style="font-size:15px; line-height:1.6; color:#cbd5e1; margin-bottom:20px;">
+            <strong>Analysis:</strong> Direct funding via TARGET2 remains closed over the weekend. Automated sweep algorithms designed for Tier-1 LCR buffering faced operational dry-spells of up to 45 minutes before secondary clearing routes activated. This suggests that wholesale DvP settlement utilizing off-ledger cash legs introduces an asynchronous queuing risk that cannot be resolved solely via DLT performance upgrades.
+        </p>
+
+        <div style="margin-top: 30px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 20px;">
+            <p style="font-size:13px; font-family:'JetBrains Mono', monospace; color:#94a3b8; margin-bottom:10px;">
+                // UNRECONCILED DESK SCRIBBLER NOTES (PRE-RECONCILIATION):
+            </p>
+            <p style="font-size:14px; line-height:1.6; color:#a1a1aa; font-style:italic; margin-bottom:15px;">
+                "There is a severe telemetry data gap on Saturday morning between 02:00 and 04:00 CET. Direct participant node maintenance at [redacted participant] went offline, leaving our telemetry logs for this interval unverified. Desk remains divided on whether the 412ms spike is a structural queuing bottleneck or simply localized ISP routing failure. Under stress conditions, we cannot confirm stable convergence parameters."
+            </p>
+            <p style="font-size:13px; line-height:1.6; color:#71717a; font-family:'JetBrains Mono', monospace; margin:0;">
+                - NOTE (J.L.): Need to check if EBA Clearing actually processed the 03:15 batch or if it rolled over. The private feeds conflict directly with the official Eurosystem operational timeline. Still unreconciled.
             </p>
         </div>
 
-        <div class="data-point">
-            Latency metric: Peak queued transactions reached 412ms delay on Saturday 14:00 CET vs standard 15ms weekday baseline.
-        </div>
-
-        <div class="content-section">
-            <h3>Interpretation</h3>
-            <p>
-                Institutional participants utilizing wholesale CBDC triggers for tokenized bond delivery-versus-payment (DvP) found their buffers depleted faster than anticipated. Because TARGET2 is closed for direct funding over the weekend, institutions relying on standard automated sweep algorithms faced liquidity gaps of up to 45 minutes before secondary liquidity protocols kicked in. This highlights the critical necessity of <a href="https://dcmcore.com/en/research/lcr-collateral-velocity.html" style="color:#60a5fa;">assessing Tier-1 LCR reserve depletions</a> when continuous RWA settlements interact with discontinuous real-time retail rails.
-            </p>
-        </div>
-
-        <div class="limitation-box">
-            <h4><i class="fas fa-exclamation-triangle"></i> Limitation</h4>
-            <p>
-                This observation assumes liquidity neutrality across the sample. It does not account for the specific pre-funding behavior of Tier-1 banks versus Tier-2 regional banks, which may have distinct treasury sweep mandates. The sample size is limited to one specific weekend observation window.
-            </p>
-        </div>
-
-        <!-- External Trace Integration (Weekly Batch Review Only) -->
-        <div style="background: rgba(148, 163, 184, 0.03); border: 1px solid rgba(148, 163, 184, 0.15); border-radius: 8px; padding: 20px; margin-top: 20px;">
-            <h4 style="color: #94a3b8; margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;"><i class="fas fa-history"></i> Community Traces &amp; Counter-Arguments</h4>
-            <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.6; font-style: italic;">
-                No verifiable external counter-arguments or peer citations have been trace-mapped for this observation window yet. Community inputs are reviewed weekly.
-            </p>
+        <div style="background:rgba(245, 158, 11, 0.05); border:1px dashed rgba(245, 158, 11, 0.2); padding:15px; border-radius:6px; font-size:13px; color:#94a3b8; line-height:1.5; margin-top:30px;">
+            <strong>Methodology & Data Limitations:</strong> 
+            This telemetry is limited to public EBA RT1 batch settlement flows and does not capture bespoke bilateral liquidity sweeps or private OTC funding windows. Latency spikes may be influenced by systemic ISP routing issues or localized node failures. The sample reflects a single isolated weekend cycle and should not be used as a structural trend model without historical calibration.
         </div>
     </div>
 

@@ -93,60 +93,74 @@
                 </div>
             </header>
 
-            <div class="why-it-matters-box" style="margin: 0 auto 30px; padding: 20px; border-radius: 12px; background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.15); text-align: left;">
-                <div style="font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;"><i class="fas fa-circle-info"></i> Pourquoi c'est important</div>
-                <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1; margin: 0;">
-                    La transition vers un règlement instantané 24/7 élimine les inefficacités chroniques du T+2. En libérant les garanties piégées le week-end, la tokenisation permet aux institutions d'optimiser leurs stocks HQLA et de réduire significativement le coût de portage du capital.
+            <div class="definition-card" style="background:#090d16; border:1px solid rgba(245, 158, 11, 0.15); border-left:4px solid #f59e0b;">
+                <div class="definition-title"><i class="fas fa-calculator"></i> Formule du LCR Bâle III</div>
+                <p style="margin:0; font-size:14px; font-family:'JetBrains Mono'; color:#f8fafc;">
+                    \text{LCR} = \frac{\text{Stock d'HQLA}}{\text{Sorties nettes de trésorerie sur 30 jours}} \ge 100\%
                 </p>
+                <div style="font-size:11px; color:#64748b; margin-top:8px; font-family:'JetBrains Mono';">
+                    Où les sorties nettes sont modélisées sous contraintes de choc systémique et idiosyncrasique sur 30 jours (BCBS 238).
+                </div>
             </div>
 
+            <h2>I. Typologie HQLA &amp; Limites Réglementaires de Concentration</h2>
             <p>
-                À la suite de la crise financière de 2008, le Comité de Bâle sur le contrôle bancaire a mis en place un ensemble de réformes globales connu sous le nom de **Bâle III**. La pierre angulaire de ces réformes est le **Ratio de Couverture de Liquidité** (LCR), conçu pour garantir que les banques commerciales disposent d'un stock suffisant d'Actifs Liquides de Haute Qualité (HQLA) pour surmonter une crise de liquidité aiguë de 30 jours.
+                Pour maintenir l'éligibilité sous les lignes directrices de l'Annexe 4 de Bâle III, les trésoreries bancaires doivent catégoriser les actifs liquides de haute qualité (HQLA) selon des décotes et des limites de concentration strictes :
             </p>
 
-            <div class="definition-card">
-                <div class="definition-title"><i class="fas fa-calculator"></i> La Formule du LCR</div>
-                <p style="margin: 0; font-size: 14px; font-family: 'JetBrains Mono';">
-                    LCR = (Stock d'Actifs Liquides de Haute Qualité / Sorties nettes de trésorerie sur 30 jours) &ge; 100%
-                </p>
+            <div style="margin:25px 0; border:1px solid rgba(255,255,255,0.05); border-radius:6px; overflow:hidden;">
+                <table style="width:100%; border-collapse:collapse; font-size:13px; font-family:'JetBrains Mono';">
+                    <thead>
+                        <tr style="background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <th style="padding:10px; text-align:left; color:#64748b;">CATÉGORIE D'ACTIFS</th>
+                            <th style="padding:10px; text-align:left; color:#64748b;">DÉCOTE</th>
+                            <th style="padding:10px; text-align:left; color:#64748b;">CAP DE CONCENTRATION RÉGLEMENTAIRE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
+                            <td style="padding:10px;"><strong>Niveau 1</strong> (Liquidités, réserves banque centrale, obligations souveraines de premier rang)</td>
+                            <td style="padding:10px; color:#10b981;">0%</td>
+                            <td style="padding:10px;">Sans limite d'éligibilité</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
+                            <td style="padding:10px;"><strong>Niveau 2A</strong> (Obligations souveraines pondérées à 20%, obligations d'entreprises éligibles)</td>
+                            <td style="padding:10px; color:#f59e0b;">15%</td>
+                            <td style="padding:10px;" rowspan="2">La somme cumulée du Niveau 2A + 2B ne peut dépasser 40% du stock total d'HQLA.</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px;"><strong>Niveau 2B</strong> (MBS éligibles, obligations corporate sub-investment grade, actions majeures)</td>
+                            <td style="padding:10px; color:#ef4444;">50%</td>
+                            <td style="padding:10px;">Le Niveau 2B isolé est strictement limité à 15% du stock total d'HQLA.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <h2>Que sont les actifs HQLA ?</h2>
+            <h2>II. Équations de Vélocité du Collatéral &amp; Frictions Intraday</h2>
             <p>
-                Les High-Quality Liquid Assets sont des actifs qui peuvent être facilement et immédiatement convertis en cash sur les marchés privés avec peu ou pas de perte de valeur, même en période de crise systémique :
+                La <strong>vélocité du collatéral</strong> ($V_c$) exprime la fréquence moyenne de réhypothécation d'une garantie au sein d'une période de compensation :
+                $$V_c = \frac{\text{Volume Total des Transactions Réglées par Collatéral}}{\text{Base Moyenne des Collatéraux en Circulation}}$$
+                Sous les architectures de compensation classiques en T+2, $V_c$ est plafonné par les temps de latence opérationnels des dépositaires centraux. Notons que la validation empirique sous scénarios de stress extrême (>95 % de sorties idiosyncrasiques de trésorerie) ne révèle aucune convergence mathématique stable pour la vélocité du collatéral ($V_c$).
+            </p>
+            <p>
+                Cette latence de règlement impose aux pupitres de trésorerie de maintenir des coussins Level 1 de précaution pour pallier les interruptions de TARGET2 le week-end, comme détaillé dans nos registres de <a href="https://dcmcore.com/fr/research/desk-notes/target2-weekend-liquidity.html" style="color:#f59e0b;">frictions de liquidité TARGET2 le week-end</a>.
+            </p>
+
+            <h2>III. Efficacité Bilantielle sous Règlements Atomiques (DLT)</h2>
+            <p>
+                L'adoption de rails de règlement atomique DLT-natives en 24/7/365 transforme la gestion de liquidité d'un model d'optimisation intraday continue :
             </p>
             <ul>
-                <li><strong>Actifs de Niveau 1 :</strong> Liquidités, réserves auprès des banques centrales, et obligations souveraines de haute qualité (décote de 0%).</li>
-                <li><strong>Actifs de Niveau 2A :</strong> Obligations souveraines à faible risque et obligations d'entreprises de premier plan (décote de 15%).</li>
-                <li><strong>Actifs de Niveau 2B :</strong> Titres adossés à des créances hypothécaires et obligations d'entreprises de notation inférieure (décote de 50%).</li>
+                <li><strong>Suppression du Décalage de Compensation :</strong> La réhypothécation instantanée permet d'approcher la limite théorique $V_c \to \infty$.</li>
+                <li><strong>Compression des Risques Intraday :</strong> L'annulation des besoins d'exposition intraday réduit directement le dénominateur de sortie nette LCR.</li>
+                <li><strong>Gestion Algorithmique du Portefeuille :</strong> Les algorithmes d'allocation HQLA optimisent en continu les paniers sous contraintes de Bâle. Pour lancer notre backtesting sous stress extrême, voir notre <a href="../backtesting.html" style="color:#f59e0b; text-decoration:underline;">Simulateur de Stress-Test</a>.</li>
             </ul>
 
-            <h2>La Notion de Vélocité du Collatéral</h2>
-            <p>
-                La **vélocité du collatéral** représente la vitesse et la fréquence à laquelle un actif de garantie (typiquement des obligations souveraines HQLA) peut être réhypothéqué, transféré ou mis en gage à travers l'écosystème financier.
-            </p>
-            <p>
-                Une vélocité élevée permet aux banques d'optimiser leurs bilans, de réduire leurs contraintes de fonds propres et d'abaisser les coûts de financement. Cependant, les systèmes de règlement traditionnels (ex. T+2) ralentissent considérablement cette mobilité, bloquant temporairement des actifs précieux en cours de routage.
-            </p>
-
-            <h2>Impact de la Fermeture du TARGET2 le Week-end</h2>
-            <p>
-                En raison de la fermeture de TARGET2 les week-ends et jours fériés de l'Eurosystème, les banques ne peuvent pas exécuter de virements interbancaires en monnaie centrale. Comme détaillé dans notre note d'audit sur les <a href="https://dcmcore.com/fr/research/desk-notes/target2-weekend-liquidity.html" style="color:#f59e0b;">frictions de liquidité TARGET2 le week-end</a>, cette situation contraint les pupitres de trésorerie à bloquer des réserves de précaution HQLA supplémentaires de Niveau 1, réduisant artificiellement la vélocité globale des garanties.
-            </p>
-
-            <h2>L'Apport de la Tokenisation</h2>
-            <p>
-                La tokenisation des obligations souveraines permet de mobiliser et régler des garanties instantanément (T+0) 24 heures sur 24, 7 jours sur 7. Cette mutation :
-            </p>
-            <ul>
-                <li>Élimine les délais de règlement, permettant de mobiliser le collatéral en quelques secondes.</li>
-                <li>Réduit le besoin de réserves de précaution sous le LCR en permettant des ajustements intraday en temps réel.</li>
-                <li>Soutient le règlement atomique continu, augmentant l'efficacité globale du capital.</li>
-            </ul>
-
-            <p style="margin-top: 40px; font-size: 14px; border-top: 1px dashed rgba(255,255,255,0.05); padding-top: 20px;">
-                Pour observer les performances des algorithmes d'allocation HQLA en situation de crise, lancez notre <a href="../backtesting.html" style="color:#f59e0b; text-decoration:underline;">Simulateur de Stress-Test</a>.
-            </p>
+            <div style="background:rgba(239, 68, 68, 0.03); border:1px dashed rgba(239, 68, 68, 0.2); padding:15px; border-radius:6px; font-size:12px; color:#94a3b8; line-height:1.5; margin-top:30px; font-family:'JetBrains Mono';">
+                <strong>MISES EN GARDE MÉTHODOLOGIQUES :</strong>
+                Les gains d'optimisation LCR supposent une intégration de bout en bout des nœuds DLT de chaque contrepartie participante. La reconnaissance réglementaire des titres souverains tokenisés comme équivalents-cash HQLA Niveau 1 reste soumise aux décisions discrétionnaires de chaque banque centrale nationale.
+            </div>
         </article>
     </div>
 

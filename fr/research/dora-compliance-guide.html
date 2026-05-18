@@ -74,49 +74,43 @@
 
         <article class="article-body">
             <header class="article-header">
-                <span class="article-category">Résilience Opérationnelle</span>
-                <h1 class="article-title">Règlement DORA : Guide de Conformité &amp; Sécurité IT DLT</h1>
+                <span class="article-category">REVUE DE CONFORMITÉ TECHNIQUE // RÈGLEMENT (UE) 2022/2554</span>
+                <h1 class="article-title" style="font-family:'Outfit', sans-serif; font-weight:800; font-size:32px;">Règlement (UE) 2022/2554 (DORA) : Normes Techniques pour Registres Distribués</h1>
                 <div class="article-meta">
-                    <span><i class="far fa-calendar"></i> 17 Mars 2026</span>
-                    <span><i class="far fa-clock"></i> 10 min de lecture</span>
+                    <span><i class="far fa-calendar"></i> Publié le : 17 Mars 2026</span>
+                    <span><i class="far fa-user"></i> Auteur : Division du Contrôle des Risques Opérationnels</span>
                 </div>
             </header>
 
-            <div class="why-it-matters-box" style="margin: 0 auto 40px; padding: 20px; border-radius: 12px; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.15); text-align: left;">
-                <div style="font-family: 'Outfit'; font-size: 14px; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;"><i class="fas fa-circle-info"></i> Pourquoi c'est important</div>
-                <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1; margin: 0;">
-                    La cyber-résilience n'est plus une simple option technique, mais une exigence légale stricte. Sous DORA, toute faille de sécurité informatique ou interruption de registre DLT peut entraîner des sanctions massives et menacer l'agrément réglementaire des institutions financières.
+            <p>
+                <strong>Évaluation de Conformité :</strong> Cette note technique analyse l'application du Règlement sur la Résilience Opérationnelle Numérique (DORA) sous le Règlement (UE) 2022/2554, en ciblant spécifiquement la sécurité opérationnelle des architectures DLT, les transitions d'état des smart contracts et les dépendances d'infrastructure tierce. Elle définit les checkpoints d'audit obligatoires pour les institutions financières de l'EEE.
+            </p>
+
+            <h2>I. Classification des Risques Consensus et Nœuds</h2>
+            <p>
+                Les nœuds DLT déployés au sein d'infrastructures de règlement interbancaire ou de marché sont qualifiés d'infrastructures ICT critiques au sens de l'Article 6. Les émetteurs et CASPs doivent maintenir un plan d'isolement strict :
+            </p>
+            <ul>
+                <li><strong>Intégrité du Réseau :</strong> Les validateurs doivent isoler les canaux de transmission pour éviter l'exposition aux attaques par déni de service. Ce cadre fonctionne en parfaite coordination avec les <a href="https://dcmcore.com/fr/research/mica-deep-dive.html" style="color:#10b981;">réserves de stablecoins imposées par MiCA</a>.</li>
+                <li><strong>Redondance Géographique :</strong> Les infrastructures de validation doivent être distribuées géographiquement afin d'éviter qu'un incident réseau localisé ne compromette le consensus.</li>
+            </ul>
+
+            <div style="background:rgba(16, 185, 129, 0.03); border:1px solid rgba(16, 185, 129, 0.1); border-left:3px solid #10b981; border-radius:8px; padding:20px; margin:30px 0;">
+                <span style="font-family:'JetBrains Mono', monospace; font-size:11px; color:#10b981; font-weight:700; display:block; margin-bottom:8px;">ATTESTATION DE SÉCURITÉ CONTRATS</span>
+                <p style="font-size:14px; line-height:1.5; color:#94a3b8; margin:0;">
+                    Tout code de smart contract gérant des titres financiers (comme ceux décrits dans nos <a href="https://dcmcore.com/fr/standards/tfin-id.html" style="color:#10b981;">spécifications TFIN ID</a>) doit faire l'objet d'une vérification formelle mathématique avant déploiement. L'absence de journalisation des anomalies constitue un écart de conformité majeur sous DORA.
                 </p>
             </div>
 
+            <h2>II. Tests de Pénétration Avancés (TLPT)</h2>
             <p>
-                Le Règlement sur la résilience opérationnelle numérique (DORA) est une initiative européenne phare conçue pour garantir que le secteur financier puisse résister, répondre et se rétablir après tous les types de perturbations et de menaces liées aux ICT. Pour les institutions déployant des solutions DLT et des actifs RWA sous le règlement <a href="https://dcmcore.com/fr/research/mica-deep-dive.html" style="color:#10b981;">européen MiCA sur les crypto-actifs</a>, la conformité DORA est un prérequis absolu.
+                En vertu de l'Article 26, les entités financières d'importance systémique sont tenues de réaliser des tests de pénétration basés sur les menaces (Threat-Led Penetration Testing ou TLPT) tous les trois ans. Ce périmètre doit intégrer les couches applicatives on-chain et les protocoles d'oracle.
             </p>
 
-            <h2>Les cinq piliers de DORA</h2>
-            <p>
-                DORA consolide et rationalise les règles de gestion des risques ICT dans l'ensemble du secteur financier de l'UE, en se concentrant sur cinq domaines clés :
-            </p>
-            
-            <h3>1. Gestion des risques ICT</h3>
-            <p>Mettre en place des cadres complets de gouvernance et de contrôle internes pour gérer efficacement les risques ICT.</p>
-
-            <h3>2. Signalement des incidents</h3>
-            <p>Harmoniser la classification et le signalement des incidents ICT majeurs auprès des autorités compétentes.</p>
-
-            <div class="resilience-box">
-                <div class="resilience-title">Aperçu de l'implémentation DLT</div>
-                <p style="font-size:14px;">Les vulnérabilités des contrats intelligents (Smart Contracts) et les pannes au niveau des nœuds sont classées comme des incidents ICT significatifs sous DORA. Consultez notre spécification du <a href="https://dcmcore.com/fr/standards/tfin-id.html" style="color:#10b981;">standard d'identification TFIN ID</a> pour l'identification sécurisée.</p>
+            <div style="background:rgba(245, 158, 11, 0.05); border:1px dashed rgba(245, 158, 11, 0.2); padding:15px; border-radius:6px; font-size:13px; color:#94a3b8; line-height:1.5; margin-top:30px;">
+                <strong>Clause de Non-Responsabilité et Limites d'Audit :</strong> 
+                Cette analyse présente une interprétation de conformité réglementaire du Règlement (UE) 2022/2554. Elle ne se substitue pas à une certification d'audit formelle. Chaque architecture DLT doit faire l'objet d'une validation indépendante par un prestataire d'audit de sécurité qualifié.
             </div>
-
-            <h3>3. Tests de résilience opérationnelle numérique</h3>
-            <p>Imposer des tests réguliers des systèmes ICT, y compris des tests de pénétration par menace (TLPT) pour les entités financières de base.</p>
-
-            <h3>4. Risques liés aux tiers ICT</h3>
-            <p>Garantir une surveillance rigoureuse des risques découlant du recours à des prestataires tiers de services ICT (y compris les fournisseurs d'infrastructure blockchain).</p>
-
-            <h3>5. Partage d'informations</h3>
-            <p>Encourager les institutions à partager des renseignements sur les cybermenaces afin de renforcer la résilience collective de l'écosystème financier.</p>
         </article>
     </div>
 
