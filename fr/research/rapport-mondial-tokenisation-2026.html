@@ -483,16 +483,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </header>
 
     <!-- NEW: DOWNLOAD DATASET BUTTON -->
-    <div style="margin-bottom:40px; display:flex; gap:12px; justify-content:center; animation: fadeInUp 0.8s ease-out 0.4s both;">
+    <div style="margin-top:20px; margin-bottom:60px; display:flex; gap:12px; justify-content:center; animation: fadeInUp 0.8s ease-out 0.4s both;">
         <button onclick="openCitation()" class="cite-trigger" style="background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.3); color:#d4af37; padding:12px 28px; border-radius:12px; font-family:'Outfit'; font-weight:700; cursor:pointer; font-size:14px; display:flex; align-items:center; gap:10px; transition:0.3s; box-shadow:0 10px 20px rgba(0,0,0,0.2);">
             <i class="fas fa-quote-right"></i> Citer ce Rapport
         </button>
         <button onclick="openCitation()" style="background:#d4af37; color:black; border:none; padding:12px 28px; border-radius:12px; font-family:'Outfit'; font-weight:800; cursor:pointer; font-size:14px; display:flex; align-items:center; gap:10px; transition:0.3s; box-shadow:0 10px 25px rgba(212,175,55,0.25);">
-            <i class="fas fa-file-csv"></i> Download Institutional Dataset (GTSR)
+            <i class="fas fa-file-csv"></i> Télécharger le Dataset Institutionnel (GTSR)
         </button>
     </div>
 
-    <div class="report-main">
+    <div class="report-grid">
         <aside class="report-sidebar" data-aos="fade-right">
             <nav class="report-nav">
                 <a href="#ch1" class="report-nav-item active">01 Résumé Stratégique</a>
@@ -662,14 +662,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>
         AOS.init({ duration: 1000, once: true });
         
+        // Populate dynamic citation box on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const title = document.querySelector('meta[property="og:title"]')?.content || "Rapport Mondial sur la Tokenisation 2026";
+            const url = window.location.href;
+            const author = "DCM Core Institute";
+            const year = new Date().getFullYear();
+            const dateToday = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            
+            const bibtexString = `@techreport{globaltokenization2026,
+  author = {${author}},
+  title = {${title}},
+  institution = {DCM Core Institute},
+  year = {${year}},
+  url = {${url}},
+  note = {Accessed: ${dateToday}}
+}`;
+            const citationEl = document.getElementById('citation-content');
+            if (citationEl) {
+                citationEl.innerText = bibtexString;
+            }
+        });
+        
+        // Simple scroll spy for sidebar nav
         const sections = document.querySelectorAll('.report-chapter');
         const navItems = document.querySelectorAll('.report-nav-item');
 
         window.addEventListener('scroll', () => {
             let current = '';
+            const scrollPos = window.scrollY || window.pageYOffset;
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                if (pageYOffset >= (sectionTop - 200)) {
+                if (scrollPos >= (sectionTop - 200)) {
                     current = section.getAttribute('id');
                 }
             });
