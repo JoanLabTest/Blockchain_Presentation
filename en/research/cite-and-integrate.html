@@ -10,16 +10,16 @@
     <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="Cite, integrate, and reference DCM Core academic data. Access developer APIs, usage licenses, and standard citation rules." name="description" />
-    <title>Cite & Integrate | External Research Adoption | DCM Core</title>
+    <meta content="Cite, integrate, and reference DCM Core academic data. Access reproducible datasets, mathematical registries, and standard citation guides." name="description" />
+    <title>Cite &amp; Integrate | Reproductible Truth &amp; Scholarly Graph | DCM Core</title>
     
     <link rel="canonical" href="https://dcmcore.com/en/research/cite-and-integrate.html" />
     <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/research/cite-and-integrate.html" />
     <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/research/citer-et-integrer.html" />
 
     <!-- OpenGraph / LinkedIn Previews -->
-    <meta property="og:title" content="Cite & Integrate | External Research Adoption | DCM Core" />
-    <meta property="og:description" content="Integrate DCM Core academic data. Access API specifications, BibTeX templates, and scholarly citation resources." />
+    <meta property="og:title" content="Cite &amp; Integrate | Reproductible Truth &amp; Scholarly Graph | DCM Core" />
+    <meta property="og:description" content="Integrate DCM Core academic data. Access static datasets, mathematical index registries, and BibTeX citation templates." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://dcmcore.com/en/research/cite-and-integrate.html" />
     <meta property="og:image" content="https://dcmcore.com/assets/images/og-cite-preview.png" />
@@ -30,6 +30,10 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
 
+    <!-- Self-Hosted KaTeX -->
+    <link rel="stylesheet" href="../../css/katex.min.css" />
+    <script src="../../js/katex.min.js"></script>
+
     <!-- Stylesheets -->
     <link href="../../styles.css" rel="stylesheet" />
     <link href="../styles-footer.css" rel="stylesheet" />
@@ -37,6 +41,44 @@
     <link href="../../css/styles-monitor.css" rel="stylesheet" />
     <link href="../../css/styles-research.css" rel="stylesheet" />
     
+    <!-- Scholarly Metadata & Dataset JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "Eurosystem Empirical Baseline Dataset",
+      "description": "Verifiable baseline metrics compiled from TARGET2 quarterly reports and EBA Clearing performance indexes representing Eurozone liquidity settlement latency and weekend gap constraints.",
+      "url": "https://dcmcore.com/data/eurosystem-baseline.json",
+      "version": "2026.Q1-v1.0",
+      "creator": {
+        "@type": "Organization",
+        "name": "DCM Core Scholarly Committee"
+      },
+      "distribution": {
+        "@type": "DataDownload",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://dcmcore.com/data/eurosystem-baseline.json"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ScholarlyArticle",
+      "name": "European Stablecoin Market Structure & The Liquidity Migration Thesis",
+      "url": "https://dcmcore.com/en/research/european-stablecoin-market-structure-2026.html",
+      "identifier": "DCM-WP-2026-04",
+      "author": {
+        "@type": "Organization",
+        "name": "DCM Core Global Research"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "DCM Core Institute"
+      }
+    }
+    </script>
+
     <style>
         .portal-card {
             background: rgba(255, 255, 255, 0.02);
@@ -95,6 +137,31 @@
             border-bottom: 1px solid rgba(255,255,255,0.03);
             color: var(--term-text-sub);
         }
+        .tab-btn {
+            background: transparent;
+            border: 1px solid #1e293b;
+            color: #94a3b8;
+            padding: 6px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 6px;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+            color: #fff;
+        }
+        .math-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 2px solid #3b82f6;
+            padding: 14px;
+            border-radius: 4px;
+            margin: 12px 0;
+            font-size: 16px;
+        }
     </style>
     
     <script src="../../js/navigation-hub.js"></script>
@@ -126,9 +193,9 @@
         <!-- Left Sidebar (Static Navigation) -->
         <aside class="research-sidebar">
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--term-blue); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 12px; text-transform: uppercase;">ADOPTION GATEWAY</div>
-            <h2 style="font-size: 16px; color: #fff; margin-bottom: 20px;">Cite & Integrate</h2>
+            <h2 style="font-size: 16px; color: #fff; margin-bottom: 20px;">Cite &amp; Integrate</h2>
             <p style="font-size: 12px; color: var(--term-text-sub); line-height: 1.6;">
-                We encourage central banks, academic institutions, and fintech developers to integrate DCM Core analytics into their research pipelines.
+                We encourage central banks, academic institutions, and fintech developers to integrate DCM Core baseline datasets and mathematical models into their research pipelines under strict reproducibility standards.
             </p>
             <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
                 <div style="font-size: 10px; color: #64748b; margin-bottom: 8px; font-family: 'JetBrains Mono';">GLOBAL LICENSE</div>
@@ -139,45 +206,171 @@
         <!-- Main Content Panel -->
         <section class="hub-main">
             <div style="margin-bottom: 32px;">
-                <h1 style="font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 8px;">Cite & Integrate DCM Data</h1>
-                <p style="font-size: 14px; color: var(--term-text-muted); max-width: 700px;">Official guidelines for academic citations, developer API ingestion, and analytical visual reuse for external observers.</p>
+                <h1 style="font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 8px;">Cite &amp; Integrate DCM Data</h1>
+                <p style="font-size: 14px; color: var(--term-text-muted); max-width: 700px;">Official guidelines for academic citations, reproducible quarterly baseline snapshots, and transparent mathematical formulations.</p>
             </div>
 
-            <!-- 1. API Integration -->
-            <div class="portal-card">
+            <!-- 1. QUARTERLY BASELINE SYNC (L1) -->
+            <div class="portal-card" style="border-color: rgba(16, 185, 129, 0.2);">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                     <div>
-                        <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">01 / DEVELOPER API</span>
-                        <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Query the Academic Registry via JSON</h2>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #10b981;">01 / VERIFIED EXTERNAL BASELINES (L1)</span>
+                        <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Quarterly Baseline Dataset Ingestion</h2>
                     </div>
-                    <span class="citation-tag">API v1</span>
+                    <a href="../../data/eurosystem-baseline.json" download class="citation-tag" style="text-decoration:none;"><i class="fas fa-download"></i> JSON Dataset</a>
                 </div>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
-                    Retrieve structured BibTeX, APA strings, and abstract payloads for every released DCM Core Working Paper. Ideal for LLM RAG pipelines, zotero integrations, and fintech dashboards.
+                    To establish empirical reproducibility, DCM Core exposes versioned quarterly baselines containing audited TARGET2 statistics and EBA Clearing latencies. Query the baseline dataset below.
                 </p>
                 
-                <div class="code-block">
-                    <button class="copy-badge" onclick="navigator.clipboard.writeText('curl -X GET https://dcmcore.com/api/v1/research.json').then(() => { this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000); })">Copy</button>
-                    <code>curl -X GET https://dcmcore.com/api/v1/research.json</code>
+                <div style="margin-top: 20px; background: rgba(0,0,0,0.2); border: 1px solid #1e293b; padding: 16px; border-radius: 6px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span style="font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b;"><i class="fas fa-circle-notch fa-spin" id="sync-icon" style="display:none; color:#10b981; margin-right: 5px;"></i>Sync Status: <strong id="sync-status" style="color: #94a3b8;">NOT RUN</strong></span>
+                        <button class="tab-btn" onclick="fetchBaseline()" style="margin: 0; padding: 4px 10px; border-color: rgba(16,185,129,0.3); color:#10b981;">Retrieve Reference Dataset Snapshot</button>
+                    </div>
+
+                    <table class="citation-log-table" style="margin-top: 10px; display: none;" id="baseline-table">
+                        <thead>
+                            <tr>
+                                <th>Empirical Metric Type</th>
+                                <th>Baseline Value</th>
+                                <th>Primary Verification Source</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">TARGET2 Weekend Exposure Gap</td>
+                                <td id="t2-gap" style="font-family:'JetBrains Mono'; color:#3b82f6;">--</td>
+                                <td>ECB TARGET2 Consolidated Q1-2026</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">SCT Inst Latency Baseline</td>
+                                <td id="sct-latency" style="font-family:'JetBrains Mono'; color:#3b82f6;">--</td>
+                                <td>EBA Clearing RT1 SLA Performance Metrics</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">€STR Overnight Rate</td>
+                                <td id="estr-rate" style="font-family:'JetBrains Mono'; color:#3b82f6;">--</td>
+                                <td>ECB Statistical Data Warehouse (SDW)</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">HQLA Rehypothecation Freq</td>
+                                <td id="hqla-freq" style="font-family:'JetBrains Mono'; color:#3b82f6;">--</td>
+                                <td>BIS WP-1112 Collateral Baselines</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- 2. Academic Licensing -->
-            <div class="portal-card">
-                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">02 / ATTRIBUTION & REUSE</span>
-                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Creative Commons Usage License</h2>
+            <!-- 2. METHODOLOGICAL FORMULA REGISTRY (L2) -->
+            <div class="portal-card" style="border-color: rgba(139, 92, 246, 0.2);">
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #8b5cf6;">02 / METHODOLOGICAL FORMULA REGISTRY (L2)</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Layer 2 Formula Specifications</h2>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
-                    DCM Core maps, topology matrices, and coverage band graphics are available under <strong>Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)</strong>.
+                    Indices generated under Layer 2 are computed utilizing public math functions to ensure complete transparency. 
                 </p>
-                <ul style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; padding-left: 20px;">
-                    <li style="margin-bottom: 6px;"><strong>Attribution:</strong> You must provide a direct hyperlink to the original methodology or paper.</li>
-                    <li style="margin-bottom: 6px;"><strong>Non-Commercial:</strong> Internal academic and institutional policy use is fully permitted; commercial resale of raw data streams is restricted.</li>
-                </ul>
+
+                <!-- Formula 1 -->
+                <div style="margin-top: 20px;">
+                    <h4 style="color:#fff; font-size:13px; font-family:'JetBrains Mono'; margin-bottom:6px;"><i class="fas fa-wave-square" style="color:#8b5cf6; margin-right:6px;"></i>HQLA Velocity Index</h4>
+                    <p style="color:var(--term-text-sub); font-size:12px; margin-bottom:8px;">Measures high-quality liquid asset collateral rehypothecation frequency over Basel III limits.</p>
+                    <div id="formula-hqla" class="math-display"></div>
+                    <span style="font-size:11px; color:#f59e0b;"><i class="fas fa-triangle-exclamation"></i> Model Failure Boundary: Computed Velocity &lt; 1.0 (triggering collateral gridlock scenario).</span>
+                </div>
+
+                <!-- Formula 2 -->
+                <div style="margin-top: 24px;">
+                    <h4 style="color:#fff; font-size:13px; font-family:'JetBrains Mono'; margin-bottom:6px;"><i class="fas fa-network-wired" style="color:#8b5cf6; margin-right:6px;"></i>EU Rail Fragmentation Index</h4>
+                    <p style="color:var(--term-text-sub); font-size:12px; margin-bottom:8px;">Calculates the weighted standard deviation of SCT Inst processing latencies across active Eurozone NCBs.</p>
+                    <div id="formula-rail" class="math-display"></div>
+                    <span style="font-size:11px; color:#f59e0b;"><i class="fas fa-triangle-exclamation"></i> Model Failure Boundary: $F_{rail} > 12.0s$ (triggering persistent liquidity bifurcation).</span>
+                </div>
+
+                <!-- Formula 3 -->
+                <div style="margin-top: 24px;">
+                    <h4 style="color:#fff; font-size:13px; font-family:'JetBrains Mono'; margin-bottom:6px;"><i class="fas fa-shield-halved" style="color:#8b5cf6; margin-right:6px;"></i>DCM Telemetry Integrity Metric</h4>
+                    <p style="color:var(--term-text-sub); font-size:12px; margin-bottom:8px;">Weighted coefficient quantifying underlying oracle telemetry, backing ratios, and audit frequency.</p>
+                    <div id="formula-integrity" class="math-display"></div>
+                    <span style="font-size:11px; color:#f59e0b;"><i class="fas fa-triangle-exclamation"></i> Model Failure Boundary: Integrity Metric &lt; 0.65 (triggering structural warning state).</span>
+                </div>
             </div>
 
-            <!-- 3. Adoption & Reference Mapping -->
+            <!-- 3. GOOGLE SCHOLAR & SSRN CITATION GRAPH -->
             <div class="portal-card">
-                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">03 / ADOPTION LOG</span>
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">03 / CITATION HUB (SCHOLARLY GRAPH)</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Scholarly Citation &amp; Adjacency Matrix</h2>
+                <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
+                    For academic, central banking, or fintech policy review, utilize the BibTeX formats below. Mapped as thematically adjacent to primary Eurosystem research nodes.
+                </p>
+
+                <!-- Navigation Tabs -->
+                <div style="margin-top: 16px; display: flex; border-bottom: 1px solid #1e293b; padding-bottom: 8px;">
+                    <button class="tab-btn active" id="btn-sepa" onclick="switchCitation('sepa')">Tokenized SEPA Paper</button>
+                    <button class="tab-btn" id="btn-report" onclick="switchCitation('report')">Global Market Report</button>
+                </div>
+
+                <!-- Citation Display Area -->
+                <div id="citation-sepa-block" style="display: block;">
+                    <div class="code-block">
+                        <button class="copy-badge" onclick="copyCitationText('bibtex-sepa', this)">Copy BibTeX</button>
+                        <pre id="bibtex-sepa" style="margin:0; white-space:pre-wrap;">@techreport{dcmsepa2026,
+  author      = {DCM Core Global Research},
+  title       = {European Stablecoin Market Structure \& The Liquidity Migration Thesis},
+  institution = {DCM Core Institute},
+  year        = {2026},
+  number      = {DCM-WP-2026-04},
+  type        = {Working Paper},
+  url         = {https://dcmcore.com/en/research/european-stablecoin-market-structure-2026.html}
+}</pre>
+                    </div>
+                </div>
+
+                <div id="citation-report-block" style="display: none;">
+                    <div class="code-block">
+                        <button class="copy-badge" onclick="copyCitationText('bibtex-report', this)">Copy BibTeX</button>
+                        <pre id="bibtex-report" style="margin:0; white-space:pre-wrap;">@techreport{dcmglobal2026,
+  author      = {DCM Core Institute},
+  title       = {Global Tokenization Report 2026: Institutional Market Audit},
+  institution = {DCM Core Institute},
+  year        = {2026},
+  number      = {DCM-WP-2026-01},
+  type        = {Institutional Market Audit},
+  url         = {https://dcmcore.com/en/research/terminal.html}
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Adjacency Domain Matrix -->
+                <div style="margin-top: 24px; border-top: 1px solid #1e293b; padding-top: 20px;">
+                    <h4 style="color:#fff; font-size:12px; font-family:'JetBrains Mono'; margin-bottom:10px;"><i class="fas fa-link" style="color:var(--term-blue); margin-right:6px;"></i>Thematically Adjacent Research Nodes (External)</h4>
+                    <table class="citation-log-table">
+                        <thead>
+                            <tr>
+                                <th>Adjacent Research Node</th>
+                                <th>Institutional Author</th>
+                                <th>Divergence Context / Analytical Alignment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">BCE WP-2840</td>
+                                <td>European Central Bank</td>
+                                <td>Alignment on tokenization impact in Euro markets; divergence on retail vs. B2B structural caching triggers.</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">BRI WP-1112</td>
+                                <td>Bank for International Settlements</td>
+                                <td>Alignment on DLT tokenized deposit models; provides wholesale settlement risk baseline formulas.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Adoption & Reference Mapping -->
+            <div class="portal-card">
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">04 / ADOPTION LOG</span>
                 <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">External Reference Mapping Layer</h2>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
                     Verified tracking and analytical mapping of external academic ingestions, programmatic pulls, and modeled referencing scenarios.
@@ -188,7 +381,7 @@
                         <tr>
                             <th>Entity type</th>
                             <th>Referenced asset</th>
-                            <th>Context & Scope</th>
+                            <th>Context &amp; Scope</th>
                             <th>Confidence Tier</th>
                         </tr>
                     </thead>
@@ -215,10 +408,10 @@
                 </table>
             </div>
 
-            <!-- 4. Interpretation Drift Monitor -->
+            <!-- 5. Interpretation Drift Monitor -->
             <div class="portal-card">
-                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #f59e0b;">04 / NARRATIVE DRIFT MONITOR</span>
-                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Cognitive Comparison & Drift Logging</h2>
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #f59e0b;">05 / NARRATIVE DRIFT MONITOR</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Cognitive Comparison &amp; Drift Logging</h2>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
                     Maps the intellectual friction and narrative divergence between generalized market consensus and the DCM Core systemic model.
                 </p>
@@ -238,10 +431,11 @@
                     </div>
                 </div>
             </div>
-            <!-- 5. Methodological Dialectics -->
+
+            <!-- 6. Methodological Dialectics -->
             <div class="portal-card" style="border-color: rgba(148, 163, 184, 0.2);">
-                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #94a3b8;">05 / METHODOLOGICAL DIALECTICS</span>
-                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Academic Objections & Counter-Arguments</h2>
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #94a3b8;">06 / METHODOLOGICAL DIALECTICS</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Academic Objections &amp; Counter-Arguments</h2>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
                     To ensure rigorous academic transparency and prevent interpretive dogmatism, DCM Core hosts and formally structures the primary technical objections to our core indexes.
                 </p>
@@ -268,6 +462,77 @@
             </div>
         </section>
     </main>
+
+    <!-- Async Baseline Fetch Engine -->
+    <script>
+        function fetchBaseline() {
+            const syncIcon = document.getElementById('sync-icon');
+            const syncStatus = document.getElementById('sync-status');
+            const table = document.getElementById('baseline-table');
+
+            syncIcon.style.display = 'inline-block';
+            syncStatus.innerText = 'FETCHING...';
+            syncStatus.style.color = '#f59e0b';
+
+            // Simulate slight latency for natural UX, then fetch real JSON
+            setTimeout(() => {
+                fetch('../../data/eurosystem-baseline.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('t2-gap').innerText = data.metrics.target2.weekend_gap_exposure_bps.toFixed(2) + ' bps';
+                        document.getElementById('sct-latency').innerText = data.metrics.sct_inst.mean_latency_seconds.toFixed(2) + 's';
+                        document.getElementById('estr-rate').innerText = data.metrics.macro_indicators.str_overnight_rate_pct.toFixed(2) + '%';
+                        document.getElementById('hqla-freq').innerText = data.metrics.macro_indicators.hqla_pool_rehypothecation_frequency_annual.toFixed(2) + '/yr';
+                        
+                        syncIcon.style.display = 'none';
+                        syncStatus.innerText = 'SYNCED (Reference Snapshot: ' + data.dataset_metadata.version + ')';
+                        syncStatus.style.color = '#10b981';
+                        table.style.display = 'table';
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        syncIcon.style.display = 'none';
+                        syncStatus.innerText = 'FETCH ERROR';
+                        syncStatus.style.color = '#ef4444';
+                    });
+            }, 600);
+        }
+
+        // Formula rendering
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof katex !== "undefined") {
+                katex.render("V_{HQLA} = \\frac{\\sum (C_t \\cdot r_t)}{LCR_{limit}}", document.getElementById("formula-hqla"));
+                katex.render("F_{rail} = \\sqrt{\\frac{1}{N} \\sum_{i=1}^N (\\lambda_i - \\bar{\\lambda})^2}", document.getElementById("formula-rail"));
+                katex.render("I_{telemetry} = \\omega_1 \\cdot C_{backing} + \\omega_2 \\cdot O_{uptime} + \\omega_3 \\cdot A_{audit}", document.getElementById("formula-integrity"));
+            }
+        });
+
+        // Tab switches
+        function switchCitation(type) {
+            document.getElementById('btn-sepa').classList.remove('active');
+            document.getElementById('btn-report').classList.remove('active');
+            document.getElementById('citation-sepa-block').style.display = 'none';
+            document.getElementById('citation-report-block').style.display = 'none';
+
+            if (type === 'sepa') {
+                document.getElementById('btn-sepa').classList.add('active');
+                document.getElementById('citation-sepa-block').style.display = 'block';
+            } else {
+                document.getElementById('btn-report').classList.add('active');
+                document.getElementById('citation-report-block').style.display = 'block';
+            }
+        }
+
+        function copyCitationText(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                btn.innerText = 'Copied!';
+                setTimeout(() => {
+                    btn.innerText = 'Copy BibTeX';
+                }, 2000);
+            });
+        }
+    </script>
 
     <global-footer base-path="../"></global-footer>
 </body>

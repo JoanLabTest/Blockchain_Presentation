@@ -10,16 +10,16 @@
     <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="Citez, intégrez et référencez les données académiques de DCM Core. Accédez aux APIs développeurs, aux licences d'utilisation et aux règles de citation standards." name="description" />
-    <title>Citer & Intégrer | Adoption Externe de la Recherche | DCM Core</title>
+    <meta content="Citez, intégrez et référencez les données académiques de DCM Core. Accédez aux jeux de données reproductibles, au registre méthodologique et aux guides de citation standards." name="description" />
+    <title>Citer &amp; Intégrer | Vérité Reproductible &amp; Graphe de Recherche | DCM Core</title>
     
     <link rel="canonical" href="https://dcmcore.com/fr/research/citer-et-integrer.html" />
     <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/research/cite-and-integrate.html" />
     <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/research/citer-et-integrer.html" />
 
     <!-- OpenGraph / LinkedIn Previews -->
-    <meta property="og:title" content="Citer & Intégrer | Adoption Externe de la Recherche | DCM Core" />
-    <meta property="og:description" content="Intégrez les données académiques de DCM Core. Accédez aux spécifications API, aux modèles BibTeX et aux ressources de citation universitaire." />
+    <meta property="og:title" content="Citer &amp; Intégrer | Vérité Reproductible &amp; Graphe de Recherche | DCM Core" />
+    <meta property="og:description" content="Intégrez les données académiques de DCM Core. Accédez aux jeux de données stables, au registre formel des formules mathématiques et aux modèles de citation BibTeX." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://dcmcore.com/fr/research/citer-et-integrer.html" />
     <meta property="og:image" content="https://dcmcore.com/assets/images/og-cite-preview.png" />
@@ -30,6 +30,10 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
 
+    <!-- Self-Hosted KaTeX -->
+    <link rel="stylesheet" href="../../css/katex.min.css" />
+    <script src="../../js/katex.min.js"></script>
+
     <!-- Stylesheets -->
     <link href="../../styles.css" rel="stylesheet" />
     <link href="../styles-footer.css" rel="stylesheet" />
@@ -37,6 +41,44 @@
     <link href="../../css/styles-monitor.css" rel="stylesheet" />
     <link href="../../css/styles-research.css" rel="stylesheet" />
     
+    <!-- Scholarly Metadata & Dataset JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "Jeu de données de référence de l'Eurosystème",
+      "description": "Indicateurs empiriques de référence compilés à partir des rapports TARGET2 et EBA Clearing représentant les latences de règlement et les écarts de garantie weekend en zone euro.",
+      "url": "https://dcmcore.com/data/eurosystem-baseline.json",
+      "version": "2026.Q1-v1.0",
+      "creator": {
+        "@type": "Organization",
+        "name": "Comité Scientifique DCM Core"
+      },
+      "distribution": {
+        "@type": "DataDownload",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://dcmcore.com/data/eurosystem-baseline.json"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ScholarlyArticle",
+      "name": "European Stablecoin Market Structure & The Liquidity Migration Thesis",
+      "url": "https://dcmcore.com/fr/research/integration-sepa-tokenise.html",
+      "identifier": "DCM-WP-2026-04",
+      "author": {
+        "@type": "Organization",
+        "name": "Recherche Globale DCM Core"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "DCM Core Institute"
+      }
+    }
+    </script>
+
     <style>
         .portal-card {
             background: rgba(255, 255, 255, 0.02);
@@ -95,6 +137,31 @@
             border-bottom: 1px solid rgba(255,255,255,0.03);
             color: var(--term-text-sub);
         }
+        .tab-btn {
+            background: transparent;
+            border: 1px solid #1e293b;
+            color: #94a3b8;
+            padding: 6px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 6px;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+            color: #fff;
+        }
+        .math-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 2px solid #3b82f6;
+            padding: 14px;
+            border-radius: 4px;
+            margin: 12px 0;
+            font-size: 16px;
+        }
     </style>
     
     <script src="../../js/navigation-hub.js"></script>
@@ -126,9 +193,9 @@
         <!-- Left Sidebar (Static Navigation) -->
         <aside class="research-sidebar">
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--term-blue); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 12px; text-transform: uppercase;">PASSERELLE D'ADOPTION</div>
-            <h2 style="font-size: 16px; color: #fff; margin-bottom: 20px;">Citer & Intégrer</h2>
+            <h2 style="font-size: 16px; color: #fff; margin-bottom: 20px;">Citer &amp; Intégrer</h2>
             <p style="font-size: 12px; color: var(--term-text-sub); line-height: 1.6;">
-                Nous encourageons les banques centrales, institutions académiques et développeurs fintech à intégrer les analyses de DCM Core dans leurs flux de recherche.
+                Nous encourageons les banques centrales, institutions académiques et développeurs fintech à intégrer les données de référence et modèles mathématiques de DCM Core dans leurs pipelines de recherche.
             </p>
             <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
                 <div style="font-size: 10px; color: #64748b; margin-bottom: 8px; font-family: 'JetBrains Mono';">LICENCE GLOBALE</div>
@@ -139,48 +206,174 @@
         <!-- Main Content Panel -->
         <section class="hub-main">
             <div style="margin-bottom: 32px;">
-                <h1 style="font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 8px;">Citer & Intégrer les Données DCM</h1>
-                <p style="font-size: 14px; color: var(--term-text-muted); max-width: 700px;">Lignes directrices officielles pour les citations académiques, l'ingestion d'API développeur et la réutilisation visuelle analytique pour les observateurs externes.</p>
+                <h1 style="font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 8px;">Citer &amp; Intégrer les Données DCM</h1>
+                <p style="font-size: 14px; color: var(--term-text-muted); max-width: 700px;">Directives officielles pour les citations académiques, instantanés de référence trimestriels et transparence des modèles mathématiques.</p>
             </div>
 
-            <!-- 1. API Integration -->
-            <div class="portal-card">
+            <!-- 1. QUARTERLY BASELINE SYNC (L1) -->
+            <div class="portal-card" style="border-color: rgba(16, 185, 129, 0.2);">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                     <div>
-                        <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">01 / API DÉVELOPPEUR</span>
-                        <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Interroger le Registre Académique via JSON</h2>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #10b981;">01 / CONSTANTES EMPIRIQUES VÉRIFIÉES (L1)</span>
+                        <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Ingestion des Données de Référence Trimestrielles</h2>
                     </div>
-                    <span class="citation-tag">API v1</span>
+                    <a href="../../data/eurosystem-baseline.json" download class="citation-tag" style="text-decoration:none;"><i class="fas fa-download"></i> Dataset JSON</a>
                 </div>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
-                    Récupérez les payloads BibTeX structurés, les chaînes APA et les résumés pour chaque document de travail DCM Core publié. Idéal pour les pipelines RAG LLM, les intégrations Zotero et les tableaux de bord fintech.
+                    Afin d'assurer la reproductibilité empirique, DCM Core expose des instantanés trimestriels versionnés contenant les statistiques auditées de TARGET2 et d'EBA Clearing. Interrogez les constantes de référence ci-dessous.
                 </p>
                 
-                <div class="code-block">
-                    <button class="copy-badge" onclick="navigator.clipboard.writeText('curl -X GET https://dcmcore.com/api/v1/research.json').then(() => { this.innerText='Copié !'; setTimeout(()=>this.innerText='Copier', 2000); })">Copier</button>
-                    <code>curl -X GET https://dcmcore.com/api/v1/research.json</code>
+                <div style="margin-top: 20px; background: rgba(0,0,0,0.2); border: 1px solid #1e293b; padding: 16px; border-radius: 6px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span style="font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b;"><i class="fas fa-circle-notch fa-spin" id="sync-icon" style="display:none; color:#10b981; margin-right: 5px;"></i>Statut : <strong id="sync-status" style="color: #94a3b8;">NON EXÉCUTÉ</strong></span>
+                        <button class="tab-btn" onclick="fetchBaseline()" style="margin: 0; padding: 4px 10px; border-color: rgba(16,185,129,0.3); color:#10b981;">Récupérer l'Instantané du Jeu de Données</button>
+                    </div>
+
+                    <table class="citation-log-table" style="margin-top: 10px; display: none;" id="baseline-table">
+                        <thead>
+                            <tr>
+                                <th>Type d'Indicateur Empirique</th>
+                                <th>Valeur de Référence</th>
+                                <th>Source Primaire de Vérification</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">Écart d'Exposition Weekend TARGET2</td>
+                                <td id="t2-gap" style="font-family:'JetBrains Mono'; color:#3b82f6;">--</td>
+                                <td>BCE TARGET2 Statistiques Q1-2026</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">Moyenne de Latence SCT Inst</td>
+                                <td id="sct-latency" style="font-family:'JetBrains Mono'; color:#3b82f6;">--</td>
+                                <td>EBA Clearing RT1 SLA Performance Metrics</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">Taux au Jour le Jour €STR</td>
+                                <td id="estr-rate" style="font-family:'JetBrains Mono'; color:#3b82f6;">--</td>
+                                <td>ECB Statistical Data Warehouse (SDW)</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">Fréquence Réhypothécation HQLA</td>
+                                <td id="hqla-freq" style="font-family:'JetBrains Mono'; color:#3b82f6;">--</td>
+                                <td>BIS WP-1112 Collateral Baselines</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- 2. Academic Licensing -->
-            <div class="portal-card">
-                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">02 / ATTRIBUTION & RÉUTILISATION</span>
-                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Licence d'Utilisation Creative Commons</h2>
+            <!-- 2. REGISTRE FORMEL DE MÉTHODOLOGIE (L2) -->
+            <div class="portal-card" style="border-color: rgba(139, 92, 246, 0.2);">
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #8b5cf6;">02 / REGISTRE FORMEL DE MÉTHODOLOGIE (L2)</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Spécifications des Formules de Couche 2</h2>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
-                    Les cartes, matrices topologiques et graphiques des bandes de couverture DCM Core sont mis à disposition sous licence <strong>Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)</strong>.
+                    Les indices générés sous la Couche 2 sont calculés à l'aide de formules mathématiques publiques pour garantir une transparence totale.
                 </p>
-                <ul style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; padding-left: 20px;">
-                    <li style="margin-bottom: 6px;"><strong>Attribution :</strong> Vous devez fournir un lien hypertexte direct vers la méthodologie ou le document d'origine.</li>
-                    <li style="margin-bottom: 6px;"><strong>Non-Commercial :</strong> L'utilisation académique interne et les politiques institutionnelles sont autorisées ; la revente commerciale des flux de données brutes est restreinte.</li>
-                </ul>
+
+                <!-- Formula 1 -->
+                <div style="margin-top: 20px;">
+                    <h4 style="color:#fff; font-size:13px; font-family:'JetBrains Mono'; margin-bottom:6px;"><i class="fas fa-wave-square" style="color:#8b5cf6; margin-right:6px;"></i>Indice de Vélocité HQLA</h4>
+                    <p style="color:var(--term-text-sub); font-size:12px; margin-bottom:8px;">Mesure la fréquence de réhypothécation du collatéral HQLA par rapport aux limites de LCR de Bâle III.</p>
+                    <div id="formula-hqla" class="math-display"></div>
+                    <span style="font-size:11px; color:#f59e0b;"><i class="fas fa-triangle-exclamation"></i> Seuil de défaillance : Vélocité calculée &lt; 1,0 (déclenchant un scénario de blocage des garanties).</span>
+                </div>
+
+                <!-- Formula 2 -->
+                <div style="margin-top: 24px;">
+                    <h4 style="color:#fff; font-size:13px; font-family:'JetBrains Mono'; margin-bottom:6px;"><i class="fas fa-network-wired" style="color:#8b5cf6; margin-right:6px;"></i>Indice de Fragmentation des Rails UE</h4>
+                    <p style="color:var(--term-text-sub); font-size:12px; margin-bottom:8px;">Calcule l'écart-type pondéré des latences de traitement de SCT Inst parmi les banques centrales nationales.</p>
+                    <div id="formula-rail" class="math-display"></div>
+                    <span style="font-size:11px; color:#f59e0b;"><i class="fas fa-triangle-exclamation"></i> Seuil de défaillance : $F_{rail} > 12,0s$ (déclenchant une bifurcation persistante de la liquidité).</span>
+                </div>
+
+                <!-- Formula 3 -->
+                <div style="margin-top: 24px;">
+                    <h4 style="color:#fff; font-size:13px; font-family:'JetBrains Mono'; margin-bottom:6px;"><i class="fas fa-shield-halved" style="color:#8b5cf6; margin-right:6px;"></i>Métrique d'Intégrité de la Télémétrie DCM</h4>
+                    <p style="color:var(--term-text-sub); font-size:12px; margin-bottom:8px;">Coefficient pondéré évaluant la télémétrie des oracles, les ratios de réserve et la fréquence d'audit.</p>
+                    <div id="formula-integrity" class="math-display"></div>
+                    <span style="font-size:11px; color:#f59e0b;"><i class="fas fa-triangle-exclamation"></i> Seuil de défaillance : Métrique d'intégrité &lt; 0,65 (déclenchant un état d'alerte structurel).</span>
+                </div>
             </div>
 
-            <!-- 3. Cartographie des Références & Adoption -->
+            <!-- 3. NŒUD DE CITATION (GRAPHE ACADÉMIQUE) -->
             <div class="portal-card">
-                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">03 / REGISTRE D'ADOPTION</span>
-                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Couche de Cartographie des Références</h2>
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">03 / ESPACE CITATION (GRAPHE DE RECHERCHE)</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Citations Académiques &amp; Matrice d'Adjacence</h2>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
-                    Suivi vérifié et cartographie analytique des ingestions académiques externes, des appels API programmatiques et des scénarios de modélisation.
+                    Pour toute analyse de politique monétaire ou recherche fintech, utilisez les formats de citation BibTeX ci-dessous, classés comme thématiquement adjacents aux nœuds de recherche de l'Eurosystème.
+                </p>
+
+                <!-- Navigation Tabs -->
+                <div style="margin-top: 16px; display: flex; border-bottom: 1px solid #1e293b; padding-bottom: 8px;">
+                    <button class="tab-btn active" id="btn-sepa" onclick="switchCitation('sepa')">Document SEPA Tokenisé</button>
+                    <button class="tab-btn" id="btn-report" onclick="switchCitation('report')">Rapport Global de Marché</button>
+                </div>
+
+                <!-- Citation Display Area -->
+                <div id="citation-sepa-block" style="display: block;">
+                    <div class="code-block">
+                        <button class="copy-badge" onclick="copyCitationText('bibtex-sepa', this)">Copier BibTeX</button>
+                        <pre id="bibtex-sepa" style="margin:0; white-space:pre-wrap;">@techreport{dcmsepa2026,
+  author      = {Recherche Globale DCM Core},
+  title       = {European Stablecoin Market Structure \& The Liquidity Migration Thesis},
+  institution = {DCM Core Institute},
+  year        = {2026},
+  number      = {DCM-WP-2026-04},
+  type        = {Working Paper},
+  url         = {https://dcmcore.com/fr/research/integration-sepa-tokenise.html}
+}</pre>
+                    </div>
+                </div>
+
+                <div id="citation-report-block" style="display: none;">
+                    <div class="code-block">
+                        <button class="copy-badge" onclick="copyCitationText('bibtex-report', this)">Copier BibTeX</button>
+                        <pre id="bibtex-report" style="margin:0; white-space:pre-wrap;">@techreport{dcmglobal2026,
+  author      = {DCM Core Institute},
+  title       = {Global Tokenization Report 2026: Institutional Market Audit},
+  institution = {DCM Core Institute},
+  year        = {2026},
+  number      = {DCM-WP-2026-01},
+  type        = {Institutional Market Audit},
+  url         = {https://dcmcore.com/fr/research/rapport-mondial-tokenisation-2026.html}
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Adjacency Domain Matrix -->
+                <div style="margin-top: 24px; border-top: 1px solid #1e293b; padding-top: 20px;">
+                    <h4 style="color:#fff; font-size:12px; font-family:'JetBrains Mono'; margin-bottom:10px;"><i class="fas fa-link" style="color:var(--term-blue); margin-right:6px;"></i>Nœuds de Recherche Adjacents Thématiquement (Externes)</h4>
+                    <table class="citation-log-table">
+                        <thead>
+                            <tr>
+                                <th>Nœud de Recherche Adjacent</th>
+                                <th>Auteur Institutionnel</th>
+                                <th>Contexte de Divergence / Alignement Analytique</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">BCE WP-2840</td>
+                                <td>Banque Centrale Européenne</td>
+                                <td>Alignement sur l'impact de la tokenisation dans la zone euro ; divergence sur les déclencheurs de réserves de dépôts B2B.</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#fff; font-weight:600;">BRI WP-1112</td>
+                                <td>Banque des Règlements Internationaux</td>
+                                <td>Alignement sur les modèles de dépôts tokenisés ; fournit les formules empiriques de risque de règlement.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Registre d'Adoption -->
+            <div class="portal-card">
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: var(--term-blue);">04 / REGISTRE D'ADOPTION</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Couche de Cartographie des Références Externes</h2>
+                <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
+                    Suivi vérifié et cartographie analytique des ingestions académiques externes, appels API et scénarios de modélisation.
                 </p>
                 
                 <table class="citation-log-table">
@@ -188,7 +381,7 @@
                         <tr>
                             <th>Type d'Entité</th>
                             <th>Actif Référencé</th>
-                            <th>Contexte & Portée</th>
+                            <th>Contexte &amp; Portée</th>
                             <th>Pilier de Confiance</th>
                         </tr>
                     </thead>
@@ -215,10 +408,10 @@
                 </table>
             </div>
 
-            <!-- 4. Moniteur de Dérive Interprétative -->
+            <!-- 5. Moniteur de Dérive Interprétative -->
             <div class="portal-card">
-                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #f59e0b;">04 / MONITEUR DE DÉRIVE NARRATIVE</span>
-                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Comparaison Cognitive & Enregistrement des Écarts</h2>
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #f59e0b;">05 / MONITEUR DE DÉRIVE NARRATIVE</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Comparaison Cognitive &amp; Enregistrement des Écarts</h2>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
                     Cartographie de la friction intellectuelle et des divergences narratives entre le consensus général du marché et le modèle systémique DCM Core.
                 </p>
@@ -238,10 +431,11 @@
                     </div>
                 </div>
             </div>
-            <!-- 5. Dialectique Méthodologique -->
+
+            <!-- 6. Dialectique Méthodologique -->
             <div class="portal-card" style="border-color: rgba(148, 163, 184, 0.2);">
-                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #94a3b8;">05 / DIALECTIQUE MÉTHODOLOGIQUE</span>
-                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Objections Académiques & Contre-Arguments</h2>
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; color: #94a3b8;">06 / DIALECTIQUE MÉTHODOLOGIQUE</span>
+                <h2 style="color: #fff; font-size: 18px; margin-top: 4px;">Objections Académiques &amp; Contre-Arguments</h2>
                 <p style="color: var(--term-text-sub); font-size: 13px; margin-top: 12px; line-height: 1.6;">
                     Afin d'assurer une transparence académique rigoureuse et de prévenir tout dogmatisme interprétatif, DCM Core héberge et structure formellement les principales objections techniques à nos indices clés.
                 </p>
@@ -268,6 +462,77 @@
             </div>
         </section>
     </main>
+
+    <!-- Async Baseline Fetch Engine -->
+    <script>
+        function fetchBaseline() {
+            const syncIcon = document.getElementById('sync-icon');
+            const syncStatus = document.getElementById('sync-status');
+            const table = document.getElementById('baseline-table');
+
+            syncIcon.style.display = 'inline-block';
+            syncStatus.innerText = 'RÉCUPÉRATION...';
+            syncStatus.style.color = '#f59e0b';
+
+            // Simulate slight latency for natural UX, then fetch real JSON
+            setTimeout(() => {
+                fetch('../../data/eurosystem-baseline.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('t2-gap').innerText = data.metrics.target2.weekend_gap_exposure_bps.toFixed(2) + ' bps';
+                        document.getElementById('sct-latency').innerText = data.metrics.sct_inst.mean_latency_seconds.toFixed(2) + 's';
+                        document.getElementById('estr-rate').innerText = data.metrics.macro_indicators.str_overnight_rate_pct.toFixed(2) + '%';
+                        document.getElementById('hqla-freq').innerText = data.metrics.macro_indicators.hqla_pool_rehypothecation_frequency_annual.toFixed(2) + '/an';
+                        
+                        syncIcon.style.display = 'none';
+                        syncStatus.innerText = 'SYNCHRONISÉ (Instantané de référence : ' + data.dataset_metadata.version + ')';
+                        syncStatus.style.color = '#10b981';
+                        table.style.display = 'table';
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        syncIcon.style.display = 'none';
+                        syncStatus.innerText = 'ERREUR DE RÉCUPÉRATION';
+                        syncStatus.style.color = '#ef4444';
+                    });
+            }, 600);
+        }
+
+        // Formula rendering
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof katex !== "undefined") {
+                katex.render("V_{HQLA} = \\frac{\\sum (C_t \\cdot r_t)}{LCR_{limit}}", document.getElementById("formula-hqla"));
+                katex.render("F_{rail} = \\sqrt{\\frac{1}{N} \\sum_{i=1}^N (\\lambda_i - \\bar{\\lambda})^2}", document.getElementById("formula-rail"));
+                katex.render("I_{telemetry} = \\omega_1 \\cdot C_{backing} + \\omega_2 \\cdot O_{uptime} + \\omega_3 \\cdot A_{audit}", document.getElementById("formula-integrity"));
+            }
+        });
+
+        // Tab switches
+        function switchCitation(type) {
+            document.getElementById('btn-sepa').classList.remove('active');
+            document.getElementById('btn-report').classList.remove('active');
+            document.getElementById('citation-sepa-block').style.display = 'none';
+            document.getElementById('citation-report-block').style.display = 'none';
+
+            if (type === 'sepa') {
+                document.getElementById('btn-sepa').classList.add('active');
+                document.getElementById('citation-sepa-block').style.display = 'block';
+            } else {
+                document.getElementById('btn-report').classList.add('active');
+                document.getElementById('citation-report-block').style.display = 'block';
+            }
+        }
+
+        function copyCitationText(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                btn.innerText = 'Copié !';
+                setTimeout(() => {
+                    btn.innerText = 'Copier BibTeX';
+                }, 2000);
+            });
+        }
+    </script>
 
     <global-footer base-path="../"></global-footer>
 </body>
