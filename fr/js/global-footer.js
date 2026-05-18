@@ -48,10 +48,9 @@ class GlobalFooter extends HTMLElement {
                             </ul>
                         </div>
                     </div>
-                    <div class="footer-disclaimer">
-                        <strong>Avertissement Institutionnel :</strong> Les analyses publiées par le DCM Core Institute sont
-                        destinées à des fins de recherche académique et d'intelligence de marché. Elles ne constituent en aucun
-                        cas des conseils d'investissement ou des recommandations de conformité.
+                    <div class="footer-disclaimer" style="text-align: left; font-size: 11px; line-height: 1.6; color: var(--text-muted);">
+                        <strong style="color: var(--accent-gold); display: block; margin-bottom: 5px; font-family:'Outfit'; text-transform:uppercase; letter-spacing:1px;">Avertissement Épistémique &amp; Réglementaire :</strong>
+                        Le rapport annuel de DCM Core et les observatoires associés représentent un cadre analytique combinant des données empiriques de l'Eurosystème, des modèles quantitatifs et des projections basées sur des scénarios. Tous les indices, paramètres et conclusions sont publiés uniquement à des fins d'information et de recherche. Ils ne constituent pas et ne doivent pas être interprétés comme des services de conseil financier, juridique, d'investissement ou réglementaire.
                     </div>
                     <div class="footer-bottom">
                         <div class="footer-bottom-content">

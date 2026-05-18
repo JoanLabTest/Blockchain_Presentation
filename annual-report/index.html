@@ -43,8 +43,8 @@
             --ann-gold: #c9a84c;
             --ann-gold-dark: #a68433;
             --bg-dark: #020617;
-            --bg-card: #0f172a;
-            --border: rgba(255, 255, 255, 0.08);
+            --bg-card: #0b0f19;
+            --border: rgba(255, 255, 255, 0.05);
             --accent-blue: #3b82f6;
             --accent-green: #10b981;
             --accent-purple: #a855f7;
@@ -64,7 +64,7 @@
         .ann-container {
             max-width: 1240px;
             margin: 0 auto;
-            padding: 40px 20px 80px;
+            padding: 40px 20px 20px;
         }
 
         /* HEADER BLOCK */
@@ -88,12 +88,25 @@
             margin-bottom: 20px;
         }
 
+        /* NARRATIVE SPINE BANNER */
+        .narrative-spine-banner {
+            background: linear-gradient(135deg, rgba(201, 168, 76, 0.03), rgba(2, 6, 23, 0.4));
+            border-left: 3px solid var(--ann-gold);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
         /* INTERACTIVE READER LAYOUT */
         .reader-layout {
             display: grid;
             grid-template-columns: 280px 1fr;
             gap: 40px;
-            margin-top: 30px;
+            margin-top: 10px;
         }
 
         /* STICKY SIDEBAR */
@@ -118,7 +131,7 @@
         }
 
         .toc-item {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.01);
             border: 1px solid var(--border);
             padding: 12px 16px;
             border-radius: 8px;
@@ -139,10 +152,6 @@
             color: white;
         }
 
-        .toc-item.locked {
-            border-color: rgba(239, 68, 68, 0.15);
-        }
-
         .toc-item.locked i {
             color: #ef4444;
         }
@@ -161,7 +170,7 @@
             position: relative;
         }
 
-        /* LANGUAGE & INTERACTIVE CONTROLS */
+        /* CONTROLS */
         .reader-controls {
             display: flex;
             justify-content: space-between;
@@ -213,7 +222,7 @@
 
         h2.section-heading {
             font-family: 'Outfit';
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 800;
             margin-bottom: 20px;
             background: linear-gradient(135deg, white 0%, #cbd5e1 100%);
@@ -222,31 +231,54 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .section-meta {
-            display: flex;
-            gap: 20px;
-            font-family: 'JetBrains Mono';
-            font-size: 11px;
-            color: var(--ann-gold);
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
         .paragraph-block {
-            font-size: 15px;
-            line-height: 1.7;
-            color: #e2e8f0;
+            font-size: 14px;
+            line-height: 1.75;
+            color: #cbd5e1;
             margin-bottom: 20px;
             text-align: justify;
+        }
+
+        /* ASSERTION TAXONOMY TAGS */
+        .assertion-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .tag-fact {
+            background: rgba(16, 185, 129, 0.08);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .tag-model {
+            background: rgba(59, 130, 246, 0.08);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .tag-scenario {
+            background: rgba(168, 85, 247, 0.08);
+            color: var(--accent-purple);
+            border: 1px solid rgba(168, 85, 247, 0.2);
         }
 
         /* ADVANCED PREMIUM PAYWALL OVERLAY */
         .premium-paywall {
             position: relative;
             margin-top: 30px;
-            border: 1px solid rgba(201, 168, 76, 0.3);
+            border: 1px solid rgba(201, 168, 76, 0.2);
             border-radius: 12px;
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(2, 6, 23, 0.95) 100%);
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(2, 6, 23, 0.98) 100%);
             overflow: hidden;
             padding: 50px 30px;
             text-align: center;
@@ -263,25 +295,25 @@
         .paywall-overlay {
             position: relative;
             z-index: 10;
-            max-width: 550px;
+            max-width: 500px;
             margin: 0 auto;
         }
 
         .paywall-icon {
-            font-size: 40px;
+            font-size: 36px;
             color: var(--ann-gold);
             margin-bottom: 20px;
-            animation: pulse 2s infinite ease-in-out;
+            animation: pulse 2.5s infinite ease-in-out;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.08); opacity: 1; }
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
         }
 
         .paywall-title {
             font-family: 'Outfit';
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 12px;
             color: white;
@@ -304,9 +336,9 @@
             background: var(--ann-gold);
             color: black;
             font-weight: 700;
-            font-size: 13px;
-            padding: 12px 24px;
-            border-radius: 6px;
+            font-size: 12px;
+            padding: 10px 20px;
+            border-radius: 4px;
             border: none;
             cursor: pointer;
             text-decoration: none;
@@ -315,7 +347,7 @@
 
         .paywall-btn:hover {
             background: white;
-            box-shadow: 0 0 20px rgba(201, 168, 76, 0.35);
+            box-shadow: 0 0 15px rgba(201, 168, 76, 0.3);
         }
 
         .paywall-btn-secondary {
@@ -323,9 +355,9 @@
             color: white;
             border: 1px solid var(--border);
             font-weight: 600;
-            font-size: 13px;
-            padding: 12px 24px;
-            border-radius: 6px;
+            font-size: 12px;
+            padding: 10px 20px;
+            border-radius: 4px;
             cursor: pointer;
             text-decoration: none;
             transition: 0.3s;
@@ -345,56 +377,34 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.01);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 18px;
+            border-radius: 8px;
+            padding: 16px;
             text-align: center;
         }
 
         .stat-value {
             font-family: 'JetBrains Mono';
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--ann-gold);
             margin-bottom: 5px;
         }
 
         .stat-label {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
             text-transform: uppercase;
         }
 
-        /* CUSTOM INSTITUTIONAL UNLOCK COMPONENT */
-        .inst-unlock-box {
-            background: linear-gradient(135deg, rgba(201, 168, 76, 0.1), rgba(168, 85, 247, 0.05));
-            border: 1px dashed var(--ann-gold);
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 40px;
+        /* DIAGNOSTIC DRAWER */
+        .diagnostic-drawer {
+            background: rgba(15, 23, 42, 0.2);
+            border-top: 1px solid var(--border);
+            padding: 30px 40px;
+            margin-top: 60px;
             text-align: center;
-        }
-
-        .inst-unlock-title {
-            font-family: 'Outfit';
-            font-size: 16px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .inst-unlock-desc {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 18px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .upgrade-select {
@@ -402,18 +412,18 @@
             border: 1px solid var(--border);
             color: white;
             font-family: 'Urbanist';
-            font-size: 13px;
-            padding: 8px 16px;
-            border-radius: 6px;
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 4px;
             outline: none;
             margin-right: 10px;
         }
 
-        /* ARCHIVE SECTION */
+        /* HISTORICAL ARCHIVE */
         .archive-section {
-            margin-top: 80px;
+            margin-top: 60px;
             border-top: 1px solid var(--border);
-            padding-top: 60px;
+            padding-top: 40px;
         }
 
         .archive-grid {
@@ -423,10 +433,10 @@
         }
 
         .archive-card {
-            background: rgba(255,255,255,0.02);
+            background: rgba(255,255,255,0.01);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 24px;
+            border-radius: 8px;
+            padding: 20px;
             text-align: center;
             text-decoration: none;
             color: white;
@@ -435,8 +445,8 @@
 
         .archive-card:hover {
             border-color: var(--ann-gold);
-            background: rgba(201, 168, 76, 0.02);
-            transform: translateY(-3px);
+            background: rgba(201, 168, 76, 0.01);
+            transform: translateY(-2px);
         }
 
         @media (max-width: 950px) {
@@ -493,12 +503,6 @@
                         <div class="link-text"><span class="link-title">Global Tokenization Report 2026</span><span
                                 class="link-desc">Our definitive institutional market audit</span></div>
                     </a>
-                    <div class="dropdown-header">Frameworks & Protocols</div>
-                    <a href="../en/research/programmable-capital-markets/index.html" class="dropdown-link">
-                        <div class="link-icon"><i class="fas fa-microchip" style="color:#3b82f6;"></i></div>
-                        <div class="link-text"><span class="link-title">Programmable Capital Markets (PCM)</span><span
-                                class="link-desc">Conceptual framework and technical architecture</span></div>
-                    </a>
                 </div>
             </div>
 
@@ -512,11 +516,6 @@
                         <div class="link-icon"><i class="fas fa-tower-observation" style="color:#60a5fa;"></i></div>
                         <div class="link-text"><span class="link-title">Global Monitor</span><span
                                 class="link-desc">Real-time macro dashboard for RWA markets</span></div>
-                    </a>
-                    <a href="../en/observatory/tokenized-securities-database.html" class="dropdown-link">
-                        <div class="link-icon"><i class="fas fa-database" style="color:#10b981;"></i></div>
-                        <div class="link-text"><span class="link-title">Securities Database</span><span
-                                class="link-desc">Standardized multi-ledger asset directory</span></div>
                     </a>
                 </div>
             </div>
@@ -536,12 +535,9 @@
     <main class="ann-container">
         <header class="report-header" data-aos="fade-down">
             <span class="report-badge">Flagship Publication 2026</span>
-            <h1 style="font-family:'Outfit'; font-size:46px; font-weight:800; margin-bottom:15px; background: linear-gradient(135deg, white 0%, #94a3b8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+            <h1 style="font-family:'Outfit'; font-size:42px; font-weight:800; margin-bottom:15px; background: linear-gradient(135deg, white 0%, #94a3b8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
                 DCM Core Annual Report 2026
             </h1>
-            <p style="color:var(--text-muted); font-size:16px; max-width: 750px; margin: 0 auto;">
-                European Payment &amp; Settlement Infrastructure under Structural Fragmentation Pressure (2025–2028). Sourced from validated Eurosystem parameters and live observatory telemetry.
-            </p>
         </header>
 
         <!-- INTERACTIVE READER -->
@@ -582,7 +578,7 @@
             <!-- Main Content Pane -->
             <section class="reader-content">
                 <div class="reader-controls">
-                    <span id="tier-badge" style="font-family:'JetBrains Mono'; font-size:11px; background: rgba(59,130,246,0.1); color: var(--accent-blue); padding: 4px 10px; border-radius: 4px;">
+                    <span id="tier-badge" style="font-family:'JetBrains Mono'; font-size:11px; background: rgba(59,130,246,0.06); color: var(--accent-blue); padding: 4px 10px; border-radius: 4px;">
                         Loading Tier...
                     </span>
                     <div class="lang-toggle">
@@ -591,14 +587,19 @@
                     </div>
                 </div>
 
+                <!-- Unified Narrative Spine Banner -->
+                <div class="narrative-spine-banner">
+                    <div style="font-family:'JetBrains Mono'; font-size:9px; color:var(--ann-gold); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px; font-weight:700;">
+                        <i class="fas fa-circle-nodes"></i> Narrative Spine
+                    </div>
+                    <div style="font-family:'Outfit'; font-size:15px; font-weight:700; color:white; line-height:1.3;">
+                        "European Payment &amp; Settlement Infrastructure under Multi-Layer Fragmentation (2025–2028)"
+                    </div>
+                </div>
+
                 <!-- SECTION 1 (Public Summary) -->
                 <div class="section-view active" id="sec-view-1">
                     <h2 class="section-heading">01 / Executive Summary &amp; Telemetry Anchors</h2>
-                    <div class="section-meta">
-                        <span>Status: Public Access</span>
-                        <span>•</span>
-                        <span>Layer: Layer 1 Baseline</span>
-                    </div>
 
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -620,34 +621,29 @@
                     </div>
 
                     <div class="paragraph-block lang-en">
-                        The year 2026 marks the arrival of the <strong>Unified Ledger Era</strong>, wherein the boundaries between traditional institutional payment structures and programmable finance have officially dissolved. This flagship report provides a clinical review of the European financial ecosystem, auditing payment rail bottlenecks, the progression of the Markets in Crypto-Assets (MiCA) regulation, and the structural metrics driving tokenized capital flow. By anchoring our assumptions in verified Eurosystem baseline metrics rather than speculative projections, we expose real friction points that dictate institutional velocity.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span>The year 2026 marks the arrival of the <strong>Unified Ledger Era</strong>, wherein the boundaries between traditional institutional payment structures and programmable finance have officially dissolved. This flagship report provides a clinical review of the European financial ecosystem, auditing payment rail bottlenecks, the progression of the Markets in Crypto-Assets (MiCA) regulation, and the structural metrics driving tokenized capital flow. By anchoring our assumptions in verified Eurosystem baseline metrics rather than speculative projections, we expose real friction points that dictate institutional velocity.
                     </div>
                     <div class="paragraph-block lang-fr" style="display:none;">
-                        L'année 2026 marque l'avènement de l'<strong>ère du registre unifié</strong>, où les frontières entre les structures de paiement institutionnelles traditionnelles et la finance programmable se sont officiellement dissoutes. Ce rapport phare fournit un examen clinique de l'écosystème financier européen, auditant les goulots d'étranglement des rails de paiement, la progression du règlement MiCA (Markets in Crypto-Assets) et les paramètres structurels qui régissent les flux de capitaux tokenisés. En ancrant nos hypothèses dans des métriques validées de l'Eurosystème plutôt que dans des projections spéculatives, nous mettons en lumière les points de friction réels qui dictent la vélocité institutionnelle.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span>L'année 2026 marque l'avènement de l'<strong>ère du registre unifié</strong>, où les frontières entre les structures de paiement institutionnelles traditionnelles et la finance programmable se sont officiellement dissoutes. Ce rapport phare fournit un examen clinique de l'écosystème financier européen, auditant les goulots d'étranglement des rails de paiement, la progression du règlement MiCA (Markets in Crypto-Assets) et les paramètres structurels qui régissent les flux de capitaux tokenisés. En ancrant nos hypothèses dans des métriques validées de l'Eurosystème plutôt que dans des projections spéculatives, nous mettons en lumière les points de friction réels qui dictent la vélocité institutionnelle.
                     </div>
 
                     <div class="paragraph-block lang-en">
-                        Key baseline telemetry highlights the structural friction: TARGET2 weekend liquidity imbalances remain persistent at <strong>0.14 bps</strong>, driven by asymmetric treasury adjustments between central banks. Concurrently, SEPA Instant settlement times average <strong>4.80 seconds</strong>, revealing divergent latency averages across regional clearing operators.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>Key baseline telemetry highlights the structural friction: TARGET2 weekend liquidity imbalances remain persistent at <strong>0.14 bps</strong>, driven by asymmetric treasury adjustments between central banks. Concurrently, SEPA Instant settlement times average <strong>4.80 seconds</strong>, revealing divergent latency averages across regional clearing operators.
                     </div>
                     <div class="paragraph-block lang-fr" style="display:none;">
-                        Les données télémétriques clés mettent en évidence une friction structurelle persistante : les déséquilibres de liquidité TARGET2 le week-end restent ancrés à <strong>0,14 bps</strong>, portés par des ajustements de trésorerie asymétriques entre banques centrales. Parallèlement, le temps moyen de règlement SEPA Instant s'établit à <strong>4,80 secondes</strong>, révélant des écarts de latence importants selon les opérateurs de compensation régionaux.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>Les données télémétriques clés mettent en évidence une friction structurelle persistante : les déséquilibres de liquidité TARGET2 le week-end restent ancrés à <strong>0,14 bps</strong>, portés par des ajustements de trésorerie asymétriques entre banques centrales. Parallèlement, le temps moyen de règlement SEPA Instant s'établit à <strong>4,80 secondes</strong>, révélant des écarts de latence importants selon les opérateurs de compensation régionaux.
                     </div>
                 </div>
 
                 <!-- SECTION 2 (Gated) -->
                 <div class="section-view" id="sec-view-2">
-                    <h2 class="section-heading">02 / European Payment Rail Fragmentation Analysis</h2>
-                    <div class="section-meta">
-                        <span>Status: Gated</span>
-                        <span>•</span>
-                        <span>Layer: Layer 1 / Layer 2 Telemetry</span>
-                    </div>
+                    <h2 class="section-heading">02 / Payment Rail Fragmentation Analysis</h2>
 
                     <div class="paragraph-block lang-en">
-                        The structural fragmentation of the European payment landscape remains visible when evaluating the operational mismatch between Central Bank money (CeBM) settlement systems and private bank tokenization initiatives. 
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span>The structural fragmentation of the European payment landscape remains visible when evaluating the operational mismatch between Central Bank money (CeBM) settlement systems and private bank tokenization initiatives. 
                     </div>
                     <div class="paragraph-block lang-fr" style="display:none;">
-                        La fragmentation structurelle du paysage européen des paiements reste manifeste lors de l'évaluation de l'inadéquation opérationnelle entre les systèmes de règlement en monnaie de banque centrale (CeBM) et les initiatives de tokenisation des banques privées.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span>La fragmentation structurelle du paysage européen des paiements reste manifeste lors de l'évaluation de l'inadéquation opérationnelle entre les systèmes de règlement en monnaie de banque centrale (CeBM) et les initiatives de tokenisation des banques privées.
                     </div>
 
                     <div class="gated-content">
@@ -658,17 +654,12 @@
                 <!-- SECTION 3 (Gated) -->
                 <div class="section-view" id="sec-view-3">
                     <h2 class="section-heading">03 / MiCA Transition Monitor</h2>
-                    <div class="section-meta">
-                        <span>Status: Gated</span>
-                        <span>•</span>
-                        <span>Layer: Regulatory Compliance Registry</span>
-                    </div>
 
                     <div class="paragraph-block lang-en">
-                        Following the full phase-in of the Markets in Crypto-Assets (MiCA) regulation, the transition landscape for Crypto Asset Providers (CAPs) and asset-referenced token issuers has stabilized into a strict compliance hierarchy.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span>Following the full phase-in of the Markets in Crypto-Assets (MiCA) regulation, the transition landscape for Crypto Asset Providers (CAPs) and asset-referenced token issuers has stabilized into a strict compliance hierarchy.
                     </div>
                     <div class="paragraph-block lang-fr" style="display:none;">
-                        Suite à la mise en œuvre complète du règlement sur les marchés de crypto-actifs (MiCA), le paysage de transition pour les prestataires de services sur crypto-actifs (CAP) et les émetteurs de jetons se référant à des actifs s'est stabilisé dans une hiérarchie stricte de conformité.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span>Suite à la mise en œuvre complète du règlement sur les marchés de crypto-actifs (MiCA), le paysage de transition pour les prestataires de services sur crypto-actifs (CAP) et les émetteurs de jetons se référant à des actifs s'est stabilisé dans une hiérarchie stricte de conformité.
                     </div>
 
                     <div class="gated-content"></div>
@@ -677,17 +668,12 @@
                 <!-- SECTION 4 (Gated) -->
                 <div class="section-view" id="sec-view-4">
                     <h2 class="section-heading">04 / RWA Tokenization Velocity Index</h2>
-                    <div class="section-meta">
-                        <span>Status: Gated</span>
-                        <span>•</span>
-                        <span>Layer: Layer 2 Market Model</span>
-                    </div>
 
                     <div class="paragraph-block lang-en">
-                        The velocity of Real-World Asset (RWA) tokenization has accelerated across high-quality liquid assets (HQLA), primarily driven by sovereign debt vehicles and short-term treasury access protocols.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>The velocity of Real-World Asset (RWA) tokenization has accelerated across high-quality liquid assets (HQLA), primarily driven by sovereign debt vehicles and short-term treasury access protocols.
                     </div>
                     <div class="paragraph-block lang-fr" style="display:none;">
-                        La vélocité de la tokenisation des actifs réels (RWA) s'est accélérée sur les actifs liquides de haute qualité (HQLA), principalement portée par les véhicules de dette souveraine et les protocoles d'accès aux bons du Trésor à court terme.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>La vélocité de la tokenisation des actifs réels (RWA) s'est accélérée sur les actifs liquides de haute qualité (HQLA), principalement portée par les véhicules de dette souveraine et les protocoles d'accès aux bons du Trésor à court terme.
                     </div>
 
                     <div class="gated-content"></div>
@@ -696,17 +682,12 @@
                 <!-- SECTION 5 (Gated) -->
                 <div class="section-view" id="sec-view-5">
                     <h2 class="section-heading">05 / SEPA Tokenization Readiness Assessment</h2>
-                    <div class="section-meta">
-                        <span>Status: Gated</span>
-                        <span>•</span>
-                        <span>Layer: Layer 2 / Layer 3 Interface</span>
-                    </div>
 
                     <div class="paragraph-block lang-en">
-                        Evaluating the technical readiness of the Single Euro Payments Area (SEPA) for native tokenized payment schemes reveals critical bottlenecks within standard API throttling limits and automated clearing house (ACH) gateways.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>Evaluating the technical readiness of the Single Euro Payments Area (SEPA) for native tokenized payment schemes reveals critical bottlenecks within standard API throttling limits and automated clearing house (ACH) gateways.
                     </div>
                     <div class="paragraph-block lang-fr" style="display:none;">
-                        L'évaluation de la préparation technique de l'espace unique de paiement en euros (SEPA) pour les schémas de paiement tokenisés natifs révèle des goulots d'étranglement critiques au sein des limites de régulation des API standards et des passerelles des chambres de compensation automatisées (ACH).
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>L'évaluation de la préparation technique de l'espace unique de paiement en euros (SEPA) pour les schémas de paiement tokenisés natifs révèle des goulots d'étranglement critiques au sein des limites de régulation des API standards et des passerelles des chambres de compensation automatisées (ACH).
                     </div>
 
                     <div class="gated-content"></div>
@@ -715,17 +696,12 @@
                 <!-- SECTION 6 (Gated) -->
                 <div class="section-view" id="sec-view-6">
                     <h2 class="section-heading">06 / Comparative Blockchain Settlement Infrastructure</h2>
-                    <div class="section-meta">
-                        <span>Status: Gated</span>
-                        <span>•</span>
-                        <span>Layer: Layer 3 Benchmark Sandbox</span>
-                    </div>
 
                     <div class="paragraph-block lang-en">
-                        Evaluating structural performance parameters across prominent institutional distributed ledgers reveals distinct tradeoffs in settlement finality latency, network resilience under peak loads, and structural energy requirements.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span>Evaluating structural performance parameters across prominent institutional distributed ledgers reveals distinct tradeoffs in settlement finality latency, network resilience under peak loads, and structural energy requirements.
                     </div>
                     <div class="paragraph-block lang-fr" style="display:none;">
-                        L'évaluation des paramètres de performance structurelle parmi les principaux registres distribués institutionnels révèle des arbitrages distincts en termes de latence de finalité de règlement, de résilience du réseau sous charge de pointe et de besoins énergétiques structurels.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span>L'évaluation des paramètres de performance structurelle parmi les principaux registres distribués institutionnels révèle des arbitrages distincts en termes de latence de finalité de règlement, de résilience du réseau sous charge de pointe et de besoins énergétiques structurels.
                     </div>
 
                     <div class="gated-content"></div>
@@ -734,73 +710,64 @@
                 <!-- SECTION 7 (Gated) -->
                 <div class="section-view" id="sec-view-7">
                     <h2 class="section-heading">07 / Forward Outlook: 2026–2028 Structural Hypotheses</h2>
-                    <div class="section-meta">
-                        <span>Status: Gated</span>
-                        <span>•</span>
-                        <span>Layer: Epistemic Forecast</span>
-                    </div>
 
                     <div class="paragraph-block lang-en">
-                        Looking toward the 2026–2028 structural horizon, the DCM Core Institute establishes three core hypotheses regarding European payment infrastructures and the systematic adoption of tokenized assets.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span>Looking toward the 2026–2028 structural horizon, the DCM Core Institute establishes three core hypotheses regarding European payment infrastructures and the systematic adoption of tokenized assets.
                     </div>
                     <div class="paragraph-block lang-fr" style="display:none;">
-                        En se tournant vers l'horizon structurel 2026-2028, l'Institut DCM Core établit trois hypothèses fondamentales concernant les infrastructures de paiement européennes et l'adoption systématique d'actifs tokenisés.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span>En se tournant vers l'horizon structurel 2026-2028, l'Institut DCM Core établit trois hypothèses fondamentales concernant les infrastructures de paiement européennes et l'adoption systématique d'actifs tokenisés.
                     </div>
 
                     <div class="gated-content"></div>
                 </div>
-
-                <!-- Interactive Institutional Unlock Box (Dynamic upgrade trigger for testing) -->
-                <div class="inst-unlock-box">
-                    <div class="inst-unlock-title">
-                        <i class="fas fa-key" style="color:var(--ann-gold)"></i>
-                        Espace de Déverrouillage &amp; Simulation Institutionnelle
-                    </div>
-                    <p class="inst-unlock-desc">
-                        Débloquez instantanément l'intégralité du rapport annuel 2026 en simulant une connexion avec un niveau d'accès professionnel ou entreprise.
-                    </p>
-                    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <select id="sim-tier-select" class="upgrade-select">
-                            <option value="guest">Guest (Lecture Limitée)</option>
-                            <option value="free">Free Tier (Previsualisations)</option>
-                            <option value="professional" selected>Professional (Rapport Complet)</option>
-                            <option value="enterprise">Enterprise (Complet + Exports)</option>
-                            <option value="institutional">Institutional (Complet + Datasets)</option>
-                        </select>
-                        <button class="paywall-btn" style="padding: 8px 20px; font-size:12px;" onclick="simulateUpgrade()">
-                            Mettre à jour le Tier
-                        </button>
-                        <button class="paywall-btn-secondary" style="padding: 8px 20px; font-size:12px;" onclick="resetToGuest()">
-                            Réinitialiser
-                        </button>
-                    </div>
-                </div>
             </section>
         </div>
 
-        <!-- REPORT ARCHIVE -->
+        <!-- HISTORICAL ARCHIVE -->
         <section class="archive-section" data-aos="fade-up">
-            <h3 style="font-family:'Outfit'; font-size:24px; margin-bottom:25px;">Flagship Historical Publications</h3>
+            <h3 style="font-family:'Outfit'; font-size:20px; margin-bottom:20px; letter-spacing: -0.5px;">Flagship Historical Publications</h3>
             <div class="archive-grid">
                 <a href="#" class="archive-card">
-                    <div style="font-size:24px; font-family:'Outfit'; font-weight:700; color:var(--ann-gold); margin-bottom:8px;">2025</div>
-                    <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Market Integrity Review</div>
+                    <div style="font-size:22px; font-family:'Outfit'; font-weight:700; color:var(--ann-gold); margin-bottom:8px;">2025</div>
+                    <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Market Integrity Review</div>
                 </a>
                 <a href="#" class="archive-card">
-                    <div style="font-size:24px; font-family:'Outfit'; font-weight:700; color:var(--ann-gold); margin-bottom:8px;">2024</div>
-                    <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">MiCA Transition Path</div>
+                    <div style="font-size:22px; font-family:'Outfit'; font-weight:700; color:var(--ann-gold); margin-bottom:8px;">2024</div>
+                    <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">MiCA Transition Path</div>
                 </a>
                 <a href="#" class="archive-card">
-                    <div style="font-size:24px; font-family:'Outfit'; font-weight:700; color:var(--ann-gold); margin-bottom:8px;">2023</div>
-                    <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Stablecoin Stability</div>
+                    <div style="font-size:22px; font-family:'Outfit'; font-weight:700; color:var(--ann-gold); margin-bottom:8px;">2023</div>
+                    <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Stablecoin Stability</div>
                 </a>
                 <a href="#" class="archive-card" style="opacity: 0.5;">
-                    <div style="font-size:24px; font-family:'Outfit'; font-weight:700; color:var(--ann-gold); margin-bottom:8px;">2022</div>
-                    <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Founding Charter</div>
+                    <div style="font-size:22px; font-family:'Outfit'; font-weight:700; color:var(--ann-gold); margin-bottom:8px;">2022</div>
+                    <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Founding Charter</div>
                 </a>
             </div>
         </section>
     </main>
+
+    <!-- DEVELOPER DIAGNOSTICS DRAWER (Subtle and minimal for auditing) -->
+    <section class="diagnostic-drawer">
+        <div style="font-family:'JetBrains Mono'; font-size:11px; color:var(--text-muted); margin-bottom:12px; font-weight:700;">
+            <i class="fas fa-terminal"></i> Diagnostic Console (Developer Mode)
+        </div>
+        <div style="display: inline-flex; gap: 10px; align-items: center; justify-content: center;">
+            <select id="sim-tier-select" class="upgrade-select">
+                <option value="guest">Guest (Limited Public)</option>
+                <option value="free">Free Tier (Teasers)</option>
+                <option value="professional" selected>Professional (Unlocked)</option>
+                <option value="enterprise">Enterprise (Unlocked + Exports)</option>
+                <option value="institutional">Institutional (Unlocked + Datasets)</option>
+            </select>
+            <button class="paywall-btn" style="padding: 6px 14px; font-size:11px;" onclick="simulateUpgrade()">
+                Apply Simulated Access Tier
+            </button>
+            <button class="paywall-btn-secondary" style="padding: 6px 14px; font-size:11px;" onclick="resetToGuest()">
+                Reset to Guest
+            </button>
+        </div>
+    </section>
 
     <!-- FOOTER -->
     <footer class="super-footer">
@@ -812,6 +779,16 @@
                     <a href="../about/methodology.html">Methodology</a>
                     <a href="#">Institutional Inquiries</a>
                 </div>
+            </div>
+            <!-- Unified Identity Layer Statement (EEAT compliance & regulatory shield) -->
+            <div style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 15px; text-align: left; font-size: 11px; line-height: 1.6; color: var(--text-muted);">
+                <strong style="color: var(--ann-gold); display: block; margin-bottom: 5px; font-family:'Outfit'; text-transform:uppercase; letter-spacing:1px;">Epistemic &amp; Regulatory Disclosure:</strong>
+                <span class="lang-en">
+                    The DCM Core Annual Report and associated observatories represent an analytical framework combining empirical Eurosystem data, quantitative models, and scenario-based projections. All indexes, parameters, and findings are published solely for information and research purposes. They do not constitute, and shall not be construed as, financial, legal, investment, or regulatory advisory services.
+                </span>
+                <span class="lang-fr" style="display:none;">
+                    Le rapport annuel de DCM Core et les observatoires associés représentent un cadre analytique combinant des données empiriques de l'Eurosystème, des modèles quantitatifs et des projections basées sur des scénarios. Tous les indices, paramètres et conclusions sont publiés uniquement à des fins d'information et de recherche. Ils ne constituent pas et ne doivent pas être interprétés comme des services de conseil financier, juridique, d'investissement ou réglementaire.
+                </span>
             </div>
         </div>
     </footer>
@@ -828,108 +805,108 @@
             2: {
                 en: `
                     <div class="paragraph-block">
-                        <strong>European payment infrastructures exhibit deep structural asymmetry during non-clearing windows.</strong> Our observations indicate that TARGET2 weekend liquidity imbalances average <strong>0.14 bps</strong>, accumulating persistent friction during bank holidays. This is caused by asymmetrical settlement settlement timing adjustments between European Central Banks (BCNs), leaving minor domestic credit markets in temporary deficit cycles.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span><strong>European payment infrastructures exhibit deep structural asymmetry during non-clearing windows.</strong> Our observations indicate that TARGET2 weekend liquidity imbalances average <strong>0.14 bps</strong>, accumulating persistent friction during bank holidays. This is caused by asymmetrical settlement timing adjustments between European Central Banks (BCNs), leaving minor domestic credit markets in temporary deficit cycles.
                     </div>
                     <div class="paragraph-block">
-                        Furthermore, latency benchmarks across SEPA Instant operators vary widely: while NL (Netherlands) averages <strong>1.2 seconds</strong> under optimal load, ES (Spain) and IT (Italy) observe peaks reaching <strong>5.1 seconds</strong>. This regional latency gap impedes the real-time settlement of high-value tokenized capital contracts, forcing commercial pools to hold redundant reserves.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>Furthermore, latency benchmarks across SEPA Instant operators vary widely: while NL (Netherlands) averages <strong>1.2 seconds</strong> under optimal load, ES (Spain) and IT (Italy) observe peaks reaching <strong>5.1 seconds</strong>. This regional latency gap impedes the real-time settlement of high-value tokenized capital contracts, forcing commercial pools to hold redundant reserves.
                     </div>
                 `,
                 fr: `
                     <div class="paragraph-block">
-                        <strong>Les infrastructures de paiement européennes présentent une asymétrie structurelle profonde pendant les fenêtres de non-compensation.</strong> Nos observations indiquent que les déséquilibres de liquidité TARGET2 le week-end s'élèvent en moyenne à <strong>0,14 bps</strong>, accumulant une friction persistante pendant les jours fériés. Cela est dû à des décalages temporels asymétriques de règlement entre les banques centrales nationales (BCN), laissant les marchés de crédit domestiques secondaires dans des cycles de déficit temporaires.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span><strong>Les infrastructures de paiement européennes présentent une asymétrie structurelle profonde pendant les fenêtres de non-compensation.</strong> Nos observations indiquent que les déséquilibres de liquidité TARGET2 le week-end s'élèvent en moyenne à <strong>0,14 bps</strong>, accumulant une friction persistante pendant les jours fériés. Cela est dû à des décalages temporels asymétriques de règlement entre les banques centrales nationales (BCN), laissant les marchés de crédit domestiques secondaires dans des cycles de déficit temporaires.
                     </div>
                     <div class="paragraph-block">
-                        De plus, les benchmarks de latence entre les opérateurs SEPA Instant varient considérablement : alors que les Pays-Bas (NL) affichent une moyenne de <strong>1,2 seconde</strong> sous charge optimale, l'Espagne (ES) et l'Italie (IT) observent des pics atteignant <strong>5,1 secondes</strong>. Cet écart régional entrave le règlement en temps réel des contrats de capitaux tokenisés de haute valeur, obligeant les pools commerciaux à conserver des réserves redondantes.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>De plus, les benchmarks de latence entre les opérateurs SEPA Instant varient considérablement : alors que les Pays-Bas (NL) affichent une moyenne de <strong>1,2 seconde</strong> sous charge optimale, l'Espagne (ES) et l'Italie (IT) observent des pics atteignant <strong>5,1 secondes</strong>. Cet écart régional entrave le règlement en temps réel des contrats de capitaux tokenisés de haute valeur, obligeant les pools commerciaux à conserver des réserves redondantes.
                     </div>
                 `
             },
             3: {
                 en: `
                     <div class="paragraph-block">
-                        <strong>The full implementation of MiCA has initiated a consolidation wave among Crypto Asset Providers.</strong> ESMA database statistics from early 2026 reveal that compliant registration rates for small and medium issuers have dropped by <strong>34%</strong>, reflecting the heavy operational costs of compliance auditing. 
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span><strong>The full implementation of MiCA has initiated a consolidation wave among Crypto Asset Providers.</strong> ESMA database statistics from early 2026 reveal that compliant registration rates for small and medium issuers have dropped by <strong>34%</strong>, reflecting the heavy operational costs of compliance auditing. 
                     </div>
                     <div class="paragraph-block">
-                        The divergence between EMT (E-Money Token) and ART (Asset-Referenced Token) models is particularly striking: over <strong>82%</strong> of compliant volume is now centralized under major banking consortia, restricting decentralized fintech issuance.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>The divergence between EMT (E-Money Token) and ART (Asset-Referenced Token) models is particularly striking: over <strong>82%</strong> of compliant volume is now centralized under major banking consortia, restricting decentralized fintech issuance.
                     </div>
                 `,
                 fr: `
                     <div class="paragraph-block">
-                        <strong>La mise en œuvre complète de MiCA a déclenché une vague de consolidation parmi les prestataires de services sur crypto-actifs.</strong> Les statistiques de la base de données de l'ESMA début 2026 révèlent que le taux d'enregistrement conforme des petits et moyens émetteurs a chuté de <strong>34%</strong>, reflétant les coûts opérationnels lourds liés à l'audit de conformité.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span><strong>La mise en œuvre complète de MiCA a déclenché une vague de consolidation parmi les prestataires de services sur crypto-actifs.</strong> Les statistiques de la base de données de l'ESMA début 2026 révèlent que le taux d'enregistrement conforme des petits et moyens émetteurs a chuté de <strong>34%</strong>, reflétant les coûts opérationnels lourds liés à l'audit de conformité.
                     </div>
                     <div class="paragraph-block">
-                        La divergence entre les modèles EMT (E-Money Token) et ART (Asset-Referenced Token) est particulièrement frappante : plus de <strong>82%</strong> du volume conforme est désormais centralisé sous l'égide de grands consortiums bancaires, limitant les émissions de fintechs décentralisées.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>La divergence entre les modèles EMT (E-Money Token) et ART (Asset-Referenced Token) est particulièrement frappante : plus de <strong>82%</strong> du volume conforme est désormais centralisé sous l'égide de grands consortiums bancaires, limitant les émissions de fintechs décentralisées.
                     </div>
                 `
             },
             4: {
                 en: `
                     <div class="paragraph-block">
-                        <strong>Real-World Asset tokenization is dominated by yield-bearing liquid wrappers.</strong> The velocity index of institutional tokenized bonds has achieved a <strong>+34% YoY</strong> expansion, spearheaded by sovereign-backed vehicles such as BlackRock's BUIDL and institutional liquidity pools from JP Morgan Onyx.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span><strong>Real-World Asset tokenization is dominated by yield-bearing liquid wrappers.</strong> The velocity index of institutional tokenized bonds has achieved a <strong>+34% YoY</strong> expansion, spearheaded by sovereign-backed vehicles such as BlackRock's BUIDL and institutional liquidity pools from JP Morgan Onyx.
                     </div>
                     <div class="paragraph-block">
-                        This growth highlights a critical shift: collateral velocity on private permissioned networks is <strong>3.2x faster</strong> than public mainnet settlement pathways, bypassing legacy execution delays.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>This growth highlights a critical shift: collateral velocity on private permissioned networks is <strong>3.2x faster</strong> than public mainnet settlement pathways, bypassing legacy execution delays.
                     </div>
                 `,
                 fr: `
                     <div class="paragraph-block">
-                        <strong>La tokenisation d'actifs réels est dominée par des instruments liquides porteurs de rendement.</strong> L'index de vélocité des obligations tokenisées institutionnelles a enregistré une croissance de <strong>+34% sur un an</strong>, mené par des véhicules adossés à de la dette souveraine comme BUIDL de BlackRock et les pools de liquidité de JP Morgan Onyx.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span><strong>La tokenisation d'actifs réels est dominée par des instruments liquides porteurs de rendement.</strong> L'index de vélocité des obligations tokenisées institutionnelles a enregistré une croissance de <strong>+34% sur un an</strong>, mené par des véhicules adossés à de la dette souveraine comme BUIDL de BlackRock et les pools de liquidité de JP Morgan Onyx.
                     </div>
                     <div class="paragraph-block">
-                        Cette croissance souligne un pivot critique : la vélocité des garanties sur réseaux privés autorisés est <strong>3,2 fois plus rapide</strong> que sur les réseaux publics principaux, contournant les délais d'exécution traditionnels.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>Cette croissance souligne un pivot critique : la vélocité des garanties sur réseaux privés autorisés est <strong>3,2 fois plus rapide</strong> que sur les réseaux publics principaux, contournant les délais d'exécution traditionnels.
                     </div>
                 `
             },
             5: {
                 en: `
                     <div class="paragraph-block">
-                        <strong>Our readiness assessment of the SEPA architecture exposes API throughput limits.</strong> Under simulated peak loads (exceeding 12,000 transactions/second), SEPA Instant API gateways suffer from <strong>15% packet rejection</strong>, triggering settlement fallbacks to batch processing.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span><strong>Our readiness assessment of the SEPA architecture exposes API throughput limits.</strong> Under simulated peak loads (exceeding 12,000 transactions/second), SEPA Instant API gateways suffer from <strong>15% packet rejection</strong>, triggering settlement fallbacks to batch processing.
                     </div>
                     <div class="paragraph-block">
-                        This operational bottleneck prevents the instant reconciliation of automated corporate treasury payments, necessitating a standard upgrade toward unified protocol formats.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>This operational bottleneck prevents the instant reconciliation of automated corporate treasury payments, necessitating a standard upgrade toward unified protocol formats.
                     </div>
                 `,
                 fr: `
                     <div class="paragraph-block">
-                        <strong>Notre évaluation de la préparation de l'architecture SEPA expose les limites de débit des API.</strong> Sous charge de pointe simulée (dépassant 12 000 transactions/seconde), les passerelles API SEPA Instant subissent un <strong>rejet de paquets de 15%</strong>, déclenchant des replis de règlement vers des traitements par lots.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span><strong>Notre évaluation de la préparation de l'architecture SEPA expose les limites de débit des API.</strong> Sous charge de pointe simulée (dépassant 12 000 transactions/seconde), les passerelles API SEPA Instant subissent un <strong>rejet de paquets de 15%</strong>, déclenchant des replis de règlement vers des traitements par lots.
                     </div>
                     <div class="paragraph-block">
-                        Ce goulot d'étranglement opérationnel empêche le rapprochement instantané des paiements automatisés de trésorerie d'entreprise, nécessitant une mise à niveau standard vers des formats de protocole unifiés.
+                        <span class="assertion-tag tag-model"><i class="fas fa-chart-bar"></i> MODEL</span>Ce goulot d'étranglement opérationnel empêche le rapprochement instantané des paiements automatisés de trésorerie d'entreprise, nécessitant une mise à niveau standard vers des formats de protocole unifiés.
                     </div>
                 `
             },
             6: {
                 en: `
                     <div class="paragraph-block">
-                        <strong>A comparative review of settlement infrastructures highlights the trade-off between speed and finality guarantees.</strong> Ethereum's mainnet guarantees high decentralization but exhibits latency bounds of <strong>12.8 seconds</strong>, while RWA-native private networks (Canton, Corda) consistently secure finality in under <strong>2.5 seconds</strong>.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span><strong>A comparative review of settlement infrastructures highlights the trade-off between speed and finality guarantees.</strong> Ethereum's mainnet guarantees high decentralization but exhibits latency bounds of <strong>12.8 seconds</strong>, while RWA-native private networks (Canton, Corda) consistently secure finality in under <strong>2.5 seconds</strong>.
                     </div>
                     <div class="paragraph-block">
-                        Furthermore, energy footprints remain a primary concern for institutional ESG targets: private networks reduce execution electricity budgets by over <strong>99.8%</strong> compared to public proof-of-stake node grids.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span>Furthermore, energy footprints remain a primary concern for institutional ESG targets: private networks reduce execution electricity budgets by over <strong>99.8%</strong> compared to public proof-of-stake node grids.
                     </div>
                 `,
                 fr: `
                     <div class="paragraph-block">
-                        <strong>Un examen comparatif des infrastructures de règlement met en évidence le compromis entre vitesse et garanties de finalité.</strong> Le réseau principal d'Ethereum garantit une forte décentralisation mais présente des limites de latence de <strong>12,8 secondes</strong>, tandis que les réseaux privés natifs RWA (Canton, Corda) assurent systématiquement une finalité en moins de <strong>2,5 secondes</strong>.
+                        <span class="assertion-tag tag-fact"><i class="fas fa-check-circle"></i> FACT</span><strong>Un examen comparatif des infrastructures de règlement met en évidence le compromis entre vitesse et garanties de finalité.</strong> Le réseau principal d'Ethereum garantit une forte décentralisation mais présente des limites de latence de <strong>12,8 secondes</strong>, tandis que les réseaux privés natifs RWA (Canton, Corda) assurent systématiquement une finalité en moins de <strong>2,5 secondes</strong>.
                     </div>
                     <div class="paragraph-block">
-                        De plus, l'empreinte énergétique reste une préoccupation majeure pour les objectifs ESG institutionnels : les réseaux privés réduisent la consommation d'électricité d'exécution de plus de <strong>99,8%</strong> par rapport aux réseaux publics de preuve d'enjeu.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span>De plus, l'empreinte énergétique reste une préoccupation majeure pour les objectifs ESG institutionnels : les réseaux privés réduisent la consommation d'électricité d'exécution de plus de <strong>99,8%</strong> par rapport aux réseaux publics de preuve d'enjeu.
                     </div>
                 `
             },
             7: {
                 en: `
                     <div class="paragraph-block">
-                        <strong>Hypothesis 1 (70% Sovereign Parallel Ledgers):</strong> By 2028, over 70% of sovereign debt issuances in the Eurosystem will incorporate a synchronized parallel distributed ledger, accelerating cross-border collateral mobility.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span><strong>Hypothesis 1 (70% Sovereign Parallel Ledgers):</strong> By 2028, over 70% of sovereign debt issuances in the Eurosystem will incorporate a synchronized parallel distributed ledger, accelerating cross-border collateral mobility.
                     </div>
                     <div class="paragraph-block">
-                        <strong>Hypothesis 2 (TARGET2 Convergence):</strong> Upgrades to T2S Phase 3 will decrease the weekend liquidity asymmetry gap to less than <strong>0.05 bps</strong> by Q4 2027.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span><strong>Hypothesis 2 (TARGET2 Convergence):</strong> Upgrades to T2S Phase 3 will decrease the weekend liquidity asymmetry gap to less than <strong>0.05 bps</strong> by Q4 2027.
                     </div>
                 `,
                 fr: `
                     <div class="paragraph-block">
-                        <strong>Hypothèse 1 (70% Registres Parallèles Souverains) :</strong> D'ici 2028, plus de 70% des émissions de dette souveraine dans l'Eurosystème intégreront un registre distribué parallèle synchronisé, accélérant la mobilité des garanties transfrontalières.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span><strong>Hypothèse 1 (70% Registres Parallèles Souverains) :</strong> D'ici 2028, plus de 70% des émissions de dette souveraine dans l'Eurosystème intégreront un registre distribué parallèle synchronisé, accélérant la mobilité des garanties transfrontalières.
                     </div>
                     <div class="paragraph-block">
-                        <strong>Hypothèse 2 (Convergence TARGET2) :</strong> Les mises à niveau vers la phase 3 de T2S ramèneront l'écart d'asymétrie de liquidité du week-end à moins de <strong>0,05 bps</strong> d'ici le quatrième trimestre 2027.
+                        <span class="assertion-tag tag-scenario"><i class="fas fa-lightbulb"></i> SCENARIO</span><strong>Hypothèse 2 (Convergence TARGET2) :</strong> Les mises à niveau vers la phase 3 de T2S ramèneront l'écart d'asymétrie de liquidité du week-end à moins de <strong>0,05 bps</strong> d'ici le quatrième trimestre 2027.
                     </div>
                 `
             }
@@ -938,7 +915,6 @@
         // ON PAGE LOAD
         document.addEventListener("DOMContentLoaded", async () => {
             await evaluateAccess();
-            // Initialize lang switcher styling
             setLanguage('en');
         });
 
@@ -948,14 +924,12 @@
             try {
                 if (typeof DCM_REPORT_ACCESS !== "undefined") {
                     userAccess = await DCM_REPORT_ACCESS.checkAccess();
-                    
-                    // Display Badge
                     badge.innerText = `TIER: ${userAccess.tier.toUpperCase()}`;
                     if (userAccess.granted) {
-                        badge.style.background = 'rgba(16, 185, 129, 0.1)';
+                        badge.style.background = 'rgba(16, 185, 129, 0.08)';
                         badge.style.color = 'var(--accent-green)';
                     } else {
-                        badge.style.background = 'rgba(245, 158, 11, 0.1)';
+                        badge.style.background = 'rgba(245, 158, 11, 0.08)';
                         badge.style.color = 'var(--ann-gold)';
                     }
                 } else {
@@ -1000,21 +974,18 @@
 
         // RENDER ACTIVE SECTION CONTENT
         function renderActiveSection() {
-            // Hide all views first
             document.querySelectorAll('.section-view').forEach(view => view.classList.remove('active'));
             
             const targetView = document.getElementById(`sec-view-${activeSec}`);
             if (targetView) {
                 targetView.classList.add('active');
 
-                // If gated section and no access, append paywall, else append clean content
                 if (activeSec > 1) {
                     const gatedDiv = targetView.querySelector('.gated-content');
                     if (gatedDiv) {
                         if (userAccess.granted) {
                             gatedDiv.innerHTML = editorialContent[activeSec][currentLang];
                         } else {
-                            // Render Premium Paywall Box
                             gatedDiv.innerHTML = `
                                 <div class="premium-paywall">
                                     <div class="paywall-blur">
@@ -1063,7 +1034,6 @@
             const select = document.getElementById('sim-tier-select');
             const targetTier = select.value;
 
-            // Write to mock profile in localStorage
             const mockProfile = {
                 id: 'sim-user-123',
                 name: 'Auditeur Institutionnel',
@@ -1073,7 +1043,6 @@
             };
             localStorage.setItem('dcm_user_profile', JSON.stringify(mockProfile));
 
-            // Set state directly
             evaluateAccess();
             alert(`Accès mis à jour pour le tier: ${targetTier.toUpperCase()} !`);
         }
