@@ -1,68 +1,130 @@
-# 🧠 Digital Assets Research OS & Presentation Platform
+# MVDC v1.0 — Minimum Viable Dataset Contract
 
-> **Status** : 🏛️ Institutional Grade Audit Passed (Phase 11)  
-> **Version** : Search 4.0 "Deep Tech"  
-> **Deployment** : [Live Demo](https://dcmcore.com/Blockchain_Presentation/)
+## Overview
 
----
+This repository defines a versioned, machine-readable data contract for structured financial telemetry.
 
-## 🎯 Executive Summary
-This project is an advanced **Structured Knowledge System** designed for Digital Assets research. 
-It transcends standard educational sites by implementing a **Research Intelligence Layer** (Search 4.0) that mimics institutional terminals (Bloomberg/Refinitiv) using a 100% static, zero-backend architecture.
+The system provides a set of static, versioned datasets exposed under `/api/v1/` following a strict, non-ambiguous schema designed for direct ingestion into analytical pipelines.
+
+All datasets conform to the MVDC v1.0 specification.
 
 ---
 
-## 🧬 Core Tech: The "Research Engine" (Search 4.0)
-The platform is powered by a proprietary Python-based indexing engine that transforms static HTML into a navigable Knowledge Graph.
+## Data Contract
 
-### 1. Quantitative Scoring (TF-IDF)
-*   **Algorithm**: Term Frequency-Inverse Document Frequency.
-*   **Function**: Mathematically calculates the "information density" of each section.
-*   **Impact**: Rare, technical terms (*"Validator", "Slashing"*) automatically outweigh generic terms (*"Blockchain", "Token"*), ensuring expert-level relevance without manual curation.
+Each dataset follows a unified envelope:
 
-### 2. Knowledge Graph ($O(N^2)$ Auto-Linking)
-*   **Architecture**: The build script analyzes semantic intersections between all 58+ nodes.
-*   **Logic**: `If (SharedTags > 2) OR (TitleIntersection > 1) -> CreateBidirectionalLink()`.
-*   **UX**: Results display **"Voir aussi"** (See Also) connections, enabling lateral navigation through the concept graph.
+```json
+{
+  "api_version": "1.0.0",
+  "dataset": "string",
+  "last_updated": "ISO-8601 UTC timestamp",
+  "license": "ODbL-1.0",
+  "source": "DCM Core Telemetry",
+  "schema_version": "v1.0.0",
+  "data": []
+}
+```
 
-### 3. Bilingual NLP Core
-*   **Linguistics**: Native mapping of French/English technical vocabulary.
-*   **Scope**: *Risk* ↔ *Risque*, *Yield* ↔ *Rendement*, *Law* ↔ *Loi*.
-*   **Result**: A query in French finds English concepts contextually.
+### Observation Schema
 
-### 4. Contextual Intelligence
-*   **Local Boost**: The engine detects the user's current reading context (e.g., *PoS Economics*) and boosts related results (+15% score).
-*   **Intersection Logic**: Boolean AND logic implies specific queries (e.g., *"Smart Contract Risk"*) filter for intersection, reducing noise.
+Each element of `data[]` is a flat observation record:
 
----
+```json
+{
+  "timestamp": "ISO-8601 UTC timestamp",
+  "metric": "snake_case_identifier",
+  "value": "number | null",
+  "unit": "string",
+  "confidence": "observed | estimated | derived"
+}
+```
 
-## 🏛️ Architecture & Versions
+No nested structures are permitted.
 
-### 1️⃣ Research Terminal (Pro) - `index.html`
-**Target**: Quant Researchers, Fund Managers, Auditors.
-*   **Full Research OS**: Search 4.0, Knowledge Graph, Interactive Tools.
-*   **Live Data**: CAC 40 Real-time feed, Trading Simulator.
-*   **Modules**: 23 Deep-dive sections (Legal, macro, Tech).
-*   **Codebase**: ~7,500 lines (Modular).
-
-### 2️⃣ Pitch Deck (Lite) - `index-simple.html`
-**Target**: VC Pitch, Executive Summary.
-*   **Focus**: 6 Essential Sections (Natixis Focus, Market Overview).
-*   **Performance**: <0.5s load time.
-*   **Flow**: Linear narrative.
+No additional fields are allowed.
 
 ---
 
-## 🛡️ Audit & Reliability
-*   **Zero-Backend**: All intelligence is pre-computed (Python) or client-side (JS). No DB failure points.
-*   **Automated Indexing**: `generate_index.py` guarantee synchronization between content and search.
-*   **Privacy**: No external trackers, full sovereignty.
+## Versioning
+
+* `api_version` is immutable within a major version.
+* Breaking changes require a major version increment.
+* All datasets under `/api/v1/` conform to `v1.0.0`.
 
 ---
 
-## 🔗 Live Access
-*   **Research Terminal**: [Launch App](https://dcmcore.com/Blockchain_Presentation/)
-*   **Lite Deck**: [Launch Lite](https://dcmcore.com/Blockchain_Presentation/index-simple.html)
+## Null & Missing Data Handling
+
+* Missing or unobserved values are explicitly represented as `null`.
+* Gaps are treated as first-class observations.
+* No implicit interpolation is performed at dataset level.
 
 ---
-*Built by Joan Lab - 2026*
+
+## License
+
+All datasets are distributed under:
+
+**Open Database License (ODbL) 1.0**
+
+See: [https://opendatacommons.org/licenses/odbl/](https://opendatacommons.org/licenses/odbl/)
+
+---
+
+## Endpoints
+
+All datasets are exposed as static JSON endpoints:
+
+* `/api/v1/rt1-latency.json`
+* `/api/v1/target2-settlement.json`
+* `/api/v1/lcr-velocity.json`
+* `/api/v1/tfin-schema.json`
+* `/api/v1/metadata.json`
+
+---
+
+## Intended Usage
+
+This repository is designed for:
+
+* quantitative research pipelines
+* ETL ingestion systems
+* risk modeling environments
+* time-series analysis frameworks
+* machine-readable data integration
+
+Direct ingestion is supported without transformation layers.
+
+Example:
+
+```python
+import requests
+import pandas as pd
+
+url = "https://<domain>/api/v1/rt1-latency.json"
+data = requests.get(url).json()
+
+df = pd.DataFrame(data["data"])
+```
+
+---
+
+## Validation
+
+Dataset integrity is enforced via:
+
+* `tests/contract_test.py`
+* strict schema validation
+* immutable field contracts
+* deterministic structure checks
+
+Any deviation from the MVDC schema results in test failure.
+
+---
+
+## Design Principle
+
+The system is designed to eliminate interpretative ambiguity at the data layer.
+
+All interpretation is delegated downstream.
