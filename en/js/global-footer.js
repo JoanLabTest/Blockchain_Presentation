@@ -57,14 +57,13 @@ class GlobalFooter extends HTMLElement {
                             <div class="copyright">© 2026 DCM Core Institute</div>
                             <div class="legal-links">
                                 <a href="${this.basePath}legal-mentions.html">Legal Mentions</a>
-                                <a href="${this.basePath}cgu.html">T&C</a>
-                                <a href="${this.basePath}cgv.html">T&S</a>
-                                <a href="${this.basePath}terms-of-service.html">ToS</a>
+                                <a href="${this.basePath}terms-of-use.html">Terms of Use</a>
+                                <a href="${this.basePath}terms-of-service.html">Terms of Service</a>
                                 <a href="${this.basePath}research-policy.html">Research Policy</a>
                                 <a href="${this.basePath}methodology/governance.html">Governance</a>
                                 <a href="${this.basePath}methodology/index.html">Methodology</a>
-                                <a href="${this.basePath}privacy.html">Privacy</a>
-                                <a href="${this.basePath}cookies.html">Cookies</a>
+                                <a href="${this.basePath}privacy.html">Privacy Policy</a>
+                                <a href="${this.basePath}cookies.html">Cookie Policy</a>
                                 <a href="${this.basePath}support-it.html">IT Support</a>
                             </div>
                         </div>

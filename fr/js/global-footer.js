@@ -59,7 +59,6 @@ class GlobalFooter extends HTMLElement {
                                 <a href="${this.basePath}mentions-legales.html">Mentions Légales</a>
                                 <a href="${this.basePath}cgu.html">CGU</a>
                                 <a href="${this.basePath}cgv.html">CGV</a>
-                                <a href="${this.basePath}tos.html">ToS</a>
                                 <a href="${this.basePath}research-policy.html">Politique de Recherche</a>
                                 <a href="${this.basePath}methodology/gouvernance.html">Gouvernance</a>
                                 <a href="${this.basePath}research-methodology.html">Méthodologie</a>
