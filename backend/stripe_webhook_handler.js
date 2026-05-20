@@ -66,16 +66,22 @@ async function generateAndStoreApiKey(userId) {
 }
 
 async function handleSuccessfulSubscription(session) {
-    const userId = session.client_reference_id; // Passed during checkout
-    const customerEmail = session.customer_details.email;
+    const userId = session.metadata?.user_id || session.client_reference_id; // Read from metadata first
+    const customerEmail = session.customer_details?.email;
+    const plan = session.metadata?.plan || 'pro'; // Retrieve plan from metadata ('pro' or 'institutional')
 
-    console.log(`✅ Subscription successful for user ${userId || customerEmail}`);
+    console.log(`✅ Subscription successful for user ${userId || customerEmail} with plan: ${plan}`);
 
-    // 1. Update User Profile to 'INSTITUTIONAL'
+    if (!userId) {
+        console.error("❌ No user ID found in session metadata or client_reference_id");
+        return;
+    }
+
+    // 1. Update User Profile to corresponding tier
     const { error } = await supabase
         .from('profiles')
         .update({ 
-            tier: 'institutional', 
+            subscription_tier: plan, 
             stripe_customer_id: session.customer,
             subscription_status: 'active' 
         })
@@ -83,18 +89,19 @@ async function handleSuccessfulSubscription(session) {
 
     if (error) console.error("❌ Error updating profile:", error);
 
-    // 2. PHASE 118: Automate API Key Generation
-    const rawKey = await generateAndStoreApiKey(userId);
-    
-    // 3. TODO: In a real environment, trigger a secure email via SendGrid/Postmark
-    console.log(`🗝️ API Key Generated for ${userId}. Key Prefix: dcm_live_...`);
+    // 2. PHASE 118: Automate API Key Generation for institutional tier
+    if (plan === 'institutional') {
+        const rawKey = await generateAndStoreApiKey(userId);
+        // In a real environment, trigger a secure email via SendGrid/Postmark
+        console.log(`🗝️ API Key Generated for ${userId}. Key Prefix: dcm_live_...`);
+    }
 }
 
 async function handleCancelledSubscription(subscription) {
     const customerId = subscription.customer;
     console.log(`⚠️ Subscription cancelled for customer ${customerId}`);
 
-    // 1. Downgrade User to 'BASIC'
+    // 1. Downgrade User to 'free'
     const { data: profile } = await supabase
         .from('profiles')
         .select('id')
@@ -104,7 +111,10 @@ async function handleCancelledSubscription(subscription) {
     if (profile) {
         await supabase
             .from('profiles')
-            .update({ tier: 'basic', subscription_status: 'cancelled' })
+            .update({ 
+                subscription_tier: 'free', 
+                subscription_status: 'cancelled' 
+            })
             .eq('id', profile.id);
 
         // 2. PHASE 118: Instant Revocation
