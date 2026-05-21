@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Registre structuré répertoriant les événements de règlement institutionnels sur DLT, associant actifs, réseaux DLT, monnaies de règlement de gros, modèles de règlement et ponts d'interopérabilité."
+        name="description" />
+    <title>Registre des Événements de Règlement | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/fr/observatory/registre-reglements.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/observatory/registre-reglements.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/observatory/settlement-registry.html" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-obs: #3b82f6;
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+            overflow-x: hidden;
+        }
+
+        .obs-hero {
+            padding: 80px 20px 40px;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+        }
+
+        .obs-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 100px;
+            color: var(--accent-obs);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .obs-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(32px, 4.5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+            line-height: 1.15;
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            font-size: 12px;
+            color: #475569;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumb a {
+            color: #475569;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-obs);
+        }
+
+        /* REGISTRY SECTION */
+        .registry-container {
+            max-width: 1400px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .registry-intro {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #94a3b8;
+        }
+
+        .registry-intro strong {
+            color: #fff;
+        }
+
+        /* RESPONSIVE TABLE WRAPPER */
+        .obs-table-wrapper {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            background: rgba(15, 23, 42, 0.4);
+            margin-bottom: 50px;
+        }
+
+        .obs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+            min-width: 1000px;
+        }
+
+        .obs-table th {
+            padding: 16px 20px;
+            background: rgba(2, 6, 23, 0.6);
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .obs-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--glass-border);
+            color: #cbd5e1;
+            vertical-align: middle;
+            line-height: 1.5;
+        }
+
+        .obs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .obs-table tr:hover td {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        /* BADGES */
+        .dcm-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: var(--font-mono);
+        }
+
+        .dcm-badge.badge-model {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .dcm-badge.badge-cebm {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .dcm-badge.badge-cobm {
+            background: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .dcm-badge.badge-synthetic {
+            background: rgba(139, 92, 246, 0.1);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .cell-mono {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .cell-strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            .obs-hero {
+                padding: 40px 15px;
+            }
+            .obs-title {
+                font-size: 28px;
+            }
+            .registry-intro {
+                padding: 20px;
+                border-radius: 12px;
+            }
+        }
+    </style>
+    <script src="../js/global-footer.js"></script>
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../js/navigation-hub.js"></script>
+
+    <link href="../styles-megamenu.css" rel="stylesheet" />
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <!-- Navbar replaced dynamically by harmonize_navbars.py -->
+            <nav class="navbar-pro">
+        <a class="nav-brand" href="/fr/index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+
+        <div class="nav-pillars">
+            <!-- Dimension 1: Research Programs -->
+            <div class="pillar-item">
+                <a href="/fr/research-programs/index.html" class="pillar-link">Programmes de Recherche</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Frameworks & Protocoles</div>
+                    <a href="/fr/research/programmable-capital-markets/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-microchip" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Programmable Capital Markets (PCM)</span><span
+                                class="link-desc">Framework conceptuel & Architecture technique</span></div>
+                    </a>
+                    <a href="/fr/research/digital-debt-capital-markets/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-contract" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Digital Debt Capital Markets (DDCM)</span><span
+                                class="link-desc">Standardisation des émissions obligataires</span></div>
+                    </a>
+                    <a href="/fr/research/state-of-tokenization-2025.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-alt" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">State of Finance 2025</span><span
+                                class="link-desc">Rapport annuel prospectif</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 2: Ecosystem Maps -->
+            <div class="pillar-item">
+                <a href="#" class="pillar-link">Écosystème</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Cartographie Mondiale</div>
+                    <a href="/fr/research/ecosystem-map.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-project-diagram" style="color:#8b5cf6;"></i></div>
+                        <div class="link-text"><span class="link-title">Institutional Framework Map</span><span
+                                class="link-desc">Institutions, régulateurs & initiatives</span></div>
+                    </a>
+                    <a href="/fr/research/global-map.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-globe-europe" style="color:#6366f1;"></i></div>
+                        <div class="link-text"><span class="link-title">Global Tokenized Map</span><span
+                                class="link-desc">Acteurs, protocoles & actifs RWA</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 3: Observatory -->
+            <div class="pillar-item">
+                <a href="/fr/observatory/tokenized-markets.html" class="pillar-link">Observatoire <span class="hot-badge" style="background:var(--accent-report); font-size:8px; vertical-align:middle; margin-left:5px;">LIVE</span></a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Market Intelligence</div>
+                    <a href="/fr/observatory/tokenized-markets.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-chart-line" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Markets Observatory</span><span
+                                class="link-desc">Monitor de capitalisation & tendances</span></div>
+                    </a>
+                    <a href="/fr/indices/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-compass" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Indices & Benchmarks</span><span
+                                class="link-desc">GDARI & Risk Intelligence</span></div>
+                    </a>
+                    <a href="/fr/observatory/digital-euro-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-euro-sign" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Règlements de Gros & Cash</span><span
+                                class="link-desc">Trigger Solution, RTGS & rails de règlement DLT</span></div>
+                    </a>
+                    <a href="/fr/observatory/registre-reglements.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-list-ul" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Registre des Règlements</span><span
+                                class="link-desc">Journal de dénouement DLT & cash leg</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 4: Knowledge -->
+            <div class="pillar-item">
+                <a href="/fr/knowledge/index.html" class="pillar-link">Savoir</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Encyclopédie Institutionnelle</div>
+                    <a href="/fr/knowledge/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-book-open" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">Knowledge Base</span><span
+                                class="link-desc">Glossaire avancé & Concepts clés</span></div>
+                    </a>
+                    <a href="/fr/methodology/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-microscope" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Méthodologie</span><span
+                                class="link-desc">Standards de recherche DCM</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 5: Network & Institute -->
+            <div class="pillar-item">
+                <a href="/fr/about.html" class="pillar-link">Institut & Réseau</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Organisation & Impact</div>
+                    <a href="/fr/about.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-university" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">À propos du DCM Core</span><span
+                                class="link-desc">Mission, Gouvernance & Éthique</span></div>
+                    </a>
+                    <a href="/fr/global-forum/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-users" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Espace Dialogue</span><span
+                                class="link-desc">Forum Mondial, Roundtables & Événements</span></div>
+                    </a>
+                    <a href="/fr/fellowships/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-graduation-cap" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Communauté</span><span
+                                class="link-desc">Fellowships & Alliances stratégiques</span></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="/fr/observatory/registre-reglements.html" class="lang-link active" title="Français">🇫🇷 FR</a>
+                <a href="/en/observatory/settlement-registry.html" class="lang-link" title="English">🇬🇧 EN</a>
+            </div>
+            <a href="/fr/login.html" class="auth-btn">Auth</a>
+            <button class="connect-btn">Connect</button>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Accueil</a>
+        <span style="opacity:0.4;">›</span>
+        <a href="tokenized-markets.html">Observatoire</a>
+        <span style="opacity:0.4;">›</span>
+        <span style="color:var(--accent-obs);">Registre des Règlements</span>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="obs-hero" data-aos="fade-up">
+        <div class="obs-tag">Observatoire de Données</div>
+        <h1 class="obs-title">Registre des Règlements</h1>
+        <p style="color: #94a3b8; max-width: 800px; margin: 0 auto; font-size: 18px; line-height: 1.6;">
+            Un journal froid et structuré des règlements de gros d'actifs financiers tokenisés. Cartographie des transferts d'actifs on-chain avec les infrastructures de paiement de banque centrale et commerciales.
+        </p>
+    </header>
+
+    <!-- Main Section -->
+    <section class="registry-container" data-aos="fade-up">
+        <div class="registry-intro">
+            <p style="margin: 0 0 15px 0;">
+                <strong>Profil d'Objet Documentaire :</strong> Ce registre répertorie des événements de règlement spécifiques et vérifiés où des actifs tokenisés (dette, obligations souveraines ou titres de créances) ont été dénoués via des monnaies de règlement numériques. Loin de l'éditorialisation générale du marché, cette matrice est conçue pour les desks de taux, les équipes d'innovation MNBC et les pipelines d'ingestion RAG nécessitant des profils techniques précis sur la structure des règlements de gros.
+            </p>
+            <p style="margin: 0;">
+                Chaque enregistrement est rattaché à une taxonomie précise de <strong>Modèle de règlement</strong>, distinguant la livraison contre règlement (LcP/DvP) atomique, les mécanismes de déclenchement hybrides (Trigger) et les modèles synthétiques.
+            </p>
+        </div>
+
+        <!-- Table Wrap -->
+        <div class="obs-table-wrapper">
+            <table class="obs-table">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">Date</th>
+                        <th style="width: 20%;">Projet / Institution</th>
+                        <th style="width: 20%;">Nom de l'actif / Type</th>
+                        <th style="width: 13%;">Couche DLT</th>
+                        <th style="width: 12%;">Monnaie de règlement</th>
+                        <th style="width: 13%;">Modèle de règlement</th>
+                        <th style="width: 12%;">Pont d'interopérabilité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="cell-mono">2024-11-28</td>
+                        <td class="cell-strong">BEI / Banque de France / BdC Luxembourg</td>
+                        <td>Obligation verte numérique de la BEI (100 M€)</td>
+                        <td class="cell-mono">Canton Network</td>
+                        <td><span class="dcm-badge badge-cebm">MNBCg (CeBM)</span></td>
+                        <td><span class="dcm-badge badge-model">LcP Atomique</span></td>
+                        <td class="cell-mono">Système DL3S BdF</td>
+                    </tr>
+                    <tr>
+                        <td class="cell-mono">2024-05-15</td>
+                        <td class="cell-strong">Deutsche Bundesbank / DekaBank / LBBW</td>
+                        <td>Titres de créance négociables fédéraux (50 M€)</td>
+                        <td class="cell-mono">Ethereum Privé</td>
+                        <td><span class="dcm-badge badge-cebm">TARGET2 (CeBM)</span></td>
+                        <td><span class="dcm-badge badge-model">Trigger Hybride</span></td>
+                        <td class="cell-mono">Solution Trigger (Oracle)</td>
+                    </tr>
+                    <tr>
+                        <td class="cell-mono">2026-T2</td>
+                        <td class="cell-strong">BRI / G-SIBs / 7 Banques Centrales</td>
+                        <td>Projet Agorá (FX & Titres Transfrontaliers)</td>
+                        <td class="cell-mono">Unified Ledger</td>
+                        <td><span class="dcm-badge badge-synthetic">MNBCg & CoBM</span></td>
+                        <td><span class="dcm-badge badge-model">Connecté au RTGS</span></td>
+                        <td class="cell-mono">Intégration Agora Core</td>
+                    </tr>
+                    <tr>
+                        <td class="cell-mono">2023-09-20</td>
+                        <td class="cell-strong">BRI / Banque de France / BNS / MAS</td>
+                        <td>Projet Mariana (Changes Transfrontaliers)</td>
+                        <td class="cell-mono">Arbitrum (Testnet)</td>
+                        <td><span class="dcm-badge badge-cebm">MNBCg (CeBM)</span></td>
+                        <td><span class="dcm-badge badge-model">LcP Atomique</span></td>
+                        <td class="cell-mono">Pont AMM pour MNBCg</td>
+                    </tr>
+                    <tr>
+                        <td class="cell-mono">2023-12-14</td>
+                        <td class="cell-strong">Consortium Fnality / G-SIBs</td>
+                        <td>Pool de Cash de Gros en Sterling</td>
+                        <td class="cell-mono">DLT Fnality</td>
+                        <td><span class="dcm-badge badge-cobm">Adossé Réserves (CoBM)</span></td>
+                        <td><span class="dcm-badge badge-model">Séquestre (Escrow)</span></td>
+                        <td class="cell-mono">Lien RTGS Fnality</td>
+                    </tr>
+                    <tr>
+                        <td class="cell-mono">2020-Présent</td>
+                        <td class="cell-strong">J.P. Morgan Chase</td>
+                        <td>Liquidité intrajournalière JPM Coin</td>
+                        <td class="cell-mono">Kinexys (Onyx)</td>
+                        <td><span class="dcm-badge badge-cobm">USD / EUR (CoBM)</span></td>
+                        <td><span class="dcm-badge badge-model">Cash hors-chaîne</span></td>
+                        <td class="cell-mono">Passerelle API Kinexys</td>
+                    </tr>
+                    <tr>
+                        <td class="cell-mono">2022-06-07</td>
+                        <td class="cell-strong">Banque Nationale Suisse / SIX Digital Exchange</td>
+                        <td>Obligations numériques cantonales suisses</td>
+                        <td class="cell-mono">Corda Enterprise</td>
+                        <td><span class="dcm-badge badge-cebm">MNBCg Suisse (CeBM)</span></td>
+                        <td><span class="dcm-badge badge-model">LcP Atomique</span></td>
+                        <td class="cell-mono">SDX Settlement Engine</td>
+                    </tr>
+                    <tr>
+                        <td class="cell-mono">2023-01-31</td>
+                        <td class="cell-strong">BEI / BdF / Banque centrale du Luxembourg</td>
+                        <td>Obligation numérique de la BEI (100 M€)</td>
+                        <td class="cell-mono">HSBC Orion (Canton)</td>
+                        <td><span class="dcm-badge badge-cebm">MNBCg (CeBM)</span></td>
+                        <td><span class="dcm-badge badge-model">LcP Atomique</span></td>
+                        <td class="cell-mono">Plateforme DL3S BdF</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer dynamically replaced by harmonize_navbars.py -->
+    <global-footer base-path="../"></global-footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+
+        <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-orb"></div>
+                    <p>L'infrastructure de recherche indépendante pour la finance programmable.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Recherche</h4>
+                    <ul class="footer-links">
+                        <li><a href="../../fr/research-programs/index.html">Programmes</a></li>
+                        <li><a href="../../fr/research-papers/index.html">Working Papers</a></li>
+                        <li><a href="../../fr/methodology/index.html">Méthodologie</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Données</h4>
+                    <ul class="footer-links">
+                        <li><a href="../../fr/observatory/tokenized-markets.html">Observatoire</a></li>
+                        <li><a href="../../fr/indices/index.html">Indices & GDARI</a></li>
+                        <li><a href="../../fr/observatory/registre-reglements.html">Registre Règlements</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Institution</h4>
+                    <ul class="footer-links">
+                        <li><a href="../../fr/about.html">À propos</a></li>
+                        <li><a href="../../fr/global-forum/index.html">Global Forum</a></li>
+                        <li><a href="../../fr/fellowships/index.html">Fellowships</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <strong>Avertissement Institutionnel :</strong> Les analyses publiées par le DCM Core Institute sont destinées à des fins de recherche académique et d'intelligence de marché. Elles ne constituent en aucun cas des conseils d'investissement ou des recommandations de conformité.
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="copyright">© 2026 DCM Core Institute</div>
+                    <div class="legal-links">
+                        <a href="../../fr/mentions-legales.html">Mentions Légales</a>
+                        <a href="../../fr/cgu.html">CGU</a>
+                        <a href="../../fr/privacy.html">Confidentialité</a>
+                        <a href="../../fr/cookies.html">Cookies</a>
+                        <a href="../../fr/support-it.html">Support IT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
