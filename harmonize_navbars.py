@@ -69,6 +69,11 @@ FR_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">Règlements de Gros & Cash</span><span
                                 class="link-desc">Trigger Solution, RTGS & rails de règlement DLT</span></div>
                     </a>
+                    <a href="/fr/observatory/registre-reglements.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-list-ul" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Registre des Règlements</span><span
+                                class="link-desc">Journal de dénouement DLT & cash leg</span></div>
+                    </a>
                 </div>
             </div>
 
@@ -191,6 +196,11 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">Wholesale & Tokenized Cash</span><span
                                 class="link-desc">Trigger Solution, RTGS & DLT settlement rails</span></div>
                     </a>
+                    <a href="/en/observatory/settlement-registry.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-list-ul" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Settlement Event Registry</span><span
+                                class="link-desc">On-chain clearance & payment desk logs</span></div>
+                    </a>
                 </div>
             </div>
 
@@ -266,6 +276,7 @@ FR_FOOTER_TEMPLATE = """    <footer class="super-footer">
                     <ul class="footer-links">
                         <li><a href="/fr/observatory/tokenized-markets.html">Observatoire</a></li>
                         <li><a href="/fr/indices/index.html">Indices & GDARI</a></li>
+                        <li><a href="/fr/observatory/registre-reglements.html">Registre Règlements</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -315,6 +326,7 @@ EN_FOOTER_TEMPLATE = """    <footer class="super-footer">
                     <ul class="footer-links">
                         <li><a href="/en/observatory/tokenized-markets.html">Observatory</a></li>
                         <li><a href="/en/indices/index.html">Indices & GDARI</a></li>
+                        <li><a href="/en/observatory/settlement-registry.html">Settlement Registry</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -373,21 +385,37 @@ def process_file(filepath):
         print(f"   Skipping (Unknown language): {filepath}")
         return
 
-    # Determin relative path to other version
+    # Determine relative path to other version
     relative_path = filepath
     # Strip base directory if needed
     if relative_path.startswith('./'): relative_path = relative_path[2:]
     
-    # Try to find the other version
-    path_suffix = relative_path[relative_path.find(self_prefix) + 4:]
-    other_version_path = other_prefix + path_suffix
-    
-    # Verify if other version exists (relative to script execution or absolute)
-    # Actually, root-relative links in the template are fine as long as they are correct.
-    # The script is likely executed at root.
-    
-    self_link = self_prefix + path_suffix
-    other_link = other_version_path
+    # Custom asymmetric path mapping to handle language switcher correctly
+    asymmetric_mappings = {
+        # English to French mappings
+        'en/observatory/settlement-registry.html': 'fr/observatory/registre-reglements.html',
+        'en/observatory/registry-methodology.html': 'fr/observatory/methodologie-registre.html',
+        'en/observatory/tokenized-securities-registry.html': 'fr/observatory/registre-titres-tokenises.html',
+        'en/observatory/submit-security.html': 'fr/observatory/soumission-actif.html',
+        'en/observatory/stablecoins-institutional.html': 'fr/observatory/stablecoins-institutionnels.html',
+        # French to English mappings
+        'fr/observatory/registre-reglements.html': 'en/observatory/settlement-registry.html',
+        'fr/observatory/methodologie-registre.html': 'en/observatory/registry-methodology.html',
+        'fr/observatory/registre-titres-tokenises.html': 'en/observatory/tokenized-securities-registry.html',
+        'fr/observatory/soumission-actif.html': 'en/observatory/submit-security.html',
+        'fr/observatory/stablecoins-institutionnels.html': 'en/observatory/stablecoins-institutional.html'
+    }
+
+    if relative_path in asymmetric_mappings:
+        other_version_path = '/' + asymmetric_mappings[relative_path]
+        self_link = '/' + relative_path
+        other_link = other_version_path
+    else:
+        # Try to find the other version
+        path_suffix = relative_path[relative_path.find(self_prefix) + 4:]
+        other_version_path = other_prefix + path_suffix
+        self_link = self_prefix + path_suffix
+        other_link = other_version_path
     
     # Special case for index.html at root
     if self_link == "/fr/index.html" or self_link == "/en/index.html":
