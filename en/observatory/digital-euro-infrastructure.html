@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Deep-dive technical audit of wholesale central bank money settlement, ECB Trigger Solution trials, TARGET2 interbank rails, and the tokenized cash infrastructure stack."
+        name="description" />
+    <title>Wholesale Settlement & Tokenized Cash Infrastructure | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/en/observatory/digital-euro-infrastructure.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/observatory/digital-euro-infrastructure.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/observatory/digital-euro-infrastructure.html" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-obs: #3b82f6;
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+            overflow-x: hidden;
+        }
+
+        .obs-hero {
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+
+        .obs-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 100px;
+            color: var(--accent-obs);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .obs-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(32px, 4.5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+            line-height: 1.15;
+        }
+
+        /* METRIC CARDS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+        }
+
+        .metric-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .metric-card:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--card-color, var(--accent-obs));
+        }
+
+        .metric-value {
+            font-family: 'Outfit';
+            font-size: 32px;
+            font-weight: 800;
+            margin: 10px 0 5px;
+            display: block;
+            color: #fff;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .metric-desc {
+            font-size: 11px;
+            color: #94a3b8;
+            display: block;
+        }
+
+        /* TICKER */
+        .obs-ticker-wrap {
+            background: rgba(15, 23, 42, 0.4);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .obs-ticker {
+            display: inline-block;
+            animation: ticker 60s linear infinite;
+            padding-left: 100%;
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-right: 50px;
+            font-size: 13px;
+            color: #94a3b8;
+            font-family: var(--font-mono);
+        }
+
+        .ticker-symbol {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .ticker-status {
+            font-size: 10px;
+            padding: 2px 6px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            border-radius: 4px;
+        }
+
+        .ticker-status.warn {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-gold);
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            font-size: 12px;
+            color: #475569;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumb a {
+            color: #475569;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-obs);
+        }
+
+        /* MONOGRAPH GRID LAYOUT */
+        .monograph-container {
+            max-width: 1400px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .monograph-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .mono-sidebar {
+            position: sticky;
+            top: 100px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .sidebar-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .sidebar-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-links li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            display: block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .sidebar-links a:hover, .sidebar-links a.active {
+            color: #fff;
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 2px solid var(--accent-obs);
+        }
+
+        /* ARTICLE CONTENT */
+        .mono-content {
+            display: grid;
+            gap: 50px;
+        }
+
+        .mono-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            scroll-margin-top: 100px;
+        }
+
+        .mono-section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mono-section-title i {
+            color: var(--accent-obs);
+            font-size: 20px;
+        }
+
+        .mono-para {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .mono-highlight {
+            border-left: 3px solid var(--accent-obs);
+            background: rgba(59, 130, 246, 0.05);
+            padding: 15px 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #94a3b8;
+        }
+
+        .mono-highlight strong {
+            color: #fff;
+        }
+
+        /* COMPARATIVE MATRIX TABLE */
+        .obs-table-wrapper {
+            overflow-x: auto;
+            margin-top: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        .obs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .obs-table th {
+            padding: 16px 20px;
+            background: rgba(2, 6, 23, 0.6);
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .obs-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--glass-border);
+            color: #cbd5e1;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .obs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .obs-table td strong {
+            color: #fff;
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        /* DIAGRAM CONTAINER */
+        .diagram-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        .diagram-svg {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            display: block;
+        }
+
+        /* SVG Inner Styling */
+        .svg-grid-line {
+            stroke: rgba(255, 255, 255, 0.03);
+            stroke-width: 1;
+            stroke-dasharray: 4,4;
+        }
+
+        .svg-node-bg {
+            fill: #0b1329;
+            stroke-width: 1.5;
+        }
+
+        .svg-text-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            fill: #fff;
+        }
+
+        .svg-text-body {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            fill: #94a3b8;
+        }
+
+        .svg-arrow-line {
+            fill: none;
+            stroke-width: 1.5;
+            stroke-dasharray: 4, 2;
+            animation: dash 10s linear infinite;
+        }
+
+        .svg-arrow-line.finalized {
+            stroke-dasharray: none;
+            animation: none;
+        }
+
+        .svg-arrow-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            fill: #cbd5e1;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -40;
+            }
+        }
+
+        /* CITATION BOX */
+        .cite-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 50px;
+        }
+
+        .cite-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Outfit';
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .cite-content {
+            display: grid;
+            gap: 15px;
+        }
+
+        .cite-format {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #94a3b8;
+            background: rgba(2, 6, 23, 0.4);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+
+        .cite-label {
+            display: block;
+            font-family: 'Inter';
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--accent-obs);
+            margin-bottom: 5px;
+        }
+
+        /* BADGES */
+        .dcm-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dcm-badge.badge-risk {
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .dcm-badge.badge-safe {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .dcm-badge.badge-warn {
+            background: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 992px) {
+            .monograph-grid {
+                grid-template-columns: 1fr;
+            }
+            .mono-sidebar {
+                position: static;
+                margin-bottom: 30px;
+            }
+            .sidebar-links {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .sidebar-links li {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            .obs-hero {
+                padding: 40px 15px;
+            }
+            .obs-title {
+                font-size: 28px;
+            }
+            .mono-section {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            .mono-section-title {
+                font-size: 20px;
+            }
+            .diagram-box {
+                padding: 15px;
+            }
+        }
+    </style>
+    <script src="../js/global-footer.js"></script>
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+    <script src="../../js/navigation-hub.js"></script>
+
+    <link href="../styles-megamenu.css" rel="stylesheet" />
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <!-- Navbar replaced dynamically by harmonize_navbars.py -->
+            <nav class="navbar-pro">
+        <a class="nav-brand" href="/en/index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+
+        <div class="nav-pillars">
+            <!-- Dimension 1: Research Programs -->
+            <div class="pillar-item">
+                <a href="/en/research-programs/index.html" class="pillar-link">Research Programs</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Frameworks & Protocols</div>
+                    <a href="/en/research/programmable-capital-markets/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-microchip" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Programmable Capital Markets (PCM)</span><span
+                                class="link-desc">Conceptual framework & technical architecture</span></div>
+                    </a>
+                    <a href="/en/research/digital-debt-capital-markets/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-contract" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Digital Debt Capital Markets (DDCM)</span><span
+                                class="link-desc">Standardization of digital bond issuance</span></div>
+                    </a>
+                    <a href="/en/research/state-of-tokenization-2025.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-alt" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">State of Finance 2025</span><span
+                                class="link-desc">Annual strategic report</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 2: Ecosystem Maps -->
+            <div class="pillar-item">
+                <a href="#" class="pillar-link">Ecosystem</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Global Cartography</div>
+                    <a href="/en/research/ecosystem-map.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-project-diagram" style="color:#8b5cf6;"></i></div>
+                        <div class="link-text"><span class="link-title">Institutional Framework Map</span><span
+                                class="link-desc">Global institutions, regulators & initiatives</span></div>
+                    </a>
+                    <a href="/en/research/global-map.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-globe-americas" style="color:#6366f1;"></i></div>
+                        <div class="link-text"><span class="link-title">Global Tokenized Map</span><span
+                                class="link-desc">Actors, protocols & RWA assets</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 3: Observatory -->
+            <div class="pillar-item">
+                <a href="/en/observatory/tokenized-markets.html" class="pillar-link">Observatory <span class="hot-badge" style="background:var(--accent-report); font-size:8px; vertical-align:middle; margin-left:5px;">LIVE</span></a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Market Intelligence</div>
+                    <a href="/en/observatory/tokenized-markets.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-chart-line" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Markets Observatory</span><span
+                                class="link-desc">Market cap monitor & trends</span></div>
+                    </a>
+                    <a href="/en/indices/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-compass" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Indices & Benchmarks</span><span
+                                class="link-desc">GDARI & Risk Intelligence</span></div>
+                    </a>
+                    <a href="/en/observatory/digital-euro-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-euro-sign" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Wholesale & Tokenized Cash</span><span
+                                class="link-desc">Trigger Solution, RTGS & DLT settlement rails</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 4: Knowledge -->
+            <div class="pillar-item">
+                <a href="/en/knowledge/index.html" class="pillar-link">Knowledge</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Institutional Encyclopedia</div>
+                    <a href="/en/knowledge/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-book-open" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">Knowledge Base</span><span
+                                class="link-desc">Advanced glossary & key concepts</span></div>
+                    </a>
+                    <a href="/en/methodology/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-microscope" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Methodology</span><span
+                                class="link-desc">DCM research standards</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 5: Network & Institute -->
+            <div class="pillar-item">
+                <a href="/en/about.html" class="pillar-link">Network & Institute</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Organization & Impact</div>
+                    <a href="/en/about.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-university" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">About DCM Core</span><span
+                                class="link-desc">Mission, Governance & Ethics</span></div>
+                    </a>
+                    <a href="/en/global-forum/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-users" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Dialogue Space</span><span
+                                class="link-desc">Global Forum, Roundtables & Events</span></div>
+                    </a>
+                    <a href="/en/fellowships/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-graduation-cap" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Community</span><span
+                                class="link-desc">Fellowships & Strategic alliances</span></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="/en/observatory/digital-euro-infrastructure.html" class="lang-link active" title="English">🇬🇧 EN</a>
+                <a href="/fr/observatory/digital-euro-infrastructure.html" class="lang-link" title="Français">🇫🇷 FR</a>
+            </div>
+            <a href="/en/login.html" class="auth-btn">Auth</a>
+            <button class="connect-btn">Connect</button>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Home</a>
+        <span style="opacity:0.4;">›</span>
+        <a href="tokenized-markets.html">Observatory</a>
+        <span style="opacity:0.4;">›</span>
+        <span style="color:var(--accent-obs);">Wholesale & Tokenized Cash</span>
+    </nav>
+
+    <!-- Live Telemetry Ticker -->
+    <div class="obs-ticker-wrap">
+        <div class="obs-ticker">
+            <div class="ticker-item"><span class="ticker-symbol">ECB-wCBDC-TRIAL</span> <span class="ticker-status">Active</span> <span class="ticker-amount">€1.42B Settled (Phase II)</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">TARGET2-RTGS</span> <span class="ticker-status">Online</span> <span class="ticker-amount">System Status: Nominal</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">TIPS-INSTANT</span> <span class="ticker-status">Active</span> <span class="ticker-amount">24/7/365 Settlement Pool</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">EIB-CANTON-BRIDGE</span> <span class="ticker-status">Nominal</span> <span class="ticker-amount">EIB Digital Bond Settled via API</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">FNALITY-GBP-POOL</span> <span class="ticker-status">Live</span> <span class="ticker-amount">PvP Wholesale Cash Ledger</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">JPM-COIN-SYSTEM</span> <span class="ticker-status">Live</span> <span class="ticker-amount">Intraday Commercial Liquidity Pool</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">RT1-CLEARING</span> <span class="ticker-status">Active</span> <span class="ticker-amount">SEPA Instant Settlement Nominal</span></div>
+        </div>
+    </div>
+
+    <!-- Hero Header -->
+    <header class="obs-hero" data-aos="fade-up">
+        <div class="obs-tag">Settlement Rails</div>
+        <h1 class="obs-title">Wholesale Settlement &<br>Tokenized Cash Infrastructure</h1>
+        <p style="color: #94a3b8; max-width: 800px; margin: 0 auto; font-size: 18px; line-height: 1.6;">
+            A technical assessment of Eurosystem payment rails (TARGET2, TIPS, RT1), the ECB Trigger Solution DLT interoperability bridge, and the architecture of tokenized money stacks.
+        </p>
+    </header>
+
+    <!-- Main Section -->
+    <section class="monograph-container">
+        <div class="monograph-grid">
+            <!-- Sidebar -->
+            <aside class="mono-sidebar" data-aos="fade-right">
+                <h4 class="sidebar-title">Monograph Index</h4>
+                <ul class="sidebar-links">
+                    <li><a href="#rtgs" class="active">1. TARGET2 & TIPS Stack</a></li>
+                    <li><a href="#trigger">2. ECB Trigger Solution</a></li>
+                    <li><a href="#dvp-workflow">3. API / RTGS DvP Workflow</a></li>
+                    <li><a href="#unified-ledger">4. The Unified Ledger Model</a></li>
+                    <li><a href="#matrix">5. Comparative Matrix</a></li>
+                    <li><a href="#liquidity">6. Liquidity & HQLA Velocity</a></li>
+                    <li><a href="#constraints">7. Operational Constraints</a></li>
+                </ul>
+            </aside>
+
+            <!-- Content Area -->
+            <article class="mono-content" data-aos="fade-up">
+                
+                <!-- Section 1: TARGET2 & TIPS -->
+                <section id="rtgs" class="mono-section">
+                    <h2 class="mono-section-title"><i class="fas fa-server"></i> 1. TARGET2, TIPS & RT1 Core Stack</h2>
+                    <p class="mono-para">
+                        The Eurosystem’s settlement infrastructure relies on a tiered system designed for large-value payments and instant retail clearing. At the core is <strong>TARGET2 (T2)</strong>, a Real-Time Gross Settlement (RTGS) system processing transactions in risk-free central bank money (CeBM). TARGET2 operates on a strict schedule, closing on weekends and public holidays, creating a structural operating mismatch with the 24/7/365 cycle of decentralized financial markets.
+                    </p>
+                    <p class="mono-para">
+                        To address real-time retail settlement, <strong>TIPS (TARGET Instant Payment Settlement)</strong> operates continuously on a 24/7/365 basis, leveraging central bank accounts. While TIPS guarantees instant finality in CeBM, it is architecturally constrained by transaction caps (standardized at €100,000) and optimized for low-value, high-volume retail transactions rather than high-value, multi-party wholesale financial settlements.
+                    </p>
+                    <p class="mono-para">
+                        Separately, <strong>RT1</strong> (operated by EBA Clearing) provides a commercial bank clearing alternative. Operating under SEPA Instant Credit Transfer rules, RT1 clears commercial bank money (CoBM), requiring participants to hold liquidity buffers at the Eurosystem to secure net settlement finality, introducing additional credit risk and operational complexity.
+                    </p>
+                    <div class="mono-highlight">
+                        <strong>Technical Architecture Note:</strong> TARGET2’s structural weekend closures force institutions to hold buffer liquidity (collateral locking) or freeze settlements until the next clearing cycle, introducing systemic intraday credit risks in DLT-based trade lifecycles.
+                    </div>
+                </section>
+
+                <!-- Section 2: ECB Trigger Solution -->
+                <section id="trigger" class="mono-section">
+                    <h2 class="mono-section-title"><i class="fas fa-network-wired"></i> 2. The ECB Trigger Solution</h2>
+                    <p class="mono-para">
+                        To resolve the gap between DLT-native assets (like tokenized bonds) and central bank money without minting a native wholesale CBDC (wCBDC) on public ledgers, the Deutsche Bundesbank introduced the <strong>Trigger Solution</strong>. Adopted by the Eurosystem for its wholesale trials, this interoperability bridge links DLT networks to legacy RTGS systems via an API gateway.
+                    </p>
+                    <p class="mono-para">
+                        The Trigger Solution does not issue central bank money directly on the DLT ledger. Instead, when a transaction occurs on the DLT network (e.g., an EIB bond token transfer), the smart contract locks the asset and emits an execution event. The Trigger Oracle reads this event, translates the instruction into an ISO 20022 message, and submits it to TARGET2. T2 processes the cash leg (debiting the buyer's account and crediting the seller's). Once settled, T2 confirms back to the oracle, which triggers the release of the locked asset on the DLT.
+                    </p>
+                    <p class="mono-para">
+                        This approach avoids complex legal questions regarding the custodian status of central bank money on distributed ledgers. However, it relies heavily on the oracle infrastructure, introduces potential API latency, and does not natively support complex smart contract functions (like on-chain multi-party liquidity pools) because the cash leg remains isolated in a centralized database.
+                    </p>
+                </section>
+
+                <!-- Section 3: API Workflow Diagram -->
+                <section id="dvp-workflow" class="mono-section">
+                    <h2 class="mono-section-title"><i class="fas fa-project-diagram"></i> 3. ECB Trigger API / TARGET2 DvP Workflow</h2>
+                    <p class="mono-para">
+                        The diagram below illustrates the technical step-by-step API flow of the ECB Trigger Solution, bridging a DLT bond transaction (e.g., European Investment Bank digital bond issuances on HSBC Orion or Canton Network) with cash settlement on TARGET2.
+                    </p>
+                    
+                    <div class="diagram-box">
+                        <svg class="diagram-svg" viewBox="0 0 850 450" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Grid -->
+                            <rect x="0" y="0" width="850" height="450" fill="#020617" />
+                            <path d="M 0 50 L 850 50 M 0 100 L 850 100 M 0 150 L 850 150 M 0 200 L 850 200 M 0 250 L 850 250 M 0 300 L 850 300 M 0 350 L 850 350 M 0 400 L 850 400" class="svg-grid-line" />
+                            <path d="M 100 0 L 100 450 M 200 0 L 200 450 M 300 0 L 300 450 M 400 0 L 400 450 M 500 0 L 500 450 M 600 0 L 600 450 M 700 0 L 700 450 M 800 0 L 800 450" class="svg-grid-line" />
+
+                            <!-- Actors / Headers -->
+                            <text x="150" y="40" class="svg-text-title" text-anchor="middle" fill="#f59e0b">DLT LEDGER (ASSETS)</text>
+                            <text x="425" y="40" class="svg-text-title" text-anchor="middle" fill="#3b82f6">TRIGGER GATEWAY (API)</text>
+                            <text x="700" y="40" class="svg-text-title" text-anchor="middle" fill="#10b981">TARGET2 RTGS (CASH)</text>
+
+                            <!-- Columns boundaries -->
+                            <line x1="285" y1="20" x2="285" y2="430" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
+                            <line x1="565" y1="20" x2="565" y2="430" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
+
+                            <!-- DLT NODE Box -->
+                            <rect x="40" y="80" width="220" height="310" rx="12" class="svg-node-bg" stroke="#f59e0b" fill="#0f172a" />
+                            <text x="150" y="110" class="svg-text-title" text-anchor="middle" fill="#fff">Smart Contract DvP</text>
+                            <rect x="55" y="140" width="190" height="60" rx="8" fill="rgba(245,158,11,0.05)" stroke="rgba(245,158,11,0.3)" />
+                            <text x="65" y="160" class="svg-text-body" fill="#fff">State: INITIATED</text>
+                            <text x="65" y="175" class="svg-text-body">Lock Asset: EIB Digital Bond</text>
+                            <text x="65" y="190" class="svg-text-body">Value: €100,000,000</text>
+
+                            <rect x="55" y="300" width="190" height="60" rx="8" fill="rgba(16,185,129,0.05)" stroke="rgba(16,185,129,0.3)" />
+                            <text x="65" y="320" class="svg-text-body" fill="#fff">State: SETTLED (DvP)</text>
+                            <text x="65" y="335" class="svg-text-body" fill="#10b981">Asset transferred to Buyer</text>
+                            <text x="65" y="350" class="svg-text-body" fill="#94a3b8">Finality: Absolute</text>
+
+                            <!-- TRIGGER GATEWAY Box -->
+                            <rect x="315" y="100" width="220" height="270" rx="12" class="svg-node-bg" stroke="#3b82f6" fill="#0f172a" />
+                            <text x="425" y="130" class="svg-text-title" text-anchor="middle" fill="#fff">Bundesbank Oracle</text>
+                            <rect x="330" y="160" width="190" height="50" rx="8" fill="rgba(59,130,246,0.05)" stroke="rgba(59,130,246,0.3)" />
+                            <text x="340" y="180" class="svg-text-body" fill="#3b82f6">ISO 20022 Parser</text>
+                            <text x="340" y="195" class="svg-text-body">Translating DLT event</text>
+
+                            <rect x="330" y="290" width="190" height="50" rx="8" fill="rgba(59,130,246,0.05)" stroke="rgba(59,130,246,0.3)" />
+                            <text x="340" y="310" class="svg-text-body" fill="#10b981">Proof Generator</text>
+                            <text x="340" y="325" class="svg-text-body">Cryptographic callback</text>
+
+                            <!-- TARGET2 Box -->
+                            <rect x="590" y="80" width="220" height="310" rx="12" class="svg-node-bg" stroke="#10b981" fill="#0f172a" />
+                            <text x="700" y="110" class="svg-text-title" text-anchor="middle" fill="#fff">Eurosystem T2 RTGS</text>
+                            <rect x="605" y="150" width="190" height="180" rx="8" fill="rgba(16,185,129,0.05)" stroke="rgba(16,185,129,0.3)" />
+                            <text x="615" y="180" class="svg-text-body" fill="#fff">Buyer Bank RTGS Acc</text>
+                            <text x="615" y="195" class="svg-text-body" fill="#f87171">- €100,000,000</text>
+                            <line x1="615" y1="215" x2="780" y2="215" stroke="rgba(255,255,255,0.1)" />
+                            <text x="615" y="245" class="svg-text-body" fill="#fff">Seller Bank RTGS Acc</text>
+                            <text x="615" y="260" class="svg-text-body" fill="#34d399">+ €100,000,000</text>
+                            <text x="615" y="290" class="svg-text-body" fill="#10b981">Status: settled (T+0)</text>
+
+                            <!-- Directed Arrows with classes -->
+                            <!-- Flow 1 DLT -> Gateway -->
+                            <path d="M 260 170 L 315 170" stroke="#3b82f6" class="svg-arrow-line" marker-end="url(#arrow-blue)" />
+                            <text x="287" y="155" class="svg-arrow-label" text-anchor="middle">1. Event</text>
+
+                            <!-- Flow 2 Gateway -> T2 -->
+                            <path d="M 535 185 L 590 185" stroke="#3b82f6" class="svg-arrow-line" marker-end="url(#arrow-blue)" />
+                            <text x="562" y="170" class="svg-arrow-label" text-anchor="middle">2. pacs.009</text>
+
+                            <!-- Flow 3 T2 -> Gateway -->
+                            <path d="M 590 310 L 535 310" stroke="#10b981" class="svg-arrow-line" marker-end="url(#arrow-green)" />
+                            <text x="562" y="295" class="svg-arrow-label" text-anchor="middle">3. pacs.002</text>
+
+                            <!-- Flow 4 Gateway -> DLT -->
+                            <path d="M 315 330 L 260 330" stroke="#10b981" class="svg-arrow-line" marker-end="url(#arrow-green)" />
+                            <text x="287" y="315" class="svg-arrow-label" text-anchor="middle">4. Release</text>
+
+                            <!-- SVG Arrow Definitions -->
+                            <defs>
+                                <marker id="arrow-blue" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                                    <path d="M0,0 L0,6 L6,3 Z" fill="#3b82f6" />
+                                </marker>
+                                <marker id="arrow-green" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                                    <path d="M0,0 L0,6 L6,3 Z" fill="#10b981" />
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+                </section>
+
+                <!-- Section 4: Unified Ledger -->
+                <section id="unified-ledger" class="mono-section">
+                    <h2 class="mono-section-title"><i class="fas fa-layer-group"></i> 4. The Unified Ledger Model (BIS)</h2>
+                    <p class="mono-para">
+                        The Bank for International Settlements (BIS) has proposed a more integrated alternative to messaging bridges: the <strong>Unified Ledger</strong>. In this model, wholesale central bank money (wCBDC), commercial bank tokenized deposits, and tokenized real-world assets (RWAs) are co-located on a single shared, programmable database platform.
+                    </p>
+                    <p class="mono-para">
+                        The Unified Ledger eliminates the translation lag and oracle security risks of trigger models. By having the cash leg and the asset leg exist on the same database, atomic settlement is achieved natively. This allows for complex financial logic—such as automated escrow, dynamic collateral margin calls, and multi-party atomic clearing—without exposing participants to intermediate settlement delays or bridge exploits.
+                    </p>
+                    <p class="mono-para">
+                        However, the Unified Ledger model faces massive political and structural hurdles. It requires commercial banks and central banks to participate in a shared, multi-tenant database infrastructure, raising questions of national sovereignty, system governance, and the operational independence of commercial institutions.
+                    </p>
+                </section>
+
+                <!-- Section 5: Comparative Matrix -->
+                <section id="matrix" class="mono-section">
+                    <h2 class="mono-section-title"><i class="fas fa-table"></i> 5. Comparative Settlement Rails Matrix</h2>
+                    <p class="mono-para">
+                        A detailed technical comparison of the three primary tokenized settlement cash models available to institutional market participants. Note the asymmetric, non-uniform regulatory and operational gaps reflecting real-world market design.
+                    </p>
+
+                    <div class="obs-table-wrapper">
+                        <table class="obs-table">
+                            <thead>
+                                <tr>
+                                    <th>Dimension</th>
+                                    <th>Central Bank Money (ECB Trigger / wCBDC)</th>
+                                    <th>Commercial Tokenized Cash (JPM Coin / Fnality)</th>
+                                    <th>G-SIB Stablecoins (USDC / PYUSD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Settlement Asset & Credit Risk</strong></td>
+                                    <td>
+                                        <strong>Risk-Free CeBM</strong>
+                                        Direct liability of the Eurosystem. Zero credit and liquidity risk.
+                                    </td>
+                                    <td>
+                                        <strong>Commercial Bank Money (CoBM)</strong>
+                                        Exposed to issuing bank credit risk (JPM) or backed by central bank reserve trust (Fnality).
+                                    </td>
+                                    <td>
+                                        <strong>Unrated Reserves Liability</strong>
+                                        Exposed to reserve custodian credit risk and market volatility of underlying T-Bills.
+                                        <span class="dcm-badge badge-risk">Reserves Risk</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Settlement Speed & Finality</strong></td>
+                                    <td>
+                                        <strong>Atomic DvP (T+0)</strong>
+                                        Settled instantly upon TARGET2 gross finality receipt. Legally protected.
+                                    </td>
+                                    <td>
+                                        <strong>Real-Time Intra-Network</strong>
+                                        Atomic settlement within closed ledger. Inter-bank finality varies by network.
+                                    </td>
+                                    <td>
+                                        <strong>Protocol-Dependent Speed</strong>
+                                        Depends on blockchain block-time (e.g. Ethereum vs Solana). Legal finality is unregulated.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Liquidity Window & Operating Hours</strong></td>
+                                    <td>
+                                        <strong>Restricted (TARGET2 Hours)</strong>
+                                        Closed on weekends and public holidays. Night-time batches limited.
+                                        <span class="dcm-badge badge-warn">Weekend Friction</span>
+                                    </td>
+                                    <td>
+                                        <strong>24/7/365 Continuous</strong>
+                                        Active continuous settlement inside proprietary DLT network.
+                                        <span class="dcm-badge badge-safe">24/7 Rails</span>
+                                    </td>
+                                    <td>
+                                        <strong>24/7/365 Continuous</strong>
+                                        Public blockchain availability. Subject to on-chain gas fee volatility.
+                                        <span class="dcm-badge badge-safe">24/7 Rails</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Systemic Accessibility</strong></td>
+                                    <td>
+                                        <strong>Highly Restricted</strong>
+                                        Only accessible to Eurosystem monetary policy counterparties.
+                                    </td>
+                                    <td>
+                                        <strong>Tiered Access</strong>
+                                        Restricted to commercial bank clients or member participants.
+                                    </td>
+                                    <td>
+                                        <strong>Permissionless / Global</strong>
+                                        Accessible to any on-chain wallet, subject to global blacklist controls.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Regulatory Governance</strong></td>
+                                    <td>
+                                        <strong>Direct Eurosystem Control</strong>
+                                        Governed under central bank mandate & Basel III capital rules.
+                                    </td>
+                                    <td>
+                                        <strong>Banking Regulation</strong>
+                                        Supervised by national banking regulators (e.g., ECB, OCC).
+                                    </td>
+                                    <td>
+                                        <strong>MiCA / State Licensing</strong>
+                                        Governed under MiCA (EMT framework) in EU or state-level licenses.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Section 6: Liquidity & HQLA Velocity -->
+                <section id="liquidity" class="mono-section">
+                    <h2 class="mono-section-title"><i class="fas fa-coins"></i> 6. Intraday Liquidity & Collateral Implications</h2>
+                    <p class="mono-para">
+                        Bridging DLT networks that run 24/7/365 with legacy RTGS systems like TARGET2 (which close during weekends and holidays) introduces significant <strong>liquidity fragmentation</strong> and **bridging friction**.
+                    </p>
+                    <p class="mono-para">
+                        When a DLT-native asset is traded on a Saturday, the cash leg cannot settle in central bank money via TARGET2 until Monday morning. To maintain continuous atomic DvP settlement, participants are forced to adopt one of two inefficient strategies:
+                    </p>
+                    <ul style="padding-left: 20px; color: #cbd5e1; margin-bottom: 20px; font-size: 15px; line-height: 1.7;">
+                        <li style="margin-bottom: 10px;"><strong>Pre-Funding:</strong> Banks must lock up liquidity by pre-funding specialized RTGS accounts prior to weekend closures, effectively locking up capital that could otherwise be deployed elsewhere.</li>
+                        <li style="margin-bottom: 10px;"><strong>HQLA Collateralization:</strong> Banks can pledge High-Quality Liquid Assets (HQLA) like government bonds to secure intraday credit lines, but this locks up collateral buffers, reducing overall velocity.</li>
+                    </ul>
+                    <p class="mono-para">
+                        This cash-locking effect reduces the overall velocity of capital, creating a structural cost premium for 24/7 institutional trading. Until central banks provide continuous, interest-bearing wholesale wCBDC accounts that operate 24/7/365, liquidity velocity will remain structurally constrained.
+                    </p>
+                </section>
+
+                <!-- Section 7: Operational & Structural Constraints -->
+                <section id="constraints" class="mono-section">
+                    <h2 class="mono-section-title"><i class="fas fa-shield-halved"></i> 7. Operational & Structural Constraints</h2>
+                    <p class="mono-para">
+                        The deployment of digital sovereign money structures introduces fundamental trade-offs between system safety, compliance, and user adoption.
+                    </p>
+                    
+                    <h3 style="font-family: 'Outfit'; font-size: 18px; color: #fff; margin: 25px 0 10px;">A. Privacy vs. Compliance (GDPR & ZKPs)</h3>
+                    <p class="mono-para">
+                        Wholesale settlements on shared ledgers must guarantee absolute transaction confidentiality to protect proprietary trading strategies and comply with banking secrecy laws (such as GDPR). However, regulators require auditability to prevent anti-money laundering (AML). Central banks are exploring Zero-Knowledge Proofs (ZKPs) to hide transaction amounts and counterparties while proving compliance cryptographically. Yet, current ZKP systems introduce high computational overhead and processing latency, conflicting with high-speed RTGS requirements.
+                    </p>
+
+                    <h3 style="font-family: 'Outfit'; font-size: 18px; color: #fff; margin: 25px 0 10px;">B. Offline Settlement Challenges</h3>
+                    <p class="mono-para">
+                        In retail contexts, digital currency must function offline during power outages or connectivity failures. Implementing offline settlement requires tamper-resistant hardware (e.g., Secure Enclaves or HSMs on mobile devices) that can verify and record transactions locally. Preventing the "double-spending" of digital cash without a real-time central ledger remains an open cryptographic challenge, limiting early digital euro rollouts to connected devices.
+                    </p>
+
+                    <h3 style="font-family: 'Outfit'; font-size: 18px; color: #fff; margin: 25px 0 10px;">C. Bank Disintermediation & Flight to Safety</h3>
+                    <p class="mono-para">
+                        In times of systemic financial stress, corporate and retail depositors might attempt to instantly migrate their funds from commercial banks (exposed to fractional reserve risk) to risk-free wholesale wCBDC or retail digital euro accounts. To prevent sudden bank runs and the loss of commercial bank credit creation, the ECB has proposed strict retail holding limits (e.g., a cap of €3,000 per citizen) and highly restricted access for wholesale entities, limiting the systemic utility of the network.
+                    </p>
+                </section>
+
+                <!-- Academic Citations -->
+                <div class="cite-box">
+                    <div class="cite-header">
+                        <i class="fas fa-quote-left" style="color: var(--accent-obs);"></i>
+                        <span>How to Cite this Observatory Page</span>
+                    </div>
+                    <div class="cite-content">
+                        <div class="cite-format">
+                            <span class="cite-label">APA 7th Edition</span>
+                            DCM Core Institute. (2026). *Wholesale Settlement & Tokenized Cash Infrastructure*. DCM Core Observatory. https://dcmcore.com/en/observatory/digital-euro-infrastructure.html
+                        </div>
+                        <div class="cite-format">
+                            <span class="cite-label">BibTeX Format</span>
+@misc{dcmcore_wholesale_cash_2026,
+  author = {DCM Core Institute},
+  title = {Wholesale Settlement \& Tokenized Cash Infrastructure},
+  year = {2026},
+  publisher = {DCM Core Observatory},
+  howpublished = {\url{https://dcmcore.com/en/observatory/digital-euro-infrastructure.html}}
+}
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+        </div>
+    </section>
+
+    <!-- Footer dynamically replaced by harmonize_navbars.py -->
+    <global-footer base-path="../"></global-footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // Simple scrollspy to highlight active sidebar link
+        window.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.intersectionRatio > 0) {
+                        document.querySelectorAll('.sidebar-links a').forEach(a => {
+                            a.classList.toggle('active', a.getAttribute('href') === `#${id}`);
+                        });
+                    }
+                });
+            }, { rootMargin: '0px 0px -60% 0px' });
+
+            document.querySelectorAll('section[id]').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+        <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-orb"></div>
+                    <p>The independent research infrastructure for programmable finance.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Research</h4>
+                    <ul class="footer-links">
+                        <li><a href="../../en/research-programs/index.html">Programs</a></li>
+                        <li><a href="../../en/research-papers/index.html">Working Papers</a></li>
+                        <li><a href="../../en/methodology/index.html">Methodology</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Data</h4>
+                    <ul class="footer-links">
+                        <li><a href="../../en/observatory/tokenized-markets.html">Observatory</a></li>
+                        <li><a href="../../en/indices/index.html">Indices & GDARI</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Institution</h4>
+                    <ul class="footer-links">
+                        <li><a href="../../en/about.html">About</a></li>
+                        <li><a href="../../en/global-forum/index.html">Global Forum</a></li>
+                        <li><a href="../../en/fellowships/index.html">Fellowships</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <strong>Institutional Disclaimer:</strong> Analyses published by DCM Core Institute are intended for academic research and market intelligence purposes. They do not constitute investment advice or compliance recommendations.
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="copyright">© 2026 DCM Core Institute</div>
+                    <div class="legal-links">
+                        <a href="../../en/legal-mentions.html">Legal Mentions</a>
+                        <a href="../../en/terms-of-use.html">Terms of Use</a>
+                        <a href="../../en/privacy.html">Privacy Policy</a>
+                        <a href="../../en/cookies.html">Cookie Policy</a>
+                        <a href="../../en/support-it.html">IT Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

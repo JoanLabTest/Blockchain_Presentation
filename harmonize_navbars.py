@@ -64,6 +64,11 @@ FR_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">Indices & Benchmarks</span><span
                                 class="link-desc">GDARI & Risk Intelligence</span></div>
                     </a>
+                    <a href="/fr/observatory/digital-euro-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-euro-sign" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Règlements de Gros & Cash</span><span
+                                class="link-desc">Trigger Solution, RTGS & rails de règlement DLT</span></div>
+                    </a>
                 </div>
             </div>
 
@@ -180,6 +185,11 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-icon"><i class="fas fa-compass" style="color:#10b981;"></i></div>
                         <div class="link-text"><span class="link-title">Indices & Benchmarks</span><span
                                 class="link-desc">GDARI & Risk Intelligence</span></div>
+                    </a>
+                    <a href="/en/observatory/digital-euro-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-euro-sign" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Wholesale & Tokenized Cash</span><span
+                                class="link-desc">Trigger Solution, RTGS & DLT settlement rails</span></div>
                     </a>
                 </div>
             </div>

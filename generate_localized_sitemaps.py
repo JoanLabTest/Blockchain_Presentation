@@ -23,6 +23,7 @@ high_priority = [
     "research/programmable-capital-markets/smart-bond-framework.html",
     "research/programmable-capital-markets/smart-derivative-contracts.html",
     "observatory/tokenized-markets.html",
+    "observatory/digital-euro-infrastructure.html",
     "research/tokenized-capital-markets-report-2026.html",
     "research/rapport-mondial-tokenisation-2026.html",
     "research-programs/index.html"
