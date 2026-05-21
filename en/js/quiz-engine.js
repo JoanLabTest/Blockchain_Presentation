@@ -114,6 +114,22 @@ const QuizEngine = {
                 return false;
             }
 
+            if (data.used_at) {
+                console.error("Verification failed: Code already used");
+                alert("This access code has already been redeemed.");
+                return false;
+            }
+
+            // Mark as used in database
+            const { error: updateError } = await window.supabase
+                .from('access_codes')
+                .update({ used_at: new Date().toISOString() })
+                .eq('id', data.id);
+
+            if (updateError) {
+                console.warn("Failed to mark access code as used in DB:", updateError.message);
+            }
+
             // Success: Store access and metadata
             localStorage.setItem('dcm_pro_access', 'true');
             localStorage.setItem('dcm_pro_code', sanitized); // For reference
