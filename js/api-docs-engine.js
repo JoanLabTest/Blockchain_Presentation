@@ -6,52 +6,141 @@
 const ApiDocsEngine = {
     MOCKS: {
         '/v1/registry/assets': {
-            status: 200,
+            api_version: "1.0.0",
+            endpoint: "GET /v1/registry/assets",
+            source: "DCM Core Institute — GTSR Registry",
+            generated_at: new Date().toISOString(),
+            summary: {
+                total_assets: 6,
+                total_aum_usd: 2651700000,
+                total_aum_display: "$2.65B",
+                validated_count: 5
+            },
             data: [
                 {
-                    tfin: "TFIN-ETH-BND-2026-001",
-                    name: "Ethereum Sovereign Bond Token",
-                    issuer: "DCM Treasury",
-                    asset_class: "Fixed Income",
-                    isin_reference: "US4590581017",
-                    ledger: "Ethereum Mainnet",
-                    status: "ACTIVE",
-                    mica_assessment: "Compliant (Art. 60)"
+                    tfin_id: "TFIN-DEBT-ETH-2026-0001",
+                    name: "SocGen EURCV (EUR CoinVertible)",
+                    issuer: "Société Générale FORGE",
+                    asset_class: "Stablecoin / E-Money Token",
+                    infrastructure: "Ethereum Mainnet",
+                    aum_usd: 384200000,
+                    jurisdiction: "France",
+                    regulatory_framework: "EU",
+                    mica_status: "MiCA-Aligned (EMT)",
+                    custody_grade: "AA",
+                    validation_status: "VALIDATED"
                 },
                 {
-                    tfin: "TFIN-SOL-RED-2026-042",
-                    name: "Solar Energy RWA Index",
-                    issuer: "GreenLedger Infra",
-                    asset_class: "Real World Asset",
-                    ledger: "Solana",
-                    status: "PENDING_AUDIT",
-                    mica_assessment: "Under Review"
+                    tfin_id: "TFIN-FUND-ETH-2024-0042",
+                    name: "BlackRock BUIDL (USD Institutional Digital Liquidity)",
+                    issuer: "BlackRock / Securitize",
+                    asset_class: "Tokenized Money Market Fund",
+                    infrastructure: "Ethereum Mainnet",
+                    aum_usd: 542400000,
+                    jurisdiction: "United States",
+                    regulatory_framework: "SEC",
+                    validation_status: "VALIDATED"
                 }
             ]
         },
-        '/v1/stablecoins/liquidity': {
-            status: 200,
+        '/v1/registry/asset?tfin=TFIN-DEBT-ETH-2026-0001': {
+            api_version: "1.0.0",
+            endpoint: "GET /v1/registry/asset",
+            source: "DCM Core Institute — GTSR Registry",
+            generated_at: new Date().toISOString(),
             data: {
-                pair: "USDC/USDT",
-                bifurcation_index: 0.12,
-                liquidity_score: 98.4,
-                mica_readiness: {
-                    USDC: "High (Electronic Money Token)",
-                    USDT: "Medium (Asset-Referenced Token)"
-                },
-                volatility_24h: "0.02%",
-                arbitrage_opportunity: "None"
+                tfin_id: "TFIN-DEBT-ETH-2026-0001",
+                gtsr_id: "GTSR-CASH-2024-01",
+                name: "SocGen EURCV (EUR CoinVertible)",
+                issuer: "Société Générale FORGE",
+                asset_class: "Stablecoin / E-Money Token",
+                infrastructure: "Ethereum Mainnet",
+                aum_usd: 384200000,
+                jurisdiction: "France",
+                regulatory_framework: "EU",
+                mica_status: "MiCA-Aligned (EMT)",
+                gtds_compliance: "GTDS v1.0",
+                isin: "FR001400A123",
+                tfic_code: "D-B-G-01",
+                settlement: "Atomic DvP",
+                custody_grade: "AA",
+                validation_status: "VALIDATED",
+                last_verified: "2026-05-01"
             }
         },
-        '/v1/risk/dora-mapping': {
-            status: 200,
+        '/v1/market/stablecoins': {
+            api_version: "1.0.0",
+            endpoint: "GET /v1/market/stablecoins",
+            source: "DCM Core Institute — Stablecoin Market Structure Audit",
+            generated_at: new Date().toISOString(),
             data: {
-                framework: "DORA (Digital Operational Resilience Act)",
-                coverage: "84%",
-                critical_ict_third_party: ["DCM Cloud", "LedgerVault"],
-                resilience_score: 9.2,
-                last_stress_test: "2026-03-26T14:22:00Z",
-                compliance_status: "ADM_APPROVED"
+                market_summary: {
+                    total_market_cap_usd: 164200000000,
+                    total_market_cap_display: "$164.2B",
+                    institutional_rwa_dominance: 0.724,
+                    active_venues_tracked: 24,
+                    mica_compliant_share: 0.193
+                },
+                stablecoins: [
+                    {
+                        symbol: "USDT",
+                        market_cap_usd: 116700000000,
+                        dominance_share: 0.711,
+                        mica_status: "Restricted (EU)",
+                        compliance_rating: "Non-Compliant (EU MiCA)"
+                    },
+                    {
+                        symbol: "USDC",
+                        market_cap_usd: 31800000000,
+                        dominance_share: 0.194,
+                        mica_status: "MiCA-Aligned (EMT)",
+                        compliance_rating: "AAA (MiCA)"
+                    }
+                ]
+            }
+        },
+        '/v1/compliance/mica-status': {
+            api_version: "1.0.0",
+            endpoint: "GET /v1/compliance/mica-status",
+            source: "DCM Core Institute — MiCA Compliance Intelligence Unit",
+            generated_at: new Date().toISOString(),
+            data: {
+                regulation: "Regulation (EU) 2023/1114 on Markets in Crypto-Assets",
+                compliance_indicators: [
+                    {
+                        category: "E-Money Token (EMT)",
+                        eu_licensed_issuers: 7,
+                        institutional_readiness: 0.89
+                    },
+                    {
+                        category: "Asset-Referenced Token (ART)",
+                        eu_licensed_issuers: 3,
+                        institutional_readiness: 0.68
+                    }
+                ],
+                jurisdictional_readiness: [
+                    { jurisdiction: "France", authority: "AMF", readiness_score: 0.94, status: "ADVANCED" },
+                    { jurisdiction: "Luxembourg", authority: "CSSF", readiness_score: 0.93, status: "ADVANCED" }
+                ]
+            }
+        },
+        '/v1/system/status': {
+            api_version: "1.0.0",
+            endpoint: "GET /v1/system/status",
+            source: "DCM Core Institute — API Infrastructure",
+            generated_at: new Date().toISOString(),
+            data: {
+                status: "OPERATIONAL",
+                uptime_percent: 99.97,
+                latency_p50_ms: 42,
+                endpoints_live: 5,
+                gtsr_assets_tracked: 6,
+                gtsr_total_aum_display: "$2.65B+",
+                jurisdictions_covered: 42,
+                rate_limits: {
+                    institutional: "5,000 req/min",
+                    enterprise: "Unlimited (SLA)"
+                }
             }
         }
     },
@@ -94,7 +183,9 @@ const ApiDocsEngine = {
                 // Simulate Network Latency
                 await new Promise(r => setTimeout(r, 800));
 
-                const mock = this.MOCKS[endpoint] || { status: 404, error: "Endpoint not found in sandbox" };
+                const mock = this.MOCKS[endpoint] 
+                    ? { _note: "Sandbox response — connect your API key for live data", ...this.MOCKS[endpoint] }
+                    : { status: 404, error: "Endpoint not found in sandbox" };
 
                 // Render JSON with highlighting
                 resConsole.innerHTML = this.syntaxHighlight(mock);

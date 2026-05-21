@@ -21,8 +21,8 @@ function handleSubscriptionClick(event) {
     const stripeBaseUrl = "https://buy.stripe.com/7sI7vi9J03q9f3idQQ"; // Example Pro Link
     
     // ⚡ SAAS AUTOMATION: Inject client_reference_id for webhook linking
-    // This allows the webhook to map the payment to the Supabase ID
-    const checkoutUrl = `${stripeBaseUrl}?client_reference_id=${user.id}`;
+    const userId = user.id || 'guest_' + Math.random().toString(36).substring(2, 9);
+    const checkoutUrl = `${stripeBaseUrl}?client_reference_id=${userId}`;
     
     console.log("🚀 Redirecting to Institutional Checkout:", checkoutUrl);
     window.location.href = checkoutUrl;
