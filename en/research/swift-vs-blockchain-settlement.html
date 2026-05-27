@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-52J5C3HC');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+        content="Technical comparison of legacy SWIFT interbank messaging and DLT-based atomic settlement. Learn about ISO 20022 and smart contracts."
+        name="description" />
+    <title>SWIFT vs Blockchain Settlement: A Technical Analysis | DCM Core</title>
+    <link rel="canonical" href="https://dcmcore.com/en/research/swift-vs-blockchain-settlement.html" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+    <link href="../styles-megamenu.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --accent-research: #3b82f6;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+        }
+
+        .research-container {
+            max-width: 1000px;
+            margin: 40px auto 100px;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .compare-table-wrapper {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            background: rgba(15, 23, 42, 0.4);
+            margin: 30px 0;
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: left;
+            min-width: 600px;
+        }
+
+        .compare-table th {
+            padding: 16px 20px;
+            background: rgba(2, 6, 23, 0.6);
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .compare-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--glass-border);
+            color: #cbd5e1;
+            vertical-align: top;
+        }
+
+        .compare-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .compare-table td strong {
+            color: #fff;
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            font-size: 12px;
+            color: #475569;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .breadcrumb a { color: #475569; text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent-research); }
+    </style>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ResearchArticle",
+      "headline": "SWIFT vs Blockchain Settlement: A Technical Analysis",
+      "description": "Technical comparison of legacy SWIFT interbank messaging and DLT-based atomic settlement. Learn about ISO 20022 and smart contracts.",
+      "url": "https://dcmcore.com/en/research/swift-vs-blockchain-settlement.html",
+      "author": {
+        "@type": "Person",
+        "name": "Joan Lyczak",
+        "jobTitle": "Head of Blockchain Innovation"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "DCM Core Institute"
+      },
+      "datePublished": "2026-05-27"
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Navbar -->
+    <nav class="navbar-pro">
+        <a class="nav-brand" href="/en/index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="/en/research/swift-vs-blockchain-settlement.html" class="lang-link active">🇬🇧 EN</a>
+                <a href="/fr/research/swift-vs-blockchain-settlement.html" class="lang-link">🇫🇷 FR</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="research-container">
+        <nav class="breadcrumb">
+            <a href="../../index.html"><i class="fas fa-home" style="font-size:10px;"></i> Home</a>
+            <span style="opacity:0.4;">›</span>
+            <span style="color:var(--accent-research);">Research</span>
+            <span style="opacity:0.4;">›</span>
+            <span style="color:var(--accent-research);">SWIFT vs Blockchain</span>
+        </nav>
+
+        <h1 data-aos="fade-up">SWIFT vs Blockchain Settlement</h1>
+        <p style="color: #94a3b8; font-size: 16px; line-height: 1.6;" data-aos="fade-up">
+            Comparing the messaging-based transfer models of SWIFT with the state-transition atomic settlement models of DLT networks.
+        </p>
+
+        <div class="compare-table-wrapper" data-aos="fade-up" data-aos-delay="100">
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Feature</th>
+                        <th style="width: 37%;">SWIFT Messaging Network</th>
+                        <th style="width: 38%;">DLT / Blockchain Networks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Transfer Model</strong></td>
+                        <td>Messaging-based (instructs bank to debit/credit)</td>
+                        <td>State-transition (asset moves on a shared ledger)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Settlement Speed</strong></td>
+                        <td>T+1 to T+3 days (requires correspondent banks)</td>
+                        <td>Atomic, T+0 (settles in seconds 24/7/365)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reconciliation</strong></td>
+                        <td>High (each bank maintains its own ledgers)</td>
+                        <td>Zero (single shared record of truth)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Standards</strong></td>
+                        <td>ISO 20022 XML, legacy MT formats</td>
+                        <td>Smart Contract standards (ERC-20, Canton API)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="copyright">© 2026 DCM Core Institute</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 900, once: true });
+    </script>
+</body>
+
+</html>

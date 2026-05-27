@@ -1,14 +1,17 @@
 import os
 
 redirects = [
-    ("en/academy.html", "https://dcmcore.com/en/academy/", "/en/academy/index.html"),
-    ("en/simple.html", "https://dcmcore.com/en/learn/", "/en/learn/index.html"),
-    ("en/guide.html", "https://dcmcore.com/en/expert/", "/en/expert/index.html"),
-    ("en/quiz.html", "https://dcmcore.com/en/academy/pro/", "/en/academy/pro/index.html"),
-    ("fr/academy.html", "https://dcmcore.com/fr/academy/", "/fr/academy/index.html"),
-    ("fr/simple.html", "https://dcmcore.com/fr/learn/", "/fr/learn/index.html"),
-    ("fr/guide.html", "https://dcmcore.com/fr/expert/", "/fr/expert/index.html"),
-    ("fr/quiz.html", "https://dcmcore.com/fr/academy/pro/", "/fr/academy/pro/index.html")
+    ("buidl.html", "https://dcmcore.com/en/buidl/", "/en/buidl/"),
+    ("en/buidl.html", "https://dcmcore.com/en/buidl/", "/en/buidl/"),
+    ("fr/buidl.html", "https://dcmcore.com/fr/buidl/", "/fr/buidl/"),
+    ("en/academy.html", "https://dcmcore.com/en/academy/", "/en/academy/"),
+    ("en/simple.html", "https://dcmcore.com/en/learn/", "/en/learn/"),
+    ("en/guide.html", "https://dcmcore.com/en/expert/", "/en/expert/"),
+    ("en/quiz.html", "https://dcmcore.com/en/academy/pro/", "/en/academy/pro/"),
+    ("fr/academy.html", "https://dcmcore.com/fr/academy/", "/fr/academy/"),
+    ("fr/simple.html", "https://dcmcore.com/fr/learn/", "/fr/learn/"),
+    ("fr/guide.html", "https://dcmcore.com/fr/expert/", "/fr/expert/"),
+    ("fr/quiz.html", "https://dcmcore.com/fr/academy/pro/", "/fr/academy/pro/")
 ]
 
 base_dir = "/Users/joanl/blockchain-presentation"
@@ -20,6 +23,9 @@ template = """<!DOCTYPE html>
     <meta http-equiv="refresh" content="0; url={target_url}">
     <link rel="canonical" href="{canonical_url}">
     <title>Redirecting...</title>
+    <script>
+        window.location.replace("{target_url}");
+    </script>
 </head>
 <body>
     <p>If you are not redirected automatically, follow this <a href="{target_url}">link</a>.</p>
@@ -36,3 +42,4 @@ def create_redirect(file_path, canonical_url, target_url):
 
 for file_path, canonical_url, target_url in redirects:
     create_redirect(file_path, canonical_url, target_url)
+

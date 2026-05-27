@@ -5,7 +5,7 @@ from xml.dom import minidom
 
 base_url = "https://dcmcore.com/"
 
-# Files to map with priorities
+# Files to map with priorities (1.0)
 high_priority = [
     "index.html",
     "institutional-problem-statement.html",
@@ -14,6 +14,7 @@ high_priority = [
     "governance-os.html",
     "mrm-hub.html",
     "buidl.html",
+    "buidl/index.html",
     "yield-mechanics.html",
     "pricing.html",
     "whitepaper-gate.html",
@@ -22,12 +23,14 @@ high_priority = [
     "research/programmable-capital-markets/index.html",
     "research/programmable-capital-markets/smart-bond-framework.html",
     "research/programmable-capital-markets/smart-derivative-contracts.html",
-    "observatory/tokenized-markets.html",
     "observatory/digital-euro-infrastructure.html",
-    "observatory/settlement-registry.html",
-    "observatory/registre-reglements.html",
     "research/tokenized-capital-markets-report-2026.html",
     "research/rapport-mondial-tokenisation-2026.html",
+    "research/buidl-vs-usyc.html",
+    "research/stablecoins-vs-tokenized-deposits.html",
+    "research/digital-euro-vs-stablecoins.html",
+    "research/swift-vs-blockchain-settlement.html",
+    "research/state-of-institutional-stablecoins-q2-2026.html",
     "research-programs/index.html"
 ]
 
@@ -65,8 +68,12 @@ def create_sitemap(files, filename, directory=""):
         loc.text = f"{base_url}{prefix}{rel_path}"
         
         priority = ET.SubElement(url, 'priority')
-        # Check if basename OR the relative path is in priorities
-        if basename in high_priority or rel_path in high_priority:
+        # Check priorities based on file type and path
+        if "glossary/" in rel_path or "glossaire/" in rel_path:
+            priority.text = "0.6"
+        elif "settlement-registry" in rel_path or "registre-reglements" in rel_path or "tokenized-markets" in rel_path:
+            priority.text = "0.9"
+        elif basename in high_priority or rel_path in high_priority:
             priority.text = "1.0"
         elif basename in medium_priority or rel_path in medium_priority:
             priority.text = "0.8"
