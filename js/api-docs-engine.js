@@ -12,8 +12,8 @@ const ApiDocsEngine = {
             generated_at: new Date().toISOString(),
             summary: {
                 total_assets: 6,
-                total_aum_usd: 2651700000,
-                total_aum_display: "$2.65B",
+                total_aum_usd: 4689300000,
+                total_aum_display: "$4.69B",
                 validated_count: 5
             },
             data: [
@@ -36,7 +36,7 @@ const ApiDocsEngine = {
                     issuer: "BlackRock / Securitize",
                     asset_class: "Tokenized Money Market Fund",
                     infrastructure: "Ethereum Mainnet",
-                    aum_usd: 542400000,
+                    aum_usd: 2580000000,
                     jurisdiction: "United States",
                     regulatory_framework: "SEC",
                     validation_status: "VALIDATED"
@@ -135,7 +135,7 @@ const ApiDocsEngine = {
                 latency_p50_ms: 42,
                 endpoints_live: 5,
                 gtsr_assets_tracked: 6,
-                gtsr_total_aum_display: "$2.65B+",
+                gtsr_total_aum_display: "$4.69B+",
                 jurisdictions_covered: 42,
                 rate_limits: {
                     institutional: "5,000 req/min",
