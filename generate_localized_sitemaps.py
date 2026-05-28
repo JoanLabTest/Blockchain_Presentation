@@ -43,7 +43,11 @@ medium_priority = [
     "dashboard.html",
     "sandbox.html",
     "research/ecosystem-map.html",
-    "research/global-map.html"
+    "research/global-map.html",
+    "about/editorial-standards.html",
+    "a-propos/charte-editoriale.html",
+    "about/joan-lyczak.html",
+    "a-propos/joan-lyczak.html"
 ]
 
 def create_sitemap(files, filename, directory=""):

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Analyse technique de l'infrastructure de clés cryptographiques institutionnelles, des modèles de garde (MPC-TSS, HSM), de l'abstraction de compte (ERC-4337) et de la résilience opérationnelle des signatures." name="description" />
+    <title>Infrastructure de Clés Cryptographiques & Modèles de Garde | DCM Core Institute</title>
+    <link rel="canonical" href="https://dcmcore.com/fr/research/cryptographic-key-infrastructure.html" />
+
+    <!-- Google Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="../../styles.css" rel="stylesheet" />
+    <link href="../styles-footer.css" rel="stylesheet" />
+    <link href="../../css/navigation-hub.css" rel="stylesheet" />
+
+    <style>
+        body { background: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; padding-top: 100px; }
+        .article-container { max-width: 850px; margin: 0 auto; padding: 40px 20px; }
+        .article-header { margin-bottom: 50px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 30px; }
+        .article-category { color: #a855f7; text-transform: uppercase; font-size: 12px; font-weight: 800; letter-spacing: 1px; }
+        .article-title { font-family: 'Outfit'; font-size: clamp(32px, 4vw, 48px); font-weight: 800; line-height: 1.2; margin: 15px 0; }
+        .article-meta { display: flex; gap: 20px; font-size: 14px; color: #64748b; flex-wrap: wrap; }
+        .article-meta span { display: flex; align-items: center; gap: 6px; }
+        
+        .article-body h2 { font-family: 'Outfit'; font-size: 28px; margin-top: 50px; margin-bottom: 20px; color: #fff; border-left: 3px solid #a855f7; padding-left: 15px; }
+        .article-body h3 { font-family: 'Outfit'; font-size: 20px; margin-top: 30px; margin-bottom: 15px; color: #cbd5e1; }
+        .article-body p { font-size: 17px; line-height: 1.75; color: #cbd5e1; margin-bottom: 25px; }
+        .article-body ul { margin-bottom: 25px; padding-left: 20px; }
+        .article-body li { font-size: 16px; line-height: 1.7; color: #cbd5e1; margin-bottom: 10px; }
+
+        .formula-card { background: rgba(168, 85, 247, 0.03); border: 1px solid rgba(168, 85, 247, 0.1); border-radius: 16px; padding: 25px; margin: 30px 0; border-left: 4px solid #a855f7; }
+        .formula-title { font-weight: 700; color: #a855f7; margin-bottom: 10px; font-family: 'JetBrains Mono'; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .formula-content { font-family: 'JetBrains Mono'; font-size: 14px; color: #e2e8f0; line-height: 1.6; word-break: break-all; }
+
+        .raw-scenarios { background: rgba(248, 113, 113, 0.02); border: 1px solid rgba(248, 113, 113, 0.08); border-radius: 16px; padding: 30px; margin: 40px 0; }
+        .raw-title { font-weight: 800; color: #f87171; font-size: 18px; margin-bottom: 20px; font-family: 'Outfit'; display: flex; align-items: center; gap: 10px; }
+        .raw-fragment { border-bottom: 1px dashed rgba(248, 113, 113, 0.15); padding: 15px 0; }
+        .raw-fragment:last-child { border-bottom: none; }
+        .raw-label { font-weight: 700; color: #f8fafc; font-family: 'JetBrains Mono'; font-size: 14px; }
+        .raw-desc { font-size: 15px; color: #94a3b8; margin-top: 5px; line-height: 1.6; }
+
+        .breadcrumb { font-size: 12px; color: #475569; display: flex; gap: 8px; margin-bottom: 30px; }
+        .breadcrumb a { color: #475569; text-decoration: none; }
+        .breadcrumb a:hover { color: #a855f7; }
+
+        table { width: 100%; border-collapse: collapse; margin: 40px 0; background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); }
+        th, td { padding: 16px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: left; }
+        th { background: rgba(255, 255, 255, 0.02); font-family: 'Outfit'; font-weight: 700; color: #fff; }
+        tr:hover { background: rgba(255, 255, 255, 0.01); }
+    </style>
+
+    <link href="../styles-megamenu.css" rel="stylesheet" />
+</head>
+<body>
+        <nav class="navbar-pro">
+        <a class="nav-brand" href="/fr/index.html">
+            <div class="logo-orb"></div>
+            <div class="logo-text">DCM <span>Core Institute</span></div>
+        </a>
+
+        <div class="nav-pillars">
+            <!-- Dimension 1: Research Programs -->
+            <div class="pillar-item">
+                <a href="/fr/research-programs/index.html" class="pillar-link">Programmes de Recherche</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Frameworks & Protocoles</div>
+                    <a href="/fr/research/programmable-capital-markets/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-microchip" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Programmable Capital Markets (PCM)</span><span
+                                class="link-desc">Framework conceptuel & Architecture technique</span></div>
+                    </a>
+                    <a href="/fr/research/digital-debt-capital-markets/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-contract" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Digital Debt Capital Markets (DDCM)</span><span
+                                class="link-desc">Standardisation des émissions obligataires</span></div>
+                    </a>
+                    <a href="/fr/research/state-of-tokenization-2025.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-alt" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">State of Finance 2025</span><span
+                                class="link-desc">Rapport annuel prospectif</span></div>
+                    </a>
+                    <a href="/fr/research/cryptographic-key-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-key" style="color:#a855f7;"></i></div>
+                        <div class="link-text"><span class="link-title">Infrastructure de Clés</span><span
+                                class="link-desc">Modèles de garde, HSM/MPC & gouvernance</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 2: Ecosystem Maps -->
+            <div class="pillar-item">
+                <a href="#" class="pillar-link">Écosystème</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Cartographie Mondiale</div>
+                    <a href="/fr/research/ecosystem-map.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-project-diagram" style="color:#8b5cf6;"></i></div>
+                        <div class="link-text"><span class="link-title">Institutional Framework Map</span><span
+                                class="link-desc">Institutions, régulateurs & initiatives</span></div>
+                    </a>
+                    <a href="/fr/research/global-map.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-globe-europe" style="color:#6366f1;"></i></div>
+                        <div class="link-text"><span class="link-title">Global Tokenized Map</span><span
+                                class="link-desc">Acteurs, protocoles & actifs RWA</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 3: Observatory -->
+            <div class="pillar-item">
+                <a href="/fr/observatory/tokenized-markets.html" class="pillar-link">Observatoire <span class="hot-badge" style="background:var(--accent-report); font-size:8px; vertical-align:middle; margin-left:5px;">LIVE</span></a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Market Intelligence</div>
+                    <a href="/fr/observatory/tokenized-markets.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-chart-line" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Markets Observatory</span><span
+                                class="link-desc">Monitor de capitalisation & tendances</span></div>
+                    </a>
+                    <a href="/fr/indices/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-compass" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Indices & Benchmarks</span><span
+                                class="link-desc">GDARI & Risk Intelligence</span></div>
+                    </a>
+                    <a href="/fr/observatory/digital-euro-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-euro-sign" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Règlements de Gros & Cash</span><span
+                                class="link-desc">Trigger Solution, RTGS & rails de règlement DLT</span></div>
+                    </a>
+                    <a href="/fr/observatory/registre-reglements.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-list-ul" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Registre des Règlements</span><span
+                                class="link-desc">Journal de dénouement DLT & cash leg</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 4: Knowledge -->
+            <div class="pillar-item">
+                <a href="/fr/knowledge/index.html" class="pillar-link">Savoir</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Encyclopédie Institutionnelle</div>
+                    <a href="/fr/knowledge/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-book-open" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">Knowledge Base</span><span
+                                class="link-desc">Glossaire avancé & Concepts clés</span></div>
+                    </a>
+                    <a href="/fr/methodology/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-microscope" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Méthodologie</span><span
+                                class="link-desc">Standards de recherche DCM</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dimension 5: Network & Institute -->
+            <div class="pillar-item">
+                <a href="/fr/about.html" class="pillar-link">Institut & Réseau</a>
+                <div class="mega-dropdown">
+                    <div class="dropdown-header">Organisation & Impact</div>
+                    <a href="/fr/about.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-university" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">À propos du DCM Core</span><span
+                                class="link-desc">Mission, Gouvernance & Éthique</span></div>
+                    </a>
+                    <a href="/fr/a-propos/charte-editoriale.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-scroll" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Charte Éditoriale</span><span
+                                class="link-desc">Rigueur méthodologique & sourcing</span></div>
+                    </a>
+                    <a href="/fr/global-forum/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-users" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Espace Dialogue</span><span
+                                class="link-desc">Forum Mondial, Roundtables & Événements</span></div>
+                    </a>
+                    <a href="/fr/fellowships/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-graduation-cap" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Communauté</span><span
+                                class="link-desc">Fellowships & Alliances stratégiques</span></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <a href="/fr/research/cryptographic-key-infrastructure.html" class="lang-link active" title="Français">🇫🇷 FR</a>
+                <a href="/en/research/cryptographic-key-infrastructure.html" class="lang-link" title="English">🇬🇧 EN</a>
+            </div>
+            <a href="/fr/login.html" class="auth-btn">Auth</a>
+            <button class="connect-btn">Connect</button>
+        </div>
+    </nav>
+
+    <div class="article-container">
+        <nav class="breadcrumb">
+            <a href="../../index.html">Accueil</a> <span>›</span>
+            <a href="#">Recherche</a> <span>›</span>
+            <span style="color:#a855f7;">Infrastructure de Clés</span>
+        </nav>
+
+        <article class="article-body">
+            <header class="article-header">
+                <span class="article-category">Couche de Contrôle Cryptographique</span>
+                <h1 class="article-title">Infrastructure de Clés Cryptographiques & Modèles de Garde</h1>
+                <div class="article-meta">
+                    <span><i class="far fa-calendar"></i> Publié : 28 mai 2026</span>
+                    <span><i class="far fa-user"></i> Auteur : <a href="../people/index.html" style="color:#3b82f6; text-decoration:none;">Marcus Vance</a>, Ingénieur Principal en Cryptographie</span>
+                    <span><i class="far fa-clock"></i> 12 min de lecture</span>
+                </div>
+            </header>
+
+            <p>
+                Dans le cadre de la tokenisation institutionnelle d'actifs réels (RWA) et des marchés obligataires numériques, les modèles de garde et la gestion des clés cryptographiques représentent la couche de contrôle fondamentale de la sécurité des systèmes. Loin des pratiques grand public liées aux portefeuilles classiques, la sécurisation des actifs financiers exige des cadres de dérivation mathématiques rigoureux, des infrastructures d'enclaves physiques isolées et des politiques dynamiques d'autorisation de signature alignées sur les exigences réglementaires.
+            </p>
+
+            <h2>1. Contrôle Cryptographique & Propriété Mathématique</h2>
+            <p>
+                La propriété sur un registre distribué est exclusivement régie par la relation mathématique entre une clé publique et une clé privée. L'autorité de signature repose sur l'exécution d'algorithmes cryptographiques capables de prouver le contrôle d'une adresse de registre sans jamais exposer la clé privée sous-jacente.
+            </p>
+
+            <h3>Algorithmes de Clés : ECDSA vs EdDSA</h3>
+            <ul>
+                <li><strong>ECDSA (secp256k1)</strong> : Algorithme standard utilisé sur Ethereum (EVM) et Bitcoin. Il s'appuie sur la courbe elliptique $y^2 = x^3 + 7$ sur un corps fini. La sécurité des signatures vérifiées repose sur la difficulté à résoudre le problème du logarithme discret sur courbe elliptique (ECDLP).</li>
+                <li><strong>EdDSA (Ed25519)</strong> : Utilise des courbes d'Edwards tordues (spécifiquement Curve25519). EdDSA offre une génération de signature plus rapide, une meilleure résistance aux attaques par canal auxiliaire (side-channel) et élimine la malléabilité inhérente à certaines implémentations d'ECDSA.</li>
+            </ul>
+
+            <div class="formula-card">
+                <div class="formula-title">Calcul Mathématique d'Autorisation</div>
+                <div class="formula-content">
+                    Clé privée : k &isin; [1, n-1] (scalaire)<br>
+                    Clé publique : K = k &middot; G (point sur la courbe elliptique, où G est le point générateur)<br>
+                    Signature : S = (r, s) générée à partir d'une clé éphémère k_e et du hash du message e = H(m)<br>
+                    Vérification : Calcul du point R = (e &middot; s^-1 &middot; G) + (r &middot; s^-1 &middot; K), validation si R_x == r
+                </div>
+            </div>
+
+            <h3>Dérivation Déterministe (BIP39 / BIP44)</h3>
+            <p>
+                Les modèles de sauvegarde institutionnels excluent la génération de clés aléatoires isolées. Toutes les clés sont dérivées de manière déterministe depuis une source d'entropie unique via le **standard BIP39**.
+                L'entropie maître (généralement de 256 bits) génère une suite de mots (phrase mnémonique). Cette phrase est ensuite traitée par la **fonction de dérivation de clé PBKDF2** en utilisant HMAC-SHA512 avec 2048 itérations et un sel composé du mot "mnemonic" + une passphrase optionnelle pour produire une seed de 512 bits.
+            </p>
+            <p>
+                À partir de cette seed, des structures d'arborescence sont définies selon les **spécifications BIP32 et BIP44**, assurant la séparation stricte des chemins de dérivation selon les classes d'actifs, les comptes et les entités internes :
+            </p>
+            <div class="formula-card">
+                <div class="formula-title">Structure du Chemin de Dérivation</div>
+                <div class="formula-content">
+                    Chemin : m / purpose' / coin_type' / account' / change / address_index<br>
+                    Standard EVM : m / 44' / 60' / 0' / 0 / 0<br>
+                    Trésorerie Institutionnelle : m / 44' / 999' / 12' / 0 / 0
+                </div>
+            </div>
+
+            <h2>2. Modèles de Garde & Architectures de Signature</h2>
+            <p>
+                Le choix d'un modèle de garde nécessite d'arbitrer entre la vélocité des transactions, la latence de traitement, la sécurité physique et les contraintes réglementaires. Quatre grandes structures d'exécution s'opposent :
+            </p>
+
+            <h3>Comptes Externes (EOA)</h3>
+            <p>
+                Les EOAs représentent l'identité on-chain la plus simple où une unique clé privée contrôle l'ensemble des opérations. Pour les banques et émetteurs d'actifs tokenisés, cette configuration introduit un point unique de défaillance (SPOF) critique. La destruction physique de la clé, sa compromission ou sa fuite mémoire lors du processus de signature entraîne la perte immédiate et irrévocable du contrôle des fonds.
+            </p>
+
+            <h3>Multisig (Contrats Intelligents On-chain)</h3>
+            <p>
+                Les architectures multisig (comme Gnosis Safe) distribuent le contrôle parmi un ensemble de $N$ clés privées et requièrent $M$ signatures valides on-chain pour exécuter un appel.
+                Si le multisig permet d'auditer publiquement la politique de gouvernance, il génère des coûts de gaz importants à chaque transaction, dépend de la sécurité du code du contrat intelligent et introduit une latence due à la soumission séquentielle des signatures par les validateurs.
+            </p>
+
+            <h3>Calcul Multi-Parties (MPC-TSS)</h3>
+            <p>
+                Le calcul multi-parties basé sur les schémas de signature à seuil (MPC-TSS) fragmente mathématiquement la clé privée en fragments (key shares) répartis entre des nœuds serveurs isolés.
+                Lors de la signature d'une transaction, les nœuds orchestrent un protocole de **Génération de Clé Distribuée (DKG)** pour assembler une signature standard (ECDSA ou EdDSA) de manière off-chain. La clé privée complète n'est jamais reconstituée ou présente dans la mémoire d'un serveur unique, neutralisant ainsi les vecteurs d'attaque par extraction matérielle.
+            </p>
+
+            <h3>Clusters HSM (Hardware Security Module)</h3>
+            <p>
+                Les HSMs sont des processeurs cryptographiques physiques dédiés, certifiés selon les standards FIPS 140-2 Level 3/4, conçus pour générer, stocker les clés et signer à l'intérieur d'un silicium protégé contre les intrusions physiques. Le déploiement de ces modules en clusters géographiquement répartis assure la redondance et la réplication sécurisée pour les départements de trésorerie.
+            </p>
+
+            <h2>3. Exécution Comparative & Domaines de Défaillance</h2>
+            <p>
+                La mise en place d'une couche de contrôle cryptographique nécessite de cartographier chaque architecture avec ses vulnérabilités et ses modes de récupération :
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Architecture</th>
+                        <th>Domaine de Défaillance</th>
+                        <th>Complexité de Récupération</th>
+                        <th>Pertinence Institutionnelle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>EOA à clé unique</strong></td>
+                        <td style="color:#f87171;">Catastrophique (Point unique de défaillance)</td>
+                        <td>Faible (Sauvegarde mnémonique standard)</td>
+                        <td style="color:#f87171; font-weight:600;">Faible (Exposition aux risques inacceptable)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multisig (On-chain)</strong></td>
+                        <td style="color:#facc15;">Bug de contrat, blocage de gaz, frais réseau</td>
+                        <td>Moyenne (Nécessite le consensus M-parmi-N)</td>
+                        <td style="color:#facc15; font-weight:600;">Moyenne (Restreint par les frais et la latence)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MPC-TSS (Off-chain)</strong></td>
+                        <td style="color:#60a5fa;">Compromission de fragments, fuite d'API de signature</td>
+                        <td>Élevée (Nécessite DKG / Re-partage cryptographique)</td>
+                        <td style="color:#3b82f6; font-weight:600;">Forte (Idéal pour les transactions fréquentes)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cluster HSM</strong></td>
+                        <td style="color:#60a5fa;">Panne de puce physique, verrouillage de coffre-fort</td>
+                        <td>Élevée (Restauration de clés & appairage de modules)</td>
+                        <td style="color:#3b82f6; font-weight:600;">Forte (Standard de niveau bancaire requis)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>4. Modèles d'Autorisation de Règlement</h2>
+            <p>
+                Une infrastructure de garde résiliente dissocie le stockage des clés cryptographiques des règles métier d'autorisation des règlements. La possession des clés ne doit pas valoir droit d'exécution automatique des transferts d'actifs ; au contraire, les clés doivent être considérées comme des ressources passives exécutant des ordres émis par un moteur de règles dynamique.
+            </p>
+            <p>
+                Dans ce modèle, les signatures ne sont initiées par le HSM ou le cluster MPC qu'après validation de critères stricts :
+            </p>
+            <ul>
+                <li><strong>Listes Blanches</strong> : Limitation des transactions aux adresses et contrats préalablement audités.</li>
+                <li><strong>Limites de Vélocité</strong> : Plafonds transactionnels cumulés par fenêtres temporelles (ex: limites quotidiennes).</li>
+                <li><strong>Restrictions Temporelles</strong> : Plages horaires strictes correspondant aux heures de marché des bureaux de règlement.</li>
+                <li><strong>Contrôle Double (Maker-Checker)</strong> : Exigence de validation par un analyste de trésorerie (maker) suivie d'une validation par un responsable des risques (checker).</li>
+            </ul>
+            <p>
+                Lors de l'interaction avec des rails de règlement de gros (comme TARGET2, EURO1 ou les solutions de trigger en monnaie de banque centrale), la livraison contre paiement (DvP) atomique repose sur la coordination du transfert du jeton (géré par la clé DLT) et du paiement fiduciaire (géré par le système RTGS). Le moteur de règles sert de passerelle d'autorisation, garantissant qu'aucune clé de signature ne s'active sans la confirmation des deux jambes de la transaction.
+            </p>
+
+            <h2>5. Scénarios de Défaillance Opérationnelle & Hypothèses de Sécurité</h2>
+            <p>
+                La mise en production de ces architectures nécessite de comprendre les faiblesses concrètes liées à l'implémentation matérielle et logicielle :
+            </p>
+
+            <div class="raw-scenarios">
+                <div class="raw-title">
+                    <i class="fas fa-exclamation-triangle"></i> Vulnérabilités Opérationnelles Réelles
+                </div>
+
+                <div class="raw-fragment">
+                    <div class="raw-label">Limites de Confiance des Puces Secure Element</div>
+                    <div class="raw-desc">
+                        Les portefeuilles matériels (comme les modules Ledger) intègrent des composants sécurisés (STMicroelectronics gamme ST33, certifiée CC EAL5+) pour isoler les clés des menaces USB. Toutefois, la sécurité reste dépendante de l'intégrité du micrologiciel (firmware). Les mécanismes de sauvegarde cryptographique par fragmentation montrent que l'OS du processeur est capable d'extraire la clé sous forme chiffrée, ce qui déplace la sécurité théorique vers une hypothèse de confiance envers le fabricant.
+                    </div>
+                </div>
+
+                <div class="raw-fragment">
+                    <div class="raw-label">Détournement d'API de Co-signature</div>
+                    <div class="raw-desc">
+                        Des solutions comme Fireblocks, Taurus ou Copper déploient des clusters MPC renforcés par des enclaves SGX. Néanmoins, l'application métier qui pilote l'API reste vulnérable. Si un attaquant corrompt le serveur de gestion de l'API, il peut forcer le système à soumettre des transactions légitimes en apparence, que le cluster MPC signera automatiquement sans détecter la compromission de la couche d'accès.
+                    </div>
+                </div>
+
+                <div class="raw-fragment">
+                    <div class="raw-label">Signature Aveugle (Blind Signing) vs Signature Claire (Clear Signing)</div>
+                    <div class="raw-desc">
+                        Lors de l'émission d'obligations tokenisées complexes (ex: SG-Forge), les charges utiles des transactions sont encodées sous forme de bytecode hexadécimal opaque. En l'absence de module de décodage natif sur l'interface HSM ou MPC, les opérateurs se trouvent contraints de signer des transactions sans validation visuelle des paramètres (blind signing), ce qui expose le processus à des attaques de type homme-du-milieu (MitM) sur l'affichage.
+                    </div>
+                </div>
+
+                <div class="raw-fragment">
+                    <div class="raw-label">Risque de Concentration Cloud des Fragments MPC</div>
+                    <div class="raw-desc">
+                        Un écueil fréquent des implémentations MPC consiste à héberger l'ensemble des fragments clés dans le même cloud provider (ex: AWS). Si les nœuds résident dans des zones adjacentes, une panne globale d'infrastructure ou une fuite de privilèges IAM centralisée permet de paralyser le quorum ou d'isoler le système, annulant les bénéfices de la décentralisation cryptographique.
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+        <footer class="super-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-orb"></div>
+                    <p>L'infrastructure de recherche indépendante pour la finance programmable.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Recherche</h4>
+                    <ul class="footer-links">
+                        <li><a href="../../fr/research-programs/index.html">Programmes</a></li>
+                        <li><a href="../../fr/research-papers/index.html">Working Papers</a></li>
+                        <li><a href="../../fr/methodology/index.html">Méthodologie</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Données</h4>
+                    <ul class="footer-links">
+                        <li><a href="../../fr/observatory/tokenized-markets.html">Observatoire</a></li>
+                        <li><a href="../../fr/indices/index.html">Indices & GDARI</a></li>
+                        <li><a href="../../fr/observatory/registre-reglements.html">Registre Règlements</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Institution</h4>
+                    <ul class="footer-links">
+                        <li><a href="../../fr/about.html">À propos</a></li>
+                        <li><a href="../../fr/a-propos/charte-editoriale.html">Charte Éditoriale</a></li>
+                        <li><a href="../../fr/global-forum/index.html">Global Forum</a></li>
+                        <li><a href="../../fr/fellowships/index.html">Fellowships</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <strong>Avertissement Institutionnel :</strong> Les analyses publiées par le DCM Core Institute sont destinées à des fins de recherche académique et d'intelligence de marché. Elles ne constituent en aucun cas des conseils d'investissement ou des recommandations de conformité.
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="copyright">© 2026 DCM Core Institute</div>
+                    <div class="legal-links">
+                        <a href="../../fr/mentions-legales.html">Mentions Légales</a>
+                        <a href="../../fr/cgu.html">CGU</a>
+                        <a href="../../fr/privacy.html">Confidentialité</a>
+                        <a href="../../fr/cookies.html">Cookies</a>
+                        <a href="../../fr/support-it.html">Support IT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/navigation-hub.js"></script>
+</body>
+</html>

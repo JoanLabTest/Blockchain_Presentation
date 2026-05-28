@@ -28,6 +28,11 @@ FR_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">State of Finance 2025</span><span
                                 class="link-desc">Rapport annuel prospectif</span></div>
                     </a>
+                    <a href="/fr/research/cryptographic-key-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-key" style="color:#a855f7;"></i></div>
+                        <div class="link-text"><span class="link-title">Infrastructure de Clés</span><span
+                                class="link-desc">Modèles de garde, HSM/MPC & gouvernance</span></div>
+                    </a>
                 </div>
             </div>
 
@@ -105,6 +110,11 @@ FR_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">À propos du DCM Core</span><span
                                 class="link-desc">Mission, Gouvernance & Éthique</span></div>
                     </a>
+                    <a href="/fr/a-propos/charte-editoriale.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-scroll" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Charte Éditoriale</span><span
+                                class="link-desc">Rigueur méthodologique & sourcing</span></div>
+                    </a>
                     <a href="/fr/global-forum/index.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-users" style="color:#94a3b8;"></i></div>
                         <div class="link-text"><span class="link-title">Espace Dialogue</span><span
@@ -154,6 +164,11 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-icon"><i class="fas fa-file-alt" style="color:#f59e0b;"></i></div>
                         <div class="link-text"><span class="link-title">State of Finance 2025</span><span
                                 class="link-desc">Annual strategic report</span></div>
+                    </a>
+                    <a href="/en/research/cryptographic-key-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-key" style="color:#a855f7;"></i></div>
+                        <div class="link-text"><span class="link-title">Key Infrastructure</span><span
+                                class="link-desc">Custody models, HSM/MPC & signing governance</span></div>
                     </a>
                 </div>
             </div>
@@ -232,6 +247,11 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">About DCM Core</span><span
                                 class="link-desc">Mission, Governance & Ethics</span></div>
                     </a>
+                    <a href="/en/about/editorial-standards.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-scroll" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Editorial Standards</span><span
+                                class="link-desc">Methodological rigor & sourcing</span></div>
+                    </a>
                     <a href="/en/global-forum/index.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-users" style="color:#94a3b8;"></i></div>
                         <div class="link-text"><span class="link-title">Dialogue Space</span><span
@@ -283,6 +303,7 @@ FR_FOOTER_TEMPLATE = """    <footer class="super-footer">
                     <h4>Institution</h4>
                     <ul class="footer-links">
                         <li><a href="/fr/about.html">À propos</a></li>
+                        <li><a href="/fr/a-propos/charte-editoriale.html">Charte Éditoriale</a></li>
                         <li><a href="/fr/global-forum/index.html">Global Forum</a></li>
                         <li><a href="/fr/fellowships/index.html">Fellowships</a></li>
                     </ul>
@@ -333,6 +354,7 @@ EN_FOOTER_TEMPLATE = """    <footer class="super-footer">
                     <h4>Institution</h4>
                     <ul class="footer-links">
                         <li><a href="/en/about.html">About</a></li>
+                        <li><a href="/en/about/editorial-standards.html">Editorial Standards</a></li>
                         <li><a href="/en/global-forum/index.html">Global Forum</a></li>
                         <li><a href="/en/fellowships/index.html">Fellowships</a></li>
                     </ul>
@@ -398,12 +420,16 @@ def process_file(filepath):
         'en/observatory/tokenized-securities-registry.html': 'fr/observatory/registre-titres-tokenises.html',
         'en/observatory/submit-security.html': 'fr/observatory/soumission-actif.html',
         'en/observatory/stablecoins-institutional.html': 'fr/observatory/stablecoins-institutionnels.html',
+        'en/about/editorial-standards.html': 'fr/a-propos/charte-editoriale.html',
+        'en/about/joan-lyczak.html': 'fr/a-propos/joan-lyczak.html',
         # French to English mappings
         'fr/observatory/registre-reglements.html': 'en/observatory/settlement-registry.html',
         'fr/observatory/methodologie-registre.html': 'en/observatory/registry-methodology.html',
         'fr/observatory/registre-titres-tokenises.html': 'en/observatory/tokenized-securities-registry.html',
         'fr/observatory/soumission-actif.html': 'en/observatory/submit-security.html',
-        'fr/observatory/stablecoins-institutionnels.html': 'en/observatory/stablecoins-institutional.html'
+        'fr/observatory/stablecoins-institutionnels.html': 'en/observatory/stablecoins-institutional.html',
+        'fr/a-propos/charte-editoriale.html': 'en/about/editorial-standards.html',
+        'fr/a-propos/joan-lyczak.html': 'en/about/joan-lyczak.html'
     }
 
     if relative_path in asymmetric_mappings:
