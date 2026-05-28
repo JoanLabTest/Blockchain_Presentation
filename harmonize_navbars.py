@@ -11,7 +11,7 @@ FR_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
             <!-- Dimension 1: Research Programs -->
             <div class="pillar-item">
                 <a href="/fr/research-programs/index.html" class="pillar-link">Programmes de Recherche</a>
-                <div class="mega-dropdown">
+                <div class="mega-dropdown" style="width: 560px;">
                     <div class="dropdown-header">Frameworks & Protocoles</div>
                     <a href="/fr/research/programmable-capital-markets/index.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-microchip" style="color:#3b82f6;"></i></div>
@@ -32,6 +32,38 @@ FR_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-icon"><i class="fas fa-key" style="color:#a855f7;"></i></div>
                         <div class="link-text"><span class="link-title">Infrastructure de Clés</span><span
                                 class="link-desc">Modèles de garde, HSM/MPC & gouvernance</span></div>
+                    </a>
+
+                    <div class="dropdown-header">Programmes Thématiques</div>
+                    <a href="/fr/research-programs/cbdc-monetary-architecture.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-university" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">Monnaie Souveraine & MNBC</span><span
+                                class="link-desc">Analyses de gros/détail & géopolitique</span></div>
+                    </a>
+                    <a href="/fr/research-programs/tokenization-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-link" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Tokenisation & Infrastructure</span><span
+                                class="link-desc">Actifs RWA & règlement atomique</span></div>
+                    </a>
+                    <a href="/fr/research-programs/digital-asset-regulation.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-gavel" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">Régulation & Conformité</span><span
+                                class="link-desc">Analyses MiCA, DORA & LBC/FT</span></div>
+                    </a>
+                    <a href="/fr/research-programs/programmable-finance.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-code" style="color:#a855f7;"></i></div>
+                        <div class="link-text"><span class="link-title">Finance Programmable & DeFi</span><span
+                                class="link-desc">Mécanismes de rendement & AMM</span></div>
+                    </a>
+                    <a href="/fr/research-programs/systemic-crypto-risk.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i></div>
+                        <div class="link-text"><span class="link-title">Risque Systémique & Contagion</span><span
+                                class="link-desc">Indice GDARI & stress de liquidité</span></div>
+                    </a>
+                    <a href="/fr/research-programs/global-tokenization-summit.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-users" style="color:#6366f1;"></i></div>
+                        <div class="link-text"><span class="link-title">Sommet de la Tokenisation</span><span
+                                class="link-desc">Sommet annuel de l'écosystème</span></div>
                     </a>
                 </div>
             </div>
@@ -148,7 +180,7 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
             <!-- Dimension 1: Research Programs -->
             <div class="pillar-item">
                 <a href="/en/research-programs/index.html" class="pillar-link">Research Programs</a>
-                <div class="mega-dropdown">
+                <div class="mega-dropdown" style="width: 560px;">
                     <div class="dropdown-header">Frameworks & Protocols</div>
                     <a href="/en/research/programmable-capital-markets/index.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-microchip" style="color:#3b82f6;"></i></div>
@@ -169,6 +201,38 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-icon"><i class="fas fa-key" style="color:#a855f7;"></i></div>
                         <div class="link-text"><span class="link-title">Key Infrastructure</span><span
                                 class="link-desc">Custody models, HSM/MPC & signing governance</span></div>
+                    </a>
+
+                    <div class="dropdown-header">Thematic Programs</div>
+                    <a href="/en/research-programs/cbdc-monetary-architecture.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-university" style="color:#3b82f6;"></i></div>
+                        <div class="link-text"><span class="link-title">CBDC & Sovereign Money</span><span
+                                class="link-desc">Wholesale/retail models & geopolitics</span></div>
+                    </a>
+                    <a href="/en/research-programs/tokenization-infrastructure.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-link" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Tokenization & Infrastructure</span><span
+                                class="link-desc">RWA assets & atomic settlement</span></div>
+                    </a>
+                    <a href="/en/research-programs/digital-asset-regulation.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-gavel" style="color:#f59e0b;"></i></div>
+                        <div class="link-text"><span class="link-title">Regulation & Compliance</span><span
+                                class="link-desc">MiCA, DORA & AML/CFT travel rule</span></div>
+                    </a>
+                    <a href="/en/research-programs/programmable-finance.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-code" style="color:#a855f7;"></i></div>
+                        <div class="link-text"><span class="link-title">Programmable Finance & DeFi</span><span
+                                class="link-desc">Yield mechanics & AMM reliability</span></div>
+                    </a>
+                    <a href="/en/research-programs/systemic-crypto-risk.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i></div>
+                        <div class="link-text"><span class="link-title">Systemic Risk & Contagion</span><span
+                                class="link-desc">GDARI index & liquidity stress testing</span></div>
+                    </a>
+                    <a href="/en/research-programs/global-tokenization-summit.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-users" style="color:#6366f1;"></i></div>
+                        <div class="link-text"><span class="link-title">Tokenization Summit</span><span
+                                class="link-desc">Annual flagship ecosystem event</span></div>
                     </a>
                 </div>
             </div>
