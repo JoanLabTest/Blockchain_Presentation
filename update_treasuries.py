@@ -392,5 +392,32 @@ def main():
 
     print("🎉 All targets refreshed successfully!")
 
+    # 5. Git Commit Check (for automated updates)
+    try:
+        import subprocess
+        from datetime import datetime
+
+        # Check if we are inside a Git repository
+        git_check = subprocess.run(['git', 'rev-parse', '--is-inside-work-tree'], capture_output=True, text=True)
+        if git_check.returncode == 0 and git_check.stdout.strip() == 'true':
+            # Check for changes (git diff --quiet returns non-zero if there are unstaged changes)
+            result = subprocess.run(['git', 'diff', '--quiet'], capture_output=True)
+            if result.returncode != 0:
+                # If running in GitHub Actions, let the workflow handle commit and push to avoid conflicts
+                if os.environ.get('GITHUB_ACTIONS') == 'true':
+                    print("Changes detected. GitHub Actions workflow will handle the commit and push.")
+                else:
+                    # Stage the modified files
+                    subprocess.run(['git', 'add', json_path, en_path, fr_path, js_path])
+                    timestamp = datetime.utcnow().strftime('%Y-%m-%d')
+                    subprocess.run(['git', 'commit', '-m', f'data: update tokenized treasury AUM {timestamp}'])
+                    print(f"✅ Changes committed automatically (AUM {timestamp})")
+            else:
+                print("No changes — skipping commit")
+        else:
+            print("Not in a git repository or git not available — skipping commit")
+    except Exception as e:
+        print(f"⚠️ Git commit check skipped or encountered error: {e}")
+
 if __name__ == "__main__":
     main()

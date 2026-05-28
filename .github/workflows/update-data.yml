@@ -14,25 +14,17 @@ jobs:
   update-data:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-
-      - name: Run Telemetry Refresh Script
+          python-version: '3.11'
+      - name: Run update script
         run: python update_treasuries.py
-
-      - name: Commit and Push Changes
+      - name: Commit if changed
         run: |
-          git config --global user.name "DCM Core Bot"
-          git config --global user.email "dcmcoreinstitute@gmail.com"
-          git add data/tokenized-treasuries.json en/observatory/tokenized-markets.html fr/observatory/tokenized-markets.html js/api-docs-engine.js
-          if ! git diff --cached --quiet; then
-            git commit -m "cron(data): automated weekly refresh of tokenized treasuries telemetry [skip ci]"
-            git push origin main
-          else
-            echo "No changes in telemetry data to commit."
-          fi
+          git config user.name "DCM Core Bot"
+          git config user.email "bot@dcmcore.com"
+          git diff --quiet || (git add data/ en/observatory/ fr/observatory/ js/ && git commit -m "data: weekly treasury AUM refresh $(date -u +%Y-%m-%d)" && git push)
