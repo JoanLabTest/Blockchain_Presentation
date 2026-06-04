@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="citation-box" id="citationText"></div>
                     <button class="citation-copy-btn" id="copyCitation">Copy to Clipboard</button>
                     <div class="citation-footer-text">
-                        Digital Object Identifier (DOI) provided for academic permanence. 
                         DCM Core Research Programs are indexed for global scholarly transparency.
                     </div>
                 </div>
@@ -42,8 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             date: document.querySelector('meta[name="citation_publication_date"]')?.content || new Date().toISOString().split('T')[0],
             publisher: document.querySelector('meta[name="citation_publisher"]')?.content || "DCM Core Institute",
             reportNum: document.querySelector('meta[name="citation_technical_report_number"]')?.content || "DCM-RES-2026",
-            url: window.location.href,
-            doi: "10.5281/zenodo.dcm.research.2026.12" // Placeholder as established in Phase 44
+            url: window.location.href
         };
     };
 
@@ -59,8 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   year        = {${year}},
   number      = {${meta.reportNum}},
   type        = {Research Program Paper},
-  url         = {${meta.url}},
-  doi         = {${meta.doi}}
+  url         = {${meta.url}}
 }`;
             case 'ris':
                 return `TY  - RPRT
@@ -70,7 +67,6 @@ PY  - ${year}
 PB  - ${meta.publisher}
 SN  - ${meta.reportNum}
 UR  - ${meta.url}
-DO  - ${meta.doi}
 ER  - `;
             case 'apa':
                 const authorParts = meta.author.split(',');
