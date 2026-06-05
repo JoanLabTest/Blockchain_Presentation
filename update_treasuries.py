@@ -178,11 +178,15 @@ def main():
         "keywords": ["RWA", "Tokenization", "Digital Bonds", "US Treasuries", "Market Capitalization", "DLT"],
         "creator": {
             "@type": "Organization",
-            "@id": "https://dcmcore.com/#organization"
+            "@id": "https://dcmcore.com/#organization",
+            "name": "DCM Core Institute",
+            "url": "https://dcmcore.com"
         },
         "publisher": {
             "@type": "Organization",
-            "@id": "https://dcmcore.com/#organization"
+            "@id": "https://dcmcore.com/#organization",
+            "name": "DCM Core Institute",
+            "url": "https://dcmcore.com"
         },
         "distribution": {
             "@type": "DataDownload",
@@ -323,11 +327,15 @@ def main():
         "keywords": ["RWA", "Tokenisation", "Obligations Digitales", "Bons du Trésor", "Capitalisation Boursière", "DLT"],
         "creator": {
             "@type": "Organization",
-            "@id": "https://dcmcore.com/#organization"
+            "@id": "https://dcmcore.com/#organization",
+            "name": "DCM Core Institute",
+            "url": "https://dcmcore.com"
         },
         "publisher": {
             "@type": "Organization",
-            "@id": "https://dcmcore.com/#organization"
+            "@id": "https://dcmcore.com/#organization",
+            "name": "DCM Core Institute",
+            "url": "https://dcmcore.com"
         },
         "distribution": {
             "@type": "DataDownload",
