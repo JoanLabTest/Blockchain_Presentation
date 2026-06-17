@@ -31,7 +31,9 @@ high_priority = [
     "research/digital-euro-vs-stablecoins.html",
     "research/swift-vs-blockchain-settlement.html",
     "research/state-of-institutional-stablecoins-q2-2026.html",
-    "research-programs/index.html"
+    "research-programs/index.html",
+    "research/eu-dlt-pilot-regime-guide.html",
+    "research/regime-pilote-dlt-guide-complet.html"
 ]
 
 medium_priority = [
