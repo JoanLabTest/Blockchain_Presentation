@@ -61,12 +61,33 @@ def create_sitemap(files, filename, directory=""):
             rel_path = f_path
             
         basename = os.path.basename(f_path)
-        if "backup" in basename or "quiz" in basename or "admin" in basename or "login" in basename:
+        
+        # Exclude administrative or non-indexable files
+        if "backup" in basename or "admin" in basename or "login" in basename:
             continue
+            
+        # Read file to check if it's a redirect
+        try:
+            with open(f_path, 'r', encoding='utf-8', errors='ignore') as file_obj:
+                file_content = file_obj.read()
+                if 'http-equiv="refresh"' in file_content or 'http-equiv="Refresh"' in file_content or 'window.location.replace' in file_content:
+                    # Skip redirect files from sitemap
+                    continue
+        except Exception as e:
+            print(f"Warning: could not read {f_path} to check for redirects: {e}")
             
         url = ET.SubElement(urlset, 'url')
         loc = ET.SubElement(url, 'loc')
         
+        # Normalize relative path to use forward slashes
+        rel_path = rel_path.replace("\\", "/")
+        
+        # Strip index.html for directory-style clean URLs
+        if rel_path == "index.html":
+            rel_path = ""
+        elif rel_path.endswith("/index.html"):
+            rel_path = rel_path[:-10] # Remove index.html, keeping the trailing slash
+            
         # Build the final URL
         prefix = f"{directory}/" if directory else ""
         loc.text = f"{base_url}{prefix}{rel_path}"
@@ -77,6 +98,8 @@ def create_sitemap(files, filename, directory=""):
             priority.text = "0.6"
         elif "settlement-registry" in rel_path or "registre-reglements" in rel_path or "tokenized-markets" in rel_path:
             priority.text = "0.9"
+        elif any(x in rel_path for x in ["buidl/", "digital-euro-infrastructure.html", "state-of-institutional-stablecoins"]):
+            priority.text = "1.0"
         elif basename in high_priority or rel_path in high_priority:
             priority.text = "1.0"
         elif basename in medium_priority or rel_path in medium_priority:
