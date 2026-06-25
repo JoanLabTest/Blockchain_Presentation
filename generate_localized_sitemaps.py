@@ -2,55 +2,9 @@ import os
 import glob
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
+from datetime import datetime
 
 base_url = "https://dcmcore.com/"
-
-# Files to map with priorities (1.0)
-high_priority = [
-    "index.html",
-    "institutional-problem-statement.html",
-    "why-now.html",
-    "series-a-narrative.html",
-    "governance-os.html",
-    "mrm-hub.html",
-    "buidl.html",
-    "buidl/index.html",
-    "yield-mechanics.html",
-    "pricing.html",
-    "whitepaper-gate.html",
-    "knowledge/index.html",
-    "methodology/index.html",
-    "research/programmable-capital-markets/index.html",
-    "research/programmable-capital-markets/smart-bond-framework.html",
-    "research/programmable-capital-markets/smart-derivative-contracts.html",
-    "observatory/digital-euro-infrastructure.html",
-    "research/tokenized-capital-markets-report-2026.html",
-    "research/rapport-mondial-tokenisation-2026.html",
-    "research/buidl-vs-usyc.html",
-    "research/stablecoins-vs-tokenized-deposits.html",
-    "research/digital-euro-vs-stablecoins.html",
-    "research/swift-vs-blockchain-settlement.html",
-    "research/state-of-institutional-stablecoins-q2-2026.html",
-    "research-programs/index.html",
-    "research/eu-dlt-pilot-regime-guide.html",
-    "research/regime-pilote-dlt-guide-complet.html"
-]
-
-medium_priority = [
-    "regulatory-mapping.html",
-    "legal-matrix.html",
-    "case-study-tokenized-bond.html",
-    "risk-register.html",
-    "guide.html",
-    "dashboard.html",
-    "sandbox.html",
-    "research/ecosystem-map.html",
-    "research/global-map.html",
-    "about/editorial-standards.html",
-    "a-propos/charte-editoriale.html",
-    "about/joan-lyczak.html",
-    "a-propos/joan-lyczak.html"
-]
 
 def create_sitemap(files, filename, directory=""):
     urlset = ET.Element('urlset', xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
@@ -86,28 +40,51 @@ def create_sitemap(files, filename, directory=""):
         
         # Strip index.html for directory-style clean URLs
         if rel_path == "index.html":
-            rel_path = ""
+            clean_rel_path = ""
         elif rel_path.endswith("/index.html"):
-            rel_path = rel_path[:-10] # Remove index.html, keeping the trailing slash
+            clean_rel_path = rel_path[:-10] # Remove index.html, keeping the trailing slash
+        else:
+            clean_rel_path = rel_path
             
         # Build the final URL
         prefix = f"{directory}/" if directory else ""
-        loc.text = f"{base_url}{prefix}{rel_path}"
+        loc.text = f"{base_url}{prefix}{clean_rel_path}"
         
+        # Add lastmod
+        try:
+            mtime = os.path.getmtime(f_path)
+            lastmod_str = datetime.fromtimestamp(mtime).strftime('%Y-%m-%d')
+        except Exception:
+            lastmod_str = datetime.now().strftime('%Y-%m-%d')
+            
+        lastmod = ET.SubElement(url, 'lastmod')
+        lastmod.text = lastmod_str
+        
+        # Determine priority and changefreq
         priority = ET.SubElement(url, 'priority')
-        # Check priorities based on file type and path
+        changefreq = ET.SubElement(url, 'changefreq')
+        
         if "glossary/" in rel_path or "glossaire/" in rel_path:
             priority.text = "0.6"
-        elif "settlement-registry" in rel_path or "registre-reglements" in rel_path or "tokenized-markets" in rel_path:
+            changefreq.text = "weekly"
+        elif any(x in rel_path for x in ["settlement-registry", "registre-reglements", "tokenized-markets"]):
             priority.text = "0.9"
+            changefreq.text = "weekly"
         elif any(x in rel_path for x in ["buidl/", "digital-euro-infrastructure.html", "state-of-institutional-stablecoins"]):
             priority.text = "1.0"
-        elif basename in high_priority or rel_path in high_priority:
+            changefreq.text = "weekly"
+        elif clean_rel_path == "" or clean_rel_path == "index.html":
             priority.text = "1.0"
-        elif basename in medium_priority or rel_path in medium_priority:
+            changefreq.text = "daily"
+        elif any(x in rel_path for x in ["observatory", "research-programs", "insights", "indices"]):
             priority.text = "0.8"
+            changefreq.text = "weekly"
+        elif any(x in rel_path for x in ["policy-briefs", "policy-library", "research"]):
+            priority.text = "0.5"
+            changefreq.text = "monthly"
         else:
             priority.text = "0.5"
+            changefreq.text = "monthly"
             
     xml_str = ET.tostring(urlset, encoding='utf-8')
     parsed = minidom.parseString(xml_str)

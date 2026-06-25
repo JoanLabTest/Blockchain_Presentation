@@ -135,6 +135,11 @@ FR_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">Registre des Règlements</span><span
                                 class="link-desc">Journal de dénouement DLT & cash leg</span></div>
                     </a>
+                    <a href="/fr/insights/risk/model-risk-management-blockchain.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-shield-alt" style="color:#ef4444;"></i></div>
+                        <div class="link-text"><span class="link-title">Model Risk Management (MRM)</span><span
+                                class="link-desc">Gestion du risque de modèle blockchain</span></div>
+                    </a>
                 </div>
             </div>
 
@@ -157,6 +162,11 @@ FR_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-icon"><i class="fas fa-graduation-cap" style="color:#3b82f6;"></i></div>
                         <div class="link-text"><span class="link-title">Academy</span><span
                                 class="link-desc">Formation institutionnelle</span></div>
+                    </a>
+                    <a href="/fr/policy-briefs/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-alt" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Policy Briefs</span><span
+                                class="link-desc">Briefings réglementaires & notes stratégiques</span></div>
                     </a>
                 </div>
             </div>
@@ -333,6 +343,11 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">Settlement Event Registry</span><span
                                 class="link-desc">On-chain clearance & payment desk logs</span></div>
                     </a>
+                    <a href="/en/insights/risk/model-risk-management-blockchain.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-shield-alt" style="color:#ef4444;"></i></div>
+                        <div class="link-text"><span class="link-title">Model Risk Management (MRM)</span><span
+                                class="link-desc">Blockchain model risk assessment framework</span></div>
+                    </a>
                 </div>
             </div>
 
@@ -355,6 +370,11 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-icon"><i class="fas fa-graduation-cap" style="color:#3b82f6;"></i></div>
                         <div class="link-text"><span class="link-title">Academy</span><span
                                 class="link-desc">Institutional Certification</span></div>
+                    </a>
+                    <a href="/en/policy-briefs/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-alt" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Policy Briefs</span><span
+                                class="link-desc">Regulatory briefings & strategic memos</span></div>
                     </a>
                 </div>
             </div>

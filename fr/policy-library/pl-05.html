@@ -12,12 +12,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta
-        content="Note de politique PL-2026-05 : Normes prudentielles pour les stablecoins se référant à des monnaies fiduciaires."
+        content="Note de bibliothèque PL-2026-05 analysant les architectures d'intégration des MNBC de gros, les liaisons RTGS et l'interopérabilité des registres."
         name="description" />
     <meta content="Note de politique, Modèle, Régulation, DCM Core, Think Tank, Stablecoins, MiCA" name="keywords" />
     <meta content="DCM Core Institut" name="author" />
 
-    <title>PL-2026-05 : Normes prudentielles des stablecoins | DCM Core</title>
+    <title>PL-2026-05 : Interopérabilité des MNBC de gros & Modèles de règlement | DCM Core</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com?display=swap" rel="preconnect" />
@@ -199,7 +199,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52J5C3HC"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-                                                        <nav class="navbar-pro">
+                                                            <nav class="navbar-pro">
         <a class="nav-brand" href="/fr/index.html">
             <div class="logo-orb"></div>
             <div class="logo-text">DCM <span>Core Institute</span></div>
@@ -333,6 +333,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <div class="link-text"><span class="link-title">Registre des Règlements</span><span
                                 class="link-desc">Journal de dénouement DLT & cash leg</span></div>
                     </a>
+                    <a href="/fr/insights/risk/model-risk-management-blockchain.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-shield-alt" style="color:#ef4444;"></i></div>
+                        <div class="link-text"><span class="link-title">Model Risk Management (MRM)</span><span
+                                class="link-desc">Gestion du risque de modèle blockchain</span></div>
+                    </a>
                 </div>
             </div>
 
@@ -355,6 +360,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <div class="link-icon"><i class="fas fa-graduation-cap" style="color:#3b82f6;"></i></div>
                         <div class="link-text"><span class="link-title">Academy</span><span
                                 class="link-desc">Formation institutionnelle</span></div>
+                    </a>
+                    <a href="/fr/policy-briefs/index.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-file-alt" style="color:#10b981;"></i></div>
+                        <div class="link-text"><span class="link-title">Policy Briefs</span><span
+                                class="link-desc">Briefings réglementaires & notes stratégiques</span></div>
                     </a>
                 </div>
             </div>
@@ -403,146 +413,94 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </a>
     </div>
 
-    <article class="paper-container">
-
+        <article class="paper-container">
         <header class="paper-header">
-            <span class="series-label">Note de Politique DCM Core | PL-2026-05</span>
-            <h1 class="paper-title">Normes prudentielles pour les stablecoins se référant à des monnaies fiduciaires
-                sous le cadre MiCA</h1>
+            <span class="series-label">Bibliothèque de Politique DCM Core | PL-2026-05</span>
+            <h1 class="paper-title">Interopérabilité des MNBC de gros et modèles de règlement</h1>
             <div class="paper-meta">
-                <div class="author-info">Unité d'Intelligence Réglementaire DCM Core</div>
+                <div class="author-info">Unité Macro-Tech DCM Core</div>
                 <div class="date-info">Publication : Mars 2026 | Format : Standard 6 pages</div>
             </div>
         </header>
 
-        <!-- 1. RÉSUMÉ EXÉCUTIF -->
+        <!-- 1. EXECUTIVE SUMMARY -->
         <section class="section-block">
             <h2 class="section-title"><span class="number">01</span> Résumé Exécutif</h2>
             <p class="paper-text">
-                La prolifération rapide des Fiat-Referenced Tokens (FRT), communément appelés stablecoins, a créé de
-                sévères dépendances macro-financières entre les réseaux de règlement décentralisés et les réserves
-                bancaires traditionnelles. Cette note souligne les normes prudentielles critiques mandatées par le
-                règlement sur les marchés de crypto-actifs (MiCA) de l'UE, traitant spécifiquement des règles de
-                ségrégation des réserves et des exigences d'adéquation des fonds propres pour les émetteurs de jetons de
-                monnaie électronique (EMT) et de jetons se référant à des actifs (ART) significatifs.
+                Les monnaies numériques de banque centrale de gros (MNBCg) sont largement reconnues comme un outil majeur pour améliorer l'efficacité et la sécurité des règlements interbancaires. Cette note évalue les modèles techniques d'interopérabilité entre les plateformes DLT privées et les systèmes de règlement brut en temps réel (RTGS) traditionnels, comparant mécanismes de déclenchement (trigger), ponts de réseaux et solutions multi-registres natives.
             </p>
             <p class="paper-text">
-                Nous concluons que si MiCA réussit à atténuer le risque immédiat de retrait massif des stablecoins
-                sous-collatéralisés, l'exigence stricte de 2 % de fonds propres pour les jetons « significatifs »
-                limitera radicalement le nombre d'émetteurs européens viables, entraînant une consolidation du marché.
+                Nous analysons les compromis de chaque architecture en termes de vitesse de traitement, de blocage des liquidités et de complexité. Nous concluons que les solutions trigger minimisent les risques d'intégration pour les banques centrales, tandis que les architectures natives offrent la meilleure efficacité mais exigent des réformes profondes.
             </p>
         </section>
 
-        <!-- 2. ÉNONCÉ DU PROBLÈME -->
+        <!-- 2. PROBLEM STATEMENT -->
         <section class="section-block">
             <h2 class="section-title"><span class="number">02</span> Énoncé du Problème</h2>
             <p class="paper-text">
-                Historiquement, les stablecoins non réglementés ont fonctionné largement comme des <strong>banques de
-                    l'ombre</strong> : émettant des passifs semblables à des dépôts à vue sans les tampons de capitaux
-                ou les ratios de liquidité correspondants requis des banques commerciales. En cas de stress sur le
-                marché, les doutes concernant la qualité et la liquidité des actifs de réserve sous-jacents (tels que
-                les papiers commerciaux ou les obligations d'entreprises) peuvent déclencher des rachat soudains et en
-                cascade — un « bank run » classique.
+                L'intégration d'actifs numériques on-chain (obligations tokenisées, titres de créance) avec la monnaie de banque centrale exige un règlement atomique (livraison contre paiement - DvP). Cependant, les banques centrales hésitent à héberger leurs comptes sur des registres distribués, créant une déconnexion entre le transfert de l'actif et sa jambe cash.
             </p>
             <div class="policy-callout">
-                « La menace existentielle des stablecoins n'est pas leur émission technologique via DLT, mais la
-                transformation de maturité et de liquidité dans laquelle ils s'engagent sans le soutien d'une banque
-                centrale. »
+                "La reconstruction de la relation de la banque centrale avec les banques commerciales exige des modifications fonctionnelles profondes au niveau de l'infrastructure de règlement."
             </div>
             <p class="paper-text">
-                Le problème pour les régulateurs est de prévenir cette contagion systémique de se propager au système
-                financier traditionnel (TradFi) tout en ne freinant pas entièrement l'efficacité du règlement instantané
-                basé sur la DLT.
+                En l'absence de liens d'interopérabilité, les institutions doivent bloquer des liquidités dans des réservoirs distincts sur différents réseaux. Cette fragmentation des liquidités augmente les coûts de financement et complique la gestion de trésorerie en temps réel.
             </p>
         </section>
 
-        <!-- 3. CONTEXTE POLITIQUE -->
+        <!-- 3. POLICY CONTEXT -->
         <section class="section-block">
             <h2 class="section-title"><span class="number">03</span> Contexte Politique</h2>
             <p class="paper-text">
-                En réponse à ces risques, le Parlement européen a finalisé MiCA, qui établit un régime prudentiel sur
-                mesure activé officiellement en 2024–2025. MiCA classe les stablecoins en deux catégories principales :
+                Le Hub d'innovation de la BRI et les banques centrales mènent des expérimentations (comme le Projet Helvetia en Suisse et les travaux exploratoires de l'Eurosystème) pour tester le règlement en MNBCg. L'objectif est de garantir que la monnaie centrale reste l'actif de règlement ultime alors que les marchés financiers se tokenisent.
             </p>
             <p class="paper-text">
-                <strong>1. Jetons se référant à des actifs (ART) :</strong> Adossés à un panier de devises ou d'autres
-                matières premières.<br />
-                <strong>2. Jetons de monnaie électronique (EMT) :</strong> Adossés à une seule monnaie fiduciaire
-                officielle (ex. EUR, USD).
-            </p>
-            <p class="paper-text">
-                MiCA classe en outre les jetons comme « significatifs » s'ils dépassent des seuils tels que 5 milliards
-                d'euros de capitalisation boursière ou 1 million de transactions par jour. Les ART/EMT significatifs
-                tombent sous la surveillance directe de l'ABE (Autorité bancaire européenne) plutôt que des autorités
-                nationales compétentes.
+                Les régulateurs doivent choisir entre soutenir des solutions trigger (qui lient les DLT externes aux systèmes RTGS via des API) ou déployer des MNBCg natives directement sur des réseaux blockchain partagés. Ce choix a des conséquences lourdes sur la politique monétaire et le risque systémique.
             </p>
         </section>
 
-        <!-- 4. ANALYSE & IMPACT OPÉRATIONNEL -->
+        <!-- 4. ANALYSIS & OPERATIONAL IMPACT -->
         <section class="section-block">
             <h2 class="section-title"><span class="number">04</span> Analyse & Impact Opérationnel</h2>
             <p class="paper-text">
-                L'impact opérationnel sur les émetteurs est sévère. L'article 35 de MiCA stipule que les émetteurs d'ART
-                doivent détenir des « fonds propres » égaux à au moins <strong>2 % de l'actif de réserve moyen</strong>
-                (3 % pour les ART significatifs). De plus, la composition de la réserve est strictement limitée.
+                Notre analyse comparative se concentre sur les compromis des trois principaux modèles. Le premier modèle, la Solution Trigger, permet à une transaction d'actif on-chain de déclencher une instruction de paiement dans le système RTGS traditionnel. Cela protège les comptes de la banque centrale mais ne permet pas un échange atomique parfait.
             </p>
             <p class="paper-text">
-                Pour un émetteur de stablecoins avec 10 milliards d'euros en circulation, une exigence de 2 % de fonds
-                propres signifie immobiliser 200 millions d'euros de capital propre hautement liquide et à faible
-                rendement. De plus, les actifs de réserve eux-mêmes doivent être protégés contre la faillite, séparés du
-                patrimoine de l'émetteur et détenus auprès d'établissements de crédit agréés par l'UE ou de prestataires
-                de services sur actifs crypto (CASP).
+                Le deuxième modèle, le Réseau Ponté, utilise des protocoles d'interopérabilité pour verrouiller les actifs sur un registre et émettre des jetons équivalents sur un autre. Il permet le DvP cross-chain mais introduit des risques de contrats intelligents et de failles au niveau du pont.
             </p>
             <p class="paper-text">
-                <strong>Conséquence économique :</strong> Le rendement généré par les actifs de réserve (par exemple, la
-                détention de dette souveraine à court terme) doit désormais dépasser le coût d'opportunité des fonds
-                propres immobilisés, plus les frais généraux de conformité. Cela tue fondamentalement le modèle
-                d'affaires non rentable des stablecoins à petite échelle.
+                Le troisième modèle, la MNBCg native, émet la monnaie centrale directement sur la plateforme DLT où résident les actifs tokenisés. Il réalise un règlement atomique en temps réel sans risque de crédit, mais oblige les banques centrales à gérer la sécurité des nœuds et le consensus du réseau.
             </p>
         </section>
 
-        <!-- 5. RECOMMANDATIONS POLITIQUES -->
+        <!-- 5. POLICY RECOMMENDATIONS -->
         <section class="section-block">
             <h2 class="section-title"><span class="number">05</span> Recommandations Politiques</h2>
             <p class="paper-text">
-                Sur la base de notre modélisation systémique des règles prudentielles de MiCA, nous émettons les
-                recommandations suivantes (NCAs) :
+                Pour guider les banques centrales et les acteurs de marché dans la mise en œuvre d'infrastructures de règlement de gros interopérables, nous recommandons les principes de conception suivants :
             </p>
-
             <div class="recommendation-box">
-                <h4>Recommandations exploitables :</h4>
+                <h4>Principes de conception pour l'interopérabilité des MNBCg :</h4>
                 <ul>
-                    <li><strong>Accélérer l'infrastructure de pension tri-partie :</strong> Les chambres de compensation
-                        de l'UE devraient établir des facilités de pension intrajournalières spécifiques pour les actifs
-                        de réserve des stablecoins afin d'assurer une liquidité d'urgence sans rompre les règles de
-                        ségrégation.</li>
-                    <li><strong>Standardiser les preuves de réserves (PoR) en temps réel :</strong> Les NCAs devraient
-                        exiger que les attestations PoR soient vérifiables cryptographiquement on-chain via des preuves
-                        à divulgation nulle de connaissance (zk-SNARKs) plutôt que de s'appuyer sur des rapports d'audit
-                        mensuels différés.</li>
-                    <li><strong>Réviser le plafond de 1 million de transactions :</strong> Le plafond strict sur les
-                        transactions d'utilité EMT non-EUR (1 million/jour) limitera artificiellement l'efficacité du
-                        règlement mondial et devrait être remplacé par un seuil dynamique basé sur un pourcentage du
-                        PIB.</li>
+                    <li>Déployer des architectures hybrides, en commençant par des solutions trigger pour sécuriser le DvP à court terme, tout en préparant des pilotes de MNBCg natives.</li>
+                    <li>Standardiser les API d'interopérabilité cross-chain sur la base de protocoles ouverts pour éviter le verrouillage technologique et soutenir l'intégration multi-plateformes.</li>
+                    <li>Mettre en œuvre des mécanismes d'économie de liquidité (LSM) dans les plateformes de MNBCg pour minimiser les besoins en capital du règlement atomique.</li>
                 </ul>
             </div>
         </section>
 
-        <!-- 6. RÉFÉRENCES -->
+        <!-- 6. REFERENCES -->
         <section class="section-block">
             <h2 class="section-title"><span class="number">06</span> Références & Citations</h2>
             <ul class="references">
-                <li>[1] Parlement européen (2023). <em>Règlement (UE) 2023/1114 sur les marchés de crypto-actifs
-                        (MiCA)</em>. Journal officiel de l'Union européenne.</li>
-                <li>[2] ABE (2024). <em>Projets de normes techniques de réglementation sur les exigences minimales de
-                        fonds propres pour les ART et les EMT</em>. Autorité bancaire européenne.</li>
-                <li>[3] BRI (2023). <em>L'écosystème crypto : éléments clés et risques</em>. Banque des règlements
-                    internationaux.</li>
+                <li>BCE (2024). Note explicative sur les travaux exploratoires de l'Eurosystème sur les nouvelles technologies pour le règlement de gros.</li>
+                <li>BIS Innovation Hub (2023). Project Helvetia Phase III: Settling wholesale transactions in central bank money on a DLT platform.</li>
+                <li>DCM Core Technical Report (2025). Structural Interoperability and Liquidity Allocation in Wholesale Central Bank Digital Currency Models.</li>
             </ul>
         </section>
-
     </article>
 
-<footer class="super-footer">
+    <footer class="super-footer">
         <div class="footer-content">
             <div class="footer-grid">
                 <div class="footer-brand">
