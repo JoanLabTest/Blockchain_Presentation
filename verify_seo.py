@@ -90,6 +90,30 @@ def check_sitemaps():
                 
         print(f"✓ Sitemap {sitemap_file} verified with {url_count} URLs")
 
+def check_hreflang_reciprocity(en_path, fr_path, en_url, fr_url):
+    with open(en_path, 'r', encoding='utf-8') as f:
+        en_content = f.read()
+    with open(fr_path, 'r', encoding='utf-8') as f:
+        fr_content = f.read()
+
+    # Find alternates
+    en_alts = re.findall(r'<link\s+[^>]*rel=["\']alternate["\'][^>]*hreflang=["\'](.*?)["\'][^>]*href=["\'](.*?)["\']', en_content, re.IGNORECASE)
+    fr_alts = re.findall(r'<link\s+[^>]*rel=["\']alternate["\'][^>]*hreflang=["\'](.*?)["\'][^>]*href=["\'](.*?)["\']', fr_content, re.IGNORECASE)
+
+    en_dict = {lang: href for lang, href in en_alts}
+    fr_dict = {lang: href for lang, href in fr_alts}
+
+    assert en_dict.get("en") == en_url, f"EN page hreflang='en' got {en_dict.get('en')}, expected {en_url}"
+    assert en_dict.get("fr") == fr_url, f"EN page hreflang='fr' got {en_dict.get('fr')}, expected {fr_url}"
+    assert fr_dict.get("en") == en_url, f"FR page hreflang='en' got {fr_dict.get('en')}, expected {en_url}"
+    assert fr_dict.get("fr") == fr_url, f"FR page hreflang='fr' got {fr_dict.get('fr')}, expected {fr_url}"
+    
+    # Check x-default
+    assert en_dict.get("x-default") == en_url, f"EN page x-default got {en_dict.get('x-default')}, expected {en_url}"
+    assert fr_dict.get("x-default") == en_url, f"FR page x-default got {fr_dict.get('x-default')}, expected {en_url}"
+
+    print(f"✓ Hreflang reciprocity validated for {en_path} ↔ {fr_path}")
+
 def run_all_tests():
     print("Starting SEO & GEO Validation...")
     
@@ -102,6 +126,16 @@ def run_all_tests():
     check_html_metadata("fr/buidl/index.html", "BUIDL", "BlackRock")
     check_html_metadata("en/observatory/digital-euro-infrastructure.html", "Wholesale", "wholesale")
     check_html_metadata("fr/observatory/digital-euro-infrastructure.html", "Gros", "gros")
+    check_html_metadata("en/insights/mica/mica-enforcement-july2026.html", "MiCA Day Zero", "Enforcement")
+    check_html_metadata("fr/insights/mica/entree-en-vigueur-mica-juillet2026.html", "Day Zero MiCA", "vigueur")
+    
+    # Hreflang Reciprocity checks
+    check_hreflang_reciprocity(
+        "en/insights/mica/mica-enforcement-july2026.html",
+        "fr/insights/mica/entree-en-vigueur-mica-juillet2026.html",
+        "https://dcmcore.com/en/insights/mica/mica-enforcement-july2026.html",
+        "https://dcmcore.com/fr/insights/mica/entree-en-vigueur-mica-juillet2026.html"
+    )
     
     # 3. Structured data Schema tests
     check_schema_markup("en/buidl/index.html", ["ResearchArticle"])
@@ -109,6 +143,8 @@ def run_all_tests():
     check_schema_markup("en/observatory/digital-euro-infrastructure.html", ["ResearchArticle", "FAQPage"])
     check_schema_markup("en/observatory/settlement-registry.html", ["Dataset"])
     check_schema_markup("fr/observatory/registre-reglements.html", ["Dataset"])
+    check_schema_markup("en/insights/mica/mica-enforcement-july2026.html", ["NewsArticle", "TechArticle", "FAQPage", "BreadcrumbList"])
+    check_schema_markup("fr/insights/mica/entree-en-vigueur-mica-juillet2026.html", ["NewsArticle", "TechArticle", "FAQPage", "BreadcrumbList"])
     
     # 4. Glossary verification
     check_schema_markup("en/glossary/what-is-tokenized-treasury.html", ["ResearchArticle", "FAQPage"])

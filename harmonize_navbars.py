@@ -564,6 +564,7 @@ def process_file(filepath):
         'en/observatory/stablecoins-institutional.html': 'fr/observatory/stablecoins-institutionnels.html',
         'en/about/editorial-standards.html': 'fr/a-propos/charte-editoriale.html',
         'en/about/joan-lyczak.html': 'fr/a-propos/joan-lyczak.html',
+        'en/insights/mica/mica-enforcement-july2026.html': 'fr/insights/mica/entree-en-vigueur-mica-juillet2026.html',
         # French to English mappings
         'fr/observatory/registre-reglements.html': 'en/observatory/settlement-registry.html',
         'fr/observatory/methodologie-registre.html': 'en/observatory/registry-methodology.html',
@@ -571,7 +572,8 @@ def process_file(filepath):
         'fr/observatory/soumission-actif.html': 'en/observatory/submit-security.html',
         'fr/observatory/stablecoins-institutionnels.html': 'en/observatory/stablecoins-institutional.html',
         'fr/a-propos/charte-editoriale.html': 'en/about/editorial-standards.html',
-        'fr/a-propos/joan-lyczak.html': 'en/about/joan-lyczak.html'
+        'fr/a-propos/joan-lyczak.html': 'en/about/joan-lyczak.html',
+        'fr/insights/mica/entree-en-vigueur-mica-juillet2026.html': 'en/insights/mica/mica-enforcement-july2026.html'
     }
 
     if relative_path in asymmetric_mappings:
