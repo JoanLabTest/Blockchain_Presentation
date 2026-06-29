@@ -35,13 +35,16 @@ function getDatasetPaths() {
     }
 
     // Determine how many parent directories we need to traverse
-    let prefix = '';
-    if (href.includes('/research/market-memos/')) {
-        prefix = '../../';
-    } else if (href.includes('/research/desk-notes/') || href.includes('/standards/blueprints/') || href.includes('/research/') || href.includes('/standards/')) {
-        prefix = '../../';
-    } else if (href.includes('/fr/') || href.includes('/en/')) {
-        prefix = '../';
+    let prefix = document.querySelector('meta[name="base-path"]')?.content;
+    if (prefix === undefined) {
+        prefix = '';
+        if (href.includes('/research/market-memos/')) {
+            prefix = '../../';
+        } else if (href.includes('/research/desk-notes/') || href.includes('/standards/blueprints/') || href.includes('/research/') || href.includes('/standards/')) {
+            prefix = '../../';
+        } else if (href.includes('/fr/') || href.includes('/en/')) {
+            prefix = '../';
+        }
     }
 
     return {

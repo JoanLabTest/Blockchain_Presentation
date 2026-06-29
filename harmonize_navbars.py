@@ -186,6 +186,11 @@ FR_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">Charte Éditoriale</span><span
                                 class="link-desc">Rigueur méthodologique & sourcing</span></div>
                     </a>
+                    <a href="/fr/a-propos/carte-architecture.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-sitemap" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Carte de l'Architecture</span><span
+                                class="link-desc">Index conceptuel des couches de la plateforme</span></div>
+                    </a>
                     <a href="/fr/global-forum/index.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-users" style="color:#94a3b8;"></i></div>
                         <div class="link-text"><span class="link-title">Espace Dialogue</span><span
@@ -394,6 +399,11 @@ EN_NAVBAR_TEMPLATE = """    <nav class="navbar-pro">
                         <div class="link-text"><span class="link-title">Editorial Standards</span><span
                                 class="link-desc">Methodological rigor & sourcing</span></div>
                     </a>
+                    <a href="/en/about/architecture-map.html" class="dropdown-link">
+                        <div class="link-icon"><i class="fas fa-sitemap" style="color:#94a3b8;"></i></div>
+                        <div class="link-text"><span class="link-title">Architecture Map</span><span
+                                class="link-desc">Conceptual blueprint of platform layers</span></div>
+                    </a>
                     <a href="/en/global-forum/index.html" class="dropdown-link">
                         <div class="link-icon"><i class="fas fa-users" style="color:#94a3b8;"></i></div>
                         <div class="link-text"><span class="link-title">Dialogue Space</span><span
@@ -446,6 +456,7 @@ FR_FOOTER_TEMPLATE = """    <footer class="super-footer">
                     <ul class="footer-links">
                         <li><a href="/fr/about.html">À propos</a></li>
                         <li><a href="/fr/a-propos/charte-editoriale.html">Charte Éditoriale</a></li>
+                        <li><a href="/fr/a-propos/carte-architecture.html">Carte Architecture</a></li>
                         <li><a href="/fr/global-forum/index.html">Global Forum</a></li>
                         <li><a href="/fr/fellowships/index.html">Fellowships</a></li>
                     </ul>
@@ -497,6 +508,7 @@ EN_FOOTER_TEMPLATE = """    <footer class="super-footer">
                     <ul class="footer-links">
                         <li><a href="/en/about.html">About</a></li>
                         <li><a href="/en/about/editorial-standards.html">Editorial Standards</a></li>
+                        <li><a href="/en/about/architecture-map.html">Architecture Map</a></li>
                         <li><a href="/en/global-forum/index.html">Global Forum</a></li>
                         <li><a href="/en/fellowships/index.html">Fellowships</a></li>
                     </ul>
@@ -564,6 +576,7 @@ def process_file(filepath):
         'en/observatory/stablecoins-institutional.html': 'fr/observatory/stablecoins-institutionnels.html',
         'en/about/editorial-standards.html': 'fr/a-propos/charte-editoriale.html',
         'en/about/joan-lyczak.html': 'fr/a-propos/joan-lyczak.html',
+        'en/about/architecture-map.html': 'fr/a-propos/carte-architecture.html',
         'en/insights/mica/mica-enforcement-july2026.html': 'fr/insights/mica/entree-en-vigueur-mica-juillet2026.html',
         # French to English mappings
         'fr/observatory/registre-reglements.html': 'en/observatory/settlement-registry.html',
@@ -573,6 +586,7 @@ def process_file(filepath):
         'fr/observatory/stablecoins-institutionnels.html': 'en/observatory/stablecoins-institutional.html',
         'fr/a-propos/charte-editoriale.html': 'en/about/editorial-standards.html',
         'fr/a-propos/joan-lyczak.html': 'en/about/joan-lyczak.html',
+        'fr/a-propos/carte-architecture.html': 'en/about/architecture-map.html',
         'fr/insights/mica/entree-en-vigueur-mica-juillet2026.html': 'en/insights/mica/mica-enforcement-july2026.html'
     }
 

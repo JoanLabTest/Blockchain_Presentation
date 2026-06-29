@@ -128,6 +128,8 @@ def run_all_tests():
     check_html_metadata("fr/observatory/digital-euro-infrastructure.html", "Gros", "gros")
     check_html_metadata("en/insights/mica/mica-enforcement-july2026.html", "MiCA Day Zero", "Enforcement")
     check_html_metadata("fr/insights/mica/entree-en-vigueur-mica-juillet2026.html", "Day Zero MiCA", "vigueur")
+    check_html_metadata("en/about/architecture-map.html", "Architecture Map", "blueprint")
+    check_html_metadata("fr/a-propos/carte-architecture.html", "Carte de l'Architecture", "couches")
     
     # Hreflang Reciprocity checks
     check_hreflang_reciprocity(
@@ -135,6 +137,12 @@ def run_all_tests():
         "fr/insights/mica/entree-en-vigueur-mica-juillet2026.html",
         "https://dcmcore.com/en/insights/mica/mica-enforcement-july2026.html",
         "https://dcmcore.com/fr/insights/mica/entree-en-vigueur-mica-juillet2026.html"
+    )
+    check_hreflang_reciprocity(
+        "en/about/architecture-map.html",
+        "fr/a-propos/carte-architecture.html",
+        "https://dcmcore.com/en/about/architecture-map.html",
+        "https://dcmcore.com/fr/a-propos/carte-architecture.html"
     )
     
     # 3. Structured data Schema tests
@@ -145,6 +153,8 @@ def run_all_tests():
     check_schema_markup("fr/observatory/registre-reglements.html", ["Dataset"])
     check_schema_markup("en/insights/mica/mica-enforcement-july2026.html", ["NewsArticle", "TechArticle", "FAQPage", "BreadcrumbList"])
     check_schema_markup("fr/insights/mica/entree-en-vigueur-mica-juillet2026.html", ["NewsArticle", "TechArticle", "FAQPage", "BreadcrumbList"])
+    check_schema_markup("en/about/architecture-map.html", ["WebPage"])
+    check_schema_markup("fr/a-propos/carte-architecture.html", ["WebPage"])
     
     # 4. Glossary verification
     check_schema_markup("en/glossary/what-is-tokenized-treasury.html", ["ResearchArticle", "FAQPage"])
