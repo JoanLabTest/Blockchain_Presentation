@@ -253,6 +253,18 @@
         0%, 100% { opacity: 1; transform: scale(1); }
         50%       { opacity: 0.3; transform: scale(0.7); }
       }
+      @media (max-width: 600px) {
+        .countdown-grid {
+          grid-template-columns: 1fr !important;
+          gap: 16px !important;
+        }
+        #operational-status-board {
+          border-left: none !important;
+          padding-left: 0 !important;
+          border-top: 1px solid rgba(245,158,11,0.2) !important;
+          padding-top: 16px !important;
+        }
+      }
 
       .hero-meta {
         display: flex;
@@ -918,16 +930,28 @@
         Ce qu'il faut retenir pour les desks d'émissions obligataires, les CASP et les marchés de capitaux.
       </p>
 
-      <!-- SIGNATURE: Live enforcement clock -->
+      <!-- SIGNATURE: Live enforcement clock & Operational Status -->
       <div class="countdown-frame" id="countdown-wrapper">
-        <div class="countdown-digits" id="countdown-digits">
-          <span id="cd-h">--</span><span class="unit">h</span>
-          <span id="cd-m">--</span><span class="unit">m</span>
-          <span id="cd-s">--</span><span class="unit">s</span>
-        </div>
-        <div class="countdown-active">
-          <span class="live-dot"></span>
-          <span id="countdown-status">Chargement de l'horloge réglementaire...</span>
+        <div class="countdown-grid" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center;">
+          <div>
+            <div class="countdown-digits" id="countdown-digits" style="margin-top: 0;">
+              <span id="cd-h">--</span><span class="unit">h</span>
+              <span id="cd-m">--</span><span class="unit">m</span>
+              <span id="cd-s">--</span><span class="unit">s</span>
+            </div>
+            <div class="countdown-active">
+              <span class="live-dot"></span>
+              <span id="countdown-status">Chargement de l'horloge réglementaire...</span>
+            </div>
+          </div>
+          <div id="operational-status-board" style="border-left: 1px solid rgba(245,158,11,0.2); padding-left: 24px; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.6; color: var(--body); text-align: left;">
+            <div style="font-size: 9px; letter-spacing: 0.1em; color: var(--amber); margin-bottom: 6px; font-weight: 700;">STATUT OPÉRATIONNEL</div>
+            <div><strong>Date :</strong> 29 Juin 2026</div>
+            <div><strong>Statut :</strong> En attente (T-2 jours)</div>
+            <div><strong>Régime transitoire UE :</strong> Actif</div>
+            <div><strong>Application de MiCA :</strong> En attente</div>
+            <div style="margin-top: 4px; color: var(--amber);"><strong>Prochain jalon :</strong> 1 Juillet 2026 (00:00 CET)</div>
+          </div>
         </div>
       </div>
 
@@ -986,6 +1010,34 @@
           <div class="pill pill-green">Dynamique Forte</div>
         </div>
       </div>
+
+      <h3 style="margin-top: 40px; margin-bottom: 16px;">Matrice de transition réglementaire : Avant vs Après le 1er juillet 2026</h3>
+      <table class="obs-table" style="margin-top: 16px; margin-bottom: 32px;">
+        <thead>
+          <tr>
+            <th style="width: 50%;">Avant le 1er juillet 2026 (Période transitoire)</th>
+            <th style="width: 50%;">À partir du 1er juillet 2026 (Régime MiCA unique)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Régimes transitoires nationaux :</strong> Des clauses de grand-père permettaient aux prestataires d'opérer selon les règles locales historiques.</td>
+            <td><strong>Harmonisation absolue :</strong> Cadre réglementaire unique actif. Les prestataires non agréés doivent cesser leurs activités.</td>
+          </tr>
+          <tr>
+            <td><strong>Enregistrements locaux simples :</strong> Des statuts comme le PSAN enregistré en France permettaient de servir le marché domestique.</td>
+            <td><strong>Agrément CASP complet :</strong> L'Article 63 de MiCA devient obligatoire pour toute offre de services sur crypto-actifs dans l'UE.</td>
+          </tr>
+          <tr>
+            <td><strong>Supervision nationale fragmentée :</strong> Les régulateurs locaux géraient de manière autonome l'application des critères de licence.</td>
+            <td><strong>Régime de passeport européen :</strong> Un agrément CASP obtenu dans un pays membre permet de servir les 27 pays de l'Union.</td>
+          </tr>
+          <tr>
+            <td><strong>Exemptions temporaires :</strong> Périodes de tolérance dispensant les acteurs historiques des exigences de capital et de gouvernance de MiCA.</td>
+            <td><strong>Expirations des exemptions :</strong> Conformité stricte requise avec la ségrégation des fonds et les réserves de capital prudentiel.</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <hr class="section-divider" />
@@ -1154,6 +1206,22 @@
           </tr>
         </tbody>
       </table>
+
+      <!-- COMMON MISCONCEPTIONS CALLOUT -->
+      <div class="callout" style="border-color: var(--blue); background: var(--blue-dim); margin-top: 40px;">
+        <div class="callout-icon" style="color: var(--blue);">💡</div>
+        <div>
+          <div class="callout-title" style="color: var(--white);">Idées reçues : Ce que MiCA ne fait PAS</div>
+          <div class="callout-text">
+            <ul style="margin: 8px 0 0 0; padding-left: 20px; color: var(--body); font-size: 13px; line-height: 1.75;">
+              <li><strong>Ne crée PAS d’Euro Numérique :</strong> MiCA régule les stablecoins privés (ART/EMT). L’Euro Numérique est un projet de monnaie numérique de banque centrale (MNBC) de l’Eurosystème, régi par son propre cadre législatif en préparation.</li>
+              <li><strong>Ne régule PAS les MNBC souveraines :</strong> Les banques centrales et les autorités publiques émettant de la monnaie numérique sont explicitement exclues du champ d’application de MiCA en vertu de l’Article 2(3).</li>
+              <li><strong>Ne remplace PAS TARGET2 :</strong> MiCA fournit un cadre pour les paiements privés tokenisés. Les systèmes de règlement de gros gérés par les banques centrales restent sous les mandats opérationnels de ces dernières.</li>
+              <li><strong>Ne remplace PAS MiFID II pour les instruments financiers :</strong> Les security tokens représentant des actifs traditionnels (actions, obligations classiques tokenisées) sont régis par MiFID II et le Régime Pilote DLT de l’UE, non par MiCA.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
     <hr class="section-divider" />
@@ -1258,6 +1326,36 @@
             <td>MMF tokenisé à 2,5B$ — Reg D SEC, multi-chain, collatéral DeFi</td>
             <td><span class="pill pill-amber">Étude de Cas</span></td>
           </tr>
+          <tr>
+            <td><a href="../../observatory/digital-euro-infrastructure.html">Infrastructure Euro Numérique</a></td>
+            <td>MNBC de gros, solutions d'interopérabilité et pilotes de l'Eurosystème</td>
+            <td><span class="pill pill-blue">Observatoire</span></td>
+          </tr>
+          <tr>
+            <td><a href="../../observatory/settlement-registry.html">Registre des Règlements de Gros</a></td>
+            <td>Annuaire faisant autorité sur les expérimentations de règlement DLT interbancaire</td>
+            <td><span class="pill pill-blue">Observatoire</span></td>
+          </tr>
+          <tr>
+            <td><a href="../../observatory/stablecoin-dominance.html">Observatoire des Stablecoins & EMT</a></td>
+            <td>Capitalisation, volumes et conformité réglementaire en temps réel</td>
+            <td><span class="pill pill-blue">Observatory</span></td>
+          </tr>
+          <tr>
+            <td><a href="../../solutions/digital-asset-governance.html">Gouvernance des Actifs Numériques</a></td>
+            <td>Gestion des clés HSM, protocoles MPC et multi-signatures sous MiCA/DORA</td>
+            <td><span class="pill pill-green">Solution</span></td>
+          </tr>
+          <tr>
+            <td><a href="../../standards/blueprints/programmable-money.html">Blueprint Technique Cash Tokenisé</a></td>
+            <td>Spécifications des dépôts tokenisés commerciaux et conformité EMT</td>
+            <td><span class="pill pill-amber">Standard</span></td>
+          </tr>
+          <tr>
+            <td><a href="../../api/index.html">Référence API DCM Core</a></td>
+            <td>Endpoints pour les datasets de titres tokenisés et les métriques de conformité</td>
+            <td><span class="pill pill-blue">API</span></td>
+          </tr>
         </tbody>
       </table>
     </section>
@@ -1348,9 +1446,19 @@
           if (diff <= 0) {
             // L'entrée en vigueur est active
             wrapper.innerHTML = `
-              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 700; color: var(--green); font-size: clamp(16px, 2.5vw, 24px); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
-                <span class="live-dot" style="background: var(--green); width: 10px; height: 10px;"></span>
-                <span>⚡ RÉGLEMENTATION EN VIGUEUR — 1ER JUILLET 2026</span>
+              <div class="countdown-grid" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center; width: 100%;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 700; color: var(--green); font-size: clamp(14px, 2vw, 20px); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
+                  <span class="live-dot" style="background: var(--green); width: 10px; height: 10px;"></span>
+                  <span>⚡ RÉGLEMENTATION EN VIGUEUR</span>
+                </div>
+                <div id="operational-status-board" style="border-left: 1px solid rgba(34,197,94,0.2); padding-left: 24px; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.6; color: var(--green); text-align: left;">
+                  <div style="font-size: 9px; letter-spacing: 0.1em; color: var(--green); margin-bottom: 6px; font-weight: 700;">STATUT OPÉRATIONNEL</div>
+                  <div><strong>Date :</strong> 1 Juillet 2026</div>
+                  <div><strong>Statut :</strong> Actif</div>
+                  <div><strong>Régime transitoire UE :</strong> Expiré</div>
+                  <div><strong>Application de MiCA :</strong> En vigueur</div>
+                  <div style="margin-top: 4px; color: var(--green);"><strong>Prochain jalon :</strong> Supervision directe AMLA (2028)</div>
+                </div>
               </div>
             `;
             wrapper.style.borderColor = 'var(--green)';
