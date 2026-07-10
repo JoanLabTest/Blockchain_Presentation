@@ -66,6 +66,9 @@ def check_schema_markup(path, expected_types):
     print(f"✓ Schema validation passed for {path} (Types: {found_types})")
 
 def check_sitemaps():
+    # Verify sitemap-root.xml is deleted
+    assert not os.path.exists("sitemap-root.xml"), "sitemap-root.xml should not exist anymore"
+    
     # Check sitemap files
     for sitemap_file in ["sitemap-en.xml", "sitemap-fr.xml"]:
         tree = ET.parse(sitemap_file)
@@ -88,7 +91,24 @@ def check_sitemaps():
             elif any(x in loc for x in ["buidl/", "digital-euro-infrastructure.html", "state-of-institutional-stablecoins"]):
                 assert priority == "1.0", f"Incorrect monograph priority for {loc}: {priority}"
                 
-        print(f"✓ Sitemap {sitemap_file} verified with {url_count} URLs")
+            # Verify no redirect or noindex URL is submitted
+            # Convert URL to local path
+            # https://dcmcore.com/en/about/architecture-map.html -> en/about/architecture-map.html
+            local_path = loc.replace("https://dcmcore.com/", "")
+            if not local_path.endswith(".html") and not local_path.endswith("/"):
+                # Clean URL directory style, add index.html
+                local_path = os.path.join(local_path, "index.html")
+            elif local_path.endswith("/"):
+                local_path = os.path.join(local_path, "index.html")
+                
+            assert os.path.exists(local_path), f"Sitemap URL {loc} points to non-existent local file: {local_path}"
+            
+            with open(local_path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+                assert 'http-equiv="refresh"' not in content and 'window.location.replace' not in content, f"Sitemap URL {loc} points to a redirect page"
+                assert 'noindex' not in content.lower(), f"Sitemap URL {loc} points to a noindex page"
+                
+        print(f"✓ Sitemap {sitemap_file} verified with {url_count} URLs (no redirects, no noindex pages)")
 
 def check_hreflang_reciprocity(en_path, fr_path, en_url, fr_url):
     with open(en_path, 'r', encoding='utf-8') as f:

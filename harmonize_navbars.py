@@ -578,6 +578,17 @@ def process_file(filepath):
         'en/about/joan-lyczak.html': 'fr/a-propos/joan-lyczak.html',
         'en/about/architecture-map.html': 'fr/a-propos/carte-architecture.html',
         'en/insights/mica/mica-enforcement-july2026.html': 'fr/insights/mica/entree-en-vigueur-mica-juillet2026.html',
+        'en/about/press.html': 'fr/about/presse.html',
+        'en/about/strategy.html': 'fr/about/strategie.html',
+        'en/about/editorial-board.html': 'fr/about/comite-editorial.html',
+        'en/about/advisory-board.html': 'fr/about/conseil-consultatif.html',
+        'en/learn/defi-explained.html': 'fr/learn/defi-explique.html',
+        'en/learn/cbdc-explained.html': 'fr/learn/mnbc-explique.html',
+        'en/learn/nft-explained.html': 'fr/learn/nft-explique.html',
+        'en/learn/fundamentals.html': 'fr/learn/fondamentaux.html',
+        'en/learn/web3-ecosystem.html': 'fr/learn/ecosysteme-web3.html',
+        'en/learn/what-is-a-token.html': 'fr/learn/qu-est-ce-qu-un-token.html',
+        
         # French to English mappings
         'fr/observatory/registre-reglements.html': 'en/observatory/settlement-registry.html',
         'fr/observatory/methodologie-registre.html': 'en/observatory/registry-methodology.html',
@@ -587,7 +598,17 @@ def process_file(filepath):
         'fr/a-propos/charte-editoriale.html': 'en/about/editorial-standards.html',
         'fr/a-propos/joan-lyczak.html': 'en/about/joan-lyczak.html',
         'fr/a-propos/carte-architecture.html': 'en/about/architecture-map.html',
-        'fr/insights/mica/entree-en-vigueur-mica-juillet2026.html': 'en/insights/mica/mica-enforcement-july2026.html'
+        'fr/insights/mica/entree-en-vigueur-mica-juillet2026.html': 'en/insights/mica/mica-enforcement-july2026.html',
+        'fr/about/presse.html': 'en/about/press.html',
+        'fr/about/strategie.html': 'en/about/strategy.html',
+        'fr/about/comite-editorial.html': 'en/about/editorial-board.html',
+        'fr/about/conseil-consultatif.html': 'en/about/advisory-board.html',
+        'fr/learn/defi-explique.html': 'en/learn/defi-explained.html',
+        'fr/learn/mnbc-explique.html': 'en/learn/cbdc-explained.html',
+        'fr/learn/nft-explique.html': 'en/learn/nft-explained.html',
+        'fr/learn/fondamentaux.html': 'en/learn/fundamentals.html',
+        'fr/learn/ecosysteme-web3.html': 'en/learn/web3-ecosystem.html',
+        'fr/learn/qu-est-ce-qu-un-token.html': 'en/learn/what-is-a-token.html'
     }
 
     if relative_path in asymmetric_mappings:
