@@ -690,6 +690,30 @@ def process_file(filepath):
         'fr/strategies/strategie-rendement-institutionnel.html': 'en/strategies/institutional-yield-strategy.html',
         'fr/strategies/usyc-tresor-tokenise.html': 'en/strategies/usyc-tokenized-treasury.html',
         'fr/cgu.html': 'en/terms-of-use.html',
+
+        # September 2026 research sprint
+        'en/research/ecb-pontes-wholesale-cbdc-2026.html': 'fr/research/bce-pontes-cbdc-wholesale-2026.html',
+        'fr/research/bce-pontes-cbdc-wholesale-2026.html': 'en/research/ecb-pontes-wholesale-cbdc-2026.html',
+        'en/research/clarity-act-senate-failure-september-2026.html': 'fr/research/echec-clarity-act-senat-2026.html',
+        'fr/research/echec-clarity-act-senat-2026.html': 'en/research/clarity-act-senate-failure-september-2026.html',
+        'en/research/south-korea-tokenization-roadmap-2026.html': 'fr/research/coree-du-sud-roadmap-tokenisation-2026.html',
+        'fr/research/coree-du-sud-roadmap-tokenisation-2026.html': 'en/research/south-korea-tokenization-roadmap-2026.html',
+        'en/research/india-sebi-demat2-tokenized-bonds-2026.html': 'fr/research/inde-sebi-demat2-obligations-tokenisees-2026.html',
+        'fr/research/inde-sebi-demat2-obligations-tokenisees-2026.html': 'en/research/india-sebi-demat2-tokenized-bonds-2026.html',
+        'en/observatory/rwa-market-update-september-2026.html': 'fr/observatory/rwa-mise-a-jour-marche-septembre-2026.html',
+        'fr/observatory/rwa-mise-a-jour-marche-septembre-2026.html': 'en/observatory/rwa-market-update-september-2026.html',
+
+        # October 2026 research sprint
+        'en/research/dtcc-full-launch-october-2026.html': 'fr/research/dtcc-lancement-commercial-octobre-2026.html',
+        'fr/research/dtcc-lancement-commercial-octobre-2026.html': 'en/research/dtcc-full-launch-october-2026.html',
+        'en/research/sec-innovation-exemption-tsv-2026.html': 'fr/research/exemption-innovation-sec-tsv-2026.html',
+        'fr/research/exemption-innovation-sec-tsv-2026.html': 'en/research/sec-innovation-exemption-tsv-2026.html',
+        'en/research/tokenized-equity-market-update-october-2026.html': 'fr/research/actions-tokenisees-mise-a-jour-octobre-2026.html',
+        'fr/research/actions-tokenisees-mise-a-jour-octobre-2026.html': 'en/research/tokenized-equity-market-update-october-2026.html',
+        'en/research/us-uk-transatlantic-tokenization-alignment.html': 'fr/research/alignement-transatlantique-us-uk-tokenisation.html',
+        'fr/research/alignement-transatlantique-us-uk-tokenisation.html': 'en/research/us-uk-transatlantic-tokenization-alignment.html',
+        'en/research/uk-digit-digital-gilt-instrument-2027.html': 'fr/research/uk-digit-gilt-numerique-2027.html',
+        'fr/research/uk-digit-gilt-numerique-2027.html': 'en/research/uk-digit-digital-gilt-instrument-2027.html',
     }
 
     if relative_path in asymmetric_mappings:
