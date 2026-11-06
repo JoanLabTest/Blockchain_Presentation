@@ -719,6 +719,12 @@ def process_file(filepath):
         'fr/research/dtcc-dts-participants-novembre-2026.html': 'en/research/dtcc-dts-participants-november-2026.html',
         'en/research/us-midterms-crypto-regulation-2027.html': 'fr/research/midterms-us-reglementation-crypto-2027.html',
         'fr/research/midterms-us-reglementation-crypto-2027.html': 'en/research/us-midterms-crypto-regulation-2027.html',
+        'en/research/schroders-solana-emerging-market-bonds-2026.html': 'fr/research/schroders-solana-obligations-marches-emergents-2026.html',
+        'fr/research/schroders-solana-obligations-marches-emergents-2026.html': 'en/research/schroders-solana-emerging-market-bonds-2026.html',
+        'en/observatory/rwa-market-update-november-2026.html': 'fr/observatory/rwa-mise-a-jour-marche-novembre-2026.html',
+        'fr/observatory/rwa-mise-a-jour-marche-novembre-2026.html': 'en/observatory/rwa-market-update-november-2026.html',
+        'en/research/philippines-sec-rwa-tokenization-2026.html': 'fr/research/philippines-sec-tokenisation-rwa-2026.html',
+        'fr/research/philippines-sec-tokenisation-rwa-2026.html': 'en/research/philippines-sec-rwa-tokenization-2026.html',
     }
 
     if relative_path in asymmetric_mappings:
