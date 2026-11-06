@@ -714,6 +714,11 @@ def process_file(filepath):
         'fr/research/alignement-transatlantique-us-uk-tokenisation.html': 'en/research/us-uk-transatlantic-tokenization-alignment.html',
         'en/research/uk-digit-digital-gilt-instrument-2027.html': 'fr/research/uk-digit-gilt-numerique-2027.html',
         'fr/research/uk-digit-gilt-numerique-2027.html': 'en/research/uk-digit-digital-gilt-instrument-2027.html',
+        # November 2026 sprint
+        'en/research/dtcc-dts-participants-november-2026.html': 'fr/research/dtcc-dts-participants-novembre-2026.html',
+        'fr/research/dtcc-dts-participants-novembre-2026.html': 'en/research/dtcc-dts-participants-november-2026.html',
+        'en/research/us-midterms-crypto-regulation-2027.html': 'fr/research/midterms-us-reglementation-crypto-2027.html',
+        'fr/research/midterms-us-reglementation-crypto-2027.html': 'en/research/us-midterms-crypto-regulation-2027.html',
     }
 
     if relative_path in asymmetric_mappings:
