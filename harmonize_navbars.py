@@ -725,6 +725,8 @@ def process_file(filepath):
         'fr/observatory/rwa-mise-a-jour-marche-novembre-2026.html': 'en/observatory/rwa-market-update-november-2026.html',
         'en/research/philippines-sec-rwa-tokenization-2026.html': 'fr/research/philippines-sec-tokenisation-rwa-2026.html',
         'fr/research/philippines-sec-tokenisation-rwa-2026.html': 'en/research/philippines-sec-rwa-tokenization-2026.html',
+        'en/research/board-note-november-2026.html': 'fr/research/note-conseil-administration-novembre-2026.html',
+        'fr/research/note-conseil-administration-novembre-2026.html': 'en/research/board-note-november-2026.html',
     }
 
     if relative_path in asymmetric_mappings:
