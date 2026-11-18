@@ -277,6 +277,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="../js/navigation-hub.js"></script>
 
     <link href="./styles-megamenu.css" rel="stylesheet" />
+    <style id="mobile-overflow-fix">
+        /* Mobile: keep page content within the viewport (no horizontal scroll). Desktop unchanged. */
+        @media screen and (max-width: 768px) {
+        body > nav:nth-child(2) {
+            flex-wrap:wrap !important;
+            overflow-wrap:anywhere !important;
+        }
+        body > nav:nth-child(2) > div:nth-child(2) {
+            min-width:0 !important;
+            max-width:100% !important;
+            box-sizing:border-box !important;
+            flex-wrap:wrap !important;
+        }
+        div.modules-grid {
+            grid-template-columns:minmax(0,1fr) !important;
+        }
+        div.modules-grid > * {
+            grid-column:auto !important;
+            min-width:0 !important;
+        }
+        div.modules-section {
+            overflow-wrap:anywhere !important;
+        }
+        div.flex.items-center {
+            min-width:0 !important;
+            max-width:100% !important;
+            box-sizing:border-box !important;
+        }
+        }
+    </style>
 </head>
 
 <body>

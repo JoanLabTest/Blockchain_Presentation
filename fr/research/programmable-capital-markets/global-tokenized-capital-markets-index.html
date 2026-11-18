@@ -294,6 +294,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="../../../js/navigation-hub.js"></script>
 
     <link href="../../styles-megamenu.css" rel="stylesheet" />
+    <style id="mobile-overflow-fix">
+        /* Mobile: keep page content within the viewport (no horizontal scroll). Desktop unchanged. */
+        @media screen and (max-width: 768px) {
+        div.content-container > section:nth-child(4) > div:nth-child(1) {
+            grid-template-columns:minmax(0,1fr) !important;
+        }
+        div.content-container > section:nth-child(4) > div:nth-child(1) > * {
+            grid-column:auto !important;
+            min-width:0 !important;
+        }
+        div.content-container {
+            overflow-wrap:anywhere !important;
+        }
+        div.content-container > section:nth-child(4) {
+            overflow-wrap:anywhere !important;
+        }
+        }
+    </style>
 </head>
 
 <body>

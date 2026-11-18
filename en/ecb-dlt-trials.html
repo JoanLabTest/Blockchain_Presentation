@@ -496,6 +496,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="../js/navigation-hub.js"></script>
 
     <link href="./styles-megamenu.css" rel="stylesheet" />
+    <style id="mobile-overflow-fix">
+        /* Mobile: keep page content within the viewport (no horizontal scroll). Desktop unchanged. */
+        @media screen and (max-width: 768px) {
+        .tooltip .tooltiptext {
+            display:none !important;
+        }
+        .tooltip:hover .tooltiptext, .tooltip:focus-within .tooltiptext {
+            display:block !important;
+            position:fixed !important;
+            left:16px !important;
+            right:16px !important;
+            top:auto !important;
+            bottom:16px !important;
+            width:auto !important;
+            margin-left:0 !important;
+            z-index:1000 !important;
+        }
+        div.infra-diagram {
+            flex-direction:column !important;
+            align-items:stretch !important;
+            gap:16px !important;
+        }
+        div.infra-box {
+            width:auto !important;
+        }
+        main.main-content {
+            overflow-wrap:anywhere !important;
+        }
+        section.hero {
+            overflow-wrap:anywhere !important;
+        }
+        section.hero > h1:nth-child(2) {
+            font-size:clamp(1.5rem, 7.5vw, 64px) !important;
+            overflow-wrap:break-word !important;
+        }
+        }
+    </style>
 </head>
 
 <body>

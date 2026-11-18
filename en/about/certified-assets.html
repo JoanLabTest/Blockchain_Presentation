@@ -193,6 +193,44 @@
     <link href="../styles-megamenu.css" rel="stylesheet" />
 
     <link href="../styles-footer.css" rel="stylesheet" />
+    <style id="mobile-overflow-fix">
+        /* Mobile: keep page content within the viewport (no horizontal scroll). Desktop unchanged. */
+        @media screen and (max-width: 768px) {
+        header.leaderboard-header {
+            grid-template-columns:minmax(0,1fr) !important;
+        }
+        header.leaderboard-header > * {
+            grid-column:auto !important;
+            min-width:0 !important;
+        }
+        header.leaderboard-header > div:nth-child(5) {
+            overflow-wrap:anywhere !important;
+        }
+        div.leaderboard-grid {
+            grid-template-columns:minmax(0,1fr) !important;
+        }
+        div.leaderboard-grid > * {
+            grid-column:auto !important;
+            min-width:0 !important;
+        }
+        div.asset-row {
+            max-width:100% !important;
+            box-sizing:border-box !important;
+        }
+        div.container {
+            overflow-wrap:anywhere !important;
+        }
+        div.hero {
+            flex-direction:column !important;
+            align-items:stretch !important;
+        }
+        div.hero > * {
+            width:auto !important;
+            max-width:100% !important;
+            flex-basis:auto !important;
+        }
+        }
+    </style>
 </head>
 
 <body>

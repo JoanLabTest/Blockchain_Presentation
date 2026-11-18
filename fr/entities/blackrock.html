@@ -34,6 +34,38 @@
 <link href="../styles-megamenu.css" rel="stylesheet" />
 
     <link href="../styles-footer.css" rel="stylesheet" />
+    <style id="mobile-overflow-fix">
+        /* Mobile: keep page content within the viewport (no horizontal scroll). Desktop unchanged. */
+        @media screen and (max-width: 768px) {
+        div.entity-content-grid {
+            grid-template-columns:minmax(0,1fr) !important;
+            overflow-wrap:anywhere !important;
+        }
+        div.entity-content-grid > * {
+            grid-column:auto !important;
+            min-width:0 !important;
+        }
+        div.entity-content-grid > div:nth-child(1) {
+            max-width:100% !important;
+            box-sizing:border-box !important;
+            overflow-wrap:anywhere !important;
+        }
+        div.entity-content-grid > aside:nth-child(2) {
+            max-width:100% !important;
+            box-sizing:border-box !important;
+        }
+        main.entity-container {
+            overflow-wrap:anywhere !important;
+        }
+        table.term-table {
+            display:block !important;
+            overflow-x:auto !important;
+            max-width:100% !important;
+            width:100% !important;
+            min-width:0 !important;
+        }
+        }
+    </style>
 </head>
 
 <body class="monitor-mode">

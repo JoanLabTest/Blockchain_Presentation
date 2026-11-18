@@ -259,3 +259,72 @@
         gap: 8px;
     }
 }
+
+/* Mobile: same rules with higher specificity, so page-level navbar overrides
+   (e.g. .nav-actions { width: 100% }, large .connect-btn padding) cannot push
+   the navbar past the viewport. */
+@media (max-width: 640px) {
+    nav.navbar-pro {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    nav.navbar-pro .nav-brand {
+        margin-right: 12px;
+        min-width: 0;
+        flex-shrink: 1;
+    }
+
+    nav.navbar-pro .nav-actions {
+        width: auto;
+        min-width: 0;
+        margin-left: auto;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    nav.navbar-pro .lang-switcher {
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    nav.navbar-pro .connect-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    /* Search trigger: icon only */
+    nav.navbar-pro .nav-search-trigger {
+        font-size: 0 !important;
+        gap: 0 !important;
+        margin-right: 0 !important;
+        padding: 6px 8px !important;
+    }
+
+    nav.navbar-pro .nav-search-trigger i {
+        font-size: 13px;
+    }
+
+    nav.navbar-pro .nav-search-trigger span {
+        display: none;
+    }
+}
+
+@media (max-width: 420px) {
+    nav.navbar-pro .auth-btn {
+        display: none;
+    }
+
+    nav.navbar-pro .nav-brand {
+        gap: 8px;
+    }
+
+    nav.navbar-pro .logo-text {
+        font-size: 16px;
+    }
+
+    nav.navbar-pro .nav-actions {
+        gap: 8px;
+    }
+}
