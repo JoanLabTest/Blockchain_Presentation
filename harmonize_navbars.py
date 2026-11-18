@@ -727,6 +727,17 @@ def process_file(filepath):
         'fr/research/philippines-sec-tokenisation-rwa-2026.html': 'en/research/philippines-sec-rwa-tokenization-2026.html',
         'en/research/board-note-november-2026.html': 'fr/research/note-conseil-administration-novembre-2026.html',
         'fr/research/note-conseil-administration-novembre-2026.html': 'en/research/board-note-november-2026.html',
+        # November 2026 sprint (18 Nov)
+        'en/research/european-tokenisation-standards-group-etsg-2026.html': 'fr/research/groupe-europeen-normes-tokenisation-etsg-2026.html',
+        'fr/research/groupe-europeen-normes-tokenisation-etsg-2026.html': 'en/research/european-tokenisation-standards-group-etsg-2026.html',
+        'en/research/dtcc-tokenization-service-solana-2027.html': 'fr/research/dtcc-service-tokenisation-solana-2027.html',
+        'fr/research/dtcc-service-tokenisation-solana-2027.html': 'en/research/dtcc-tokenization-service-solana-2027.html',
+        'en/observatory/digital-bond-tracker.html': 'fr/observatory/suivi-obligations-numeriques.html',
+        'fr/observatory/suivi-obligations-numeriques.html': 'en/observatory/digital-bond-tracker.html',
+        'en/observatory/stablecoin-regulation-tracker.html': 'fr/observatory/suivi-reglementation-stablecoins.html',
+        'fr/observatory/suivi-reglementation-stablecoins.html': 'en/observatory/stablecoin-regulation-tracker.html',
+        'en/research/weekly-signals/signal-02.html': 'fr/research/weekly-signals/signal-02.html',
+        'fr/research/weekly-signals/signal-02.html': 'en/research/weekly-signals/signal-02.html',
     }
 
     if relative_path in asymmetric_mappings:
