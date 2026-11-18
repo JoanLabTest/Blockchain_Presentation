@@ -261,3 +261,31 @@
         white-space: nowrap;
     }
 }
+
+/* Mobile safety net: prevent page-level horizontal overflow (<=768px only) */
+@media (max-width: 768px) {
+    main table, section table, article table, .container table, body > div table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    [style*="grid-template-columns"] {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+    [style*="display:grid"] > *, [style*="display: grid"] > *,
+    [style*="display:flex"] > *, [style*="display: flex"] > * {
+        min-width: 0;
+        max-width: 100%;
+    }
+    body {
+        overflow-wrap: break-word;
+    }
+    img, video, iframe, canvas, svg:not(.navbar-pro svg) {
+        max-width: 100%;
+    }
+    pre {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+}
