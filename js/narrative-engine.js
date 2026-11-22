@@ -38,7 +38,7 @@ class NarrativeEngine {
 
     generatePhrases() {
         const phrases = [
-            "GLOBAL TOKENIZATION MARKET CAP SURPASSES $176B",
+            "TOKENIZED RWA MARKET ≈ $39.2B EXCL. STABLECOINS (NOV 2026, RWA.XYZ)",
             "MICA COMPLIANCE BECOMES MANDATORY FOR EEA ISSUERS"
         ];
 
