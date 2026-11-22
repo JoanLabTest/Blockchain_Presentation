@@ -246,9 +246,26 @@
         }, { once: true });
     }
 
+    // SEO/UX: never cover the hero (H1, value proposition) at first paint.
+    // Open only after the visitor has engaged (scrolled) or after 20 s.
+    let _dcmShown = false;
+    function deferredInject() {
+        if (_dcmShown) return;
+        _dcmShown = true;
+        window.removeEventListener('scroll', onScroll);
+        inject();
+    }
+    function onScroll() {
+        if (window.scrollY > 600) deferredInject();
+    }
+    function arm() {
+        window.addEventListener('scroll', onScroll, { passive: true });
+        setTimeout(deferredInject, 20000);
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', inject);
+        document.addEventListener('DOMContentLoaded', arm);
     } else {
-        setTimeout(inject, 400);
+        arm();
     }
 })();
