@@ -436,6 +436,13 @@ html, body { max-width: 100%; overflow-x: clip; }
     .hub-hero .hub-tag { white-space: normal; max-width: 100%; box-sizing: border-box; text-align: center; }
     .hub-hero .hub-title { font-size: 38px !important; letter-spacing: -1px !important; line-height: 1.15; }
     .hub-hero .hub-title span { font-size: 22px !important; }
+    /* flex child: min-width:auto let min-content (CTA row, banners) widen the hero past the viewport */
+    .hub-container > .hub-hero { min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; }
+    .hub-hero > * { max-width: 100%; box-sizing: border-box; }
+    .hub-hero .cta-group,
+    .hub-hero .breaking-analysis-banner,
+    .hub-hero .breaking-analysis-banner > div { flex-wrap: wrap; min-width: 0; }
+    .hub-hero .hub-title, .hub-hero .clarity-tagline { overflow-wrap: anywhere; }
 }
 @media (max-width: 480px) {
     /* fixed 72px navbar cannot wrap: drop the secondary wallet button on phones */
