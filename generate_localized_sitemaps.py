@@ -1,10 +1,23 @@
 import os
+import re
 import glob
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from datetime import datetime
+import subprocess
 
 base_url = "https://dcmcore.com/"
+
+
+def git_lastmod(path):
+    try:
+        out = subprocess.run(["git", "log", "-1", "--format=%cs", "--", path],
+                             capture_output=True, text=True, check=True).stdout.strip()
+        if out:
+            return out
+    except Exception:
+        pass
+    return datetime.fromtimestamp(os.path.getmtime(path)).strftime('%Y-%m-%d')
 
 def create_sitemap(files, filename, directory=""):
     urlset = ET.Element('urlset', xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
@@ -19,7 +32,10 @@ def create_sitemap(files, filename, directory=""):
         basename = os.path.basename(f_path)
         
         # Exclude administrative or non-indexable files
-        if any(x in basename.lower() for x in ["backup", "admin", "login", "dashboard", "cgu", "cgv", "privacy", "cookies", "terms", "mentions"]):
+        if any(x in basename.lower() for x in ["backup", "admin", "login", "dashboard", "cgu", "cgv", "privacy", "cookies", "terms", "mentions",
+                                                   "google", "auth-callback", "update-password", "org-settings", "webhook",
+                                                   "quiz-review", "diploma", "certificate", "index_en", "index-simple_en",
+                                                   "investor", "series-a", "vc-tear-sheet", "pilot-intake", "legal_pilot_demo"]):
             continue
             
         # Read file to check if it's a redirect or has a noindex tag
@@ -33,7 +49,7 @@ def create_sitemap(files, filename, directory=""):
                     continue
                     
                 # Check for noindex tag
-                if 'name="robots"' in file_content and 'noindex' in file_content.lower():
+                if re.search(r'<meta[^>]*name="robots"[^>]*noindex', file_content, re.I):
                     # Skip noindex files from sitemap
                     continue
         except Exception as e:
@@ -57,42 +73,12 @@ def create_sitemap(files, filename, directory=""):
         prefix = f"{directory}/" if directory else ""
         loc.text = f"{base_url}{prefix}{clean_rel_path}"
         
-        # Add lastmod
-        try:
-            mtime = os.path.getmtime(f_path)
-            lastmod_str = datetime.fromtimestamp(mtime).strftime('%Y-%m-%d')
-        except Exception:
-            lastmod_str = datetime.now().strftime('%Y-%m-%d')
-            
+        # lastmod = date of the file's last git commit (file mtimes are reset on checkout)
+        lastmod_str = git_lastmod(f_path)
         lastmod = ET.SubElement(url, 'lastmod')
         lastmod.text = lastmod_str
-        
-        # Determine priority and changefreq
-        priority = ET.SubElement(url, 'priority')
-        changefreq = ET.SubElement(url, 'changefreq')
-        
-        if "glossary/" in rel_path or "glossaire/" in rel_path:
-            priority.text = "0.6"
-            changefreq.text = "weekly"
-        elif any(x in rel_path for x in ["settlement-registry", "registre-reglements", "tokenized-markets"]):
-            priority.text = "0.9"
-            changefreq.text = "weekly"
-        elif any(x in rel_path for x in ["buidl/", "digital-euro-infrastructure.html", "state-of-institutional-stablecoins"]):
-            priority.text = "1.0"
-            changefreq.text = "weekly"
-        elif clean_rel_path == "" or clean_rel_path == "index.html":
-            priority.text = "1.0"
-            changefreq.text = "daily"
-        elif any(x in rel_path for x in ["observatory", "research-programs", "insights", "indices"]):
-            priority.text = "0.8"
-            changefreq.text = "weekly"
-        elif any(x in rel_path for x in ["policy-briefs", "policy-library", "research"]):
-            priority.text = "0.5"
-            changefreq.text = "monthly"
-        else:
-            priority.text = "0.5"
-            changefreq.text = "monthly"
-            
+        # priority / changefreq intentionally omitted: Google ignores both.
+
     xml_str = ET.tostring(urlset, encoding='utf-8')
     parsed = minidom.parseString(xml_str)
     with open(filename, "w", encoding='utf-8') as f:
