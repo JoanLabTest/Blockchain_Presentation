@@ -1480,9 +1480,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </section>
     </div>
     <script type="module">
-        import { SessionManager } from './js/session-manager.js';
+        // Same behaviour as SessionManager.setSessionRole (session-manager.js is a
+        // classic script without ES exports, so it cannot be imported here).
         window.setPersona = (role) => {
-            SessionManager.setSessionRole(role);
+            localStorage.setItem('dcm_active_role', role);
+            window.dispatchEvent(new CustomEvent('dcmRoleChanged', { detail: { role } }));
         };
 
         // Highlight active persona on load (Phase 98)
@@ -1903,7 +1905,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 { name: 'Developer Sandbox', link: 'sandbox.html', icon: 'fa-terminal' }
             ];
 
-            searchInput.addEventListener('input', (e) => {
+            if (searchInput && searchResults) searchInput.addEventListener('input', (e) => {
                 const val = e.target.value.toLowerCase();
                 if (val.length < 2) {
                     searchResults.classList.remove('active');
@@ -1925,7 +1927,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             });
 
             document.addEventListener('click', (e) => {
-                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                if (searchInput && searchResults && !searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                     searchResults.classList.remove('active');
                 }
             });
