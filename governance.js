@@ -20,6 +20,7 @@ const Governance = {
 
     renderMultisig() {
         const grid = document.getElementById('multisig-grid');
+        if (!grid) return;
         grid.innerHTML = '';
 
         this.state.signers.forEach((s, index) => {

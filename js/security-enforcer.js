@@ -15,11 +15,10 @@
     const metaCSP = document.createElement('meta');
     metaCSP.httpEquiv = "Content-Security-Policy";
     metaCSP.content = "default-src 'self' https://*.supabase.co; " +
-        "frame-ancestors 'none'; " + // Prevent framing on modern browsers
         "script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.clarity.ms; " +
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; " +
         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
-        "img-src 'self' data: https://ui-avatars.com https://*.supabase.co https://www.google-analytics.com https://c.clarity.ms; " +
+        "img-src 'self' data: https:; " +
         "connect-src 'self' https://*.supabase.co https://*.supabase.net https://www.google-analytics.com https://w.clarity.ms;";
     document.head.appendChild(metaCSP);
 
@@ -29,11 +28,8 @@
     metaReferrer.content = "same-origin";
     document.head.appendChild(metaReferrer);
 
-    // X-Frame-Options emulation for client-side
-    const metaXFrame = document.createElement('meta');
-    metaXFrame.httpEquiv = "X-Frame-Options";
-    metaXFrame.content = "DENY";
-    document.head.appendChild(metaXFrame);
+    // Framing protection: frame-ancestors / X-Frame-Options only work as HTTP headers,
+    // which GitHub Pages cannot set; the frame-buster below covers it client-side.
 
     // Aggressive Frame-Buster (Phase 83) - Bypassed for automated testing (Playwright)
     if (window.top !== window.self && !navigator.webdriver) {
