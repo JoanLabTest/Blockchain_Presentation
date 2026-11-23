@@ -112,7 +112,7 @@
                     <i class="fas fa-shield-alt" style="color:#3b82f6; margin-right:8px;"></i>
                     <span>
                         ${content.text}
-                        <a href="cookies.html" style="color:#3b82f6; text-decoration:underline;">${content.link}</a>
+                        <a href="${isFR ? '/fr/cookies.html' : '/en/cookies.html'}" style="color:#3b82f6; text-decoration:underline;">${content.link}</a>
                     </span>
                 </div>
                 <div class="dcm-cb-actions">

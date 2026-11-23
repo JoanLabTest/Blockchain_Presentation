@@ -24,7 +24,7 @@ const GTSR_DATABASE = [
         issuer: "BlackRock / Securitize",
         type: "Tokenized Money Market Fund",
         infrastructure: "Ethereum Mainnet",
-        aum: "$542.4M",
+        aum: "$2.80B",
         jurisdiction: "Global (multi)",
         compliance: "GTDS v1.0 Standard",
         isin: "US12345B1078",
