@@ -44,7 +44,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="js/navigation-orchestrator.js"></script>
     <!-- MATH -->
     <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script defer="" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- JSON-LD EDUCATIONAL DATA -->
     <script type="application/ld+json">
     {
@@ -752,7 +752,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     tient <strong>pas</strong> compte de la composition des intérêts au cours de
                                     l'année.
                                 </p>
-                                <div class="formula-box">$$ APR = r \times 1 $$</div>
+                                <div class="formula-box">$$ APR = i \times n $$</div><p style="font-size:14px; color:var(--text-muted);">Où <em>i</em> est le taux par période et <em>n</em> le nombre de périodes par an.</p>
                                 <h3 style="margin-top:30px;"><i class="fa-solid fa-chart-line"
                                         style="color:var(--accent-green)"></i> APY (Taux Réel)</h3>
                                 <p><strong>Annual Percentage Yield</strong> reflète le taux de rendement réel gagné sur
@@ -841,8 +841,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 apyDisplay.innerText = apy.toFixed(1) + "%";
             }
 
-            ethInput.addEventListener('input', calculate);
-            durationInput.addEventListener('input', calculate);
+            if (ethInput && durationInput && apyDisplay) {
+                ethInput.addEventListener('input', calculate);
+                durationInput.addEventListener('input', calculate);
+            }
 
             // TOAST FUNCTION
             function showToast(message) {
@@ -874,6 +876,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }, 100);
             });
         </script>
+        <!-- 1b. FORMULES ET EXEMPLE CHIFFRÉ (ajouté 2026-11) -->
+        <div class="section-box" data-aos="fade-up" id="formules-apr-apy">
+            <h2>APR vs APY : formules et exemple chiffré</h2>
+            <p>L'APR est un taux annuel <strong>simple</strong> : le taux par période multiplié par le nombre de
+                périodes. L'APY est le taux annuel <strong>effectif</strong>, une fois les récompenses de chaque période
+                réinvesties. Avec <em>n</em> périodes de capitalisation par an :</p>
+            <div class="formula-box">$$ APR = i \times n \qquad APY = \left(1 + \frac{APR}{n}\right)^{n} - 1 $$</div>
+            <p>En capitalisation continue, la limite est :</p>
+            <div class="formula-box">$$ APY = e^{APR} - 1 $$</div>
+            <p>Pour retrouver l'APR à partir d'un APY affiché :</p>
+            <div class="formula-box">$$ APR = n \left[(1 + APY)^{1/n} - 1\right] $$</div>
+            <h3 style="margin-top:30px;">Exemple chiffré : APR de 5 %</h3>
+            <table class="data-table">
+                <thead>
+                    <tr><th>Capitalisation</th><th>n par an</th><th>APY</th><th>10 000 € après 1 an</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Annuelle</td><td>1</td><td>5,000 %</td><td>10 500,00 €</td></tr>
+                    <tr><td>Trimestrielle</td><td>4</td><td>5,095 %</td><td>10 509,45 €</td></tr>
+                    <tr><td>Mensuelle</td><td>12</td><td>5,116 %</td><td>10 511,62 €</td></tr>
+                    <tr><td>Hebdomadaire</td><td>52</td><td>5,125 %</td><td>10 512,46 €</td></tr>
+                    <tr><td>Quotidienne</td><td>365</td><td>5,127 %</td><td>10 512,67 €</td></tr>
+                    <tr><td>Continue</td><td>∞</td><td>5,127 %</td><td>10 512,71 €</td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top:20px;">L'écart augmente avec le taux : à 10 % d'APR, une capitalisation quotidienne
+                donne un APY de 10,516 % ; à 20 %, 22,134 %. Dans l'autre sens, un APY de 4 % capitalisé chaque jour
+                correspond à un APR de 3,922 %.</p>
+            <div class="callout callout-info">
+                <i class="fa-solid fa-info-circle" style="color:var(--accent-blue)"></i>
+                <div>
+                    <strong>Hypothèses derrière tout APY :</strong> le taux reste constant toute l'année, les
+                    récompenses sont réinvesties à chaque période au même taux, et aucun frais, coût de gas ni délai
+                    de blocage ne réduit le montant réinvesti. Les taux de staking et de DeFi varient : un APY affiché
+                    est une projection, pas une promesse.
+                </div>
+            </div>
+        </div>
         <!-- 2. STAKING MECHANICS -->
         <div class="section-box" data-aos="fade-up" id="section-2">
             <h2>2. Mécanismes de Staking (PoS)</h2>
@@ -1267,6 +1307,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     type Actions comparé aux RWA (Bons du Trésor Tokénisés) qui offrent une stabilité décorrélée.
                 </div>
             </div>
+        </div>
+        <!-- FAQ APR vs APY (ajouté 2026-11) -->
+        <div class="section-box" data-aos="fade-up" id="faq-apr-apy">
+            <h2>FAQ : APR vs APY en crypto</h2>
+            <h3>Quelle est la différence entre APR et APY en crypto ?</h3>
+            <p>L'APR est le taux annuel simple et ignore la capitalisation. L'APY intègre l'effet du réinvestissement
+                des récompenses pendant l'année : pour un même taux de base, l'APY est toujours égal ou supérieur à
+                l'APR.</p>
+            <h3>Comment convertir un APR en APY ?</h3>
+            <p>Avec APY = (1 + APR / n)<sup>n</sup> − 1, où n est le nombre de périodes de capitalisation par an.
+                Exemple : un APR de 5 % capitalisé chaque jour donne (1 + 0,05 / 365)<sup>365</sup> − 1 ≈ 5,127 %
+                d'APY.</p>
+            <h3>Comment convertir un APY en APR ?</h3>
+            <p>Avec APR = n × [(1 + APY)<sup>1/n</sup> − 1]. Exemple : un APY de 4 % capitalisé chaque jour
+                correspond à un APR d'environ 3,922 %.</p>
+            <h3>Le rendement du staking est-il exprimé en APR ou en APY ?</h3>
+            <p>Cela dépend de la plateforme. Les récompenses de staking d'un protocole sont généralement exprimées
+                en APR ; certaines plateformes affichent un APY qui suppose un restaking automatique. Si les
+                récompenses ne sont pas réinvesties automatiquement, l'APR est le chiffre le plus réaliste.</p>
+            <h3>Pourquoi une capitalisation quotidienne rapporte-t-elle à peine plus qu'une mensuelle ?</h3>
+            <p>Le gain de capitalisation diminue à mesure que la fréquence augmente : à 5 % d'APR, la capitalisation
+                mensuelle donne 5,116 % et la quotidienne 5,127 %. La fréquence compte bien moins que le taux
+                lui-même, les frais et le risque pris.</p>
+            <h3>Un APY plus élevé est-il toujours meilleur ?</h3>
+            <p>Non. Un APY élevé reflète souvent des émissions de jetons, un effet de levier ou un risque de smart
+                contract et de contrepartie. Comparez les rendements nets de frais, vérifiez d'où vient le rendement
+                (voir les sections sur les sources de rendement et les illusions de rendement DeFi) et s'il est fixe
+                ou variable.</p>
         </div>
         <!-- 10. FISCALITY & COMPLIANCE -->
         <div class="section-box" data-aos="fade-up" id="section-10" style="border:none;">
