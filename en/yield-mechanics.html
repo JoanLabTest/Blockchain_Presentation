@@ -43,7 +43,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="js/navigation-orchestrator.js"></script>
     <!-- MATH -->
     <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script defer="" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- JSON-LD EDUCATIONAL DATA -->
     <script type="application/ld+json">
     {
@@ -828,7 +828,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     It does <strong>not</strong> account for interest compounding during the
                                     year.
                                 </p>
-                                <div class="formula-box">$$ APR = r \times 1 $$</div>
+                                <div class="formula-box">$$ APR = i \times n $$</div><p style="font-size:14px; color:var(--text-muted);">Where <em>i</em> is the rate per period and <em>n</em> the number of periods per year.</p>
                                 <h3 style="margin-top:30px;"><i class="fa-solid fa-chart-line"
                                         style="color:var(--accent-green)"></i> APY (Effective Rate)</h3>
                                 <p><strong>Annual Percentage Yield</strong> reflects the actual rate of return earned on
@@ -915,8 +915,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 apyDisplay.innerText = apy.toFixed(1) + "%";
             }
 
-            ethInput.addEventListener('input', calculate);
-            durationInput.addEventListener('input', calculate);
+            if (ethInput && durationInput && apyDisplay) {
+                ethInput.addEventListener('input', calculate);
+                durationInput.addEventListener('input', calculate);
+            }
 
             // TOAST FUNCTION
             function showToast(message) {
@@ -948,6 +950,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }, 100);
             });
         </script>
+        <!-- 1b. FORMULAS & WORKED EXAMPLE (added 2026-11) -->
+        <div class="section-box" data-aos="fade-up" id="apr-apy-formulas">
+            <h2>APR vs APY: formulas and worked example</h2>
+            <p>APR is a <strong>simple</strong> annual rate: the rate per period multiplied by the number of periods.
+                APY is the <strong>effective</strong> annual rate once each period's rewards are reinvested.
+                With <em>n</em> compounding periods per year:</p>
+            <div class="formula-box">$$ APR = i \times n \qquad APY = \left(1 + \frac{APR}{n}\right)^{n} - 1 $$</div>
+            <p>With continuous compounding, the limit is:</p>
+            <div class="formula-box">$$ APY = e^{APR} - 1 $$</div>
+            <p>To convert a quoted APY back into an APR:</p>
+            <div class="formula-box">$$ APR = n \left[(1 + APY)^{1/n} - 1\right] $$</div>
+            <h3 style="margin-top:30px;">Worked example: 5% APR</h3>
+            <table class="data-table">
+                <thead>
+                    <tr><th>Compounding</th><th>n per year</th><th>APY</th><th>$10,000 after 1 year</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Annual</td><td>1</td><td>5.000%</td><td>$10,500.00</td></tr>
+                    <tr><td>Quarterly</td><td>4</td><td>5.095%</td><td>$10,509.45</td></tr>
+                    <tr><td>Monthly</td><td>12</td><td>5.116%</td><td>$10,511.62</td></tr>
+                    <tr><td>Weekly</td><td>52</td><td>5.125%</td><td>$10,512.46</td></tr>
+                    <tr><td>Daily</td><td>365</td><td>5.127%</td><td>$10,512.67</td></tr>
+                    <tr><td>Continuous</td><td>∞</td><td>5.127%</td><td>$10,512.71</td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top:20px;">The gap grows with the rate: at 10% APR, daily compounding gives a 10.516% APY;
+                at 20% APR, 22.134%. In the other direction, a 4% APY compounded daily corresponds to a 3.922% APR.</p>
+            <div class="callout callout-info">
+                <i class="fa-solid fa-info-circle" style="color:var(--accent-blue)"></i>
+                <div>
+                    <strong>Assumptions behind any APY:</strong> the rate stays constant all year, rewards are reinvested
+                    every period at that same rate, and no fees, gas costs or lock-up delays reduce what is reinvested.
+                    Staking and DeFi rates vary over time, so a displayed APY is a projection, not a promise.
+                </div>
+            </div>
+        </div>
         <!-- 2. STAKING MECHANICS -->
         <div class="section-box" data-aos="fade-up" id="section-2">
             <h2>2. Staking Mechanics (PoS)</h2>
@@ -1390,6 +1428,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <!-- PRO ANALYTICS CTA -->
+        <!-- FAQ APR vs APY (added 2026-11) -->
+        <div class="section-box" data-aos="fade-up" id="faq-apr-apy">
+            <h2>FAQ: APR vs APY in crypto</h2>
+            <h3>What is the difference between APR and APY in crypto?</h3>
+            <p>APR is the simple annual rate and ignores compounding. APY includes the effect of reinvesting rewards
+                during the year, so for the same underlying rate APY is always equal to or higher than APR.</p>
+            <h3>How do I convert APR to APY?</h3>
+            <p>Use APY = (1 + APR / n)<sup>n</sup> − 1, where n is the number of compounding periods per year.
+                Example: 5% APR compounded daily gives (1 + 0.05 / 365)<sup>365</sup> − 1 ≈ 5.127% APY.</p>
+            <h3>How do I convert APY to APR?</h3>
+            <p>Use APR = n × [(1 + APY)<sup>1/n</sup> − 1]. Example: a 4% APY compounded daily corresponds to
+                about 3.922% APR.</p>
+            <h3>Is staking yield quoted in APR or APY?</h3>
+            <p>It depends on the platform. Protocol staking rewards are usually expressed as an APR; some platforms
+                show an APY that assumes rewards are restaked automatically. If rewards are not restaked
+                automatically, the APR is the more realistic figure.</p>
+            <h3>Why does daily compounding add so little compared with monthly?</h3>
+            <p>Compounding gains shrink as the frequency rises: at 5% APR, monthly compounding gives 5.116% and daily
+                compounding 5.127%. The frequency matters much less than the rate itself, fees and the risk taken.</p>
+            <h3>Is a higher APY always better?</h3>
+            <p>No. A high APY often reflects token emissions, leverage or smart-contract and counterparty risk.
+                Compare yields net of fees, check where the yield comes from (see “Yield Sources” and “DeFi Yield
+                Illusions” above) and whether the rate is fixed or variable.</p>
+        </div>
         <section class="section-slide"
             style="padding: 60px 0; border-top: 1px solid #333; text-align: center; margin-top: 100px; position: relative; z-index: 10; background-color: #020617;">
             <div class="container" data-aos="fade-up">
