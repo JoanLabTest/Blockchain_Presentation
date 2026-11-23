@@ -166,7 +166,7 @@ const NavigationManager = {
                         </div>
                     </div>
                     <div style="margin-top:8px;">
-                        <span style="font-size:9px; font-weight:800; letter-spacing:1px; background:${tierColor}22; color:${tierColor}; border:1px solid ${tierColor}44; padding:2px 8px; border-radius:20px; opacity:0.8;">INSTITUTIONNAL GRADE</span>
+                        <span style="font-size:9px; font-weight:800; letter-spacing:1px; background:${tierColor}22; color:${tierColor}; border:1px solid ${tierColor}44; padding:2px 8px; border-radius:20px; opacity:0.8;">INSTITUTIONAL GRADE</span>
                     </div>
                 </div>
             </li>

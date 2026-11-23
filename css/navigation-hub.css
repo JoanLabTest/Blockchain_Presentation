@@ -454,3 +454,30 @@ html, body { max-width: 100%; overflow-x: clip; }
 @media (max-width: 768px) {
     table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+
+/* ── audit 2026-11 (re-audit): real fixes behind the overflow-x:clip safety net ── */
+@media (max-width: 768px) {
+    .terminal-grid { grid-template-columns: 1fr !important; }
+    .term-main, .term-info { min-width: 0 !important; max-width: 100% !important; }
+    .market-activity-container { flex-direction: column !important; }
+    #market-activity-feed { width: 100% !important; min-width: 0; }
+    .activity-event, .event-content { max-width: 100%; min-width: 0; }
+}
+@media (max-width: 480px) {
+    .navbar-pro .nav-actions .auth-btn { display: none !important; }
+    .navbar-pro .nav-actions { gap: 6px !important; min-width: 0; }
+    .navbar-pro .lang-link { padding: 10px 4px; }
+}
+@media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"], div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 420px) {
+    .navbar-pro .logo-text span { display: none; }
+    .navbar-pro .lang-link { font-size: 12px; }
+}
+@media (max-width: 768px) {
+    .navbar-pro .nav-actions { width: auto !important; margin-left: auto; flex-wrap: nowrap; }
+}
+@media (max-width: 768px) {
+    div[style*="grid-template-columns"] > * { min-width: 0; overflow-wrap: anywhere; }
+}
