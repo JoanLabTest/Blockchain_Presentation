@@ -8,7 +8,7 @@ const DevMode = {
             const link = document.createElement('link');
             link.id = 'dev-mode-css';
             link.rel = 'stylesheet';
-            link.href = 'styles/dev_mode.css';
+            link.href = '/styles/dev_mode.css';
             document.head.appendChild(link);
         }
 

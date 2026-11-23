@@ -510,6 +510,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         function drawRadar(canvasId, sym) {
             const ctx = document.getElementById(canvasId);
             if (!ctx) return;
+            const prev = window.Chart && Chart.getChart ? Chart.getChart(ctx) : null;
+            if (prev) prev.destroy();
             const m = META[sym];
             const chart = new Chart(ctx, {
                 type: 'radar',
