@@ -120,3 +120,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # keep the site search index in sync with the sitemaps
+    import generate_search_index
+    generate_search_index.main()

@@ -144,19 +144,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Central Search Overlay Injection
+    // 4. Central Search Overlay Injection (absolute path: the site is served from the domain root)
     (function() {
+        if (window.dcmSearchEngineLoaded || document.querySelector('script[src="/js/dcm-search-engine.js"]')) return;
         const searchScript = document.createElement('script');
-        const path = window.location.pathname;
-        let scriptBase = './';
-        
-        if (path.includes('/entities/') || path.includes('/observatory/') || path.includes('/case-studies/') || path.includes('/research/') || path.includes('/intelligence/')) {
-            scriptBase = '../../';
-        } else if (path.includes('/en/') || path.includes('/fr/')) {
-            scriptBase = '../';
-        }
-        
-        searchScript.src = scriptBase + 'js/dcm-search-engine.js';
+        searchScript.src = '/js/dcm-search-engine.js';
         searchScript.async = true;
         document.head.appendChild(searchScript);
     })();
