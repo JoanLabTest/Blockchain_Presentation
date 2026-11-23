@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="fr">
+<html lang="en">
 <head>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -17,7 +17,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Stablecoin Risk Modeling | DCM Core</title>
-<meta content="Modélisation des risques pour les infrastructures Stablecoins : Depeg, Liquidity Run, Files d'attente de rachat et Mismatch de duration." name="description"/>
+<meta content="Risk modelling for stablecoin infrastructure: depeg, liquidity run, redemption queues and duration mismatch." name="description"/>
 <!-- FONTS & ICONS -->
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
@@ -230,15 +230,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="logo" href="../dashboard.html">
 <i class="fas fa-shield-virus" style="color: var(--accent-cyan);"></i> RISK ENGINE
             </a>
-<a class="back-btn" href="stablecoins.html"><i class="fas fa-arrow-left"></i> Retour Infrastructure</a>
+<a class="back-btn" href="stablecoins.html"><i class="fas fa-arrow-left"></i> Back to Infrastructure</a>
 </nav>
 <!-- HEADER -->
 <div class="header-section" data-aos="fade-up">
 <span class="badge-risk"><i class="fas fa-triangle-exclamation"></i> Copilot Modeling Criteria</span>
 <h1>Stablecoin Risk Modeling Layer</h1>
 <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">
-                Variables et contraintes algorithmiques utilisées par le Risk Engine pour simuler les chocs systémiques
-                sur les infrastructures de règlement privées (USDT/USDC).
+                Algorithmic variables and constraints used by the Risk Engine to simulate systemic shocks on private settlement infrastructures (USDT/USDC).
             </p>
 </div>
 <!-- RISK MODELS GRID -->
@@ -246,8 +245,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- 1. DEPEG STRESS TEST -->
 <div class="risk-card c-depeg" data-aos="fade-up" data-aos-delay="0">
 <h3 style="color: var(--accent-red);"><i class="fas fa-chart-line"></i> Depeg Stress Test</h3>
-<p class="risk-desc">Modélisation de la déviation du prix secondaire par rapport à la valeur nominale
-                    fiat. Évalue la rapidité de l'ancrage à se briser sous la pression vendeuse.</p>
+<p class="risk-desc">Models how far the secondary price deviates from the fiat face value. Assesses how quickly the peg breaks under selling pressure.</p>
 <div class="metrics-grid">
 <div class="metric-box">
 <span class="metric-label">Tolerance Threshold</span>
@@ -266,8 +264,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- 2. LIQUIDITY RUN -->
 <div class="risk-card c-liquidity" data-aos="fade-up" data-aos-delay="100">
 <h3 style="color: var(--accent-gold);"><i class="fas fa-water"></i> Liquidity Run Simulation</h3>
-<p class="risk-desc">Simulation d'un "Bank Run". Modélise la capacité de l'Issuer à honorer des
-                        retraits massifs (combustion) en liquidant ses réserves fiat.</p>
+<p class="risk-desc">Simulation of a "bank run". Models the issuer's ability to honour massive redemptions (burns) by liquidating its fiat reserves.</p>
 <div class="metrics-grid">
 <div class="metric-box">
 <span class="metric-label">Reserve Baseline</span>
@@ -279,8 +276,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 <div style="margin-bottom: 20px;">
-<label for="shockSlider" style="font-size: 13px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Intensité
-                            du Choc (24h): <span id="shockValue" style="color: var(--accent-gold);">-30%</span>
+<label for="shockSlider" style="font-size: 13px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Shock intensity (24h): <span id="shockValue" style="color: var(--accent-gold);">-30%</span>
                             TVL</label>
 <input id="shockSlider" max="80" min="5" style="width: 100%; height: 6px; background: #1e293b; border-radius: 5px; outline: none; appearance: none; margin-top: 10px; cursor: pointer;" type="range" value="30"/>
 </div>
@@ -292,9 +288,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="risk-card c-queue" data-aos="fade-up" data-aos-delay="200">
 <h3 style="color: var(--accent-purple);"><i class="fas fa-layer-group"></i> Redemption Queue
                         Modeling</h3>
-<p class="risk-desc">Modélise les frictions opérationnelles lorsque les demandes fiat (burn)
-                        dépassent la capacité de traitement bancaire de l'Issuer, créant un carnet de commandes en
-                        souffrance.</p>
+<p class="risk-desc">Models operational friction when fiat redemption requests (burn) exceed the issuer's banking processing capacity, creating a backlog.</p>
 <div class="metrics-grid">
 <div class="metric-box">
 <span class="metric-label">Max Processing Rate</span>
@@ -316,9 +310,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- 4. RESERVE DURATION MISMATCH -->
 <div class="risk-card c-duration" data-aos="fade-up" data-aos-delay="300">
 <h3 style="color: var(--accent-blue);"><i class="fas fa-clock"></i> Reserve Duration Mismatch</h3>
-<p class="risk-desc">Modélise le risque de taux d'intérêt de l'Issuer. Si les réserves sont
-                        investies dans des bons du Trésor à long terme, une hausse des taux crée une perte latente
-                        (Mark-to-Market).</p>
+<p class="risk-desc">Models the issuer's interest-rate risk. If reserves are invested in long-dated Treasuries, a rate rise creates an unrealised (mark-to-market) loss.</p>
 <div class="metrics-grid">
 <div class="metric-box">
 <span class="metric-label">Weighted Avg Maturity</span>

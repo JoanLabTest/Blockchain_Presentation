@@ -54,8 +54,9 @@ def indexable(path, html):
     head = html[:20000]
     if re.search(r'http-equiv=["\']refresh["\']', head, re.I) or "window.location.replace" in html:
         return False
-    if re.search(r'<meta[^>]*name=["\']robots["\'][^>]*noindex', head, re.I):
-        return False
+    for tag in re.findall(r'<meta\b[^>]*>', head, re.I):
+        if re.search(r'name=["\']robots["\']', tag, re.I) and re.search(r'noindex', tag, re.I):
+            return False
     return True
 
 
