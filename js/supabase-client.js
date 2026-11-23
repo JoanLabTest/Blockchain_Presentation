@@ -4,7 +4,7 @@ let supabaseUrl = '';
 let supabaseKey = '';
 
 // Load config dynamically to ensure unity with config.js
-if (typeof window !== 'undefined' && window.DCM_CONFIG) {
+if (typeof window !== 'undefined' && window.DCM_CONFIG && window.DCM_CONFIG.supabaseUrl && window.DCM_CONFIG.supabaseKey) {
     supabaseUrl = window.DCM_CONFIG.supabaseUrl;
     supabaseKey = window.DCM_CONFIG.supabaseKey;
 } else {
