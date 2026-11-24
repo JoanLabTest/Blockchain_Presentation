@@ -191,7 +191,9 @@
                 color: #e2e8f0;
             }
             @media (max-width: 600px) {
+                #dcm-cookie-banner { padding: 14px 16px; }
                 .dcm-cb-inner { flex-direction: column; text-align: center; }
+                .dcm-cb-text { min-width: 0; }
                 .dcm-cb-actions { width: 100%; justify-content: center; }
             }
         `;
