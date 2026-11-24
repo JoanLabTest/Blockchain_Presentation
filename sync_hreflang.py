@@ -65,6 +65,15 @@ def main(write):
         if back == u or (back is None and claims.get(t) == {u}):
             pair[u], pair[t] = t, u
 
+    # explicit pairs (hreflang_pairs.json) for translations that do not declare each other
+    extra = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hreflang_pairs.json")
+    if os.path.exists(extra):
+        import json
+        for fr_path, en_path in json.load(open(extra))["pairs"]:
+            fu, eu = url_of(fr_path), url_of(en_path)
+            if fu in pages and eu in pages and fu not in pair and eu not in pair:
+                pair[fu], pair[eu] = eu, fu
+
     changed = 0
     for u, (lang, path) in pages.items():
         html = open(path, encoding="utf-8").read()
