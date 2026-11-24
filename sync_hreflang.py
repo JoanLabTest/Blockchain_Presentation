@@ -79,14 +79,14 @@ def main(write):
         html = open(path, encoding="utf-8").read()
         head_end = html.lower().find("</head>")
         head, rest = html[:head_end], html[head_end:]
-        new_head = re.sub(r'[ \t]*<link[^>]*rel="alternate"[^>]*hreflang="[^"]*"[^>]*>[ \t]*\n?', "", head)
+        new_head = re.sub(r'[ \t]*<link[^>]*rel="alternate"[^>]*hreflang="[^"]*"[^>]*>[ \t]*(?:\n|(?=<))', "", head)
         if u in pair:
             fr = u if lang == "fr" else pair[u]
             en = pair[u] if lang == "fr" else u
             block = (f'    <link rel="alternate" hreflang="fr" href="{fr}" />\n'
                      f'    <link rel="alternate" hreflang="en" href="{en}" />\n'
                      f'    <link rel="alternate" hreflang="x-default" href="{fr}" />\n')
-            m = re.search(r'<link[^>]*rel="canonical"[^>]*>\s*\n?', new_head)
+            m = re.search(r'<link[^>]*rel="canonical"[^>]*>[ \t]*\n?', new_head)
             if m:
                 new_head = new_head[:m.end()] + block + new_head[m.end():]
             else:
