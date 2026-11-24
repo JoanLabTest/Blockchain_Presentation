@@ -120,12 +120,14 @@ const SessionManager = {
         };
 
         // 🛡️ ACCESS PRIORITY LOGIC (Phase 62)
-        const MASTER_EMAIL = 'joanlyczak@gmail.com';
+        // Master role comes from Supabase app_metadata (server-side only, not user-editable)
+        const isMaster = user.app_metadata?.role === 'master';
         const userEmail = user.email ? user.email.toLowerCase() : '';
+        profile.is_master = isMaster;
         
         // 1. Master Fail-Safe (Early Identity Force)
-        if (userEmail === MASTER_EMAIL.toLowerCase()) {
-            console.info('SessionManager: 🎭 MASTER ACCESS for ' + userEmail);
+        if (isMaster) {
+            console.info('SessionManager: 🎭 MASTER ACCESS');
             profile.name = 'Joan';
             profile.role = 'ADMIN';
             profile.subscription_tier = 'enterprise';
@@ -134,7 +136,7 @@ const SessionManager = {
             profile.org_id = 'dcm-master-org';
 
             if (typeof window.__activateMasterMode === 'function') {
-                window.__activateMasterMode(userEmail);
+                window.__activateMasterMode(user);
             }
         } 
         // 2. Admin Role or Override
@@ -494,8 +496,7 @@ const SessionManager = {
         // 🛡️ PRIORITY ACCESS CHECK
         
         // 1. MASTER FAIL-SAFE
-        const MASTER_EMAIL = 'joanlyczak@gmail.com';
-        if (email.toLowerCase() === MASTER_EMAIL.toLowerCase()) return true;
+        if (profile.is_master === true) return true;
 
         // 2. ADMIN ROLE OR OVERRIDE
         if (role === 'ADMIN' || override) {
