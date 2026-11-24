@@ -65,19 +65,28 @@ def main(write):
         if back == u or (back is None and claims.get(t) == {u}):
             pair[u], pair[t] = t, u
 
+    # explicit pairs (hreflang_pairs.json) for translations that do not declare each other
+    extra = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hreflang_pairs.json")
+    if os.path.exists(extra):
+        import json
+        for fr_path, en_path in json.load(open(extra))["pairs"]:
+            fu, eu = url_of(fr_path), url_of(en_path)
+            if fu in pages and eu in pages and fu not in pair and eu not in pair:
+                pair[fu], pair[eu] = eu, fu
+
     changed = 0
     for u, (lang, path) in pages.items():
         html = open(path, encoding="utf-8").read()
         head_end = html.lower().find("</head>")
         head, rest = html[:head_end], html[head_end:]
-        new_head = re.sub(r'[ \t]*<link[^>]*rel="alternate"[^>]*hreflang="[^"]*"[^>]*>[ \t]*\n?', "", head)
+        new_head = re.sub(r'[ \t]*<link[^>]*rel="alternate"[^>]*hreflang="[^"]*"[^>]*>[ \t]*(?:\n|(?=<))', "", head)
         if u in pair:
             fr = u if lang == "fr" else pair[u]
             en = pair[u] if lang == "fr" else u
             block = (f'    <link rel="alternate" hreflang="fr" href="{fr}" />\n'
                      f'    <link rel="alternate" hreflang="en" href="{en}" />\n'
                      f'    <link rel="alternate" hreflang="x-default" href="{fr}" />\n')
-            m = re.search(r'<link[^>]*rel="canonical"[^>]*>\s*\n?', new_head)
+            m = re.search(r'<link[^>]*rel="canonical"[^>]*>[ \t]*\n?', new_head)
             if m:
                 new_head = new_head[:m.end()] + block + new_head[m.end():]
             else:

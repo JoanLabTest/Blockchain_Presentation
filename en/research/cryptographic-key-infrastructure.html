@@ -3,11 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="Technical analysis of institutional cryptographic key infrastructure, custody models (MPC-TSS, HSM), Account Abstraction (ERC-4337), and operational signing resilience." name="description" />
+    <meta name="description" content="Technical analysis of institutional cryptographic key infrastructure, custody models (MPC-TSS, HSM), Account Abstraction (ERC-4337), and operational signing…">
     <title>Cryptographic Key Infrastructure &amp; Custody Models | DCM Core</title>
     <link rel="canonical" href="https://dcmcore.com/en/research/cryptographic-key-infrastructure.html" />
+    <link rel="alternate" hreflang="fr" href="https://dcmcore.com/fr/research/cryptographic-key-infrastructure.html" />
+    <link rel="alternate" hreflang="en" href="https://dcmcore.com/en/research/cryptographic-key-infrastructure.html" />
+    <link rel="alternate" hreflang="x-default" href="https://dcmcore.com/fr/research/cryptographic-key-infrastructure.html" />
 
-    <!-- Google Fonts & Styles -->
+<!-- Google Fonts & Styles -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
     <link href="../../styles.css" rel="stylesheet" />
@@ -52,6 +55,39 @@
 
     <link href="../styles-megamenu.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/mobile-fixes.css">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://dcmcore.com/en/research/cryptographic-key-infrastructure.html#webpage",
+  "url": "https://dcmcore.com/en/research/cryptographic-key-infrastructure.html",
+  "name": "Cryptographic Key Infrastructure & Custody Models | DCM Core",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://dcmcore.com/en/#website",
+    "url": "https://dcmcore.com/en/",
+    "name": "DCM Core Institute"
+  },
+  "publisher": {
+    "@id": "https://dcmcore.com/#organization"
+  },
+  "description": "Technical analysis of institutional cryptographic key infrastructure, custody models (MPC-TSS, HSM), Account Abstraction (ERC-4337), and operational signing…"
+}
+    </script>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DCM Core Institute">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Cryptographic Key Infrastructure &amp; Custody Models | DCM Core">
+    <meta property="og:description" content="Technical analysis of institutional cryptographic key infrastructure, custody models (MPC-TSS, HSM), Account Abstraction (ERC-4337), and operational signing…">
+    <meta property="og:url" content="https://dcmcore.com/en/research/cryptographic-key-infrastructure.html">
+    <meta property="og:image" content="https://dcmcore.com/assets/preview-hero.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cryptographic Key Infrastructure &amp; Custody Models | DCM Core">
+    <meta name="twitter:description" content="Technical analysis of institutional cryptographic key infrastructure, custody models (MPC-TSS, HSM), Account Abstraction (ERC-4337), and operational signing…">
+    <meta name="twitter:image" content="https://dcmcore.com/assets/preview-hero.jpg">
 </head>
 <body>
                                                                                 <nav class="navbar-pro">
@@ -313,11 +349,11 @@
 
             <h3>Deterministic Key Derivation (BIP32 / BIP44)</h3>
             <p>
-                Institutional backup models avoid single random key generation. Keys are derived deterministically from a single master entropy source using the **BIP39 standard**. 
-                The master entropy (typically 256 bits) generates a mnemonic phrase. This phrase is passed through the **PBKDF2 key-stretching function** using HMAC-SHA512 with 2048 iterations and the salt "mnemonic" + optional passphrase to produce a 512-bit seed.
+                Institutional backup models avoid single random key generation. Keys are derived deterministically from a single master entropy source using the <strong>BIP39 standard</strong>. 
+                The master entropy (typically 256 bits) generates a mnemonic phrase. This phrase is passed through the <strong>PBKDF2 key-stretching function</strong> using HMAC-SHA512 with 2048 iterations and the salt "mnemonic" + optional passphrase to produce a 512-bit seed.
             </p>
             <p>
-                From this seed, hierarchical tree structures are constructed under the **BIP32 and BIP44 specifications**, enforcing segregated paths for distinct asset classes, accounts, and internal units:
+                From this seed, hierarchical tree structures are constructed under the <strong>BIP32 and BIP44 specifications</strong>, enforcing segregated paths for distinct asset classes, accounts, and internal units:
             </p>
             <div class="formula-card">
                 <div class="formula-title">Derivation Path Structure</div>
@@ -347,7 +383,7 @@
             <h3>Multi-Party Computation (MPC-TSS)</h3>
             <p>
                 Multi-Party Computation based on Threshold Signature Schemes (MPC-TSS) splits a private key into mathematical shards (key shares) distributed across isolated nodes.
-                During transaction signing, nodes perform a **Distributed Key Generation (DKG)** protocol to generate a standard signature (ECDSA or EdDSA) off-chain. The complete private key is never assembled or present in the memory of any single machine at any point, neutralizing local hardware compromise vectors.
+                During transaction signing, nodes perform a <strong>Distributed Key Generation (DKG)</strong> protocol to generate a standard signature (ECDSA or EdDSA) off-chain. The complete private key is never assembled or present in the memory of any single machine at any point, neutralizing local hardware compromise vectors.
             </p>
 
             <h3>Hardware Security Modules (HSM) Clusters</h3>
@@ -508,5 +544,6 @@
     </footer>
 
     <script src="../../js/navigation-hub.js"></script>
+<script src="/js/mobile-nav.js" defer></script>
 </body>
 </html>
