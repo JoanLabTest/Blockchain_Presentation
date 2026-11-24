@@ -5,7 +5,7 @@
  */
 
 // Dependencies loaded via script tags — accessed as window globals
-const _sb = () => window.supabase;
+const _dashSb = () => window.supabase;
 
 const DashboardEngine = {
     // Phase 122: Global Exposure (Absolute Priority)
@@ -21,28 +21,28 @@ const SupabaseData = {
     getQuizResults: async function(userId) {
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb.from('quiz_results').select('*').eq('user_id', userId).gte('completed_at', thirtyDaysAgo.toISOString()).order('completed_at', { ascending: true });
         if (error) { console.warn('⚠️ Quiz fetch error:', error); return null; }
         return data;
     },
     getScoreHistory: async function(userId) {
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb.from('research_scores').select('total_score, sub_score_legal, sub_score_tech, sub_score_risk, sub_score_engagement, snapshot_date').eq('user_id', userId).order('snapshot_date', { ascending: true }).limit(8);
         if (error) { console.warn('⚠️ Score history fetch error:', error); return null; }
         return data;
     },
     getSimulations: async function(userId) {
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb.from('simulations').select('id, scenario_name, input_data, results, created_at').eq('user_id', userId).order('created_at', { ascending: false }).limit(10);
         if (error) { console.warn('⚠️ Simulations fetch error:', error); return null; }
         return data;
     },
     getActivityLogs: async function(userId) {
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb.from('activity_logs').select('page_url, time_spent_seconds, session_date').eq('user_id', userId).order('session_date', { ascending: false }).limit(5);
         if (error) { console.warn('⚠️ Activity log fetch error:', error); return null; }

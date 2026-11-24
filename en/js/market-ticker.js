@@ -173,5 +173,5 @@ async function initTicker() {
     }, 60_000);
 }
 
-export const MarketTicker = { initTicker, renderLiveStats, fetchMarketData };
+const MarketTicker = { initTicker, renderLiveStats, fetchMarketData };
 window.MarketTicker = MarketTicker;
