@@ -1,0 +1,186 @@
+/* DCM Core — shared mobile layout fixes (loaded last on every FR/EN page).
+   Goal: no element wider than a 375px screen, without hiding content. */
+@media (max-width: 768px) {
+  /* media and embeds */
+  img, video, iframe, embed, object, canvas, svg:not([width]) { max-width: 100% !important; }
+  img, video { height: auto; }
+  /* wide tables and code scroll inside their own box */
+  table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  pre { max-width: 100%; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+  /* long words / URLs / labels can break instead of widening the page */
+  h1, h2, h3, h4, h5, h6, p, li, dt, dd, td, th, label, blockquote, figcaption, a, strong, em, span, small, code {
+    overflow-wrap: break-word;
+  }
+  /* flex and grid children may shrink below their content width */
+  [style*="display: flex"], [style*="display:flex"] { flex-wrap: wrap; }
+  [style*="display: grid"] > *, [style*="display:grid"] > * { min-width: 0; }
+  /* equal flex columns (flex: 1) stack on phones instead of being squeezed */
+  [style*="display: flex"] > [style*="flex: 1"], [style*="display:flex"] > [style*="flex:1"] { flex-basis: 100% !important; }
+  [style*="grid-template-columns"] {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)) !important;
+  }
+  [style*="min-width"] { min-width: 0 !important; }
+  input, select, textarea, button { max-width: 100%; }
+  select { white-space: normal; }
+  main, section, article, header, footer, aside, .container, .wrapper { max-width: 100%; }
+  /* fixed navbars must fit the screen */
+  nav.navbar, nav.navbar-pro, .navbar, .navbar-pro, .top-bar { max-width: 100vw; box-sizing: border-box; }
+  .navbar-pro .nav-actions { width: auto !important; margin-left: auto; flex-wrap: nowrap; min-width: 0; }
+  .lang-switcher { flex-shrink: 0; }
+  /* cookie banner */
+  .dcm-cb-actions { flex-wrap: wrap; }
+  .dcm-cb-text, .dcm-cb-actions > * { min-width: 0; }
+}
+@media (max-width: 480px) {
+  .navbar-pro .nav-actions .connect-btn,
+  .navbar-pro .nav-actions .auth-btn { display: none !important; }
+  .navbar-pro .nav-actions { gap: 6px !important; }
+  .navbar-pro .lang-link { padding: 10px 4px; font-size: 12px; }
+}
+@media (max-width: 420px) {
+  .navbar-pro .logo-text span { display: none; }
+}
+@media (max-width: 768px) {
+  /* class-based grids: let columns collapse and children shrink */
+  [class*="grid"], [class*="-container"], [class*="-col"], [class*="layout"], .timeline, .gallery-container, .core-proposition {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)) !important;
+  }
+  [class*="grid"] > *, [class*="-container"] > *, [class*="-col"] > *, .gallery-container > * { min-width: 0; }
+  /* class-based flex rows that were built for desktop */
+  .flow-steps, .architecture-flow, .architecture-stack, .roi-results, .section-header,
+  .toolkit-section, .controls, .cta-group, .hero-actions, .btn-group, .actions { flex-wrap: wrap; }
+  .flow-steps > *, .architecture-flow > *, .architecture-stack > * { flex: 1 1 100% !important; max-width: 100%; }
+  .roi-results > * { max-width: 100%; }
+  .section-header > *, .toolkit-section > *, .controls > * { max-width: 100%; }
+  /* tables with a hard min-width scroll inside their box */
+  table { min-width: 0 !important; }
+  /* footers and wide cards */
+  .super-footer, footer { flex-wrap: wrap; min-width: 0; }
+  .super-footer > *, footer > * { min-width: 0; max-width: 100%; }
+  .progress-bar-container, .prov-tooltip { max-width: calc(100vw - 24px); }
+  a[class*="btn"], button[class*="btn"], .btn, .btn-secondary, .btn-outline { white-space: normal; max-width: 100%; }
+}
+@media (max-width: 768px) {
+  /* items pinned to column 2+ would create extra implicit columns once grids collapse */
+  [class*="grid"] > *, [class*="-container"] > *, [class*="-col"] > *, .gallery-container > *,
+  [style*="grid-template-columns"] > * { grid-column: auto !important; }
+}
+@media (max-width: 768px) {
+  /* AOS left/right/zoom entrances start translated sideways and widen the page on phones */
+  [data-aos*="left"], [data-aos*="right"], [data-aos^="zoom"], [data-aos^="flip"] { transform: none !important; }
+}
+@media (max-width: 768px) {
+  /* sidebar + content rows stack on phones */
+  .content-wrapper { flex-direction: column; }
+  .toc-sidebar, .page-toc { width: auto !important; max-width: 100%; position: static; border-right: 0; }
+  aside { max-width: 100%; }
+  body > footer, body > .super-footer { flex-basis: 100%; width: 100%; }
+
+  /* wide rows built from fixed columns */
+  .asset-row, .leaderboard-header { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; padding-left: 16px !important; padding-right: 16px !important; }
+  .asset-selector, [class*="tabs"], .timeline-nav, .pillar-header, .footer-content, .footer-links { flex-wrap: wrap; }
+  .infrastructure-flow, .infrastructure-flow-3d, .arch-diagram { flex-direction: column; align-items: stretch; }
+  .infra-card, .infra-card-3d, .layer { width: auto !important; max-width: 100%; margin-left: 0 !important; margin-right: 0 !important; }
+  .matrix-container { max-width: 100%; overflow-x: auto; }
+  .market-activity-section { max-width: 100%; min-width: 0; }
+}
+@media (max-width: 768px) {
+  /* long URLs and identifiers in plain divs (citation boxes, code-like text) */
+  body { overflow-wrap: break-word; }
+  .cite-format, .cite-content, code, kbd, samp { overflow-wrap: anywhere; }
+}
+@media (max-width: 768px) {
+  /* decorative glows drawn with ::before/::after */
+  *::before, *::after { max-width: 100vw; }
+  [class*="container"], [class*="card"], [class*="box"], [class*="panel"] { box-sizing: border-box; }
+  .infra-diagram, .action-bar { flex-wrap: wrap; }
+  .infra-diagram > *, .action-bar > * { max-width: 100%; }
+  .summary-panel { grid-template-columns: minmax(0, 1fr) !important; }
+  .infrastructure-flow, .infrastructure-flow-3d { margin-left: 0 !important; margin-right: 0 !important; width: 100% !important; }
+  .infra-card, .infra-card-3d, .flow-arrow-3d { min-width: 0 !important; width: 100% !important; box-sizing: border-box; }
+  .feature-card .btn-secondary, .feature-card .btn-primary { display: block; width: auto; box-sizing: border-box; text-align: center; }
+}
+@media (max-width: 768px) {
+  /* hover tooltips: hidden ones must not widen the page; shown inline under the term on tap */
+  .tooltip .tooltiptext { display: none; position: static !important; width: auto !important; margin: 6px 0 0 !important; white-space: normal; }
+  .tooltip:hover .tooltiptext, .tooltip:focus-within .tooltiptext { display: block; }
+  .infra-diagram { flex-direction: column; align-items: stretch; gap: 16px; }
+  .infra-box { width: auto !important; }
+}
+@media (max-width: 768px) {
+  /* component-level fixes found by the full-site sweep */
+  .live-obs-widget, .widget-stats, .flow-step, header, .header, .hero-section { flex-wrap: wrap; }
+  .live-obs-widget > *, .widget-stats > *, header > *, .header > * { max-width: 100%; }
+  [class*="content"] > *, .mono-content > * { min-width: 0; }
+  .mono-content, .citation-metrics, .cornerstone-card, .split-3d, .hub-layout { grid-template-columns: minmax(0, 1fr) !important; }
+  .section-nav { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+  .ai-da-item { display: block !important; }
+  .roi-widget { max-width: 100%; margin-left: 0 !important; margin-right: 0 !important; box-sizing: border-box; }
+  .hero-title { font-size: clamp(30px, 10vw, 56px) !important; letter-spacing: -1px !important; }
+  nav.navbar { flex-wrap: wrap; row-gap: 8px; }
+  nav.navbar > * { min-width: 0; }
+}
+@media (max-width: 480px) {
+  nav.navbar .nav-breadcrumb { display: none; }
+  /* search button: icon only on phones */
+  .navbar-pro .dcm-search-nav-btn .dcm-search-btn-label { display: none !important; }
+  .navbar-pro .dcm-search-nav-btn { padding: 8px 10px !important; }
+}
+@media (max-width: 768px) {
+  .panel-head { flex-wrap: wrap; gap: 8px; }
+  /* equal-width phase cards (flex: 1) stack instead of shrinking */
+  [style*="flex: 1"][style*="min-height: 320px"] { flex-basis: 100% !important; }
+}
+@media (max-width: 480px) {
+  .nav-search-trigger { font-size: 0 !important; padding: 8px 10px !important; }
+  .nav-search-trigger i { font-size: 14px !important; }
+  .nav-search-trigger span { display: none !important; }
+}
+@media (max-width: 768px) {
+  .hub-layout > * { min-width: 0; }
+  .signal-meta-row, .signal-date-id { flex-wrap: wrap; }
+}
+@media (max-width: 768px) {
+  /* app-shell main area: the 280px sidebar is off-canvas on phones */
+  .main-content { margin-left: 0 !important; width: auto !important; max-width: 100% !important; box-sizing: border-box; }
+}
+@media (max-width: 768px) {
+  .history-timeline { flex-wrap: wrap; }
+  .history-point { width: auto !important; flex: 1 1 100% !important; }
+  .log-item { grid-template-columns: minmax(0, 1fr) !important; }
+  .hero { flex-wrap: wrap; }
+}
+@media (max-width: 768px) {
+  .roi-calculator > * { min-width: 0; }
+  .result-card { flex-wrap: wrap; }
+  /* slide decks (lifecycle): readable single column */
+  .slide { padding: 20px 12px !important; }
+  .slide-grid { grid-template-columns: minmax(0, 1fr) !important; height: auto !important; }
+  .layer-box { grid-template-columns: minmax(0, 1fr) !important; }
+  /* scrolled tables: keep cells readable instead of squeezing them */
+  td, th { min-width: 110px; }
+}
+@media (max-width: 768px) {
+  /* wrapping a column flexbox would spill items sideways */
+  [style*="flex-direction: column"], [style*="flex-direction:column"], .roi-results { flex-wrap: nowrap !important; }
+  /* label/value rows: let the value drop under the label when space runs out */
+  li, [class*="item"], [class*="meta"], [class*="row"]:not(tr) { flex-wrap: wrap; }
+  .calc-panel { grid-template-columns: minmax(0, 1fr) !important; }
+}
+@media (max-width: 768px) {
+  .roadmap-container, .servicing-container { flex-wrap: wrap; flex-direction: column; }
+  .phase-card, .servicing-card { flex: 0 0 auto !important; width: 100% !important; }
+  .calc-box { grid-template-columns: minmax(0, 1fr) !important; }
+}
+@media (max-width: 768px) {
+  .architecture-diagram { padding: 16px !important; }
+  .arch-col { padding: 16px !important; }
+}
+@media (max-width: 768px) {
+  .path-card { flex-wrap: wrap; }
+  .path-card > .path-desc { flex: 1 1 100%; }
+}
+@media (max-width: 768px) {
+  /* long words in big headings: proper hyphenation instead of a raw break */
+  h1, h2, h3 { -webkit-hyphens: auto; hyphens: auto; }
+}
