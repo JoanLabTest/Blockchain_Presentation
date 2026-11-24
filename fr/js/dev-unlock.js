@@ -4,8 +4,8 @@
  * ⚠️  MASTER ACCESS — CONDITIONAL ONLY ⚠️
  *
  * This script no longer unconditionally writes to localStorage.
- * Master mode is ONLY activated when joanlyczak@gmail.com is
- * authentificated via a confirmed Supabase session.
+ * Master mode is ONLY activated for an account whose Supabase
+ * app_metadata.role is "master" (set server-side, not editable by users).
  *
  * For all other users, this script is a no-op.
  * ============================================
@@ -14,19 +14,17 @@
 (function () {
     'use strict';
 
-    const MASTER_EMAIL = 'joanlyczak@gmail.com';
-
     // ─── Global config flag (read-only, does NOT set any auth) ────────────────
     window.DCM_CONFIG = window.DCM_CONFIG || {
         DEV_MODE: false,
-        MASTER_EMAIL: MASTER_EMAIL,
         VERSION: '4.4.0'
     };
 
     // ─── Master activation (called ONLY after Supabase auth confirmation) ─────
-    window.__activateMasterMode = function (confirmedEmail) {
-        if (confirmedEmail !== MASTER_EMAIL) {
-            console.warn('[DEV-UNLOCK] activateMasterMode called with non-master email — ignored.');
+    window.__activateMasterMode = function (supabaseUser) {
+        // Only trust the role carried by the Supabase session (app_metadata is server-controlled)
+        if (!supabaseUser || !supabaseUser.app_metadata || supabaseUser.app_metadata.role !== 'master') {
+            console.warn('[DEV-UNLOCK] activateMasterMode called without a master session — ignored.');
             return;
         }
 

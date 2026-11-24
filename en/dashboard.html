@@ -2233,7 +2233,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 const profileStr = localStorage.getItem('dcm_user_profile');
                 if (profileStr) {
                     const u = JSON.parse(profileStr);
-                    const isJoan = (u.email === 'joanlyczak@gmail.com');
+                    const isJoan = (u.is_master === true);
                     let name = isJoan ? 'Joan' : (u.name || 'User').trim();
                     if (name.includes(' ')) name = name.split(' ')[0]; // First name logic
                     
@@ -2336,7 +2336,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 // 2. Populate Header (Phase 128: Joan-Aware)
                 if (user) {
-                    const isJoan = (user.email === 'joanlyczak@gmail.com');
+                    const isJoan = (user.is_master === true);
                     const name = isJoan ? 'Joan' : (user.name || 'User');
                     const greetEl = document.getElementById('user-greeting');
                     if (greetEl) greetEl.innerText = `Welcome back, ${name} 👋`;

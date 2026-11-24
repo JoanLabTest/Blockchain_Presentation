@@ -56,7 +56,7 @@ const AuthManager = (() => {
         let isSuperDev = (typeof DCM_CONFIG !== 'undefined' && DCM_CONFIG.DEV_MODE && localStorage.getItem('is_super_dev') === 'true');
 
         // MASTER ACCOUNT BYPASS
-        if (session && session.user && session.user.email === 'joanlyczak@gmail.com') {
+        if (session && session.user && session.user.app_metadata && session.user.app_metadata.role === 'master') {
             isSuperDev = true;
         }
 

@@ -126,7 +126,7 @@ Object.assign(DashboardEngine, {
                            window.SessionManager?.__verifiedProfile || 
                            JSON.parse(localStorage.getItem('dcm_user_profile') || '{}');
         
-        const isJoan = (userProfile.email === 'joanlyczak@gmail.com' || localStorage.getItem('dcm_master_active') === 'true');
+        const isJoan = (userProfile.is_master === true);
         
         // Personalization Logic
         let userName = isJoan ? 'Joan' : (userProfile.name || userProfile.full_name || 'User').trim();

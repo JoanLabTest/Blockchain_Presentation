@@ -876,8 +876,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             const tier = (user.subscription_tier || 'free').toLowerCase();
             const email = user.email || '';
-            const MASTER_EMAIL = 'joanlyczak@gmail.com';
-            const isMaster = email === MASTER_EMAIL || tier === 'enterprise';
+            const isMaster = user.is_master === true || tier === 'enterprise';
 
             // Helper: inject 'Votre Plan' badge on a card
             function markActive(cardSelector, color, label) {
