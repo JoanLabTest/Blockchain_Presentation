@@ -5,7 +5,7 @@
  */
 
 // Dependencies loaded via script tags — accessed as window globals
-const _sb = () => window.supabase;
+const _dashSb = () => window.supabase;
 
 // ============================================================
 //  DASHBOARD ENGINE BOOTLOADER (Phase 119 Stabilization)
@@ -33,7 +33,7 @@ const SupabaseData = {
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb
             .from('quiz_results')
@@ -50,7 +50,7 @@ const SupabaseData = {
      * Fetch research score snapshots for evolution chart.
      */
     getScoreHistory: async (userId) => {
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb
             .from('research_scores')
@@ -67,7 +67,7 @@ const SupabaseData = {
      * Fetch simulations for table view.
      */
     getSimulations: async (userId) => {
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb
             .from('simulations')
@@ -84,7 +84,7 @@ const SupabaseData = {
      * Fetch activity logs for the live activity timeline.
      */
     getActivityLogs: async (userId) => {
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb
             .from('activity_logs')
@@ -101,7 +101,7 @@ const SupabaseData = {
      * Write quiz result to Supabase after quiz completion.
      */
     saveQuizResult: async (userId, quizType, scorePercent, timeTaken, passed) => {
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return false;
         const { data, error } = await sb
             .from('quiz_results')
@@ -122,7 +122,7 @@ const SupabaseData = {
      * Write simulation result to Supabase (Phase 79).
      */
     saveSimulation: async (userId, orgId, name, type, inputData, results) => {
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb
             .from('simulations')
@@ -144,7 +144,7 @@ const SupabaseData = {
      * Fetch API Keys for the current user (Phase 111).
      */
     getApiKeys: async (userId) => {
-        const sb = _sb();
+        const sb = _dashSb();
         if (!sb) return null;
         const { data, error } = await sb
             .from('api_keys')
@@ -307,7 +307,7 @@ Object.assign(DashboardEngine, {
         const result = SE.runStressTest(params.currentPrice, params);
 
         // Save to Supabase
-        const sb = _sb();
+        const sb = _dashSb();
         const saved = sb ? (await SupabaseData.saveSimulation(
             activeUser.id,
             activeUser.org_id,
@@ -412,7 +412,7 @@ Object.assign(DashboardEngine, {
         const profile = await SessionManager.init();
         const activeOrg = window.TenantManager ? window.TenantManager.getActiveOrg() : null;
         const orgId = activeOrg ? activeOrg.id : profile?.org_id;
-        const sb = _sb();
+        const sb = _dashSb();
         const isEnterprise = profile?.subscription_tier === 'enterprise' || activeOrg?.tier === 'Enterprise';
 
         console.log(`📡 Loading real data for user: ${userId} [Org: ${orgId}]`);
